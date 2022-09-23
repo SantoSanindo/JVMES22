@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FAD0248B-29FF-4648-B35F-2A065819539B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Jovan_New.My.MyApplication</StartupObject>
+    <RootNamespace>Jovan_New</RootNamespace>
+    <AssemblyName>Jovan-New</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Jovan-New.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Jovan-New.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MdiTabControl">
+      <HintPath>..\dll\MdiTabControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.Ribbon">
+      <HintPath>..\dll\Ribbon_Release_2018-03-19_NET461\System.Windows.Forms.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="zxing, Version=0.16.8.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>packages\ZXing.Net.0.16.8\lib\net461\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.8.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>packages\ZXing.Net.0.16.8\lib\net461\zxing.presentation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database.vb" />
+    <Compile Include="FormInputStock.Designer.vb">
+      <DependentUpon>FormInputStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormInputStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogin.Designer.vb">
+      <DependentUpon>FormLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReject.Designer.vb">
+      <DependentUpon>FormReject.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormReject.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReturnStock.Designer.vb">
+      <DependentUpon>FormReturnStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormReturnStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="globVar.vb" />
+    <Compile Include="HOME.Designer.vb">
+      <DependentUpon>HOME.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HOME.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JOVANDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.vb">
+      <DependentUpon>MainForm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterFinishGoods.Designer.vb">
+      <DependentUpon>MasterFinishGoods.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MasterFinishGoods.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterFinishGoods2.Designer.vb">
+      <DependentUpon>MasterFinishGoods2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MasterFinishGoods2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterMaterial.Designer.vb">
+      <DependentUpon>MasterMaterial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MasterMaterial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterProcess.Designer.vb">
+      <DependentUpon>MasterProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MasterProcess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterProcessFlow.Designer.vb">
+      <DependentUpon>MasterProcessFlow.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MasterProcessFlow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PraProduction.Designer.vb">
+      <DependentUpon>PraProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PraProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPO.Designer.vb">
+      <DependentUpon>SubPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SubPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTesting.Designer.vb">
+      <DependentUpon>frmTesting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTesting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormInputStock.resx">
+      <DependentUpon>FormInputStock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReject.resx">
+      <DependentUpon>FormReject.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReturnStock.resx">
+      <DependentUpon>FormReturnStock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HOME.resx">
+      <DependentUpon>HOME.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterFinishGoods.resx">
+      <DependentUpon>MasterFinishGoods.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterFinishGoods2.resx">
+      <DependentUpon>MasterFinishGoods2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterMaterial.resx">
+      <DependentUpon>MasterMaterial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterProcess.resx">
+      <DependentUpon>MasterProcess.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterProcessFlow.resx">
+      <DependentUpon>MasterProcessFlow.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PraProduction.resx">
+      <DependentUpon>PraProduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPO.resx">
+      <DependentUpon>SubPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTesting.resx">
+      <DependentUpon>frmTesting.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JOVANDataSet.xsc">
+      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="JOVANDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>JOVANDataSet.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="JOVANDataSet.xss">
+      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

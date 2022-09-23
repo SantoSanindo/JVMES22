@@ -1,0 +1,83 @@
+C:\Users\windows\Source\Repos\Jovan-New\bin\Debug\Jovan-New.exe.config
+C:\Users\windows\Source\Repos\Jovan-New\bin\Debug\Jovan-New.exe
+C:\Users\windows\Source\Repos\Jovan-New\bin\Debug\Jovan-New.pdb
+C:\Users\windows\Source\Repos\Jovan-New\bin\Debug\Jovan-New.xml
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.Resources.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.exe
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.xml
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan-New.pdb
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.MainForm.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.FormInputStock.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.MasterMaterial.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.MasterProcess.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.MasterProcessFlow.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.FormLogin.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.PraProduction.resources
+C:\Users\windows\Source\Repos\Jovan-New\obj\Debug\Jovan_New.PreProduction2.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.FormInputStock.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.FormLogin.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.MainForm.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.MasterMaterial.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.MasterProcess.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.MasterProcessFlow.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.Resources.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.PraProduction.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.exe
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.xml
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.pdb
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\Jovan-New.exe.config
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\Jovan-New.exe
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\Jovan-New.pdb
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\Jovan-New.xml
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.MasterFinishGoods2.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.SubPO.resources
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\zxing.dll
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\zxing.presentation.dll
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\zxing.xml
+C:\Users\SERVER\source\repos\Jovan-New\bin\Debug\zxing.presentation.xml
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan-New.vbproj.CopyComplete
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.FormReturnStock.resources
+C:\Users\SERVER\source\repos\Jovan-New\obj\Debug\Jovan_New.FormReject.resources
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\Jovan-New.exe.config
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\Jovan-New.exe
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\Jovan-New.xml
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\System.Windows.Forms.Ribbon.dll
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\zxing.dll
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\zxing.presentation.dll
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\zxing.xml
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\zxing.presentation.xml
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.FormInputStock.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.FormLogin.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.FormReject.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.FormReturnStock.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.HOME.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.MainForm.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.MasterFinishGoods2.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.MasterMaterial.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.MasterProcess.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.MasterProcessFlow.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.Resources.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.PraProduction.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.SubPO.resources
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.vbproj.CopyComplete
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.exe
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.xml
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\MES JV 22\bin\Debug\MdiTabControl.dll
+D:\MES Jovan\VB Program\MES JV 22\obj\Debug\Jovan_New.frmTesting.resources

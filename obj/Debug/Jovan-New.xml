@@ -1,0 +1,191 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Jovan-New
+</name>
+</assembly>
+<members>
+<member name="T:Jovan_New.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Jovan_New.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Jovan_New.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.INPUT_STOCKDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_FINISH_GOODSDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_MATERIALDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_PROCESSDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_PROCESS_FLOWDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.PRE_PRODUCTIONDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.INPUT_STOCKRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_FINISH_GOODSRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_MATERIALRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_PROCESSRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_PROCESS_FLOWRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.PRE_PRODUCTIONRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.INPUT_STOCKRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_FINISH_GOODSRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_MATERIALRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_PROCESSRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.MASTER_PROCESS_FLOWRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSet.PRE_PRODUCTIONRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.INPUT_STOCKTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.MASTER_FINISH_GOODSTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.MASTER_MATERIALTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.MASTER_PROCESSTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.MASTER_PROCESS_FLOWTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.PRE_PRODUCTIONTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.UpdateUpdatedRows(Jovan_New.JOVANDataSet,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.UpdateInsertedRows(Jovan_New.JOVANDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.UpdateDeletedRows(Jovan_New.JOVANDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.UpdateAll(Jovan_New.JOVANDataSet)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:Jovan_New.JOVANDataSetTableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
+</members>
+</doc>

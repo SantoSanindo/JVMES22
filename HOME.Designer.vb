@@ -98,12 +98,13 @@ Partial Class HOME
         '
         Me.InputStock.Items.Add(Me.InputStockBtn)
         Me.InputStock.Name = "InputStock"
-        Me.InputStock.Text = "Input Stock"
+        Me.InputStock.Text = "Input Stock  "
         '
         'InputStockBtn
         '
         Me.InputStockBtn.Image = CType(resources.GetObject("InputStockBtn.Image"), System.Drawing.Image)
         Me.InputStockBtn.LargeImage = CType(resources.GetObject("InputStockBtn.LargeImage"), System.Drawing.Image)
+        Me.InputStockBtn.MinimumSize = New System.Drawing.Size(70, 0)
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
         '

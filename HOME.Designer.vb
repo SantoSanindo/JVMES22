@@ -35,6 +35,7 @@ Partial Class HOME
         Me.RibbonPanel2 = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.TabControl1 = New MdiTabControl.TabControl()
+        Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -118,6 +119,7 @@ Partial Class HOME
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
+        Me.RibbonTab4.Panels.Add(Me.RibbonPanel3)
         Me.RibbonTab4.Text = "Line Process"
         '
         'TabControl1
@@ -131,6 +133,11 @@ Partial Class HOME
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
         Me.TabControl1.TabIndex = 1
+        '
+        'RibbonPanel3
+        '
+        Me.RibbonPanel3.Name = "RibbonPanel3"
+        Me.RibbonPanel3.Text = "RibbonPanel3"
         '
         'HOME
         '
@@ -159,4 +166,5 @@ Partial Class HOME
     Friend WithEvents InputStockBtn As RibbonButton
     Friend WithEvents TabControl1 As MdiTabControl.TabControl
     Friend WithEvents RibbonPanel2 As RibbonPanel
+    Friend WithEvents RibbonPanel3 As RibbonPanel
 End Class

@@ -34,6 +34,7 @@ Partial Class HOME
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.TabControl1 = New MdiTabControl.TabControl()
+        Me.RibbonPanel2 = New System.Windows.Forms.RibbonPanel()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -56,6 +57,7 @@ Partial Class HOME
         '
         Me.Ribbon1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.Ribbon1.Location = New System.Drawing.Point(0, 0)
+        Me.Ribbon1.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
         Me.Ribbon1.Minimized = False
         Me.Ribbon1.Name = "Ribbon1"
         '
@@ -72,7 +74,7 @@ Partial Class HOME
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
-        Me.Ribbon1.Size = New System.Drawing.Size(1007, 150)
+        Me.Ribbon1.Size = New System.Drawing.Size(2014, 200)
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
@@ -92,6 +94,7 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
+        Me.RibbonTab3.Panels.Add(Me.RibbonPanel2)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -116,23 +119,30 @@ Partial Class HOME
         'TabControl1
         '
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 150)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 200)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
         Me.TabControl1.MenuRenderer = Nothing
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(1007, 473)
+        Me.TabControl1.Size = New System.Drawing.Size(2014, 998)
         Me.TabControl1.TabCloseButtonImage = Nothing
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
         Me.TabControl1.TabIndex = 1
         '
+        'RibbonPanel2
+        '
+        Me.RibbonPanel2.Name = "RibbonPanel2"
+        Me.RibbonPanel2.Text = "RibbonPanel2"
+        '
         'HOME
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1007, 623)
+        Me.ClientSize = New System.Drawing.Size(2014, 1198)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
         Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
         Me.Name = "HOME"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MES Application"
@@ -151,4 +161,5 @@ Partial Class HOME
     Friend WithEvents InputStock As RibbonPanel
     Friend WithEvents InputStockBtn As RibbonButton
     Friend WithEvents TabControl1 As MdiTabControl.TabControl
+    Friend WithEvents RibbonPanel2 As RibbonPanel
 End Class

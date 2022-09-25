@@ -32,9 +32,9 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibbonPanel2 = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.TabControl1 = New MdiTabControl.TabControl()
-        Me.RibbonPanel2 = New System.Windows.Forms.RibbonPanel()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -57,7 +57,6 @@ Partial Class HOME
         '
         Me.Ribbon1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.Ribbon1.Location = New System.Drawing.Point(0, 0)
-        Me.Ribbon1.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
         Me.Ribbon1.Minimized = False
         Me.Ribbon1.Name = "Ribbon1"
         '
@@ -74,7 +73,7 @@ Partial Class HOME
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
-        Me.Ribbon1.Size = New System.Drawing.Size(2014, 200)
+        Me.Ribbon1.Size = New System.Drawing.Size(962, 137)
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
@@ -111,6 +110,11 @@ Partial Class HOME
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibbonPanel2
+        '
+        Me.RibbonPanel2.Name = "RibbonPanel2"
+        Me.RibbonPanel2.Text = "RibbonPanel2"
+        '
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
@@ -119,30 +123,23 @@ Partial Class HOME
         'TabControl1
         '
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 200)
-        Me.TabControl1.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 137)
         Me.TabControl1.MenuRenderer = Nothing
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(2014, 998)
+        Me.TabControl1.Size = New System.Drawing.Size(962, 415)
         Me.TabControl1.TabCloseButtonImage = Nothing
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
         Me.TabControl1.TabIndex = 1
         '
-        'RibbonPanel2
-        '
-        Me.RibbonPanel2.Name = "RibbonPanel2"
-        Me.RibbonPanel2.Text = "RibbonPanel2"
-        '
         'HOME
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(2014, 1198)
+        Me.ClientSize = New System.Drawing.Size(962, 552)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
         Me.Name = "HOME"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MES Application"

@@ -112,3 +112,35 @@ D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplet
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan-New.xml
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan-New.pdb
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\Jovan-New.exe.config
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\Jovan-New.exe
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\Jovan-New.pdb
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\Jovan-New.xml
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\zxing.dll
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\zxing.presentation.dll
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\zxing.xml
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\bin\Debug\zxing.presentation.xml
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.FormInputStock.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.FormLogin.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.FormReject.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.HOME.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.MainForm.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods2.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.Resources.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.PraProduction.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.SubPO.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan_New.frmTesting.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.exe
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.xml
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.pdb

@@ -12,5 +12,8 @@
 
     Private Sub btnMasterMaterial(sender As Object, e As EventArgs) Handles MasterMaterialBtn.Click
 
+        TabControl1.TabPages.Add(MasterMaterial)
+        TabControl1.TabPages(MasterMaterial).Select()
+
     End Sub
 End Class

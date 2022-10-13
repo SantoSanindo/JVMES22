@@ -35,7 +35,7 @@ Partial Class HOME
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
-        Me.MasterMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
@@ -127,14 +127,14 @@ Partial Class HOME
         'RibbonTab5
         '
         Me.RibbonTab5.Name = "RibbonTab5"
-        Me.RibbonTab5.Panels.Add(Me.MasterMaterial)
+        Me.RibbonTab5.Panels.Add(Me.RibMasterMaterial)
         Me.RibbonTab5.Text = "Master Data"
         '
-        'MasterMaterial
+        'RibMasterMaterial
         '
-        Me.MasterMaterial.Items.Add(Me.MasterMaterialBtn)
-        Me.MasterMaterial.Name = "MasterMaterial"
-        Me.MasterMaterial.Text = "Master Material"
+        Me.RibMasterMaterial.Items.Add(Me.MasterMaterialBtn)
+        Me.RibMasterMaterial.Name = "RibMasterMaterial"
+        Me.RibMasterMaterial.Text = "Master Material"
         '
         'MasterMaterialBtn
         '
@@ -192,7 +192,7 @@ Partial Class HOME
     Friend WithEvents buttontest As RibbonPanel
     Friend WithEvents RibbonPanel3 As RibbonPanel
     Friend WithEvents RibbonTab5 As RibbonTab
-    Friend WithEvents MasterMaterial As RibbonPanel
+    Friend WithEvents RibMasterMaterial As RibbonPanel
     Friend WithEvents RibbonButton1 As RibbonButton
     Friend WithEvents MasterMaterialBtn As RibbonButton
 End Class

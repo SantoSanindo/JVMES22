@@ -6,8 +6,8 @@ Public Class Database
     Public Shared database As String
     Public Shared Sub koneksi_database()
         Try
-            database = "Data Source=localhost;
-            initial catalog=JOVAN;
+            database = "Data Source=LENOVO\SQLEXPRESS;
+            initial catalog=JVMES;
             Persist Security Info=True;
             User ID=sa;
             Password=jovan123;

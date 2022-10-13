@@ -1,8 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
 
-Imports Excel = Microsoft.Office.Interop.Excel
-
 Public Class MasterMaterial
 
     Dim oleCon As OleDbConnection

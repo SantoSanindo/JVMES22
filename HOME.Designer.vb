@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class HOME
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class HOME
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HOME))
         Me.RibbonTab1 = New System.Windows.Forms.RibbonTab()
@@ -32,10 +32,13 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibbonPanel2 = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
-        Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
+        Me.MasterMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
+        Me.TabControl1 = New MdiTabControl.TabControl()
+        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -78,7 +81,7 @@ Partial Class HOME
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
-        Me.Ribbon1.TabsMargin = New System.Windows.Forms.Padding(6, 26, 20, 0)
+        Me.Ribbon1.Tabs.Add(Me.RibbonTab5)
         Me.Ribbon1.TabSpacing = 3
         Me.Ribbon1.Text = "Ribbon1"
         '
@@ -94,7 +97,6 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
-        Me.RibbonTab3.Panels.Add(Me.RibbonPanel2)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -111,16 +113,35 @@ Partial Class HOME
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
         '
-        'RibbonPanel2
-        '
-        Me.RibbonPanel2.Name = "RibbonPanel2"
-        Me.RibbonPanel2.Text = "RibbonPanel2"
-        '
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
         Me.RibbonTab4.Panels.Add(Me.RibbonPanel3)
         Me.RibbonTab4.Text = "Line Process"
+        '
+        'RibbonPanel3
+        '
+        Me.RibbonPanel3.Name = "RibbonPanel3"
+        Me.RibbonPanel3.Text = "RibbonPanel3"
+        '
+        'RibbonTab5
+        '
+        Me.RibbonTab5.Name = "RibbonTab5"
+        Me.RibbonTab5.Panels.Add(Me.MasterMaterial)
+        Me.RibbonTab5.Text = "Master Data"
+        '
+        'MasterMaterial
+        '
+        Me.MasterMaterial.Items.Add(Me.MasterMaterialBtn)
+        Me.MasterMaterial.Name = "MasterMaterial"
+        Me.MasterMaterial.Text = "Master Material"
+        '
+        'MasterMaterialBtn
+        '
+        Me.MasterMaterialBtn.Image = CType(resources.GetObject("MasterMaterialBtn.Image"), System.Drawing.Image)
+        Me.MasterMaterialBtn.LargeImage = CType(resources.GetObject("MasterMaterialBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterMaterialBtn.Name = "MasterMaterialBtn"
+        Me.MasterMaterialBtn.SmallImage = CType(resources.GetObject("MasterMaterialBtn.SmallImage"), System.Drawing.Image)
         '
         'TabControl1
         '
@@ -134,10 +155,12 @@ Partial Class HOME
         Me.TabControl1.TabCloseButtonImageHot = Nothing
         Me.TabControl1.TabIndex = 1
         '
-        'RibbonPanel3
+        'RibbonButton1
         '
-        Me.RibbonPanel3.Name = "RibbonPanel3"
-        Me.RibbonPanel3.Text = "RibbonPanel3"
+        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
+        Me.RibbonButton1.LargeImage = CType(resources.GetObject("RibbonButton1.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton1.Name = "RibbonButton1"
+        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -154,6 +177,7 @@ Partial Class HOME
         Me.ResumeLayout(False)
 
     End Sub
+
     Friend WithEvents RibbonTab1 As RibbonTab
     Friend WithEvents RibbonPanel1 As RibbonPanel
     Friend WithEvents RibbonTab2 As RibbonTab
@@ -165,6 +189,10 @@ Partial Class HOME
     Friend WithEvents InputStock As RibbonPanel
     Friend WithEvents InputStockBtn As RibbonButton
     Friend WithEvents TabControl1 As MdiTabControl.TabControl
-    Friend WithEvents RibbonPanel2 As RibbonPanel
+    Friend WithEvents buttontest As RibbonPanel
     Friend WithEvents RibbonPanel3 As RibbonPanel
+    Friend WithEvents RibbonTab5 As RibbonTab
+    Friend WithEvents MasterMaterial As RibbonPanel
+    Friend WithEvents RibbonButton1 As RibbonButton
+    Friend WithEvents MasterMaterialBtn As RibbonButton
 End Class

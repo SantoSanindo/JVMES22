@@ -5,8 +5,12 @@
 
     Private Sub btnInputStock(sender As Object, e As EventArgs) Handles InputStockBtn.Click
 
-        TabControl1.TabPages.Add(frmTesting)
-        TabControl1.TabPages(frmTesting).Select()
+        TabControl1.TabPages.Add(FormInputStock)
+        TabControl1.TabPages(FormInputStock).Select()
+
+    End Sub
+
+    Private Sub btnMasterMaterial(sender As Object, e As EventArgs) Handles MasterMaterialBtn.Click
 
     End Sub
 End Class

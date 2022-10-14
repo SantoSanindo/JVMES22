@@ -37,6 +37,8 @@ Partial Class HOME
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
         Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibMasterProcess = New System.Windows.Forms.RibbonPanel()
+        Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
@@ -128,6 +130,7 @@ Partial Class HOME
         '
         Me.RibbonTab5.Name = "RibbonTab5"
         Me.RibbonTab5.Panels.Add(Me.RibMasterMaterial)
+        Me.RibbonTab5.Panels.Add(Me.RibMasterProcess)
         Me.RibbonTab5.Text = "Master Data"
         '
         'RibMasterMaterial
@@ -142,6 +145,19 @@ Partial Class HOME
         Me.MasterMaterialBtn.LargeImage = CType(resources.GetObject("MasterMaterialBtn.LargeImage"), System.Drawing.Image)
         Me.MasterMaterialBtn.Name = "MasterMaterialBtn"
         Me.MasterMaterialBtn.SmallImage = CType(resources.GetObject("MasterMaterialBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibMasterProcess
+        '
+        Me.RibMasterProcess.Items.Add(Me.MasterProcessBtn)
+        Me.RibMasterProcess.Name = "RibMasterProcess"
+        Me.RibMasterProcess.Text = "Master Process"
+        '
+        'MasterProcessBtn
+        '
+        Me.MasterProcessBtn.Image = CType(resources.GetObject("MasterProcessBtn.Image"), System.Drawing.Image)
+        Me.MasterProcessBtn.LargeImage = CType(resources.GetObject("MasterProcessBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterProcessBtn.Name = "MasterProcessBtn"
+        Me.MasterProcessBtn.SmallImage = CType(resources.GetObject("MasterProcessBtn.SmallImage"), System.Drawing.Image)
         '
         'TabControl1
         '
@@ -195,4 +211,6 @@ Partial Class HOME
     Friend WithEvents RibMasterMaterial As RibbonPanel
     Friend WithEvents RibbonButton1 As RibbonButton
     Friend WithEvents MasterMaterialBtn As RibbonButton
+    Friend WithEvents RibMasterProcess As RibbonPanel
+    Friend WithEvents MasterProcessBtn As RibbonButton
 End Class

@@ -16,4 +16,11 @@
         TabControl1.TabPages(MasterMaterial).Select()
 
     End Sub
+
+    Private Sub btnMasterProcess(sender As Object, e As EventArgs) Handles MasterProcessBtn.Click
+
+        TabControl1.TabPages.Add(MasterProcess)
+        TabControl1.TabPages(MasterProcess).Select()
+
+    End Sub
 End Class

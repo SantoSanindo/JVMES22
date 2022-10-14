@@ -80,7 +80,7 @@ Public Class MasterMaterial
     Private Sub dgv_material_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_material.CellClick
         'MessageBox.Show(e.ColumnIndex)
 
-        If e.ColumnIndex = 1 Then
+        If dgv_material.Columns(e.ColumnIndex).Name = "delete" Then
             Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
@@ -97,7 +97,7 @@ Public Class MasterMaterial
             End If
         End If
 
-        If e.ColumnIndex = 0 Then
+        If dgv_material.Columns(e.ColumnIndex).Name = "check" Then
             If dgv_material.Rows(e.RowIndex).Cells(0).Value = True Then
                 dgv_material.Rows(e.RowIndex).Cells(0).Value = False
             Else

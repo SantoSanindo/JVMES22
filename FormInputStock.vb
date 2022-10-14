@@ -211,7 +211,7 @@ Public Class FormInputStock
     End Sub
 
     Private Sub dgv_forminputstock_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_forminputstock.CellClick
-        If e.ColumnIndex = 7 Then
+        If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
             Dim result = MessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then

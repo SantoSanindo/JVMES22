@@ -108,9 +108,9 @@ Public Class MasterProcess
                 End If
                 If dgv_masterprocess.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In dgv_masterprocess.Rows
-                        StringToSearch = gRow.Cells(2).Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells(1).Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(txt_masterprocess_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(2)
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(1)
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                             dgv_masterprocess.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_masterprocess.CurrentRow.Index

@@ -2,24 +2,32 @@
 
 Public Class MasterFinishGoods
 
+    Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If txt_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_qty.Text <> "" Then
-            Dim querycheck As String = "select * from MASTER_FINISH_GOODS where PART_NUMBER=" & txt_masterfinishgoods_pn.Text
+        If txt_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And txt_masterfinishgoods_comp.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
+            Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_masterfinishgoods_pn.Text & "' and COMPONENT='" & txt_masterfinishgoods_comp.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
-                MessageBox.Show("Part Number exist")
+                MessageBox.Show("FG Part Number and Comp exist")
             Else
                 Try
-                    Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS(PART_NUMBER,STANDARD_QTY) VALUES (" & txt_masterfinishgoods_pn.Text & "," & txt_masterfinishgoods_qty.Text & ")"
+                    Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & txt_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & txt_masterfinishgoods_comp.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
 
-                    txt_masterfinishgoods_pn.Text = ""
-                    txt_masterfinishgoods_qty.Text = ""
-                    txt_masterfinishgoods_pn.Select()
-
                     dgv_masterfinishgoods_atas.DataSource = Nothing
-                    DGV_Masterfinishgoods_atass()
+
+                    DGV_Masterfinishgoods_atass(txt_masterfinishgoods_pn.Text)
+                    treeView_show()
+
+                    idP = txt_masterfinishgoods_pn.Text
+
+                    txt_masterfinishgoods_pn.Text = ""
+                    txt_masterfinishgoods_desc.Text = ""
+                    txt_masterfinishgoods_family.Text = ""
+                    txt_masterfinishgoods_comp.Text = ""
+                    txt_masterfinishgoods_usage.Text = ""
+                    txt_masterfinishgoods_pn.Select()
                 Catch ex As Exception
                     MessageBox.Show("Error Insert" & ex.Message)
                 End Try
@@ -28,30 +36,41 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub MasterFinishGoods_Load(sender As Object, e As EventArgs) Handles Me.Load
-        txt_masterfinishgoods_pn.Select()
-        DGV_Masterfinishgoods_atass()
+        'txt_masterfinishgoods_pn.Select()
+        'DGV_Masterfinishgoods_atass()
+        treeView_show()
+        idP = ""
+    End Sub
+
+    Private Sub treeView_show()
+        TreeView1.Nodes.Clear()
+        Dim queryFinishGoods As String = "select DISTINCT(FG_PART_NUMBER) from MASTER_FINISH_GOODS order by fg_part_number"
+        Dim dtFinishGoods As DataTable = Database.GetData(queryFinishGoods)
+
+        TreeView1.Nodes.Add("Master Finish Goods")
+
+        For i = 0 To dtFinishGoods.Rows.Count - 1
+            TreeView1.Nodes(0).Nodes.Add(dtFinishGoods.Rows(i).Item("FG_PART_NUMBER").ToString, "FG PN : " & dtFinishGoods.Rows(i).Item("FG_PART_NUMBER").ToString)
+        Next
+        TreeView1.ExpandAll()
     End Sub
 
     Private Sub dgv_masterfinishgoods_atas_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterfinishgoods_atas.CellClick
-        If e.ColumnIndex = 5 Then
-            If dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(4).Value = 0 Then
-                Dim result = MessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
+        If dgv_masterfinishgoods_atas.Columns(e.ColumnIndex).Name = "delete" Then
 
-                If result = DialogResult.Yes Then
-                    Try
-                        Dim sql As String = "delete from master_finish_goods where part_number=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(2).Value
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+            Dim result = MessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
 
-                        dgv_masterfinishgoods_atas.DataSource = Nothing
-                        DGV_Masterfinishgoods_atass()
-                        MessageBox.Show("Delete Success.")
-                    Catch ex As Exception
-                        MessageBox.Show("Delete Failed" & ex.Message)
-                    End Try
-                End If
-            Else
-                MessageBox.Show("This Data cannot be delete.")
+            If result = DialogResult.Yes Then
+                Try
+                    Dim sql As String = "delete from master_finish_goods where ID=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(1).Value
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    cmd.ExecuteNonQuery()
+                    DGV_Masterfinishgoods_atass(idP)
+                    treeView_show()
+                    MessageBox.Show("Delete Success.")
+                Catch ex As Exception
+                    MessageBox.Show("Delete Failed" & ex.Message)
+                End Try
             End If
         End If
 
@@ -62,24 +81,24 @@ Public Class MasterFinishGoods
                 dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(0).Value = True
             End If
         End If
-
-        If e.ColumnIndex = 1 Then
-            Dim masterfinishgoods2 = New MasterFinishGoods2()
-            masterfinishgoods2.TextBox3.Text = dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(2).Value.ToString
-            masterfinishgoods2.Show()
-            masterfinishgoods2.sub_dgv_masterfinishgoods2(dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(2).Value, dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(3).Value)
-            Me.Close()
-        End If
     End Sub
 
-    Private Sub DGV_Masterfinishgoods_atass()
+    Private Sub DGV_Masterfinishgoods_atass(id As String)
         dgv_masterfinishgoods_atas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgv_masterfinishgoods_atas.DataSource = Nothing
         dgv_masterfinishgoods_atas.Rows.Clear()
         dgv_masterfinishgoods_atas.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select M.part_number as Part_Number_FG, M.standard_qty as Qty,(SELECT COUNT(*) FROM MASTER_FINISH_GOODS WHERE PART_NUMBER=M.part_number AND MATERIAL_PART_NUMBER IS NOT NULL) AS Total_Material from MASTER_FINISH_GOODS M WHERE M.MATERIAL_PART_NUMBER IS NULL ORDER BY TOTAL_MATERIAL DESC")
+        Dim queryMasterFinishGoods As String = "select ID,FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE from master_finish_goods where fg_part_number='" & id & "'"
+        Dim dtMasterMaterial As DataTable = Database.GetData(queryMasterFinishGoods)
 
         dgv_masterfinishgoods_atas.DataSource = dtMasterMaterial
+
+        dgv_masterfinishgoods_atas.Columns(0).Width = 100
+        dgv_masterfinishgoods_atas.Columns(1).Width = 300
+        dgv_masterfinishgoods_atas.Columns(2).Width = 500
+        dgv_masterfinishgoods_atas.Columns(3).Width = 150
+        dgv_masterfinishgoods_atas.Columns(5).Width = 150
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -88,16 +107,7 @@ Public Class MasterFinishGoods
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_masterfinishgoods_atas.Columns.Insert(3, delete)
-
-        Dim lihat As DataGridViewButtonColumn = New DataGridViewButtonColumn
-        lihat.Name = "lihat"
-        lihat.HeaderText = "View"
-        lihat.Width = 100
-        lihat.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-        lihat.Text = "View"
-        lihat.UseColumnTextForButtonValue = True
-        dgv_masterfinishgoods_atas.Columns.Insert(0, lihat)
+        dgv_masterfinishgoods_atas.Columns.Insert(6, delete)
 
         Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
         check.Name = "check"
@@ -121,8 +131,8 @@ Public Class MasterFinishGoods
 
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
-                If row.Cells(0).Value = True And row.Cells(4).Value = 0 Then
-                    Dim sql As String = "delete from master_finish_goods where part_number=" & row.Cells(2).Value
+                If row.Cells(0).Value = True Then
+                    Dim sql As String = "delete from master_finish_goods where id=" & row.Cells(1).Value
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     hapus = hapus + 1
@@ -130,27 +140,64 @@ Public Class MasterFinishGoods
             Next
         End If
 
-        dgv_masterfinishgoods_atas.DataSource = Nothing
-        DGV_Masterfinishgoods_atass()
+        treeView_show()
+        DGV_Masterfinishgoods_atass(idP)
         MessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-            Dim str As String = txt_masterfinishgoods_search.Text
+
+            Dim Found As Boolean = False
+            Dim StringToSearch As String = ""
+            Dim ValueToSearchFor As String = Me.txt_masterfinishgoods_search.Text.Trim.ToLower
+            Dim CurrentRowIndex As Integer = 0
             Try
-                For i As Integer = 0 To dgv_masterfinishgoods_atas.Rows.Count - 1
-                    For j As Integer = 0 To dgv_masterfinishgoods_atas.Columns.Count - 1
-                        If dgv_masterfinishgoods_atas.Rows(i).Cells(j).Value = str Then
-                            dgv_masterfinishgoods_atas.Rows(i).Selected = True
-                            dgv_masterfinishgoods_atas.CurrentCell = dgv_masterfinishgoods_atas.Rows(i).Cells(j)
-                            Exit Sub
+                If dgv_masterfinishgoods_atas.Rows.Count = 0 Then
+                    CurrentRowIndex = 0
+                Else
+                    CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index + 1
+                End If
+                If CurrentRowIndex > dgv_masterfinishgoods_atas.Rows.Count Then
+                    CurrentRowIndex = dgv_masterfinishgoods_atas.Rows.Count - 1
+                End If
+                If dgv_masterfinishgoods_atas.Rows.Count > 0 Then
+                    For Each gRow As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
+                        StringToSearch = gRow.Cells(5).Value.ToString.Trim.ToLower
+                        If InStr(1, StringToSearch, LCase(Trim(txt_masterfinishgoods_search.Text)), vbTextCompare) = 1 Then
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(5)
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+                            dgv_masterfinishgoods_atas.CurrentCell = myCurrentCell
+                            CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index
+                            Found = True
                         End If
+                        If Found Then Exit For
                     Next
-                Next i
-            Catch abc As Exception
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
             End Try
-            MsgBox("Data not found!")
         End If
+    End Sub
+
+    Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect
+        If TreeView1.SelectedNode Is Nothing Then
+            dgv_masterfinishgoods_atas.DataSource = Nothing
+            Exit Sub
+        End If
+
+        idP = TreeView1.SelectedNode.Name
+
+        DGV_Masterfinishgoods_atass(idP)
+    End Sub
+
+    Private Sub dgv_material_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_masterfinishgoods_atas.DataBindingComplete
+        For i As Integer = 0 To dgv_masterfinishgoods_atas.RowCount - 1
+            If dgv_masterfinishgoods_atas.Rows(i).Index Mod 2 = 0 Then
+                dgv_masterfinishgoods_atas.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgv_masterfinishgoods_atas.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
     End Sub
 End Class

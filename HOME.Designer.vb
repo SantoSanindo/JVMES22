@@ -41,6 +41,8 @@ Partial Class HOME
         Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
+        Me.RibMasterFinishGood = New System.Windows.Forms.RibbonPanel()
+        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -131,6 +133,7 @@ Partial Class HOME
         Me.RibbonTab5.Name = "RibbonTab5"
         Me.RibbonTab5.Panels.Add(Me.RibMasterMaterial)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcess)
+        Me.RibbonTab5.Panels.Add(Me.RibMasterFinishGood)
         Me.RibbonTab5.Text = "Master Data"
         '
         'RibMasterMaterial
@@ -178,6 +181,19 @@ Partial Class HOME
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
+        'RibMasterFinishGood
+        '
+        Me.RibMasterFinishGood.Items.Add(Me.MasterFinishGoodsBtn)
+        Me.RibMasterFinishGood.Name = "RibMasterFinishGood"
+        Me.RibMasterFinishGood.Text = "Master Finish Goods"
+        '
+        'MasterFinishGoodsBtn
+        '
+        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
+        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -213,4 +229,6 @@ Partial Class HOME
     Friend WithEvents MasterMaterialBtn As RibbonButton
     Friend WithEvents RibMasterProcess As RibbonPanel
     Friend WithEvents MasterProcessBtn As RibbonButton
+    Friend WithEvents RibMasterFinishGood As RibbonPanel
+    Friend WithEvents MasterFinishGoodsBtn As RibbonButton
 End Class

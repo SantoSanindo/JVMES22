@@ -271,6 +271,30 @@ Public Class FormInputStock
         End If
     End Sub
 
+    Private Sub txt_forminputstock_mts_no_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_mts_no.PreviewKeyDown
+        If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then
+            If txt_forminputstock_mts_no.Text = "" Then
+                MessageBox.Show("MTS cannot be null.")
+                txt_forminputstock_mts_no.Select()
+            Else
+                txt_forminputstock_mts_no.ReadOnly = True
+                txt_forminputstock_qrcode.ReadOnly = False
+                txt_forminputstock_qrcode.Select()
+
+                treeView_show()
+
+                Dim queryCheckLock As String = "SELECT TOP 1 * FROM INPUT_STOCK ISS, INPUT_STOCK_DETAIL ISD WHERE ISS.ID = ISD.FK_INPUT_STOCK AND ISS.MTS_NO = " & txt_forminputstock_mts_no.Text
+                Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
+
+                If dtCheckLock.Rows.Count > 0 Then
+                    If dtCheckLock.Rows(0).Item("LOCK") = 0 Then
+                        Button2.Enabled = True
+                    End If
+                End If
+            End If
+        End If
+    End Sub
+
     Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect
         If TreeView1.SelectedNode Is Nothing Then
             dgv_forminputstock.DataSource = Nothing
@@ -303,18 +327,5 @@ Public Class FormInputStock
         Button2.Enabled = False
     End Sub
 
-    Private Sub txt_forminputstock_mts_no_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_mts_no.PreviewKeyDown
-        If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then
-            If txt_forminputstock_mts_no.Text = "" Then
-                MessageBox.Show("MTS cannot be null.")
-                txt_forminputstock_mts_no.Select()
-            Else
-                txt_forminputstock_mts_no.ReadOnly = True
-                txt_forminputstock_qrcode.ReadOnly = False
-                txt_forminputstock_qrcode.Select()
 
-                treeView_show()
-            End If
-        End If
-    End Sub
 End Class

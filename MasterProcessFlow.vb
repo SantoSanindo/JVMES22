@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class MasterProcessFlow
     Private Sub MasterProcessFlow_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -9,7 +10,6 @@ Public Class MasterProcessFlow
     Private Sub DGV_ProcessFlow()
         Try
             Dim varProcess As String = ""
-            'dgv_masterprocessflow.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             Call Database.koneksi_database()
             dgv_masterprocessflow.Rows.Clear()
             dgv_masterprocessflow.Columns.Clear()
@@ -26,7 +26,7 @@ Public Class MasterProcessFlow
                 End If
             Next
 
-            Dim query As String = "SELECT * FROM (SELECT master_finish_goods as FG_Number,master_process_number, master_process FROM dbo.MASTER_PROCESS_FLOW) t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
+            Dim query As String = "SELECT * FROM (SELECT master_finish_goods_pn as FG_Number,master_process_number, master_process FROM dbo.MASTER_PROCESS_FLOW) t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
 
             Dim adapterGas As SqlDataAdapter
             Dim datasetGas As New DataSet
@@ -58,24 +58,14 @@ Public Class MasterProcessFlow
                 Next
 
 
-                'For Each rows As DataGridViewRow In dgv_masterprocessflow.Rows
-                '    Dim comboBoxCell As DataGridViewComboBoxCell = CType(rows.Cells(2), DataGridViewComboBoxCell)
-
-
                 For rowDataSet As Integer = 0 To datasetGas.Tables(0).Rows.Count - 1
                     For colDataSet As Integer = 1 To datasetGas.Tables(0).Columns.Count - 1
                         dgv_masterprocessflow.Rows(rowDataSet).Cells(colDataSet).Value = datasetGas.Tables(0).Rows(rowDataSet).Item(colDataSet).ToString
                     Next
                 Next
-                'Next
-
-                'For r = 0 To datasetGas.Tables(0).Rows.Count - 1
-                '    For c = 1 To datasetGas.Tables(0).Columns.Count - 1
-                '        dgv_masterprocessflow.Rows(0).Cells(1).Value = datasetGas.Tables(0).Rows(0).Item(1).ToString
-                '    Next
-                'Next
 
                 Dim btn As New DataGridViewButtonColumn
+                btn.Name = "delete"
                 btn.HeaderText = "Delete"
                 btn.Text = "Delete"
                 btn.Width = 100
@@ -83,14 +73,6 @@ Public Class MasterProcessFlow
                 dgv_masterprocessflow.Columns.Insert(0, btn)
 
             End If
-
-            For i As Integer = 0 To dgv_masterprocessflow.RowCount - 1
-                If dgv_masterprocessflow.Rows(i).Index Mod 2 = 0 Then
-                    dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-                Else
-                    dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-                End If
-            Next i
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -98,11 +80,11 @@ Public Class MasterProcessFlow
 
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select distinct part_number from master_finish_goods where material_part_number is not null")
+        Dim dtMasterFinishGoods As DataTable = Database.GetData("select distinct fg_part_number from master_finish_goods order by fg_part_number")
 
-        cb_masterprocessflow.DataSource = dtMasterMaterial
-        cb_masterprocessflow.DisplayMember = "part_number"
-        cb_masterprocessflow.ValueMember = "part_number"
+        cb_masterprocessflow.DataSource = dtMasterFinishGoods
+        cb_masterprocessflow.DisplayMember = "fg_part_number"
+        cb_masterprocessflow.ValueMember = "fg_part_number"
         cb_masterprocessflow.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cb_masterprocessflow.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
@@ -116,14 +98,14 @@ Public Class MasterProcessFlow
                 adapter = New SqlDataAdapter(sql, Database.koneksi)
                 adapter.Fill(ds)
                 For r = 0 To ds.Tables(0).Rows.Count - 1
-                    Dim sql2 As String = "INSERT INTO MASTER_PROCESS_FLOW(MASTER_FINISH_GOODS,MASTER_PROCESS_NUMBER) VALUES (" & cb_masterprocessflow.Text & ",'" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "')"
-                    Dim cmd2 = New SqlCommand(sql2, Database.koneksi)
-                    cmd2.ExecuteNonQuery()
+                    Dim queryCheckProcessFlow As String = "select * from master_process_flow where MASTER_FINISH_GOODS_PN='" & cb_masterprocessflow.Text & "' and MASTER_PROCESS_NUMBER='" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "'"
+                    Dim dtCheckProcessFlow As DataTable = Database.GetData(queryCheckProcessFlow)
+                    If dtCheckProcessFlow.Rows.Count = 0 Then
+                        Dim sql2 As String = "INSERT INTO MASTER_PROCESS_FLOW(MASTER_FINISH_GOODS_PN,MASTER_PROCESS_NUMBER) VALUES ('" & cb_masterprocessflow.Text & "','" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "')"
+                        Dim cmd2 = New SqlCommand(sql2, Database.koneksi)
+                        cmd2.ExecuteNonQuery()
+                    End If
                 Next
-
-                'Dim sql1 As String = "insert into master_process_flow (master_finish_goods, master_proc, need) select DISTINCT MASTER_FINISH_GOODS,'" & txt_masterprocess_nama.Text & "', 0  from master_process_flow where [master_proc] != '" & txt_masterprocess_nama.Text & "'"
-                'Dim cmd1 = New SqlCommand(sql1, Database.koneksi)
-                'cmd1.ExecuteNonQuery()
 
                 cb_masterprocessflow.Text = ""
 
@@ -136,12 +118,13 @@ Public Class MasterProcessFlow
 
     Private Sub dgv_masterprocessflow_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocessflow.CellClick
         Call Database.koneksi_database()
-        If e.ColumnIndex = 0 Then
+        'MessageBox.Show(e.ColumnIndex)
+        If dgv_masterprocessflow.Columns(e.ColumnIndex).Name = "delete" Then
             Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from master_process_flow where master_finish_goods=" & dgv_masterprocessflow.Rows(e.RowIndex).Cells(1).Value
+                    Dim sql As String = "delete from master_process_flow where master_finish_goods_pn='" & dgv_masterprocessflow.Rows(e.RowIndex).Cells(1).Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     DGV_ProcessFlow()
@@ -151,35 +134,68 @@ Public Class MasterProcessFlow
                 End Try
             End If
         End If
-
-        'If e.ColumnIndex > 1 Then
-        '    If dgv_masterprocessflow.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = True Then
-        '        Dim Sql As String = "update master_process_flow set need=0 where master_finish_goods=" & dgv_masterprocessflow.Rows(e.RowIndex).Cells(1).Value & " and master_proc='" & dgv_masterprocessflow.Columns(e.ColumnIndex).HeaderCell.Value & "'"
-        '        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-        '        cmd.ExecuteNonQuery()
-        '        dgv_masterprocessflow.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False
-        '    Else
-        '        Dim Sql As String = "update master_process_flow set need=1 where master_finish_goods=" & dgv_masterprocessflow.Rows(e.RowIndex).Cells(1).Value & " and master_proc='" & dgv_masterprocessflow.Columns(e.ColumnIndex).HeaderCell.Value & "'"
-        '        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-        '        cmd.ExecuteNonQuery()
-        '        dgv_masterprocessflow.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = True
-        '    End If
-        'End If
     End Sub
 
-    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
+    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles masterprocessflow_search.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-            Dim str As String = TextBox1.Text
+            Dim Found As Boolean = False
+            Dim StringToSearch As String = ""
+            Dim ValueToSearchFor As String = Me.masterprocessflow_search.Text.Trim.ToLower
+            Dim CurrentRowIndex As Integer = 0
             Try
-                For i As Integer = 0 To dgv_masterprocessflow.Rows.Count - 1
-                    If dgv_masterprocessflow.Rows(i).Cells(1).Value = str Then
-                        dgv_masterprocessflow.Rows(i).Selected = True
-                        Exit Sub
-                    End If
-                Next i
-            Catch abc As Exception
+                If dgv_masterprocessflow.Rows.Count = 0 Then
+                    CurrentRowIndex = 0
+                Else
+                    CurrentRowIndex = dgv_masterprocessflow.CurrentRow.Index + 1
+                End If
+                If CurrentRowIndex > dgv_masterprocessflow.Rows.Count Then
+                    CurrentRowIndex = dgv_masterprocessflow.Rows.Count - 1
+                End If
+                If dgv_masterprocessflow.Rows.Count > 0 Then
+                    For Each gRow As DataGridViewRow In dgv_masterprocessflow.Rows
+                        StringToSearch = gRow.Cells(1).Value.ToString.Trim.ToLower
+                        If InStr(1, StringToSearch, LCase(Trim(masterprocessflow_search.Text)), vbTextCompare) = 1 Then
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(1)
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+                            dgv_masterprocessflow.CurrentCell = myCurrentCell
+                            CurrentRowIndex = dgv_masterprocessflow.CurrentRow.Index
+                            Found = True
+                        End If
+                        If Found Then Exit For
+                    Next
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
             End Try
-            MsgBox("Data not found!")
         End If
+    End Sub
+
+    Private Sub dgv_material_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_masterprocessflow.DataBindingComplete
+        For i As Integer = 0 To dgv_masterprocessflow.RowCount - 1
+            If dgv_masterprocessflow.Rows(i).Index Mod 2 = 0 Then
+                dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+    End Sub
+
+    Private Sub dgv_masterprocessflow_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles dgv_masterprocessflow.EditingControlShowing
+        If dgv_masterprocessflow.CurrentCell.ColumnIndex > 1 Then
+            Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+
+            If (combo IsNot Nothing) Then
+                RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted)
+
+                AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted)
+            End If
+        End If
+    End Sub
+
+    Private Sub Combo_SelectionChangeCommitted(ByVal sender As Object, ByVal e As EventArgs)
+        Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
+        Dim Sql As String = "update master_process_flow set master_process='" & combo.SelectedItem & "' where master_finish_goods_pn='" & dgv_masterprocessflow.Rows(dgv_masterprocessflow.CurrentCell.RowIndex).Cells(1).Value & "' and master_process_number='" & dgv_masterprocessflow.Columns(dgv_masterprocessflow.CurrentCell.ColumnIndex).HeaderCell.Value & "'"
+        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+        cmd.ExecuteNonQuery()
     End Sub
 End Class

@@ -22,10 +22,11 @@ Partial Class MasterProcessFlow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.Button3 = New System.Windows.Forms.Button()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.masterprocessflow_search = New System.Windows.Forms.TextBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -40,8 +41,9 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Button3)
-        Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Controls.Add(Me.masterprocessflow_search)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.Label1)
@@ -52,36 +54,47 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(0)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(0)
-        Me.GroupBox1.Size = New System.Drawing.Size(1034, 714)
+        Me.GroupBox1.Size = New System.Drawing.Size(1442, 714)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(1104, 672)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(89, 29)
+        Me.Label2.TabIndex = 11
+        Me.Label2.Text = "Search"
         '
         'Button3
         '
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Button3.BackColor = System.Drawing.Color.Red
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(3, 662)
+        Me.Button3.Location = New System.Drawing.Point(3, 665)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(243, 42)
         Me.Button3.TabIndex = 10
         Me.Button3.Text = "Delete Multiple Data"
         Me.Button3.UseVisualStyleBackColor = False
+        Me.Button3.Visible = False
         '
-        'TextBox1
+        'masterprocessflow_search
         '
-        Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(837, 662)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(194, 35)
-        Me.TextBox1.TabIndex = 9
+        Me.masterprocessflow_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.masterprocessflow_search.Location = New System.Drawing.Point(1199, 669)
+        Me.masterprocessflow_search.Name = "masterprocessflow_search"
+        Me.masterprocessflow_search.Size = New System.Drawing.Size(240, 35)
+        Me.masterprocessflow_search.TabIndex = 9
         '
         'Button2
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(896, 20)
+        Me.Button2.Location = New System.Drawing.Point(1304, 21)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(135, 42)
         Me.Button2.TabIndex = 8
@@ -92,7 +105,7 @@ Partial Class MasterProcessFlow
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(539, 24)
+        Me.Button1.Location = New System.Drawing.Point(623, 21)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(135, 42)
         Me.Button1.TabIndex = 7
@@ -104,14 +117,14 @@ Partial Class MasterProcessFlow
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(3, 28)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(156, 29)
+        Me.Label1.Size = New System.Drawing.Size(196, 29)
         Me.Label1.TabIndex = 6
-        Me.Label1.Text = "Finish Goods"
+        Me.Label1.Text = "PN Finish Goods"
         '
         'cb_masterprocessflow
         '
         Me.cb_masterprocessflow.FormattingEnabled = True
-        Me.cb_masterprocessflow.Location = New System.Drawing.Point(188, 28)
+        Me.cb_masterprocessflow.Location = New System.Drawing.Point(241, 25)
         Me.cb_masterprocessflow.Name = "cb_masterprocessflow"
         Me.cb_masterprocessflow.Size = New System.Drawing.Size(330, 37)
         Me.cb_masterprocessflow.TabIndex = 5
@@ -125,29 +138,29 @@ Partial Class MasterProcessFlow
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocessflow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.dgv_masterprocessflow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_masterprocessflow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocessflow.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_masterprocessflow.Location = New System.Drawing.Point(3, 82)
+        Me.dgv_masterprocessflow.Location = New System.Drawing.Point(3, 72)
         Me.dgv_masterprocessflow.MultiSelect = False
         Me.dgv_masterprocessflow.Name = "dgv_masterprocessflow"
         Me.dgv_masterprocessflow.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
         Me.dgv_masterprocessflow.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_masterprocessflow.Size = New System.Drawing.Size(1028, 574)
+        Me.dgv_masterprocessflow.Size = New System.Drawing.Size(1436, 584)
         Me.dgv_masterprocessflow.TabIndex = 4
         '
         'MasterProcessFlow
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1038, 701)
+        Me.ClientSize = New System.Drawing.Size(1446, 701)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "MasterProcessFlow"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -168,5 +181,6 @@ Partial Class MasterProcessFlow
     Friend WithEvents cb_masterprocessflow As ComboBox
     Friend WithEvents Button2 As Button
     Friend WithEvents Button3 As Button
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents masterprocessflow_search As TextBox
+    Friend WithEvents Label2 As Label
 End Class

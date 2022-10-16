@@ -34,4 +34,12 @@
         TabControl1.TabPages(MasterFinishGoods).Select()
 
     End Sub
+
+    Private Sub btnMasterProcessFlow(sender As Object, e As EventArgs) Handles MasterProcessFlowBtn.Click
+
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(MasterProcessFlow)
+        TabControl1.TabPages(MasterProcessFlow).Select()
+
+    End Sub
 End Class

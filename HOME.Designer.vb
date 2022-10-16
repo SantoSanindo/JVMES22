@@ -39,10 +39,12 @@ Partial Class HOME
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcess = New System.Windows.Forms.RibbonPanel()
         Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
-        Me.TabControl1 = New MdiTabControl.TabControl()
-        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.RibMasterFinishGood = New System.Windows.Forms.RibbonPanel()
         Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
+        Me.TabControl1 = New MdiTabControl.TabControl()
+        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
+        Me.RibMasterProcessFlow = New System.Windows.Forms.RibbonPanel()
+        Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -134,6 +136,7 @@ Partial Class HOME
         Me.RibbonTab5.Panels.Add(Me.RibMasterMaterial)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcess)
         Me.RibbonTab5.Panels.Add(Me.RibMasterFinishGood)
+        Me.RibbonTab5.Panels.Add(Me.RibMasterProcessFlow)
         Me.RibbonTab5.Text = "Master Data"
         '
         'RibMasterMaterial
@@ -162,6 +165,19 @@ Partial Class HOME
         Me.MasterProcessBtn.Name = "MasterProcessBtn"
         Me.MasterProcessBtn.SmallImage = CType(resources.GetObject("MasterProcessBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibMasterFinishGood
+        '
+        Me.RibMasterFinishGood.Items.Add(Me.MasterFinishGoodsBtn)
+        Me.RibMasterFinishGood.Name = "RibMasterFinishGood"
+        Me.RibMasterFinishGood.Text = "Master Finish Goods"
+        '
+        'MasterFinishGoodsBtn
+        '
+        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
+        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
+        '
         'TabControl1
         '
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -181,18 +197,18 @@ Partial Class HOME
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
-        'RibMasterFinishGood
+        'RibMasterProcessFlow
         '
-        Me.RibMasterFinishGood.Items.Add(Me.MasterFinishGoodsBtn)
-        Me.RibMasterFinishGood.Name = "RibMasterFinishGood"
-        Me.RibMasterFinishGood.Text = "Master Finish Goods"
+        Me.RibMasterProcessFlow.Items.Add(Me.MasterProcessFlowBtn)
+        Me.RibMasterProcessFlow.Name = "RibMasterProcessFlow"
+        Me.RibMasterProcessFlow.Text = "Master Process Flow"
         '
-        'MasterFinishGoodsBtn
+        'MasterProcessFlowBtn
         '
-        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
-        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
+        Me.MasterProcessFlowBtn.Image = CType(resources.GetObject("MasterProcessFlowBtn.Image"), System.Drawing.Image)
+        Me.MasterProcessFlowBtn.LargeImage = CType(resources.GetObject("MasterProcessFlowBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterProcessFlowBtn.Name = "MasterProcessFlowBtn"
+        Me.MasterProcessFlowBtn.SmallImage = CType(resources.GetObject("MasterProcessFlowBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -231,4 +247,6 @@ Partial Class HOME
     Friend WithEvents MasterProcessBtn As RibbonButton
     Friend WithEvents RibMasterFinishGood As RibbonPanel
     Friend WithEvents MasterFinishGoodsBtn As RibbonButton
+    Friend WithEvents RibMasterProcessFlow As RibbonPanel
+    Friend WithEvents MasterProcessFlowBtn As RibbonButton
 End Class

@@ -42,4 +42,12 @@
         TabControl1.TabPages(MasterProcessFlow).Select()
 
     End Sub
+
+    Private Sub btnProcessFlowMaterialUsage(sender As Object, e As EventArgs) Handles ProcessFlowMaterialUsageBtn.Click
+
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(ProcessFlowMaterialUsage)
+        TabControl1.TabPages(ProcessFlowMaterialUsage).Select()
+
+    End Sub
 End Class

@@ -45,6 +45,8 @@ Partial Class HOME
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcessFlow = New System.Windows.Forms.RibbonPanel()
         Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibProcessFlowMaterialUsage = New System.Windows.Forms.RibbonPanel()
+        Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -137,6 +139,7 @@ Partial Class HOME
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcess)
         Me.RibbonTab5.Panels.Add(Me.RibMasterFinishGood)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcessFlow)
+        Me.RibbonTab5.Panels.Add(Me.RibProcessFlowMaterialUsage)
         Me.RibbonTab5.Text = "Master Data"
         '
         'RibMasterMaterial
@@ -210,6 +213,19 @@ Partial Class HOME
         Me.MasterProcessFlowBtn.Name = "MasterProcessFlowBtn"
         Me.MasterProcessFlowBtn.SmallImage = CType(resources.GetObject("MasterProcessFlowBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibProcessFlowMaterialUsage
+        '
+        Me.RibProcessFlowMaterialUsage.Items.Add(Me.ProcessFlowMaterialUsageBtn)
+        Me.RibProcessFlowMaterialUsage.Name = "RibProcessFlowMaterialUsage"
+        Me.RibProcessFlowMaterialUsage.Text = "Process Flow Material Usage"
+        '
+        'ProcessFlowMaterialUsageBtn
+        '
+        Me.ProcessFlowMaterialUsageBtn.Image = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.Image"), System.Drawing.Image)
+        Me.ProcessFlowMaterialUsageBtn.LargeImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.LargeImage"), System.Drawing.Image)
+        Me.ProcessFlowMaterialUsageBtn.Name = "ProcessFlowMaterialUsageBtn"
+        Me.ProcessFlowMaterialUsageBtn.SmallImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -249,4 +265,6 @@ Partial Class HOME
     Friend WithEvents MasterFinishGoodsBtn As RibbonButton
     Friend WithEvents RibMasterProcessFlow As RibbonPanel
     Friend WithEvents MasterProcessFlowBtn As RibbonButton
+    Friend WithEvents RibProcessFlowMaterialUsage As RibbonPanel
+    Friend WithEvents ProcessFlowMaterialUsageBtn As RibbonButton
 End Class

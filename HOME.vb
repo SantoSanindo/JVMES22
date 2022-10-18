@@ -50,4 +50,12 @@
         TabControl1.TabPages(ProcessFlowMaterialUsage).Select()
 
     End Sub
+
+    Private Sub btnMainPoSubPO(sender As Object, e As EventArgs) Handles MainPOSubPOBtn.Click
+
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(MainPOSubPO)
+        TabControl1.TabPages(MainPOSubPO).Select()
+
+    End Sub
 End Class

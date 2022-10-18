@@ -33,7 +33,7 @@ Partial Class HOME
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
-        Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
+        Me.RibPO = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
         Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
@@ -47,6 +47,7 @@ Partial Class HOME
         Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProcessFlowMaterialUsage = New System.Windows.Forms.RibbonPanel()
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
+        Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -124,13 +125,14 @@ Partial Class HOME
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
-        Me.RibbonTab4.Panels.Add(Me.RibbonPanel3)
+        Me.RibbonTab4.Panels.Add(Me.RibPO)
         Me.RibbonTab4.Text = "Line Process"
         '
-        'RibbonPanel3
+        'RibPO
         '
-        Me.RibbonPanel3.Name = "RibbonPanel3"
-        Me.RibbonPanel3.Text = "RibbonPanel3"
+        Me.RibPO.Items.Add(Me.MainPOSubPOBtn)
+        Me.RibPO.Name = "RibPO"
+        Me.RibPO.Text = "Main PO / Sub PO / Sub-sub PO"
         '
         'RibbonTab5
         '
@@ -226,6 +228,13 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn.Name = "ProcessFlowMaterialUsageBtn"
         Me.ProcessFlowMaterialUsageBtn.SmallImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.SmallImage"), System.Drawing.Image)
         '
+        'MainPOSubPOBtn
+        '
+        Me.MainPOSubPOBtn.Image = CType(resources.GetObject("MainPOSubPOBtn.Image"), System.Drawing.Image)
+        Me.MainPOSubPOBtn.LargeImage = CType(resources.GetObject("MainPOSubPOBtn.LargeImage"), System.Drawing.Image)
+        Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
+        Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -254,7 +263,7 @@ Partial Class HOME
     Friend WithEvents InputStockBtn As RibbonButton
     Friend WithEvents TabControl1 As MdiTabControl.TabControl
     Friend WithEvents buttontest As RibbonPanel
-    Friend WithEvents RibbonPanel3 As RibbonPanel
+    Friend WithEvents RibPO As RibbonPanel
     Friend WithEvents RibbonTab5 As RibbonTab
     Friend WithEvents RibMasterMaterial As RibbonPanel
     Friend WithEvents RibbonButton1 As RibbonButton
@@ -267,4 +276,5 @@ Partial Class HOME
     Friend WithEvents MasterProcessFlowBtn As RibbonButton
     Friend WithEvents RibProcessFlowMaterialUsage As RibbonPanel
     Friend WithEvents ProcessFlowMaterialUsageBtn As RibbonButton
+    Friend WithEvents MainPOSubPOBtn As RibbonButton
 End Class

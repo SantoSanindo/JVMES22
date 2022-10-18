@@ -152,7 +152,7 @@ Partial Class MasterMaterial
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(191, 41)
         Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Save"
+        Me.Button1.Text = "Add"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'dgv_material

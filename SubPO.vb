@@ -49,8 +49,8 @@ Public Class SubPO
 
                             txt_pra_qty_po.Text = curr_qty_sub_po
 
-                            Dim praProdForm = New PraProduction()
-                            praProdForm.DGV_PraProduction()
+                            'Dim praProdForm = New PraProduction()
+                            'praProdForm.DGV_PraProduction()
 
                             qty_sub_po.Text = ""
                             cb_lineproduction.Text = ""
@@ -150,8 +150,8 @@ Public Class SubPO
                             Next
                         End If
 
-                        Dim praProdForm = New PraProduction()
-                        praProdForm.DGV_PraProduction()
+                        'Dim praProdForm = New PraProduction()
+                        'praProdForm.DGV_PraProduction()
 
                         DGV_SubPO()
                         MessageBox.Show("Delete Success.")
@@ -172,8 +172,8 @@ Public Class SubPO
     End Sub
 
     Private Sub SubPO_Closed(sender As Object, e As EventArgs) Handles Me.Closed
-        Dim praProd = New PraProduction()
+        'Dim praProd = New PraProduction()
 
-        praProd.Show()
+        'praProd.Show()
     End Sub
 End Class

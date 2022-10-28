@@ -5,6 +5,12 @@ Public Class FormInputStock
 
     Private Sub FormInputStock_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_forminputstock_qrcode.ReadOnly = True
+        txtmanualPN.ReadOnly = True
+        txtmanualTraceability.ReadOnly = True
+        txtmanualInv.ReadOnly = True
+        txtmanualBatch.ReadOnly = True
+        txtmanualLot.ReadOnly = True
+        txtmanualQty.ReadOnly = True
 
         TreeView1.Nodes.Clear()
         dgv_forminputstock.DataSource = Nothing
@@ -14,6 +20,8 @@ Public Class FormInputStock
         dgv_forminputstock.ReadOnly = False
 
         Button2.Enabled = False
+
+        checkQr.Enabled = False
     End Sub
 
     Private Sub DGV_InputStock(id As String)
@@ -254,8 +262,28 @@ Public Class FormInputStock
             txt_forminputstock_mts_no.Select()
         Else
             txt_forminputstock_mts_no.ReadOnly = True
-            txt_forminputstock_qrcode.ReadOnly = False
-            txt_forminputstock_qrcode.Select()
+            checkQr.Enabled = True
+
+            If checkQr.Checked Then
+                txt_forminputstock_qrcode.ReadOnly = False
+                txt_forminputstock_qrcode.Select()
+
+                txtmanualPN.ReadOnly = True
+                txtmanualTraceability.ReadOnly = True
+                txtmanualInv.ReadOnly = True
+                txtmanualBatch.ReadOnly = True
+                txtmanualLot.ReadOnly = True
+                txtmanualQty.ReadOnly = True
+            Else
+                txtmanualPN.ReadOnly = False
+                txtmanualTraceability.ReadOnly = False
+                txtmanualInv.ReadOnly = False
+                txtmanualBatch.ReadOnly = False
+                txtmanualLot.ReadOnly = False
+                txtmanualQty.ReadOnly = False
+                txtmanualPN.Select()
+                txt_forminputstock_qrcode.ReadOnly = True
+            End If
 
             treeView_show()
 
@@ -278,8 +306,28 @@ Public Class FormInputStock
                 txt_forminputstock_mts_no.Select()
             Else
                 txt_forminputstock_mts_no.ReadOnly = True
-                txt_forminputstock_qrcode.ReadOnly = False
-                txt_forminputstock_qrcode.Select()
+                checkQr.Enabled = True
+
+                If checkQr.Checked Then
+                    txt_forminputstock_qrcode.ReadOnly = False
+                    txt_forminputstock_qrcode.Select()
+
+                    txtmanualPN.ReadOnly = True
+                    txtmanualTraceability.ReadOnly = True
+                    txtmanualInv.ReadOnly = True
+                    txtmanualBatch.ReadOnly = True
+                    txtmanualLot.ReadOnly = True
+                    txtmanualQty.ReadOnly = True
+                Else
+                    txtmanualPN.ReadOnly = False
+                    txtmanualTraceability.ReadOnly = False
+                    txtmanualInv.ReadOnly = False
+                    txtmanualBatch.ReadOnly = False
+                    txtmanualLot.ReadOnly = False
+                    txtmanualQty.ReadOnly = False
+                    txtmanualPN.Select()
+                    txt_forminputstock_qrcode.ReadOnly = True
+                End If
 
                 treeView_show()
 
@@ -320,6 +368,13 @@ Public Class FormInputStock
 
         txt_forminputstock_mts_no.ReadOnly = False
         txt_forminputstock_qrcode.ReadOnly = True
+        txtmanualPN.ReadOnly = True
+        txtmanualTraceability.ReadOnly = True
+        txtmanualInv.ReadOnly = True
+        txtmanualBatch.ReadOnly = True
+        txtmanualLot.ReadOnly = True
+        txtmanualQty.ReadOnly = True
+        checkQr.Enabled = False
 
         txt_forminputstock_mts_no.Text = ""
         txt_forminputstock_qrcode.Text = ""
@@ -327,5 +382,26 @@ Public Class FormInputStock
         Button2.Enabled = False
     End Sub
 
+    Private Sub checkQr_CheckStateChanged(sender As Object, e As EventArgs) Handles checkQr.CheckStateChanged
+        If checkQr.Checked Then
+            txt_forminputstock_qrcode.ReadOnly = False
+            txt_forminputstock_qrcode.Select()
 
+            txtmanualPN.ReadOnly = True
+            txtmanualTraceability.ReadOnly = True
+            txtmanualInv.ReadOnly = True
+            txtmanualBatch.ReadOnly = True
+            txtmanualLot.ReadOnly = True
+            txtmanualQty.ReadOnly = True
+        Else
+            txtmanualPN.ReadOnly = False
+            txtmanualTraceability.ReadOnly = False
+            txtmanualInv.ReadOnly = False
+            txtmanualBatch.ReadOnly = False
+            txtmanualLot.ReadOnly = False
+            txtmanualQty.ReadOnly = False
+            txtmanualPN.Select()
+            txt_forminputstock_qrcode.ReadOnly = True
+        End If
+    End Sub
 End Class

@@ -27,14 +27,6 @@
 
     End Sub
 
-    Private Sub btnMasterFinishGoods(sender As Object, e As EventArgs) Handles MasterFinishGoodsBtn.Click
-
-        TabControl1.TabPages.Clear()
-        TabControl1.TabPages.Add(MasterFinishGoods)
-        TabControl1.TabPages(MasterFinishGoods).Select()
-
-    End Sub
-
     Private Sub btnMasterProcessFlow(sender As Object, e As EventArgs) Handles MasterProcessFlowBtn.Click
 
         TabControl1.TabPages.Clear()
@@ -56,6 +48,26 @@
         TabControl1.TabPages.Clear()
         TabControl1.TabPages.Add(MainPOSubPO)
         TabControl1.TabPages(MainPOSubPO).Select()
+
+    End Sub
+
+    Private Sub btnProductionRequest(sender As Object, e As EventArgs) Handles ProductionRequestBtn.Click
+
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(ProductionRequest)
+        TabControl1.TabPages(ProductionRequest).Select()
+
+    End Sub
+
+    Private Sub btnMaterialUsageFinishGoods(sender As Object, e As EventArgs) Handles MaterialUsageFinishGoodsBtn.Click
+
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(MasterFinishGoods)
+        TabControl1.TabPages(MasterFinishGoods).Select()
+
+    End Sub
+
+    Private Sub btnMasterFinishGoods(sender As Object, e As EventArgs) Handles MasterFinishGoodsBtn.Click
 
     End Sub
 End Class

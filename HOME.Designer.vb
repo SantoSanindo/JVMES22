@@ -32,22 +32,26 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
+        Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.RibPO = New System.Windows.Forms.RibbonPanel()
+        Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
         Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcess = New System.Windows.Forms.RibbonPanel()
         Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibMasterFinishGood = New System.Windows.Forms.RibbonPanel()
-        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
-        Me.TabControl1 = New MdiTabControl.TabControl()
-        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
+        Me.RibMaterialUsageFinishGoods = New System.Windows.Forms.RibbonPanel()
+        Me.MaterialUsageFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcessFlow = New System.Windows.Forms.RibbonPanel()
         Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProcessFlowMaterialUsage = New System.Windows.Forms.RibbonPanel()
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
-        Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
+        Me.TabControl1 = New MdiTabControl.TabControl()
+        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
+        Me.RibMasterFinishGoods = New System.Windows.Forms.RibbonPanel()
+        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -106,6 +110,7 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
+        Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -122,6 +127,19 @@ Partial Class HOME
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibProductionRequest
+        '
+        Me.RibProductionRequest.Items.Add(Me.ProductionRequestBtn)
+        Me.RibProductionRequest.Name = "RibProductionRequest"
+        Me.RibProductionRequest.Text = "Production Request"
+        '
+        'ProductionRequestBtn
+        '
+        Me.ProductionRequestBtn.Image = CType(resources.GetObject("ProductionRequestBtn.Image"), System.Drawing.Image)
+        Me.ProductionRequestBtn.LargeImage = CType(resources.GetObject("ProductionRequestBtn.LargeImage"), System.Drawing.Image)
+        Me.ProductionRequestBtn.Name = "ProductionRequestBtn"
+        Me.ProductionRequestBtn.SmallImage = CType(resources.GetObject("ProductionRequestBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
@@ -134,12 +152,20 @@ Partial Class HOME
         Me.RibPO.Name = "RibPO"
         Me.RibPO.Text = "Main PO / Sub PO / Sub-sub PO"
         '
+        'MainPOSubPOBtn
+        '
+        Me.MainPOSubPOBtn.Image = CType(resources.GetObject("MainPOSubPOBtn.Image"), System.Drawing.Image)
+        Me.MainPOSubPOBtn.LargeImage = CType(resources.GetObject("MainPOSubPOBtn.LargeImage"), System.Drawing.Image)
+        Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
+        Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonTab5
         '
         Me.RibbonTab5.Name = "RibbonTab5"
         Me.RibbonTab5.Panels.Add(Me.RibMasterMaterial)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcess)
-        Me.RibbonTab5.Panels.Add(Me.RibMasterFinishGood)
+        Me.RibbonTab5.Panels.Add(Me.RibMasterFinishGoods)
+        Me.RibbonTab5.Panels.Add(Me.RibMaterialUsageFinishGoods)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcessFlow)
         Me.RibbonTab5.Panels.Add(Me.RibProcessFlowMaterialUsage)
         Me.RibbonTab5.Text = "Master Data"
@@ -170,37 +196,18 @@ Partial Class HOME
         Me.MasterProcessBtn.Name = "MasterProcessBtn"
         Me.MasterProcessBtn.SmallImage = CType(resources.GetObject("MasterProcessBtn.SmallImage"), System.Drawing.Image)
         '
-        'RibMasterFinishGood
+        'RibMaterialUsageFinishGoods
         '
-        Me.RibMasterFinishGood.Items.Add(Me.MasterFinishGoodsBtn)
-        Me.RibMasterFinishGood.Name = "RibMasterFinishGood"
-        Me.RibMasterFinishGood.Text = "Master Finish Goods"
+        Me.RibMaterialUsageFinishGoods.Items.Add(Me.MaterialUsageFinishGoodsBtn)
+        Me.RibMaterialUsageFinishGoods.Name = "RibMaterialUsageFinishGoods"
+        Me.RibMaterialUsageFinishGoods.Text = "Material Usage Finish Goods"
         '
-        'MasterFinishGoodsBtn
+        'MaterialUsageFinishGoodsBtn
         '
-        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
-        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 137)
-        Me.TabControl1.MenuRenderer = Nothing
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(962, 415)
-        Me.TabControl1.TabCloseButtonImage = Nothing
-        Me.TabControl1.TabCloseButtonImageDisabled = Nothing
-        Me.TabControl1.TabCloseButtonImageHot = Nothing
-        Me.TabControl1.TabIndex = 1
-        '
-        'RibbonButton1
-        '
-        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
-        Me.RibbonButton1.LargeImage = CType(resources.GetObject("RibbonButton1.LargeImage"), System.Drawing.Image)
-        Me.RibbonButton1.Name = "RibbonButton1"
-        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
+        Me.MaterialUsageFinishGoodsBtn.Image = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MaterialUsageFinishGoodsBtn.LargeImage = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MaterialUsageFinishGoodsBtn.Name = "MaterialUsageFinishGoodsBtn"
+        Me.MaterialUsageFinishGoodsBtn.SmallImage = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.SmallImage"), System.Drawing.Image)
         '
         'RibMasterProcessFlow
         '
@@ -228,12 +235,37 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn.Name = "ProcessFlowMaterialUsageBtn"
         Me.ProcessFlowMaterialUsageBtn.SmallImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.SmallImage"), System.Drawing.Image)
         '
-        'MainPOSubPOBtn
+        'TabControl1
         '
-        Me.MainPOSubPOBtn.Image = CType(resources.GetObject("MainPOSubPOBtn.Image"), System.Drawing.Image)
-        Me.MainPOSubPOBtn.LargeImage = CType(resources.GetObject("MainPOSubPOBtn.LargeImage"), System.Drawing.Image)
-        Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
-        Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(0, 137)
+        Me.TabControl1.MenuRenderer = Nothing
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.Size = New System.Drawing.Size(962, 415)
+        Me.TabControl1.TabCloseButtonImage = Nothing
+        Me.TabControl1.TabCloseButtonImageDisabled = Nothing
+        Me.TabControl1.TabCloseButtonImageHot = Nothing
+        Me.TabControl1.TabIndex = 1
+        '
+        'RibbonButton1
+        '
+        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
+        Me.RibbonButton1.LargeImage = CType(resources.GetObject("RibbonButton1.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton1.Name = "RibbonButton1"
+        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
+        '
+        'RibMasterFinishGoods
+        '
+        Me.RibMasterFinishGoods.Items.Add(Me.MasterFinishGoodsBtn)
+        Me.RibMasterFinishGoods.Name = "RibMasterFinishGoods"
+        Me.RibMasterFinishGoods.Text = "Master Finish Goods"
+        '
+        'MasterFinishGoodsBtn
+        '
+        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
+        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -270,11 +302,15 @@ Partial Class HOME
     Friend WithEvents MasterMaterialBtn As RibbonButton
     Friend WithEvents RibMasterProcess As RibbonPanel
     Friend WithEvents MasterProcessBtn As RibbonButton
-    Friend WithEvents RibMasterFinishGood As RibbonPanel
-    Friend WithEvents MasterFinishGoodsBtn As RibbonButton
+    Friend WithEvents RibMaterialUsageFinishGoods As RibbonPanel
+    Friend WithEvents MaterialUsageFinishGoodsBtn As RibbonButton
     Friend WithEvents RibMasterProcessFlow As RibbonPanel
     Friend WithEvents MasterProcessFlowBtn As RibbonButton
     Friend WithEvents RibProcessFlowMaterialUsage As RibbonPanel
     Friend WithEvents ProcessFlowMaterialUsageBtn As RibbonButton
     Friend WithEvents MainPOSubPOBtn As RibbonButton
+    Friend WithEvents RibProductionRequest As RibbonPanel
+    Friend WithEvents ProductionRequestBtn As RibbonButton
+    Friend WithEvents RibMasterFinishGoods As RibbonPanel
+    Friend WithEvents MasterFinishGoodsBtn As RibbonButton
 End Class

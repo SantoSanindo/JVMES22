@@ -166,7 +166,6 @@ C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterMateri
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Resources.resources
-C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.SubPO.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.frmTesting.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
@@ -176,3 +175,4 @@ C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
+C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources

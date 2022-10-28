@@ -83,7 +83,7 @@ Partial Class ProcessFlowMaterialUsage
         Me.ClientSize = New System.Drawing.Size(1428, 620)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "ProcessFlowMaterialUsage"
-        Me.Text = "ProcessFlowMaterialUsage"
+        Me.Text = "Process Flow Material Usage"
         Me.GroupBox1.ResumeLayout(False)
         Me.ResumeLayout(False)
 

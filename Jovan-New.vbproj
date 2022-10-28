@@ -184,16 +184,16 @@
     <Compile Include="ProcessFlowMaterialUsage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SubPO.Designer.vb">
-      <DependentUpon>SubPO.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SubPO.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmTesting.Designer.vb">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </Compile>
     <Compile Include="frmTesting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductionRequest.Designer.vb">
+      <DependentUpon>ProductionRequest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProductionRequest.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -240,11 +240,11 @@
     <EmbeddedResource Include="ProcessFlowMaterialUsage.resx">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SubPO.resx">
-      <DependentUpon>SubPO.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductionRequest.resx">
+      <DependentUpon>ProductionRequest.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

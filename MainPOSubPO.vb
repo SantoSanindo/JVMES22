@@ -25,6 +25,7 @@ Public Class MainPOSubPO
             Dim dtMainPO As DataTable = Database.GetData(sql)
 
             If dtMainPO.Rows.Count > 0 Then
+                TextBox5.Text = dtMainPO.Rows.Count
                 DGV_MainPO_Spesific()
             Else
                 MessageBox.Show("PO & FG Part Number doesn't exist")
@@ -181,14 +182,13 @@ Public Class MainPOSubPO
             'ComboBox2.Text = ""
         Else
             Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty)
-                                    VALUES ('" & TextBox1.Text & "','" & sub_po & "'," & TextBox3.Text & ",'" & ComboBox1.Text & "','" & ComboBox2.Text & "',0,0)"
+                                    VALUES ('" & TextBox1.Text & "','" & sub_po & "'," & TextBox3.Text & ",'" & ComboBox1.Text & "','Open',0,0)"
             Dim cmdInsertMainPOSubPO = New SqlCommand(sqlInsertMainPOSubPO, Database.koneksi)
             If cmdInsertMainPOSubPO.ExecuteNonQuery() Then
                 DGV_MainPO_Spesific()
                 TextBox1.Text = ""
                 TextBox3.Text = ""
                 ComboBox1.Text = ""
-                ComboBox2.Text = ""
             End If
         End If
     End Sub
@@ -244,6 +244,7 @@ Public Class MainPOSubPO
             Dim dtMainPO As DataTable = Database.GetData(sql)
 
             If dtMainPO.Rows.Count > 0 Then
+                TextBox5.Text = dtMainPO.Rows.Count
                 DGV_MainPO_JustPO()
             Else
                 MessageBox.Show("PO & FG Part Number doesn't exist")
@@ -279,36 +280,56 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim sql As String = "select count(*) from sub_sub_po where main_po=" & TextBox12.Text
+
+        If Convert.ToInt32(TextBox10.Text) > Convert.ToInt32(TextBox4.Text) Then
+            MessageBox.Show("Sorry Plan Qty Sub Sub PO more than Qty Sub PO")
+            TextBox10.Text = ""
+            Exit Sub
+        End If
+
+        Dim sql As String = "select * from sub_sub_po where main_po=" & TextBox12.Text
         Dim dtSubSubPOCount As DataTable = Database.GetData(sql)
-        Dim sub_sub_po = TextBox2.Text & dtSubSubPOCount.Rows(0).Item(0) + 1
+        Dim sub_sub_po = TextBox2.Text & dtSubSubPOCount.Rows.Count + 1
 
-        Dim sqlCheck As String = "select * from sub_sub_po where main_po=" & TextBox12.Text & " and sub_sub_po='" & sub_sub_po & "'"
-        Dim dtMainPOCheck As DataTable = Database.GetData(sqlCheck)
+        If dtSubSubPOCount.Rows.Count > 0 Then
 
-        Dim sqlSum As String = "select sum(sub_sub_po_qty) from sub_sub_po where main_po=" & TextBox12.Text
-        Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
+            Dim sqlCheck As String = "select * from sub_sub_po where main_po=" & TextBox12.Text & " and line='" & ComboBox3.Text & "' and status='Open'"
+            Dim dtMainPOCheck As DataTable = Database.GetData(sqlCheck)
 
-        If dtMainPOCheck.Rows.Count > 0 Then
-            MessageBox.Show("Sub Sub PO already in DB")
-            DGV_SubSubPO()
-        Else
-            If dtSubSubPOSum.Rows(0).Item(0) >= dtSubSubPOSum.Rows(0).Item(0) + Convert.ToInt32(TextBox10.Text) Then
-                Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
-                                    VALUES (" & TextBox12.Text & ",'" & sub_sub_po & "'," & TextBox10.Text & ",'" & ComboBox3.Text & "','" & ComboBox4.Text & "',0)"
+            If dtMainPOCheck.Rows.Count > 0 Then
+                MessageBox.Show("PO & Line already exists in DB and status still Open")
+            Else
+                DGV_SubSubPO()
 
-                Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
-                If cmdInsertSubPO.ExecuteNonQuery() Then
-                    DGV_SubSubPO()
+                Dim sqlSum As String = "select sum(sub_sub_po_qty) from sub_sub_po where main_po=" & TextBox12.Text
+                Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
+
+                If Convert.ToInt32(TextBox4.Text) >= Convert.ToInt32(dtSubSubPOSum.Rows(0).Item(0)) + Convert.ToInt32(TextBox10.Text) Then
+                    Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
+                                    VALUES (" & TextBox12.Text & ",'" & sub_sub_po & "'," & TextBox10.Text & ",'" & ComboBox3.Text & "','Open',0)"
+
+                    Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
+                    If cmdInsertSubPO.ExecuteNonQuery() Then
+                        DGV_SubSubPO()
+                        TextBox10.Text = ""
+                        ComboBox3.Text = ""
+                    End If
+                Else
+                    MessageBox.Show("All Sub Sub PO Qty more then Sub Qty")
                     TextBox10.Text = ""
                     ComboBox3.Text = ""
-                    ComboBox4.Text = ""
                 End If
-            Else
-                MessageBox.Show("All Sub Sub PO Qty more then Sub Qty")
+            End If
+        Else
+
+            Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
+                                    VALUES (" & TextBox12.Text & ",'" & sub_sub_po & "'," & TextBox10.Text & ",'" & ComboBox3.Text & "','Open',0)"
+
+            Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
+            If cmdInsertSubPO.ExecuteNonQuery() Then
+                DGV_SubSubPO()
                 TextBox10.Text = ""
                 ComboBox3.Text = ""
-                ComboBox4.Text = ""
             End If
         End If
     End Sub
@@ -345,6 +366,10 @@ Public Class MainPOSubPO
                 DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+
+        Dim sqlSum As String = "select sum(sub_sub_po_qty) from sub_sub_po where main_po=" & TextBox12.Text
+        Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
+        TextBox11.Text = dtSubSubPOSum.Rows(0).Item(0).ToString
     End Sub
 
     Private Sub DataGridView2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView2.DataBindingComplete
@@ -404,5 +429,12 @@ Public Class MainPOSubPO
                 MessageBox.Show("Failed" & ex.Message)
             End Try
         End If
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        TextBox1.Text = ""
+        TextBox3.Text = ""
+        TextBox5.Text = ""
+        DGV_MainPO_All()
     End Sub
 End Class

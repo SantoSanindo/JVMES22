@@ -38,7 +38,7 @@ Public Class MainForm
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs)
-        Dim masterfinishgoods = New MasterFinishGoods()
+        Dim masterfinishgoods = New MaterialUsageFinishGoods()
         masterfinishgoods.Show()
     End Sub
 
@@ -745,7 +745,7 @@ Err_Handler:
             mastermaterial.ShowDialog()
             CbIdxChanged()
         ElseIf (cbPilDataMaster.Text = "Master Finish Goods") Then
-            Dim masterfinishgoods = New MasterFinishGoods()
+            Dim masterfinishgoods = New MaterialUsageFinishGoods()
             'masterfinishgoods.Show()
             masterfinishgoods.ShowDialog()
             CbIdxChanged()

@@ -62,12 +62,16 @@
     Private Sub btnMaterialUsageFinishGoods(sender As Object, e As EventArgs) Handles MaterialUsageFinishGoodsBtn.Click
 
         TabControl1.TabPages.Clear()
-        TabControl1.TabPages.Add(MasterFinishGoods)
-        TabControl1.TabPages(MasterFinishGoods).Select()
+        TabControl1.TabPages.Add(MaterialUsageFinishGoods)
+        TabControl1.TabPages(MaterialUsageFinishGoods).Select()
 
     End Sub
 
     Private Sub btnMasterFinishGoods(sender As Object, e As EventArgs) Handles MasterFinishGoodsBtn.Click
+
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(MasterFinishGoods)
+        TabControl1.TabPages(MasterFinishGoods).Select()
 
     End Sub
 End Class

@@ -161,7 +161,6 @@ C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormReject.r
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.HOME.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainForm.resources
-C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
@@ -176,3 +175,5 @@ C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
+C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources

@@ -144,6 +144,12 @@
     <Compile Include="MasterFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MaterialUsageFinishGoods.Designer.vb">
+      <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialUsageFinishGoods.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MasterMaterial.Designer.vb">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </Compile>
@@ -221,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MasterFinishGoods.resx">
       <DependentUpon>MasterFinishGoods.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialUsageFinishGoods.resx">
+      <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MasterMaterial.resx">
       <DependentUpon>MasterMaterial.vb</DependentUpon>

@@ -46,7 +46,7 @@ Public Class ProcessFlowMaterialUsage
             Dim position = InStr(e.Node.Parent.Text.ToString, ":")
 
             If position > 0 Then
-                Dim queryMaterial As String = "SELECT * FROM master_finish_goods where fg_part_number='" & resultSplit(1).Trim & "' order by component"
+                Dim queryMaterial As String = "SELECT * FROM material_usage_finish_goods where fg_part_number='" & resultSplit(1).Trim & "' order by component"
                 Dim dtMaterial As DataTable = Database.GetData(queryMaterial)
 
                 If dtMaterial.Rows.Count > 0 Then

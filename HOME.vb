@@ -74,4 +74,10 @@
         TabControl1.TabPages(MasterFinishGoods).Select()
 
     End Sub
+
+    Private Sub BtnStockMinistore(sender As Object, e As EventArgs) Handles StockMinistoreBtn.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(StockMinistore)
+        TabControl1.TabPages(StockMinistore).Select()
+    End Sub
 End Class

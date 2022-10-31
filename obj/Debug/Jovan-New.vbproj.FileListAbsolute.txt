@@ -177,3 +177,4 @@ C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources

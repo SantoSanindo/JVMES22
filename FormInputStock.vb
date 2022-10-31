@@ -33,11 +33,11 @@ Public Class FormInputStock
         dgv_forminputstock.Rows.Clear()
         dgv_forminputstock.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryInputStockDetail As String = "SELECT ID,PART_NUMBER,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY FROM input_stock_detail WHERE fk_input_stock=" & id
+        Dim queryInputStockDetail As String = "SELECT ID,PART_NUMBER,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY FROM IN_MINISTORE WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " and part_number=" & id
         Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
         dgv_forminputstock.DataSource = dtInputStockDetail
 
-        Dim queryCheckLock As String = "SELECT TOP 1 * FROM INPUT_STOCK ISS, INPUT_STOCK_DETAIL ISD WHERE ISS.ID = ISD.FK_INPUT_STOCK AND ISS.MTS_NO = " & txt_forminputstock_mts_no.Text
+        Dim queryCheckLock As String = "SELECT TOP 1 * FROM IN_MINISTORE WHERE MTS_NO = " & txt_forminputstock_mts_no.Text
         Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
         If dtCheckLock.Rows.Count > 0 Then
@@ -85,65 +85,30 @@ Public Class FormInputStock
             Dim splitQRCode() As String = txt_forminputstock_qrcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
             Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
 
-
-            Dim sql As String = "SELECT * FROM MASTER_MATERIAL where [PART_NUMBER]='" & splitQRCode1P(0) & "'"
+            Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & splitQRCode1P(0) & "'"
             adapter = New SqlDataAdapter(sql, Database.koneksi)
             adapter.Fill(ds)
 
             If ds.Tables(0).Rows.Count > 0 Then
 
-                Dim queryCheckInputStock As String = "SELECT * FROM input_stock where mts_no=" & txt_forminputstock_mts_no.Text & " AND part_number=" & splitQRCode1P(0)
-                Dim dtCheckInputStock As DataTable = Database.GetData(queryCheckInputStock)
+                Dim queryCheckInputStockDetail As String = "SELECT * FROM IN_MINISTORE where lot_no=" & splitQRCode1P(3) & " AND part_number=" & splitQRCode1P(0) & " and mts_no=" & txt_forminputstock_mts_no.Text
+                Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
-                If dtCheckInputStock.Rows.Count > 0 Then
-                    Dim queryCheckInputStockDetail As String = "SELECT * FROM input_stock_detail isd, input_stock iss where isd.lot_no=" & splitQRCode1P(3) & " AND isd.part_number=" & splitQRCode1P(0) & " and iss.id=isd.fk_input_stock and iss.mts_no=" & txt_forminputstock_mts_no.Text
-                    Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+                If dtCheckInputStockDetail.Rows.Count > 0 Then
+                    MessageBox.Show("This QRCode Already Scan")
 
-                    If dtCheckInputStockDetail.Rows.Count > 0 Then
-                        MessageBox.Show("This QRCode Already Scan")
+                    txt_forminputstock_qrcode.Text = ""
+                    txt_forminputstock_qrcode.Select()
 
-                        txt_forminputstock_qrcode.Text = ""
-                        txt_forminputstock_qrcode.Select()
+                    dgv_forminputstock.DataSource = Nothing
+                    dgv_forminputstock.Rows.Clear()
+                    dgv_forminputstock.Columns.Clear()
 
-                        dgv_forminputstock.DataSource = Nothing
-                        dgv_forminputstock.Rows.Clear()
-                        dgv_forminputstock.Columns.Clear()
-
-                        treeView_show()
-                    Else
-                        Try
-                            Dim sqlUpdateInputStock As String = "UPDATE INPUT_STOCK SET qty=qty+" & splitQRCode1P(1) & " WHERE mts_no=" & txt_forminputstock_mts_no.Text & " AND part_number=" & splitQRCode1P(0)
-                            Dim cmd = New SqlCommand(sqlUpdateInputStock, Database.koneksi)
-                            If cmd.ExecuteNonQuery() Then
-
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO INPUT_STOCK_DETAIL (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, COUNTRY, QRCODE, FK_INPUT_STOCK)
-                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & splitQRCode(3).Trim() & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & dtCheckInputStock.Rows(0).Item(6) & ")"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                    txt_forminputstock_qrcode.Text = ""
-                                    txt_forminputstock_qrcode.Select()
-
-                                    dgv_forminputstock.DataSource = Nothing
-                                    dgv_forminputstock.Rows.Clear()
-                                    dgv_forminputstock.Columns.Clear()
-
-                                    treeView_show()
-                                End If
-                            End If
-                        Catch ex As Exception
-                            MessageBox.Show("Error Insert" & ex.Message)
-                        End Try
-                    End If
+                    treeView_show()
                 Else
                     Try
-                        Dim sqlInsertInputStock As String = "INSERT INTO INPUT_STOCK (MTS_NO, PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, BATCH_NO)
-                            VALUES (" & txt_forminputstock_mts_no.Text & "," & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & ",'" & splitQRCode1P(4) & "');Select @@Identity"
-                        Dim cmdInsertInputStock = New SqlCommand(sqlInsertInputStock, Database.koneksi)
-
-                        Dim newID As Integer = cmdInsertInputStock.ExecuteScalar()
-
-                        Dim sqlInsertInputStockDetail As String = "INSERT INTO INPUT_STOCK_DETAIL (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, COUNTRY, QRCODE, FK_INPUT_STOCK)
-                            VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & splitQRCode(3).Trim() & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & newID & ")"
+                        Dim sqlInsertInputStockDetail As String = "INSERT INTO IN_MINISTORE (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, COUNTRY, QRCODE, MTS_NO)
+                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & splitQRCode(3).Trim() & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ")"
                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                             txt_forminputstock_qrcode.Text = ""
@@ -171,13 +136,9 @@ Public Class FormInputStock
         Call Database.koneksi_database()
         If dgv_forminputstock.CurrentCell.ColumnIndex = 6 Then
             Try
-                Dim Sql As String = "update INPUT_STOCK_DETAIL set QTY=" & dgv_forminputstock.Rows(e.RowIndex).Cells("QTY").Value & " where ID=" & dgv_forminputstock.Rows(e.RowIndex).Cells("ID").Value
+                Dim Sql As String = "update IN_MINISTORE set QTY=" & dgv_forminputstock.Rows(e.RowIndex).Cells("QTY").Value & " where ID=" & dgv_forminputstock.Rows(e.RowIndex).Cells("ID").Value
                 Dim cmd = New SqlCommand(Sql, Database.koneksi)
                 cmd.ExecuteNonQuery()
-
-                Dim SqlUpdateStock As String = "update INPUT_STOCK set QTY=(SELECT SUM(QTY) QTY FROM INPUT_STOCK_DETAIL WHERE FK_INPUT_STOCK = " & TreeView1.SelectedNode.Name & ") where ID=" & TreeView1.SelectedNode.Name
-                Dim cmdUpdateStock = New SqlCommand(SqlUpdateStock, Database.koneksi)
-                cmdUpdateStock.ExecuteNonQuery()
 
                 DGV_InputStock(TreeView1.SelectedNode.Name)
                 treeView_show()
@@ -195,16 +156,33 @@ Public Class FormInputStock
         If dgv_forminputstock.Rows.Count > 0 Then
             If result = DialogResult.Yes Then
                 Try
-                    Dim Sql As String = "UPDATE ISD SET ISD.LOCK=1, ISD.DATETIME_LOCK=GETDATE() FROM INPUT_STOCK_DETAIL ISD, INPUT_STOCK ISS WHERE ISD.FK_INPUT_STOCK=ISS.ID AND ISS.MTS_NO=" & txt_forminputstock_mts_no.Text
+                    Dim Sql As String = "UPDATE IN_MINISTORE SET LOCK=1, DATETIME_LOCK=GETDATE() FROM IN_MINISTORE WHERE MTS_NO=" & txt_forminputstock_mts_no.Text
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
                     If (cmd.ExecuteNonQuery() > 0) Then
-                        txt_forminputstock_mts_no.Text = ""
-                        txt_forminputstock_mts_no.ReadOnly = False
-                        txt_forminputstock_mts_no.Select()
 
-                        txt_forminputstock_qrcode.Text = ""
+                        Dim queryCheckinMiniStore As String = "select * from IN_MINISTORE where MTS_NO=" & txt_forminputstock_mts_no.Text
+                        Dim dtCheckinMiniStore As DataTable = Database.GetData(queryCheckinMiniStore)
+
+                        For i = 0 To dtCheckinMiniStore.Rows.Count - 1
+                            Dim queryCheckStockMiniStore As String = "select * from STOCK_MINISTORE where PART_NUMBER=" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER").ToString & " AND LOT_NO=" & dtCheckinMiniStore.Rows(i).Item("LOT_NO").ToString
+                            Dim dtCheckStockMiniStore As DataTable = Database.GetData(queryCheckStockMiniStore)
+                            If dtCheckStockMiniStore.Rows.Count > 0 Then
+                                Dim sqlInsertStockMinistore As String = "UPDATE STOCK_MINISTORE SET QTY=QTY+" & dtCheckinMiniStore.Rows(i).Item("QTY") & " FROM STOCK_MINISTORE WHERE PART_NUMBER='" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER").ToString & "' AND LOT_NO='" & dtCheckinMiniStore.Rows(i).Item("LOT_NO").ToString & "'"
+                                Dim cmdInsertStockMinistore = New SqlCommand(sqlInsertStockMinistore, Database.koneksi)
+                                cmdInsertStockMinistore.ExecuteNonQuery()
+                            Else
+                                Dim sqlInsertStockMinistore As String = "INSERT INTO STOCK_MINISTORE(PART_NUMBER,QTY,TRACEABILITY,LOT_NO,INV_CTRL_DATE,BATCH_NO) 
+VALUES ('" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER") & "'," & dtCheckinMiniStore.Rows(i).Item("QTY") & ",'" & dtCheckinMiniStore.Rows(i).Item("TRACEABILITY") & "','" & dtCheckinMiniStore.Rows(i).Item("LOT_NO") & "','" & dtCheckinMiniStore.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckinMiniStore.Rows(i).Item("BATCH_NO") & "')"
+                                Dim cmdInsertStockMinistore = New SqlCommand(sqlInsertStockMinistore, Database.koneksi)
+                                cmdInsertStockMinistore.ExecuteNonQuery()
+                            End If
+                        Next
+
+                        dgv_forminputstock.DataSource = Nothing
+                        treeView_show()
                         txt_forminputstock_qrcode.ReadOnly = True
-
+                        checkQr.Enabled = False
+                        Button2.Enabled = False
                         dgv_forminputstock.ReadOnly = True
 
                         MessageBox.Show("Success Lock")
@@ -221,20 +199,14 @@ Public Class FormInputStock
     Private Sub dgv_forminputstock_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_forminputstock.CellClick
         If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
             Dim result = MessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from input_stock_detail where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells(0).Value
+                    Dim sql As String = "delete from IN_MINISTORE where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells(0).Value
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
-                        DGV_InputStock(TreeView1.SelectedNode.Name)
-                        MessageBox.Show("Success delete.")
-
-                        Dim SqlUpdateStock As String = "update INPUT_STOCK set QTY=(SELECT SUM(QTY) QTY FROM INPUT_STOCK_DETAIL WHERE FK_INPUT_STOCK = " & TreeView1.SelectedNode.Name & ") where ID=" & TreeView1.SelectedNode.Name
-                        Dim cmdUpdateStock = New SqlCommand(SqlUpdateStock, Database.koneksi)
-                        cmdUpdateStock.ExecuteNonQuery()
-
+                        DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
                         treeView_show()
+                        MessageBox.Show("Success delete.")
                     End If
                 Catch ex As Exception
                     MessageBox.Show("failed" & ex.Message)
@@ -245,13 +217,13 @@ Public Class FormInputStock
 
     Private Sub treeView_show()
         TreeView1.Nodes.Clear()
-        Dim queryInputStock As String = "SELECT * FROM input_stock WHERE mts_no=" & txt_forminputstock_mts_no.Text
+        Dim queryInputStock As String = "SELECT DISTINCT(PART_NUMBER),SUM(QTY) QTY FROM IN_MINISTORE WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " GROUP BY PART_NUMBER"
         Dim dtInputStock As DataTable = Database.GetData(queryInputStock)
 
         TreeView1.Nodes.Add("MTS No : " & txt_forminputstock_mts_no.Text)
 
         For i = 0 To dtInputStock.Rows.Count - 1
-            TreeView1.Nodes(0).Nodes.Add(dtInputStock.Rows(i).Item("ID").ToString, "PN : " & dtInputStock.Rows(i).Item("part_number").ToString & " - Qty : " & dtInputStock.Rows(i).Item("qty").ToString)
+            TreeView1.Nodes(0).Nodes.Add(dtInputStock.Rows(i).Item("PART_NUMBER").ToString, "PN : " & dtInputStock.Rows(i).Item("PART_NUMBER").ToString & " - Qty : " & dtInputStock.Rows(i).Item("QTY").ToString)
         Next
         TreeView1.ExpandAll()
     End Sub
@@ -287,12 +259,17 @@ Public Class FormInputStock
 
             treeView_show()
 
-            Dim queryCheckLock As String = "SELECT TOP 1 * FROM INPUT_STOCK ISS, INPUT_STOCK_DETAIL ISD WHERE ISS.ID = ISD.FK_INPUT_STOCK AND ISS.MTS_NO = " & txt_forminputstock_mts_no.Text
+            Dim queryCheckLock As String = "SELECT TOP 1 * FROM IN_MINISTORE WHERE MTS_NO = " & txt_forminputstock_mts_no.Text
             Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
             If dtCheckLock.Rows.Count > 0 Then
                 If dtCheckLock.Rows(0).Item("LOCK") = 0 Then
                     Button2.Enabled = True
+                Else
+                    txt_forminputstock_qrcode.ReadOnly = True
+                    checkQr.Enabled = False
+                    Button2.Enabled = False
+                    dgv_forminputstock.ReadOnly = True
                 End If
             End If
 
@@ -331,12 +308,17 @@ Public Class FormInputStock
 
                 treeView_show()
 
-                Dim queryCheckLock As String = "SELECT TOP 1 * FROM INPUT_STOCK ISS, INPUT_STOCK_DETAIL ISD WHERE ISS.ID = ISD.FK_INPUT_STOCK AND ISS.MTS_NO = " & txt_forminputstock_mts_no.Text
+                Dim queryCheckLock As String = "SELECT TOP 1 * FROM IN_MINISTORE WHERE MTS_NO = " & txt_forminputstock_mts_no.Text
                 Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
                 If dtCheckLock.Rows.Count > 0 Then
                     If dtCheckLock.Rows(0).Item("LOCK") = 0 Then
                         Button2.Enabled = True
+                    Else
+                        txt_forminputstock_qrcode.ReadOnly = True
+                        checkQr.Enabled = False
+                        Button2.Enabled = False
+                        dgv_forminputstock.ReadOnly = True
                     End If
                 End If
             End If
@@ -402,6 +384,71 @@ Public Class FormInputStock
             txtmanualQty.ReadOnly = False
             txtmanualPN.Select()
             txt_forminputstock_qrcode.ReadOnly = True
+        End If
+    End Sub
+
+    Private Sub txtmanualQty_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtmanualQty.PreviewKeyDown
+
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+            If txtmanualBatch.Text <> "" And txtmanualInv.Text <> "" And txtmanualLot.Text <> "" And txtmanualPN.Text <> "" And txtmanualQty.Text <> "" And txtmanualTraceability.Text <> "" Then
+                Dim adapter As SqlDataAdapter
+                Dim ds As New DataSet
+
+                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtmanualPN.Text & "'"
+                adapter = New SqlDataAdapter(sql, Database.koneksi)
+                adapter.Fill(ds)
+
+                If ds.Tables(0).Rows.Count > 0 Then
+
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM IN_MINISTORE where lot_no=" & txtmanualLot.Text & " AND part_number=" & txtmanualPN.Text & " and mts_no=" & txt_forminputstock_mts_no.Text
+                    Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+
+                    If dtCheckInputStockDetail.Rows.Count > 0 Then
+                        MessageBox.Show("Part Number & Lot No already in DB")
+
+                        txtmanualBatch.Text = ""
+                        txtmanualInv.Text = ""
+                        txtmanualLot.Text = ""
+                        txtmanualPN.Text = ""
+                        txtmanualQty.Text = ""
+                        txtmanualTraceability.Text = ""
+                        txtmanualPN.Select()
+
+                        dgv_forminputstock.DataSource = Nothing
+                        dgv_forminputstock.Rows.Clear()
+                        dgv_forminputstock.Columns.Clear()
+
+                        treeView_show()
+                    Else
+                        Try
+                            Dim sqlInsertInputStockDetail As String = "INSERT INTO IN_MINISTORE (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, MTS_NO)
+                                    VALUES (" & txtmanualPN.Text & "," & txtmanualQty.Text & "," & txtmanualInv.Text & "," & txtmanualTraceability.Text & "," & txtmanualLot.Text & ",'" & txtmanualBatch.Text & "'," & txt_forminputstock_mts_no.Text & ")"
+                            Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                            If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+                                txtmanualBatch.Text = ""
+                                txtmanualInv.Text = ""
+                                txtmanualLot.Text = ""
+                                txtmanualPN.Text = ""
+                                txtmanualQty.Text = ""
+                                txtmanualTraceability.Text = ""
+                                txtmanualPN.Select()
+
+                                dgv_forminputstock.DataSource = Nothing
+                                dgv_forminputstock.Rows.Clear()
+                                dgv_forminputstock.Columns.Clear()
+
+                                treeView_show()
+                            End If
+                        Catch ex As Exception
+                            MessageBox.Show("Error Insert" & ex.Message)
+                        End Try
+                    End If
+                Else
+                    MessageBox.Show("Sorry, Part Number not exist in data Master Material.")
+                End If
+            Else
+                MessageBox.Show("Please fill all form")
+            End If
         End If
     End Sub
 End Class

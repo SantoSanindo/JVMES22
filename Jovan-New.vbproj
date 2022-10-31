@@ -202,6 +202,12 @@
     <Compile Include="ProductionRequest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="StockMinistore.Designer.vb">
+      <DependentUpon>StockMinistore.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StockMinistore.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormInputStock.resx">
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProductionRequest.resx">
       <DependentUpon>ProductionRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockMinistore.resx">
+      <DependentUpon>StockMinistore.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

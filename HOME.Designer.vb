@@ -52,6 +52,8 @@ Partial Class HOME
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.RibMasterFinishGoods = New System.Windows.Forms.RibbonPanel()
         Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
+        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -111,6 +113,7 @@ Partial Class HOME
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
         Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
+        Me.RibbonTab3.Panels.Add(Me.RibStockMinistore)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -267,6 +270,19 @@ Partial Class HOME
         Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
         Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibStockMinistore
+        '
+        Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
+        Me.RibStockMinistore.Name = "RibStockMinistore"
+        Me.RibStockMinistore.Text = "Stock Ministore"
+        '
+        'StockMinistoreBtn
+        '
+        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
+        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
+        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
+        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -313,4 +329,6 @@ Partial Class HOME
     Friend WithEvents ProductionRequestBtn As RibbonButton
     Friend WithEvents RibMasterFinishGoods As RibbonPanel
     Friend WithEvents MasterFinishGoodsBtn As RibbonButton
+    Friend WithEvents RibStockMinistore As RibbonPanel
+    Friend WithEvents StockMinistoreBtn As RibbonButton
 End Class

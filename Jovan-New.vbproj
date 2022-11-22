@@ -196,16 +196,40 @@
     <Compile Include="frmTesting.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Production.Designer.vb">
+      <DependentUpon>Production.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Production.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProductionRequest.Designer.vb">
       <DependentUpon>ProductionRequest.vb</DependentUpon>
     </Compile>
     <Compile Include="ProductionRequest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ResultProduction.Designer.vb">
+      <DependentUpon>ResultProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ResultProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StockMinistore.Designer.vb">
       <DependentUpon>StockMinistore.vb</DependentUpon>
     </Compile>
     <Compile Include="StockMinistore.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockProd.Designer.vb">
+      <DependentUpon>StockProd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StockProd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users.Designer.vb">
+      <DependentUpon>Users.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -258,11 +282,23 @@
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Production.resx">
+      <DependentUpon>Production.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProductionRequest.resx">
       <DependentUpon>ProductionRequest.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ResultProduction.resx">
+      <DependentUpon>ResultProduction.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StockMinistore.resx">
       <DependentUpon>StockMinistore.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockProd.resx">
+      <DependentUpon>StockProd.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users.resx">
+      <DependentUpon>Users.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -32,28 +32,34 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
+        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
+        Me.RibStockProd = New System.Windows.Forms.RibbonPanel()
+        Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPO = New System.Windows.Forms.RibbonPanel()
         Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibProduction = New System.Windows.Forms.RibbonPanel()
+        Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
         Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcess = New System.Windows.Forms.RibbonPanel()
         Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibMasterFinishGoods = New System.Windows.Forms.RibbonPanel()
+        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMaterialUsageFinishGoods = New System.Windows.Forms.RibbonPanel()
         Me.MaterialUsageFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcessFlow = New System.Windows.Forms.RibbonPanel()
         Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProcessFlowMaterialUsage = New System.Windows.Forms.RibbonPanel()
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibUsers = New System.Windows.Forms.RibbonPanel()
+        Me.UsersBtn = New System.Windows.Forms.RibbonButton()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
-        Me.RibMasterFinishGoods = New System.Windows.Forms.RibbonPanel()
-        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
-        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -92,7 +98,7 @@ Partial Class HOME
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
-        Me.Ribbon1.Size = New System.Drawing.Size(962, 137)
+        Me.Ribbon1.Size = New System.Drawing.Size(1236, 137)
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
@@ -112,8 +118,8 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
-        Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
         Me.RibbonTab3.Panels.Add(Me.RibStockMinistore)
+        Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -129,6 +135,19 @@ Partial Class HOME
         Me.InputStockBtn.MinimumSize = New System.Drawing.Size(70, 0)
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibStockMinistore
+        '
+        Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
+        Me.RibStockMinistore.Name = "RibStockMinistore"
+        Me.RibStockMinistore.Text = "Stock Ministore"
+        '
+        'StockMinistoreBtn
+        '
+        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
+        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
+        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
+        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProductionRequest
         '
@@ -146,8 +165,23 @@ Partial Class HOME
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
+        Me.RibbonTab4.Panels.Add(Me.RibStockProd)
         Me.RibbonTab4.Panels.Add(Me.RibPO)
+        Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Text = "Line Process"
+        '
+        'RibStockProd
+        '
+        Me.RibStockProd.Items.Add(Me.StockProdBtn)
+        Me.RibStockProd.Name = "RibStockProd"
+        Me.RibStockProd.Text = "Stock Production"
+        '
+        'StockProdBtn
+        '
+        Me.StockProdBtn.Image = CType(resources.GetObject("StockProdBtn.Image"), System.Drawing.Image)
+        Me.StockProdBtn.LargeImage = CType(resources.GetObject("StockProdBtn.LargeImage"), System.Drawing.Image)
+        Me.StockProdBtn.Name = "StockProdBtn"
+        Me.StockProdBtn.SmallImage = CType(resources.GetObject("StockProdBtn.SmallImage"), System.Drawing.Image)
         '
         'RibPO
         '
@@ -162,6 +196,19 @@ Partial Class HOME
         Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
         Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibProduction
+        '
+        Me.RibProduction.Items.Add(Me.ProductionBtn)
+        Me.RibProduction.Name = "RibProduction"
+        Me.RibProduction.Text = "Production"
+        '
+        'ProductionBtn
+        '
+        Me.ProductionBtn.Image = CType(resources.GetObject("ProductionBtn.Image"), System.Drawing.Image)
+        Me.ProductionBtn.LargeImage = CType(resources.GetObject("ProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.ProductionBtn.Name = "ProductionBtn"
+        Me.ProductionBtn.SmallImage = CType(resources.GetObject("ProductionBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonTab5
         '
         Me.RibbonTab5.Name = "RibbonTab5"
@@ -171,6 +218,7 @@ Partial Class HOME
         Me.RibbonTab5.Panels.Add(Me.RibMaterialUsageFinishGoods)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcessFlow)
         Me.RibbonTab5.Panels.Add(Me.RibProcessFlowMaterialUsage)
+        Me.RibbonTab5.Panels.Add(Me.RibUsers)
         Me.RibbonTab5.Text = "Master Data"
         '
         'RibMasterMaterial
@@ -198,6 +246,19 @@ Partial Class HOME
         Me.MasterProcessBtn.LargeImage = CType(resources.GetObject("MasterProcessBtn.LargeImage"), System.Drawing.Image)
         Me.MasterProcessBtn.Name = "MasterProcessBtn"
         Me.MasterProcessBtn.SmallImage = CType(resources.GetObject("MasterProcessBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibMasterFinishGoods
+        '
+        Me.RibMasterFinishGoods.Items.Add(Me.MasterFinishGoodsBtn)
+        Me.RibMasterFinishGoods.Name = "RibMasterFinishGoods"
+        Me.RibMasterFinishGoods.Text = "Master Finish Goods"
+        '
+        'MasterFinishGoodsBtn
+        '
+        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
+        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
         '
         'RibMaterialUsageFinishGoods
         '
@@ -238,13 +299,26 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn.Name = "ProcessFlowMaterialUsageBtn"
         Me.ProcessFlowMaterialUsageBtn.SmallImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibUsers
+        '
+        Me.RibUsers.Items.Add(Me.UsersBtn)
+        Me.RibUsers.Name = "RibUsers"
+        Me.RibUsers.Text = "Master Users"
+        '
+        'UsersBtn
+        '
+        Me.UsersBtn.Image = CType(resources.GetObject("UsersBtn.Image"), System.Drawing.Image)
+        Me.UsersBtn.LargeImage = CType(resources.GetObject("UsersBtn.LargeImage"), System.Drawing.Image)
+        Me.UsersBtn.Name = "UsersBtn"
+        Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
+        '
         'TabControl1
         '
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 137)
         Me.TabControl1.MenuRenderer = Nothing
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(962, 415)
+        Me.TabControl1.Size = New System.Drawing.Size(1236, 415)
         Me.TabControl1.TabCloseButtonImage = Nothing
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
@@ -257,37 +331,11 @@ Partial Class HOME
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
-        'RibMasterFinishGoods
-        '
-        Me.RibMasterFinishGoods.Items.Add(Me.MasterFinishGoodsBtn)
-        Me.RibMasterFinishGoods.Name = "RibMasterFinishGoods"
-        Me.RibMasterFinishGoods.Text = "Master Finish Goods"
-        '
-        'MasterFinishGoodsBtn
-        '
-        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
-        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
-        '
-        'RibStockMinistore
-        '
-        Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
-        Me.RibStockMinistore.Name = "RibStockMinistore"
-        Me.RibStockMinistore.Text = "Stock Ministore"
-        '
-        'StockMinistoreBtn
-        '
-        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
-        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
-        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
-        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
-        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(962, 552)
+        Me.ClientSize = New System.Drawing.Size(1236, 552)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
         Me.KeyPreview = True
@@ -330,5 +378,11 @@ Partial Class HOME
     Friend WithEvents RibMasterFinishGoods As RibbonPanel
     Friend WithEvents MasterFinishGoodsBtn As RibbonButton
     Friend WithEvents RibStockMinistore As RibbonPanel
+    Friend WithEvents RibProduction As RibbonPanel
+    Friend WithEvents ProductionBtn As RibbonButton
+    Friend WithEvents RibStockProd As RibbonPanel
+    Friend WithEvents StockProdBtn As RibbonButton
     Friend WithEvents StockMinistoreBtn As RibbonButton
+    Friend WithEvents RibUsers As RibbonPanel
+    Friend WithEvents UsersBtn As RibbonButton
 End Class

@@ -80,4 +80,22 @@
         TabControl1.TabPages.Add(StockMinistore)
         TabControl1.TabPages(StockMinistore).Select()
     End Sub
+
+    Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(Production)
+        TabControl1.TabPages(Production).Select()
+    End Sub
+
+    Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(StockProd)
+        TabControl1.TabPages(StockProd).Select()
+    End Sub
+
+    Private Sub BtnUsers(sender As Object, e As EventArgs) Handles UsersBtn.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(Users)
+        TabControl1.TabPages(Users).Select()
+    End Sub
 End Class

@@ -178,3 +178,7 @@ C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProductionRe
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
 C:\Users\Arif\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
+C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Production.resources
+C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ResultProduction.resources
+C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockProd.resources
+C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Users.resources

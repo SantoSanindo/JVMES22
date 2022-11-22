@@ -57,7 +57,6 @@ Public Class MasterProcessFlow
                     dgv_masterprocessflow.Columns.Add(cbcolumn)
                 Next
 
-
                 For rowDataSet As Integer = 0 To datasetGas.Tables(0).Rows.Count - 1
                     For colDataSet As Integer = 1 To datasetGas.Tables(0).Columns.Count - 1
                         dgv_masterprocessflow.Rows(rowDataSet).Cells(colDataSet).Value = datasetGas.Tables(0).Rows(rowDataSet).Item(colDataSet).ToString

@@ -33,7 +33,7 @@ Public Class FormInputStock
         dgv_forminputstock.Rows.Clear()
         dgv_forminputstock.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryInputStockDetail As String = "SELECT ID,PART_NUMBER,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY FROM IN_MINISTORE WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " and part_number=" & id
+        Dim queryInputStockDetail As String = "SELECT ID,PART_NUMBER [P.NUMBER],LOT_NO,TRACEABILITY TRACE,BATCH_NO,INV_CTRL_DATE ICD,QTY FROM IN_MINISTORE WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " and part_number=" & id
         Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
         dgv_forminputstock.DataSource = dtInputStockDetail
 
@@ -140,7 +140,7 @@ Public Class FormInputStock
                 Dim cmd = New SqlCommand(Sql, Database.koneksi)
                 cmd.ExecuteNonQuery()
 
-                DGV_InputStock(TreeView1.SelectedNode.Name)
+                DGV_InputStock(TextBox1.Text)
                 treeView_show()
                 MessageBox.Show("Success updated data")
             Catch ex As Exception
@@ -151,7 +151,7 @@ Public Class FormInputStock
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim result = MessageBox.Show("Are you sure to lock this MTS Data. The data has been lock cannot be change?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = MessageBox.Show("The data has been saved cannot be changed. Are you sure to save this MTS Data?", "Warning", MessageBoxButtons.YesNo)
 
         If dgv_forminputstock.Rows.Count > 0 Then
             If result = DialogResult.Yes Then
@@ -185,7 +185,7 @@ VALUES ('" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER") & "'," & dtCheckinMi
                         Button2.Enabled = False
                         dgv_forminputstock.ReadOnly = True
 
-                        MessageBox.Show("Success Lock")
+                        MessageBox.Show("Success Save The Data")
                     End If
                 Catch ex As Exception
                     MessageBox.Show("failed" & ex.Message)
@@ -337,6 +337,8 @@ VALUES ('" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER") & "'," & dtCheckinMi
         End If
 
         Dim id As String = TreeView1.SelectedNode.Name
+
+        TextBox1.Text = id
 
         DGV_InputStock(id)
     End Sub

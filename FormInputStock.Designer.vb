@@ -22,7 +22,7 @@ Partial Class FormInputStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.checkQr = New System.Windows.Forms.CheckBox()
@@ -47,6 +47,7 @@ Partial Class FormInputStock
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txt_forminputstock_qrcode = New System.Windows.Forms.TextBox()
         Me.txt_forminputstock_mts_no = New System.Windows.Forms.TextBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.dgv_forminputstock, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,6 +70,7 @@ Partial Class FormInputStock
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.checkQr)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.Button1)
@@ -251,7 +253,7 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.TreeView1.Location = New System.Drawing.Point(6, 195)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(421, 521)
+        Me.TreeView1.Size = New System.Drawing.Size(387, 521)
         Me.TreeView1.TabIndex = 9
         '
         'Button3
@@ -270,9 +272,9 @@ Partial Class FormInputStock
         Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
         Me.Button2.Location = New System.Drawing.Point(1307, 45)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(202, 78)
+        Me.Button2.Size = New System.Drawing.Size(143, 78)
         Me.Button2.TabIndex = 6
-        Me.Button2.Text = "Lock Permanent"
+        Me.Button2.Text = "SAVE"
         Me.Button2.UseVisualStyleBackColor = False
         '
         'dgv_forminputstock
@@ -284,22 +286,22 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_forminputstock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.dgv_forminputstock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_forminputstock.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_forminputstock.Location = New System.Drawing.Point(433, 195)
+        Me.dgv_forminputstock.Location = New System.Drawing.Point(399, 195)
         Me.dgv_forminputstock.MultiSelect = False
         Me.dgv_forminputstock.Name = "dgv_forminputstock"
         Me.dgv_forminputstock.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_forminputstock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_forminputstock.Size = New System.Drawing.Size(1381, 521)
+        Me.dgv_forminputstock.Size = New System.Drawing.Size(1415, 521)
         Me.dgv_forminputstock.TabIndex = 4
         '
         'Label2
@@ -324,6 +326,14 @@ Partial Class FormInputStock
         Me.txt_forminputstock_mts_no.Name = "txt_forminputstock_mts_no"
         Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(332, 35)
         Me.txt_forminputstock_mts_no.TabIndex = 1
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(942, 45)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(43, 35)
+        Me.TextBox1.TabIndex = 13
+        Me.TextBox1.Visible = False
         '
         'FormInputStock
         '
@@ -369,4 +379,5 @@ Partial Class FormInputStock
     Friend WithEvents txtmanualTraceability As TextBox
     Friend WithEvents txtmanualPN As TextBox
     Friend WithEvents checkQr As CheckBox
+    Friend WithEvents TextBox1 As TextBox
 End Class

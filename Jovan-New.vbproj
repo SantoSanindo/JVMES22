@@ -88,6 +88,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.vb" />
+    <Compile Include="FormDefective.Designer.vb">
+      <DependentUpon>FormDefective.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormDefective.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormInputStock.Designer.vb">
       <DependentUpon>FormInputStock.vb</DependentUpon>
     </Compile>
@@ -197,6 +203,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormDefective.resx">
+      <DependentUpon>FormDefective.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormInputStock.resx">
       <DependentUpon>FormInputStock.vb</DependentUpon>
     </EmbeddedResource>

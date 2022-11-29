@@ -144,3 +144,4 @@ C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App
 C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.exe
 C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\JVMES22\obj\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.FormDefective.resources

@@ -9,4 +9,5 @@
         TabControl1.TabPages(frmTesting).Select()
 
     End Sub
+
 End Class

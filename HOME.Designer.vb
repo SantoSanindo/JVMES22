@@ -34,8 +34,9 @@ Partial Class HOME
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel2 = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
-        Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
+        Me.TabControl1 = New MdiTabControl.TabControl()
+        Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
         '
         'RibbonTab1
@@ -122,6 +123,11 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibbonPanel3)
         Me.RibbonTab4.Text = "Line Process"
         '
+        'RibbonPanel3
+        '
+        Me.RibbonPanel3.Name = "RibbonPanel3"
+        Me.RibbonPanel3.Text = "RibbonPanel3"
+        '
         'TabControl1
         '
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -134,10 +140,12 @@ Partial Class HOME
         Me.TabControl1.TabCloseButtonImageHot = Nothing
         Me.TabControl1.TabIndex = 1
         '
-        'RibbonPanel3
+        'RibbonButton1
         '
-        Me.RibbonPanel3.Name = "RibbonPanel3"
-        Me.RibbonPanel3.Text = "RibbonPanel3"
+        Me.RibbonButton1.Image = CType(resources.GetObject("RibbonButton1.Image"), System.Drawing.Image)
+        Me.RibbonButton1.LargeImage = CType(resources.GetObject("RibbonButton1.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton1.Name = "RibbonButton1"
+        Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -167,4 +175,5 @@ Partial Class HOME
     Friend WithEvents TabControl1 As MdiTabControl.TabControl
     Friend WithEvents RibbonPanel2 As RibbonPanel
     Friend WithEvents RibbonPanel3 As RibbonPanel
+    Friend WithEvents RibbonButton1 As RibbonButton
 End Class

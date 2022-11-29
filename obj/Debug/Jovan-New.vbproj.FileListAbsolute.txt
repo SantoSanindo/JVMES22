@@ -98,13 +98,10 @@ D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.FormReturnStock.re
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.HOME.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MainForm.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
-D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods2.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.Resources.resources
-D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.PraProduction.resources
-D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.SubPO.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.frmTesting.resources
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
 D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
@@ -182,3 +179,12 @@ C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Production.r
 C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ResultProduction.resources
 C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockProd.resources
 C:\Users\Arif\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Users.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.Production.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.ResultProduction.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.StockProd.resources
+D:\MES Jovan\VB Program\MES JV 22\JVMES22\obj\Debug\Jovan_New.Users.resources

@@ -143,12 +143,6 @@
     <Compile Include="MasterFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MasterFinishGoods2.Designer.vb">
-      <DependentUpon>MasterFinishGoods2.vb</DependentUpon>
-    </Compile>
-    <Compile Include="MasterFinishGoods2.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="MasterMaterial.Designer.vb">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </Compile>
@@ -183,18 +177,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PraProduction.Designer.vb">
-      <DependentUpon>PraProduction.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PraProduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SubPO.Designer.vb">
-      <DependentUpon>SubPO.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SubPO.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmTesting.Designer.vb">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </Compile>
@@ -227,9 +209,6 @@
     <EmbeddedResource Include="MasterFinishGoods.resx">
       <DependentUpon>MasterFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MasterFinishGoods2.resx">
-      <DependentUpon>MasterFinishGoods2.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MasterMaterial.resx">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </EmbeddedResource>
@@ -244,12 +223,6 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PraProduction.resx">
-      <DependentUpon>PraProduction.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SubPO.resx">
-      <DependentUpon>SubPO.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>

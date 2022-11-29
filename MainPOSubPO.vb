@@ -291,46 +291,61 @@ Public Class MainPOSubPO
         End If
     End Sub
 
+
+
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 
-        If Convert.ToInt32(TextBox10.Text) > Convert.ToInt32(TextBox4.Text) Then
-            MessageBox.Show("Sorry Plan Qty Sub Sub PO more than Qty Sub PO")
-            TextBox10.Text = ""
-            Exit Sub
-        End If
+        Dim isOpen As Boolean = False
 
-        Dim sql As String = "select * from sub_sub_po where main_po=" & TextBox12.Text & " and line='" & ComboBox3.Text & "' and status='Open'"
-        Dim dtSubSubPOCount As DataTable = Database.GetData(sql)
-        Dim sub_sub_po = TextBox2.Text & "-" & dtSubSubPOCount.Rows.Count + 1
+        For i = 0 To DataGridView2.Rows.Count - 1
+            If DataGridView2.Rows(i).Cells(4).Value = "Open" Then
+                isOpen = True
+            End If
+        Next
 
-        If dtSubSubPOCount.Rows.Count > 0 Then
-            MessageBox.Show("PO & Line already exists in DB and status still Open")
-            DGV_SubSubPO()
-            TextBox10.Text = ""
-            ComboBox3.Text = ""
-        Else
-            Dim sqlSum As String = "select COALESCE(sum(sub_sub_po_qty),0) from sub_sub_po where main_po=" & TextBox12.Text
-            Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
-
-            If Convert.ToInt32(TextBox4.Text) < Convert.ToInt32(dtSubSubPOSum.Rows(0).Item(0)) + Convert.ToInt32(TextBox10.Text) Then
-                MessageBox.Show("All Sub Sub PO Qty more then Sub Qty")
+        If isOpen = False Then
+            If Convert.ToInt32(TextBox10.Text) > Convert.ToInt32(TextBox4.Text) Then
+                MessageBox.Show("Sorry Plan Qty Sub Sub PO more than Qty Sub PO")
                 TextBox10.Text = ""
-                ComboBox3.Text = ""
                 Exit Sub
             End If
 
-            Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
-                                    VALUES (" & TextBox12.Text & ",'" & sub_sub_po & "'," & TextBox10.Text & ",'" & ComboBox3.Text & "','Open',0)"
+            Dim sql As String = "select * from sub_sub_po where main_po=" & TextBox12.Text & " and line='" & ComboBox3.Text & "' and status='Open'"
+            Dim dtSubSubPOCount As DataTable = Database.GetData(sql)
+            Dim sub_sub_po = TextBox2.Text & "-" & dtSubSubPOCount.Rows.Count + 1
 
-            Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
-            If cmdInsertSubPO.ExecuteNonQuery() Then
+            If dtSubSubPOCount.Rows.Count > 0 Then
+                MessageBox.Show("PO & Line already exists in DB and status still Open")
                 DGV_SubSubPO()
-                Insert_Prod_DOC(TextBox9.Text, sub_sub_po, TextBox8.Text)
-                Insert_Prod_DOP(TextBox9.Text, sub_sub_po, TextBox8.Text)
                 TextBox10.Text = ""
                 ComboBox3.Text = ""
-            End If
+            Else
+                Dim sqlSum As String = "select COALESCE(sum(sub_sub_po_qty),0) from sub_sub_po where main_po=" & TextBox12.Text
+                Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
 
+                If Convert.ToInt32(TextBox4.Text) < Convert.ToInt32(dtSubSubPOSum.Rows(0).Item(0)) + Convert.ToInt32(TextBox10.Text) Then
+                    MessageBox.Show("All Sub Sub PO Qty more then Sub Qty")
+                    TextBox10.Text = ""
+                    ComboBox3.Text = ""
+                    Exit Sub
+                End If
+
+                Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
+                                    VALUES (" & TextBox12.Text & ",'" & sub_sub_po & "'," & TextBox10.Text & ",'" & ComboBox3.Text & "','Open',0)"
+
+                Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
+                If cmdInsertSubPO.ExecuteNonQuery() Then
+                    DGV_SubSubPO()
+                    Insert_Prod_DOC(TextBox9.Text, sub_sub_po, TextBox8.Text)
+                    Insert_Prod_DOP(TextBox9.Text, sub_sub_po, TextBox8.Text)
+                    TextBox10.Text = ""
+                    ComboBox3.Text = ""
+                End If
+            End If
+        Else
+            MessageBox.Show("Sorry The line have Open PO")
+            ComboBox3.Text = ""
+            TextBox10.Text = ""
         End If
     End Sub
 
@@ -357,9 +372,8 @@ Public Class MainPOSubPO
     Sub Insert_Prod_DOP(fg As String, sub_sub_po As String, po As String)
         Dim queryProdDOP As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mpf.master_process,mpn.[order]
         from sub_sub_po sp,main_po mp,MASTER_PROCESS_FLOW MPF, master_process_number mpn 
-        where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and line = '" & ComboBox3.Text & "' and mp.fg_pn = '" & fg & "' and sp.sub_sub_po='" & sub_sub_po & "' and mpn.process_name=mpf.master_process_number order by sp.sub_sub_po"
+        where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and line = '" & ComboBox3.Text & "' and mp.fg_pn = '" & fg & "' and sp.sub_sub_po='" & sub_sub_po & "' and mpn.process_name=mpf.master_process_number and master_process is not null order by sp.sub_sub_po"
         Dim dtProdDOP As DataTable = Database.GetData(queryProdDOP)
-
         If dtProdDOP.Rows.Count > 0 Then
             For i As Integer = 0 To dtProdDOP.Rows.Count - 1
                 Dim queryCheckProdDOP As String = "select * from prod_dop where sub_sub_po= '" & sub_sub_po & "' AND fg_pn = '" & fg & "' AND process='" & dtProdDOP.Rows(i).Item("master_process") & "' and line = '" & ComboBox3.Text & "'"
@@ -421,6 +435,47 @@ Public Class MainPOSubPO
         TextBox11.Text = dtSubSubPOSum.Rows(0).Item(0).ToString
     End Sub
 
+    Sub DGV_SubSubPO_FILTERlINE()
+        Dim sql As String = "select ID, SUB_SUB_PO, SUB_SUB_PO_QTY,LINE,STATUS,ACTUAL_QTY,YIELD_LOSE from SUB_SUB_PO where line='" & ComboBox3.Text & "'"
+        Dim dtSubSubPO As DataTable = Database.GetData(sql)
+        DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        DataGridView2.DataSource = Nothing
+        DataGridView2.Rows.Clear()
+        DataGridView2.Columns.Clear()
+        Call Database.koneksi_database()
+        DataGridView2.DataSource = dtSubSubPO
+
+        Dim oper As DataGridViewButtonColumn = New DataGridViewButtonColumn
+        oper.Name = "operator"
+        oper.HeaderText = "Operator"
+        oper.Width = 50
+        oper.Text = "Add / Change"
+        oper.UseColumnTextForButtonValue = True
+
+        DataGridView2.Columns.Insert(7, oper)
+
+        Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
+        delete.Name = "delete"
+        delete.HeaderText = "Delete"
+        delete.Width = 50
+        delete.Text = "Delete"
+        delete.UseColumnTextForButtonValue = True
+
+        DataGridView2.Columns.Insert(8, delete)
+
+        For i As Integer = 0 To DataGridView2.RowCount - 1
+            If DataGridView2.Rows(i).Index Mod 2 = 0 Then
+                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        Dim sqlSum As String = "select sum(sub_sub_po_qty) from sub_sub_po where main_po=" & TextBox12.Text
+        Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
+        TextBox11.Text = dtSubSubPOSum.Rows(0).Item(0).ToString
+    End Sub
+
     Private Sub DataGridView2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView2.DataBindingComplete
         For i As Integer = 0 To DataGridView2.RowCount - 1
             If DataGridView2.Rows(i).Index Mod 2 = 0 Then
@@ -436,13 +491,28 @@ Public Class MainPOSubPO
             Dim sqlcheck As String = "select * from SUB_SUB_PO where id='" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value & "' and actual_qty > 0"
             Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
             If dtMainPOCheck.Rows.Count > 0 Then
-                MessageBox.Show("Cannot delete this data")
+                MessageBox.Show("Cannot delete this data because actual qty more than zero")
+                Exit Sub
+            End If
+
+            Dim sqlcheckInputMiniStore As String = "select * from stock_prod_material where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and LINE = '" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
+            Dim dtInputMiniStore As DataTable = Database.GetData(sqlcheckInputMiniStore)
+            If dtInputMiniStore.Rows.Count > 0 Then
+                MessageBox.Show("Cannot delete this data because Ministore already provides raw material")
                 Exit Sub
             End If
 
             Dim result = MessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
             If result = DialogResult.Yes Then
                 Try
+                    Dim sqlDeleteDOP As String = "delete from prod_dop where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and line='" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
+                    Dim cmdDeleteDOP = New SqlCommand(sqlDeleteDOP, Database.koneksi)
+                    cmdDeleteDOP.ExecuteNonQuery()
+
+                    Dim sqlDeleteDOC As String = "delete from prod_doc where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and line='" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
+                    Dim cmdDeleteDOC = New SqlCommand(sqlDeleteDOC, Database.koneksi)
+                    cmdDeleteDOC.ExecuteNonQuery()
+
                     Dim sql As String = "delete from SUB_SUB_PO where id=" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
@@ -659,7 +729,15 @@ Public Class MainPOSubPO
 
     Private Sub ComboBox2_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedValueChanged
         DGV_Add_Change_Operator()
-        Button6.Enabled = True
+        If DataGridView3.Rows.Count > 0 Then
+            Button6.Enabled = True
+        Else
+            MessageBox.Show("Sorry this line dont have any PO.")
+        End If
+    End Sub
+
+    Private Sub ComboBox3_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedValueChanged
+        DGV_SubSubPO_FILTERlINE()
     End Sub
 
     Private Sub DataGridView3_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView3.CellValueChanged

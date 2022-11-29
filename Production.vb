@@ -83,7 +83,7 @@ Public Class Production
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryDOC As String = "select desc_comp Description,component Component,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po=" & TextBox8.Text
+        Dim queryDOC As String = "select desc_comp Description,component Component,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "'"
         Dim dtDOC As DataTable = Database.GetData(queryDOC)
 
         DataGridView1.DataSource = dtDOC

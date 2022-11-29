@@ -167,7 +167,7 @@ Public Class FormInputStock
                             Dim queryCheckStockMiniStore As String = "select * from STOCK_MINISTORE where PART_NUMBER=" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER").ToString & " AND LOT_NO=" & dtCheckinMiniStore.Rows(i).Item("LOT_NO").ToString
                             Dim dtCheckStockMiniStore As DataTable = Database.GetData(queryCheckStockMiniStore)
                             If dtCheckStockMiniStore.Rows.Count > 0 Then
-                                Dim sqlInsertStockMinistore As String = "UPDATE STOCK_MINISTORE SET QTY=QTY+" & dtCheckinMiniStore.Rows(i).Item("QTY") & " FROM STOCK_MINISTORE WHERE PART_NUMBER='" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER").ToString & "' AND LOT_NO='" & dtCheckinMiniStore.Rows(i).Item("LOT_NO").ToString & "'"
+                                Dim sqlInsertStockMinistore As String = "UPDATE STOCK_MINISTORE SET QTY=" & dtCheckinMiniStore.Rows(i).Item("QTY") & " FROM STOCK_MINISTORE WHERE PART_NUMBER='" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER").ToString & "' AND LOT_NO='" & dtCheckinMiniStore.Rows(i).Item("LOT_NO").ToString & "'"
                                 Dim cmdInsertStockMinistore = New SqlCommand(sqlInsertStockMinistore, Database.koneksi)
                                 cmdInsertStockMinistore.ExecuteNonQuery()
                             Else

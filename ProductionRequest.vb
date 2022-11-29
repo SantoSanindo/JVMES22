@@ -123,7 +123,7 @@ Public Class ProductionRequest
                         MessageBox.Show("Sorry QR Code already in database production")
                         TextBox1.Text = ""
                     Else
-                        Dim sqlCheckSumQtyProdcution As String = "SELECT sum(QTY) qty FROM STOCK_PROD_MATERIAL WHERE sub_sub_po = '" & SubSubPO.Text & "' and part_number=" & splitQRCode1P(0)
+                        Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM STOCK_PROD_MATERIAL WHERE sub_sub_po = '" & SubSubPO.Text & "' and part_number=" & splitQRCode1P(0) & " AND LINE='" & ComboBox1.Text & "'"
                         Dim dtCheckSumQtyProdcution As DataTable = Database.GetData(sqlCheckSumQtyProdcution)
                         If dtCheckSumQtyProdcution.Rows(0).Item("qty") > DataGridView3.Rows(CurrentRowIndex).Cells("Total_Need").Value Then
                             MessageBox.Show("Cannot add component because Qty more than Qty Need")
@@ -133,8 +133,8 @@ Public Class ProductionRequest
                             If dtCheckSumQtyProdcution.Rows(0).Item("qty") + splitQRCode1P(1) > DataGridView3.Rows(CurrentRowIndex).Cells("Total_Need").Value Then
                                 If MessageBox.Show("Qty More than Total Need Production. Are You Sure for Add this Material?", "Important Question", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                                     Try
-                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_PROD_MATERIAL (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, FG_PN, ACTUAL_QTY)
-                                    VALUES (" & splitQRCode1P(0) & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & Math.Floor(dtCheckStockMinistore.Rows(0).Item("qty") + (dtCheckStockMinistore.Rows(0).Item("qty") * 3) / 100) & ")"
+                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_PROD_MATERIAL (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, FG_PN, ACTUAL_QTY,LINE)
+                                    VALUES (" & splitQRCode1P(0) & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & Math.Floor(dtCheckStockMinistore.Rows(0).Item("qty") + (dtCheckStockMinistore.Rows(0).Item("qty") * 3) / 100) & ",'" & ComboBox1.Text & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                             TextBox1.Text = ""
@@ -149,8 +149,8 @@ Public Class ProductionRequest
                                 End If
                             Else
                                 Try
-                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_PROD_MATERIAL (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, FG_PN, ACTUAL_QTY)
-                                    VALUES (" & splitQRCode1P(0) & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & Math.Floor(dtCheckStockMinistore.Rows(0).Item("qty") + (dtCheckStockMinistore.Rows(0).Item("qty") * 3) / 100) & ")"
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_PROD_MATERIAL (PART_NUMBER, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, FG_PN, ACTUAL_QTY,LINE)
+                                    VALUES (" & splitQRCode1P(0) & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & Math.Floor(dtCheckStockMinistore.Rows(0).Item("qty") + (dtCheckStockMinistore.Rows(0).Item("qty") * 3) / 100) & ",'" & ComboBox1.Text & "')"
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                     If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                         TextBox1.Text = ""
@@ -179,7 +179,7 @@ Public Class ProductionRequest
         Call Database.koneksi_database()
         Dim queryInProdMaterial As String = "select in_mat.SUB_SUB_PO,in_mat.FG_PN FG_PART_NUMBER,in_mat.PART_NUMBER,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY
             from stock_prod_material in_mat, sub_sub_po sp 
-            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' ORDER BY in_mat.DATETIME_INSERT"
+            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' ORDER BY in_mat.DATETIME_INSERT"
         Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
 
         DataGridView4.DataSource = dtInProdMaterial

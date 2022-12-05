@@ -51,16 +51,16 @@ Public Class Production
                         MessageBox.Show("Double Scan Detect")
                         TextBox1.Text = ""
                     Else
-                        Dim sqlCheckDOC As String = "select usage from prod_doc where line='" & ComboBox1.Text & "' and component = '" & splitQRCode1P(0) & "' and sub_sub_po='" & TextBox8.Text & "'"
-                        Dim dtCheckDOC As DataTable = Database.GetData(sqlCheckDOC)
-                        Dim TotalNeedPerSPQ = dtCheckDOC.Rows(0).Item("usage") * Convert.ToInt32(TextBox7.Text)
-                        If TotalNeedPerSPQ > dtCheckInStock.Rows(0).Item("QTY") Then
+                        'Dim sqlCheckDOC As String = "select usage from prod_doc where line='" & ComboBox1.Text & "' and component = '" & splitQRCode1P(0) & "' and sub_sub_po='" & TextBox8.Text & "'"
+                        'Dim dtCheckDOC As DataTable = Database.GetData(sqlCheckDOC)
+                        'Dim TotalNeedPerSPQ = dtCheckDOC.Rows(0).Item("usage") * Convert.ToInt32(TextBox7.Text)
+                        'If TotalNeedPerSPQ > dtCheckInStock.Rows(0).Item("QTY") Then
 
-                        Else
+                        'Else
 
-                        End If
+                        'End If
 
-                        Dim sqlProdProcess As String = "INSERT INTO process_prod (id_level, level, pn_material, qty, lot_no, batch_no,traceability,inv_ctrl_date,fifo,line,sub_sub_po,flow_ticket_lot,flow_ticket_of)
+                        Dim sqlProdProcess As String = "INSERT INTO process_prod (id_level, level, pn_material, qty, lot_no, batch_no,traceability,inv_ctrl_date,fifo,line,sub_sub_po)
                                     VALUES ('" & splitQRCode1P(0) & "','Fresh','" & splitQRCode1P(0) & "','" & dtCheckInStock.Rows(0).Item("QTY") & "','" & splitQRCode1P(3) & "','" & dtCheckInStock.Rows(0).Item("batch_no") & "','" & dtCheckInStock.Rows(0).Item("traceability") & "','" & dtCheckInStock.Rows(0).Item("inv_ctrl_date") & "',(select COUNT(pn_material)+1 fifo from process_prod where pn_material=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox8.Text & "'),'" & ComboBox1.Text & "','" & TextBox8.Text & "')"
                         Dim cmdProdProcess = New SqlCommand(sqlProdProcess, Database.koneksi)
                         If cmdProdProcess.ExecuteNonQuery() Then

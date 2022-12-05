@@ -700,30 +700,46 @@ Public Class MainPOSubPO
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         If Val(TextBox19.Text) <= Val(TextBox20.Text) Then
             MessageBox.Show("Print 1 of 1 Flow Ticket")
-            If TextBox21.Text = "1" Then
-                MessageBox.Show("Print + 1 Flow Ticket")
-            Else
-                For i = 1 To Val(TextBox21.Text)
-                    MessageBox.Show("Print + " & i & " Flow Ticket")
-                Next
-            End If
+            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "',1,1,'" & TextBox17.Text & "')"
+            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+            cmdInsertPrintingRecord.ExecuteNonQuery()
+
+            For i = 1 To Val(TextBox21.Text)
+                MessageBox.Show("Print + " & i & " Flow Ticket")
+                Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & ",0,'Additional','" & TextBox17.Text & "')"
+                Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
+                cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
+            Next
         Else
             If Val(TextBox19.Text) Mod Val(TextBox20.Text) = 0 Then
                 For i = 1 To Val(TextBox19.Text) / Val(TextBox20.Text)
+                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & "," & Val(TextBox19.Text) / Val(TextBox20.Text) & ",'" & TextBox17.Text & "')"
+                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                    cmdInsertPrintingRecord.ExecuteNonQuery()
+
                     MessageBox.Show("Print " & i & " of " & Val(TextBox19.Text) / Val(TextBox20.Text) & " Label Flow Ticket")
                 Next
             Else
                 For i = 1 To Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1
+                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & "," & Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1 & ",'" & TextBox17.Text & "')"
+                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                    cmdInsertPrintingRecord.ExecuteNonQuery()
+
                     MessageBox.Show("Print " & i & " of " & Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1 & " Label Flow Ticket")
                 Next
             End If
-            If TextBox21.Text = "1" Then
-                MessageBox.Show("Print + 1 Flow Ticket")
-            Else
-                For i = 1 To Val(TextBox21.Text)
-                    MessageBox.Show("Print + " & i & " Flow Ticket")
-                Next
-            End If
+
+            For i = 1 To Val(TextBox21.Text)
+                MessageBox.Show("Print + " & i & " Flow Ticket")
+                Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & ",0,'Additional','" & TextBox17.Text & "')"
+                Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
+                cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
+            Next
         End If
     End Sub
 

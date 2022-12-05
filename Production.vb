@@ -20,6 +20,10 @@ Public Class Production
             Dim dtFam As DataTable = Database.GetData(queryFam)
             TextBox3.Text = dtFam.Rows(0).Item("family").ToString
 
+            Dim queryOf As String = "SELECT DISTINCT(of_lot) FROM record_printing WHERE fg='" & dt.Rows(0).Item("FG_PN").ToString & "' and line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and remark is null"
+            Dim dtOF As DataTable = Database.GetData(queryOf)
+            TextBox9.Text = dtOF.Rows(0).Item("of_lot").ToString
+
             DGV_DOC()
             DGV_DOP()
         Else
@@ -37,18 +41,27 @@ Public Class Production
                 Dim splitQRCode() As String = TextBox1.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
                 Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
 
-                Dim sqlCheckInStock As String = "select * from sub_sub_po sp, stock_prod_material in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and sp.line='" & ComboBox1.Text & "' and part_number = " & splitQRCode1P(0) & " and lot_no=" & splitQRCode1P(3)
+                Dim sqlCheckInStock As String = "select * from sub_sub_po sp, stock_prod_material in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and sp.line='" & ComboBox1.Text & "' and part_number = '" & splitQRCode1P(0) & "' and lot_no=" & splitQRCode1P(3)
                 Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
 
                 If dtCheckInStock.Rows.Count > 0 Then
-                    Dim sqlCheckProductionProcess As String = "select * from process_prod where line='" & ComboBox1.Text & "' and PN_MATERIAL = " & splitQRCode1P(0) & " and lot_no=" & splitQRCode1P(3)
+                    Dim sqlCheckProductionProcess As String = "select * from process_prod where line='" & ComboBox1.Text & "' and PN_MATERIAL = '" & splitQRCode1P(0) & "' and lot_no=" & splitQRCode1P(3)
                     Dim dtCheckProductionProcess As DataTable = Database.GetData(sqlCheckProductionProcess)
                     If dtCheckProductionProcess.Rows.Count > 0 Then
                         MessageBox.Show("Double Scan Detect")
                         TextBox1.Text = ""
                     Else
-                        Dim sqlProdProcess As String = "INSERT INTO process_prod (id_level, level, pn_material, qty, lot_no, batch_no,traceability,inv_ctrl_date,fifo,line,sub_sub_po)
-                                    VALUES ('" & splitQRCode1P(0) & "','Fresh','" & splitQRCode1P(0) & "','" & dtCheckInStock.Rows(0).Item("QTY") & "','" & splitQRCode1P(3) & "','" & dtCheckInStock.Rows(0).Item("batch_no") & "','" & dtCheckInStock.Rows(0).Item("traceability") & "','" & dtCheckInStock.Rows(0).Item("inv_ctrl_date") & "',(select COUNT(pn_material)+1 fifo from process_prod where pn_material=" & splitQRCode1P(0) & "),'" & ComboBox1.Text & "','" & TextBox8.Text & "')"
+                        Dim sqlCheckDOC As String = "select usage from prod_doc where line='" & ComboBox1.Text & "' and component = '" & splitQRCode1P(0) & "' and sub_sub_po='" & TextBox8.Text & "'"
+                        Dim dtCheckDOC As DataTable = Database.GetData(sqlCheckDOC)
+                        Dim TotalNeedPerSPQ = dtCheckDOC.Rows(0).Item("usage") * Convert.ToInt32(TextBox7.Text)
+                        If TotalNeedPerSPQ > dtCheckInStock.Rows(0).Item("QTY") Then
+
+                        Else
+
+                        End If
+
+                        Dim sqlProdProcess As String = "INSERT INTO process_prod (id_level, level, pn_material, qty, lot_no, batch_no,traceability,inv_ctrl_date,fifo,line,sub_sub_po,flow_ticket_lot,flow_ticket_of)
+                                    VALUES ('" & splitQRCode1P(0) & "','Fresh','" & splitQRCode1P(0) & "','" & dtCheckInStock.Rows(0).Item("QTY") & "','" & splitQRCode1P(3) & "','" & dtCheckInStock.Rows(0).Item("batch_no") & "','" & dtCheckInStock.Rows(0).Item("traceability") & "','" & dtCheckInStock.Rows(0).Item("inv_ctrl_date") & "',(select COUNT(pn_material)+1 fifo from process_prod where pn_material=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox8.Text & "'),'" & ComboBox1.Text & "','" & TextBox8.Text & "')"
                         Dim cmdProdProcess = New SqlCommand(sqlProdProcess, Database.koneksi)
                         If cmdProdProcess.ExecuteNonQuery() Then
                             TextBox1.Text = ""
@@ -121,7 +134,7 @@ Public Class Production
         DataGridView2.Rows.Clear()
         DataGridView2.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryDOP As String = "select Process, operator_id Operator from prod_dop where line='" & ComboBox1.Text & "' and sub_sub_po=" & TextBox8.Text
+        Dim queryDOP As String = "select Process, operator_id Operator from prod_dop where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "'"
         Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
         DataGridView2.DataSource = dtDOP

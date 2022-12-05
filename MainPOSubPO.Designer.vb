@@ -587,6 +587,7 @@ Partial Class MainPOSubPO
         Me.TextBox20.Name = "TextBox20"
         Me.TextBox20.Size = New System.Drawing.Size(100, 35)
         Me.TextBox20.TabIndex = 15
+        Me.TextBox20.Visible = False
         '
         'TextBox19
         '
@@ -594,6 +595,7 @@ Partial Class MainPOSubPO
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(100, 35)
         Me.TextBox19.TabIndex = 14
+        Me.TextBox19.Visible = False
         '
         'Button6
         '

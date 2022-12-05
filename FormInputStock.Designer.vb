@@ -23,18 +23,33 @@ Partial Class FormInputStock
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.DGVBawah = New System.Windows.Forms.DataGridView()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.checkQr = New System.Windows.Forms.CheckBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.txtmanualQty = New System.Windows.Forms.TextBox()
+        Me.txtmanualLot = New System.Windows.Forms.TextBox()
+        Me.txtmanualBatch = New System.Windows.Forms.TextBox()
+        Me.txtmanualInv = New System.Windows.Forms.TextBox()
+        Me.txtmanualTraceability = New System.Windows.Forms.TextBox()
+        Me.txtmanualPN = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.dgv_forminputstock = New System.Windows.Forms.DataGridView()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txt_forminputstock_qrcode = New System.Windows.Forms.TextBox()
         Me.txt_forminputstock_mts_no = New System.Windows.Forms.TextBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.DGVBawah, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox2.SuspendLayout()
         CType(Me.dgv_forminputstock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -55,9 +70,13 @@ Partial Class FormInputStock
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.DGVBawah)
-        Me.GroupBox1.Controls.Add(Me.Button2)
+        Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Controls.Add(Me.checkQr)
+        Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.Button1)
+        Me.GroupBox1.Controls.Add(Me.TreeView1)
+        Me.GroupBox1.Controls.Add(Me.Button3)
+        Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.dgv_forminputstock)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.txt_forminputstock_qrcode)
@@ -68,61 +87,195 @@ Partial Class FormInputStock
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(0)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(0)
-        Me.GroupBox1.Size = New System.Drawing.Size(1403, 719)
+        Me.GroupBox1.Size = New System.Drawing.Size(1821, 719)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
-        'DGVBawah
+        'checkQr
         '
-        Me.DGVBawah.AllowUserToAddRows = False
-        Me.DGVBawah.AllowUserToDeleteRows = False
-        Me.DGVBawah.AllowUserToOrderColumns = True
-        Me.DGVBawah.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.checkQr.AutoSize = True
+        Me.checkQr.CausesValidation = False
+        Me.checkQr.Checked = True
+        Me.checkQr.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.checkQr.Location = New System.Drawing.Point(728, 93)
+        Me.checkQr.Name = "checkQr"
+        Me.checkQr.Size = New System.Drawing.Size(133, 33)
+        Me.checkQr.TabIndex = 12
+        Me.checkQr.Text = "QR Code"
+        Me.checkQr.UseVisualStyleBackColor = True
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DGVBawah.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.DGVBawah.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGVBawah.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
-        Me.DGVBawah.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGVBawah.GridColor = System.Drawing.SystemColors.Highlight
-        Me.DGVBawah.Location = New System.Drawing.Point(6, 426)
-        Me.DGVBawah.MultiSelect = False
-        Me.DGVBawah.Name = "DGVBawah"
-        Me.DGVBawah.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.DGVBawah.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DGVBawah.Size = New System.Drawing.Size(1365, 251)
-        Me.DGVBawah.TabIndex = 2
+        Me.GroupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.GroupBox2.Controls.Add(Me.txtmanualQty)
+        Me.GroupBox2.Controls.Add(Me.txtmanualLot)
+        Me.GroupBox2.Controls.Add(Me.txtmanualBatch)
+        Me.GroupBox2.Controls.Add(Me.txtmanualInv)
+        Me.GroupBox2.Controls.Add(Me.txtmanualTraceability)
+        Me.GroupBox2.Controls.Add(Me.txtmanualPN)
+        Me.GroupBox2.Controls.Add(Me.Label8)
+        Me.GroupBox2.Controls.Add(Me.Label7)
+        Me.GroupBox2.Controls.Add(Me.Label6)
+        Me.GroupBox2.Controls.Add(Me.Label5)
+        Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.Controls.Add(Me.Label3)
+        Me.GroupBox2.Location = New System.Drawing.Point(6, 126)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(1808, 63)
+        Me.GroupBox2.TabIndex = 11
+        Me.GroupBox2.TabStop = False
         '
-        'Button2
+        'txtmanualQty
         '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.BackColor = System.Drawing.Color.Green
-        Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button2.Location = New System.Drawing.Point(910, 48)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(202, 75)
-        Me.Button2.TabIndex = 6
-        Me.Button2.Text = "Lock Permanent"
-        Me.Button2.UseVisualStyleBackColor = False
+        Me.txtmanualQty.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.txtmanualQty.Location = New System.Drawing.Point(1645, 19)
+        Me.txtmanualQty.Name = "txtmanualQty"
+        Me.txtmanualQty.Size = New System.Drawing.Size(156, 35)
+        Me.txtmanualQty.TabIndex = 17
+        '
+        'txtmanualLot
+        '
+        Me.txtmanualLot.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.txtmanualLot.Location = New System.Drawing.Point(1394, 19)
+        Me.txtmanualLot.Name = "txtmanualLot"
+        Me.txtmanualLot.Size = New System.Drawing.Size(167, 35)
+        Me.txtmanualLot.TabIndex = 16
+        '
+        'txtmanualBatch
+        '
+        Me.txtmanualBatch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.txtmanualBatch.Location = New System.Drawing.Point(1097, 19)
+        Me.txtmanualBatch.Name = "txtmanualBatch"
+        Me.txtmanualBatch.Size = New System.Drawing.Size(155, 35)
+        Me.txtmanualBatch.TabIndex = 15
+        '
+        'txtmanualInv
+        '
+        Me.txtmanualInv.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.txtmanualInv.Location = New System.Drawing.Point(767, 19)
+        Me.txtmanualInv.Name = "txtmanualInv"
+        Me.txtmanualInv.Size = New System.Drawing.Size(159, 35)
+        Me.txtmanualInv.TabIndex = 14
+        '
+        'txtmanualTraceability
+        '
+        Me.txtmanualTraceability.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.txtmanualTraceability.Location = New System.Drawing.Point(427, 19)
+        Me.txtmanualTraceability.Name = "txtmanualTraceability"
+        Me.txtmanualTraceability.Size = New System.Drawing.Size(157, 35)
+        Me.txtmanualTraceability.TabIndex = 13
+        '
+        'txtmanualPN
+        '
+        Me.txtmanualPN.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.txtmanualPN.Location = New System.Drawing.Point(59, 19)
+        Me.txtmanualPN.Name = "txtmanualPN"
+        Me.txtmanualPN.Size = New System.Drawing.Size(218, 35)
+        Me.txtmanualPN.TabIndex = 12
+        '
+        'Label8
+        '
+        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(1590, 22)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(49, 29)
+        Me.Label8.TabIndex = 5
+        Me.Label8.Text = "Qty"
+        '
+        'Label7
+        '
+        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(1283, 22)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(84, 29)
+        Me.Label7.TabIndex = 4
+        Me.Label7.Text = "Lot No"
+        '
+        'Label6
+        '
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(960, 22)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(111, 29)
+        Me.Label6.TabIndex = 3
+        Me.Label6.Text = "Batch No"
+        '
+        'Label5
+        '
+        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(601, 22)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(142, 29)
+        Me.Label5.TabIndex = 2
+        Me.Label5.Text = "Inv Ctrl Date"
+        '
+        'Label4
+        '
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(283, 22)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(138, 29)
+        Me.Label4.TabIndex = 1
+        Me.Label4.Text = "Traceability"
+        '
+        'Label3
+        '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(6, 22)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(47, 29)
+        Me.Label3.TabIndex = 0
+        Me.Label3.Text = "PN"
         '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button1.Location = New System.Drawing.Point(1204, 48)
+        Me.Button1.Location = New System.Drawing.Point(1694, 45)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(130, 75)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Exit"
+        Me.Button1.Size = New System.Drawing.Size(113, 78)
+        Me.Button1.TabIndex = 10
+        Me.Button1.Text = "Reset"
         Me.Button1.UseVisualStyleBackColor = False
+        '
+        'TreeView1
+        '
+        Me.TreeView1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.TreeView1.Location = New System.Drawing.Point(6, 195)
+        Me.TreeView1.Name = "TreeView1"
+        Me.TreeView1.Size = New System.Drawing.Size(387, 521)
+        Me.TreeView1.TabIndex = 9
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(592, 42)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(110, 35)
+        Me.Button3.TabIndex = 7
+        Me.Button3.Text = "Check"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.Button2.Location = New System.Drawing.Point(1307, 45)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(143, 78)
+        Me.Button2.TabIndex = 6
+        Me.Button2.Text = "SAVE"
+        Me.Button2.UseVisualStyleBackColor = False
         '
         'dgv_forminputstock
         '
@@ -133,22 +286,22 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_forminputstock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.dgv_forminputstock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_forminputstock.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_forminputstock.Location = New System.Drawing.Point(6, 164)
+        Me.dgv_forminputstock.Location = New System.Drawing.Point(399, 195)
         Me.dgv_forminputstock.MultiSelect = False
         Me.dgv_forminputstock.Name = "dgv_forminputstock"
         Me.dgv_forminputstock.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_forminputstock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_forminputstock.Size = New System.Drawing.Size(1365, 256)
+        Me.dgv_forminputstock.Size = New System.Drawing.Size(1415, 521)
         Me.dgv_forminputstock.TabIndex = 4
         '
         'Label2
@@ -171,25 +324,32 @@ Partial Class FormInputStock
         '
         Me.txt_forminputstock_mts_no.Location = New System.Drawing.Point(239, 42)
         Me.txt_forminputstock_mts_no.Name = "txt_forminputstock_mts_no"
-        Me.txt_forminputstock_mts_no.ReadOnly = True
-        Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(463, 35)
+        Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(332, 35)
         Me.txt_forminputstock_mts_no.TabIndex = 1
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(942, 45)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(43, 35)
+        Me.TextBox1.TabIndex = 13
+        Me.TextBox1.Visible = False
         '
         'FormInputStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1401, 707)
+        Me.ClientSize = New System.Drawing.Size(1819, 707)
         Me.ControlBox = False
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FormInputStock"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Form Input Stock"
-        Me.TopMost = True
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.DGVBawah, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         CType(Me.dgv_forminputstock, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -201,7 +361,23 @@ Partial Class FormInputStock
     Friend WithEvents txt_forminputstock_qrcode As TextBox
     Friend WithEvents txt_forminputstock_mts_no As TextBox
     Friend WithEvents dgv_forminputstock As DataGridView
-    Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
-    Friend WithEvents DGVBawah As DataGridView
+    Friend WithEvents Button3 As Button
+    Friend WithEvents TreeView1 As TreeView
+    Friend WithEvents Button1 As Button
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents txtmanualQty As TextBox
+    Friend WithEvents txtmanualLot As TextBox
+    Friend WithEvents txtmanualBatch As TextBox
+    Friend WithEvents txtmanualInv As TextBox
+    Friend WithEvents txtmanualTraceability As TextBox
+    Friend WithEvents txtmanualPN As TextBox
+    Friend WithEvents checkQr As CheckBox
+    Friend WithEvents TextBox1 As TextBox
 End Class

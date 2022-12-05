@@ -234,7 +234,7 @@ Partial Class MainForm
         Me.TabPage2.Location = New System.Drawing.Point(4, 34)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1332, 711)
+        Me.TabPage2.Size = New System.Drawing.Size(1333, 711)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Production"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -255,7 +255,7 @@ Partial Class MainForm
         Me.pProduction.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.pProduction.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.pProduction.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.pProduction.Size = New System.Drawing.Size(1326, 705)
+        Me.pProduction.Size = New System.Drawing.Size(1327, 705)
         Me.pProduction.TabIndex = 5
         '
         'GroupBox3
@@ -268,14 +268,14 @@ Partial Class MainForm
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(1320, 71)
+        Me.GroupBox3.Size = New System.Drawing.Size(1321, 71)
         Me.GroupBox3.TabIndex = 1
         Me.GroupBox3.TabStop = False
         '
         'Button3
         '
         Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.Right
-        Me.Button3.Location = New System.Drawing.Point(1150, 24)
+        Me.Button3.Location = New System.Drawing.Point(1151, 24)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(167, 37)
         Me.Button3.TabIndex = 10
@@ -323,7 +323,7 @@ Partial Class MainForm
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox7.Location = New System.Drawing.Point(3, 566)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(1320, 380)
+        Me.GroupBox7.Size = New System.Drawing.Size(1321, 380)
         Me.GroupBox7.TabIndex = 4
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Details Of Process"
@@ -336,7 +336,7 @@ Partial Class MainForm
         Me.DOP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DOP.Location = New System.Drawing.Point(3, 25)
         Me.DOP.Name = "DOP"
-        Me.DOP.Size = New System.Drawing.Size(1314, 352)
+        Me.DOP.Size = New System.Drawing.Size(1315, 352)
         Me.DOP.TabIndex = 0
         '
         'GroupBox5
@@ -351,7 +351,7 @@ Partial Class MainForm
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox5.Location = New System.Drawing.Point(3, 80)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(1320, 67)
+        Me.GroupBox5.Size = New System.Drawing.Size(1321, 67)
         Me.GroupBox5.TabIndex = 2
         Me.GroupBox5.TabStop = False
         '
@@ -401,7 +401,7 @@ Partial Class MainForm
         'Button6
         '
         Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.Right
-        Me.Button6.Location = New System.Drawing.Point(1150, 21)
+        Me.Button6.Location = New System.Drawing.Point(1151, 21)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(167, 37)
         Me.Button6.TabIndex = 4
@@ -424,7 +424,7 @@ Partial Class MainForm
         Me.GroupBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox6.Location = New System.Drawing.Point(3, 153)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(1320, 407)
+        Me.GroupBox6.Size = New System.Drawing.Size(1321, 407)
         Me.GroupBox6.TabIndex = 3
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Details Of Component"
@@ -438,7 +438,7 @@ Partial Class MainForm
         Me.DOC.Location = New System.Drawing.Point(3, 25)
         Me.DOC.Name = "DOC"
         Me.DOC.ReadOnly = True
-        Me.DOC.Size = New System.Drawing.Size(1314, 379)
+        Me.DOC.Size = New System.Drawing.Size(1315, 379)
         Me.DOC.TabIndex = 0
         '
         'TabPage1

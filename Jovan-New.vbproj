@@ -58,8 +58,9 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Forms.Ribbon">
-      <HintPath>..\dll\Ribbon_Release_2018-03-19_NET461\System.Windows.Forms.Ribbon.dll</HintPath>
+    <Reference Include="System.Windows.Forms.Ribbon, Version=2.0.0.0, Culture=neutral, PublicKeyToken=928736e248aa81f9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Windows.Forms.Ribbon.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -137,12 +138,27 @@
       <DependentUpon>MainForm.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MainPOSubPO.Designer.vb">
+      <DependentUpon>MainPOSubPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MainPOSubPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MasterFinishGoods.Designer.vb">
       <DependentUpon>MasterFinishGoods.vb</DependentUpon>
     </Compile>
     <Compile Include="MasterFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
+<<<<<<< HEAD
+=======
+    <Compile Include="MaterialUsageFinishGoods.Designer.vb">
+      <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialUsageFinishGoods.vb">
+      <SubType>Form</SubType>
+    </Compile>
+>>>>>>> Arif
     <Compile Include="MasterMaterial.Designer.vb">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </Compile>
@@ -177,10 +193,55 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+<<<<<<< HEAD
+=======
+    <Compile Include="ProcessFlowMaterialUsage.Designer.vb">
+      <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessFlowMaterialUsage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+>>>>>>> Arif
     <Compile Include="frmTesting.Designer.vb">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </Compile>
     <Compile Include="frmTesting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Production.Designer.vb">
+      <DependentUpon>Production.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Production.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductionRequest.Designer.vb">
+      <DependentUpon>ProductionRequest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProductionRequest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultProduction.Designer.vb">
+      <DependentUpon>ResultProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ResultProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockMinistore.Designer.vb">
+      <DependentUpon>StockMinistore.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StockMinistore.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockProd.Designer.vb">
+      <DependentUpon>StockProd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StockProd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users.Designer.vb">
+      <DependentUpon>Users.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -206,9 +267,18 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainPOSubPO.resx">
+      <DependentUpon>MainPOSubPO.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MasterFinishGoods.resx">
       <DependentUpon>MasterFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
+=======
+    <EmbeddedResource Include="MaterialUsageFinishGoods.resx">
+      <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
+    </EmbeddedResource>
+>>>>>>> Arif
     <EmbeddedResource Include="MasterMaterial.resx">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </EmbeddedResource>
@@ -224,8 +294,32 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+<<<<<<< HEAD
+=======
+    <EmbeddedResource Include="ProcessFlowMaterialUsage.resx">
+      <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
+    </EmbeddedResource>
+>>>>>>> Arif
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Production.resx">
+      <DependentUpon>Production.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductionRequest.resx">
+      <DependentUpon>ProductionRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResultProduction.resx">
+      <DependentUpon>ResultProduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockMinistore.resx">
+      <DependentUpon>StockMinistore.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockProd.resx">
+      <DependentUpon>StockProd.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users.resx">
+      <DependentUpon>Users.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,70 @@
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar
+
+Public Class StockMinistore
+    Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
+        DGV_StockMiniststore()
+    End Sub
+
+    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
+        If e.KeyData = Keys.Enter And TextBox1.Text <> "" Then
+            Dim Found As Boolean = False
+            Dim StringToSearch As String = ""
+            Dim ValueToSearchFor As String = Me.TextBox1.Text.Trim.ToLower
+            Dim CurrentRowIndex As Integer = 0
+            Try
+                If DataGridView1.Rows.Count = 0 Then
+                    CurrentRowIndex = 0
+                Else
+                    CurrentRowIndex = DataGridView1.CurrentRow.Index + 1
+                End If
+                If CurrentRowIndex > DataGridView1.Rows.Count Then
+                    CurrentRowIndex = DataGridView1.Rows.Count - 1
+                End If
+                If DataGridView1.Rows.Count > 0 Then
+                    For Each gRow As DataGridViewRow In DataGridView1.Rows
+                        StringToSearch = gRow.Cells(0).Value.ToString.Trim.ToLower
+                        If InStr(1, StringToSearch, LCase(Trim(TextBox1.Text)), vbTextCompare) = 1 Then
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(0)
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+                            DataGridView1.CurrentCell = myCurrentCell
+                            CurrentRowIndex = DataGridView1.CurrentRow.Index
+                            Found = True
+                        End If
+                        If Found Then Exit For
+                    Next
+                End If
+                If Found = False Then
+                    MessageBox.Show("Data not found")
+                    TextBox1.Text = ""
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+        End If
+    End Sub
+
+    Private Sub DGV_StockMiniststore()
+        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Call Database.koneksi_database()
+        Dim queryInputStockDetail As String = "SELECT PART_NUMBER,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY FROM STOCK_MINISTORE order by part_number,lot_no"
+        Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+        DataGridView1.DataSource = dtInputStockDetail
+    End Sub
+
+    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
+        For i As Integer = 0 To DataGridView1.RowCount - 1
+            If DataGridView1.Rows(i).Index Mod 2 = 0 Then
+                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        DGV_StockMiniststore()
+    End Sub
+End Class

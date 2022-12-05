@@ -1,7 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
-
-Imports Excel = Microsoft.Office.Interop.Excel
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class MasterMaterial
 
@@ -10,13 +9,13 @@ Public Class MasterMaterial
         Call Database.koneksi_database()
         If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" Then
             If IsNumeric(txt_mastermaterial_pn.Text) And IsNumeric(txt_mastermaterial_qty.Text) Then
-                Dim querycheck As String = "select * from MASTER_MATERIAL where part_number=" & txt_mastermaterial_pn.Text
+                Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
                 If dtCheck.Rows.Count > 0 Then
                     MessageBox.Show("Material Exist")
                 Else
                     Try
-                        Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES (" & txt_mastermaterial_pn.Text & ",'" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ")"
+                        Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & txt_mastermaterial_family.Text & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -45,6 +44,7 @@ Public Class MasterMaterial
     Private Sub MasterMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_mastermaterial_pn.Select()
         DGV_MasterMaterial()
+        txt_mastermaterial_search.Text = ""
     End Sub
 
     Private Sub DGV_MasterMaterial()
@@ -52,7 +52,7 @@ Public Class MasterMaterial
         dgv_material.Rows.Clear()
         dgv_material.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select part_number as Part_Number,name as PN_Name, standard_qty as Qty from MASTER_MATERIAL")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER,NAME, STANDARD_QTY, FAMILY from MASTER_MATERIAL")
 
         dgv_material.DataSource = dtMasterMaterial
 
@@ -63,6 +63,10 @@ Public Class MasterMaterial
         check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         dgv_material.Columns.Insert(0, check)
 
+        dgv_material.Columns(0).Width = 100
+        dgv_material.Columns(1).Width = 250
+        dgv_material.Columns(2).Width = 800
+
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
         delete.HeaderText = "Delete"
@@ -70,24 +74,18 @@ Public Class MasterMaterial
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_material.Columns.Insert(4, delete)
-
-        For i As Integer = 0 To dgv_material.RowCount - 1
-            If dgv_material.Rows(i).Index Mod 2 = 0 Then
-                dgv_material.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-            Else
-                dgv_material.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-            End If
-        Next i
+        dgv_material.Columns.Insert(5, delete)
     End Sub
 
     Private Sub dgv_material_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_material.CellClick
-        If e.ColumnIndex = 4 Then
-            Dim result = MessageBox.Show("Yakin, Hapus Data ini?", "Warning", MessageBoxButtons.YesNo)
+        'MessageBox.Show(e.ColumnIndex)
+
+        If dgv_material.Columns(e.ColumnIndex).Name = "delete" Then
+            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from master_material where part_number=" & dgv_material.Rows(e.RowIndex).Cells(1).Value
+                    Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells(2).Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     dgv_material.DataSource = Nothing
@@ -99,7 +97,7 @@ Public Class MasterMaterial
             End If
         End If
 
-        If e.ColumnIndex = 0 Then
+        If dgv_material.Columns(e.ColumnIndex).Name = "check" Then
             If dgv_material.Rows(e.RowIndex).Cells(0).Value = True Then
                 dgv_material.Rows(e.RowIndex).Cells(0).Value = False
             Else
@@ -115,7 +113,7 @@ Public Class MasterMaterial
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_material.Rows
                 If row.Cells(0).Value = True Then
-                    Dim sql As String = "delete from master_material where part_number=" & row.Cells(1).Value
+                    Dim sql As String = "delete from master_material where part_number='" & row.Cells(2).Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     hapus = hapus + 1
@@ -163,20 +161,46 @@ Public Class MasterMaterial
 
     Private Sub txt_mastermaterial_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_mastermaterial_search.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-            Dim str As String = txt_mastermaterial_search.Text
+
+            Dim Found As Boolean = False
+            Dim StringToSearch As String = ""
+            Dim ValueToSearchFor As String = Me.txt_mastermaterial_search.Text.Trim.ToLower
+            Dim CurrentRowIndex As Integer = 0
             Try
-                For i As Integer = 0 To dgv_material.Rows.Count - 1
-                    For j As Integer = 0 To dgv_material.Columns.Count - 1
-                        If dgv_material.Rows(i).Cells(j).Value = str Then
-                            dgv_material.Rows(i).Selected = True
-                            dgv_material.CurrentCell = dgv_material.Rows(i).Cells(j)
-                            Exit Sub
+                If dgv_material.Rows.Count = 0 Then
+                    CurrentRowIndex = 0
+                Else
+                    CurrentRowIndex = dgv_material.CurrentRow.Index + 1
+                End If
+                If CurrentRowIndex > dgv_material.Rows.Count Then
+                    CurrentRowIndex = dgv_material.Rows.Count - 1
+                End If
+                If dgv_material.Rows.Count > 0 Then
+                    For Each gRow As DataGridViewRow In dgv_material.Rows
+                        StringToSearch = gRow.Cells(2).Value.ToString.Trim.ToLower
+                        If InStr(1, StringToSearch, LCase(Trim(txt_mastermaterial_search.Text)), vbTextCompare) = 1 Then
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(2)
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+                            dgv_material.CurrentCell = myCurrentCell
+                            CurrentRowIndex = dgv_material.CurrentRow.Index
+                            Found = True
                         End If
+                        If Found Then Exit For
                     Next
-                Next i
-            Catch abc As Exception
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
             End Try
-            MsgBox("Data not found!")
         End If
+    End Sub
+
+    Private Sub dgv_material_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_material.DataBindingComplete
+        For i As Integer = 0 To dgv_material.RowCount - 1
+            If dgv_material.Rows(i).Index Mod 2 = 0 Then
+                dgv_material.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgv_material.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
     End Sub
 End Class

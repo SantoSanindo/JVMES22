@@ -38,7 +38,7 @@ Public Class MainForm
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs)
-        Dim masterfinishgoods = New MasterFinishGoods()
+        Dim masterfinishgoods = New MaterialUsageFinishGoods()
         masterfinishgoods.Show()
     End Sub
 
@@ -48,8 +48,8 @@ Public Class MainForm
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs)
-        Dim praproduction = New PraProduction()
-        praproduction.Show()
+        'Dim praproduction = New PraProduction()
+        'praproduction.Show()
     End Sub
 
     Private Sub TabControl1_Click(sender As Object, e As EventArgs) Handles TabControl1.Click
@@ -745,7 +745,7 @@ Err_Handler:
             mastermaterial.ShowDialog()
             CbIdxChanged()
         ElseIf (cbPilDataMaster.Text = "Master Finish Goods") Then
-            Dim masterfinishgoods = New MasterFinishGoods()
+            Dim masterfinishgoods = New MaterialUsageFinishGoods()
             'masterfinishgoods.Show()
             masterfinishgoods.ShowDialog()
             CbIdxChanged()
@@ -755,9 +755,9 @@ Err_Handler:
             masterprocessflow.ShowDialog()
             CbIdxChanged()
         ElseIf (cbPilDataMaster.Text = "Pre Production") Then
-            Dim praproduction = New PraProduction()
+            'Dim praproduction = New PraProduction()
             'praproduction.Show()
-            praproduction.ShowDialog()
+            'praproduction.ShowDialog()
             CbIdxChanged()
         ElseIf (cbPilDataMaster.Text = "Stock") Then
             MessageBox.Show("Sorry. Cannot Entry Stock")

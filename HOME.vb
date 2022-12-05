@@ -11,8 +11,8 @@
 
     End Sub
 
-<<<<<<< HEAD
-=======
+    '<<<<<<< HEAD
+    '=======
     Private Sub btnMasterMaterial(sender As Object, e As EventArgs) Handles MasterMaterialBtn.Click
 
         TabControl1.TabPages.Clear()
@@ -100,5 +100,5 @@
         TabControl1.TabPages.Add(Users)
         TabControl1.TabPages(Users).Select()
     End Sub
->>>>>>> Arif
+    '>>>>>>> Arif
 End Class

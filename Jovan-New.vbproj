@@ -150,15 +150,14 @@
     <Compile Include="MasterFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
-<<<<<<< HEAD
-=======
+
     <Compile Include="MaterialUsageFinishGoods.Designer.vb">
       <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
     </Compile>
     <Compile Include="MaterialUsageFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
->>>>>>> Arif
+
     <Compile Include="MasterMaterial.Designer.vb">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </Compile>
@@ -193,15 +192,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-<<<<<<< HEAD
-=======
+
     <Compile Include="ProcessFlowMaterialUsage.Designer.vb">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
     </Compile>
     <Compile Include="ProcessFlowMaterialUsage.vb">
       <SubType>Form</SubType>
     </Compile>
->>>>>>> Arif
+
     <Compile Include="frmTesting.Designer.vb">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </Compile>
@@ -273,12 +271,11 @@
     <EmbeddedResource Include="MasterFinishGoods.resx">
       <DependentUpon>MasterFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
-<<<<<<< HEAD
-=======
+
     <EmbeddedResource Include="MaterialUsageFinishGoods.resx">
       <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
->>>>>>> Arif
+
     <EmbeddedResource Include="MasterMaterial.resx">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </EmbeddedResource>
@@ -294,12 +291,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-<<<<<<< HEAD
-=======
+
     <EmbeddedResource Include="ProcessFlowMaterialUsage.resx">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
     </EmbeddedResource>
->>>>>>> Arif
+
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </EmbeddedResource>

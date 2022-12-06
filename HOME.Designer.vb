@@ -64,6 +64,7 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -102,6 +103,10 @@ Partial Class HOME
         Me.Ribbon1.OrbStyle = System.Windows.Forms.RibbonOrbStyle.Office_2010
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
+        '
+        '
+        '
+        Me.Ribbon1.QuickAccessToolbar.DropDownButtonItems.Add(Me.RibbonButtonLogin)
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
         Me.Ribbon1.Size = New System.Drawing.Size(1236, 137)
         Me.Ribbon1.TabIndex = 0
@@ -362,6 +367,15 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
+        'RibbonButtonLogin
+        '
+        Me.RibbonButtonLogin.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
+        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
+        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
+        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
+        Me.RibbonButtonLogin.Text = "Login"
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -428,5 +442,6 @@ Partial Class HOME
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents LoginUser As ToolStripStatusLabel
+    Friend WithEvents RibbonButtonLogin As RibbonButton
     '>>>>>>> Arif
 End Class

@@ -53,6 +53,7 @@ Partial Class FormLogin
         Me.txtPass.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPass.Location = New System.Drawing.Point(228, 105)
         Me.txtPass.Name = "txtPass"
+        Me.txtPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtPass.Size = New System.Drawing.Size(245, 35)
         Me.txtPass.TabIndex = 3
         '
@@ -70,7 +71,7 @@ Partial Class FormLogin
         '
         Me.btnLogin.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.btnLogin.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLogin.Location = New System.Drawing.Point(163, 174)
+        Me.btnLogin.Location = New System.Drawing.Point(228, 174)
         Me.btnLogin.Name = "btnLogin"
         Me.btnLogin.Size = New System.Drawing.Size(116, 53)
         Me.btnLogin.TabIndex = 4
@@ -81,7 +82,7 @@ Partial Class FormLogin
         '
         Me.btnKeluar.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnKeluar.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnKeluar.Location = New System.Drawing.Point(331, 174)
+        Me.btnKeluar.Location = New System.Drawing.Point(365, 174)
         Me.btnKeluar.Name = "btnKeluar"
         Me.btnKeluar.Size = New System.Drawing.Size(108, 53)
         Me.btnKeluar.TabIndex = 5

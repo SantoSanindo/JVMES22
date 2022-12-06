@@ -103,5 +103,11 @@
         TabControl1.TabPages(Users).Select()
     End Sub
 
+    Private Sub Login_Btn(sender As Object, e As EventArgs) Handles RibbonTab3.PressedChanged
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(FormLogin)
+        TabControl1.TabPages(FormLogin).Select()
+    End Sub
+
     '>>>>>>> Arif
 End Class

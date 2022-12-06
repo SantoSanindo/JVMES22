@@ -85,7 +85,7 @@ Partial Class FormLogin
         Me.btnKeluar.Name = "btnKeluar"
         Me.btnKeluar.Size = New System.Drawing.Size(108, 53)
         Me.btnKeluar.TabIndex = 5
-        Me.btnKeluar.Text = "Keluar"
+        Me.btnKeluar.Text = "Logout"
         Me.btnKeluar.UseVisualStyleBackColor = True
         '
         'FormLogin

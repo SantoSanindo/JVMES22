@@ -1,6 +1,8 @@
 ﻿Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(FormLogin)
+        TabControl1.TabPages(FormLogin).Select()
     End Sub
 
     Private Sub btnInputStock(sender As Object, e As EventArgs) Handles InputStockBtn.Click

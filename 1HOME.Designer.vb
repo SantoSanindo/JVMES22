@@ -37,9 +37,9 @@ Partial Class HOME
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
-<<<<<<< HEAD
+'<<<<<<< HEAD
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
-=======
+'=======
         Me.RibStockProd = New System.Windows.Forms.RibbonPanel()
         Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPO = New System.Windows.Forms.RibbonPanel()
@@ -61,7 +61,7 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.RibUsers = New System.Windows.Forms.RibbonPanel()
         Me.UsersBtn = New System.Windows.Forms.RibbonButton()
->>>>>>> origin/Arif
+'>>>>>>> origin/Arif
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
@@ -174,12 +174,12 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Text = "Line Process"
         '
-<<<<<<< HEAD
+'<<<<<<< HEAD
         'RibbonPanel3
         '
         Me.RibbonPanel3.Name = "RibbonPanel3"
         Me.RibbonPanel3.Text = "RibbonPanel3"
-=======
+'=======
         'RibStockProd
         '
         Me.RibStockProd.Items.Add(Me.StockProdBtn)
@@ -321,7 +321,7 @@ Partial Class HOME
         Me.UsersBtn.LargeImage = CType(resources.GetObject("UsersBtn.LargeImage"), System.Drawing.Image)
         Me.UsersBtn.Name = "UsersBtn"
         Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
->>>>>>> origin/Arif
+'>>>>>>> origin/Arif
         '
         'TabControl1
         '
@@ -369,11 +369,11 @@ Partial Class HOME
     Friend WithEvents InputStock As RibbonPanel
     Friend WithEvents InputStockBtn As RibbonButton
     Friend WithEvents TabControl1 As MdiTabControl.TabControl
-<<<<<<< HEAD
+'<<<<<<< HEAD
     Friend WithEvents RibbonPanel2 As RibbonPanel
     Friend WithEvents RibbonPanel3 As RibbonPanel
     Friend WithEvents RibbonButton1 As RibbonButton
-=======
+'=======
     Friend WithEvents buttontest As RibbonPanel
     Friend WithEvents RibPO As RibbonPanel
     Friend WithEvents RibbonTab5 As RibbonTab
@@ -401,5 +401,5 @@ Partial Class HOME
     Friend WithEvents StockMinistoreBtn As RibbonButton
     Friend WithEvents RibUsers As RibbonPanel
     Friend WithEvents UsersBtn As RibbonButton
->>>>>>> origin/Arif
+'>>>>>>> origin/Arif
 End Class

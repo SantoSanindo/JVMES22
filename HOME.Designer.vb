@@ -37,9 +37,6 @@ Partial Class HOME
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
-
-        Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
-
         Me.RibStockProd = New System.Windows.Forms.RibbonPanel()
         Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPO = New System.Windows.Forms.RibbonPanel()
@@ -61,7 +58,7 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.RibUsers = New System.Windows.Forms.RibbonPanel()
         Me.UsersBtn = New System.Windows.Forms.RibbonButton()
-
+        Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.SuspendLayout()
@@ -174,12 +171,6 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Text = "Line Process"
         '
-
-        'RibbonPanel3
-        '
-        Me.RibbonPanel3.Name = "RibbonPanel3"
-        Me.RibbonPanel3.Text = "RibbonPanel3"
-
         'RibStockProd
         '
         Me.RibStockProd.Items.Add(Me.StockProdBtn)
@@ -321,7 +312,11 @@ Partial Class HOME
         Me.UsersBtn.LargeImage = CType(resources.GetObject("UsersBtn.LargeImage"), System.Drawing.Image)
         Me.UsersBtn.Name = "UsersBtn"
         Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
-
+        '
+        'RibbonPanel3
+        '
+        Me.RibbonPanel3.Name = "RibbonPanel3"
+        Me.RibbonPanel3.Text = "RibbonPanel3"
         '
         'TabControl1
         '

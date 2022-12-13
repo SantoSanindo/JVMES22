@@ -1041,7 +1041,7 @@ Err_Handler:
                 If dsCek2.Tables(0).Rows.Count > 0 Then
                     MessageBox.Show("MTS Return already in database.")
                 Else
-                    Dim FormReturnStock = New FormReturnStock()
+                    Dim FormReturnStock = New OldFormReturnStock()
                     FormReturnStock.Show()
                 End If
             Else
@@ -1068,7 +1068,7 @@ Err_Handler:
                     If dsCek2.Tables(0).Rows.Count > 0 Then
                         MessageBox.Show("MTS Return already in database.")
                     Else
-                        Dim FormReturnStock = New FormReturnStock()
+                        Dim FormReturnStock = New OldFormReturnStock()
                         FormReturnStock.Show()
                     End If
                 Else

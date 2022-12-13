@@ -43,19 +43,10 @@ Partial Class FormDefective
         Me.dgDefectiveListMaterial = New System.Windows.Forms.DataGridView()
         Me.pDefective1 = New System.Windows.Forms.Panel()
         Me.btnDefConfirmProcess = New System.Windows.Forms.Button()
-        Me.txtDefQtyProcess = New System.Windows.Forms.TextBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.rbDefMatLabel = New System.Windows.Forms.RadioButton()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.cbDefProcess1 = New System.Windows.Forms.ComboBox()
         Me.btnDefectiveScan = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.txtDefQtyMatLabel = New System.Windows.Forms.TextBox()
-        Me.cbDefProcess2 = New System.Windows.Forms.ComboBox()
-        Me.txtDefTicketNoProcess = New System.Windows.Forms.TextBox()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.rbDefProcess = New System.Windows.Forms.RadioButton()
+        Me.txtDefMatLabel = New System.Windows.Forms.TextBox()
         Me.tpFinishGoods = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel8 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel12 = New System.Windows.Forms.TableLayoutPanel()
@@ -113,6 +104,7 @@ Partial Class FormDefective
         Me.btnWIPEdit = New System.Windows.Forms.Button()
         Me.dgWIP = New System.Windows.Forms.DataGridView()
         Me.tpOnHold = New System.Windows.Forms.TabPage()
+        Me.nuDefQtyMatLabel = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -147,111 +139,112 @@ Partial Class FormDefective
         Me.TableLayoutPanel7.SuspendLayout()
         Me.TableLayoutPanel6.SuspendLayout()
         CType(Me.dgWIP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nuDefQtyMatLabel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.cbFGPN)
+        Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.cbPONumber)
         Me.GroupBox1.Controls.Add(Me.cbLineNumber)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1658, 130)
+        Me.GroupBox1.Size = New System.Drawing.Size(1658, 169)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
         'cbFGPN
         '
-        Me.cbFGPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbFGPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbFGPN.FormattingEnabled = True
-        Me.cbFGPN.Location = New System.Drawing.Point(186, 85)
+        Me.cbFGPN.Location = New System.Drawing.Point(285, 105)
         Me.cbFGPN.Name = "cbFGPN"
-        Me.cbFGPN.Size = New System.Drawing.Size(201, 28)
+        Me.cbFGPN.Size = New System.Drawing.Size(359, 37)
         Me.cbFGPN.TabIndex = 10
         '
         'cbPONumber
         '
-        Me.cbPONumber.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbPONumber.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbPONumber.FormattingEnabled = True
-        Me.cbPONumber.Location = New System.Drawing.Point(186, 53)
+        Me.cbPONumber.Location = New System.Drawing.Point(285, 62)
         Me.cbPONumber.Name = "cbPONumber"
-        Me.cbPONumber.Size = New System.Drawing.Size(201, 28)
+        Me.cbPONumber.Size = New System.Drawing.Size(359, 37)
         Me.cbPONumber.TabIndex = 9
         '
         'cbLineNumber
         '
-        Me.cbLineNumber.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbLineNumber.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbLineNumber.FormattingEnabled = True
         Me.cbLineNumber.Items.AddRange(New Object() {"Line 1", "Line 2", "Line 3"})
-        Me.cbLineNumber.Location = New System.Drawing.Point(186, 19)
+        Me.cbLineNumber.Location = New System.Drawing.Point(285, 19)
         Me.cbLineNumber.Name = "cbLineNumber"
-        Me.cbLineNumber.Size = New System.Drawing.Size(201, 28)
+        Me.cbLineNumber.Size = New System.Drawing.Size(359, 37)
         Me.cbLineNumber.TabIndex = 6
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(167, 22)
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(244, 22)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(13, 20)
+        Me.Label6.Size = New System.Drawing.Size(19, 29)
         Me.Label6.TabIndex = 5
         Me.Label6.Text = ":"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(167, 56)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(244, 65)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(13, 20)
+        Me.Label5.Size = New System.Drawing.Size(19, 29)
         Me.Label5.TabIndex = 4
         Me.Label5.Text = ":"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(167, 88)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(244, 108)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(13, 20)
+        Me.Label4.Size = New System.Drawing.Size(19, 29)
         Me.Label4.TabIndex = 3
         Me.Label4.Text = ":"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(33, 88)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(33, 108)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(128, 20)
+        Me.Label3.Size = New System.Drawing.Size(196, 29)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "Finish Goods PN"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(33, 56)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(33, 65)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(91, 20)
+        Me.Label2.Size = New System.Drawing.Size(141, 29)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "PO Number"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(33, 22)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(99, 20)
+        Me.Label1.Size = New System.Drawing.Size(152, 29)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Line Number"
         '
@@ -259,9 +252,9 @@ Partial Class FormDefective
         '
         Me.GroupBox2.Controls.Add(Me.TabControl1)
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox2.Location = New System.Drawing.Point(0, 130)
+        Me.GroupBox2.Location = New System.Drawing.Point(0, 169)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(1658, 681)
+        Me.GroupBox2.Size = New System.Drawing.Size(1658, 642)
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
         '
@@ -273,11 +266,11 @@ Partial Class FormDefective
         Me.TabControl1.Controls.Add(Me.tpWIP)
         Me.TabControl1.Controls.Add(Me.tpOnHold)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TabControl1.Location = New System.Drawing.Point(3, 16)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1652, 662)
+        Me.TabControl1.Size = New System.Drawing.Size(1652, 623)
         Me.TabControl1.TabIndex = 0
         '
         'tpDefective
@@ -285,10 +278,10 @@ Partial Class FormDefective
         Me.tpDefective.BackColor = System.Drawing.SystemColors.Control
         Me.tpDefective.Controls.Add(Me.pDefective2)
         Me.tpDefective.Controls.Add(Me.pDefective1)
-        Me.tpDefective.Location = New System.Drawing.Point(4, 29)
+        Me.tpDefective.Location = New System.Drawing.Point(4, 38)
         Me.tpDefective.Name = "tpDefective"
         Me.tpDefective.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpDefective.Size = New System.Drawing.Size(1644, 629)
+        Me.tpDefective.Size = New System.Drawing.Size(1644, 581)
         Me.tpDefective.TabIndex = 0
         Me.tpDefective.Text = "Defective Part"
         '
@@ -306,16 +299,16 @@ Partial Class FormDefective
         Me.pDefective2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.0!))
         Me.pDefective2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.0!))
         Me.pDefective2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.pDefective2.Size = New System.Drawing.Size(1638, 497)
+        Me.pDefective2.Size = New System.Drawing.Size(1638, 449)
         Me.pDefective2.TabIndex = 19
         '
         'dgDefectiveList
         '
         Me.dgDefectiveList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgDefectiveList.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.dgDefectiveList.Location = New System.Drawing.Point(3, 226)
+        Me.dgDefectiveList.Location = New System.Drawing.Point(3, 205)
         Me.dgDefectiveList.Name = "dgDefectiveList"
-        Me.dgDefectiveList.Size = New System.Drawing.Size(1632, 217)
+        Me.dgDefectiveList.Size = New System.Drawing.Size(1632, 196)
         Me.dgDefectiveList.TabIndex = 2
         '
         'TableLayoutPanel1
@@ -327,12 +320,12 @@ Partial Class FormDefective
         Me.TableLayoutPanel1.Controls.Add(Me.btnDefectiveCancel, 2, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.btnDefectiveOK, 1, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 449)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 407)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1632, 45)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1632, 39)
         Me.TableLayoutPanel1.TabIndex = 0
         '
         'btnDefectiveCancel
@@ -340,7 +333,7 @@ Partial Class FormDefective
         Me.btnDefectiveCancel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnDefectiveCancel.Location = New System.Drawing.Point(1308, 3)
         Me.btnDefectiveCancel.Name = "btnDefectiveCancel"
-        Me.btnDefectiveCancel.Size = New System.Drawing.Size(321, 39)
+        Me.btnDefectiveCancel.Size = New System.Drawing.Size(321, 33)
         Me.btnDefectiveCancel.TabIndex = 0
         Me.btnDefectiveCancel.Text = "Cancel"
         Me.btnDefectiveCancel.UseVisualStyleBackColor = True
@@ -350,7 +343,7 @@ Partial Class FormDefective
         Me.btnDefectiveOK.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnDefectiveOK.Location = New System.Drawing.Point(982, 3)
         Me.btnDefectiveOK.Name = "btnDefectiveOK"
-        Me.btnDefectiveOK.Size = New System.Drawing.Size(320, 39)
+        Me.btnDefectiveOK.Size = New System.Drawing.Size(320, 33)
         Me.btnDefectiveOK.TabIndex = 1
         Me.btnDefectiveOK.Text = "OK"
         Me.btnDefectiveOK.UseVisualStyleBackColor = True
@@ -361,25 +354,17 @@ Partial Class FormDefective
         Me.dgDefectiveListMaterial.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgDefectiveListMaterial.Location = New System.Drawing.Point(3, 3)
         Me.dgDefectiveListMaterial.Name = "dgDefectiveListMaterial"
-        Me.dgDefectiveListMaterial.Size = New System.Drawing.Size(1632, 217)
+        Me.dgDefectiveListMaterial.Size = New System.Drawing.Size(1632, 196)
         Me.dgDefectiveListMaterial.TabIndex = 1
         '
         'pDefective1
         '
+        Me.pDefective1.Controls.Add(Me.nuDefQtyMatLabel)
         Me.pDefective1.Controls.Add(Me.btnDefConfirmProcess)
-        Me.pDefective1.Controls.Add(Me.txtDefQtyProcess)
-        Me.pDefective1.Controls.Add(Me.Label15)
-        Me.pDefective1.Controls.Add(Me.rbDefMatLabel)
         Me.pDefective1.Controls.Add(Me.Label8)
-        Me.pDefective1.Controls.Add(Me.cbDefProcess1)
         Me.pDefective1.Controls.Add(Me.btnDefectiveScan)
         Me.pDefective1.Controls.Add(Me.Label7)
-        Me.pDefective1.Controls.Add(Me.Label9)
-        Me.pDefective1.Controls.Add(Me.txtDefQtyMatLabel)
-        Me.pDefective1.Controls.Add(Me.cbDefProcess2)
-        Me.pDefective1.Controls.Add(Me.txtDefTicketNoProcess)
-        Me.pDefective1.Controls.Add(Me.Label10)
-        Me.pDefective1.Controls.Add(Me.rbDefProcess)
+        Me.pDefective1.Controls.Add(Me.txtDefMatLabel)
         Me.pDefective1.Dock = System.Windows.Forms.DockStyle.Top
         Me.pDefective1.Location = New System.Drawing.Point(3, 3)
         Me.pDefective1.Name = "pDefective1"
@@ -396,60 +381,21 @@ Partial Class FormDefective
         Me.btnDefConfirmProcess.Text = "Confirm"
         Me.btnDefConfirmProcess.UseVisualStyleBackColor = True
         '
-        'txtDefQtyProcess
-        '
-        Me.txtDefQtyProcess.Enabled = False
-        Me.txtDefQtyProcess.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDefQtyProcess.Location = New System.Drawing.Point(1149, 31)
-        Me.txtDefQtyProcess.Name = "txtDefQtyProcess"
-        Me.txtDefQtyProcess.Size = New System.Drawing.Size(290, 26)
-        Me.txtDefQtyProcess.TabIndex = 19
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(695, 75)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(79, 20)
-        Me.Label15.TabIndex = 18
-        Me.Label15.Text = "Ticket No."
-        '
-        'rbDefMatLabel
-        '
-        Me.rbDefMatLabel.AutoSize = True
-        Me.rbDefMatLabel.Location = New System.Drawing.Point(3, 7)
-        Me.rbDefMatLabel.Name = "rbDefMatLabel"
-        Me.rbDefMatLabel.Size = New System.Drawing.Size(148, 24)
-        Me.rbDefMatLabel.TabIndex = 0
-        Me.rbDefMatLabel.TabStop = True
-        Me.rbDefMatLabel.Text = "By Material Label"
-        Me.rbDefMatLabel.UseVisualStyleBackColor = True
-        '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(23, 70)
+        Me.Label8.Location = New System.Drawing.Point(91, 28)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(66, 20)
+        Me.Label8.Size = New System.Drawing.Size(158, 29)
         Me.Label8.TabIndex = 10
-        Me.Label8.Text = "Process"
-        '
-        'cbDefProcess1
-        '
-        Me.cbDefProcess1.Enabled = False
-        Me.cbDefProcess1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbDefProcess1.FormattingEnabled = True
-        Me.cbDefProcess1.Location = New System.Drawing.Point(112, 67)
-        Me.cbDefProcess1.Name = "cbDefProcess1"
-        Me.cbDefProcess1.Size = New System.Drawing.Size(290, 28)
-        Me.cbDefProcess1.TabIndex = 9
+        Me.Label8.Text = "Material label"
         '
         'btnDefectiveScan
         '
         Me.btnDefectiveScan.Enabled = False
-        Me.btnDefectiveScan.Location = New System.Drawing.Point(408, 31)
+        Me.btnDefectiveScan.Location = New System.Drawing.Point(640, 25)
         Me.btnDefectiveScan.Name = "btnDefectiveScan"
-        Me.btnDefectiveScan.Size = New System.Drawing.Size(188, 64)
+        Me.btnDefectiveScan.Size = New System.Drawing.Size(220, 76)
         Me.btnDefectiveScan.TabIndex = 17
         Me.btnDefectiveScan.Text = "Scan"
         Me.btnDefectiveScan.UseVisualStyleBackColor = True
@@ -457,77 +403,29 @@ Partial Class FormDefective
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(23, 34)
+        Me.Label7.Location = New System.Drawing.Point(91, 69)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(33, 20)
+        Me.Label7.Size = New System.Drawing.Size(100, 29)
         Me.Label7.TabIndex = 1
-        Me.Label7.Text = "Qty"
+        Me.Label7.Text = "Quantity"
         '
-        'Label9
+        'txtDefMatLabel
         '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(695, 34)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(66, 20)
-        Me.Label9.TabIndex = 16
-        Me.Label9.Text = "Process"
-        '
-        'txtDefQtyMatLabel
-        '
-        Me.txtDefQtyMatLabel.Enabled = False
-        Me.txtDefQtyMatLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDefQtyMatLabel.Location = New System.Drawing.Point(112, 31)
-        Me.txtDefQtyMatLabel.Name = "txtDefQtyMatLabel"
-        Me.txtDefQtyMatLabel.Size = New System.Drawing.Size(290, 26)
-        Me.txtDefQtyMatLabel.TabIndex = 8
-        '
-        'cbDefProcess2
-        '
-        Me.cbDefProcess2.Enabled = False
-        Me.cbDefProcess2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbDefProcess2.FormattingEnabled = True
-        Me.cbDefProcess2.Location = New System.Drawing.Point(788, 31)
-        Me.cbDefProcess2.Name = "cbDefProcess2"
-        Me.cbDefProcess2.Size = New System.Drawing.Size(290, 28)
-        Me.cbDefProcess2.TabIndex = 15
-        '
-        'txtDefTicketNoProcess
-        '
-        Me.txtDefTicketNoProcess.Enabled = False
-        Me.txtDefTicketNoProcess.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDefTicketNoProcess.Location = New System.Drawing.Point(788, 72)
-        Me.txtDefTicketNoProcess.Name = "txtDefTicketNoProcess"
-        Me.txtDefTicketNoProcess.Size = New System.Drawing.Size(290, 26)
-        Me.txtDefTicketNoProcess.TabIndex = 14
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(1107, 34)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(33, 20)
-        Me.Label10.TabIndex = 13
-        Me.Label10.Text = "Qty"
-        '
-        'rbDefProcess
-        '
-        Me.rbDefProcess.AutoSize = True
-        Me.rbDefProcess.Location = New System.Drawing.Point(676, 7)
-        Me.rbDefProcess.Name = "rbDefProcess"
-        Me.rbDefProcess.Size = New System.Drawing.Size(106, 24)
-        Me.rbDefProcess.TabIndex = 12
-        Me.rbDefProcess.TabStop = True
-        Me.rbDefProcess.Text = "By Process"
-        Me.rbDefProcess.UseVisualStyleBackColor = True
+        Me.txtDefMatLabel.Enabled = False
+        Me.txtDefMatLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDefMatLabel.Location = New System.Drawing.Point(275, 25)
+        Me.txtDefMatLabel.Name = "txtDefMatLabel"
+        Me.txtDefMatLabel.Size = New System.Drawing.Size(359, 35)
+        Me.txtDefMatLabel.TabIndex = 8
         '
         'tpFinishGoods
         '
         Me.tpFinishGoods.BackColor = System.Drawing.SystemColors.Control
         Me.tpFinishGoods.Controls.Add(Me.TableLayoutPanel8)
-        Me.tpFinishGoods.Location = New System.Drawing.Point(4, 29)
+        Me.tpFinishGoods.Location = New System.Drawing.Point(4, 38)
         Me.tpFinishGoods.Name = "tpFinishGoods"
         Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 629)
+        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 581)
         Me.tpFinishGoods.TabIndex = 1
         Me.tpFinishGoods.Text = "Finish Goods"
         '
@@ -546,7 +444,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.0!))
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.0!))
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.TableLayoutPanel8.Size = New System.Drawing.Size(1638, 623)
+        Me.TableLayoutPanel8.Size = New System.Drawing.Size(1638, 575)
         Me.TableLayoutPanel8.TabIndex = 0
         '
         'TableLayoutPanel12
@@ -558,12 +456,12 @@ Partial Class FormDefective
         Me.TableLayoutPanel12.Controls.Add(Me.btnFGCancel, 2, 0)
         Me.TableLayoutPanel12.Controls.Add(Me.btnFGOK, 1, 0)
         Me.TableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel12.Location = New System.Drawing.Point(3, 563)
+        Me.TableLayoutPanel12.Location = New System.Drawing.Point(3, 519)
         Me.TableLayoutPanel12.Name = "TableLayoutPanel12"
         Me.TableLayoutPanel12.RowCount = 1
         Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57.0!))
-        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1632, 57)
+        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1632, 53)
         Me.TableLayoutPanel12.TabIndex = 4
         '
         'btnFGCancel
@@ -571,7 +469,7 @@ Partial Class FormDefective
         Me.btnFGCancel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnFGCancel.Location = New System.Drawing.Point(1308, 3)
         Me.btnFGCancel.Name = "btnFGCancel"
-        Me.btnFGCancel.Size = New System.Drawing.Size(321, 51)
+        Me.btnFGCancel.Size = New System.Drawing.Size(321, 47)
         Me.btnFGCancel.TabIndex = 0
         Me.btnFGCancel.Text = "Cancel"
         Me.btnFGCancel.UseVisualStyleBackColor = True
@@ -581,7 +479,7 @@ Partial Class FormDefective
         Me.btnFGOK.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnFGOK.Location = New System.Drawing.Point(982, 3)
         Me.btnFGOK.Name = "btnFGOK"
-        Me.btnFGOK.Size = New System.Drawing.Size(320, 51)
+        Me.btnFGOK.Size = New System.Drawing.Size(320, 47)
         Me.btnFGOK.TabIndex = 1
         Me.btnFGOK.Text = "OK"
         Me.btnFGOK.UseVisualStyleBackColor = True
@@ -599,7 +497,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel9.RowCount = 1
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 274.0!))
-        Me.TableLayoutPanel9.Size = New System.Drawing.Size(1632, 274)
+        Me.TableLayoutPanel9.Size = New System.Drawing.Size(1632, 252)
         Me.TableLayoutPanel9.TabIndex = 0
         '
         'GroupBox3
@@ -608,7 +506,7 @@ Partial Class FormDefective
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(810, 268)
+        Me.GroupBox3.Size = New System.Drawing.Size(810, 246)
         Me.GroupBox3.TabIndex = 0
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Finish Goods"
@@ -620,12 +518,12 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.Controls.Add(Me.Panel1, 0, 0)
         Me.TableLayoutPanel10.Controls.Add(Me.Panel2, 0, 1)
         Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 22)
+        Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 31)
         Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
         Me.TableLayoutPanel10.RowCount = 2
         Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
-        Me.TableLayoutPanel10.Size = New System.Drawing.Size(804, 243)
+        Me.TableLayoutPanel10.Size = New System.Drawing.Size(804, 212)
         Me.TableLayoutPanel10.TabIndex = 0
         '
         'Panel1
@@ -640,7 +538,7 @@ Partial Class FormDefective
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(3, 3)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(798, 91)
+        Me.Panel1.Size = New System.Drawing.Size(798, 78)
         Me.Panel1.TabIndex = 0
         '
         'rdFGGoodstoShip
@@ -648,7 +546,7 @@ Partial Class FormDefective
         Me.rdFGGoodstoShip.AutoSize = True
         Me.rdFGGoodstoShip.Location = New System.Drawing.Point(3, 3)
         Me.rdFGGoodstoShip.Name = "rdFGGoodstoShip"
-        Me.rdFGGoodstoShip.Size = New System.Drawing.Size(126, 24)
+        Me.rdFGGoodstoShip.Size = New System.Drawing.Size(180, 33)
         Me.rdFGGoodstoShip.TabIndex = 6
         Me.rdFGGoodstoShip.TabStop = True
         Me.rdFGGoodstoShip.Text = "Goods to ship"
@@ -696,7 +594,7 @@ Partial Class FormDefective
         '
         Me.txtFGLaserCodeFG.Location = New System.Drawing.Point(339, 6)
         Me.txtFGLaserCodeFG.Name = "txtFGLaserCodeFG"
-        Me.txtFGLaserCodeFG.Size = New System.Drawing.Size(331, 26)
+        Me.txtFGLaserCodeFG.Size = New System.Drawing.Size(331, 35)
         Me.txtFGLaserCodeFG.TabIndex = 1
         '
         'chkFGLserCodeFG
@@ -704,7 +602,7 @@ Partial Class FormDefective
         Me.chkFGLserCodeFG.AutoSize = True
         Me.chkFGLserCodeFG.Location = New System.Drawing.Point(219, 8)
         Me.chkFGLserCodeFG.Name = "chkFGLserCodeFG"
-        Me.chkFGLserCodeFG.Size = New System.Drawing.Size(110, 24)
+        Me.chkFGLserCodeFG.Size = New System.Drawing.Size(157, 33)
         Me.chkFGLserCodeFG.TabIndex = 0
         Me.chkFGLserCodeFG.Text = "Laser Code"
         Me.chkFGLserCodeFG.UseVisualStyleBackColor = True
@@ -713,9 +611,9 @@ Partial Class FormDefective
         '
         Me.Panel2.Controls.Add(Me.dgFGFinishGoods)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel2.Location = New System.Drawing.Point(3, 100)
+        Me.Panel2.Location = New System.Drawing.Point(3, 87)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(798, 140)
+        Me.Panel2.Size = New System.Drawing.Size(798, 122)
         Me.Panel2.TabIndex = 1
         '
         'dgFGFinishGoods
@@ -724,7 +622,7 @@ Partial Class FormDefective
         Me.dgFGFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgFGFinishGoods.Location = New System.Drawing.Point(0, 0)
         Me.dgFGFinishGoods.Name = "dgFGFinishGoods"
-        Me.dgFGFinishGoods.Size = New System.Drawing.Size(798, 140)
+        Me.dgFGFinishGoods.Size = New System.Drawing.Size(798, 122)
         Me.dgFGFinishGoods.TabIndex = 0
         '
         'GroupBox4
@@ -733,7 +631,7 @@ Partial Class FormDefective
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox4.Location = New System.Drawing.Point(819, 3)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(810, 268)
+        Me.GroupBox4.Size = New System.Drawing.Size(810, 246)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Sub Assembly"
@@ -745,12 +643,12 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.Controls.Add(Me.Panel3, 0, 0)
         Me.TableLayoutPanel11.Controls.Add(Me.Panel4, 0, 1)
         Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel11.Location = New System.Drawing.Point(3, 22)
+        Me.TableLayoutPanel11.Location = New System.Drawing.Point(3, 31)
         Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
         Me.TableLayoutPanel11.RowCount = 2
         Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
-        Me.TableLayoutPanel11.Size = New System.Drawing.Size(804, 243)
+        Me.TableLayoutPanel11.Size = New System.Drawing.Size(804, 212)
         Me.TableLayoutPanel11.TabIndex = 1
         '
         'Panel3
@@ -765,14 +663,14 @@ Partial Class FormDefective
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel3.Location = New System.Drawing.Point(3, 3)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(798, 91)
+        Me.Panel3.Size = New System.Drawing.Size(798, 78)
         Me.Panel3.TabIndex = 0
         '
         'txtFGBatchNo
         '
         Me.txtFGBatchNo.Location = New System.Drawing.Point(162, 74)
         Me.txtFGBatchNo.Name = "txtFGBatchNo"
-        Me.txtFGBatchNo.Size = New System.Drawing.Size(207, 26)
+        Me.txtFGBatchNo.Size = New System.Drawing.Size(207, 35)
         Me.txtFGBatchNo.TabIndex = 8
         '
         'Label17
@@ -780,7 +678,7 @@ Partial Class FormDefective
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(48, 74)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(75, 20)
+        Me.Label17.Size = New System.Drawing.Size(111, 29)
         Me.Label17.TabIndex = 7
         Me.Label17.Text = "Batch No"
         '
@@ -789,7 +687,7 @@ Partial Class FormDefective
         Me.rdFGSubAssyMaterial.AutoSize = True
         Me.rdFGSubAssyMaterial.Location = New System.Drawing.Point(3, 3)
         Me.rdFGSubAssyMaterial.Name = "rdFGSubAssyMaterial"
-        Me.rdFGSubAssyMaterial.Size = New System.Drawing.Size(154, 24)
+        Me.rdFGSubAssyMaterial.Size = New System.Drawing.Size(222, 33)
         Me.rdFGSubAssyMaterial.TabIndex = 6
         Me.rdFGSubAssyMaterial.TabStop = True
         Me.rdFGSubAssyMaterial.Text = "Sub Assy Material"
@@ -819,7 +717,7 @@ Partial Class FormDefective
         '
         Me.txtFGLaserCodeSA.Location = New System.Drawing.Point(162, 38)
         Me.txtFGLaserCodeSA.Name = "txtFGLaserCodeSA"
-        Me.txtFGLaserCodeSA.Size = New System.Drawing.Size(207, 26)
+        Me.txtFGLaserCodeSA.Size = New System.Drawing.Size(207, 35)
         Me.txtFGLaserCodeSA.TabIndex = 1
         '
         'chkFGLaserCodeSA
@@ -827,7 +725,7 @@ Partial Class FormDefective
         Me.chkFGLaserCodeSA.AutoSize = True
         Me.chkFGLaserCodeSA.Location = New System.Drawing.Point(30, 40)
         Me.chkFGLaserCodeSA.Name = "chkFGLaserCodeSA"
-        Me.chkFGLaserCodeSA.Size = New System.Drawing.Size(110, 24)
+        Me.chkFGLaserCodeSA.Size = New System.Drawing.Size(157, 33)
         Me.chkFGLaserCodeSA.TabIndex = 0
         Me.chkFGLaserCodeSA.Text = "Laser Code"
         Me.chkFGLaserCodeSA.UseVisualStyleBackColor = True
@@ -836,9 +734,9 @@ Partial Class FormDefective
         '
         Me.Panel4.Controls.Add(Me.dgFGSubAssembly)
         Me.Panel4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel4.Location = New System.Drawing.Point(3, 100)
+        Me.Panel4.Location = New System.Drawing.Point(3, 87)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(798, 140)
+        Me.Panel4.Size = New System.Drawing.Size(798, 122)
         Me.Panel4.TabIndex = 1
         '
         'dgFGSubAssembly
@@ -847,16 +745,16 @@ Partial Class FormDefective
         Me.dgFGSubAssembly.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgFGSubAssembly.Location = New System.Drawing.Point(0, 0)
         Me.dgFGSubAssembly.Name = "dgFGSubAssembly"
-        Me.dgFGSubAssembly.Size = New System.Drawing.Size(798, 140)
+        Me.dgFGSubAssembly.Size = New System.Drawing.Size(798, 122)
         Me.dgFGSubAssembly.TabIndex = 0
         '
         'dgFGList
         '
         Me.dgFGList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgFGList.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.dgFGList.Location = New System.Drawing.Point(3, 283)
+        Me.dgFGList.Location = New System.Drawing.Point(3, 261)
         Me.dgFGList.Name = "dgFGList"
-        Me.dgFGList.Size = New System.Drawing.Size(1632, 274)
+        Me.dgFGList.Size = New System.Drawing.Size(1632, 252)
         Me.dgFGList.TabIndex = 1
         '
         'tpBalance
@@ -909,18 +807,18 @@ Partial Class FormDefective
         '
         Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(84, 18)
+        Me.Label11.Location = New System.Drawing.Point(84, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(121, 20)
+        Me.Label11.Size = New System.Drawing.Size(106, 56)
         Me.Label11.TabIndex = 0
         Me.Label11.Text = "Quantity Return"
         '
         'txtBalanceQty
         '
         Me.txtBalanceQty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceQty.Location = New System.Drawing.Point(247, 15)
+        Me.txtBalanceQty.Location = New System.Drawing.Point(247, 10)
         Me.txtBalanceQty.Name = "txtBalanceQty"
-        Me.txtBalanceQty.Size = New System.Drawing.Size(210, 26)
+        Me.txtBalanceQty.Size = New System.Drawing.Size(210, 35)
         Me.txtBalanceQty.TabIndex = 1
         '
         'btnBalanceScan
@@ -1074,9 +972,9 @@ Partial Class FormDefective
         '
         Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(3, 9)
+        Me.Label12.Location = New System.Drawing.Point(3, 5)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(66, 20)
+        Me.Label12.Size = New System.Drawing.Size(101, 29)
         Me.Label12.TabIndex = 0
         Me.Label12.Text = "Process"
         '
@@ -1084,9 +982,9 @@ Partial Class FormDefective
         '
         Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(3, 48)
+        Me.Label13.Location = New System.Drawing.Point(3, 44)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(79, 20)
+        Me.Label13.Size = New System.Drawing.Size(123, 29)
         Me.Label13.TabIndex = 1
         Me.Label13.Text = "Ticket No."
         '
@@ -1094,9 +992,9 @@ Partial Class FormDefective
         '
         Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(3, 88)
+        Me.Label14.Location = New System.Drawing.Point(3, 84)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(68, 20)
+        Me.Label14.Size = New System.Drawing.Size(100, 29)
         Me.Label14.TabIndex = 2
         Me.Label14.Text = "Quantity"
         '
@@ -1106,23 +1004,23 @@ Partial Class FormDefective
         Me.cbWIPProcess.FormattingEnabled = True
         Me.cbWIPProcess.Location = New System.Drawing.Point(166, 9)
         Me.cbWIPProcess.Name = "cbWIPProcess"
-        Me.cbWIPProcess.Size = New System.Drawing.Size(210, 28)
+        Me.cbWIPProcess.Size = New System.Drawing.Size(210, 37)
         Me.cbWIPProcess.TabIndex = 4
         '
         'txtWIPTicketNo
         '
         Me.txtWIPTicketNo.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtWIPTicketNo.Location = New System.Drawing.Point(166, 45)
+        Me.txtWIPTicketNo.Location = New System.Drawing.Point(166, 42)
         Me.txtWIPTicketNo.Name = "txtWIPTicketNo"
-        Me.txtWIPTicketNo.Size = New System.Drawing.Size(210, 26)
+        Me.txtWIPTicketNo.Size = New System.Drawing.Size(210, 35)
         Me.txtWIPTicketNo.TabIndex = 5
         '
         'txtWIPQuantity
         '
         Me.txtWIPQuantity.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtWIPQuantity.Location = New System.Drawing.Point(166, 85)
+        Me.txtWIPQuantity.Location = New System.Drawing.Point(166, 81)
         Me.txtWIPQuantity.Name = "txtWIPQuantity"
-        Me.txtWIPQuantity.Size = New System.Drawing.Size(210, 26)
+        Me.txtWIPQuantity.Size = New System.Drawing.Size(210, 35)
         Me.txtWIPQuantity.TabIndex = 6
         '
         'btnWIPAdd
@@ -1162,6 +1060,13 @@ Partial Class FormDefective
         Me.tpOnHold.Size = New System.Drawing.Size(1644, 629)
         Me.tpOnHold.TabIndex = 4
         Me.tpOnHold.Text = "On Hold"
+        '
+        'nuDefQtyMatLabel
+        '
+        Me.nuDefQtyMatLabel.Location = New System.Drawing.Point(275, 66)
+        Me.nuDefQtyMatLabel.Name = "nuDefQtyMatLabel"
+        Me.nuDefQtyMatLabel.Size = New System.Drawing.Size(359, 35)
+        Me.nuDefQtyMatLabel.TabIndex = 21
         '
         'FormDefective
         '
@@ -1213,6 +1118,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel6.ResumeLayout(False)
         Me.TableLayoutPanel6.PerformLayout()
         CType(Me.dgWIP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nuDefQtyMatLabel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1229,17 +1135,9 @@ Partial Class FormDefective
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents tpDefective As TabPage
     Friend WithEvents pDefective1 As Panel
-    Friend WithEvents rbDefMatLabel As RadioButton
     Friend WithEvents btnDefectiveScan As Button
     Friend WithEvents Label7 As Label
-    Friend WithEvents Label9 As Label
-    Friend WithEvents txtDefQtyMatLabel As TextBox
-    Friend WithEvents cbDefProcess2 As ComboBox
-    Friend WithEvents cbDefProcess1 As ComboBox
-    Friend WithEvents txtDefTicketNoProcess As TextBox
-    Friend WithEvents Label8 As Label
-    Friend WithEvents Label10 As Label
-    Friend WithEvents rbDefProcess As RadioButton
+    Friend WithEvents txtDefMatLabel As TextBox
     Friend WithEvents tpFinishGoods As TabPage
     Friend WithEvents tpBalance As TabPage
     Friend WithEvents tpWIP As TabPage
@@ -1305,7 +1203,7 @@ Partial Class FormDefective
     Friend WithEvents Label17 As Label
     Friend WithEvents cbFGPN As ComboBox
     Friend WithEvents cbPONumber As ComboBox
-    Friend WithEvents txtDefQtyProcess As TextBox
-    Friend WithEvents Label15 As Label
     Friend WithEvents btnDefConfirmProcess As Button
+    Friend WithEvents Label8 As Label
+    Friend WithEvents nuDefQtyMatLabel As NumericUpDown
 End Class

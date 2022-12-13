@@ -95,6 +95,12 @@
     <Compile Include="FormDefective.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormReturnStock.Designer.vb">
+      <DependentUpon>FormReturnStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormReturnStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormInputStock.Designer.vb">
       <DependentUpon>FormInputStock.vb</DependentUpon>
     </Compile>
@@ -113,10 +119,10 @@
     <Compile Include="FormReject.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormReturnStock.Designer.vb">
-      <DependentUpon>FormReturnStock.vb</DependentUpon>
+    <Compile Include="OldFormReturnStock.Designer.vb">
+      <DependentUpon>OldFormReturnStock.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormReturnStock.vb">
+    <Compile Include="OldFormReturnStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="globVar.vb" />
@@ -150,14 +156,18 @@
     <Compile Include="MasterFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
-
+    <Compile Include="MasterLine.Designer.vb">
+      <DependentUpon>MasterLine.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MasterLine.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MaterialUsageFinishGoods.Designer.vb">
       <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
     </Compile>
     <Compile Include="MaterialUsageFinishGoods.vb">
       <SubType>Form</SubType>
     </Compile>
-
     <Compile Include="MasterMaterial.Designer.vb">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </Compile>
@@ -192,14 +202,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-
     <Compile Include="ProcessFlowMaterialUsage.Designer.vb">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
     </Compile>
     <Compile Include="ProcessFlowMaterialUsage.vb">
       <SubType>Form</SubType>
     </Compile>
-
     <Compile Include="frmTesting.Designer.vb">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </Compile>
@@ -247,6 +255,9 @@
     <EmbeddedResource Include="FormDefective.resx">
       <DependentUpon>FormDefective.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReturnStock.resx">
+      <DependentUpon>FormReturnStock.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormInputStock.resx">
       <DependentUpon>FormInputStock.vb</DependentUpon>
     </EmbeddedResource>
@@ -256,8 +267,8 @@
     <EmbeddedResource Include="FormReject.resx">
       <DependentUpon>FormReject.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormReturnStock.resx">
-      <DependentUpon>FormReturnStock.vb</DependentUpon>
+    <EmbeddedResource Include="OldFormReturnStock.resx">
+      <DependentUpon>OldFormReturnStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HOME.resx">
       <DependentUpon>HOME.vb</DependentUpon>
@@ -271,11 +282,12 @@
     <EmbeddedResource Include="MasterFinishGoods.resx">
       <DependentUpon>MasterFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
-
+    <EmbeddedResource Include="MasterLine.resx">
+      <DependentUpon>MasterLine.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MaterialUsageFinishGoods.resx">
       <DependentUpon>MaterialUsageFinishGoods.vb</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="MasterMaterial.resx">
       <DependentUpon>MasterMaterial.vb</DependentUpon>
     </EmbeddedResource>
@@ -291,11 +303,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-
     <EmbeddedResource Include="ProcessFlowMaterialUsage.resx">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </EmbeddedResource>

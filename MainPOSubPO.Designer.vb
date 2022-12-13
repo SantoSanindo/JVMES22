@@ -66,6 +66,9 @@ Partial Class MainPOSubPO
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.TextBox21 = New System.Windows.Forms.TextBox()
@@ -529,6 +532,9 @@ Partial Class MainPOSubPO
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.CheckBox3)
+        Me.TabPage3.Controls.Add(Me.CheckBox2)
+        Me.TabPage3.Controls.Add(Me.CheckBox1)
         Me.TabPage3.Controls.Add(Me.Label22)
         Me.TabPage3.Controls.Add(Me.Label21)
         Me.TabPage3.Controls.Add(Me.TextBox21)
@@ -555,10 +561,45 @@ Partial Class MainPOSubPO
         Me.TabPage3.Text = "Add / Change Operator"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox3.Location = New System.Drawing.Point(1340, 30)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(212, 33)
+        Me.CheckBox3.TabIndex = 22
+        Me.CheckBox3.Text = "Print Flow Ticket"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(1530, -8)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(156, 33)
+        Me.CheckBox2.TabIndex = 21
+        Me.CheckBox2.Text = "Sudah Print"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        Me.CheckBox2.Visible = False
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Location = New System.Drawing.Point(1340, 76)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(141, 33)
+        Me.CheckBox1.TabIndex = 20
+        Me.CheckBox1.Text = "Print Extra"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'Label22
         '
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(1321, 80)
+        Me.Label22.Location = New System.Drawing.Point(1340, 125)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(27, 29)
         Me.Label22.TabIndex = 19
@@ -567,7 +608,7 @@ Partial Class MainPOSubPO
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(1400, 80)
+        Me.Label21.Location = New System.Drawing.Point(1419, 125)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(73, 29)
         Me.Label21.TabIndex = 18
@@ -575,7 +616,7 @@ Partial Class MainPOSubPO
         '
         'TextBox21
         '
-        Me.TextBox21.Location = New System.Drawing.Point(1354, 77)
+        Me.TextBox21.Location = New System.Drawing.Point(1373, 122)
         Me.TextBox21.Name = "TextBox21"
         Me.TextBox21.Size = New System.Drawing.Size(40, 35)
         Me.TextBox21.TabIndex = 17
@@ -583,7 +624,7 @@ Partial Class MainPOSubPO
         '
         'TextBox20
         '
-        Me.TextBox20.Location = New System.Drawing.Point(1318, 137)
+        Me.TextBox20.Location = New System.Drawing.Point(1424, -10)
         Me.TextBox20.Name = "TextBox20"
         Me.TextBox20.Size = New System.Drawing.Size(100, 35)
         Me.TextBox20.TabIndex = 15
@@ -591,7 +632,7 @@ Partial Class MainPOSubPO
         '
         'TextBox19
         '
-        Me.TextBox19.Location = New System.Drawing.Point(1318, 10)
+        Me.TextBox19.Location = New System.Drawing.Point(1318, -10)
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(100, 35)
         Me.TextBox19.TabIndex = 14
@@ -817,4 +858,7 @@ Partial Class MainPOSubPO
     Friend WithEvents TextBox21 As TextBox
     Friend WithEvents Label21 As Label
     Friend WithEvents Label22 As Label
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents CheckBox2 As CheckBox
+    Friend WithEvents CheckBox3 As CheckBox
 End Class

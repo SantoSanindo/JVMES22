@@ -2,7 +2,6 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class ProductionRequest
-
     Sub Insert_Prod_DOC(fg As String, sub_sub_po As String)
         Dim queryProdDOC As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mufg.component,mufg.description,mufg.usage,mufg.family
         from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
@@ -205,5 +204,39 @@ Public Class ProductionRequest
     Private Sub ComboBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedValueChanged
         DGV_MaterialNeed()
         DGV_InProductionMaterial()
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked = CheckState.Unchecked Then
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            TextBox4.Enabled = True
+            TextBox5.Enabled = True
+            TextBox6.Enabled = True
+            TextBox7.Enabled = True
+            TextBox1.Enabled = False
+        Else
+            TextBox2.Enabled = False
+            TextBox3.Enabled = False
+            TextBox4.Enabled = False
+            TextBox5.Enabled = False
+            TextBox6.Enabled = False
+            TextBox7.Enabled = False
+            TextBox1.Enabled = True
+        End If
+    End Sub
+
+    Private Sub ProductionRequest_Load(sender As Object, e As EventArgs) Handles Me.Load
+        TextBox2.Enabled = False
+        TextBox3.Enabled = False
+        TextBox4.Enabled = False
+        TextBox5.Enabled = False
+        TextBox6.Enabled = False
+        TextBox7.Enabled = False
+        TextBox1.Enabled = True
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
     End Sub
 End Class

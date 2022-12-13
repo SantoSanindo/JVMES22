@@ -109,5 +109,17 @@
         TabControl1.TabPages(FormLogin).Select()
     End Sub
 
+    Private Sub BtnMasterLine(sender As Object, e As EventArgs) Handles MasterLineBtn.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(MasterLine)
+        TabControl1.TabPages(MasterLine).Select()
+    End Sub
+
+    Private Sub btnReturnStock(sender As Object, e As EventArgs) Handles ReturnStockBtn.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(FormReturnStock)
+        TabControl1.TabPages(FormReturnStock).Select()
+    End Sub
+
     '>>>>>>> Arif
 End Class

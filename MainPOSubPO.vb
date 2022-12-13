@@ -51,10 +51,9 @@ Public Class MainPOSubPO
 
         DataGridView1.Columns(0).Width = 100
         DataGridView1.Columns(2).Width = 200
-        DataGridView1.Columns(5).Width = 100
+        DataGridView1.Columns(5).Visible = False
         DataGridView1.Columns(6).Width = 200
         DataGridView1.Columns(7).Width = 200
-
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -62,8 +61,18 @@ Public Class MainPOSubPO
         delete.Width = 50
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-
         DataGridView1.Columns.Insert(8, delete)
+
+        Dim status As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
+        status.Name = "status"
+        status.HeaderText = "Status"
+        status.Items.Add("Open")
+        status.Items.Add("Close")
+        DataGridView1.Columns.Insert(9, status)
+
+        For rowDataSet As Integer = 0 To dtMainPO.Rows.Count - 1
+            DataGridView1.Rows(rowDataSet).Cells(5).Value = dtMainPO.Rows(rowDataSet).Item("STATUS").ToString
+        Next
 
         Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
         sub_sub_po.Name = "subsubpo"
@@ -95,7 +104,7 @@ Public Class MainPOSubPO
 
         DataGridView1.Columns(0).Width = 100
         DataGridView1.Columns(2).Width = 200
-        DataGridView1.Columns(5).Width = 100
+        DataGridView1.Columns(5).Visible = False
         DataGridView1.Columns(6).Width = 200
         DataGridView1.Columns(7).Width = 200
 
@@ -105,8 +114,17 @@ Public Class MainPOSubPO
         delete.Width = 50
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-
         DataGridView1.Columns.Insert(8, delete)
+
+        Dim queryStatus As String = "select status from master_status"
+        Dim dtStatus As DataTable = Database.GetData(queryStatus)
+        Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
+        statusDGV.Name = "status"
+        statusDGV.HeaderText = "Status"
+        statusDGV.DataSource = dtStatus
+        statusDGV.DisplayMember = "status"
+        statusDGV.ValueMember = "status"
+        DataGridView1.Columns.Insert(5, statusDGV)
 
         Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
         sub_sub_po.Name = "subsubpo"
@@ -114,8 +132,11 @@ Public Class MainPOSubPO
         sub_sub_po.Width = 50
         sub_sub_po.Text = "Create"
         sub_sub_po.UseColumnTextForButtonValue = True
-
         DataGridView1.Columns.Insert(0, sub_sub_po)
+
+        For rowDataSet As Integer = 0 To dtMainPO.Rows.Count - 1
+            DataGridView1.Rows(rowDataSet).Cells("status").Value = dtMainPO.Rows(rowDataSet).Item("STATUS").ToString
+        Next
 
         For i As Integer = 0 To DataGridView1.RowCount - 1
             If DataGridView1.Rows(i).Index Mod 2 = 0 Then
@@ -185,15 +206,19 @@ Public Class MainPOSubPO
             'ComboBox1.Text = ""
             'ComboBox2.Text = ""
         Else
-            Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty)
+            Try
+                Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty)
                                     VALUES ('" & TextBox1.Text & "','" & sub_po & "'," & TextBox3.Text & ",'" & ComboBox1.Text & "','Open',0,0)"
-            Dim cmdInsertMainPOSubPO = New SqlCommand(sqlInsertMainPOSubPO, Database.koneksi)
-            If cmdInsertMainPOSubPO.ExecuteNonQuery() Then
-                DGV_MainPO_Spesific()
-                TextBox1.Text = ""
-                TextBox3.Text = ""
-                ComboBox1.Text = ""
-            End If
+                Dim cmdInsertMainPOSubPO = New SqlCommand(sqlInsertMainPOSubPO, Database.koneksi)
+                If cmdInsertMainPOSubPO.ExecuteNonQuery() Then
+                    DGV_MainPO_Spesific()
+                    TextBox1.Text = ""
+                    TextBox3.Text = ""
+                    ComboBox1.Text = ""
+                End If
+            Catch ex As Exception
+                MessageBox.Show("MainPOSubPO-01 : " & ex.Message)
+            End Try
         End If
     End Sub
 
@@ -208,8 +233,9 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+        MessageBox.Show(DataGridView1.Columns(e.ColumnIndex).Name)
 
+        If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
             Dim sqlcheck As String = "select * from sub_sub_po where main_po='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
             Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
             If dtMainPOCheck.Rows.Count > 0 Then
@@ -226,7 +252,7 @@ Public Class MainPOSubPO
                         DGV_MainPO_All()
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
+                    MessageBox.Show("MainPOSubPO-02 : " & ex.Message)
                 End Try
             End If
         End If
@@ -285,7 +311,7 @@ Public Class MainPOSubPO
                     MessageBox.Show("Success updated data")
                 End If
             Catch ex As Exception
-                MessageBox.Show("Failed" & ex.Message)
+                MessageBox.Show("MainPOSubPO-03 : " & ex.Message)
             End Try
 
         End If
@@ -312,7 +338,10 @@ Public Class MainPOSubPO
 
             Dim sql As String = "select * from sub_sub_po where main_po=" & TextBox12.Text & " and line='" & ComboBox3.Text & "' and status='Open'"
             Dim dtSubSubPOCount As DataTable = Database.GetData(sql)
-            Dim sub_sub_po = TextBox2.Text & "-" & dtSubSubPOCount.Rows.Count + 1
+
+            Dim sqlCountSubSubPO As String = "select * from sub_sub_po where main_po=" & TextBox12.Text & " and status='Open'"
+            Dim dtCountSubSubPO As DataTable = Database.GetData(sqlCountSubSubPO)
+            Dim sub_sub_po = TextBox2.Text & "-" & dtCountSubSubPO.Rows.Count + 1
 
             If dtSubSubPOCount.Rows.Count > 0 Then
                 MessageBox.Show("PO & Line already exists in DB and status still Open")
@@ -330,17 +359,22 @@ Public Class MainPOSubPO
                     Exit Sub
                 End If
 
-                Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
+                Try
+                    Dim sqlInsertSubPO As String = "INSERT INTO sub_sub_po (main_po, sub_sub_po, sub_sub_po_qty, line, status, actual_qty)
                                     VALUES (" & TextBox12.Text & ",'" & sub_sub_po & "'," & TextBox10.Text & ",'" & ComboBox3.Text & "','Open',0)"
 
-                Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
-                If cmdInsertSubPO.ExecuteNonQuery() Then
-                    DGV_SubSubPO()
-                    Insert_Prod_DOC(TextBox9.Text, sub_sub_po, TextBox8.Text)
-                    Insert_Prod_DOP(TextBox9.Text, sub_sub_po, TextBox8.Text)
-                    TextBox10.Text = ""
-                    ComboBox3.Text = ""
-                End If
+                    Dim cmdInsertSubPO = New SqlCommand(sqlInsertSubPO, Database.koneksi)
+                    If cmdInsertSubPO.ExecuteNonQuery() Then
+                        DGV_SubSubPO()
+                        Insert_Prod_DOC(TextBox9.Text, sub_sub_po, TextBox8.Text)
+                        Insert_Prod_DOP(TextBox9.Text, sub_sub_po, TextBox8.Text)
+                        TextBox10.Text = ""
+                        ComboBox3.Text = ""
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("MainPOSubPO-04 : " & ex.Message)
+                End Try
+
             End If
         Else
             MessageBox.Show("Sorry The line have Open PO")
@@ -360,10 +394,14 @@ Public Class MainPOSubPO
                 Dim queryCheckProdDOC As String = "select * from prod_doc where sub_sub_po= '" & sub_sub_po & "' AND fg_pn = '" & fg & "' AND component='" & dtProdDOC.Rows(i).Item("component") & "' and line = '" & ComboBox3.Text & "'"
                 Dim dtCheckProdDOC As DataTable = Database.GetData(queryCheckProdDOC)
                 If dtCheckProdDOC.Rows.Count = 0 Then
-                    Dim sqlInsertDOC As String = "INSERT INTO prod_doc (po, sub_sub_po, fg_pn, component, desc_comp, family, usage, line)
+                    Try
+                        Dim sqlInsertDOC As String = "INSERT INTO prod_doc (po, sub_sub_po, fg_pn, component, desc_comp, family, usage, line)
                                     VALUES ('" & po & "','" & sub_sub_po & "','" & dtProdDOC.Rows(i).Item("fg_pn") & "','" & dtProdDOC.Rows(i).Item("component") & "','" & dtProdDOC.Rows(i).Item("description") & "','" & dtProdDOC.Rows(i).Item("family") & "'," & dtProdDOC.Rows(i).Item("usage").ToString.Replace(",", ".") & ",'" & ComboBox3.Text & "')"
-                    Dim cmdInsertDOC = New SqlCommand(sqlInsertDOC, Database.koneksi)
-                    cmdInsertDOC.ExecuteNonQuery()
+                        Dim cmdInsertDOC = New SqlCommand(sqlInsertDOC, Database.koneksi)
+                        cmdInsertDOC.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MessageBox.Show("MainPOSubPO-05 : " & ex.Message)
+                    End Try
                 End If
             Next
         End If
@@ -379,10 +417,14 @@ Public Class MainPOSubPO
                 Dim queryCheckProdDOP As String = "select * from prod_dop where sub_sub_po= '" & sub_sub_po & "' AND fg_pn = '" & fg & "' AND process='" & dtProdDOP.Rows(i).Item("master_process") & "' and line = '" & ComboBox3.Text & "'"
                 Dim dtCheckProdDOP As DataTable = Database.GetData(queryCheckProdDOP)
                 If dtCheckProdDOP.Rows.Count = 0 Then
-                    Dim sqlInsertDOP As String = "INSERT INTO prod_dop (po, sub_sub_po, fg_pn, process, line, process_number)
+                    Try
+                        Dim sqlInsertDOP As String = "INSERT INTO prod_dop (po, sub_sub_po, fg_pn, process, line, process_number)
                                     VALUES ('" & po & "','" & sub_sub_po & "','" & dtProdDOP.Rows(i).Item("fg_pn") & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & ComboBox3.Text & "'," & dtProdDOP.Rows(i).Item("order") & ")"
-                    Dim cmdInsertDOP = New SqlCommand(sqlInsertDOP, Database.koneksi)
-                    cmdInsertDOP.ExecuteNonQuery()
+                        Dim cmdInsertDOP = New SqlCommand(sqlInsertDOP, Database.koneksi)
+                        cmdInsertDOP.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MessageBox.Show("MainPOSubPO-06 : " & ex.Message)
+                    End Try
                 End If
             Next
         End If
@@ -519,7 +561,7 @@ Public Class MainPOSubPO
                         DGV_SubSubPO()
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
+                    MessageBox.Show("MainPOSubPO-07 : " & ex.Message)
                 End Try
             End If
         End If
@@ -543,6 +585,17 @@ Public Class MainPOSubPO
         End If
     End Sub
 
+    Sub sudahPrint()
+        Dim queryRecordPrinting As String = "select * from record_printing where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg='" & TextBox13.Text & "'"
+        Dim dtPrinting As DataTable = Database.GetData(queryRecordPrinting)
+
+        If dtPrinting.Rows.Count > 0 Then
+            CheckBox2.CheckState = CheckState.Checked
+        Else
+            CheckBox2.CheckState = CheckState.Unchecked
+        End If
+    End Sub
+
     Sub DGV_Add_Change_Operator()
         'Dim queryDOP As String = "select dp.process_number Number,dp.process Process, dp.operator_id from prod_dop dp, sub_sub_po ssp where dp.line='" & ComboBox2.Text & "' and ssp.sub_sub_po=dp.sub_sub_po and ssp.status='Open' order by dp.process_number"
         Dim queryDOP As String = "select mp.po,mp.sub_po,mp.fg_pn,mfg.description,ssp.sub_sub_po,dp.process_number Number,dp.process Process, dp.operator_id,dp.operator_id2,dp.REMARK,ssp.sub_sub_po_qty,mfg.spq from prod_dop dp, sub_sub_po ssp,main_po mp,master_finish_goods mfg where dp.line='" & ComboBox2.Text & "' and ssp.line=dp.line and ssp.sub_sub_po=dp.sub_sub_po and ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn order by dp.process_number"
@@ -553,14 +606,6 @@ Public Class MainPOSubPO
         DataGridView3.Columns.Clear()
         If dtDOP.Rows.Count > 0 Then
 
-            DataGridView3.DataSource = dtDOP
-
-            DataGridView3.Columns(0).Visible = False
-            DataGridView3.Columns(1).Visible = False
-            DataGridView3.Columns(2).Visible = False
-            DataGridView3.Columns(3).Visible = False
-            DataGridView3.Columns(4).Visible = False
-
             TextBox19.Text = dtDOP.Rows(0).Item("sub_sub_po_qty")
             TextBox20.Text = dtDOP.Rows(0).Item("spq")
 
@@ -570,47 +615,88 @@ Public Class MainPOSubPO
             TextBox16.Text = dtDOP.Rows(0).Item("SUB_PO")  'Sub PO
             TextBox17.Text = dtDOP.Rows(0).Item("SUB_SUB_PO") 'Sub Sub PO
 
-            Dim name As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            name.Name = "name"
-            name.HeaderText = "Operator Name 1"
-            Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users order by name"
-            Dim dtUsers As DataTable = Database.GetData(queryUsers)
-            name.DataSource = dtUsers
-            name.DisplayMember = "id_name"
-            name.ValueMember = "name"
-            DataGridView3.Columns.Insert(7, name)
+            sudahPrint()
 
-            Dim name2 As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            name2.Name = "name2"
-            name2.HeaderText = "Operator Name 2" 
-            name2.DataSource = dtUsers
-            name2.DisplayMember = "id_name"
-            name2.ValueMember = "name"
-            DataGridView3.Columns.Insert(8, name2)
+            If CheckBox2.Checked = False Then
+                DataGridView3.DataSource = dtDOP
 
-            DataGridView3.Columns(11).ReadOnly = True
+                DataGridView3.Columns(0).Visible = False
+                DataGridView3.Columns(1).Visible = False
+                DataGridView3.Columns(2).Visible = False
+                DataGridView3.Columns(3).Visible = False
+                DataGridView3.Columns(4).Visible = False
 
-            For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
-                DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("operator_id").ToString
-            Next
+                Dim name As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
+                name.Name = "name"
+                name.HeaderText = "Operator Name"
+                Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users order by name"
+                Dim dtUsers As DataTable = Database.GetData(queryUsers)
+                name.DataSource = dtUsers
+                name.DisplayMember = "id_name"
+                name.ValueMember = "name"
+                DataGridView3.Columns.Insert(7, name)
 
-            For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
-                DataGridView3.Rows(rowDataSet).Cells(8).Value = dtDOP.Rows(rowDataSet).Item("operator_id2").ToString
-                DataGridView3.Rows(rowDataSet).Cells(11).ReadOnly = False
-            Next
+                For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
+                    DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("operator_id").ToString
+                Next
 
-            For i As Integer = 0 To DataGridView3.RowCount - 1
-                If DataGridView3.Rows(i).Index Mod 2 = 0 Then
-                    DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-                Else
-                    DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-                End If
-            Next i
+                For i As Integer = 0 To DataGridView3.RowCount - 1
+                    If DataGridView3.Rows(i).Index Mod 2 = 0 Then
+                        DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                    Else
+                        DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                    End If
+                Next i
+                DataGridView3.Columns(8).Visible = False
+                DataGridView3.Columns(9).Visible = False
+                DataGridView3.Columns(10).Visible = False
+                DataGridView3.Columns(11).Visible = False
+                DataGridView3.Columns(12).Visible = False
+            Else
+                DataGridView3.DataSource = dtDOP
 
-            DataGridView3.Columns(9).Visible = False
-            DataGridView3.Columns(10).Visible = False
-            DataGridView3.Columns(12).Visible = False
-            DataGridView3.Columns(13).Visible = False
+                DataGridView3.Columns(0).Visible = False
+                DataGridView3.Columns(1).Visible = False
+                DataGridView3.Columns(2).Visible = False
+                DataGridView3.Columns(3).Visible = False
+                DataGridView3.Columns(4).Visible = False
+                DataGridView3.Columns(7).HeaderText = "Operator 1 Name"
+
+                Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users order by name"
+                Dim dtUsers As DataTable = Database.GetData(queryUsers)
+
+                Dim name2 As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
+                name2.Name = "name"
+                name2.HeaderText = "Operator 2 Name"
+                name2.DataSource = dtUsers
+                name2.DisplayMember = "id_name"
+                name2.ValueMember = "name"
+                DataGridView3.Columns.Insert(8, name2)
+
+                DataGridView3.Columns(11).ReadOnly = True
+
+                For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
+                    DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("operator_id").ToString
+                Next
+
+                For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
+                    DataGridView3.Rows(rowDataSet).Cells(8).Value = dtDOP.Rows(rowDataSet).Item("operator_id2").ToString
+                    DataGridView3.Rows(rowDataSet).Cells(11).ReadOnly = False
+                Next
+
+                For i As Integer = 0 To DataGridView3.RowCount - 1
+                    If DataGridView3.Rows(i).Index Mod 2 = 0 Then
+                        DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                    Else
+                        DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                    End If
+                Next i
+
+                DataGridView3.Columns(9).Visible = False
+                DataGridView3.Columns(11).Visible = False
+                DataGridView3.Columns(12).Visible = False
+            End If
+
         End If
     End Sub
 
@@ -633,7 +719,7 @@ Public Class MainPOSubPO
                     MessageBox.Show("Success updated data")
                 End If
             Catch ex As Exception
-                MessageBox.Show("Failed" & ex.Message)
+                MessageBox.Show("MainPOSubPO-08 : " & ex.Message)
             End Try
         End If
 
@@ -645,7 +731,7 @@ Public Class MainPOSubPO
                     MessageBox.Show("Success updated data")
                 End If
             Catch ex As Exception
-                MessageBox.Show("Failed" & ex.Message)
+                MessageBox.Show("MainPOSubPO-09 : " & ex.Message)
             End Try
         End If
     End Sub
@@ -659,88 +745,146 @@ Public Class MainPOSubPO
 
     Private Sub DataGridView3_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView3.EditingControlShowing
         If DataGridView3.Columns(DataGridView3.CurrentCell.ColumnIndex).Name = "name" Then
-            Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+            If CheckBox2.CheckState = CheckState.Unchecked Then
+                Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
 
-            If (combo IsNot Nothing) Then
-                RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted)
+                'MessageBox.Show(combo.SelectedValue)
 
-                AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted)
-            End If
-        End If
+                If (combo IsNot Nothing) Then
+                    RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted)
 
-        If DataGridView3.Columns(DataGridView3.CurrentCell.ColumnIndex).Name = "name2" Then
-            Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+                    AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted)
+                End If
+            Else
+                Dim combo2 As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
 
-            If (combo IsNot Nothing) Then
-                RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted2)
+                'MessageBox.Show("22 " + combo2.SelectedValue)
 
-                AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommitted2)
+                If (combo2 IsNot Nothing) Then
+                    RemoveHandler combo2.SelectedValueChanged, New EventHandler(AddressOf Combo_SelectionChangeCommitted2)
+
+                    AddHandler combo2.SelectedValueChanged, New EventHandler(AddressOf Combo_SelectionChangeCommitted2)
+                End If
             End If
         End If
     End Sub
 
     Private Sub Combo_SelectionChangeCommitted(ByVal sender As Object, ByVal e As EventArgs)
         Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-        Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
-        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-        If cmd.ExecuteNonQuery() Then
-            DGV_Add_Change_Operator()
+        If combo.SelectedValue IsNot Nothing Then
+            If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value IsNot Nothing Then
+                Try
+                    Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        DGV_Add_Change_Operator()
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("MainPOSubPO-10 : " & ex.Message)
+                End Try
+            End If
         End If
     End Sub
 
     Private Sub Combo_SelectionChangeCommitted2(ByVal sender As Object, ByVal e As EventArgs)
-        Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-        Dim Sql As String = "update prod_dop set operator_id2='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
-        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-        If cmd.ExecuteNonQuery() Then
-            DGV_Add_Change_Operator()
+        Dim combo2 As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
+        If combo2.SelectedValue IsNot Nothing Then
+            If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value IsNot Nothing Then
+                Try
+                    Dim Sql As String = "update prod_dop set operator_id2='" & combo2.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        DGV_Add_Change_Operator()
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("MainPOSubPO-11 : " & ex.Message)
+                End Try
+            End If
         End If
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn='" & TextBox13.Text & "' and operator_id is null"
+        Dim dtDOP As DataTable = Database.GetData(queryDOP)
+
+        If dtDOP.Rows.Count > 0 Then
+            MessageBox.Show("Sorry please input all operator first")
+            Exit Sub
+        End If
+
         If Val(TextBox19.Text) <= Val(TextBox20.Text) Then
-            MessageBox.Show("Print 1 of 1 Flow Ticket")
-            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
+            If CheckBox3.Checked Then
+                MessageBox.Show("Print 1 of 1 Flow Ticket")
+                Try
+                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
                                     VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "',1,1,'" & TextBox17.Text & "')"
-            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-            cmdInsertPrintingRecord.ExecuteNonQuery()
-
-            For i = 1 To Val(TextBox21.Text)
-                MessageBox.Show("Print + " & i & " Flow Ticket")
-                Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
-                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & ",0,'Additional','" & TextBox17.Text & "')"
-                Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
-                cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
-            Next
-        Else
-            If Val(TextBox19.Text) Mod Val(TextBox20.Text) = 0 Then
-                For i = 1 To Val(TextBox19.Text) / Val(TextBox20.Text)
-                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
-                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & "," & Val(TextBox19.Text) / Val(TextBox20.Text) & ",'" & TextBox17.Text & "')"
                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                     cmdInsertPrintingRecord.ExecuteNonQuery()
-
-                    MessageBox.Show("Print " & i & " of " & Val(TextBox19.Text) / Val(TextBox20.Text) & " Label Flow Ticket")
-                Next
-            Else
-                For i = 1 To Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1
-                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
-                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & "," & Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1 & ",'" & TextBox17.Text & "')"
-                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                    cmdInsertPrintingRecord.ExecuteNonQuery()
-
-                    MessageBox.Show("Print " & i & " of " & Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1 & " Label Flow Ticket")
-                Next
+                Catch ex As Exception
+                    MessageBox.Show("MainPOSubPO-12 : " & ex.Message)
+                End Try
             End If
 
-            For i = 1 To Val(TextBox21.Text)
-                MessageBox.Show("Print + " & i & " Flow Ticket")
-                Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
+            If CheckBox1.Checked Then
+                For i = 1 To Val(TextBox21.Text)
+                    MessageBox.Show("Print + " & i & " Flow Ticket Additional")
+                    Try
+                        Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
                                     VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & ",0,'Additional','" & TextBox17.Text & "')"
-                Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
-                cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
-            Next
+                        Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
+                        cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MessageBox.Show("MainPOSubPO-13 : " & ex.Message)
+                    End Try
+                Next
+            End If
+        Else
+            If CheckBox3.Checked Then
+                If Val(TextBox19.Text) Mod Val(TextBox20.Text) = 0 Then
+                    For i = 1 To Val(TextBox19.Text) / Val(TextBox20.Text)
+                        Try
+                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & "," & Val(TextBox19.Text) / Val(TextBox20.Text) & ",'" & TextBox17.Text & "')"
+                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                            cmdInsertPrintingRecord.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MessageBox.Show("MainPOSubPO-14 : " & ex.Message)
+                        End Try
+
+                        MessageBox.Show("Print " & i & " of " & Val(TextBox19.Text) / Val(TextBox20.Text) & " Label Flow Ticket")
+                    Next
+                Else
+                    For i = 1 To Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1
+                        Try
+                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & "," & Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1 & ",'" & TextBox17.Text & "')"
+                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                            cmdInsertPrintingRecord.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MessageBox.Show("MainPOSubPO-15 : " & ex.Message)
+                        End Try
+
+                        MessageBox.Show("Print " & i & " of " & Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1 & " Label Flow Ticket")
+                    Next
+                End If
+            End If
+
+            If CheckBox1.Checked Then
+                For i = 1 To Val(TextBox21.Text)
+                    MessageBox.Show("Print + " & i & " Flow Ticket Additional")
+                    Try
+                        Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
+                                    VALUES ('" & TextBox15.Text & "','" & TextBox13.Text & "','" & ComboBox2.Text & "'," & i & ",0,'Additional','" & TextBox17.Text & "')"
+                        Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
+                        cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MessageBox.Show("MainPOSubPO-16 : " & ex.Message)
+                    End Try
+                Next
+            End If
         End If
+
+        DGV_Add_Change_Operator()
     End Sub
 
     Private Sub ComboBox2_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedValueChanged
@@ -758,15 +902,19 @@ Public Class MainPOSubPO
 
     Private Sub DataGridView3_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView3.CellValueChanged
         If DataGridView3.Columns(e.ColumnIndex).Name = "REMARK" Then
-            Dim Sql As String = "update prod_dop set remark='" & DataGridView3.Rows(e.RowIndex).Cells("REMARK").Value & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
-            Dim cmd = New SqlCommand(Sql, Database.koneksi)
-            cmd.ExecuteNonQuery()
+            Try
+                Dim Sql As String = "update prod_dop set remark='" & DataGridView3.Rows(e.RowIndex).Cells("REMARK").Value & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
+                Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                MessageBox.Show("MainPOSubPO-17 : " & ex.Message)
+            End Try
         End If
     End Sub
 
     Private Sub DataGridView3_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView3.CellMouseClick
         If DataGridView3.Columns(e.ColumnIndex).Name = "REMARK" Then
-            If DataGridView3.Rows(e.RowIndex).Cells("name2").Value = "" Then
+            If DataGridView3.Rows(e.RowIndex).Cells("name").Value = "" Then
                 MessageBox.Show("Please fill the Operator Name 2 first")
             End If
         End If

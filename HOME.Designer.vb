@@ -29,6 +29,7 @@ Partial Class HOME
         Me.Ribbon1 = New System.Windows.Forms.Ribbon()
         Me.RibbonSeparator1 = New System.Windows.Forms.RibbonSeparator()
         Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator()
+        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
@@ -58,13 +59,16 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.RibUsers = New System.Windows.Forms.RibbonPanel()
         Me.UsersBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibMasterLine = New System.Windows.Forms.RibbonPanel()
+        Me.MasterLineBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
+        Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
+        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -124,12 +128,22 @@ Partial Class HOME
         '
         Me.RibbonSeparator2.Name = "RibbonSeparator2"
         '
+        'RibbonButtonLogin
+        '
+        Me.RibbonButtonLogin.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
+        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
+        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
+        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
+        Me.RibbonButtonLogin.Text = "Login"
+        '
         'RibbonTab3
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
         Me.RibbonTab3.Panels.Add(Me.RibStockMinistore)
         Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
+        Me.RibbonTab3.Panels.Add(Me.RibReturnStock)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -184,7 +198,7 @@ Partial Class HOME
         '
         Me.RibStockProd.Items.Add(Me.StockProdBtn)
         Me.RibStockProd.Name = "RibStockProd"
-        Me.RibStockProd.Text = "Stock Production"
+        Me.RibStockProd.Text = "Transit Area"
         '
         'StockProdBtn
         '
@@ -222,6 +236,7 @@ Partial Class HOME
         'RibbonTab5
         '
         Me.RibbonTab5.Name = "RibbonTab5"
+        Me.RibbonTab5.Panels.Add(Me.RibMasterLine)
         Me.RibbonTab5.Panels.Add(Me.RibMasterMaterial)
         Me.RibbonTab5.Panels.Add(Me.RibMasterProcess)
         Me.RibbonTab5.Panels.Add(Me.RibMasterFinishGoods)
@@ -322,6 +337,19 @@ Partial Class HOME
         Me.UsersBtn.Name = "UsersBtn"
         Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibMasterLine
+        '
+        Me.RibMasterLine.Items.Add(Me.MasterLineBtn)
+        Me.RibMasterLine.Name = "RibMasterLine"
+        Me.RibMasterLine.Text = "Master Line"
+        '
+        'MasterLineBtn
+        '
+        Me.MasterLineBtn.Image = CType(resources.GetObject("MasterLineBtn.Image"), System.Drawing.Image)
+        Me.MasterLineBtn.LargeImage = CType(resources.GetObject("MasterLineBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterLineBtn.Name = "MasterLineBtn"
+        Me.MasterLineBtn.SmallImage = CType(resources.GetObject("MasterLineBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonPanel3
         '
         Me.RibbonPanel3.Name = "RibbonPanel3"
@@ -367,14 +395,18 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
-        'RibbonButtonLogin
+        'RibReturnStock
         '
-        Me.RibbonButtonLogin.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
-        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
-        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
-        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
-        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
-        Me.RibbonButtonLogin.Text = "Login"
+        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
+        Me.RibReturnStock.Name = "RibReturnStock"
+        Me.RibReturnStock.Text = "Return Stock"
+        '
+        'ReturnStockBtn
+        '
+        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
+        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
+        Me.ReturnStockBtn.Name = "ReturnStockBtn"
+        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -443,5 +475,9 @@ Partial Class HOME
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents LoginUser As ToolStripStatusLabel
     Friend WithEvents RibbonButtonLogin As RibbonButton
+    Friend WithEvents RibMasterLine As RibbonPanel
+    Friend WithEvents MasterLineBtn As RibbonButton
+    Friend WithEvents RibReturnStock As RibbonPanel
+    Friend WithEvents ReturnStockBtn As RibbonButton
     '>>>>>>> Arif
 End Class

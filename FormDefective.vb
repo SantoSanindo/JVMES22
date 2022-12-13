@@ -95,14 +95,14 @@
                 Call Database.koneksi_database()
                 Dim dtProcess As DataTable = Database.GetData("select distinct MASTER_PROCESS, ID from _OLD_MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
 
-                cbDefProcess1.Items.Clear()
-                cbDefProcess2.Items.Clear()
+                'cbDefProcess1.Items.Clear()
+                'cbDefProcess2.Items.Clear()
                 cbWIPProcess.Items.Clear()
 
                 If dtProcess.Rows.Count > 0 Then
                     For i As Integer = 0 To dtProcess.Rows.Count - 1
-                        cbDefProcess1.Items.Add(dtProcess.Rows(i)(0))
-                        cbDefProcess2.Items.Add(dtProcess.Rows(i)(0))
+                        'cbDefProcess1.Items.Add(dtProcess.Rows(i)(0))
+                        'cbDefProcess2.Items.Add(dtProcess.Rows(i)(0))
                         cbWIPProcess.Items.Add(dtProcess.Rows(i)(0))
                     Next
                 End If
@@ -117,34 +117,34 @@
         End If
     End Sub
 
-    Private Sub rbDefMatLabel_CheckedChanged(sender As Object, e As EventArgs) Handles rbDefMatLabel.CheckedChanged
-        If rbDefMatLabel.Checked Then
-            cbDefProcess1.Enabled = True
-            txtDefQtyMatLabel.Enabled = True
-            btnDefectiveScan.Enabled = True
-        Else
-            cbDefProcess1.Enabled = False
-            txtDefQtyMatLabel.Enabled = False
-            btnDefectiveScan.Enabled = False
-        End If
+    Private Sub rbDefMatLabel_CheckedChanged(sender As Object, e As EventArgs)
+        'If rbDefMatLabel.Checked Then
+        '    cbDefProcess1.Enabled = True
+        '    txtDefMatLabel.Enabled = True
+        '    btnDefectiveScan.Enabled = True
+        'Else
+        '    cbDefProcess1.Enabled = False
+        '    txtDefMatLabel.Enabled = False
+        '    btnDefectiveScan.Enabled = False
+        'End If
     End Sub
 
-    Private Sub rbDefProcess_CheckedChanged(sender As Object, e As EventArgs) Handles rbDefProcess.CheckedChanged
-        If rbDefProcess.Checked Then
-            cbDefProcess2.Enabled = True
-            txtDefTicketNoProcess.Enabled = True
-            txtDefQtyProcess.Enabled = True
-            btnDefConfirmProcess.Enabled = True
-        Else
-            cbDefProcess2.Enabled = False
-            txtDefTicketNoProcess.Enabled = False
-            txtDefQtyProcess.Enabled = False
-            btnDefConfirmProcess.Enabled = False
-        End If
+    Private Sub rbDefProcess_CheckedChanged(sender As Object, e As EventArgs)
+        'If rbDefProcess.Checked Then
+        '    cbDefProcess2.Enabled = True
+        '    txtDefTicketNoProcess.Enabled = True
+        '    txtDefQtyProcess.Enabled = True
+        '    btnDefConfirmProcess.Enabled = True
+        'Else
+        '    cbDefProcess2.Enabled = False
+        '    txtDefTicketNoProcess.Enabled = False
+        '    txtDefQtyProcess.Enabled = False
+        '    btnDefConfirmProcess.Enabled = False
+        'End If
     End Sub
 
-    Private Sub cbDefProcess1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbDefProcess1.SelectedIndexChanged
-        showToDGView(dgDefectiveListMaterial, cbDefProcess1.Text)
+    Private Sub cbDefProcess1_SelectedIndexChanged(sender As Object, e As EventArgs)
+        'showToDGView(dgDefectiveListMaterial, cbDefProcess1.Text)
     End Sub
 
     Sub showToDGView(dg As DataGridView, strKey As String)
@@ -235,4 +235,5 @@
 
 
     End Sub
+
 End Class

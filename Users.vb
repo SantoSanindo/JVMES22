@@ -2,7 +2,6 @@
 Imports System.Data.SqlClient
 
 Public Class Users
-
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If TextBox1.Text <> "" And TextBox2.Text <> "" Then
@@ -12,7 +11,7 @@ Public Class Users
                 MessageBox.Show("Users Exist")
             Else
                 Try
-                    Dim sql As String = "INSERT INTO users (id_card_no,name,username,password) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "')"
+                    Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,departement,role) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox2.Text & "','" & ComboBox1.Text & "')"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                     If cmd.ExecuteNonQuery() Then
@@ -32,8 +31,20 @@ Public Class Users
         End If
     End Sub
 
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+
+        ComboBox2.DataSource = dtMasterDepart
+        ComboBox2.DisplayMember = "departement"
+        ComboBox2.ValueMember = "departement"
+        ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
+    End Sub
+
     Private Sub Users_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_Users()
+        tampilDataComboBoxDepartement()
     End Sub
 
     Sub DGV_Users()
@@ -41,7 +52,7 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select ID,ID_CARD_NO,NAME,USERNAME,ROLE from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id, id_card_no [ID Card],name Name,role Role, departement Department from USERS order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 
@@ -60,6 +71,8 @@ Public Class Users
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
         DataGridView1.Columns.Insert(6, delete)
+
+        DataGridView1.Columns("ID").Visible = False
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -91,32 +104,26 @@ Public Class Users
 
     Private Sub TextBox5_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox5.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-
             Dim Found As Boolean = False
             Dim StringToSearch As String = ""
             Dim ValueToSearchFor As String = Me.TextBox5.Text.Trim.ToLower
             Dim CurrentRowIndex As Integer = 0
             Try
-                If DataGridView1.Rows.Count = 0 Then
-                    CurrentRowIndex = 0
-                Else
-                    CurrentRowIndex = DataGridView1.CurrentRow.Index + 1
-                End If
-                If CurrentRowIndex > DataGridView1.Rows.Count Then
-                    CurrentRowIndex = DataGridView1.Rows.Count - 1
-                End If
                 If DataGridView1.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In DataGridView1.Rows
-                        StringToSearch = gRow.Cells("ID_CARD_NO").Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("NAME").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(TextBox5.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("ID_CARD_NO")
-                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells("ID_CARD_NO")
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("NAME")
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells("NAME")
                             DataGridView1.CurrentCell = myCurrentCell
                             CurrentRowIndex = DataGridView1.CurrentRow.Index
                             Found = True
+                            TextBox5.Clear()
                         End If
                         If Found Then Exit For
                     Next
+                Else
+                    MessageBox.Show("Cannot Search Users couse Users is blank.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -157,33 +164,40 @@ Public Class Users
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            'Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-            'Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
-            'Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-            'Dim excelpath As String = OpenFileDialog1.FileName
-            'Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=No;IMEX=1;'"
-            'oleCon = New OleDbConnection(koneksiExcel)
-            'oleCon.Open()
+            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+            Dim excelpath As String = OpenFileDialog1.FileName
+            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+            oleCon = New OleDbConnection(koneksiExcel)
+            oleCon.Open()
 
-            'Dim queryExcel As String = "select * from [" & SheetName & "$]"
-            'Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-            'Dim rd As OleDbDataReader
+            Dim queryExcel As String = "select * from [" & SheetName & "$]"
+            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+            Dim rd As OleDbDataReader
 
-            'Call Database.koneksi_database()
-            'Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-            '    bulkCopy.DestinationTableName = "dbo.MASTER_MATERIAL"
-            '    Try
-            '        rd = cmd.ExecuteReader
-            '        bulkCopy.WriteToServer(rd)
-            '        rd.Close()
+            Call Database.koneksi_database()
+            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                bulkCopy.DestinationTableName = "dbo.USERS"
+                Try
+                    rd = cmd.ExecuteReader
 
-            '        'dgv_material.DataSource = Nothing
-            '        'DGV_MasterMaterial()
-            '        MsgBox("Import Material Success")
-            '    Catch ex As Exception
-            '        MsgBox("Import Material Failed " & ex.Message)
-            '    End Try
-            'End Using
+                    bulkCopy.ColumnMappings.Add(0, 1)
+                    bulkCopy.ColumnMappings.Add(1, 2)
+                    bulkCopy.ColumnMappings.Add(2, 3)
+                    bulkCopy.ColumnMappings.Add(3, 4)
+                    bulkCopy.ColumnMappings.Add(4, 5)
+                    bulkCopy.ColumnMappings.Add(5, 6)
+
+                    bulkCopy.WriteToServer(rd)
+                    rd.Close()
+
+                    DGV_Users()
+                    MsgBox("Import Users Success")
+                Catch ex As Exception
+                    MsgBox("Import Material Failed " & ex.Message)
+                End Try
+            End Using
         End If
     End Sub
 End Class

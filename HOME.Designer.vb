@@ -37,6 +37,8 @@ Partial Class HOME
         Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
+        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.RibStockProd = New System.Windows.Forms.RibbonPanel()
         Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
@@ -45,6 +47,8 @@ Partial Class HOME
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
         Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
+        Me.RibMasterLine = New System.Windows.Forms.RibbonPanel()
+        Me.MasterLineBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
         Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcess = New System.Windows.Forms.RibbonPanel()
@@ -59,16 +63,12 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.RibUsers = New System.Windows.Forms.RibbonPanel()
         Me.UsersBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibMasterLine = New System.Windows.Forms.RibbonPanel()
-        Me.MasterLineBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
-        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -186,6 +186,19 @@ Partial Class HOME
         Me.ProductionRequestBtn.Name = "ProductionRequestBtn"
         Me.ProductionRequestBtn.SmallImage = CType(resources.GetObject("ProductionRequestBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibReturnStock
+        '
+        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
+        Me.RibReturnStock.Name = "RibReturnStock"
+        Me.RibReturnStock.Text = "Return Stock"
+        '
+        'ReturnStockBtn
+        '
+        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
+        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
+        Me.ReturnStockBtn.Name = "ReturnStockBtn"
+        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonTab4
         '
         Me.RibbonTab4.Name = "RibbonTab4"
@@ -245,6 +258,19 @@ Partial Class HOME
         Me.RibbonTab5.Panels.Add(Me.RibProcessFlowMaterialUsage)
         Me.RibbonTab5.Panels.Add(Me.RibUsers)
         Me.RibbonTab5.Text = "Master Data"
+        '
+        'RibMasterLine
+        '
+        Me.RibMasterLine.Items.Add(Me.MasterLineBtn)
+        Me.RibMasterLine.Name = "RibMasterLine"
+        Me.RibMasterLine.Text = "Master Line"
+        '
+        'MasterLineBtn
+        '
+        Me.MasterLineBtn.Image = CType(resources.GetObject("MasterLineBtn.Image"), System.Drawing.Image)
+        Me.MasterLineBtn.LargeImage = CType(resources.GetObject("MasterLineBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterLineBtn.Name = "MasterLineBtn"
+        Me.MasterLineBtn.SmallImage = CType(resources.GetObject("MasterLineBtn.SmallImage"), System.Drawing.Image)
         '
         'RibMasterMaterial
         '
@@ -337,19 +363,6 @@ Partial Class HOME
         Me.UsersBtn.Name = "UsersBtn"
         Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
         '
-        'RibMasterLine
-        '
-        Me.RibMasterLine.Items.Add(Me.MasterLineBtn)
-        Me.RibMasterLine.Name = "RibMasterLine"
-        Me.RibMasterLine.Text = "Master Line"
-        '
-        'MasterLineBtn
-        '
-        Me.MasterLineBtn.Image = CType(resources.GetObject("MasterLineBtn.Image"), System.Drawing.Image)
-        Me.MasterLineBtn.LargeImage = CType(resources.GetObject("MasterLineBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterLineBtn.Name = "MasterLineBtn"
-        Me.MasterLineBtn.SmallImage = CType(resources.GetObject("MasterLineBtn.SmallImage"), System.Drawing.Image)
-        '
         'RibbonPanel3
         '
         Me.RibbonPanel3.Name = "RibbonPanel3"
@@ -394,19 +407,6 @@ Partial Class HOME
         Me.LoginUser.Name = "LoginUser"
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
-        '
-        'RibReturnStock
-        '
-        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
-        Me.RibReturnStock.Name = "RibReturnStock"
-        Me.RibReturnStock.Text = "Return Stock"
-        '
-        'ReturnStockBtn
-        '
-        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
-        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
-        Me.ReturnStockBtn.Name = "ReturnStockBtn"
-        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '

@@ -1,8 +1,9 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Data.OleDb
+Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles
 
 Public Class MasterProcess
-
+    Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If txt_masterprocess_nama.Text <> "" Then
             Dim querycheck As String = "select * from MASTER_PROCESS where lower(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToLower) & "'"
@@ -38,6 +39,7 @@ Public Class MasterProcess
 
     Private Sub DGV_MasterProcesss()
         dgv_masterprocess.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgv_masterprocess.DataSource = Nothing
         dgv_masterprocess.Rows.Clear()
         dgv_masterprocess.Columns.Clear()
         Call Database.koneksi_database()
@@ -92,7 +94,6 @@ Public Class MasterProcess
 
     Private Sub txt_masterprocess_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterprocess_search.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-
             Dim Found As Boolean = False
             Dim StringToSearch As String = ""
             Dim ValueToSearchFor As String = Me.txt_masterprocess_search.Text.Trim.ToLower
@@ -115,6 +116,7 @@ Public Class MasterProcess
                             dgv_masterprocess.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_masterprocess.CurrentRow.Index
                             Found = True
+                            txt_masterprocess_search.Clear()
                         End If
                         If Found Then Exit For
                     Next
@@ -122,6 +124,42 @@ Public Class MasterProcess
             Catch ex As Exception
                 MsgBox(ex.ToString)
             End Try
+        End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+            Dim excelpath As String = OpenFileDialog1.FileName
+            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+            oleCon = New OleDbConnection(koneksiExcel)
+            oleCon.Open()
+
+            Dim queryExcel As String = "select * from [" & SheetName & "$]"
+            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+            Dim rd As OleDbDataReader
+
+            Call Database.koneksi_database()
+            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS"
+                Try
+                    rd = cmd.ExecuteReader
+
+                    bulkCopy.ColumnMappings.Add(0, 1)
+                    bulkCopy.ColumnMappings.Add(1, 2)
+
+                    bulkCopy.WriteToServer(rd)
+                    rd.Close()
+
+                    DGV_MasterProcesss()
+                    MsgBox("Import Master Process Success")
+                Catch ex As Exception
+                    MsgBox("Import Master Process Failed " & ex.Message)
+                End Try
+            End Using
         End If
     End Sub
 End Class

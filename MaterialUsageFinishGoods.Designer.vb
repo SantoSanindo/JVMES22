@@ -22,8 +22,9 @@ Partial Class MaterialUsageFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.cb_masterfinishgoods_pn = New System.Windows.Forms.ComboBox()
         Me.txt_masterfinishgoods_usage = New System.Windows.Forms.TextBox()
         Me.txt_masterfinishgoods_comp = New System.Windows.Forms.TextBox()
         Me.txt_masterfinishgoods_family = New System.Windows.Forms.TextBox()
@@ -40,7 +41,8 @@ Partial Class MaterialUsageFinishGoods
         Me.txt_masterfinishgoods_desc = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.cb_masterfinishgoods_pn = New System.Windows.Forms.ComboBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterfinishgoods_atas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -50,6 +52,7 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_pn)
         Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_usage)
         Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_comp)
@@ -70,35 +73,43 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(0, -12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1958, 648)
+        Me.GroupBox1.Size = New System.Drawing.Size(1922, 648)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         '
+        'cb_masterfinishgoods_pn
+        '
+        Me.cb_masterfinishgoods_pn.FormattingEnabled = True
+        Me.cb_masterfinishgoods_pn.Location = New System.Drawing.Point(200, 27)
+        Me.cb_masterfinishgoods_pn.Name = "cb_masterfinishgoods_pn"
+        Me.cb_masterfinishgoods_pn.Size = New System.Drawing.Size(247, 37)
+        Me.cb_masterfinishgoods_pn.TabIndex = 26
+        '
         'txt_masterfinishgoods_usage
         '
-        Me.txt_masterfinishgoods_usage.Location = New System.Drawing.Point(1444, 27)
+        Me.txt_masterfinishgoods_usage.Location = New System.Drawing.Point(1022, 27)
         Me.txt_masterfinishgoods_usage.Name = "txt_masterfinishgoods_usage"
-        Me.txt_masterfinishgoods_usage.Size = New System.Drawing.Size(131, 35)
+        Me.txt_masterfinishgoods_usage.Size = New System.Drawing.Size(222, 35)
         Me.txt_masterfinishgoods_usage.TabIndex = 25
         '
         'txt_masterfinishgoods_comp
         '
-        Me.txt_masterfinishgoods_comp.Location = New System.Drawing.Point(1083, 27)
+        Me.txt_masterfinishgoods_comp.Location = New System.Drawing.Point(638, 77)
         Me.txt_masterfinishgoods_comp.Name = "txt_masterfinishgoods_comp"
         Me.txt_masterfinishgoods_comp.Size = New System.Drawing.Size(232, 35)
         Me.txt_masterfinishgoods_comp.TabIndex = 24
         '
         'txt_masterfinishgoods_family
         '
-        Me.txt_masterfinishgoods_family.Location = New System.Drawing.Point(783, 27)
+        Me.txt_masterfinishgoods_family.Location = New System.Drawing.Point(638, 27)
         Me.txt_masterfinishgoods_family.Name = "txt_masterfinishgoods_family"
-        Me.txt_masterfinishgoods_family.Size = New System.Drawing.Size(150, 35)
+        Me.txt_masterfinishgoods_family.Size = New System.Drawing.Size(236, 35)
         Me.txt_masterfinishgoods_family.TabIndex = 23
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(1346, 30)
+        Me.Label6.Location = New System.Drawing.Point(933, 30)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(83, 29)
         Me.Label6.TabIndex = 22
@@ -107,16 +118,16 @@ Partial Class MaterialUsageFinishGoods
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(980, 30)
+        Me.Label5.Location = New System.Drawing.Point(494, 80)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(78, 29)
+        Me.Label5.Size = New System.Drawing.Size(138, 29)
         Me.Label5.TabIndex = 21
-        Me.Label5.Text = "Comp"
+        Me.Label5.Text = "Component"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(677, 31)
+        Me.Label4.Location = New System.Drawing.Point(494, 30)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(84, 29)
         Me.Label4.TabIndex = 20
@@ -126,7 +137,7 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(1664, 602)
+        Me.Label3.Location = New System.Drawing.Point(1628, 580)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(89, 29)
         Me.Label3.TabIndex = 19
@@ -136,15 +147,15 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.TreeView1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.TreeView1.Location = New System.Drawing.Point(6, 69)
+        Me.TreeView1.Location = New System.Drawing.Point(6, 129)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(385, 524)
+        Me.TreeView1.Size = New System.Drawing.Size(385, 442)
         Me.TreeView1.TabIndex = 18
         '
         'txt_masterfinishgoods_search
         '
         Me.txt_masterfinishgoods_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1759, 599)
+        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1723, 577)
         Me.txt_masterfinishgoods_search.Name = "txt_masterfinishgoods_search"
         Me.txt_masterfinishgoods_search.Size = New System.Drawing.Size(193, 35)
         Me.txt_masterfinishgoods_search.TabIndex = 17
@@ -154,7 +165,7 @@ Partial Class MaterialUsageFinishGoods
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Red
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(397, 599)
+        Me.Button2.Location = New System.Drawing.Point(397, 577)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(239, 43)
         Me.Button2.TabIndex = 16
@@ -166,9 +177,9 @@ Partial Class MaterialUsageFinishGoods
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button3.BackColor = System.Drawing.Color.Green
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(1853, 23)
+        Me.Button3.Location = New System.Drawing.Point(1782, 25)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(99, 39)
+        Me.Button3.Size = New System.Drawing.Size(130, 50)
         Me.Button3.TabIndex = 15
         Me.Button3.Text = "Import"
         Me.Button3.UseVisualStyleBackColor = False
@@ -177,9 +188,9 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1610, 23)
+        Me.Button1.Location = New System.Drawing.Point(1342, 26)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(104, 39)
+        Me.Button1.Size = New System.Drawing.Size(133, 49)
         Me.Button1.TabIndex = 5
         Me.Button1.Text = "Add"
         Me.Button1.UseVisualStyleBackColor = False
@@ -193,62 +204,71 @@ Partial Class MaterialUsageFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterfinishgoods_atas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.dgv_masterfinishgoods_atas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterfinishgoods_atas.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_masterfinishgoods_atas.Location = New System.Drawing.Point(397, 69)
+        Me.dgv_masterfinishgoods_atas.Location = New System.Drawing.Point(397, 129)
         Me.dgv_masterfinishgoods_atas.MultiSelect = False
         Me.dgv_masterfinishgoods_atas.Name = "dgv_masterfinishgoods_atas"
         Me.dgv_masterfinishgoods_atas.ReadOnly = True
         Me.dgv_masterfinishgoods_atas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_masterfinishgoods_atas.Size = New System.Drawing.Size(1555, 524)
+        Me.dgv_masterfinishgoods_atas.Size = New System.Drawing.Size(1519, 442)
         Me.dgv_masterfinishgoods_atas.TabIndex = 4
         '
         'txt_masterfinishgoods_desc
         '
-        Me.txt_masterfinishgoods_desc.Location = New System.Drawing.Point(428, 27)
+        Me.txt_masterfinishgoods_desc.Location = New System.Drawing.Point(200, 77)
         Me.txt_masterfinishgoods_desc.Name = "txt_masterfinishgoods_desc"
-        Me.txt_masterfinishgoods_desc.Size = New System.Drawing.Size(208, 35)
+        Me.txt_masterfinishgoods_desc.Size = New System.Drawing.Size(247, 35)
         Me.txt_masterfinishgoods_desc.TabIndex = 3
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(351, 31)
+        Me.Label2.Location = New System.Drawing.Point(6, 80)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(68, 29)
+        Me.Label2.Size = New System.Drawing.Size(135, 29)
         Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Desc"
+        Me.Label2.Text = "Description"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 31)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(86, 29)
+        Me.Label1.Size = New System.Drawing.Size(188, 29)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "FG PN"
+        Me.Label1.Text = "FG Part Number"
         '
-        'cb_masterfinishgoods_pn
+        'CheckBox1
         '
-        Me.cb_masterfinishgoods_pn.FormattingEnabled = True
-        Me.cb_masterfinishgoods_pn.Location = New System.Drawing.Point(98, 28)
-        Me.cb_masterfinishgoods_pn.Name = "cb_masterfinishgoods_pn"
-        Me.cb_masterfinishgoods_pn.Size = New System.Drawing.Size(247, 37)
-        Me.cb_masterfinishgoods_pn.TabIndex = 26
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Location = New System.Drawing.Point(1363, 579)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(240, 33)
+        Me.CheckBox1.TabIndex = 27
+        Me.CheckBox1.Text = "Search From Table"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'MaterialUsageFinishGoods
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1960, 636)
+        Me.ClientSize = New System.Drawing.Size(1924, 636)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "MaterialUsageFinishGoods"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -278,4 +298,6 @@ Partial Class MaterialUsageFinishGoods
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents cb_masterfinishgoods_pn As ComboBox
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

@@ -22,10 +22,9 @@ Partial Class MasterProcessFlow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.masterprocessflow_search = New System.Windows.Forms.TextBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
@@ -42,7 +41,6 @@ Partial Class MasterProcessFlow
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.masterprocessflow_search)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.Button1)
@@ -62,29 +60,16 @@ Partial Class MasterProcessFlow
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(1104, 672)
+        Me.Label2.Location = New System.Drawing.Point(1107, 645)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(89, 29)
         Me.Label2.TabIndex = 11
         Me.Label2.Text = "Search"
         '
-        'Button3
-        '
-        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button3.BackColor = System.Drawing.Color.Red
-        Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(3, 665)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(243, 42)
-        Me.Button3.TabIndex = 10
-        Me.Button3.Text = "Delete Multiple Data"
-        Me.Button3.UseVisualStyleBackColor = False
-        Me.Button3.Visible = False
-        '
         'masterprocessflow_search
         '
         Me.masterprocessflow_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.masterprocessflow_search.Location = New System.Drawing.Point(1199, 669)
+        Me.masterprocessflow_search.Location = New System.Drawing.Point(1202, 642)
         Me.masterprocessflow_search.Name = "masterprocessflow_search"
         Me.masterprocessflow_search.Size = New System.Drawing.Size(240, 35)
         Me.masterprocessflow_search.TabIndex = 9
@@ -138,14 +123,14 @@ Partial Class MasterProcessFlow
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocessflow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.dgv_masterprocessflow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgv_masterprocessflow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocessflow.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterprocessflow.Location = New System.Drawing.Point(3, 72)
@@ -153,7 +138,7 @@ Partial Class MasterProcessFlow
         Me.dgv_masterprocessflow.Name = "dgv_masterprocessflow"
         Me.dgv_masterprocessflow.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
         Me.dgv_masterprocessflow.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_masterprocessflow.Size = New System.Drawing.Size(1436, 584)
+        Me.dgv_masterprocessflow.Size = New System.Drawing.Size(1436, 564)
         Me.dgv_masterprocessflow.TabIndex = 4
         '
         'MasterProcessFlow
@@ -180,7 +165,6 @@ Partial Class MasterProcessFlow
     Friend WithEvents Label1 As Label
     Friend WithEvents cb_masterprocessflow As ComboBox
     Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
     Friend WithEvents masterprocessflow_search As TextBox
     Friend WithEvents Label2 As Label
 End Class

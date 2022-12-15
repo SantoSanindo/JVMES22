@@ -1,7 +1,8 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Data.OleDb
+Imports System.Data.SqlClient
 
 Public Class MaterialUsageFinishGoods
-
+    Dim oleCon As OleDbConnection
     Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And txt_masterfinishgoods_comp.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
@@ -14,8 +15,6 @@ Public Class MaterialUsageFinishGoods
                     Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & txt_masterfinishgoods_comp.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
-
-                    dgv_masterfinishgoods_atas.DataSource = Nothing
 
                     DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
                     treeView_show()
@@ -157,36 +156,63 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-
-            Dim Found As Boolean = False
-            Dim StringToSearch As String = ""
-            Dim ValueToSearchFor As String = Me.txt_masterfinishgoods_search.Text.Trim.ToLower
-            Dim CurrentRowIndex As Integer = 0
-            Try
-                If dgv_masterfinishgoods_atas.Rows.Count = 0 Then
-                    CurrentRowIndex = 0
-                Else
-                    CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index + 1
-                End If
-                If CurrentRowIndex > dgv_masterfinishgoods_atas.Rows.Count Then
-                    CurrentRowIndex = dgv_masterfinishgoods_atas.Rows.Count - 1
-                End If
-                If dgv_masterfinishgoods_atas.Rows.Count > 0 Then
-                    For Each gRow As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
-                        StringToSearch = gRow.Cells(5).Value.ToString.Trim.ToLower
-                        If InStr(1, StringToSearch, LCase(Trim(txt_masterfinishgoods_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(5)
-                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
-                            dgv_masterfinishgoods_atas.CurrentCell = myCurrentCell
-                            CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index
-                            Found = True
+            If CheckBox1.CheckState = CheckState.Unchecked Then
+                Dim FoundTreeview As Boolean = False
+                For Each nd As TreeNode In TreeView1.Nodes
+                    If nd.Nodes.Count > 0 Then
+                        For Each ndChild As TreeNode In nd.Nodes
+                            If String.Compare(ndChild.Name, txt_masterfinishgoods_search.Text, True) = 0 Then
+                                TreeView1.SelectedNode = ndChild
+                                TreeView1.Select()
+                                FoundTreeview = True
+                                Exit For
+                            End If
+                        Next
+                        If FoundTreeview = False Then
+                            MessageBox.Show("Data not Found")
                         End If
-                        If Found Then Exit For
-                    Next
-                End If
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-            End Try
+                    Else
+                        MessageBox.Show("Data not Found")
+                        txt_masterfinishgoods_search.Clear()
+                    End If
+                Next
+            Else
+                Dim Found As Boolean = False
+                Dim StringToSearch As String = ""
+                Dim ValueToSearchFor As String = Me.txt_masterfinishgoods_search.Text.Trim.ToLower
+                Dim CurrentRowIndex As Integer = 0
+                Try
+                    If dgv_masterfinishgoods_atas.Rows.Count = 0 Then
+                        CurrentRowIndex = 0
+                        MessageBox.Show("Data not Found")
+                        txt_masterfinishgoods_search.Clear()
+                    Else
+                        CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index + 1
+                    End If
+                    If CurrentRowIndex > dgv_masterfinishgoods_atas.Rows.Count Then
+                        CurrentRowIndex = dgv_masterfinishgoods_atas.Rows.Count - 1
+                    End If
+                    If dgv_masterfinishgoods_atas.Rows.Count > 0 Then
+                        For Each gRow As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
+                            StringToSearch = gRow.Cells("Component").Value.ToString.Trim.ToLower
+                            If InStr(1, StringToSearch, LCase(Trim(txt_masterfinishgoods_search.Text)), vbTextCompare) = 1 Then
+                                Dim myCurrentCell As DataGridViewCell = gRow.Cells("Component")
+                                Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+                                dgv_masterfinishgoods_atas.CurrentCell = myCurrentCell
+                                CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index
+                                Found = True
+                                txt_masterfinishgoods_search.Clear()
+                                Exit For
+                            End If
+                            If Found = False Then
+                                MessageBox.Show("Data not Found")
+                            End If
+                        Next
+                    End If
+                Catch ex As Exception
+                    MsgBox(ex.ToString)
+                End Try
+            End If
         End If
     End Sub
 
@@ -209,5 +235,48 @@ Public Class MaterialUsageFinishGoods
                 dgv_masterfinishgoods_atas.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+            Dim excelpath As String = OpenFileDialog1.FileName
+            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+            oleCon = New OleDbConnection(koneksiExcel)
+            oleCon.Open()
+
+            Dim queryExcel As String = "select * from [" & SheetName & "$]"
+            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+            Dim rd As OleDbDataReader
+
+            Call Database.koneksi_database()
+            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                bulkCopy.DestinationTableName = "dbo.MATERIAL_USAGE_FINISH_GOODS"
+                Try
+                    rd = cmd.ExecuteReader
+
+                    bulkCopy.ColumnMappings.Add(0, 1)
+                    bulkCopy.ColumnMappings.Add(1, 2)
+                    bulkCopy.ColumnMappings.Add(2, 3)
+                    bulkCopy.ColumnMappings.Add(3, 4)
+                    bulkCopy.ColumnMappings.Add(4, 5)
+
+                    bulkCopy.WriteToServer(rd)
+                    rd.Close()
+
+                    DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
+                    treeView_show()
+
+                    idP = cb_masterfinishgoods_pn.Text
+
+                    MsgBox("Import Material Usage Finish Goods Success")
+                Catch ex As Exception
+                    MsgBox("Import Material Usage Finish Goods Failed " & ex.Message)
+                End Try
+            End Using
+        End If
     End Sub
 End Class

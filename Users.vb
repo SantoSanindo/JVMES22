@@ -195,7 +195,7 @@ Public Class Users
                     DGV_Users()
                     MsgBox("Import Users Success")
                 Catch ex As Exception
-                    MsgBox("Import Material Failed " & ex.Message)
+                    MsgBox("Import Users Failed " & ex.Message)
                 End Try
             End Using
         End If

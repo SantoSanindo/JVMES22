@@ -52,11 +52,15 @@
     <Reference Include="MdiTabControl">
       <HintPath>..\dll\MdiTabControl.dll</HintPath>
     </Reference>
+    <Reference Include="SDK.NET.Interface">
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files\NiceLabel\NiceLabel 2017\bin.net\SDK.NET.Interface.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.Ribbon, Version=2.0.0.0, Culture=neutral, PublicKeyToken=928736e248aa81f9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -68,10 +72,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="zxing, Version=0.16.8.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>packages\ZXing.Net.0.16.8\lib\net461\zxing.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\zxing.dll</HintPath>
     </Reference>
     <Reference Include="zxing.presentation, Version=0.16.8.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>packages\ZXing.Net.0.16.8\lib\net461\zxing.presentation.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\zxing.presentation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +256,30 @@
     <Compile Include="Users.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="_PrintingDefect.Designer.vb">
+      <DependentUpon>_PrintingDefect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingDefect.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_PrintingFlowTicket.Designer.vb">
+      <DependentUpon>_PrintingFlowTicket.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingFlowTicket.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_PrintingSubAssyRawMaterial.Designer.vb">
+      <DependentUpon>_PrintingSubAssyRawMaterial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingSubAssyRawMaterial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_PrintingWIPOnHold.Designer.vb">
+      <DependentUpon>_PrintingWIPOnHold.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingWIPOnHold.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormDefective.resx">
@@ -326,6 +356,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Users.resx">
       <DependentUpon>Users.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingDefect.resx">
+      <DependentUpon>_PrintingDefect.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingFlowTicket.resx">
+      <DependentUpon>_PrintingFlowTicket.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingSubAssyRawMaterial.resx">
+      <DependentUpon>_PrintingSubAssyRawMaterial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingWIPOnHold.resx">
+      <DependentUpon>_PrintingWIPOnHold.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

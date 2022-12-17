@@ -4,6 +4,9 @@ Public Class Database
 
     Public Shared koneksi As SqlConnection
     Public Shared database As String
+
+    Public da As SqlDataAdapter
+
     Public Shared Sub koneksi_database()
         Try
             database = "Data Source=localhost;

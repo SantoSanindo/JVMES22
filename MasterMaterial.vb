@@ -41,14 +41,27 @@ Public Class MasterMaterial
         End If
     End Sub
 
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+
+        txt_mastermaterial_family.DataSource = dtMasterDepart
+        txt_mastermaterial_family.DisplayMember = "departement"
+        txt_mastermaterial_family.ValueMember = "departement"
+        txt_mastermaterial_family.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        txt_mastermaterial_family.AutoCompleteSource = AutoCompleteSource.ListItems
+    End Sub
+
     Private Sub MasterMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_mastermaterial_pn.Select()
         DGV_MasterMaterial()
         txt_mastermaterial_search.Text = ""
+        tampilDataComboBoxDepartement()
     End Sub
 
     Private Sub DGV_MasterMaterial()
         dgv_material.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgv_material.DataSource = Nothing
         dgv_material.Rows.Clear()
         dgv_material.Columns.Clear()
         Call Database.koneksi_database()
@@ -85,7 +98,7 @@ Public Class MasterMaterial
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells(2).Value & "'"
+                    Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells("PART_NUMBER").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     dgv_material.DataSource = Nothing
@@ -133,7 +146,7 @@ Public Class MasterMaterial
             Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
             Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
             Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=No;IMEX=1;'"
+            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
             oleCon = New OleDbConnection(koneksiExcel)
             oleCon.Open()
 
@@ -146,10 +159,15 @@ Public Class MasterMaterial
                 bulkCopy.DestinationTableName = "dbo.MASTER_MATERIAL"
                 Try
                     rd = cmd.ExecuteReader
+
+                    bulkCopy.ColumnMappings.Add(0, 0)
+                    bulkCopy.ColumnMappings.Add(1, 1)
+                    bulkCopy.ColumnMappings.Add(2, 2)
+                    bulkCopy.ColumnMappings.Add(3, 3)
+
                     bulkCopy.WriteToServer(rd)
                     rd.Close()
 
-                    dgv_material.DataSource = Nothing
                     DGV_MasterMaterial()
                     MsgBox("Import Material Success")
                 Catch ex As Exception
@@ -184,6 +202,7 @@ Public Class MasterMaterial
                             dgv_material.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_material.CurrentRow.Index
                             Found = True
+                            txt_mastermaterial_search.Clear()
                         End If
                         If Found Then Exit For
                     Next

@@ -24,6 +24,7 @@ Partial Class Users
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -37,8 +38,11 @@ Partial Class Users
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -48,6 +52,10 @@ Partial Class Users
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.ComboBox2)
+        Me.GroupBox1.Controls.Add(Me.ComboBox1)
+        Me.GroupBox1.Controls.Add(Me.Label7)
+        Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.TextBox5)
@@ -69,12 +77,23 @@ Partial Class Users
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
+        'Button3
+        '
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button3.BackColor = System.Drawing.Color.Green
+        Me.Button3.Location = New System.Drawing.Point(1538, 23)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(121, 44)
+        Me.Button3.TabIndex = 13
+        Me.Button3.Text = "Import"
+        Me.Button3.UseVisualStyleBackColor = False
+        '
         'Button2
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Red
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(6, 621)
+        Me.Button2.Location = New System.Drawing.Point(6, 603)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(246, 43)
         Me.Button2.TabIndex = 12
@@ -84,7 +103,7 @@ Partial Class Users
         'TextBox5
         '
         Me.TextBox5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox5.Location = New System.Drawing.Point(1412, 621)
+        Me.TextBox5.Location = New System.Drawing.Point(1412, 607)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(247, 35)
         Me.TextBox5.TabIndex = 11
@@ -93,7 +112,7 @@ Partial Class Users
         '
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(1317, 624)
+        Me.Label5.Location = New System.Drawing.Point(1317, 610)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(89, 29)
         Me.Label5.TabIndex = 10
@@ -117,10 +136,10 @@ Partial Class Users
         DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(6, 69)
+        Me.DataGridView1.Location = New System.Drawing.Point(6, 144)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1653, 542)
+        Me.DataGridView1.Size = New System.Drawing.Size(1653, 453)
         Me.DataGridView1.TabIndex = 9
         '
         'Button1
@@ -136,36 +155,36 @@ Partial Class Users
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(1189, 28)
+        Me.TextBox4.Location = New System.Drawing.Point(548, 89)
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(204, 35)
+        Me.TextBox4.Size = New System.Drawing.Size(243, 35)
         Me.TextBox4.TabIndex = 7
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(802, 28)
+        Me.TextBox3.Location = New System.Drawing.Point(548, 28)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(243, 35)
         Me.TextBox3.TabIndex = 6
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(393, 28)
+        Me.TextBox2.Location = New System.Drawing.Point(138, 89)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(260, 35)
         Me.TextBox2.TabIndex = 5
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(106, 28)
+        Me.TextBox1.Location = New System.Drawing.Point(138, 28)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(188, 35)
+        Me.TextBox1.Size = New System.Drawing.Size(260, 35)
         Me.TextBox1.TabIndex = 4
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(1063, 31)
+        Me.Label4.Location = New System.Drawing.Point(422, 92)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(120, 29)
         Me.Label4.TabIndex = 3
@@ -174,7 +193,7 @@ Partial Class Users
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(672, 31)
+        Me.Label3.Location = New System.Drawing.Point(418, 31)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(124, 29)
         Me.Label3.TabIndex = 2
@@ -183,7 +202,7 @@ Partial Class Users
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(309, 31)
+        Me.Label2.Location = New System.Drawing.Point(22, 92)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(88, 29)
         Me.Label2.TabIndex = 1
@@ -192,26 +211,50 @@ Partial Class Users
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 31)
+        Me.Label1.Location = New System.Drawing.Point(22, 31)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(104, 29)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "ID Card*"
         '
-        'Button3
-        '
-        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button3.BackColor = System.Drawing.Color.Green
-        Me.Button3.Location = New System.Drawing.Point(1538, 23)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(121, 44)
-        Me.Button3.TabIndex = 13
-        Me.Button3.Text = "Import"
-        Me.Button3.UseVisualStyleBackColor = False
-        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(818, 31)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(64, 29)
+        Me.Label6.TabIndex = 14
+        Me.Label6.Text = "Role"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(818, 92)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(138, 29)
+        Me.Label7.TabIndex = 15
+        Me.Label7.Text = "Department"
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Items.AddRange(New Object() {"ADMIN", "LEADER", "OPERATOR_MINISTORE", "OPERATOR_PRODUCTION", "OPERATOR_PACKING"})
+        Me.ComboBox1.Location = New System.Drawing.Point(962, 28)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(415, 37)
+        Me.ComboBox1.TabIndex = 16
+        '
+        'ComboBox2
+        '
+        Me.ComboBox2.FormattingEnabled = True
+        Me.ComboBox2.Location = New System.Drawing.Point(962, 89)
+        Me.ComboBox2.Name = "ComboBox2"
+        Me.ComboBox2.Size = New System.Drawing.Size(415, 37)
+        Me.ComboBox2.TabIndex = 17
         '
         'Users
         '
@@ -245,4 +288,8 @@ Partial Class Users
     Friend WithEvents Button2 As Button
     Friend WithEvents Button3 As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

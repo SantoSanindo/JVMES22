@@ -1,8 +1,9 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class MasterFinishGoods
-    Dim oleCon As OLEDBConnection
+    Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Call Database.koneksi_database()
         If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" And txt_laser.Text <> "" Then
@@ -46,10 +47,22 @@ Public Class MasterFinishGoods
         End If
     End Sub
 
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+
+        txt_dept.DataSource = dtMasterDepart
+        txt_dept.DisplayMember = "departement"
+        txt_dept.ValueMember = "departement"
+        txt_dept.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        txt_dept.AutoCompleteSource = AutoCompleteSource.ListItems
+    End Sub
+
     Private Sub MasterFinishGoods_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_MasterFinishGoods()
         txt_dept.Select()
         txt_dept.Text = ""
+        tampilDataComboBoxDepartement()
     End Sub
 
     Sub DGV_MasterFinishGoods()
@@ -89,7 +102,7 @@ Public Class MasterFinishGoods
             Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
             Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
             Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=No;IMEX=1;'"
+            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
             oleCon = New OLEDBConnection(koneksiExcel)
             oleCon.Open()
 
@@ -103,8 +116,8 @@ Public Class MasterFinishGoods
                 Try
                     rd = cmd.ExecuteReader
 
-                    bulkCopy.ColumnMappings.Add(0, 1)
-                    bulkCopy.ColumnMappings.Add(1, 0)
+                    bulkCopy.ColumnMappings.Add(0, 0)
+                    bulkCopy.ColumnMappings.Add(1, 1)
                     bulkCopy.ColumnMappings.Add(2, 2)
                     bulkCopy.ColumnMappings.Add(3, 3)
                     bulkCopy.ColumnMappings.Add(4, 4)
@@ -187,13 +200,14 @@ Public Class MasterFinishGoods
                 End If
                 If dgv_finish_goods.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In dgv_finish_goods.Rows
-                        StringToSearch = gRow.Cells(2).Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("FG_PART_NUMBER").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(txt_masterfinishgoods_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(2)
-                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("FG_PART_NUMBER")
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells("FG_PART_NUMBER")
                             dgv_finish_goods.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_finish_goods.CurrentRow.Index
                             Found = True
+                            txt_masterfinishgoods_search.Clear()
                         End If
                         If Found Then Exit For
                     Next

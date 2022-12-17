@@ -197,4 +197,8 @@ Public Class MasterProcessFlow
         Dim cmd = New SqlCommand(Sql, Database.koneksi)
         cmd.ExecuteNonQuery()
     End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+    End Sub
 End Class

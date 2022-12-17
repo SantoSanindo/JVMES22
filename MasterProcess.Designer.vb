@@ -22,7 +22,7 @@ Partial Class MasterProcess
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.txt_masterprocess_search = New System.Windows.Forms.TextBox()
@@ -35,6 +35,7 @@ Partial Class MasterProcess
         Me.Label1 = New System.Windows.Forms.Label()
         Me.process_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.process_desc = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterprocess, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -75,7 +76,7 @@ Partial Class MasterProcess
         'txt_masterprocess_search
         '
         Me.txt_masterprocess_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterprocess_search.Location = New System.Drawing.Point(1035, 593)
+        Me.txt_masterprocess_search.Location = New System.Drawing.Point(1035, 567)
         Me.txt_masterprocess_search.Name = "txt_masterprocess_search"
         Me.txt_masterprocess_search.Size = New System.Drawing.Size(275, 35)
         Me.txt_masterprocess_search.TabIndex = 7
@@ -84,7 +85,7 @@ Partial Class MasterProcess
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(931, 596)
+        Me.Label3.Location = New System.Drawing.Point(931, 570)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(89, 29)
         Me.Label3.TabIndex = 6
@@ -110,14 +111,14 @@ Partial Class MasterProcess
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocess.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgv_masterprocess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocess.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterprocess.Location = New System.Drawing.Point(6, 79)
@@ -126,7 +127,7 @@ Partial Class MasterProcess
         Me.dgv_masterprocess.ReadOnly = True
         Me.dgv_masterprocess.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_masterprocess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_masterprocess.Size = New System.Drawing.Size(1304, 502)
+        Me.dgv_masterprocess.Size = New System.Drawing.Size(1304, 482)
         Me.dgv_masterprocess.TabIndex = 4
         '
         'txt_masterprocess_desc
@@ -173,6 +174,10 @@ Partial Class MasterProcess
         Me.process_desc.Name = "process_desc"
         Me.process_desc.ReadOnly = True
         '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
         'MasterProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -201,4 +206,5 @@ Partial Class MasterProcess
     Friend WithEvents process_name As DataGridViewTextBoxColumn
     Friend WithEvents process_desc As DataGridViewTextBoxColumn
     Friend WithEvents Button2 As Button
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

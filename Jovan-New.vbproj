@@ -256,10 +256,22 @@
     <Compile Include="Users.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="_PrintingDefect.Designer.vb">
+      <DependentUpon>_PrintingDefect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingDefect.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="_PrintingFlowTicket.Designer.vb">
       <DependentUpon>_PrintingFlowTicket.vb</DependentUpon>
     </Compile>
     <Compile Include="_PrintingFlowTicket.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_PrintingSubAssyRawMaterial.Designer.vb">
+      <DependentUpon>_PrintingSubAssyRawMaterial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingSubAssyRawMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -339,8 +351,14 @@
     <EmbeddedResource Include="Users.resx">
       <DependentUpon>Users.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingDefect.resx">
+      <DependentUpon>_PrintingDefect.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="_PrintingFlowTicket.resx">
       <DependentUpon>_PrintingFlowTicket.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingSubAssyRawMaterial.resx">
+      <DependentUpon>_PrintingSubAssyRawMaterial.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

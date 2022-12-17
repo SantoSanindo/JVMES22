@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.Jovan_New._PrintingFlowTicket
+            Me.MainForm = Global.Jovan_New._PrintingSubAssyRawMaterial
         End Sub
     End Class
 End Namespace

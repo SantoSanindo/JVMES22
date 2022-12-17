@@ -107,7 +107,7 @@ Public Class _PrintingFlowTicket
         PrintEngineFactory.PrintEngine.Shutdown()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
         For i As Integer = 1 To 10
             DataGridView1.Rows(i - 1).Cells(1).Value = i * 10
             DataGridView1.Rows(i - 1).Cells(2).Value = i
@@ -118,5 +118,10 @@ Public Class _PrintingFlowTicket
             DataGridView2.Rows(i - 1).Cells(2).Value = i * 10
             DataGridView2.Rows(i - 1).Cells(3).Value = i * 100
         Next
+    End Sub
+
+    Private Sub btn_Refresh_Click(sender As Object, e As EventArgs) Handles btn_Refresh.Click
+        Dim appPath As String = Application.StartupPath()
+        label = PrintEngineFactory.PrintEngine.OpenLabel(appPath & "\Label\" & "FlowTicket.nlbl")
     End Sub
 End Class

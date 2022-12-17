@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class _PrintingFlowTicket
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class _PrintingFlowTicket
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.btn_Print = New System.Windows.Forms.Button()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
@@ -53,7 +53,7 @@ Partial Class _PrintingFlowTicket
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txt_fg_part_number = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btn_Refresh = New System.Windows.Forms.Button()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -286,21 +286,21 @@ Partial Class _PrintingFlowTicket
         Me.txt_fg_part_number.Size = New System.Drawing.Size(100, 20)
         Me.txt_fg_part_number.TabIndex = 21
         '
-        'Button1
+        'btn_Refresh
         '
-        Me.Button1.Location = New System.Drawing.Point(360, 581)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 25
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btn_Refresh.Location = New System.Drawing.Point(360, 580)
+        Me.btn_Refresh.Name = "btn_Refresh"
+        Me.btn_Refresh.Size = New System.Drawing.Size(75, 23)
+        Me.btn_Refresh.TabIndex = 25
+        Me.btn_Refresh.Text = "Refresh"
+        Me.btn_Refresh.UseVisualStyleBackColor = True
         '
         '_PrintingFlowTicket
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(475, 601)
-        Me.Controls.Add(Me.Button1)
+        Me.ClientSize = New System.Drawing.Size(475, 613)
+        Me.Controls.Add(Me.btn_Refresh)
         Me.Controls.Add(Me.btn_Print)
         Me.Controls.Add(Me.DataGridView2)
         Me.Controls.Add(Me.DataGridView1)
@@ -363,5 +363,5 @@ Partial Class _PrintingFlowTicket
     Friend WithEvents Label1 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents txt_fg_part_number As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btn_Refresh As Button
 End Class

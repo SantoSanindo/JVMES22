@@ -119,3 +119,4 @@ C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App
 C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingFlowTicket.resources
 C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingDefect.resources
 C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingSubAssyRawMaterial.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingWIPOnHold.resources

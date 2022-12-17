@@ -274,6 +274,12 @@
     <Compile Include="_PrintingSubAssyRawMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="_PrintingWIPOnHold.Designer.vb">
+      <DependentUpon>_PrintingWIPOnHold.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingWIPOnHold.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormDefective.resx">
@@ -359,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="_PrintingSubAssyRawMaterial.resx">
       <DependentUpon>_PrintingSubAssyRawMaterial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingWIPOnHold.resx">
+      <DependentUpon>_PrintingWIPOnHold.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

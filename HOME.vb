@@ -121,5 +121,21 @@
         TabControl1.TabPages(FormReturnStock).Select()
     End Sub
 
-    '>>>>>>> Arif
+    Private Sub RibbonLabelsSettings(sender As Object, e As EventArgs) Handles RibbonButtonPrinterSettings.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(_PrintingFlowTicket)
+        TabControl1.TabPages.Add(_PrintingDefect)
+        TabControl1.TabPages.Add(_PrintingSubAssyRawMaterial)
+        TabControl1.TabPages.Add(_PrintingWIPOnHold)
+        TabControl1.TabPages(_PrintingFlowTicket).Select()
+        TabControl1.TabPages(_PrintingDefect).Select()
+        TabControl1.TabPages(_PrintingSubAssyRawMaterial).Select()
+        TabControl1.TabPages(_PrintingWIPOnHold).Select()
+    End Sub
+
+    Private Sub RibbonLogin(sender As Object, e As EventArgs) Handles RibbonButtonLogin.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(FormLogin)
+        TabControl1.TabPages(FormLogin).Select()
+    End Sub
 End Class

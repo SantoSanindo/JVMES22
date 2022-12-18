@@ -2,7 +2,6 @@
 Imports System.Data.SqlClient
 
 Public Class FormInputStock
-
     Private Sub FormInputStock_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_forminputstock_qrcode.ReadOnly = True
         txtmanualPN.ReadOnly = True
@@ -275,6 +274,55 @@ VALUES ('" & dtCheckinMiniStore.Rows(i).Item("PART_NUMBER") & "'," & dtCheckinMi
 
         End If
     End Sub
+
+    'Private Sub txt_forminputstock_mts_no_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_mts_no.PreviewKeyDown
+    '    If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then
+    '        If txt_forminputstock_mts_no.Text = "" Then
+    '            MessageBox.Show("MTS cannot be null.")
+    '            txt_forminputstock_mts_no.Select()
+    '        Else
+    '            txt_forminputstock_mts_no.ReadOnly = True
+    '            checkQr.Enabled = True
+
+    '            If checkQr.Checked Then
+    '                txt_forminputstock_qrcode.ReadOnly = False
+    '                txt_forminputstock_qrcode.Select()
+
+    '                txtmanualPN.ReadOnly = True
+    '                txtmanualTraceability.ReadOnly = True
+    '                txtmanualInv.ReadOnly = True
+    '                txtmanualBatch.ReadOnly = True
+    '                txtmanualLot.ReadOnly = True
+    '                txtmanualQty.ReadOnly = True
+    '            Else
+    '                txtmanualPN.ReadOnly = False
+    '                txtmanualTraceability.ReadOnly = False
+    '                txtmanualInv.ReadOnly = False
+    '                txtmanualBatch.ReadOnly = False
+    '                txtmanualLot.ReadOnly = False
+    '                txtmanualQty.ReadOnly = False
+    '                txtmanualPN.Select()
+    '                txt_forminputstock_qrcode.ReadOnly = True
+    '            End If
+
+    '            treeView_show()
+
+    '            Dim queryCheckLock As String = "SELECT TOP 1 * FROM IN_MINISTORE WHERE MTS_NO = " & txt_forminputstock_mts_no.Text
+    '            Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
+
+    '            If dtCheckLock.Rows.Count > 0 Then
+    '                If dtCheckLock.Rows(0).Item("LOCK") = 0 Then
+    '                    Button2.Enabled = True
+    '                Else
+    '                    txt_forminputstock_qrcode.ReadOnly = True
+    '                    checkQr.Enabled = False
+    '                    Button2.Enabled = False
+    '                    dgv_forminputstock.ReadOnly = True
+    '                End If
+    '            End If
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub txt_forminputstock_mts_no_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_mts_no.PreviewKeyDown
         If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then

@@ -62,17 +62,18 @@ Partial Class HOME
         Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.RibUsers = New System.Windows.Forms.RibbonPanel()
         Me.UsersBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibbonTab6 = New System.Windows.Forms.RibbonTab()
+        Me.RibbonPanel4 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonButtonPrinterSettings = New System.Windows.Forms.RibbonButton()
+        Me.RibbonPanel5 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibbonTab6 = New System.Windows.Forms.RibbonTab()
-        Me.RibbonPanel4 = New System.Windows.Forms.RibbonPanel()
-        Me.RibbonButtonPrinterSettings = New System.Windows.Forms.RibbonButton()
-        Me.RibbonPanel5 = New System.Windows.Forms.RibbonPanel()
-        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
+        Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -133,9 +134,10 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
-        Me.RibbonTab3.Panels.Add(Me.RibStockMinistore)
-        Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
         Me.RibbonTab3.Panels.Add(Me.RibReturnStock)
+        Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
+        Me.RibbonTab3.Panels.Add(Me.RibReceiveReturnMaterial)
+        Me.RibbonTab3.Panels.Add(Me.RibStockMinistore)
         Me.RibbonTab3.Text = "Mini Store"
         '
         'InputStock
@@ -156,7 +158,7 @@ Partial Class HOME
         '
         Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
         Me.RibStockMinistore.Name = "RibStockMinistore"
-        Me.RibStockMinistore.Text = "Stock Ministore"
+        Me.RibStockMinistore.Text = "Stock Card"
         '
         'StockMinistoreBtn
         '
@@ -355,6 +357,39 @@ Partial Class HOME
         Me.UsersBtn.Name = "UsersBtn"
         Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibbonTab6
+        '
+        Me.RibbonTab6.Name = "RibbonTab6"
+        Me.RibbonTab6.Panels.Add(Me.RibbonPanel4)
+        Me.RibbonTab6.Panels.Add(Me.RibbonPanel5)
+        Me.RibbonTab6.Text = "Settings"
+        '
+        'RibbonPanel4
+        '
+        Me.RibbonPanel4.Items.Add(Me.RibbonButtonPrinterSettings)
+        Me.RibbonPanel4.Name = "RibbonPanel4"
+        Me.RibbonPanel4.Text = "Labels"
+        '
+        'RibbonButtonPrinterSettings
+        '
+        Me.RibbonButtonPrinterSettings.Image = CType(resources.GetObject("RibbonButtonPrinterSettings.Image"), System.Drawing.Image)
+        Me.RibbonButtonPrinterSettings.LargeImage = CType(resources.GetObject("RibbonButtonPrinterSettings.LargeImage"), System.Drawing.Image)
+        Me.RibbonButtonPrinterSettings.Name = "RibbonButtonPrinterSettings"
+        Me.RibbonButtonPrinterSettings.SmallImage = CType(resources.GetObject("RibbonButtonPrinterSettings.SmallImage"), System.Drawing.Image)
+        '
+        'RibbonPanel5
+        '
+        Me.RibbonPanel5.Items.Add(Me.RibbonButtonLogin)
+        Me.RibbonPanel5.Name = "RibbonPanel5"
+        Me.RibbonPanel5.Text = "Login"
+        '
+        'RibbonButtonLogin
+        '
+        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
+        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
+        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
+        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
+        '
         'RibbonPanel3
         '
         Me.RibbonPanel3.Name = "RibbonPanel3"
@@ -400,38 +435,10 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
-        'RibbonTab6
+        'RibReceiveReturnMaterial
         '
-        Me.RibbonTab6.Name = "RibbonTab6"
-        Me.RibbonTab6.Panels.Add(Me.RibbonPanel4)
-        Me.RibbonTab6.Panels.Add(Me.RibbonPanel5)
-        Me.RibbonTab6.Text = "Settings"
-        '
-        'RibbonPanel4
-        '
-        Me.RibbonPanel4.Items.Add(Me.RibbonButtonPrinterSettings)
-        Me.RibbonPanel4.Name = "RibbonPanel4"
-        Me.RibbonPanel4.Text = "Labels"
-        '
-        'RibbonButtonPrinterSettings
-        '
-        Me.RibbonButtonPrinterSettings.Image = CType(resources.GetObject("RibbonButtonPrinterSettings.Image"), System.Drawing.Image)
-        Me.RibbonButtonPrinterSettings.LargeImage = CType(resources.GetObject("RibbonButtonPrinterSettings.LargeImage"), System.Drawing.Image)
-        Me.RibbonButtonPrinterSettings.Name = "RibbonButtonPrinterSettings"
-        Me.RibbonButtonPrinterSettings.SmallImage = CType(resources.GetObject("RibbonButtonPrinterSettings.SmallImage"), System.Drawing.Image)
-        '
-        'RibbonPanel5
-        '
-        Me.RibbonPanel5.Items.Add(Me.RibbonButtonLogin)
-        Me.RibbonPanel5.Name = "RibbonPanel5"
-        Me.RibbonPanel5.Text = "Login"
-        '
-        'RibbonButtonLogin
-        '
-        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
-        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
-        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
-        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
+        Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
+        Me.RibReceiveReturnMaterial.Text = "Receive Return Material"
         '
         'HOME
         '
@@ -508,5 +515,6 @@ Partial Class HOME
     Friend WithEvents RibbonButtonPrinterSettings As RibbonButton
     Friend WithEvents RibbonPanel5 As RibbonPanel
     Friend WithEvents RibbonButtonLogin As RibbonButton
+    Friend WithEvents RibReceiveReturnMaterial As RibbonPanel
     '>>>>>>> Arif
 End Class

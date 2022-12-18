@@ -3,12 +3,11 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class MasterLine
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If TextBox1.Text <> "" And TextBox2.Text <> "" Then
-            Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, departement) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "')"
+        If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
+            Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, departement) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
             Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
             If cmdInsertMasterLine.ExecuteNonQuery() Then
                 TextBox1.Text = ""
-                TextBox2.Text = ""
                 DGV_MasterLine()
             End If
         Else
@@ -19,6 +18,18 @@ Public Class MasterLine
     Private Sub MasterLine_Load(sender As Object, e As EventArgs) Handles Me.Load
         Call Database.koneksi_database()
         DGV_MasterLine()
+        tampilDataComboBoxDepartement()
+    End Sub
+
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+
+        ComboBox1.DataSource = dtMasterDepart
+        ComboBox1.DisplayMember = "departement"
+        ComboBox1.ValueMember = "departement"
+        ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub DGV_MasterLine()

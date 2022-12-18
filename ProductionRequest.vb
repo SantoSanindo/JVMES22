@@ -1,6 +1,5 @@
-﻿Imports System.Data.SqlClient
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports Microsoft.Office.Interop.Excel
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Data.SqlClient
 
 Public Class ProductionRequest
     Sub Insert_Prod_DOC(fg As String, sub_sub_po As String)
@@ -50,7 +49,7 @@ Public Class ProductionRequest
         DataGridView3.Columns.Clear()
         Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO,mp.fg_pn FG_Part_Number,mufg.component Component,mufg.description Description,mufg.usage [Usage],sp.sub_sub_po_qty Sub_Sub_Qty,ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS Total_Need,mp.po,mp.sub_po
         from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
-        where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and line = '" & ComboBox1.Text & "' and department='" & globVar.department & "' order by sp.sub_sub_po"
+        where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox1.Text & "' and mp.department='" & globVar.department & "' order by sp.sub_sub_po"
         Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)
 
         If dtMaterialNeed.Rows.Count > 0 Then
@@ -138,7 +137,6 @@ Public Class ProductionRequest
                                     VALUES (" & splitQRCode1P(0) & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                            TextBox1.Text = ""
                                             DGV_InProductionMaterial()
 
                                             Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
@@ -146,6 +144,7 @@ Public Class ProductionRequest
                                             cmdUpdate.ExecuteNonQuery()
 
                                             MessageBox.Show("Add Material Success")
+                                            TextBox1.Clear()
                                         End If
                                     Catch ex As Exception
                                         MessageBox.Show("Error Insert" & ex.Message)
@@ -159,7 +158,6 @@ Public Class ProductionRequest
                                     VALUES (" & splitQRCode1P(0) & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "')"
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                     If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                        TextBox1.Text = ""
                                         DGV_InProductionMaterial()
 
                                         Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
@@ -167,6 +165,7 @@ Public Class ProductionRequest
                                         cmdUpdate.ExecuteNonQuery()
 
                                         MessageBox.Show("Add Material Success")
+                                        TextBox1.Clear()
                                     End If
                                 Catch ex As Exception
                                     MessageBox.Show("Error Insert" & ex.Message)
@@ -271,7 +270,8 @@ Public Class ProductionRequest
                                     VALUES (" & TextBox2.Text & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & dtCheckStockMinistore.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckStockMinistore.Rows(0).Item("TRACEABILITY") & "," & TextBox6.Text & ",'" & dtCheckStockMinistore.Rows(0).Item("BATCH_NO") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "')"
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                     If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                        TextBox1.Text = ""
+                                        TextBox2.Text = ""
+                                        TextBox6.Text = ""
                                         DGV_InProductionMaterial()
 
                                         Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & TextBox2.Text & "' and lot_no='" & TextBox6.Text & "' AND DEPARTEMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
@@ -292,7 +292,8 @@ Public Class ProductionRequest
                                     VALUES (" & TextBox2.Text & "," & dtCheckStockMinistore.Rows(0).Item("qty") & "," & dtCheckStockMinistore.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckStockMinistore.Rows(0).Item("TRACEABILITY") & "," & TextBox6.Text & ",'" & dtCheckStockMinistore.Rows(0).Item("BATCH_NO") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "')"
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                    TextBox1.Text = ""
+                                    TextBox2.Text = ""
+                                    TextBox6.Text = ""
                                     DGV_InProductionMaterial()
 
                                     Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & TextBox2.Text & "' and lot_no='" & TextBox6.Text & "' AND DEPARTEMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
@@ -308,8 +309,9 @@ Public Class ProductionRequest
                     End If
                 End If
             Else
-                MessageBox.Show("This QR Code not available in Stock Ministore. Please goto input stock first")
-                TextBox1.Text = ""
+                MessageBox.Show("This Material not available in Stock Ministore. Please goto input stock first")
+                TextBox2.Text = ""
+                TextBox6.Text = ""
             End If
         End If
     End Sub

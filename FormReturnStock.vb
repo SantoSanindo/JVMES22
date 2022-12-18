@@ -81,7 +81,7 @@ Public Class FormReturnStock
             Dim splitQRCode() As String = txt_forminputstock_qrcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
             Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
 
-            Dim sql As String = "SELECT * FROM STOCK_CARD where lot_no=" & splitQRCode1P(3) & " AND MATERIAL='" & splitQRCode1P(0) & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Mini Store' AND [SAVE]=1)) and departement='" & globVar.department & "'"
+            Dim sql As String = "SELECT * FROM STOCK_CARD where lot_no=" & splitQRCode1P(3) & " AND MATERIAL='" & splitQRCode1P(0) & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and departement='" & globVar.department & "'"
             adapter = New SqlDataAdapter(sql, Database.koneksi)
             adapter.Fill(ds)
 
@@ -149,12 +149,15 @@ Public Class FormReturnStock
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Dim result = MessageBox.Show("The data has been saved cannot be changed. Are you sure to save this MTS Data?", "Warning", MessageBoxButtons.YesNo)
 
-        If dgv_forminputstock.Rows.Count > 0 Then
+        If TreeView1.Nodes(0).Nodes.Count > 0 Then
             If result = DialogResult.Yes Then
                 Try
                     Dim Sql As String = "UPDATE STOCK_CARD SET [SAVE]=1, DATETIME_SAVE=GETDATE() FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
                     If (cmd.ExecuteNonQuery() > 0) Then
+
+                        Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=1, DATETIME_SAVE=GETDATE() FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
+                        Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
 
                         dgv_forminputstock.DataSource = Nothing
                         treeView_show()

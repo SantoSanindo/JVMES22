@@ -115,7 +115,7 @@ Public Class FormInputStock
                         End If
 
                         Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTEMENT, STANDARD_PACK,STATUS,ACTUAL_QTY)
-                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & ",'" & splitQRCode(2) & "','" & splitQRCode1P(2) & "'," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & splitQRCode1P(1) & ")"
+                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & splitQRCode1P(1) & ")"
                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                             txt_forminputstock_qrcode.Text = ""
@@ -162,7 +162,7 @@ Public Class FormInputStock
 
         If result = DialogResult.Yes Then
             Try
-                Dim Sql As String = "UPDATE STOCK_CARD SET [SAVE]=1, DATETIME_SAVE=GETDATE() FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTEMENT='" & globVar.department & "'"
+                Dim Sql As String = "UPDATE STOCK_CARD SET [SAVE]=1, DATETIME_SAVE=GETDATE() FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
                 Dim cmd = New SqlCommand(Sql, Database.koneksi)
                 If (cmd.ExecuteNonQuery() > 0) Then
 
@@ -245,7 +245,7 @@ Public Class FormInputStock
 
                 treeView_show()
 
-                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and departement='" & globVar.department & "'"
+                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and departement='" & globVar.department & "' and status='Receive From Mini Store'"
                 Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
                 If dtCheckLock.Rows.Count > 0 Then
@@ -257,6 +257,9 @@ Public Class FormInputStock
                         Button2.Enabled = False
                         dgv_forminputstock.ReadOnly = True
                     End If
+                Else
+                    Button2.Enabled = True
+
                 End If
             End If
         End If
@@ -301,6 +304,7 @@ Public Class FormInputStock
         txt_forminputstock_qrcode.Text = ""
 
         Button2.Enabled = False
+        Button3.Enabled = False
     End Sub
 
     Private Sub checkQr_CheckStateChanged(sender As Object, e As EventArgs) Handles checkQr.CheckStateChanged

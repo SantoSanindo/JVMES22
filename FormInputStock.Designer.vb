@@ -22,7 +22,7 @@ Partial Class FormInputStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
@@ -59,7 +59,7 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 24)
+        Me.Label1.Location = New System.Drawing.Point(16, 38)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(109, 29)
         Me.Label1.TabIndex = 0
@@ -92,7 +92,7 @@ Partial Class FormInputStock
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(1215, 21)
+        Me.TextBox1.Location = New System.Drawing.Point(1217, 35)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(43, 35)
         Me.TextBox1.TabIndex = 13
@@ -104,7 +104,7 @@ Partial Class FormInputStock
         Me.checkQr.CausesValidation = False
         Me.checkQr.Checked = True
         Me.checkQr.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.checkQr.Location = New System.Drawing.Point(1028, 23)
+        Me.checkQr.Location = New System.Drawing.Point(1032, 37)
         Me.checkQr.Name = "checkQr"
         Me.checkQr.Size = New System.Drawing.Size(133, 33)
         Me.checkQr.TabIndex = 12
@@ -282,14 +282,14 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_forminputstock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.dgv_forminputstock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_forminputstock.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_forminputstock.Location = New System.Drawing.Point(399, 195)
@@ -303,7 +303,7 @@ Partial Class FormInputStock
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(394, 24)
+        Me.Label2.Location = New System.Drawing.Point(398, 38)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(114, 29)
         Me.Label2.TabIndex = 3
@@ -311,16 +311,16 @@ Partial Class FormInputStock
         '
         'txt_forminputstock_qrcode
         '
-        Me.txt_forminputstock_qrcode.Location = New System.Drawing.Point(540, 21)
+        Me.txt_forminputstock_qrcode.Location = New System.Drawing.Point(540, 35)
         Me.txt_forminputstock_qrcode.Name = "txt_forminputstock_qrcode"
         Me.txt_forminputstock_qrcode.Size = New System.Drawing.Size(463, 35)
         Me.txt_forminputstock_qrcode.TabIndex = 2
         '
         'txt_forminputstock_mts_no
         '
-        Me.txt_forminputstock_mts_no.Location = New System.Drawing.Point(163, 21)
+        Me.txt_forminputstock_mts_no.Location = New System.Drawing.Point(167, 35)
         Me.txt_forminputstock_mts_no.Name = "txt_forminputstock_mts_no"
-        Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(222, 35)
+        Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(218, 35)
         Me.txt_forminputstock_mts_no.TabIndex = 1
         '
         'FormInputStock

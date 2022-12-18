@@ -204,10 +204,10 @@ Public Class MaterialUsageFinishGoods
                                 txt_masterfinishgoods_search.Clear()
                                 Exit For
                             End If
-                            If Found = False Then
-                                MessageBox.Show("Data not Found")
-                            End If
                         Next
+                        If Found = False Then
+                            MessageBox.Show("Data not Found")
+                        End If
                     End If
                 Catch ex As Exception
                     MsgBox(ex.ToString)

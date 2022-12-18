@@ -168,14 +168,11 @@ Public Class MaterialUsageFinishGoods
                                 Exit For
                             End If
                         Next
-                        If FoundTreeview = False Then
-                            MessageBox.Show("Data not Found")
-                        End If
-                    Else
-                        MessageBox.Show("Data not Found")
-                        txt_masterfinishgoods_search.Clear()
                     End If
                 Next
+                If FoundTreeview = False Then
+                    MessageBox.Show("Data not Found")
+                End If
             Else
                 Dim Found As Boolean = False
                 Dim StringToSearch As String = ""

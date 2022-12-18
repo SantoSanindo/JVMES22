@@ -1,7 +1,9 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Data.OleDb
+Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class MasterProcessFlow
+    Dim oleCon As OleDbConnection
     Private Sub MasterProcessFlow_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_ProcessFlow()
         tampilDataComboBox()
@@ -199,6 +201,40 @@ Public Class MasterProcessFlow
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+            Dim excelpath As String = OpenFileDialog1.FileName
+            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+            oleCon = New OleDbConnection(koneksiExcel)
+            oleCon.Open()
 
+            Dim queryExcel As String = "select * from [" & SheetName & "$]"
+            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+            Dim rd As OleDbDataReader
+
+            Call Database.koneksi_database()
+            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS_FLOW"
+                Try
+                    rd = cmd.ExecuteReader
+
+                    bulkCopy.ColumnMappings.Add(0, 1)
+                    bulkCopy.ColumnMappings.Add(1, 2)
+                    bulkCopy.ColumnMappings.Add(2, 3)
+                    bulkCopy.ColumnMappings.Add(3, 4)
+
+                    bulkCopy.WriteToServer(rd)
+                    rd.Close()
+
+                    DGV_ProcessFlow()
+                    MsgBox("Import Process Flow & Process Flow material usage Success")
+                Catch ex As Exception
+                    MsgBox("Import Finish Goods Failed " & ex.Message)
+                End Try
+            End Using
+        End If
     End Sub
 End Class

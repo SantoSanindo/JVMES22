@@ -52,7 +52,7 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select id, id_card_no [ID Card],name Name,role Role, departement Department from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,role Role, departement Department from USERS order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 
@@ -70,37 +70,36 @@ Public Class Users
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(6, delete)
-
-        DataGridView1.Columns("ID").Visible = False
+        DataGridView1.Columns.Insert(5, delete)
     End Sub
 
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+    'Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+    '    If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+    '        Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from users where id='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
+    '        If result = DialogResult.Yes Then
+    '            Try
+    '                Dim sql As String = "delete from users where id='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
+    '                Dim cmd = New SqlCommand(sql, Database.koneksi)
+    '                cmd.ExecuteNonQuery()
 
-                    DGV_Users()
-                    MessageBox.Show("Delete Success.")
-                Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
-                End Try
-            End If
-        End If
+    '                DGV_Users()
+    '                MessageBox.Show("Delete Success.")
+    '            Catch ex As Exception
+    '                MessageBox.Show("failed" & ex.Message)
+    '            End Try
+    '        End If
+    '    End If
 
-        If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
-            If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
-                DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
-            Else
-                DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
-            End If
-        End If
-    End Sub
+    '    If e.ColumnIndex = 0 Then
+    '        'MessageBox.Show(e.RowIndex)
+    '        If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
+    '            DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
+    '        Else
+    '            DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub TextBox5_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox5.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
@@ -182,12 +181,12 @@ Public Class Users
                 Try
                     rd = cmd.ExecuteReader
 
-                    bulkCopy.ColumnMappings.Add(0, 1)
-                    bulkCopy.ColumnMappings.Add(1, 2)
-                    bulkCopy.ColumnMappings.Add(2, 3)
-                    bulkCopy.ColumnMappings.Add(3, 4)
-                    bulkCopy.ColumnMappings.Add(4, 5)
-                    bulkCopy.ColumnMappings.Add(5, 6)
+                    bulkCopy.ColumnMappings.Add(0, 0)
+                    bulkCopy.ColumnMappings.Add(1, 1)
+                    bulkCopy.ColumnMappings.Add(2, 2)
+                    bulkCopy.ColumnMappings.Add(3, 3)
+                    bulkCopy.ColumnMappings.Add(4, 4)
+                    bulkCopy.ColumnMappings.Add(5, 5)
 
                     bulkCopy.WriteToServer(rd)
                     rd.Close()
@@ -198,6 +197,34 @@ Public Class Users
                     MsgBox("Import Users Failed " & ex.Message)
                 End Try
             End Using
+        End If
+    End Sub
+
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+
+            If result = DialogResult.Yes Then
+                Try
+                    Dim sql As String = "delete from users where id='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    cmd.ExecuteNonQuery()
+
+                    DGV_Users()
+                    MessageBox.Show("Delete Success.")
+                Catch ex As Exception
+                    MessageBox.Show("failed" & ex.Message)
+                End Try
+            End If
+        End If
+
+        If e.ColumnIndex = 0 Then
+            'MessageBox.Show(e.RowIndex)
+            If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
+                DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
+            Else
+                DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
+            End If
         End If
     End Sub
 End Class

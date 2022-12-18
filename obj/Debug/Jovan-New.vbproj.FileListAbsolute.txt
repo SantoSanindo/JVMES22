@@ -78,3 +78,129 @@ D:\MES Jovan\Final\obj\Debug\Jovan-New.pdb
 D:\MES Jovan\Final\obj\Debug\Jovan_New.MasterLine.resources
 D:\MES Jovan\Final\obj\Debug\Jovan_New.OldFormReturnStock.resources
 D:\MES Jovan\Final\obj\Debug\Jovan_New.FormReturnStock.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormDefective.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormInputStock.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormLogin.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormReject.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.OldFormReturnStock.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.HOME.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainForm.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterLine.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Resources.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.frmTesting.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Production.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ResultProduction.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockProd.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Users.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\bin\Debug\Jovan-New.exe.config
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\bin\Debug\Jovan-New.exe
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\bin\Debug\Jovan-New.pdb
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\bin\Debug\Jovan-New.xml
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\bin\Debug\SDK.NET.Interface.dll
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.exe
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.xml
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingFlowTicket.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingDefect.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingSubAssyRawMaterial.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingWIPOnHold.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\bin\Debug\Jovan-New.exe.config
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\bin\Debug\Jovan-New.exe
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\bin\Debug\Jovan-New.pdb
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\bin\Debug\Jovan-New.xml
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\bin\Debug\SDK.NET.Interface.dll
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormDefective.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormInputStock.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormLogin.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FormReject.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.OldFormReturnStock.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.HOME.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainForm.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterLine.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Resources.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.frmTesting.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Production.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ResultProduction.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockProd.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.Users.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingDefect.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingFlowTicket.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingSubAssyRawMaterial.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New._PrintingWIPOnHold.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.exe
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.xml
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.exe.config
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.exe
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.xml
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\MdiTabControl.dll
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.FormDefective.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.FormReturnStock.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.FormInputStock.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.FormLogin.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.FormReject.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.OldFormReturnStock.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.HOME.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MainForm.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MainPOSubPO.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MasterFinishGoods.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MasterLine.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MasterMaterial.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MasterProcess.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.MasterProcessFlow.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.Resources.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.frmTesting.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.Production.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.ProductionRequest.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.ResultProduction.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.StockMinistore.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.StockProd.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.Users.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New._PrintingDefect.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New._PrintingFlowTicket.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New._PrintingSubAssyRawMaterial.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New._PrintingWIPOnHold.resources
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.CopyComplete
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.exe
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.xml
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.pdb

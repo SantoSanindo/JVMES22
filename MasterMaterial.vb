@@ -41,22 +41,10 @@ Public Class MasterMaterial
         End If
     End Sub
 
-    Sub tampilDataComboBoxDepartement()
-        Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
-
-        txt_mastermaterial_family.DataSource = dtMasterDepart
-        txt_mastermaterial_family.DisplayMember = "departement"
-        txt_mastermaterial_family.ValueMember = "departement"
-        txt_mastermaterial_family.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        txt_mastermaterial_family.AutoCompleteSource = AutoCompleteSource.ListItems
-    End Sub
-
     Private Sub MasterMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_mastermaterial_pn.Select()
         DGV_MasterMaterial()
         txt_mastermaterial_search.Text = ""
-        tampilDataComboBoxDepartement()
     End Sub
 
     Private Sub DGV_MasterMaterial()
@@ -126,7 +114,7 @@ Public Class MasterMaterial
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_material.Rows
                 If row.Cells(0).Value = True Then
-                    Dim sql As String = "delete from master_material where part_number='" & row.Cells(2).Value & "'"
+                    Dim sql As String = "delete from master_material where part_number='" & row.Cells("PART_NUMBER").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     hapus = hapus + 1
@@ -134,7 +122,6 @@ Public Class MasterMaterial
             Next
         End If
 
-        dgv_material.DataSource = Nothing
         DGV_MasterMaterial()
         MessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
@@ -195,9 +182,9 @@ Public Class MasterMaterial
                 End If
                 If dgv_material.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In dgv_material.Rows
-                        StringToSearch = gRow.Cells(2).Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("PART_NUMBER").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(txt_mastermaterial_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(2)
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("PART_NUMBER")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                             dgv_material.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_material.CurrentRow.Index

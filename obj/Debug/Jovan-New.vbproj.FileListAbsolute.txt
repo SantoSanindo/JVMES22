@@ -204,3 +204,4 @@ D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.xml
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources

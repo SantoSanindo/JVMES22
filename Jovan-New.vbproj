@@ -232,6 +232,12 @@
     <Compile Include="ProductionRequest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ReceiveReturnMaterial.Designer.vb">
+      <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiveReturnMaterial.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ResultProduction.Designer.vb">
       <DependentUpon>ResultProduction.vb</DependentUpon>
     </Compile>
@@ -344,6 +350,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProductionRequest.resx">
       <DependentUpon>ProductionRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReceiveReturnMaterial.resx">
+      <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResultProduction.resx">
       <DependentUpon>ResultProduction.vb</DependentUpon>

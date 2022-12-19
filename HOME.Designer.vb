@@ -32,12 +32,13 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
-        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
-        Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
         Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
+        Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
+        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.RibStockProd = New System.Windows.Forms.RibbonPanel()
         Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
@@ -73,7 +74,7 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.ReceiveReturnMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -154,18 +155,18 @@ Partial Class HOME
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
         '
-        'RibStockMinistore
+        'RibReturnStock
         '
-        Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
-        Me.RibStockMinistore.Name = "RibStockMinistore"
-        Me.RibStockMinistore.Text = "Stock Card"
+        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
+        Me.RibReturnStock.Name = "RibReturnStock"
+        Me.RibReturnStock.Text = "Return Stock"
         '
-        'StockMinistoreBtn
+        'ReturnStockBtn
         '
-        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
-        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
-        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
-        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
+        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
+        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
+        Me.ReturnStockBtn.Name = "ReturnStockBtn"
+        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProductionRequest
         '
@@ -180,18 +181,24 @@ Partial Class HOME
         Me.ProductionRequestBtn.Name = "ProductionRequestBtn"
         Me.ProductionRequestBtn.SmallImage = CType(resources.GetObject("ProductionRequestBtn.SmallImage"), System.Drawing.Image)
         '
-        'RibReturnStock
+        'RibReceiveReturnMaterial
         '
-        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
-        Me.RibReturnStock.Name = "RibReturnStock"
-        Me.RibReturnStock.Text = "Return Stock"
+        Me.RibReceiveReturnMaterial.Items.Add(Me.ReceiveReturnMaterialBtn)
+        Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
+        Me.RibReceiveReturnMaterial.Text = "Receive Return Material"
         '
-        'ReturnStockBtn
+        'RibStockMinistore
         '
-        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
-        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
-        Me.ReturnStockBtn.Name = "ReturnStockBtn"
-        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
+        Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
+        Me.RibStockMinistore.Name = "RibStockMinistore"
+        Me.RibStockMinistore.Text = "Stock Card"
+        '
+        'StockMinistoreBtn
+        '
+        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
+        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
+        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
+        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab4
         '
@@ -435,10 +442,12 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
-        'RibReceiveReturnMaterial
+        'ReceiveReturnMaterialBtn
         '
-        Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
-        Me.RibReceiveReturnMaterial.Text = "Receive Return Material"
+        Me.ReceiveReturnMaterialBtn.Image = CType(resources.GetObject("ReceiveReturnMaterialBtn.Image"), System.Drawing.Image)
+        Me.ReceiveReturnMaterialBtn.LargeImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.LargeImage"), System.Drawing.Image)
+        Me.ReceiveReturnMaterialBtn.Name = "ReceiveReturnMaterialBtn"
+        Me.ReceiveReturnMaterialBtn.SmallImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -516,5 +525,6 @@ Partial Class HOME
     Friend WithEvents RibbonPanel5 As RibbonPanel
     Friend WithEvents RibbonButtonLogin As RibbonButton
     Friend WithEvents RibReceiveReturnMaterial As RibbonPanel
+    Friend WithEvents ReceiveReturnMaterialBtn As RibbonButton
     '>>>>>>> Arif
 End Class

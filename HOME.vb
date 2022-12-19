@@ -143,6 +143,16 @@
         End If
     End Sub
 
+    Private Sub btnReceiveReturnMaterial(sender As Object, e As EventArgs) Handles ReceiveReturnMaterialBtn.Click
+        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Then
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(ReceiveReturnMaterial)
+            TabControl1.TabPages(ReceiveReturnMaterial).Select()
+        Else
+            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
     ' -----------------------End Menu Mini Store---------------------------'
 
     ' -----------------------Start Menu Production-------------------------'
@@ -211,4 +221,6 @@
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
     End Sub
+
+
 End Class

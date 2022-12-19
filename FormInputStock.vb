@@ -219,6 +219,14 @@ Public Class FormInputStock
                 MessageBox.Show("MTS cannot be null.")
                 txt_forminputstock_mts_no.Select()
             Else
+                Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTEMENT = '" & globVar.department & "' and [save]=1 and status != 'Receive From Main Store'"
+                Dim dtCheck As DataTable = Database.GetData(queryCheck)
+                If dtCheck.Rows.Count > 0 Then
+                    MessageBox.Show("Sorry MTS Number already in DB")
+                    txt_forminputstock_mts_no.Clear()
+                    Exit Sub
+                End If
+
                 txt_forminputstock_mts_no.ReadOnly = True
                 checkQr.Enabled = True
 
@@ -245,7 +253,7 @@ Public Class FormInputStock
 
                 treeView_show()
 
-                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and departement='" & globVar.department & "' and status='Receive From Mini Store'"
+                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and departement='" & globVar.department & "' and status='Receive From Main Store'"
                 Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
                 If dtCheckLock.Rows.Count > 0 Then

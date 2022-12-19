@@ -156,8 +156,14 @@ Public Class FormReturnStock
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
                     If (cmd.ExecuteNonQuery() > 0) Then
 
-                        Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=1, DATETIME_SAVE=GETDATE() FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
-                        Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+                        Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
+                        Dim dtCheck As DataTable = Database.GetData(queryCheck)
+
+                        For i = 0 To dtCheck.Rows.Count - 1
+                            Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE DEPARTEMENT='" & globVar.department & "' AND  ( STATUS='Receive From Main Store' or STATUS='Receive From Production' ) and material=" & dtCheck.Rows(i).Item("MATERIAL") & " and lot_no=" & dtCheck.Rows(i).Item("LOT_NO") & " and [PO] is null"
+                            Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+                            cmdUpdateQty.ExecuteNonQuery()
+                        Next
 
                         dgv_forminputstock.DataSource = Nothing
                         treeView_show()
@@ -215,10 +221,10 @@ Public Class FormReturnStock
                 MessageBox.Show("MTS cannot be null.")
                 txt_forminputstock_mts_no.Select()
             Else
-                Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTEMENT='" & globVar.department & "' and [save]=1"
+                Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTEMENT = '" & globVar.department & "' and [save]=1 and status != 'Return To Main Store'"
                 Dim dtCheck As DataTable = Database.GetData(queryCheck)
                 If dtCheck.Rows.Count > 0 Then
-                    MessageBox.Show("Sorry MTS No already in DB")
+                    MessageBox.Show("Sorry MTS Number already in DB")
                     txt_forminputstock_mts_no.Clear()
                     Exit Sub
                 End If
@@ -241,7 +247,7 @@ Public Class FormReturnStock
 
                 treeView_show()
 
-                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and departement='" & globVar.department & "' and (status='Receive From Mini Store' or status='Receive From Production')"
+                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and departement='" & globVar.department & "' and status='Return To Main Store'"
                 Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
                 If dtCheckLock.Rows.Count > 0 Then
@@ -320,7 +326,7 @@ Public Class FormReturnStock
             Dim adapter As SqlDataAdapter
             Dim ds As New DataTable
 
-            Dim sql As String = "SELECT * FROM STOCK_CARD where lot_no=" & txtmanualLot.Text & " AND MATERIAL='" & txtmanualPN.Text & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Mini Store' AND [SAVE]=1)) and departement='" & globVar.department & "'"
+            Dim sql As String = "SELECT * FROM STOCK_CARD where lot_no=" & txtmanualLot.Text & " AND MATERIAL='" & txtmanualPN.Text & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and departement='" & globVar.department & "'"
             adapter = New SqlDataAdapter(sql, Database.koneksi)
             adapter.Fill(ds)
 

@@ -3,6 +3,7 @@
 Public Class StockMinistore
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_StockMiniststore()
+        ComboBox1.SelectedIndex = -1
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
@@ -43,13 +44,24 @@ Public Class StockMinistore
         End If
     End Sub
 
+    Private Sub DGV_StockMiniststore(status As String)
+        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Call Database.koneksi_database()
+        Dim queryInputStockDetail As String = "SELECT MATERIAL,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY,ACTUAL_QTY FROM STOCK_CARD  WHERE STATUS='" & status & "' order by MATERIAL,LOT_NO"
+        Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+        DataGridView1.DataSource = dtInputStockDetail
+    End Sub
+
     Private Sub DGV_StockMiniststore()
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryInputStockDetail As String = "SELECT PART_NUMBER,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY FROM STOCK_MINISTORE order by part_number,lot_no"
+        Dim queryInputStockDetail As String = "SELECT MATERIAL,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY,ACTUAL_QTY,STATUS FROM STOCK_CARD order by MATERIAL,LOT_NO"
         Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
         DataGridView1.DataSource = dtInputStockDetail
     End Sub
@@ -64,7 +76,11 @@ Public Class StockMinistore
         Next i
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        DGV_StockMiniststore()
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        If ComboBox1.SelectedIndex = 0 Then
+            DGV_StockMiniststore()
+        Else
+            DGV_StockMiniststore(ComboBox1.Text)
+        End If
     End Sub
 End Class

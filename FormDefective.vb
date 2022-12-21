@@ -291,8 +291,53 @@ Public Class FormDefective
         LoaddgWIP(cbWIPProcess.Text)
     End Sub
 
+
+    Private Sub btnWIPAdd_Click(sender As Object, e As EventArgs) Handles btnWIPAdd.Click
+        If cbWIPProcess.Text <> "" And txtWIPTicketNo.Text <> "" And txtWIPQuantity.Text <> "" Then
+
+            Try
+                Dim Part As String() = Nothing
+                Dim i As Integer
+                Dim statusSimpan As Integer = 1
+
+                Part = materialList(cbWIPProcess.SelectedIndex).Split(";")
+
+                'diulang sebanyak part number yg ada
+                Call Database.koneksi_database()
+                For i = 0 To Part.Length - 2
+                    Dim dtsubsubpo As String = WIPGetSubsubPO()
+
+                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                    Dim arrdtList() As String
+                    arrdtList = dtList.Split(";")
+
+
+                    Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,DATETIME_INSERT,PO) VALUES ('" &
+                                        WIPGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtWIPTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i)) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "')"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+                Next
+
+                If statusSimpan > 0 Then
+                    MessageBox.Show("Success save data!!!")
+                    LoaddgWIP("")
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error Insert : " & ex.Message)
+            End Try
+
+
+        End If
+
+    End Sub
+
+    ''''''''''''''''''''''''''''''''''''''' WIP FUNCTION
     Sub LoaddgWIP(proses As String)
-        Dim i As Integer
+        Dim i As Integer = 0
 
         Try
             'Call Database.koneksi_database()
@@ -307,15 +352,22 @@ Public Class FormDefective
 
                 .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-                .ColumnCount = 4
+                .ColumnCount = 10
                 .Columns(0).Name = "No"
-                .Columns(1).Name = "Part Number"
-                .Columns(2).Name = "Name"
-                .Columns(3).Name = "Check"
+                .Columns(1).Name = "ID"
+                .Columns(2).Name = "Process Name"
+                .Columns(3).Name = "Ticket No."
+                .Columns(4).Name = "Material PN"
+                .Columns(5).Name = "Inv No."
+                .Columns(6).Name = "MFG Date"
+                .Columns(7).Name = "Lot Code"
+                .Columns(8).Name = "Lot No."
+                .Columns(9).Name = "Qty"
 
                 .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
                 'For i = 0 To 7
                 '    If ((i = 0) Or (i = 3) Or (i = 7)) Then
                 '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -334,9 +386,15 @@ Public Class FormDefective
                 'Next
 
                 .Columns(0).Width = Int(.Width * 0.05)
-                .Columns(1).Width = Int(.Width * 0.15)
-                .Columns(2).Width = Int(.Width * 0.68)
-                .Columns(3).Width = Int(.Width * 0.1)
+                .Columns(1).Width = Int(.Width * 0.08)
+                .Columns(2).Width = Int(.Width * 0.2)
+                .Columns(3).Width = Int(.Width * 0.08)
+                .Columns(4).Width = Int(.Width * 0.08)
+                .Columns(5).Width = Int(.Width * 0.1)
+                .Columns(6).Width = Int(.Width * 0.15)
+                .Columns(7).Width = Int(.Width * 0.08)
+                .Columns(8).Width = Int(.Width * 0.08)
+                .Columns(9).Width = Int(.Width * 0.08)
 
 
                 .EnableHeadersVisualStyles = False
@@ -351,6 +409,33 @@ Public Class FormDefective
 
 
                 ''''''''''''''''''''''''''''''''''''''''''''
+                Dim sqlStr As String = ""
+
+                If proses = "" Then
+                    sqlStr = "select * from STOCK_PROD_WIP ORDER BY CODE_STOCK_PROD_WIP"
+                Else
+                    sqlStr = "select * from STOCK_PROD_WIP where PROCESS='" & proses & "' ORDER BY CODE_STOCK_PROD_WIP"
+                End If
+
+                Dim dttable As DataTable = Database.GetData(sqlStr)
+
+
+                If dttable.Rows.Count > 0 Then
+                    For i = 0 To dttable.Rows.Count - 1
+                        .Rows.Add(1)
+                        .Item(0, i).Value = (i + 1).ToString()
+                        .Item(1, i).Value = dttable.Rows(i)(1)
+                        .Item(2, i).Value = dttable.Rows(i)(9)
+                        .Item(3, i).Value = dttable.Rows(i)(5)
+                        .Item(4, i).Value = dttable.Rows(i)(4)
+                        .Item(5, i).Value = dttable.Rows(i)(7)
+                        .Item(6, i).Value = dttable.Rows(i)(6)
+                        .Item(7, i).Value = "Lot Code"
+                        .Item(8, i).Value = "Lot No."
+                        .Item(9, i).Value = dttable.Rows(i)(10)
+
+                    Next
+                End If
                 'For i = 0 To matList.Length - 1
                 '    If matList(i) = "" Then
                 '        Continue For
@@ -378,35 +463,6 @@ Public Class FormDefective
         End Try
     End Sub
 
-    Private Sub btnWIPAdd_Click(sender As Object, e As EventArgs) Handles btnWIPAdd.Click
-        If cbWIPProcess.Text <> "" And txtWIPTicketNo.Text <> "" And txtWIPQuantity.Text <> "" Then
-
-            Try
-                Dim Part As String() = Nothing
-                Dim i As Integer
-
-                Part = materialList(cbWIPProcess.SelectedIndex).Split(";")
-
-                'diulang sebanyak part number yg ada
-                Call Database.koneksi_database()
-                For i = 0 To Part.Length - 3
-                    Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,DATETIME_INSERT,PO) VALUES ('" &
-                                        WIPGenerateCode() & "','" & WIPGetSubsubPO() & "','" & cbFGPN.Text & "','" & Part(i) & "','" & "" & "','" & "" & "','" & "" & "','" & "" & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i)) & "','" & "" & "','" & cbPONumber.Text & "')"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        MessageBox.Show("Success save data!!!")
-                    End If
-                Next
-
-            Catch ex As Exception
-                MessageBox.Show("Error Insert : " & ex.Message)
-            End Try
-            Call Database.close_koneksi()
-        End If
-
-    End Sub
-
-    ''''''''''''''''''''''''''''''''''''''' WIP FUNCTION
     Function WIPGenerateCode() As String
         Dim wipCode As String = ""
 
@@ -425,7 +481,6 @@ Public Class FormDefective
         Catch ex As Exception
             MessageBox.Show("Error Insert WIP : " & ex.Message)
         End Try
-        Database.close_koneksi()
 
         Return wipCode
     End Function
@@ -453,7 +508,7 @@ Public Class FormDefective
         Catch ex As Exception
             MessageBox.Show("Error Insert" & ex.Message)
         End Try
-        Database.close_koneksi()
+
 
 
         Return SubsubPO
@@ -486,8 +541,90 @@ Public Class FormDefective
 
         Return qty
     End Function
+
+    Function WIPGetDataTraceability(pn_no As String, lineNo As String, subsubpo As String) As String
+        Dim dataTrace As String
+        Dim i As Integer
+
+        dataTrace = ""
+        Try
+            Call Database.koneksi_database()
+
+            'get id PO dari MAIN_PO
+            Dim idPO As String = ""
+            Dim dtCode As DataTable = Database.GetData("select * from PROCESS_PROD where PN_MATERIAL='" & pn_no & "' AND LINE='" & lineNo & "' AND SUB_SUB_PO='" & subsubpo & "' ORDER BY FIFO DESC")
+            If dtCode.Rows.Count > 0 Then
+                For i = 0 To dtCode.Columns.Count - 1
+                    dataTrace = dataTrace + IIf(IsDBNull(dtCode.Rows(0)(i).ToString()) = True, "", dtCode.Rows(0)(i).ToString()) + ";"
+                Next
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Error Insert" & ex.Message)
+        End Try
+
+        Return dataTrace
+    End Function
     '''''''''''''''''''''''''''''''''''''' END WIP FUNCTION
     Private Sub btnWIPEdit_Click(sender As Object, e As EventArgs) Handles btnWIPEdit.Click
         'MessageBox.Show((WIPGetQtyperPart("1717213000") * 10).ToString())
+
+        Dim i As Integer
+        Dim result As DialogResult
+
+        If Convert.ToInt16(txtWIPQuantity.Text) > 0 Then
+            result = MessageBox.Show("Are you sure want to update the ticket no. and quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                Dim statusSimpan As Integer = 1
+
+                For i = 0 To dgWIP.RowCount - 2
+                    Dim id As String = dgWIP.Rows(i).Cells(1).Value.ToString()
+                    Dim processName As String = dgWIP.Rows(i).Cells(2).Value.ToString()
+                    Dim matPN As String = dgWIP.Rows(i).Cells(4).Value.ToString()
+
+                    Call Database.koneksi_database()
+
+                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                    If cmd.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+                Next
+
+                If statusSimpan > 0 Then
+                    MessageBox.Show("Successfully update data!")
+                    LoaddgWIP("")
+                End If
+            End If
+        Else
+            result = MessageBox.Show("Are you sure want to delete WIP data?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                Dim statusSimpan As Integer = 1
+                Dim id As String = dgWIP.Rows(i).Cells(1).Value.ToString()
+
+                Call Database.koneksi_database()
+
+                'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                Dim sql As String = "delete from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & id & "'"
+                Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                If cmd.ExecuteNonQuery() Then
+                    statusSimpan *= 1
+                Else
+                    statusSimpan *= 0
+                End If
+
+                If statusSimpan > 0 Then
+                    MessageBox.Show("Successfully update data!")
+                    LoaddgWIP("")
+                End If
+            End If
+        End If
+
+
     End Sub
 End Class

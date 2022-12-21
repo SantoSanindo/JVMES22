@@ -250,13 +250,14 @@ Partial Class FormDefective
         '
         'btnWIPAdd
         '
+        Me.btnWIPAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btnWIPAdd.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnWIPAdd.Location = New System.Drawing.Point(713, 93)
         Me.btnWIPAdd.Name = "btnWIPAdd"
         Me.btnWIPAdd.Size = New System.Drawing.Size(256, 59)
         Me.btnWIPAdd.TabIndex = 7
         Me.btnWIPAdd.Text = "Add"
-        Me.btnWIPAdd.UseVisualStyleBackColor = True
+        Me.btnWIPAdd.UseVisualStyleBackColor = False
         '
         'txtWIPQuantity
         '
@@ -267,13 +268,14 @@ Partial Class FormDefective
         '
         'btnWIPEdit
         '
+        Me.btnWIPEdit.BackColor = System.Drawing.Color.Yellow
         Me.btnWIPEdit.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnWIPEdit.Location = New System.Drawing.Point(975, 93)
         Me.btnWIPEdit.Name = "btnWIPEdit"
         Me.btnWIPEdit.Size = New System.Drawing.Size(256, 59)
         Me.btnWIPEdit.TabIndex = 8
         Me.btnWIPEdit.Text = "Edit"
-        Me.btnWIPEdit.UseVisualStyleBackColor = True
+        Me.btnWIPEdit.UseVisualStyleBackColor = False
         '
         'txtWIPTicketNo
         '

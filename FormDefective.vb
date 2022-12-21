@@ -115,6 +115,7 @@ Public Class FormDefective
                         'cbDefProcess1.Items.Add(dtProcess.Rows(i)(0))
                         'cbDefProcess2.Items.Add(dtProcess.Rows(i)(0))
                         cbWIPProcess.Items.Add(dtProcess.Rows(i)(3))
+                        cbOnHoldProcess.Items.Add(dtProcess.Rows(i)(3))
                         'Dim astr As String = dtProcess.Rows(i)(4)
                         If (IsDBNull(dtProcess.Rows(i)(4)) = True) Then
                             If i > 0 Then
@@ -287,10 +288,12 @@ Public Class FormDefective
         End Try
     End Sub
 
+
+    ''''''''''''''''''''''''''''''''''''''' WIP FUNCTION
+
     Private Sub cbWIPProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbWIPProcess.SelectedIndexChanged
         LoaddgWIP(cbWIPProcess.Text)
     End Sub
-
 
     Private Sub btnWIPAdd_Click(sender As Object, e As EventArgs) Handles btnWIPAdd.Click
         If cbWIPProcess.Text <> "" And txtWIPTicketNo.Text <> "" And txtWIPQuantity.Text <> "" Then
@@ -313,7 +316,7 @@ Public Class FormDefective
 
 
                     Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,DATETIME_INSERT,PO) VALUES ('" &
-                                        WIPGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtWIPTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i)) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "')"
+                                        WIPGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtWIPTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i), 0) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "')"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
                         statusSimpan *= 1
@@ -335,7 +338,6 @@ Public Class FormDefective
 
     End Sub
 
-    ''''''''''''''''''''''''''''''''''''''' WIP FUNCTION
     Sub LoaddgWIP(proses As String)
         Dim i As Integer = 0
 
@@ -514,7 +516,7 @@ Public Class FormDefective
         Return SubsubPO
     End Function
 
-    Function WIPGetQtyperPart(strComponent As String) As Double
+    Function WIPGetQtyperPart(strComponent As String, idx As Integer) As Double
         Dim qty As Double = 0
 
         Try
@@ -535,7 +537,11 @@ Public Class FormDefective
 
 
         Dim dt As Double
-        Double.TryParse(txtWIPQuantity.Text, dt)
+        If idx = 0 Then
+            Double.TryParse(txtWIPQuantity.Text, dt)
+        ElseIf idx = 1 Then
+            Double.TryParse(txtOnHoldQty.Text, dt)
+        End If
 
         qty = qty * dt
 
@@ -565,7 +571,7 @@ Public Class FormDefective
 
         Return dataTrace
     End Function
-    '''''''''''''''''''''''''''''''''''''' END WIP FUNCTION
+
     Private Sub btnWIPEdit_Click(sender As Object, e As EventArgs) Handles btnWIPEdit.Click
         'MessageBox.Show((WIPGetQtyperPart("1717213000") * 10).ToString())
 
@@ -585,7 +591,7 @@ Public Class FormDefective
                     Call Database.koneksi_database()
 
                     'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                    Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN, 0) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                     If cmd.ExecuteNonQuery() Then
@@ -627,4 +633,227 @@ Public Class FormDefective
 
 
     End Sub
+
+    '''''''''''''''''''''''''''''''''''''' END WIP FUNCTION
+
+
+    '************************************* ON HOLD FUNCTION
+    Private Sub btnOnHoldAdd_Click(sender As Object, e As EventArgs) Handles btnOnHoldAdd.Click
+        If cbOnHoldProcess.Text <> "" And txtOnHoldTicketNo.Text <> "" And txtOnHoldQty.Text <> "" Then
+
+            Try
+                Dim Part As String() = Nothing
+                Dim i As Integer
+                Dim statusSimpan As Integer = 1
+
+                Part = materialList(cbOnHoldProcess.SelectedIndex).Split(";")
+
+                'diulang sebanyak part number yg ada
+                Call Database.koneksi_database()
+                For i = 0 To Part.Length - 2
+                    Dim dtsubsubpo As String = WIPGetSubsubPO()
+
+                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                    Dim arrdtList() As String
+                    arrdtList = dtList.Split(";")
+
+
+                    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,DATETIME_INSERT,PO,PROCESS_ONHOLD,LINE) VALUES ('" &
+                                        ONHOLDGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtOnHoldTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "')"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+                Next
+
+                If statusSimpan > 0 Then
+                    MessageBox.Show("Success save data!!!")
+                    LoaddgOnHold("")
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error Insert : " & ex.Message)
+            End Try
+
+
+        End If
+    End Sub
+
+    Private Sub btnOnHoldEdit_Click(sender As Object, e As EventArgs) Handles btnOnHoldEdit.Click
+        Dim i As Integer
+        Dim result As DialogResult
+
+        If dgOnHold.Rows.Count > 1 Then
+            If Convert.ToInt16(txtOnHoldQty.Text) > 0 Then
+                result = MessageBox.Show("Are you sure want to update the ticket no. and quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Dim statusSimpan As Integer = 1
+
+                    For i = 0 To dgOnHold.RowCount - 2
+                        Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
+                        Dim processName As String = dgOnHold.Rows(i).Cells(2).Value.ToString()
+                        Dim matPN As String = dgOnHold.Rows(i).Cells(4).Value.ToString()
+
+                        Call Database.koneksi_database()
+
+                        'Dim sql As String = "update STOCK_PROD_ONHOLD set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                        Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                        If cmd.ExecuteNonQuery() Then
+                            statusSimpan *= 1
+                        Else
+                            statusSimpan *= 0
+                        End If
+                    Next
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Successfully update data!")
+                        LoaddgOnHold("")
+                    End If
+                End If
+            Else
+                result = MessageBox.Show("Are you sure want to delete ON HOLD data?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Dim statusSimpan As Integer = 1
+                    Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
+
+                    Call Database.koneksi_database()
+
+                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim sql As String = "delete from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD='" & id & "'"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                    If cmd.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Successfully update data!")
+                        LoaddgOnHold("")
+                    End If
+                End If
+            End If
+        End If
+
+
+    End Sub
+
+    Sub LoaddgOnHold(proses As String)
+        Dim i As Integer = 0
+
+        Try
+            With dgOnHold
+                .Rows.Clear()
+
+                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                .ColumnCount = 10
+                .Columns(0).Name = "No"
+                .Columns(1).Name = "ID"
+                .Columns(2).Name = "Process Name"
+                .Columns(3).Name = "Ticket No."
+                .Columns(4).Name = "Material PN"
+                .Columns(5).Name = "Inv No."
+                .Columns(6).Name = "MFG Date"
+                .Columns(7).Name = "Lot Code"
+                .Columns(8).Name = "Lot No."
+                .Columns(9).Name = "Qty"
+
+                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                .Columns(0).Width = Int(.Width * 0.05)
+                .Columns(1).Width = Int(.Width * 0.08)
+                .Columns(2).Width = Int(.Width * 0.2)
+                .Columns(3).Width = Int(.Width * 0.08)
+                .Columns(4).Width = Int(.Width * 0.08)
+                .Columns(5).Width = Int(.Width * 0.1)
+                .Columns(6).Width = Int(.Width * 0.15)
+                .Columns(7).Width = Int(.Width * 0.08)
+                .Columns(8).Width = Int(.Width * 0.08)
+                .Columns(9).Width = Int(.Width * 0.08)
+
+
+                .EnableHeadersVisualStyles = False
+                With .ColumnHeadersDefaultCellStyle
+                    .BackColor = Color.Navy
+                    .ForeColor = Color.White
+                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                    .Alignment = HorizontalAlignment.Center
+                    .Alignment = ContentAlignment.MiddleCenter
+                End With
+
+
+
+                ''''''''''''''''''''''''''''''''''''''''''''
+                Dim sqlStr As String = ""
+
+                If proses = "" Then
+                    sqlStr = "select * from STOCK_PROD_ONHOLD ORDER BY CODE_STOCK_PROD_ONHOLD"
+                Else
+                    sqlStr = "select * from STOCK_PROD_ONHOLD where PROCESS_ONHOLD='" & proses & "' ORDER BY CODE_STOCK_PROD_ONHOLD"
+                End If
+
+                Dim dttable As DataTable = Database.GetData(sqlStr)
+
+
+                If dttable.Rows.Count > 0 Then
+                    For i = 0 To dttable.Rows.Count - 1
+                        .Rows.Add(1)
+                        .Item(0, i).Value = (i + 1).ToString()
+                        .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_ONHOLD")
+                        .Item(2, i).Value = dttable.Rows(i)("PROCESS_ONHOLD")
+                        .Item(3, i).Value = dttable.Rows(i)("LOT_NO")
+                        .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
+                        .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
+                        .Item(6, i).Value = dttable.Rows(i)("TRACEABILITY")
+                        .Item(7, i).Value = "Lot Code"
+                        .Item(8, i).Value = "Lot No."
+                        .Item(9, i).Value = dttable.Rows(i)("QTY")
+
+                    Next
+                End If
+                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            End With
+
+
+
+        Catch ex As Exception
+            MessageBox.Show("error load ShowToDGView")
+        End Try
+    End Sub
+
+    Private Sub cbOnHoldProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbOnHoldProcess.SelectedIndexChanged
+        LoaddgOnHold(cbOnHoldProcess.Text)
+    End Sub
+
+    Function ONHOLDGenerateCode() As String
+        Dim wipCode As String = ""
+
+        Try
+            Call Database.koneksi_database()
+            Dim dtCode As DataTable = Database.GetData("select distinct CODE_STOCK_PROD_ONHOLD from STOCK_PROD_ONHOLD ORDER BY CODE_STOCK_PROD_ONHOLD DESC")
+
+            If dtCode.Rows.Count > 0 Then
+                Dim str As String = dtCode.Rows(0)(0)
+                Dim dt As String = str.Substring(6, str.Length - 6) 'nomor id setelah ONHOLD
+
+                wipCode = "ONHOLD" + dt
+            Else
+                wipCode = "ONHOLD1"
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error Insert ONHOLD : " & ex.Message)
+        End Try
+
+        Return wipCode
+    End Function
+
+    '************************************* END ON HOLD FUNCTION
+
 End Class

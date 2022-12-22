@@ -36,7 +36,7 @@ Public Class AddChangeOperator
     End Sub
 
     Sub DGV_Add_Change_Operator()
-        Dim queryDOP As String = "select mp.po,mp.sub_po,mp.fg_pn,mfg.description,ssp.sub_sub_po,dp.process_number Number,dp.process Process,dp.operator_id,ssp.sub_sub_po_qty,mfg.spq from prod_dop dp, sub_sub_po ssp,main_po mp,master_finish_goods mfg where dp.line='" & ComboBox2.Text & "' and ssp.line=dp.line and ssp.sub_sub_po=dp.sub_sub_po and ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn order by dp.process_number"
+        Dim queryDOP As String = "select mp.po,mp.sub_po,mp.fg_pn,mfg.description,ssp.sub_sub_po,dp.process_number Number,dp.process Process,dp.operator_id,ssp.sub_sub_po_qty,mfg.spq from prod_dop dp, sub_sub_po ssp,main_po mp,master_finish_goods mfg where dp.line='" & ComboBox2.Text & "' and ssp.line=dp.line and ssp.sub_sub_po=dp.sub_sub_po and ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and mp.department='" & globVar.department & "' order by dp.process_number"
         Dim dtDOP As DataTable = Database.GetData(queryDOP)
         DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView3.DataSource = Nothing
@@ -132,7 +132,7 @@ Public Class AddChangeOperator
         If combo.SelectedValue IsNot Nothing Then
             If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value IsNot Nothing Then
                 Try
-                    Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
+                    Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
                         DGV_Add_Change_Operator()
@@ -144,28 +144,16 @@ Public Class AddChangeOperator
         End If
     End Sub
 
-    Private Sub DataGridView3_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView3.CellValueChanged
-        If DataGridView3.Columns(e.ColumnIndex).Name = "REMARK" Then
-            Try
-                Dim Sql As String = "update prod_dop set remark='" & DataGridView3.Rows(e.RowIndex).Cells("REMARK").Value & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value
-                Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                cmd.ExecuteNonQuery()
-            Catch ex As Exception
-                MessageBox.Show("MainPOSubPO-17 : " & ex.Message)
-            End Try
-        End If
-    End Sub
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "'"
+        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' AND DEPARTMENT='" & globVar.department & "'"
         Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
         Dim queryProdDOP As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mpf.master_process,mpn.[order],pd.operator_id
         from sub_sub_po sp,main_po mp,MASTER_PROCESS_FLOW MPF, master_process_number mpn,prod_dop pd 
-        where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox2.Text & "' and mp.fg_pn = '" & TextBox13.Text & "' and sp.sub_sub_po='" & TextBox17.Text & "' and mpn.process_name=mpf.master_process_number and master_process is not null and pd.line=sp.line and pd.fg_pn=mp.fg_pn and pd.sub_sub_po=sp.sub_sub_po and pd.process=mpf.master_process order by sp.sub_sub_po"
+        where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox2.Text & "' and mp.fg_pn = '" & TextBox13.Text & "' and sp.sub_sub_po='" & TextBox17.Text & "' and mpn.process_name=mpf.master_process_number and master_process is not null and pd.line=sp.line and pd.fg_pn=mp.fg_pn and pd.sub_sub_po=sp.sub_sub_po and pd.process=mpf.master_process AND MP.DEPARTMENT='" & globVar.department & "' order by sp.sub_sub_po"
         Dim dtProdDOP As DataTable = Database.GetData(queryProdDOP)
         If dtProdDOP.Rows.Count > 0 Then
-            Dim queryCount As String = "select count(*) from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn=" & TextBox13.Text & " and operator_id is null"
+            Dim queryCount As String = "select count(*) from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn=" & TextBox13.Text & " and operator_id is null AND DEPARTMENT='" & globVar.department & "'"
             Dim dtCount As DataTable = Database.GetData(queryCount)
             If dtCount.Rows(0).Item(0) > 0 Then
                 MessageBox.Show("Please fill Operator first")
@@ -184,13 +172,13 @@ Public Class AddChangeOperator
                 End If
             End If
 
-            Dim queryDOPDetailCount As String = "select count(*) from prod_dop_details where sub_sub_po='" & TextBox17.Text & "'"
+            Dim queryDOPDetailCount As String = "select count(*) from prod_dop_details where sub_sub_po='" & TextBox17.Text & "' AND DEPARTMENT='" & globVar.department & "'"
             Dim dtDOPDetailCount As DataTable = Database.GetData(queryDOPDetailCount)
             If dtDOPDetailCount.Rows(0).Item(0) = 0 Then
                 For i As Integer = 0 To dtProdDOP.Rows.Count - 1
                     For j As Integer = 0 To totalLot - 1
-                        Dim sqlInsertDOPDetails As String = "INSERT INTO prod_dop_details (sub_sub_po, process, operator, lot_flow_ticket)
-                    VALUES ('" & TextBox17.Text & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & dtProdDOP.Rows(i).Item("operator_id") & "'," & j + 1 & ")"
+                        Dim sqlInsertDOPDetails As String = "INSERT INTO prod_dop_details (sub_sub_po, process, operator, lot_flow_ticket, DEPARTMENT)
+                    VALUES ('" & TextBox17.Text & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & dtProdDOP.Rows(i).Item("operator_id") & "'," & j + 1 & ",'" & globVar.department & "')"
                         Dim cmdInsertDOPDetails = New SqlCommand(sqlInsertDOPDetails, Database.koneksi)
                         If cmdInsertDOPDetails.ExecuteNonQuery() Then
                             TabControl1.SelectedTab = TabPage1
@@ -205,13 +193,10 @@ Public Class AddChangeOperator
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
-        If TabControl1.SelectedIndex = 0 Then
-            Button1.Enabled = False
-        End If
-
         If TabControl1.SelectedIndex = 1 Then
             If CheckBox2.CheckState = CheckState.Unchecked Then
                 TabControl1.SelectedIndex = 0
+                Exit Sub
             End If
 
             If DataGridView3.Rows.Count > 0 Then
@@ -226,7 +211,7 @@ Public Class AddChangeOperator
                 DataGridView1.Rows.Clear()
                 DataGridView1.Columns.Clear()
 
-                Dim queryCek As String = "select process from prod_dop_details where sub_sub_po='" & TextBox1.Text & "' group by process order by max(datetime_insert)"
+                Dim queryCek As String = "select process from prod_dop_details where sub_sub_po='" & TextBox1.Text & "' AND DEPARTMENT='" & globVar.department & "' group by process order by max(datetime_insert)"
                 Dim dsexist = New DataSet
                 Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
                 adapterexist.Fill(dsexist)
@@ -252,7 +237,7 @@ Public Class AddChangeOperator
                         DataGridView1.Rows.Add(row)
                     Next
 
-                    Dim queryOperator As String = "select name from users order by name"
+                    Dim queryOperator As String = "select name from users where role='OPERATOR PRODUCTION' AND departement='" & globVar.department & "' order by name"
                     Dim dsOperator = New DataSet
                     Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
                     adapterOperator.Fill(dsOperator)
@@ -292,7 +277,7 @@ Public Class AddChangeOperator
 
     Private Sub Combo_SelectionChangeCommittedChangeOperator(ByVal sender As Object, ByVal e As EventArgs)
         Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-        Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and lot_flow_ticket='" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells(0).Value & "' and process='" & DataGridView1.Columns(DataGridView1.CurrentCell.ColumnIndex).HeaderCell.Value & "'"
+        Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and lot_flow_ticket='" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells(0).Value & "' and process='" & DataGridView1.Columns(DataGridView1.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
         Dim cmd = New SqlCommand(Sql, Database.koneksi)
         cmd.ExecuteNonQuery()
     End Sub
@@ -318,5 +303,15 @@ Public Class AddChangeOperator
         TextBox15.Clear()
         TextBox16.Clear()
         TextBox17.Clear()
+        CheckBox2.CheckState = CheckState.Unchecked
+
+        TextBox5.Clear()
+        TextBox4.Clear()
+        TextBox3.Clear()
+        TextBox2.Clear()
+        TextBox1.Clear()
+
+        DataGridView1.Columns.Clear()
+        DataGridView1.Rows.Clear()
     End Sub
 End Class

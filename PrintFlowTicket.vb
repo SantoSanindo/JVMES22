@@ -10,7 +10,7 @@ Public Class PrintFlowTicket
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryDOC As String = "select component Component,desc_comp Description,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "'"
+        Dim queryDOC As String = "select component Component,desc_comp Description,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and department='" & globVar.department & "'"
         Dim dtDOC As DataTable = Database.GetData(queryDOC)
 
         DataGridView1.DataSource = dtDOC
@@ -30,7 +30,7 @@ Public Class PrintFlowTicket
         DataGridView2.Rows.Clear()
         DataGridView2.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryDOP As String = "select id_card_no [ID Card], pd.operator_id [Operator Name], pd.Process from prod_dop pd, users u where pd.line='" & ComboBox1.Text & "' and pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator_id=u.name order by pd.process_number"
+        Dim queryDOP As String = "select id_card_no [ID Card], pd.operator_id [Operator Name], pd.Process from prod_dop pd, users u where pd.line='" & ComboBox1.Text & "' and pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator_id=u.name and pd.department='" & globVar.department & "' order by pd.process_number"
         Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
         DataGridView2.DataSource = dtDOP
@@ -45,7 +45,7 @@ Public Class PrintFlowTicket
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg_pn='" & TextBox2.Text & "' and operator_id is null"
+        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg_pn='" & TextBox2.Text & "' and operator_id is null and department='" & globVar.department & "'"
         Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
         If dtDOP.Rows.Count > 0 Then
@@ -78,8 +78,8 @@ Public Class PrintFlowTicket
                 _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                 Try
-                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "',1,1,'" & TextBox8.Text & "')"
+                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po,department)
+                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "',1,1,'" & TextBox8.Text & "','" & globVar.department & "')"
                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                     cmdInsertPrintingRecord.ExecuteNonQuery()
                 Catch ex As Exception
@@ -93,8 +93,8 @@ Public Class PrintFlowTicket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
                     'MessageBox.Show("Print + " & i & " Flow Ticket Additional")
                     Try
-                        Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & ",0,'Additional','" & TextBox8.Text & "')"
+                        Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po,department)
+                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & ",0,'Additional','" & TextBox8.Text & "','" & globVar.department & "')"
                         Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
                         cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
                     Catch ex As Exception
@@ -110,8 +110,8 @@ Public Class PrintFlowTicket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Val(TextBox6.Text) / Val(TextBox7.Text) & ",'" & TextBox8.Text & "')"
+                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po,department)
+                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Val(TextBox6.Text) / Val(TextBox7.Text) & ",'" & TextBox8.Text & "','" & globVar.department & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
                         Catch ex As Exception
@@ -127,8 +127,8 @@ Public Class PrintFlowTicket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 & ",'" & TextBox8.Text & "')"
+                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po,department)
+                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 & ",'" & TextBox8.Text & "','" & globVar.department & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
                         Catch ex As Exception
@@ -147,8 +147,8 @@ Public Class PrintFlowTicket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                     Try
-                        Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & ",0,'Additional','" & TextBox8.Text & "')"
+                        Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, remark, sub_sub_po,department)
+                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & ",0,'Additional','" & TextBox8.Text & "','" & globVar.department & "')"
                         Dim cmdInsertPrintingRecordAdditional = New SqlCommand(sqlInsertPrintingRecordAdditional, Database.koneksi)
                         cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
                     Catch ex As Exception
@@ -178,7 +178,7 @@ Public Class PrintFlowTicket
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq
             from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
-            where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "'"
+            where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
         Dim dt As DataTable = Database.GetData(query)
         If dt.Rows.Count > 0 Then
             TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString

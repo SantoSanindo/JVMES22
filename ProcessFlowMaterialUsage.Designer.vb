@@ -25,7 +25,6 @@ Partial Class ProcessFlowMaterialUsage
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.GroupBox1.SuspendLayout()
@@ -38,7 +37,6 @@ Partial Class ProcessFlowMaterialUsage
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TreeView1)
         Me.GroupBox1.Controls.Add(Me.CheckedListBox1)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -51,7 +49,7 @@ Partial Class ProcessFlowMaterialUsage
         'TextBox1
         '
         Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(485, 550)
+        Me.TextBox1.Location = New System.Drawing.Point(101, 535)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(227, 35)
         Me.TextBox1.TabIndex = 7
@@ -60,23 +58,11 @@ Partial Class ProcessFlowMaterialUsage
         '
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(390, 553)
+        Me.Label1.Location = New System.Drawing.Point(6, 538)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(89, 29)
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "Search"
-        '
-        'Button1
-        '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button1.BackColor = System.Drawing.Color.Green
-        Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(6, 544)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(108, 46)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Refresh"
-        Me.Button1.UseVisualStyleBackColor = False
         '
         'TreeView1
         '
@@ -116,7 +102,6 @@ Partial Class ProcessFlowMaterialUsage
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents CheckedListBox1 As CheckedListBox
     Friend WithEvents TreeView1 As TreeView
-    Friend WithEvents Button1 As Button
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
 End Class

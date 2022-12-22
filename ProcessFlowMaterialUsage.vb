@@ -120,13 +120,6 @@ Public Class ProcessFlowMaterialUsage
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        CheckedListBox1.Items.Clear()
-        treeView_show()
-        TreeView1.SelectedNode = TreeView1.Nodes(lastSelectedLevel1).Nodes(lastSelectedLevel2)
-        TreeView1.Select()
-    End Sub
-
     Sub refreshAll()
         CheckedListBox1.Items.Clear()
         treeView_show()

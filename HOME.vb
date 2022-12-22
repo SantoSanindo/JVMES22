@@ -4,14 +4,14 @@
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
-        '_PrintingDefect.Show()
-        '_PrintingDefect.Hide()
-        '_PrintingFlowTicket.Show()
-        '_PrintingFlowTicket.Hide()
-        '_PrintingSubAssyRawMaterial.Show()
-        '_PrintingSubAssyRawMaterial.Hide()
-        '_PrintingWIPOnHold.Show()
-        '_PrintingWIPOnHold.Hide()
+        _PrintingDefect.Show()
+        _PrintingDefect.Hide()
+        _PrintingFlowTicket.Show()
+        _PrintingFlowTicket.Hide()
+        _PrintingSubAssyRawMaterial.Show()
+        _PrintingSubAssyRawMaterial.Hide()
+        _PrintingWIPOnHold.Show()
+        _PrintingWIPOnHold.Hide()
     End Sub
 
     ' -----------------------Start Menu Master Data-------------------------'
@@ -181,8 +181,27 @@
     Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Then
             TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(StockProd)
-            TabControl1.TabPages(StockProd).Select()
+            TabControl1.TabPages.Add(StockMinistore)
+            TabControl1.TabPages(StockMinistore).Select()
+        Else
+            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnAddChangeOperator(sender As Object, e As EventArgs) Handles AddChangeOperatorBtn.Click
+        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Then
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(AddChangeOperator)
+            TabControl1.TabPages(AddChangeOperator).Select()
+        Else
+            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+    Private Sub BtnPrintFlowTicket(sender As Object, e As EventArgs) Handles PrintFlowTicketBtn.Click
+        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Then
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(PrintFlowTicket)
+            TabControl1.TabPages(PrintFlowTicket).Select()
         Else
             MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -221,6 +240,5 @@
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
     End Sub
-
 
 End Class

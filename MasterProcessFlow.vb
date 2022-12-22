@@ -171,7 +171,18 @@ Public Class MasterProcessFlow
         End If
     End Sub
 
-    Private Sub dgv_material_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_masterprocessflow.DataBindingComplete
+    'Private Sub dgv_material_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_masterprocessflow.DataBindingComplete
+    '    For i As Integer = 0 To dgv_masterprocessflow.RowCount - 1
+    '        If dgv_masterprocessflow.Rows(i).Index Mod 2 = 0 Then
+    '            dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+    '        Else
+    '            dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+    '        End If
+    '    Next i
+    'End Sub
+
+
+    Private Sub dgv_masterprocessflow1_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgv_masterprocessflow.CellFormatting
         For i As Integer = 0 To dgv_masterprocessflow.RowCount - 1
             If dgv_masterprocessflow.Rows(i).Index Mod 2 = 0 Then
                 dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue

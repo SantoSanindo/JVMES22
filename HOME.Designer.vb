@@ -37,6 +37,7 @@ Partial Class HOME
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.ReceiveReturnMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
         Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
@@ -44,6 +45,10 @@ Partial Class HOME
         Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPO = New System.Windows.Forms.RibbonPanel()
         Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibOperator = New System.Windows.Forms.RibbonPanel()
+        Me.AddChangeOperatorBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibPrintFlowTicket = New System.Windows.Forms.RibbonPanel()
+        Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
         Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
@@ -74,7 +79,6 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ReceiveReturnMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -187,6 +191,13 @@ Partial Class HOME
         Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
         Me.RibReceiveReturnMaterial.Text = "Receive Return Material"
         '
+        'ReceiveReturnMaterialBtn
+        '
+        Me.ReceiveReturnMaterialBtn.Image = CType(resources.GetObject("ReceiveReturnMaterialBtn.Image"), System.Drawing.Image)
+        Me.ReceiveReturnMaterialBtn.LargeImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.LargeImage"), System.Drawing.Image)
+        Me.ReceiveReturnMaterialBtn.Name = "ReceiveReturnMaterialBtn"
+        Me.ReceiveReturnMaterialBtn.SmallImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibStockMinistore
         '
         Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
@@ -205,6 +216,8 @@ Partial Class HOME
         Me.RibbonTab4.Name = "RibbonTab4"
         Me.RibbonTab4.Panels.Add(Me.RibStockProd)
         Me.RibbonTab4.Panels.Add(Me.RibPO)
+        Me.RibbonTab4.Panels.Add(Me.RibOperator)
+        Me.RibbonTab4.Panels.Add(Me.RibPrintFlowTicket)
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Text = "Line Process"
         '
@@ -212,7 +225,7 @@ Partial Class HOME
         '
         Me.RibStockProd.Items.Add(Me.StockProdBtn)
         Me.RibStockProd.Name = "RibStockProd"
-        Me.RibStockProd.Text = "Transit Area"
+        Me.RibStockProd.Text = "Stock Card"
         '
         'StockProdBtn
         '
@@ -233,6 +246,32 @@ Partial Class HOME
         Me.MainPOSubPOBtn.LargeImage = CType(resources.GetObject("MainPOSubPOBtn.LargeImage"), System.Drawing.Image)
         Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
         Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibOperator
+        '
+        Me.RibOperator.Items.Add(Me.AddChangeOperatorBtn)
+        Me.RibOperator.Name = "RibOperator"
+        Me.RibOperator.Text = "Add / Change Operator"
+        '
+        'AddChangeOperatorBtn
+        '
+        Me.AddChangeOperatorBtn.Image = CType(resources.GetObject("AddChangeOperatorBtn.Image"), System.Drawing.Image)
+        Me.AddChangeOperatorBtn.LargeImage = CType(resources.GetObject("AddChangeOperatorBtn.LargeImage"), System.Drawing.Image)
+        Me.AddChangeOperatorBtn.Name = "AddChangeOperatorBtn"
+        Me.AddChangeOperatorBtn.SmallImage = CType(resources.GetObject("AddChangeOperatorBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibPrintFlowTicket
+        '
+        Me.RibPrintFlowTicket.Items.Add(Me.PrintFlowTicketBtn)
+        Me.RibPrintFlowTicket.Name = "RibPrintFlowTicket"
+        Me.RibPrintFlowTicket.Text = "Print Flow Ticket"
+        '
+        'PrintFlowTicketBtn
+        '
+        Me.PrintFlowTicketBtn.Image = CType(resources.GetObject("PrintFlowTicketBtn.Image"), System.Drawing.Image)
+        Me.PrintFlowTicketBtn.LargeImage = CType(resources.GetObject("PrintFlowTicketBtn.LargeImage"), System.Drawing.Image)
+        Me.PrintFlowTicketBtn.Name = "PrintFlowTicketBtn"
+        Me.PrintFlowTicketBtn.SmallImage = CType(resources.GetObject("PrintFlowTicketBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProduction
         '
@@ -442,13 +481,6 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
-        'ReceiveReturnMaterialBtn
-        '
-        Me.ReceiveReturnMaterialBtn.Image = CType(resources.GetObject("ReceiveReturnMaterialBtn.Image"), System.Drawing.Image)
-        Me.ReceiveReturnMaterialBtn.LargeImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.LargeImage"), System.Drawing.Image)
-        Me.ReceiveReturnMaterialBtn.Name = "ReceiveReturnMaterialBtn"
-        Me.ReceiveReturnMaterialBtn.SmallImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.SmallImage"), System.Drawing.Image)
-        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -526,5 +558,9 @@ Partial Class HOME
     Friend WithEvents RibbonButtonLogin As RibbonButton
     Friend WithEvents RibReceiveReturnMaterial As RibbonPanel
     Friend WithEvents ReceiveReturnMaterialBtn As RibbonButton
+    Friend WithEvents RibOperator As RibbonPanel
+    Friend WithEvents AddChangeOperatorBtn As RibbonButton
+    Friend WithEvents RibPrintFlowTicket As RibbonPanel
+    Friend WithEvents PrintFlowTicketBtn As RibbonButton
     '>>>>>>> Arif
 End Class

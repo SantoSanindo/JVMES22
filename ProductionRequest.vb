@@ -2,45 +2,6 @@
 Imports System.Data.SqlClient
 
 Public Class ProductionRequest
-    Sub Insert_Prod_DOC(fg As String, sub_sub_po As String)
-        Dim queryProdDOC As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mufg.component,mufg.description,mufg.usage,mufg.family
-        from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
-        where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and line = '" & ComboBox1.Text & "' and mp.fg_pn = '" & fg & "' and sp.sub_sub_po='" & sub_sub_po & "' order by sp.sub_sub_po"
-        Dim dtProdDOC As DataTable = Database.GetData(queryProdDOC)
-
-        If dtProdDOC.Rows.Count > 0 Then
-            For i As Integer = 0 To dtProdDOC.Rows.Count - 1
-                Dim queryCheckProdDOC As String = "select * from prod_doc where sub_sub_po= '" & sub_sub_po & "' AND fg_pn = '" & fg & "' AND component='" & dtProdDOC.Rows(i).Item("component") & "' and line = '" & ComboBox1.Text & "'"
-                Dim dtCheckProdDOC As DataTable = Database.GetData(queryCheckProdDOC)
-                If dtCheckProdDOC.Rows.Count = 0 Then
-                    Dim sqlInsertDOC As String = "INSERT INTO prod_doc (po, sub_sub_po, fg_pn, component, desc_comp, family, usage, line)
-                                    VALUES ('" & PO.Text & "','" & SubSubPO.Text & "','" & dtProdDOC.Rows(i).Item("fg_pn") & "','" & dtProdDOC.Rows(i).Item("component") & "','" & dtProdDOC.Rows(i).Item("description") & "','" & dtProdDOC.Rows(i).Item("family") & "'," & dtProdDOC.Rows(i).Item("usage").ToString.Replace(",", ".") & ",'" & ComboBox1.Text & "')"
-                    Dim cmdInsertDOC = New SqlCommand(sqlInsertDOC, Database.koneksi)
-                    cmdInsertDOC.ExecuteNonQuery()
-                End If
-            Next
-        End If
-    End Sub
-
-    Sub Insert_Prod_DOP(fg As String, sub_sub_po As String)
-        Dim queryProdDOP As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mpf.master_process
-        from sub_sub_po sp,main_po mp,MASTER_PROCESS_FLOW MPF 
-        where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and line = '" & ComboBox1.Text & "' and mp.fg_pn = '" & fg & "' and sp.sub_sub_po='" & sub_sub_po & "' order by sp.sub_sub_po"
-        Dim dtProdDOP As DataTable = Database.GetData(queryProdDOP)
-
-        If dtProdDOP.Rows.Count > 0 Then
-            For i As Integer = 0 To dtProdDOP.Rows.Count - 1
-                Dim queryCheckProdDOP As String = "select * from prod_dop where sub_sub_po= '" & sub_sub_po & "' AND fg_pn = '" & fg & "' AND process='" & dtProdDOP.Rows(i).Item("master_process") & "' and line = '" & ComboBox1.Text & "'"
-                Dim dtCheckProdDOP As DataTable = Database.GetData(queryCheckProdDOP)
-                If dtCheckProdDOP.Rows.Count = 0 Then
-                    Dim sqlInsertDOP As String = "INSERT INTO prod_dop (po, sub_sub_po, fg_pn, process, line)
-                                    VALUES ('" & PO.Text & "','" & SubSubPO.Text & "','" & dtProdDOP.Rows(i).Item("fg_pn") & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & ComboBox1.Text & "')"
-                    Dim cmdInsertDOP = New SqlCommand(sqlInsertDOP, Database.koneksi)
-                    cmdInsertDOP.ExecuteNonQuery()
-                End If
-            Next
-        End If
-    End Sub
 
     Sub DGV_MaterialNeed()
         DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
@@ -223,6 +184,18 @@ Public Class ProductionRequest
         TextBox1.Enabled = True
         Button1.Enabled = False
         ComboBox1.SelectedIndex = -1
+        tampilDataComboBoxLine()
+    End Sub
+
+    Sub tampilDataComboBoxLine()
+        Call Database.koneksi_database()
+        Dim dtMasterLine As DataTable = Database.GetData("select * from master_line where departement='" & globVar.department & "'")
+
+        ComboBox1.DataSource = dtMasterLine
+        ComboBox1.DisplayMember = "name"
+        ComboBox1.ValueMember = "name"
+        ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

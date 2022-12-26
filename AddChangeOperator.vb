@@ -18,8 +18,6 @@ Public Class AddChangeOperator
         ComboBox2.DataSource = dtMasterLine
         ComboBox2.DisplayMember = "name"
         ComboBox2.ValueMember = "name"
-        ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub sudahPrint()

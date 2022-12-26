@@ -2,7 +2,6 @@
 Imports System.Data.SqlClient
 
 Public Class ProductionRequest
-
     Sub DGV_MaterialNeed()
         DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView3.DataSource = Nothing
@@ -194,8 +193,6 @@ Public Class ProductionRequest
         ComboBox1.DataSource = dtMasterLine
         ComboBox1.DisplayMember = "name"
         ComboBox1.ValueMember = "name"
-        ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

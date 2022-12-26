@@ -97,7 +97,7 @@ Partial Class StockMinistore
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"All", "Receive From Main Store", "Receive From Production", "Return To Main Store", "Production Request", "Production Issue"})
+        Me.ComboBox1.Items.AddRange(New Object() {"All", "Receive From Main Store", "Receive From Production", "Return To Main Store", "Return To Mini Store", "Production Request", "Production Process"})
         Me.ComboBox1.Location = New System.Drawing.Point(80, 26)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(315, 37)

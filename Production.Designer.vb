@@ -22,13 +22,12 @@ Partial Class Production
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
@@ -36,6 +35,10 @@ Partial Class Production
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.TextBox11 = New System.Windows.Forms.TextBox()
+        Me.TextBox10 = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.TextBox7 = New System.Windows.Forms.TextBox()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
@@ -47,7 +50,8 @@ Partial Class Production
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -58,7 +62,7 @@ Partial Class Production
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(13, 27)
+        Me.Label1.Location = New System.Drawing.Point(13, 21)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(59, 29)
         Me.Label1.TabIndex = 0
@@ -67,11 +71,11 @@ Partial Class Production
         'ComboBox1
         '
         Me.ComboBox1.AutoCompleteCustomSource.AddRange(New String() {"Line 1", "Line 2", "Line 3", "Line 4"})
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Line 1", "Line 2", "Line 3", "Line 4"})
-        Me.ComboBox1.Location = New System.Drawing.Point(78, 24)
+        Me.ComboBox1.Location = New System.Drawing.Point(118, 18)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(232, 37)
+        Me.ComboBox1.Size = New System.Drawing.Size(211, 37)
         Me.ComboBox1.TabIndex = 2
         '
         'Button1
@@ -89,23 +93,14 @@ Partial Class Production
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.TextBox9)
         Me.GroupBox1.Controls.Add(Me.TextBox8)
         Me.GroupBox1.Controls.Add(Me.DataGridView1)
-        Me.GroupBox1.Location = New System.Drawing.Point(12, 75)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 106)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1843, 527)
+        Me.GroupBox1.Size = New System.Drawing.Size(1843, 496)
         Me.GroupBox1.TabIndex = 5
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detail Of Component"
-        '
-        'TextBox8
-        '
-        Me.TextBox8.Location = New System.Drawing.Point(511, -7)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(100, 35)
-        Me.TextBox8.TabIndex = 11
-        Me.TextBox8.Visible = False
         '
         'DataGridView1
         '
@@ -116,21 +111,21 @@ Partial Class Production
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle13.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle13
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Location = New System.Drawing.Point(6, 34)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1831, 487)
+        Me.DataGridView1.Size = New System.Drawing.Size(1831, 456)
         Me.DataGridView1.TabIndex = 0
         '
         'GroupBox2
@@ -154,14 +149,14 @@ Partial Class Production
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle14.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle14
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Location = New System.Drawing.Point(6, 34)
         Me.DataGridView2.MultiSelect = False
@@ -173,7 +168,7 @@ Partial Class Production
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(444, 24)
+        Me.TextBox1.Location = New System.Drawing.Point(118, 65)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(309, 35)
         Me.TextBox1.TabIndex = 7
@@ -181,7 +176,7 @@ Partial Class Production
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(339, 27)
+        Me.Label3.Location = New System.Drawing.Point(13, 68)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(99, 29)
         Me.Label3.TabIndex = 8
@@ -198,6 +193,10 @@ Partial Class Production
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.TextBox11)
+        Me.GroupBox3.Controls.Add(Me.TextBox10)
+        Me.GroupBox3.Controls.Add(Me.Label10)
+        Me.GroupBox3.Controls.Add(Me.Label9)
         Me.GroupBox3.Controls.Add(Me.TextBox7)
         Me.GroupBox3.Controls.Add(Me.TextBox6)
         Me.GroupBox3.Controls.Add(Me.TextBox5)
@@ -211,15 +210,49 @@ Partial Class Production
         Me.GroupBox3.Controls.Add(Me.Label4)
         Me.GroupBox3.Controls.Add(Me.Label2)
         Me.GroupBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(772, -10)
+        Me.GroupBox3.Location = New System.Drawing.Point(433, 0)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(853, 99)
+        Me.GroupBox3.Size = New System.Drawing.Size(1192, 100)
         Me.GroupBox3.TabIndex = 10
         Me.GroupBox3.TabStop = False
         '
+        'TextBox11
+        '
+        Me.TextBox11.Location = New System.Drawing.Point(657, 60)
+        Me.TextBox11.Name = "TextBox11"
+        Me.TextBox11.ReadOnly = True
+        Me.TextBox11.Size = New System.Drawing.Size(160, 29)
+        Me.TextBox11.TabIndex = 24
+        '
+        'TextBox10
+        '
+        Me.TextBox10.Location = New System.Drawing.Point(355, 60)
+        Me.TextBox10.Name = "TextBox10"
+        Me.TextBox10.ReadOnly = True
+        Me.TextBox10.Size = New System.Drawing.Size(164, 29)
+        Me.TextBox10.TabIndex = 23
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(536, 63)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(115, 24)
+        Me.Label10.TabIndex = 22
+        Me.Label10.Text = "Sub Sub PO"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(273, 63)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(76, 24)
+        Me.Label9.TabIndex = 21
+        Me.Label9.Text = "Sub PO"
+        '
         'TextBox7
         '
-        Me.TextBox7.Location = New System.Drawing.Point(761, 57)
+        Me.TextBox7.Location = New System.Drawing.Point(1096, 60)
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.ReadOnly = True
         Me.TextBox7.Size = New System.Drawing.Size(86, 29)
@@ -227,7 +260,7 @@ Partial Class Production
         '
         'TextBox6
         '
-        Me.TextBox6.Location = New System.Drawing.Point(578, 57)
+        Me.TextBox6.Location = New System.Drawing.Point(913, 60)
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.ReadOnly = True
         Me.TextBox6.Size = New System.Drawing.Size(93, 29)
@@ -235,26 +268,26 @@ Partial Class Production
         '
         'TextBox5
         '
-        Me.TextBox5.Location = New System.Drawing.Point(307, 57)
+        Me.TextBox5.Location = New System.Drawing.Point(77, 60)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.ReadOnly = True
-        Me.TextBox5.Size = New System.Drawing.Size(175, 29)
+        Me.TextBox5.Size = New System.Drawing.Size(181, 29)
         Me.TextBox5.TabIndex = 18
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(374, 18)
+        Me.TextBox4.Location = New System.Drawing.Point(657, 18)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.ReadOnly = True
-        Me.TextBox4.Size = New System.Drawing.Size(473, 29)
+        Me.TextBox4.Size = New System.Drawing.Size(525, 29)
         Me.TextBox4.TabIndex = 17
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(77, 57)
+        Me.TextBox3.Location = New System.Drawing.Point(355, 18)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(181, 29)
+        Me.TextBox3.Size = New System.Drawing.Size(164, 29)
         Me.TextBox3.TabIndex = 16
         '
         'TextBox2
@@ -268,7 +301,7 @@ Partial Class Production
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(677, 60)
+        Me.Label8.Location = New System.Drawing.Point(1012, 63)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(78, 24)
         Me.Label8.TabIndex = 14
@@ -277,7 +310,7 @@ Partial Class Production
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(488, 60)
+        Me.Label7.Location = New System.Drawing.Point(823, 63)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(84, 24)
         Me.Label7.TabIndex = 13
@@ -286,7 +319,7 @@ Partial Class Production
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(264, 21)
+        Me.Label6.Location = New System.Drawing.Point(536, 21)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(104, 24)
         Me.Label6.TabIndex = 12
@@ -295,7 +328,7 @@ Partial Class Production
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 60)
+        Me.Label5.Location = New System.Drawing.Point(273, 21)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(65, 24)
         Me.Label5.TabIndex = 11
@@ -304,25 +337,34 @@ Partial Class Production
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(264, 60)
+        Me.Label4.Location = New System.Drawing.Point(6, 63)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(37, 24)
         Me.Label4.TabIndex = 10
         Me.Label4.Text = "PO"
         '
-        'TextBox9
+        'TextBox8
         '
-        Me.TextBox9.Location = New System.Drawing.Point(405, -7)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(100, 35)
-        Me.TextBox9.TabIndex = 12
-        Me.TextBox9.Visible = False
+        Me.TextBox8.Location = New System.Drawing.Point(392, 0)
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.Size = New System.Drawing.Size(100, 35)
+        Me.TextBox8.TabIndex = 1
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(335, 15)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(92, 41)
+        Me.Button2.TabIndex = 11
+        Me.Button2.Text = "Check"
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'Production
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(14.0!, 29.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1867, 1004)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.TextBox1)
@@ -370,6 +412,10 @@ Partial Class Production
     Friend WithEvents TextBox6 As TextBox
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents TextBox7 As TextBox
+    Friend WithEvents TextBox11 As TextBox
+    Friend WithEvents TextBox10 As TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label9 As Label
     Friend WithEvents TextBox8 As TextBox
-    Friend WithEvents TextBox9 As TextBox
+    Friend WithEvents Button2 As Button
 End Class

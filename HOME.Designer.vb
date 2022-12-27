@@ -79,6 +79,9 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
+        Me.RibFGA = New System.Windows.Forms.RibbonPanel()
+        Me.FGABtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -122,6 +125,7 @@ Partial Class HOME
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
+        Me.Ribbon1.Tabs.Add(Me.RibbonTab7)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab5)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab6)
         Me.Ribbon1.TabSpacing = 3
@@ -481,6 +485,25 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
+        'RibbonTab7
+        '
+        Me.RibbonTab7.Name = "RibbonTab7"
+        Me.RibbonTab7.Panels.Add(Me.RibFGA)
+        Me.RibbonTab7.Text = "FGA / Outgoing"
+        '
+        'RibFGA
+        '
+        Me.RibFGA.Items.Add(Me.FGABtn)
+        Me.RibFGA.Name = "RibFGA"
+        Me.RibFGA.Text = "RibbonPanel6"
+        '
+        'FGABtn
+        '
+        Me.FGABtn.Image = CType(resources.GetObject("FGABtn.Image"), System.Drawing.Image)
+        Me.FGABtn.LargeImage = CType(resources.GetObject("FGABtn.LargeImage"), System.Drawing.Image)
+        Me.FGABtn.Name = "FGABtn"
+        Me.FGABtn.SmallImage = CType(resources.GetObject("FGABtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -562,5 +585,8 @@ Partial Class HOME
     Friend WithEvents AddChangeOperatorBtn As RibbonButton
     Friend WithEvents RibPrintFlowTicket As RibbonPanel
     Friend WithEvents PrintFlowTicketBtn As RibbonButton
+    Friend WithEvents RibbonTab7 As RibbonTab
+    Friend WithEvents RibFGA As RibbonPanel
+    Friend WithEvents FGABtn As RibbonButton
     '>>>>>>> Arif
 End Class

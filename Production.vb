@@ -79,26 +79,44 @@ Public Class Production
             Else
                 If InStr(TextBox1.Text, "WIP") > 0 Then
 
-                    Dim sqlCheckStock As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & TextBox1.Text & "' and departement='" & globVar.department & "'"
-                    Dim dtCheckStock As DataTable = Database.GetData(sqlCheckStock)
+                    Dim sqlCheckStockWIP As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & TextBox1.Text & "' and department='" & globVar.department & "'"
+                    Dim dtCheckStockWIP As DataTable = Database.GetData(sqlCheckStockWIP)
                     Dim resultCount As Integer = 0
                     Dim yieldlose As Integer = 0
+                    Dim CompExist As String = ""
 
-                    For j = 0 To dtCheckStock.Rows.Count - 1
+                    For j = 0 To dtCheckStockWIP.Rows.Count - 1
                         For i = 0 To DataGridView1.Rows.Count - 1
-                            If DataGridView1.Rows(i).Cells(1).Value = dtCheckStock.Rows(j).Item("part_number") Then
+                            If DataGridView1.Rows(i).Cells(1).Value = dtCheckStockWIP.Rows(j).Item("part_number") Then
                                 resultCount = resultCount + 1
-
                                 yieldlose = Math.Ceiling(DataGridView1.Rows(i).Cells(2).Value * TextBox6.Text) + (DataGridView1.Rows(i).Cells(2).Value * TextBox6.Text * TextBox8.Text / 100)
+
+                                Dim sqlCheckStock As String = "select isnull(sum(QTY),0) qty from STOCK_CARD where SUB_SUB_PO='" & TextBox11.Text & "' and departement='" & globVar.department & "' AND MATERIAL=" & dtCheckStockWIP.Rows(j).Item("part_number")
+                                Dim dtCheckStock As DataTable = Database.GetData(sqlCheckStock)
+                                If dtCheckStock.Rows(0).Item("qty") > yieldlose Then
+                                    CompExist += dtCheckStockWIP.Rows(j).Item("part_number") & " "
+                                End If
                             End If
                         Next
                     Next
 
-                    If DataGridView1.Rows.Count >= resultCount Then
-                        MessageBox.Show("WIP Bos")
+                    If CompExist <> "" Then
+                        MessageBox.Show("Cannot add " & CompExist & " because Qty more than Qty Need")
+                        TextBox1.Clear()
+                        Exit Sub
                     End If
 
-                ElseIf InStr(TextBox1.Text, "SA") > 0 Then
+                    If DataGridView1.Rows.Count >= resultCount Then
+                        MessageBox.Show("Gas Insert Bos")
+                        'Dim sqlProdProcess As String = "INSERT INTO process_prod (id_level, level, pn_material, qty, lot_no, batch_no,traceability,inv_ctrl_date,fifo,line,sub_sub_po,department)
+                        '            VALUES ('" & TextBox1.Text & "','WIP','" & splitQRCode1P(0) & "','" & dtCheckInStock.Rows(0).Item("QTY") & "','" & splitQRCode1P(3) & "','" & dtCheckInStock.Rows(0).Item("batch_no") & "','" & dtCheckInStock.Rows(0).Item("traceability") & "','" & dtCheckInStock.Rows(0).Item("inv_ctrl_date") & "',(select COUNT(pn_material)+1 fifo from process_prod where pn_material=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "'),'" & ComboBox1.Text & "','" & TextBox11.Text & "','" & globVar.department & "')"
+                        'Dim cmdProdProcess = New SqlCommand(sqlProdProcess, Database.koneksi)
+                        'If cmdProdProcess.ExecuteNonQuery() Then
+
+                        'End If
+                    End If
+
+                    ElseIf InStr(TextBox1.Text, "SA") > 0 Then
                     MessageBox.Show("Sub Assy Bos")
                 ElseIf InStr(TextBox1.Text, "OH") > 0 Then
                     MessageBox.Show("On Hold Bos")

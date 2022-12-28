@@ -42,7 +42,7 @@ Public Class _PrintingFlowTicket
     End Sub
 
 
-    Private Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
+    Public Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
         Clear_data()
         isi_data()
         label.Print(1)

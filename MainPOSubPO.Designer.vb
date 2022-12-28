@@ -24,7 +24,6 @@ Partial Class MainPOSubPO
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -65,37 +64,12 @@ Partial Class MainPOSubPO
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.TextBox21 = New System.Windows.Forms.TextBox()
-        Me.TextBox20 = New System.Windows.Forms.TextBox()
-        Me.TextBox19 = New System.Windows.Forms.TextBox()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.DataGridView3 = New System.Windows.Forms.DataGridView()
-        Me.TextBox17 = New System.Windows.Forms.TextBox()
-        Me.TextBox16 = New System.Windows.Forms.TextBox()
-        Me.TextBox15 = New System.Windows.Forms.TextBox()
-        Me.TextBox14 = New System.Windows.Forms.TextBox()
-        Me.TextBox13 = New System.Windows.Forms.TextBox()
-        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage3.SuspendLayout()
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -118,7 +92,6 @@ Partial Class MainPOSubPO
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Location = New System.Drawing.Point(13, 26)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -156,6 +129,7 @@ Partial Class MainPOSubPO
         '
         Me.Button5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button5.BackColor = System.Drawing.Color.Green
+        Me.Button5.ForeColor = System.Drawing.Color.White
         Me.Button5.Location = New System.Drawing.Point(1462, 65)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(96, 44)
@@ -166,6 +140,7 @@ Partial Class MainPOSubPO
         'Button3
         '
         Me.Button3.BackColor = System.Drawing.Color.Green
+        Me.Button3.ForeColor = System.Drawing.Color.White
         Me.Button3.Location = New System.Drawing.Point(486, 23)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(100, 42)
@@ -175,6 +150,7 @@ Partial Class MainPOSubPO
         '
         'ComboBox1
         '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Location = New System.Drawing.Point(226, 72)
         Me.ComboBox1.Name = "ComboBox1"
@@ -204,13 +180,13 @@ Partial Class MainPOSubPO
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1713, 408)
         Me.DataGridView1.TabIndex = 18
         '
         'Button2
         '
         Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.ForeColor = System.Drawing.Color.White
         Me.Button2.Location = New System.Drawing.Point(486, 69)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(100, 40)
@@ -259,6 +235,7 @@ Partial Class MainPOSubPO
         'Button1
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
+        Me.Button1.ForeColor = System.Drawing.Color.White
         Me.Button1.Location = New System.Drawing.Point(1163, 65)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(117, 43)
@@ -397,13 +374,14 @@ Partial Class MainPOSubPO
         Me.DataGridView2.MultiSelect = False
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DataGridView2.Size = New System.Drawing.Size(1712, 355)
         Me.DataGridView2.TabIndex = 17
         '
         'Button4
         '
         Me.Button4.BackColor = System.Drawing.Color.Green
+        Me.Button4.ForeColor = System.Drawing.Color.White
         Me.Button4.Location = New System.Drawing.Point(1300, 89)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(112, 45)
@@ -413,8 +391,8 @@ Partial Class MainPOSubPO
         '
         'ComboBox3
         '
+        Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Items.AddRange(New Object() {"Line 1", "Line 2", "Line 3", "Line 4"})
         Me.ComboBox3.Location = New System.Drawing.Point(731, 70)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.Size = New System.Drawing.Size(553, 37)
@@ -530,251 +508,6 @@ Partial Class MainPOSubPO
         Me.Label8.TabIndex = 0
         Me.Label8.Text = "Sub PO"
         '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.CheckBox3)
-        Me.TabPage3.Controls.Add(Me.CheckBox2)
-        Me.TabPage3.Controls.Add(Me.CheckBox1)
-        Me.TabPage3.Controls.Add(Me.Label22)
-        Me.TabPage3.Controls.Add(Me.Label21)
-        Me.TabPage3.Controls.Add(Me.TextBox21)
-        Me.TabPage3.Controls.Add(Me.TextBox20)
-        Me.TabPage3.Controls.Add(Me.TextBox19)
-        Me.TabPage3.Controls.Add(Me.Button6)
-        Me.TabPage3.Controls.Add(Me.DataGridView3)
-        Me.TabPage3.Controls.Add(Me.TextBox17)
-        Me.TabPage3.Controls.Add(Me.TextBox16)
-        Me.TabPage3.Controls.Add(Me.TextBox15)
-        Me.TabPage3.Controls.Add(Me.TextBox14)
-        Me.TabPage3.Controls.Add(Me.TextBox13)
-        Me.TabPage3.Controls.Add(Me.ComboBox2)
-        Me.TabPage3.Controls.Add(Me.Label19)
-        Me.TabPage3.Controls.Add(Me.Label18)
-        Me.TabPage3.Controls.Add(Me.Label17)
-        Me.TabPage3.Controls.Add(Me.Label16)
-        Me.TabPage3.Controls.Add(Me.Label15)
-        Me.TabPage3.Controls.Add(Me.Label4)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 38)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(1725, 681)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Add / Change Operator"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'CheckBox3
-        '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Checked = True
-        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox3.Location = New System.Drawing.Point(1340, 30)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(212, 33)
-        Me.CheckBox3.TabIndex = 22
-        Me.CheckBox3.Text = "Print Flow Ticket"
-        Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'CheckBox2
-        '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(1530, -8)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(156, 33)
-        Me.CheckBox2.TabIndex = 21
-        Me.CheckBox2.Text = "Sudah Print"
-        Me.CheckBox2.UseVisualStyleBackColor = True
-        Me.CheckBox2.Visible = False
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(1340, 76)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(141, 33)
-        Me.CheckBox1.TabIndex = 20
-        Me.CheckBox1.Text = "Print Extra"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(1340, 125)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(27, 29)
-        Me.Label22.TabIndex = 19
-        Me.Label22.Text = "+"
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(1419, 125)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(73, 29)
-        Me.Label21.TabIndex = 18
-        Me.Label21.Text = "Label"
-        '
-        'TextBox21
-        '
-        Me.TextBox21.Location = New System.Drawing.Point(1373, 122)
-        Me.TextBox21.Name = "TextBox21"
-        Me.TextBox21.Size = New System.Drawing.Size(40, 35)
-        Me.TextBox21.TabIndex = 17
-        Me.TextBox21.Text = "1"
-        '
-        'TextBox20
-        '
-        Me.TextBox20.Location = New System.Drawing.Point(1424, -10)
-        Me.TextBox20.Name = "TextBox20"
-        Me.TextBox20.Size = New System.Drawing.Size(100, 35)
-        Me.TextBox20.TabIndex = 15
-        Me.TextBox20.Visible = False
-        '
-        'TextBox19
-        '
-        Me.TextBox19.Location = New System.Drawing.Point(1318, -10)
-        Me.TextBox19.Name = "TextBox19"
-        Me.TextBox19.Size = New System.Drawing.Size(100, 35)
-        Me.TextBox19.TabIndex = 14
-        Me.TextBox19.Visible = False
-        '
-        'Button6
-        '
-        Me.Button6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button6.BackColor = System.Drawing.Color.Green
-        Me.Button6.ForeColor = System.Drawing.Color.White
-        Me.Button6.Location = New System.Drawing.Point(1572, 51)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(146, 80)
-        Me.Button6.TabIndex = 13
-        Me.Button6.Text = "Print Flow Ticket"
-        Me.Button6.UseVisualStyleBackColor = False
-        '
-        'DataGridView3
-        '
-        Me.DataGridView3.AllowUserToAddRows = False
-        Me.DataGridView3.AllowUserToDeleteRows = False
-        Me.DataGridView3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DataGridView3.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView3.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
-        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView3.Location = New System.Drawing.Point(3, 182)
-        Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(1715, 381)
-        Me.DataGridView3.TabIndex = 12
-        '
-        'TextBox17
-        '
-        Me.TextBox17.Location = New System.Drawing.Point(1021, 122)
-        Me.TextBox17.Name = "TextBox17"
-        Me.TextBox17.ReadOnly = True
-        Me.TextBox17.Size = New System.Drawing.Size(281, 35)
-        Me.TextBox17.TabIndex = 11
-        '
-        'TextBox16
-        '
-        Me.TextBox16.Location = New System.Drawing.Point(1021, 74)
-        Me.TextBox16.Name = "TextBox16"
-        Me.TextBox16.ReadOnly = True
-        Me.TextBox16.Size = New System.Drawing.Size(281, 35)
-        Me.TextBox16.TabIndex = 10
-        '
-        'TextBox15
-        '
-        Me.TextBox15.Location = New System.Drawing.Point(1021, 28)
-        Me.TextBox15.Name = "TextBox15"
-        Me.TextBox15.ReadOnly = True
-        Me.TextBox15.Size = New System.Drawing.Size(281, 35)
-        Me.TextBox15.TabIndex = 9
-        '
-        'TextBox14
-        '
-        Me.TextBox14.Location = New System.Drawing.Point(223, 122)
-        Me.TextBox14.Name = "TextBox14"
-        Me.TextBox14.ReadOnly = True
-        Me.TextBox14.Size = New System.Drawing.Size(629, 35)
-        Me.TextBox14.TabIndex = 8
-        '
-        'TextBox13
-        '
-        Me.TextBox13.Location = New System.Drawing.Point(223, 74)
-        Me.TextBox13.Name = "TextBox13"
-        Me.TextBox13.ReadOnly = True
-        Me.TextBox13.Size = New System.Drawing.Size(629, 35)
-        Me.TextBox13.TabIndex = 7
-        '
-        'ComboBox2
-        '
-        Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Items.AddRange(New Object() {"Line 1", "Line 2", "Line 3", "Line 4"})
-        Me.ComboBox2.Location = New System.Drawing.Point(223, 28)
-        Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(629, 37)
-        Me.ComboBox2.TabIndex = 6
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(869, 125)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(146, 29)
-        Me.Label19.TabIndex = 5
-        Me.Label19.Text = "Sub Sub PO"
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(869, 77)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(97, 29)
-        Me.Label18.TabIndex = 4
-        Me.Label18.Text = "Sub PO"
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(869, 31)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(141, 29)
-        Me.Label17.TabIndex = 3
-        Me.Label17.Text = "PO Number"
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(27, 125)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(135, 29)
-        Me.Label16.TabIndex = 2
-        Me.Label16.Text = "Description"
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(27, 77)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(188, 29)
-        Me.Label15.TabIndex = 1
-        Me.Label15.Text = "FG Part Number"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(27, 31)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(59, 29)
-        Me.Label4.TabIndex = 0
-        Me.Label4.Text = "Line"
-        '
         'MainPOSubPO
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -791,9 +524,6 @@ Partial Class MainPOSubPO
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage3.ResumeLayout(False)
-        Me.TabPage3.PerformLayout()
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -836,29 +566,6 @@ Partial Class MainPOSubPO
     Friend WithEvents DataGridView2 As DataGridView
     Friend WithEvents TextBox12 As TextBox
     Friend WithEvents Button5 As Button
-    Friend WithEvents TabPage3 As TabPage
-    Friend WithEvents Label16 As Label
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Label4 As Label
-    Friend WithEvents Label19 As Label
-    Friend WithEvents Label18 As Label
-    Friend WithEvents Label17 As Label
-    Friend WithEvents TextBox14 As TextBox
-    Friend WithEvents TextBox13 As TextBox
-    Friend WithEvents ComboBox2 As ComboBox
-    Friend WithEvents TextBox17 As TextBox
-    Friend WithEvents TextBox16 As TextBox
-    Friend WithEvents TextBox15 As TextBox
-    Friend WithEvents DataGridView3 As DataGridView
     Friend WithEvents Label20 As Label
     Friend WithEvents TextBox18 As TextBox
-    Friend WithEvents Button6 As Button
-    Friend WithEvents TextBox20 As TextBox
-    Friend WithEvents TextBox19 As TextBox
-    Friend WithEvents TextBox21 As TextBox
-    Friend WithEvents Label21 As Label
-    Friend WithEvents Label22 As Label
-    Friend WithEvents CheckBox1 As CheckBox
-    Friend WithEvents CheckBox2 As CheckBox
-    Friend WithEvents CheckBox3 As CheckBox
 End Class

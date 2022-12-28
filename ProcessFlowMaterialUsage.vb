@@ -2,6 +2,9 @@
 Imports ZXing
 
 Public Class ProcessFlowMaterialUsage
+
+    Dim lastSelectedLevel1 As Integer
+    Dim lastSelectedLevel2 As Integer
     Private Sub ProcessFlowMaterialUsage_Load(sender As Object, e As EventArgs) Handles Me.Load
         treeView_show()
     End Sub
@@ -13,7 +16,7 @@ Public Class ProcessFlowMaterialUsage
 
         If dtFinishGoodsMaterialUsage.Rows.Count > 0 Then
             For i = 0 To dtFinishGoodsMaterialUsage.Rows.Count - 1
-                TreeView1.Nodes.Add("FG PN : " & dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString)
+                TreeView1.Nodes.Add(dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString, "FG PN : " & dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString)
 
                 Dim queryProcess As String = "SELECT id,master_process,master_process_number,material_usage FROM master_process_flow where master_finish_goods_pn='" & dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString & "' and master_process is not null order by id"
                 Dim dtProcess As DataTable = Database.GetData(queryProcess)
@@ -45,6 +48,9 @@ Public Class ProcessFlowMaterialUsage
 
             Dim position = InStr(e.Node.Parent.Text.ToString, ":")
 
+            lastSelectedLevel2 = e.Node.Index
+            lastSelectedLevel1 = e.Node.Parent.Index
+
             If position > 0 Then
                 Dim queryMaterial As String = "SELECT * FROM material_usage_finish_goods where fg_part_number='" & resultSplit(1).Trim & "' order by component"
                 Dim dtMaterial As DataTable = Database.GetData(queryMaterial)
@@ -66,7 +72,6 @@ Public Class ProcessFlowMaterialUsage
                     Next
                 Next
             End If
-
         End If
     End Sub
 
@@ -88,7 +93,9 @@ Public Class ProcessFlowMaterialUsage
             If gas = CheckedListBox1.Items.Count Then
                 Dim Sql As String = "update master_process_flow set material_usage=null where id='" & TreeView1.SelectedNode.Name & "'"
                 Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                cmd.ExecuteNonQuery()
+                If cmd.ExecuteNonQuery() Then
+                    refreshAll()
+                End If
             Else
                 If cheq.ToString <> "" Then
                     If TreeView1.SelectedNode.Name Is Nothing Then
@@ -104,15 +111,37 @@ Public Class ProcessFlowMaterialUsage
                     If IsNumeric(TreeView1.SelectedNode.Name) Then
                         Dim Sql As String = "update master_process_flow set material_usage='" & cheq.ToString.Trim & "' where id='" & TreeView1.SelectedNode.Name & "'"
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+                        If cmd.ExecuteNonQuery() Then
+                            refreshAll()
+                        End If
                     End If
                 End If
             End If
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Sub refreshAll()
         CheckedListBox1.Items.Clear()
         treeView_show()
+        TreeView1.SelectedNode = TreeView1.Nodes(lastSelectedLevel1).Nodes(lastSelectedLevel2)
+        TreeView1.Nodes(lastSelectedLevel1).Nodes(lastSelectedLevel2).Expand()
+        TreeView1.Select()
+    End Sub
+
+    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
+        If e.KeyData = Keys.Enter Then
+            Dim FoundTreeview As Boolean = False
+            For Each nd As TreeNode In TreeView1.Nodes
+                If String.Compare(nd.Name, TextBox1.Text, True) = 0 Then
+                    TreeView1.SelectedNode = nd
+                    TreeView1.Select()
+                    FoundTreeview = True
+                    Exit For
+                End If
+            Next
+            If FoundTreeview = False Then
+                MessageBox.Show("Data not Found")
+            End If
+        End If
     End Sub
 End Class

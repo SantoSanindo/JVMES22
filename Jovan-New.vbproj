@@ -125,6 +125,12 @@
     <Compile Include="FormReject.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AddChangeOperator.Designer.vb">
+      <DependentUpon>AddChangeOperator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AddChangeOperator.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OldFormReturnStock.Designer.vb">
       <DependentUpon>OldFormReturnStock.vb</DependentUpon>
     </Compile>
@@ -220,6 +226,12 @@
     <Compile Include="frmTesting.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PrintFlowTicket.Designer.vb">
+      <DependentUpon>PrintFlowTicket.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PrintFlowTicket.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Production.Designer.vb">
       <DependentUpon>Production.vb</DependentUpon>
     </Compile>
@@ -230,6 +242,12 @@
       <DependentUpon>ProductionRequest.vb</DependentUpon>
     </Compile>
     <Compile Include="ProductionRequest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReceiveReturnMaterial.Designer.vb">
+      <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiveReturnMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ResultProduction.Designer.vb">
@@ -297,6 +315,9 @@
     <EmbeddedResource Include="FormReject.resx">
       <DependentUpon>FormReject.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddChangeOperator.resx">
+      <DependentUpon>AddChangeOperator.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OldFormReturnStock.resx">
       <DependentUpon>OldFormReturnStock.vb</DependentUpon>
     </EmbeddedResource>
@@ -339,11 +360,17 @@
     <EmbeddedResource Include="frmTesting.resx">
       <DependentUpon>frmTesting.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PrintFlowTicket.resx">
+      <DependentUpon>PrintFlowTicket.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Production.resx">
       <DependentUpon>Production.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductionRequest.resx">
       <DependentUpon>ProductionRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReceiveReturnMaterial.resx">
+      <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResultProduction.resx">
       <DependentUpon>ResultProduction.vb</DependentUpon>

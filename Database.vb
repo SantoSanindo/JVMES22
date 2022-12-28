@@ -9,7 +9,7 @@ Public Class Database
 
     Public Shared Sub koneksi_database()
         Try
-            database = "Data Source=localhost;
+            database = "Data Source=10.13.8.203;
             initial catalog=JOVAN;
             Persist Security Info=True;
             User ID=sa;

@@ -28,6 +28,7 @@ Partial Class FormInputStock
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.checkQr = New System.Windows.Forms.CheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.txtmanualQty = New System.Windows.Forms.TextBox()
         Me.txtmanualLot = New System.Windows.Forms.TextBox()
         Me.txtmanualBatch = New System.Windows.Forms.TextBox()
@@ -42,7 +43,6 @@ Partial Class FormInputStock
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.dgv_forminputstock = New System.Windows.Forms.DataGridView()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -59,7 +59,7 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(64, 45)
+        Me.Label1.Location = New System.Drawing.Point(16, 38)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(109, 29)
         Me.Label1.TabIndex = 0
@@ -75,7 +75,6 @@ Partial Class FormInputStock
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TreeView1)
-        Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.dgv_forminputstock)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -93,7 +92,7 @@ Partial Class FormInputStock
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(942, 45)
+        Me.TextBox1.Location = New System.Drawing.Point(1217, 35)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(43, 35)
         Me.TextBox1.TabIndex = 13
@@ -105,7 +104,7 @@ Partial Class FormInputStock
         Me.checkQr.CausesValidation = False
         Me.checkQr.Checked = True
         Me.checkQr.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.checkQr.Location = New System.Drawing.Point(728, 93)
+        Me.checkQr.Location = New System.Drawing.Point(1032, 37)
         Me.checkQr.Name = "checkQr"
         Me.checkQr.Size = New System.Drawing.Size(133, 33)
         Me.checkQr.TabIndex = 12
@@ -114,9 +113,8 @@ Partial Class FormInputStock
         '
         'GroupBox2
         '
-        Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.GroupBox2.Controls.Add(Me.Button3)
         Me.GroupBox2.Controls.Add(Me.txtmanualQty)
         Me.GroupBox2.Controls.Add(Me.txtmanualLot)
         Me.GroupBox2.Controls.Add(Me.txtmanualBatch)
@@ -129,65 +127,69 @@ Partial Class FormInputStock
         Me.GroupBox2.Controls.Add(Me.Label5)
         Me.GroupBox2.Controls.Add(Me.Label4)
         Me.GroupBox2.Controls.Add(Me.Label3)
-        Me.GroupBox2.Location = New System.Drawing.Point(6, 126)
+        Me.GroupBox2.Location = New System.Drawing.Point(6, 76)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(1808, 63)
+        Me.GroupBox2.Size = New System.Drawing.Size(1463, 113)
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         '
+        'Button3
+        '
+        Me.Button3.BackColor = System.Drawing.Color.Green
+        Me.Button3.ForeColor = System.Drawing.Color.White
+        Me.Button3.Location = New System.Drawing.Point(1227, 45)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(167, 40)
+        Me.Button3.TabIndex = 18
+        Me.Button3.Text = "Add Manual"
+        Me.Button3.UseVisualStyleBackColor = False
+        '
         'txtmanualQty
         '
-        Me.txtmanualQty.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.txtmanualQty.Location = New System.Drawing.Point(1645, 19)
+        Me.txtmanualQty.Location = New System.Drawing.Point(953, 73)
         Me.txtmanualQty.Name = "txtmanualQty"
-        Me.txtmanualQty.Size = New System.Drawing.Size(156, 35)
+        Me.txtmanualQty.Size = New System.Drawing.Size(244, 35)
         Me.txtmanualQty.TabIndex = 17
         '
         'txtmanualLot
         '
-        Me.txtmanualLot.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.txtmanualLot.Location = New System.Drawing.Point(1394, 19)
+        Me.txtmanualLot.Location = New System.Drawing.Point(534, 73)
         Me.txtmanualLot.Name = "txtmanualLot"
-        Me.txtmanualLot.Size = New System.Drawing.Size(167, 35)
+        Me.txtmanualLot.Size = New System.Drawing.Size(238, 35)
         Me.txtmanualLot.TabIndex = 16
         '
         'txtmanualBatch
         '
-        Me.txtmanualBatch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.txtmanualBatch.Location = New System.Drawing.Point(1097, 19)
+        Me.txtmanualBatch.Location = New System.Drawing.Point(161, 73)
         Me.txtmanualBatch.Name = "txtmanualBatch"
-        Me.txtmanualBatch.Size = New System.Drawing.Size(155, 35)
+        Me.txtmanualBatch.Size = New System.Drawing.Size(218, 35)
         Me.txtmanualBatch.TabIndex = 15
         '
         'txtmanualInv
         '
-        Me.txtmanualInv.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.txtmanualInv.Location = New System.Drawing.Point(767, 19)
+        Me.txtmanualInv.Location = New System.Drawing.Point(953, 19)
         Me.txtmanualInv.Name = "txtmanualInv"
-        Me.txtmanualInv.Size = New System.Drawing.Size(159, 35)
+        Me.txtmanualInv.Size = New System.Drawing.Size(244, 35)
         Me.txtmanualInv.TabIndex = 14
         '
         'txtmanualTraceability
         '
-        Me.txtmanualTraceability.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.txtmanualTraceability.Location = New System.Drawing.Point(427, 19)
+        Me.txtmanualTraceability.Location = New System.Drawing.Point(534, 19)
         Me.txtmanualTraceability.Name = "txtmanualTraceability"
-        Me.txtmanualTraceability.Size = New System.Drawing.Size(157, 35)
+        Me.txtmanualTraceability.Size = New System.Drawing.Size(238, 35)
         Me.txtmanualTraceability.TabIndex = 13
         '
         'txtmanualPN
         '
-        Me.txtmanualPN.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.txtmanualPN.Location = New System.Drawing.Point(59, 19)
+        Me.txtmanualPN.Location = New System.Drawing.Point(161, 19)
         Me.txtmanualPN.Name = "txtmanualPN"
         Me.txtmanualPN.Size = New System.Drawing.Size(218, 35)
         Me.txtmanualPN.TabIndex = 12
         '
         'Label8
         '
-        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(1590, 22)
+        Me.Label8.Location = New System.Drawing.Point(787, 76)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(49, 29)
         Me.Label8.TabIndex = 5
@@ -195,9 +197,8 @@ Partial Class FormInputStock
         '
         'Label7
         '
-        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(1283, 22)
+        Me.Label7.Location = New System.Drawing.Point(388, 76)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(84, 29)
         Me.Label7.TabIndex = 4
@@ -205,9 +206,8 @@ Partial Class FormInputStock
         '
         'Label6
         '
-        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(960, 22)
+        Me.Label6.Location = New System.Drawing.Point(9, 76)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(111, 29)
         Me.Label6.TabIndex = 3
@@ -215,9 +215,8 @@ Partial Class FormInputStock
         '
         'Label5
         '
-        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(601, 22)
+        Me.Label5.Location = New System.Drawing.Point(787, 22)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(142, 29)
         Me.Label5.TabIndex = 2
@@ -225,9 +224,8 @@ Partial Class FormInputStock
         '
         'Label4
         '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(283, 22)
+        Me.Label4.Location = New System.Drawing.Point(388, 22)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(138, 29)
         Me.Label4.TabIndex = 1
@@ -235,20 +233,19 @@ Partial Class FormInputStock
         '
         'Label3
         '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(6, 22)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 29)
+        Me.Label3.Size = New System.Drawing.Size(149, 29)
         Me.Label3.TabIndex = 0
-        Me.Label3.Text = "PN"
+        Me.Label3.Text = "Part Number"
         '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button1.Location = New System.Drawing.Point(1694, 45)
+        Me.Button1.Location = New System.Drawing.Point(1694, 59)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(113, 78)
         Me.Button1.TabIndex = 10
@@ -261,24 +258,15 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.TreeView1.Location = New System.Drawing.Point(6, 195)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(387, 521)
+        Me.TreeView1.Size = New System.Drawing.Size(387, 499)
         Me.TreeView1.TabIndex = 9
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(592, 42)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(110, 35)
-        Me.Button3.TabIndex = 7
-        Me.Button3.Text = "Check"
-        Me.Button3.UseVisualStyleBackColor = True
         '
         'Button2
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button2.Location = New System.Drawing.Point(1307, 45)
+        Me.Button2.Location = New System.Drawing.Point(1502, 59)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(143, 78)
         Me.Button2.TabIndex = 6
@@ -309,13 +297,13 @@ Partial Class FormInputStock
         Me.dgv_forminputstock.Name = "dgv_forminputstock"
         Me.dgv_forminputstock.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_forminputstock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_forminputstock.Size = New System.Drawing.Size(1415, 521)
+        Me.dgv_forminputstock.Size = New System.Drawing.Size(1415, 499)
         Me.dgv_forminputstock.TabIndex = 4
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(64, 94)
+        Me.Label2.Location = New System.Drawing.Point(398, 38)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(114, 29)
         Me.Label2.TabIndex = 3
@@ -323,16 +311,16 @@ Partial Class FormInputStock
         '
         'txt_forminputstock_qrcode
         '
-        Me.txt_forminputstock_qrcode.Location = New System.Drawing.Point(239, 91)
+        Me.txt_forminputstock_qrcode.Location = New System.Drawing.Point(540, 35)
         Me.txt_forminputstock_qrcode.Name = "txt_forminputstock_qrcode"
         Me.txt_forminputstock_qrcode.Size = New System.Drawing.Size(463, 35)
         Me.txt_forminputstock_qrcode.TabIndex = 2
         '
         'txt_forminputstock_mts_no
         '
-        Me.txt_forminputstock_mts_no.Location = New System.Drawing.Point(239, 42)
+        Me.txt_forminputstock_mts_no.Location = New System.Drawing.Point(167, 35)
         Me.txt_forminputstock_mts_no.Name = "txt_forminputstock_mts_no"
-        Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(332, 35)
+        Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(218, 35)
         Me.txt_forminputstock_mts_no.TabIndex = 1
         '
         'FormInputStock
@@ -362,7 +350,6 @@ Partial Class FormInputStock
     Friend WithEvents txt_forminputstock_mts_no As TextBox
     Friend WithEvents dgv_forminputstock As DataGridView
     Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents Button1 As Button
     Friend WithEvents GroupBox2 As GroupBox
@@ -380,4 +367,5 @@ Partial Class FormInputStock
     Friend WithEvents txtmanualPN As TextBox
     Friend WithEvents checkQr As CheckBox
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Button3 As Button
 End Class

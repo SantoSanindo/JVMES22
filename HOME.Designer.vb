@@ -51,6 +51,9 @@ Partial Class HOME
         Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
         Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
+        Me.RibFGA = New System.Windows.Forms.RibbonPanel()
+        Me.FGABtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
         Me.RibMasterLine = New System.Windows.Forms.RibbonPanel()
         Me.MasterLineBtn = New System.Windows.Forms.RibbonButton()
@@ -79,9 +82,6 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
-        Me.RibFGA = New System.Windows.Forms.RibbonPanel()
-        Me.FGABtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -105,6 +105,7 @@ Partial Class HOME
         '
         Me.Ribbon1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.Ribbon1.Location = New System.Drawing.Point(0, 0)
+        Me.Ribbon1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Ribbon1.Minimized = False
         Me.Ribbon1.Name = "Ribbon1"
         '
@@ -121,7 +122,7 @@ Partial Class HOME
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
-        Me.Ribbon1.Size = New System.Drawing.Size(1236, 137)
+        Me.Ribbon1.Size = New System.Drawing.Size(1648, 169)
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
@@ -290,6 +291,25 @@ Partial Class HOME
         Me.ProductionBtn.Name = "ProductionBtn"
         Me.ProductionBtn.SmallImage = CType(resources.GetObject("ProductionBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibbonTab7
+        '
+        Me.RibbonTab7.Name = "RibbonTab7"
+        Me.RibbonTab7.Panels.Add(Me.RibFGA)
+        Me.RibbonTab7.Text = "FGA / Outgoing"
+        '
+        'RibFGA
+        '
+        Me.RibFGA.Items.Add(Me.FGABtn)
+        Me.RibFGA.Name = "RibFGA"
+        Me.RibFGA.Text = "FGA     "
+        '
+        'FGABtn
+        '
+        Me.FGABtn.Image = CType(resources.GetObject("FGABtn.Image"), System.Drawing.Image)
+        Me.FGABtn.LargeImage = CType(resources.GetObject("FGABtn.LargeImage"), System.Drawing.Image)
+        Me.FGABtn.Name = "FGABtn"
+        Me.FGABtn.SmallImage = CType(resources.GetObject("FGABtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonTab5
         '
         Me.RibbonTab5.Name = "RibbonTab5"
@@ -448,10 +468,11 @@ Partial Class HOME
         'TabControl1
         '
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 137)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 169)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TabControl1.MenuRenderer = Nothing
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(1236, 415)
+        Me.TabControl1.Size = New System.Drawing.Size(1648, 510)
         Me.TabControl1.TabCloseButtonImage = Nothing
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
@@ -466,53 +487,37 @@ Partial Class HOME
         '
         'StatusStrip1
         '
+        Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.LoginUser})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 530)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 653)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1236, 22)
+        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 19, 0)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1648, 26)
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
         '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(69, 17)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(86, 20)
         Me.ToolStripStatusLabel1.Text = "Login User :"
         '
         'LoginUser
         '
         Me.LoginUser.Name = "LoginUser"
-        Me.LoginUser.Size = New System.Drawing.Size(36, 17)
+        Me.LoginUser.Size = New System.Drawing.Size(45, 20)
         Me.LoginUser.Text = "None"
-        '
-        'RibbonTab7
-        '
-        Me.RibbonTab7.Name = "RibbonTab7"
-        Me.RibbonTab7.Panels.Add(Me.RibFGA)
-        Me.RibbonTab7.Text = "FGA / Outgoing"
-        '
-        'RibFGA
-        '
-        Me.RibFGA.Items.Add(Me.FGABtn)
-        Me.RibFGA.Name = "RibFGA"
-        Me.RibFGA.Text = "RibbonPanel6"
-        '
-        'FGABtn
-        '
-        Me.FGABtn.Image = CType(resources.GetObject("FGABtn.Image"), System.Drawing.Image)
-        Me.FGABtn.LargeImage = CType(resources.GetObject("FGABtn.LargeImage"), System.Drawing.Image)
-        Me.FGABtn.Name = "FGABtn"
-        Me.FGABtn.SmallImage = CType(resources.GetObject("FGABtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1236, 552)
+        Me.ClientSize = New System.Drawing.Size(1648, 679)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
         Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "HOME"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MES Application"

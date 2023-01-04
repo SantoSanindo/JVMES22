@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Globalization
 Imports System.Reflection.Emit
+Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class FormDefective
@@ -96,6 +97,8 @@ Public Class FormDefective
         loadCBDefPartProcess(cbFGPN.Text)
         'End If
         'MessageBox.Show(cbFGPN.SelectedIndex.ToString())
+
+        enableStatusInputInput(True)
     End Sub
 
     Sub loadCBDefPartProcess(str As String)
@@ -260,6 +263,21 @@ Public Class FormDefective
 
     Private Sub FormDefective_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         loadCBLine()
+
+        enableStatusInputInput(False)
+    End Sub
+
+    Sub enableStatusInputInput(statusEnable As Boolean)
+        txtBalanceBarcode.Enabled = statusEnable
+        txtBalanceQty.Enabled = statusEnable
+
+        cbWIPProcess.Enabled = statusEnable
+        txtWIPQuantity.Enabled = statusEnable
+        txtWIPTicketNo.Enabled = statusEnable
+
+        cbOnHoldProcess.Enabled = statusEnable
+        txtOnHoldQty.Enabled = statusEnable
+        txtOnHoldTicketNo.Enabled = statusEnable
     End Sub
 
     Sub loadCBLine()
@@ -856,4 +874,125 @@ Public Class FormDefective
 
     '************************************* END ON HOLD FUNCTION
 
+
+    '===================================== BALANCE FUNCTION
+    Private Sub btnBalanceAdd_Click(sender As Object, e As EventArgs) Handles btnBalanceAdd.Click
+        If txtBalanceBarcode.Text <> "" And txtBalanceQty.Text <> "" Then
+
+            Try
+                Dim i As Integer
+                Dim statusSimpan As Integer = 1
+
+                Call Database.koneksi_database()
+
+                Dim idData As String = ""
+                Dim strData(21) As String
+
+                Dim dtTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Production Process' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & WIPGetSubsubPO() & "' AND LINE='" & cbLineNumber.Text & "' ORDER BY LOT_NO")
+                If dtTable.Rows.Count > 0 Then
+                    idData = dtTable.Rows(0)(0)
+                    For i = 0 To dtTable.Columns.Count - 1
+                        If (IsDBNull(dtTable.Rows(0)(i)) = True) Then
+                            strData(i) = ""
+                        Else
+                            strData(i) = dtTable.Rows(0)(i)
+                        End If
+                    Next
+                End If
+
+                'proses update data
+                'Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY='" & txtBalanceQty.Text & "' where ID='" & idData & "'"
+                'Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
+                'If cmdUpdate.ExecuteNonQuery() Then
+                '    statusSimpan *= 1
+                'Else
+                '    statusSimpan *= 0
+                'End If
+
+                'proses simpan data
+                strData(4) = "Return to Mini Store"
+                'Dim sqlInsert As String = "INSERT INTO STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) VALUES ('"
+                'For i = 2 To 19
+                '    sqlInsert = sqlInsert & "','" & strData(i)
+                'Next
+                'sqlInsert = sqlInsert & "','" & txtBalanceQty.Text & "')"
+
+                Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) select MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY from STOCK_CARD where ID='90'"
+
+                Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
+                If cmdInsert.ExecuteNonQuery() Then
+                    statusSimpan *= 1
+                Else
+                    statusSimpan *= 0
+                End If
+
+                'For i = 0 To Part.Length - 2
+                '    Dim dtsubsubpo As String = WIPGetSubsubPO()
+
+                '    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                '    Dim arrdtList() As String
+                '    arrdtList = dtList.Split(";")
+
+
+                '    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,DATETIME_INSERT,PO,PROCESS_ONHOLD,LINE) VALUES ('" &
+                '                        ONHOLDGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtOnHoldTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "')"
+                '    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                '    If cmd.ExecuteNonQuery() Then
+                '        statusSimpan *= 1
+                '    Else
+                '        statusSimpan *= 0
+                '    End If
+                'Next
+
+                If statusSimpan > 0 Then
+                    MessageBox.Show("Success save data!!!")
+                    'LoaddgOnHold("")
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error Insert : " & ex.Message)
+            End Try
+
+
+        End If
+    End Sub
+
+    Private Sub btnBalanceEdit_Click(sender As Object, e As EventArgs) Handles btnBalanceEdit.Click
+        BalanceParsingMaterialPN("MX2D1P1710813000Q000000000270S00202203012213Q0002BWL2041112212D202204114L               ChinaMLX001")
+    End Sub
+
+    Private Sub txtBalanceBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBalanceBarcode.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            txtBalanceMaterialPN.Text = BalanceParsingMaterialPN(txtBalanceBarcode.Text)
+            SendKeys.Send("{TAB}")
+        End If
+    End Sub
+
+    Function BalanceParsingMaterialPN(strBarcode As String)
+        Dim dtReturn As String = ""
+
+        Dim idxStart As Integer = strBarcode.IndexOf("1P")
+        Dim idxStop As Integer = strBarcode.IndexOf("Q")
+        dtReturn = strBarcode.Substring(idxStart + 2, (idxStop - idxStart - 2))
+
+        'MessageBox.Show(dtReturn)
+
+        Return dtReturn
+    End Function
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        'Dim a As String = "Return to Mini Store"
+        'Dim sqlInsert As String = "INSERT INTO STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) VALUES ('"
+        'For i = 2 To 19
+        '    sqlInsert = sqlInsert & "','" & strData(i)
+        'Next
+        'sqlInsert = sqlInsert & "','" & txtBalanceQty.Text & "')"
+
+        'Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
+        'If cmdInsert.ExecuteNonQuery() Then
+        '    statusSimpan *= 1
+        'Else
+        '    statusSimpan *= 0
+        'End If
+    End Sub
+    '===================================== END BALANCE FUNCTION
 End Class

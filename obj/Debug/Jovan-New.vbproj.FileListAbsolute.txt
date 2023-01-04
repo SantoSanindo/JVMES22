@@ -162,11 +162,6 @@ C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.vbproj.Co
 C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.exe
 C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
-D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.exe.config
-D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.exe
-D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.pdb
-D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.xml
-D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\MdiTabControl.dll
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
@@ -200,6 +195,11 @@ D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New._PrintingSubAssyRawM
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan_New._PrintingWIPOnHold.resources
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.exe.config
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.exe
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.pdb
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\Jovan-New.xml
+D:\MES Jovan\VB Program\Mulai Baru Lagi\bin\Debug\MdiTabControl.dll
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.xml

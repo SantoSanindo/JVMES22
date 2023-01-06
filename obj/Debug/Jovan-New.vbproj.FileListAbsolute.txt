@@ -295,3 +295,4 @@ C:\Users\Riska\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
 C:\Users\Riska\Source\Repos\JVMES22\obj\Debug\Jovan-New.exe
 C:\Users\Riska\Source\Repos\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\Riska\Source\Repos\JVMES22\obj\Debug\Jovan-New.pdb
+C:\Users\Arif\Source\Repos\MulaiLagi\obj\Debug\Jovan_New.FGA.resources

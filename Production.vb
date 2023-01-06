@@ -116,7 +116,7 @@ Public Class Production
                         'End If
                     End If
 
-                    ElseIf InStr(TextBox1.Text, "SA") > 0 Then
+                ElseIf InStr(TextBox1.Text, "SA") > 0 Then
                     MessageBox.Show("Sub Assy Bos")
                 ElseIf InStr(TextBox1.Text, "OH") > 0 Then
                     MessageBox.Show("On Hold Bos")

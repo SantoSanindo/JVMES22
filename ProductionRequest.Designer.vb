@@ -79,7 +79,7 @@ Partial Class ProductionRequest
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(-3, -14)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1929, 920)
+        Me.GroupBox1.Size = New System.Drawing.Size(1929, 940)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -93,9 +93,9 @@ Partial Class ProductionRequest
         Me.GroupBox2.Controls.Add(Me.SubSubPO)
         Me.GroupBox2.Controls.Add(Me.PO)
         Me.GroupBox2.Controls.Add(Me.SubPO)
-        Me.GroupBox2.Location = New System.Drawing.Point(1207, 16)
+        Me.GroupBox2.Location = New System.Drawing.Point(1199, 16)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(708, 114)
+        Me.GroupBox2.Size = New System.Drawing.Size(714, 114)
         Me.GroupBox2.TabIndex = 22
         Me.GroupBox2.TabStop = False
         '
@@ -201,7 +201,7 @@ Partial Class ProductionRequest
         Me.GroupBox4.Controls.Add(Me.DataGridView3)
         Me.GroupBox4.Location = New System.Drawing.Point(13, 558)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(1904, 334)
+        Me.GroupBox4.Size = New System.Drawing.Size(1904, 354)
         Me.GroupBox4.TabIndex = 13
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Need Production"
@@ -211,9 +211,6 @@ Partial Class ProductionRequest
         Me.DataGridView3.AllowUserToAddRows = False
         Me.DataGridView3.AllowUserToDeleteRows = False
         Me.DataGridView3.AllowUserToOrderColumns = True
-        Me.DataGridView3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView3.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
@@ -224,22 +221,24 @@ Partial Class ProductionRequest
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView3.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView3.GridColor = System.Drawing.SystemColors.Highlight
-        Me.DataGridView3.Location = New System.Drawing.Point(3, 34)
+        Me.DataGridView3.Location = New System.Drawing.Point(3, 31)
         Me.DataGridView3.MultiSelect = False
         Me.DataGridView3.Name = "DataGridView3"
         Me.DataGridView3.ReadOnly = True
-        Me.DataGridView3.Size = New System.Drawing.Size(1895, 294)
+        Me.DataGridView3.Size = New System.Drawing.Size(1898, 320)
         Me.DataGridView3.TabIndex = 0
         '
         'GroupBox5
         '
         Me.GroupBox5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox5.AutoSize = True
         Me.GroupBox5.Controls.Add(Me.DataGridView4)
         Me.GroupBox5.Location = New System.Drawing.Point(13, 144)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(1904, 408)
+        Me.GroupBox5.Size = New System.Drawing.Size(1903, 442)
         Me.GroupBox5.TabIndex = 16
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "In Production"
@@ -249,8 +248,7 @@ Partial Class ProductionRequest
         Me.DataGridView4.AllowUserToAddRows = False
         Me.DataGridView4.AllowUserToDeleteRows = False
         Me.DataGridView4.AllowUserToOrderColumns = True
-        Me.DataGridView4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.DataGridView4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView4.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -267,7 +265,7 @@ Partial Class ProductionRequest
         Me.DataGridView4.Name = "DataGridView4"
         Me.DataGridView4.ReadOnly = True
         Me.DataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView4.Size = New System.Drawing.Size(1892, 368)
+        Me.DataGridView4.Size = New System.Drawing.Size(1891, 374)
         Me.DataGridView4.TabIndex = 0
         '
         'Label7
@@ -346,12 +344,13 @@ Partial Class ProductionRequest
         '
         'ProductionRequest
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1924, 906)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
+        Me.AutoScroll = True
+        Me.ClientSize = New System.Drawing.Size(1924, 926)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "ProductionRequest"
         Me.Text = "Production Request"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)

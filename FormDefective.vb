@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Globalization
 Imports System.Reflection.Emit
+Imports System.Runtime.Remoting
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
@@ -8,6 +9,8 @@ Public Class FormDefective
     Dim dept As String = "ZQSFP"
     Dim idLine As New List(Of Integer)
     Dim materialList As New List(Of String)
+    Dim idBalanceMaterial As String
+
 
     Private Sub txtPONumber_KeyDown(sender As Object, e As KeyEventArgs)
         'If (e.KeyCode = Keys.Enter) Then
@@ -99,6 +102,9 @@ Public Class FormDefective
         'MessageBox.Show(cbFGPN.SelectedIndex.ToString())
 
         enableStatusInputInput(True)
+        LoaddgWIP("")
+        LoaddgOnHold("")
+        loaddgBalance("")
     End Sub
 
     Sub loadCBDefPartProcess(str As String)
@@ -325,27 +331,33 @@ Public Class FormDefective
 
                 'diulang sebanyak part number yg ada
                 Call Database.koneksi_database()
-                For i = 0 To Part.Length - 2
-                    Dim dtsubsubpo As String = WIPGetSubsubPO()
+                Dim dtsubsubpo As String = WIPGetSubsubPO()
+                Dim noCode As String = WIPGenerateCode()
 
-                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
-                    Dim arrdtList() As String
-                    arrdtList = dtList.Split(";")
+                If WIPcheckExistingData(dtsubsubpo, dept) = False Then
+                    For i = 0 To Part.Length - 2
+                        Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                        Dim arrdtList() As String
+                        arrdtList = dtList.Split(";")
 
+                        Dim tgl As String = arrdtList(11).Replace("/", "-")
 
-                    Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,DATETIME_INSERT,PO) VALUES ('" &
-                                        WIPGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtWIPTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i), 0) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "')"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        statusSimpan *= 1
-                    Else
-                        statusSimpan *= 0
+                        Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,PO,FLOW_TICKET_NO,DEPARTMENT) VALUES ('" &
+                                        noCode & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(5) & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i), 0) & "','" & cbPONumber.Text & "','" & txtWIPTicketNo.Text & "','" & dept & "')"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            statusSimpan *= 1
+                        Else
+                            statusSimpan *= 0
+                        End If
+                    Next
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Success save data!!!")
+                        LoaddgWIP("")
                     End If
-                Next
-
-                If statusSimpan > 0 Then
-                    MessageBox.Show("Success save data!!!")
-                    LoaddgWIP("")
+                Else
+                    MessageBox.Show("Sorry, the data has been previously recorded. If you want to change it, you can click EDIT button.")
                 End If
             Catch ex As Exception
                 MessageBox.Show("Error Insert : " & ex.Message)
@@ -355,6 +367,25 @@ Public Class FormDefective
         End If
 
     End Sub
+
+    Function WIPcheckExistingData(subsubpo As String, department As String) As Boolean
+        Dim data As Boolean = False
+
+        Try
+            Call Database.koneksi_database()
+            Dim dttable As DataTable = Database.GetData("select distinct ID from STOCK_PROD_WIP where SUB_SUB_PO='" & subsubpo & "' AND FG_PN='" & cbFGPN.Text & "' AND PROCESS='" & cbWIPProcess.Text & "' AND DEPARTMENT='" & department & "'")
+
+            If dttable.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            Return True
+        End Try
+
+        Return data
+    End Function
 
     Sub LoaddgWIP(proses As String)
         Dim i As Integer = 0
@@ -372,7 +403,7 @@ Public Class FormDefective
 
                 .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-                .ColumnCount = 10
+                .ColumnCount = 9
                 .Columns(0).Name = "No"
                 .Columns(1).Name = "ID"
                 .Columns(2).Name = "Process Name"
@@ -380,13 +411,16 @@ Public Class FormDefective
                 .Columns(4).Name = "Material PN"
                 .Columns(5).Name = "Inv No."
                 .Columns(6).Name = "MFG Date"
-                .Columns(7).Name = "Lot Code"
-                .Columns(8).Name = "Lot No."
-                .Columns(9).Name = "Qty"
+                '.Columns(7).Name = "Flow Ticket No."
+                .Columns(7).Name = "Lot No."
+                .Columns(8).Name = "Qty"
 
                 .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(8).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                '.Columns(9).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
                 'For i = 0 To 7
                 '    If ((i = 0) Or (i = 3) Or (i = 7)) Then
@@ -407,14 +441,14 @@ Public Class FormDefective
 
                 .Columns(0).Width = Int(.Width * 0.05)
                 .Columns(1).Width = Int(.Width * 0.08)
-                .Columns(2).Width = Int(.Width * 0.2)
+                .Columns(2).Width = Int(.Width * 0.26)
                 .Columns(3).Width = Int(.Width * 0.08)
-                .Columns(4).Width = Int(.Width * 0.08)
+                .Columns(4).Width = Int(.Width * 0.1)
                 .Columns(5).Width = Int(.Width * 0.1)
                 .Columns(6).Width = Int(.Width * 0.15)
                 .Columns(7).Width = Int(.Width * 0.08)
                 .Columns(8).Width = Int(.Width * 0.08)
-                .Columns(9).Width = Int(.Width * 0.08)
+                '.Columns(9).Width = Int(.Width * 0.08)
 
 
                 .EnableHeadersVisualStyles = False
@@ -444,15 +478,15 @@ Public Class FormDefective
                     For i = 0 To dttable.Rows.Count - 1
                         .Rows.Add(1)
                         .Item(0, i).Value = (i + 1).ToString()
-                        .Item(1, i).Value = dttable.Rows(i)(1)
-                        .Item(2, i).Value = dttable.Rows(i)(9)
-                        .Item(3, i).Value = dttable.Rows(i)(5)
-                        .Item(4, i).Value = dttable.Rows(i)(4)
-                        .Item(5, i).Value = dttable.Rows(i)(7)
-                        .Item(6, i).Value = dttable.Rows(i)(6)
-                        .Item(7, i).Value = "Lot Code"
-                        .Item(8, i).Value = "Lot No."
-                        .Item(9, i).Value = dttable.Rows(i)(10)
+                        .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_WIP")
+                        .Item(2, i).Value = dttable.Rows(i)("PROCESS")
+                        .Item(3, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                        .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
+                        .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
+                        .Item(6, i).Value = dttable.Rows(i)("TRACEABILITY")
+                        '.Item(7, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                        .Item(7, i).Value = dttable.Rows(i)("LOT_NO")
+                        .Item(8, i).Value = dttable.Rows(i)("QTY")
 
                     Next
                 End If
@@ -494,7 +528,7 @@ Public Class FormDefective
                 Dim str As String = dtCode.Rows(0)(0)
                 Dim dt As String = str.Substring(3, str.Length - 3) 'nomor id setelah WIP
 
-                wipCode = "WIP" + dt
+                wipCode = "WIP" + (Convert.ToInt32(dt) + 1).ToString()
             Else
                 wipCode = "WIP1"
             End If
@@ -608,8 +642,8 @@ Public Class FormDefective
 
                     Call Database.koneksi_database()
 
-                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                    Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN, 0) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim sql As String = "update STOCK_PROD_WIP set FLOW_TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 0) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    'Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN, 0) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                     If cmd.ExecuteNonQuery() Then
@@ -668,6 +702,8 @@ Public Class FormDefective
 
                 'diulang sebanyak part number yg ada
                 Call Database.koneksi_database()
+                Dim OnHoldCode As String = ONHOLDGenerateCode()
+
                 For i = 0 To Part.Length - 2
                     Dim dtsubsubpo As String = WIPGetSubsubPO()
 
@@ -676,8 +712,8 @@ Public Class FormDefective
                     arrdtList = dtList.Split(";")
 
 
-                    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,DATETIME_INSERT,PO,PROCESS_ONHOLD,LINE) VALUES ('" &
-                                        ONHOLDGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtOnHoldTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "')"
+                    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_ONHOLD,LINE,FLOW_TICKET_NO,DEPARTMENT) VALUES ('" &
+                                        OnHoldCode & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(5) & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "','" & txtOnHoldTicketNo.Text & "','" & dept & "')"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
                         statusSimpan *= 1
@@ -715,8 +751,8 @@ Public Class FormDefective
 
                         Call Database.koneksi_database()
 
-                        'Dim sql As String = "update STOCK_PROD_ONHOLD set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                        Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -777,24 +813,26 @@ Public Class FormDefective
                 .Columns(4).Name = "Material PN"
                 .Columns(5).Name = "Inv No."
                 .Columns(6).Name = "MFG Date"
-                .Columns(7).Name = "Lot Code"
-                .Columns(8).Name = "Lot No."
-                .Columns(9).Name = "Qty"
+                '.Columns(7).Name = "Flow Ticket No."
+                .Columns(7).Name = "Lot No."
+                .Columns(8).Name = "Qty"
 
                 .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(8).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
                 .Columns(0).Width = Int(.Width * 0.05)
                 .Columns(1).Width = Int(.Width * 0.08)
-                .Columns(2).Width = Int(.Width * 0.2)
+                .Columns(2).Width = Int(.Width * 0.26)
                 .Columns(3).Width = Int(.Width * 0.08)
-                .Columns(4).Width = Int(.Width * 0.08)
+                .Columns(4).Width = Int(.Width * 0.1)
                 .Columns(5).Width = Int(.Width * 0.1)
                 .Columns(6).Width = Int(.Width * 0.15)
                 .Columns(7).Width = Int(.Width * 0.08)
                 .Columns(8).Width = Int(.Width * 0.08)
-                .Columns(9).Width = Int(.Width * 0.08)
+                '.Columns(9).Width = Int(.Width * 0.08)
 
 
                 .EnableHeadersVisualStyles = False
@@ -826,13 +864,13 @@ Public Class FormDefective
                         .Item(0, i).Value = (i + 1).ToString()
                         .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_ONHOLD")
                         .Item(2, i).Value = dttable.Rows(i)("PROCESS_ONHOLD")
-                        .Item(3, i).Value = dttable.Rows(i)("LOT_NO")
+                        .Item(3, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
                         .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
                         .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
                         .Item(6, i).Value = dttable.Rows(i)("TRACEABILITY")
-                        .Item(7, i).Value = "Lot Code"
-                        .Item(8, i).Value = "Lot No."
-                        .Item(9, i).Value = dttable.Rows(i)("QTY")
+                        '.Item(7, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                        .Item(7, i).Value = dttable.Rows(i)("LOT_NO")
+                        .Item(8, i).Value = dttable.Rows(i)("QTY")
 
                     Next
                 End If
@@ -861,7 +899,7 @@ Public Class FormDefective
                 Dim str As String = dtCode.Rows(0)(0)
                 Dim dt As String = str.Substring(6, str.Length - 6) 'nomor id setelah ONHOLD
 
-                wipCode = "ONHOLD" + dt
+                wipCode = "ONHOLD" + (Convert.ToInt16(dt) + 1).ToString
             Else
                 wipCode = "ONHOLD1"
             End If
@@ -885,68 +923,76 @@ Public Class FormDefective
 
                 Call Database.koneksi_database()
 
-                Dim idData As String = ""
-                Dim strData(21) As String
+                Dim dtsubsubpo As String = WIPGetSubsubPO()
 
-                Dim dtTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Production Process' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & WIPGetSubsubPO() & "' AND LINE='" & cbLineNumber.Text & "' ORDER BY LOT_NO")
-                If dtTable.Rows.Count > 0 Then
-                    idData = dtTable.Rows(0)(0)
-                    For i = 0 To dtTable.Columns.Count - 1
-                        If (IsDBNull(dtTable.Rows(0)(i)) = True) Then
-                            strData(i) = ""
-                        Else
-                            strData(i) = dtTable.Rows(0)(i)
-                        End If
-                    Next
-                End If
-
-                'proses update data
-                'Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY='" & txtBalanceQty.Text & "' where ID='" & idData & "'"
-                'Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
-                'If cmdUpdate.ExecuteNonQuery() Then
-                '    statusSimpan *= 1
-                'Else
-                '    statusSimpan *= 0
-                'End If
-
-                'proses simpan data
-                strData(4) = "Return to Mini Store"
-                'Dim sqlInsert As String = "INSERT INTO STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) VALUES ('"
-                'For i = 2 To 19
-                '    sqlInsert = sqlInsert & "','" & strData(i)
-                'Next
-                'sqlInsert = sqlInsert & "','" & txtBalanceQty.Text & "')"
-
-                Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) select MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY from STOCK_CARD where ID='90'"
-
-                Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
-                If cmdInsert.ExecuteNonQuery() Then
-                    statusSimpan *= 1
+                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & dtsubsubpo & "' AND LINE='" & cbLineNumber.Text & "' ORDER BY LOT_NO")
+                If dtCekTable.Rows.Count > 0 Then
+                    MessageBox.Show("Sorry, the data has been previously recorded. If you want to change it, you can click on the table then click EDIT button.")
                 Else
-                    statusSimpan *= 0
-                End If
+                    Dim idData As String = ""
+                    Dim strData(21) As String
 
-                'For i = 0 To Part.Length - 2
-                '    Dim dtsubsubpo As String = WIPGetSubsubPO()
+                    Dim dtTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Production Process' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & dtsubsubpo & "' AND LINE='" & cbLineNumber.Text & "' ORDER BY LOT_NO")
+                    If dtTable.Rows.Count > 0 Then
+                        idData = dtTable.Rows(0)(0)
+                        For i = 0 To dtTable.Columns.Count - 1
+                            If (IsDBNull(dtTable.Rows(0)(i)) = True) Then
+                                strData(i) = ""
+                            Else
+                                strData(i) = dtTable.Rows(0)(i)
+                            End If
+                        Next
+                    End If
 
-                '    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
-                '    Dim arrdtList() As String
-                '    arrdtList = dtList.Split(";")
+                    'proses update data
+                    Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY='" & txtBalanceQty.Text & "' where ID='" & idData & "'"
+                    Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
+                    If cmdUpdate.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+
+                    'proses simpan data
+                    strData(4) = "Return to Mini Store"
+                    'Dim sqlInsert As String = "INSERT INTO STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) VALUES ('"
+                    'For i = 2 To 19
+                    '    sqlInsert = sqlInsert & "','" & strData(i)
+                    'Next
+                    'sqlInsert = sqlInsert & "','" & txtBalanceQty.Text & "')"
+
+                    Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,QRCODE,QTY,ACTUAL_QTY)" &
+                                                              "select MTS_NO,DEPARTEMENT,MATERIAL,'" & strData(4) & "',STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "',QTY," & txtBalanceQty.Text & " from STOCK_CARD where ID='" & idData & "'"
+
+                    Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
+                    If cmdInsert.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+
+                    'For i = 0 To Part.Length - 2
+                    '    Dim dtsubsubpo As String = WIPGetSubsubPO()
+
+                    '    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                    '    Dim arrdtList() As String
+                    '    arrdtList = dtList.Split(";")
 
 
-                '    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,DATETIME_INSERT,PO,PROCESS_ONHOLD,LINE) VALUES ('" &
-                '                        ONHOLDGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtOnHoldTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "')"
-                '    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                '    If cmd.ExecuteNonQuery() Then
-                '        statusSimpan *= 1
-                '    Else
-                '        statusSimpan *= 0
-                '    End If
-                'Next
+                    '    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,DATETIME_INSERT,PO,PROCESS_ONHOLD,LINE) VALUES ('" &
+                    '                        ONHOLDGenerateCode() & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & txtOnHoldTicketNo.Text & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & arrdtList(11) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "')"
+                    '    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    '    If cmd.ExecuteNonQuery() Then
+                    '        statusSimpan *= 1
+                    '    Else
+                    '        statusSimpan *= 0
+                    '    End If
+                    'Next
 
-                If statusSimpan > 0 Then
-                    MessageBox.Show("Success save data!!!")
-                    'LoaddgOnHold("")
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Success save data!!!")
+                        'LoaddgOnHold("")
+                    End If
                 End If
             Catch ex As Exception
                 MessageBox.Show("Error Insert : " & ex.Message)
@@ -957,7 +1003,68 @@ Public Class FormDefective
     End Sub
 
     Private Sub btnBalanceEdit_Click(sender As Object, e As EventArgs) Handles btnBalanceEdit.Click
-        BalanceParsingMaterialPN("MX2D1P1710813000Q000000000270S00202203012213Q0002BWL2041112212D202204114L               ChinaMLX001")
+        'BalanceParsingMaterialPN("MX2D1P1710813000Q000000000270S00202203012213Q0002BWL2041112212D202204114L               ChinaMLX001")
+
+        Dim i As Integer
+        Dim result As DialogResult
+
+        If dgBalance.Rows.Count > 1 Then
+            If Convert.ToInt16(txtBalanceQty.Text) > 0 Then
+                result = MessageBox.Show("Are you sure want to update quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Dim statusSimpan As Integer = 1
+                    'masih belum-+
+
+
+
+                    For i = 0 To dgOnHold.RowCount - 2
+                        Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
+                        Dim processName As String = dgOnHold.Rows(i).Cells(2).Value.ToString()
+                        Dim matPN As String = dgOnHold.Rows(i).Cells(4).Value.ToString()
+
+                        Call Database.koneksi_database()
+
+                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                        If cmd.ExecuteNonQuery() Then
+                            statusSimpan *= 1
+                        Else
+                            statusSimpan *= 0
+                        End If
+                    Next
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Successfully update data!")
+                        LoaddgOnHold("")
+                    End If
+                End If
+            Else
+                result = MessageBox.Show("Are you sure want to delete ON HOLD data?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Dim statusSimpan As Integer = 1
+                    Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
+
+                    Call Database.koneksi_database()
+
+                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim sql As String = "delete from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD='" & id & "'"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                    If cmd.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Successfully update data!")
+                        LoaddgOnHold("")
+                    End If
+                End If
+            End If
+        End If
     End Sub
 
     Private Sub txtBalanceBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBalanceBarcode.KeyDown
@@ -979,6 +1086,96 @@ Public Class FormDefective
         Return dtReturn
     End Function
 
+    Sub loaddgBalance(material As String)
+        Dim i As Integer = 0
+
+        Try
+            With dgBalance
+                .Rows.Clear()
+
+                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                .ColumnCount = 10
+                .Columns(0).Name = "No"
+                .Columns(1).Name = "ID"
+                .Columns(2).Name = "Material Name"
+                .Columns(3).Name = "Inv. Ctrl Date"
+                .Columns(4).Name = "Traceability"
+                .Columns(5).Name = "Batch No."
+                .Columns(6).Name = "Lot No."
+                .Columns(7).Name = "Lot Qty"
+                .Columns(8).Name = "Actual Qty"
+
+                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(6).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(8).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                .Columns(0).Width = Int(.Width * 0.05)
+                .Columns(1).Width = Int(.Width * 0.08)
+                .Columns(2).Width = Int(.Width * 0.2)
+                .Columns(3).Width = Int(.Width * 0.14)
+                .Columns(4).Width = Int(.Width * 0.1)
+                .Columns(5).Width = Int(.Width * 0.1)
+                .Columns(6).Width = Int(.Width * 0.11)
+                .Columns(7).Width = Int(.Width * 0.1)
+                .Columns(8).Width = Int(.Width * 0.1)
+                '.Columns(9).Width = Int(.Width * 0.08)
+
+
+                .EnableHeadersVisualStyles = False
+                With .ColumnHeadersDefaultCellStyle
+                    .BackColor = Color.Navy
+                    .ForeColor = Color.White
+                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                    .Alignment = HorizontalAlignment.Center
+                    .Alignment = ContentAlignment.MiddleCenter
+                End With
+
+
+
+                ''''''''''''''''''''''''''''''''''''''''''''
+                Dim sqlStr As String = ""
+
+                If material = "" Then
+                    sqlStr = "select * from STOCK_CARD where DEPARTEMENT='" & dept & "' AND STATUS='Return to Mini Store' ORDER BY ID"
+                Else
+                    sqlStr = "select * from STOCK_CARD where MATERIAL='" & material & "' AND DEPARTEMENT='" & dept & "' AND STATUS='Return to Mini Store' ORDER BY ID"
+                End If
+
+                Dim dttable As DataTable = Database.GetData(sqlStr)
+
+
+                If dttable.Rows.Count > 0 Then
+                    For i = 0 To dttable.Rows.Count - 1
+                        .Rows.Add(1)
+                        .Item(0, i).Value = (i + 1).ToString()
+                        .Item(1, i).Value = dttable.Rows(i)("ID")
+                        .Item(2, i).Value = dttable.Rows(i)("MATERIAL")
+                        .Item(3, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
+                        .Item(4, i).Value = dttable.Rows(i)("TRACEABILITY")
+                        .Item(5, i).Value = dttable.Rows(i)("BATCH_NO")
+                        .Item(6, i).Value = dttable.Rows(i)("LOT_NO")
+                        '.Item(7, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                        .Item(7, i).Value = dttable.Rows(i)("QTY")
+                        .Item(8, i).Value = dttable.Rows(i)("ACTUAL_QTY")
+
+                    Next
+                End If
+                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            End With
+
+
+
+        Catch ex As Exception
+            MessageBox.Show("error load ShowToDGView")
+        End Try
+    End Sub
+
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         'Dim a As String = "Return to Mini Store"
         'Dim sqlInsert As String = "INSERT INTO STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,DATETIME_INSERT,SAVE,QRCODE,DATETIME_SAVE,QTY,ACTUAL_QTY) VALUES ('"
@@ -993,6 +1190,16 @@ Public Class FormDefective
         'Else
         '    statusSimpan *= 0
         'End If
+    End Sub
+
+    Private Sub txtBalanceMaterialPN_TextChanged(sender As Object, e As EventArgs) Handles txtBalanceMaterialPN.TextChanged
+        loaddgBalance(txtBalanceMaterialPN.Text)
+    End Sub
+
+    Private Sub dgBalance_Click(sender As Object, e As EventArgs) Handles dgBalance.Click
+        idBalanceMaterial = dgBalance.Rows(dgBalance.CurrentCell.RowIndex).Cells(1).Value.ToString()
+        MessageBox.Show(idBalanceMaterial)
+
     End Sub
     '===================================== END BALANCE FUNCTION
 End Class

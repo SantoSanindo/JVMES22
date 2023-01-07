@@ -23,6 +23,7 @@ Partial Class FormDefective
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.cbFGPN = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cbPONumber = New System.Windows.Forms.ComboBox()
@@ -124,7 +125,6 @@ Partial Class FormDefective
         Me.Label15 = New System.Windows.Forms.Label()
         Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
         Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -185,6 +185,15 @@ Partial Class FormDefective
         Me.GroupBox1.Size = New System.Drawing.Size(1658, 169)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(811, 65)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(174, 71)
+        Me.Button3.TabIndex = 11
+        Me.Button3.Text = "Button3"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'cbFGPN
         '
@@ -277,7 +286,6 @@ Partial Class FormDefective
         'btnWIPAdd
         '
         Me.btnWIPAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btnWIPAdd.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnWIPAdd.Location = New System.Drawing.Point(713, 93)
         Me.btnWIPAdd.Name = "btnWIPAdd"
         Me.btnWIPAdd.Size = New System.Drawing.Size(256, 59)
@@ -295,7 +303,6 @@ Partial Class FormDefective
         'btnWIPEdit
         '
         Me.btnWIPEdit.BackColor = System.Drawing.Color.Yellow
-        Me.btnWIPEdit.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnWIPEdit.Location = New System.Drawing.Point(975, 93)
         Me.btnWIPEdit.Name = "btnWIPEdit"
         Me.btnWIPEdit.Size = New System.Drawing.Size(256, 59)
@@ -1239,7 +1246,6 @@ Partial Class FormDefective
         'btnOnHoldEdit
         '
         Me.btnOnHoldEdit.BackColor = System.Drawing.Color.Yellow
-        Me.btnOnHoldEdit.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnOnHoldEdit.Location = New System.Drawing.Point(975, 93)
         Me.btnOnHoldEdit.Name = "btnOnHoldEdit"
         Me.btnOnHoldEdit.Size = New System.Drawing.Size(256, 59)
@@ -1250,7 +1256,6 @@ Partial Class FormDefective
         'btnOnHoldAdd
         '
         Me.btnOnHoldAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btnOnHoldAdd.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnOnHoldAdd.Location = New System.Drawing.Point(713, 93)
         Me.btnOnHoldAdd.Name = "btnOnHoldAdd"
         Me.btnOnHoldAdd.Size = New System.Drawing.Size(256, 59)
@@ -1306,15 +1311,6 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbOnHoldProcess.TabIndex = 4
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(811, 65)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(174, 71)
-        Me.Button3.TabIndex = 11
-        Me.Button3.Text = "Button3"
-        Me.Button3.UseVisualStyleBackColor = True
         '
         'FormDefective
         '

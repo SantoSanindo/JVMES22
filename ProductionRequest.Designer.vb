@@ -93,7 +93,7 @@ Partial Class ProductionRequest
         Me.GroupBox2.Controls.Add(Me.SubSubPO)
         Me.GroupBox2.Controls.Add(Me.PO)
         Me.GroupBox2.Controls.Add(Me.SubPO)
-        Me.GroupBox2.Location = New System.Drawing.Point(1199, 16)
+        Me.GroupBox2.Location = New System.Drawing.Point(1203, 14)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(714, 114)
         Me.GroupBox2.TabIndex = 22
@@ -110,7 +110,7 @@ Partial Class ProductionRequest
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(356, 71)
+        Me.Label8.Location = New System.Drawing.Point(356, 63)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(146, 29)
         Me.Label8.TabIndex = 23
@@ -128,7 +128,7 @@ Partial Class ProductionRequest
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 70)
+        Me.Label5.Location = New System.Drawing.Point(6, 62)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(48, 29)
         Me.Label5.TabIndex = 21
@@ -145,7 +145,7 @@ Partial Class ProductionRequest
         '
         'SubSubPO
         '
-        Me.SubSubPO.Location = New System.Drawing.Point(511, 68)
+        Me.SubSubPO.Location = New System.Drawing.Point(511, 60)
         Me.SubSubPO.Name = "SubSubPO"
         Me.SubSubPO.ReadOnly = True
         Me.SubSubPO.Size = New System.Drawing.Size(191, 35)
@@ -153,7 +153,7 @@ Partial Class ProductionRequest
         '
         'PO
         '
-        Me.PO.Location = New System.Drawing.Point(168, 67)
+        Me.PO.Location = New System.Drawing.Point(168, 59)
         Me.PO.Name = "PO"
         Me.PO.ReadOnly = True
         Me.PO.Size = New System.Drawing.Size(168, 35)
@@ -181,14 +181,14 @@ Partial Class ProductionRequest
         '
         'TextBox6
         '
-        Me.TextBox6.Location = New System.Drawing.Point(667, 91)
+        Me.TextBox6.Location = New System.Drawing.Point(667, 80)
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.Size = New System.Drawing.Size(326, 35)
         Me.TextBox6.TabIndex = 10
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(208, 91)
+        Me.TextBox2.Location = New System.Drawing.Point(208, 80)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(339, 35)
         Me.TextBox2.TabIndex = 6
@@ -199,9 +199,9 @@ Partial Class ProductionRequest
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox4.Controls.Add(Me.DataGridView3)
-        Me.GroupBox4.Location = New System.Drawing.Point(13, 558)
+        Me.GroupBox4.Location = New System.Drawing.Point(15, 512)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(1904, 354)
+        Me.GroupBox4.Size = New System.Drawing.Size(1904, 422)
         Me.GroupBox4.TabIndex = 13
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Need Production"
@@ -227,18 +227,17 @@ Partial Class ProductionRequest
         Me.DataGridView3.MultiSelect = False
         Me.DataGridView3.Name = "DataGridView3"
         Me.DataGridView3.ReadOnly = True
-        Me.DataGridView3.Size = New System.Drawing.Size(1898, 320)
+        Me.DataGridView3.Size = New System.Drawing.Size(1898, 388)
         Me.DataGridView3.TabIndex = 0
         '
         'GroupBox5
         '
         Me.GroupBox5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox5.AutoSize = True
         Me.GroupBox5.Controls.Add(Me.DataGridView4)
-        Me.GroupBox5.Location = New System.Drawing.Point(13, 144)
+        Me.GroupBox5.Location = New System.Drawing.Point(15, 125)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(1903, 442)
+        Me.GroupBox5.Size = New System.Drawing.Size(1903, 381)
         Me.GroupBox5.TabIndex = 16
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "In Production"
@@ -248,8 +247,6 @@ Partial Class ProductionRequest
         Me.DataGridView4.AllowUserToAddRows = False
         Me.DataGridView4.AllowUserToDeleteRows = False
         Me.DataGridView4.AllowUserToOrderColumns = True
-        Me.DataGridView4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView4.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
@@ -260,18 +257,19 @@ Partial Class ProductionRequest
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView4.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView4.Location = New System.Drawing.Point(6, 34)
+        Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView4.Location = New System.Drawing.Point(3, 31)
         Me.DataGridView4.MultiSelect = False
         Me.DataGridView4.Name = "DataGridView4"
         Me.DataGridView4.ReadOnly = True
         Me.DataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView4.Size = New System.Drawing.Size(1891, 374)
+        Me.DataGridView4.Size = New System.Drawing.Size(1897, 347)
         Me.DataGridView4.TabIndex = 0
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(562, 94)
+        Me.Label7.Location = New System.Drawing.Point(562, 83)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(84, 29)
         Me.Label7.TabIndex = 4
@@ -292,7 +290,7 @@ Partial Class ProductionRequest
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1008, 86)
+        Me.Button1.Location = New System.Drawing.Point(1008, 75)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(167, 44)
         Me.Button1.TabIndex = 5
@@ -309,7 +307,7 @@ Partial Class ProductionRequest
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(21, 94)
+        Me.Label3.Location = New System.Drawing.Point(21, 83)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(149, 29)
         Me.Label3.TabIndex = 0

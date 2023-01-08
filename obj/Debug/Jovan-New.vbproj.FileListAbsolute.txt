@@ -337,3 +337,4 @@ D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.xml
 D:\MES Jovan\VB Program\Mulai Baru Lagi\obj\Debug\Jovan-New.pdb
+C:\Users\Arif\Source\Repos\MulaiLagi\obj\Debug\Jovan_New.FGA.resources

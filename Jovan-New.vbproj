@@ -95,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.vb" />
+    <Compile Include="FGA.Designer.vb">
+      <DependentUpon>FGA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FGA.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormDefective.Designer.vb">
       <DependentUpon>FormDefective.vb</DependentUpon>
     </Compile>
@@ -300,6 +306,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FGA.resx">
+      <DependentUpon>FGA.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDefective.resx">
       <DependentUpon>FormDefective.vb</DependentUpon>
     </EmbeddedResource>

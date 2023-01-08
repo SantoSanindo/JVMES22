@@ -149,7 +149,7 @@ Public Class ProductionRequest
         Call Database.koneksi_database()
         Dim queryInProdMaterial As String = "select in_mat.MATERIAL,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY
             from stock_card in_mat, sub_sub_po sp 
-            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' AND DEPARTEMENT='" & globVar.department & "'ORDER BY in_mat.DATETIME_INSERT"
+            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' AND DEPARTEMENT='" & globVar.department & "' and in_mat.[status]='Production Request' ORDER BY in_mat.DATETIME_INSERT"
         Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
 
         DataGridView4.DataSource = dtInProdMaterial

@@ -105,7 +105,6 @@ Partial Class HOME
         '
         Me.Ribbon1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.Ribbon1.Location = New System.Drawing.Point(0, 0)
-        Me.Ribbon1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Ribbon1.Minimized = False
         Me.Ribbon1.Name = "Ribbon1"
         '
@@ -122,7 +121,7 @@ Partial Class HOME
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
-        Me.Ribbon1.Size = New System.Drawing.Size(1648, 169)
+        Me.Ribbon1.Size = New System.Drawing.Size(1236, 137)
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
@@ -467,12 +466,13 @@ Partial Class HOME
         '
         'TabControl1
         '
-        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 169)
-        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 137)
         Me.TabControl1.MenuRenderer = Nothing
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(1648, 510)
+        Me.TabControl1.Size = New System.Drawing.Size(1236, 414)
         Me.TabControl1.TabCloseButtonImage = Nothing
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
@@ -487,37 +487,38 @@ Partial Class HOME
         '
         'StatusStrip1
         '
+        Me.StatusStrip1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.LoginUser})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 653)
+        Me.StatusStrip1.Location = New System.Drawing.Point(1114, 112)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 19, 0)
-        Me.StatusStrip1.Size = New System.Drawing.Size(1648, 26)
+        Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
+        Me.StatusStrip1.Size = New System.Drawing.Size(122, 22)
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
         '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(86, 20)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(69, 17)
         Me.ToolStripStatusLabel1.Text = "Login User :"
         '
         'LoginUser
         '
         Me.LoginUser.Name = "LoginUser"
-        Me.LoginUser.Size = New System.Drawing.Size(45, 20)
+        Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
         'HOME
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1648, 679)
+        Me.ClientSize = New System.Drawing.Size(1236, 552)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "HOME"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MES Application"

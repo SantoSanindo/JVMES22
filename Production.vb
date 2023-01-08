@@ -168,7 +168,7 @@ Public Class Production
                     If DataGridView1.Rows.Count >= resultCount Then
                         For j = 0 To dtCheckStockONHOLD.Rows.Count - 1
                             Dim sqlProdProcess As String = "INSERT INTO process_prod (id_level, level, pn_material, qty, lot_no, batch_no,traceability,inv_ctrl_date,fifo,line,sub_sub_po,department)
-                                    VALUES ('" & TextBox1.Text & "','ONHOLD','" & dtCheckStockONHOLD.Rows(j).Item("part_number") & "','" & dtCheckStockONHOLD.Rows(j).Item("QTY") & "','" & dtCheckStockONHOLD.Rows(j).Item("lot_no") & "','" & dtCheckStockONHOLD.Rows(0).Item("batch_no") & "','" & dtCheckStockONHOLD.Rows(0).Item("traceability") & "','" & dtCheckStockONHOLD.Rows(0).Item("inv_ctrl_date") & "',0,'" & ComboBox1.Text & "','" & TextBox11.Text & "','" & globVar.department & "')"
+                                    VALUES ('" & TextBox1.Text & "','OH','" & dtCheckStockONHOLD.Rows(j).Item("part_number") & "','" & dtCheckStockONHOLD.Rows(j).Item("QTY") & "','" & dtCheckStockONHOLD.Rows(j).Item("lot_no") & "','" & dtCheckStockONHOLD.Rows(0).Item("batch_no") & "','" & dtCheckStockONHOLD.Rows(0).Item("traceability") & "','" & dtCheckStockONHOLD.Rows(0).Item("inv_ctrl_date") & "',0,'" & ComboBox1.Text & "','" & TextBox11.Text & "','" & globVar.department & "')"
                             Dim cmdProdProcess = New SqlCommand(sqlProdProcess, Database.koneksi)
                             If cmdProdProcess.ExecuteNonQuery() Then
                             End If

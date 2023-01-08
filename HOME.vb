@@ -111,6 +111,7 @@
     ' -----------------------Start Menu Mini Store-------------------------'
     Private Sub btnInputStock(sender As Object, e As EventArgs) Handles InputStockBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Or globVar.hakAkses = "LEADER" Then
+            FormInputStock.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FormInputStock)
             TabControl1.TabPages(FormInputStock).Select()
@@ -122,6 +123,7 @@
 
     Private Sub btnReturnStock(sender As Object, e As EventArgs) Handles ReturnStockBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Or globVar.hakAkses = "LEADER" Then
+            FormReturnStock.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FormReturnStock)
             TabControl1.TabPages(FormReturnStock).Select()
@@ -132,6 +134,7 @@
 
     Private Sub btnProductionRequest(sender As Object, e As EventArgs) Handles ProductionRequestBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Or globVar.hakAkses = "LEADER" Then
+            ProductionRequest.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(ProductionRequest)
             TabControl1.TabPages(ProductionRequest).Select()
@@ -143,6 +146,7 @@
 
     Private Sub BtnStockMinistore(sender As Object, e As EventArgs) Handles StockMinistoreBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Or globVar.hakAkses = "LEADER" Then
+            StockMinistore.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(StockMinistore)
             TabControl1.TabPages(StockMinistore).Select()
@@ -153,6 +157,7 @@
 
     Private Sub btnReceiveReturnMaterial(sender As Object, e As EventArgs) Handles ReceiveReturnMaterialBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Or globVar.hakAkses = "LEADER" Then
+            ReceiveReturnMaterial.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(ReceiveReturnMaterial)
             TabControl1.TabPages(ReceiveReturnMaterial).Select()
@@ -167,6 +172,7 @@
 
     Private Sub btnMainPoSubPO(sender As Object, e As EventArgs) Handles MainPOSubPOBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Or globVar.hakAkses = "LEADER" Then
+            MainPOSubPO.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MainPOSubPO)
             TabControl1.TabPages(MainPOSubPO).Select()
@@ -178,6 +184,7 @@
 
     Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Or globVar.hakAkses = "LEADER" Then
+            Production.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(Production)
             TabControl1.TabPages(Production).Select()
@@ -188,6 +195,7 @@
 
     Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Or globVar.hakAkses = "LEADER" Then
+            StockMinistore.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(StockMinistore)
             TabControl1.TabPages(StockMinistore).Select()
@@ -198,6 +206,7 @@
 
     Private Sub BtnAddChangeOperator(sender As Object, e As EventArgs) Handles AddChangeOperatorBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Or globVar.hakAkses = "LEADER" Then
+            AddChangeOperator.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(AddChangeOperator)
             TabControl1.TabPages(AddChangeOperator).Select()
@@ -207,6 +216,7 @@
     End Sub
     Private Sub BtnPrintFlowTicket(sender As Object, e As EventArgs) Handles PrintFlowTicketBtn.Click
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Or globVar.hakAkses = "LEADER" Then
+            PrintFlowTicket.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(PrintFlowTicket)
             TabControl1.TabPages(PrintFlowTicket).Select()

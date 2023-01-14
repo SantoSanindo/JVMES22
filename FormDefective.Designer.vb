@@ -54,7 +54,6 @@ Partial Class FormDefective
         Me.nuDefQtyMatLabel = New System.Windows.Forms.NumericUpDown()
         Me.btnDefConfirmProcess = New System.Windows.Forms.Button()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.btnDefectiveScan = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtDefMatLabel = New System.Windows.Forms.TextBox()
         Me.tpFinishGoods = New System.Windows.Forms.TabPage()
@@ -125,6 +124,8 @@ Partial Class FormDefective
         Me.Label15 = New System.Windows.Forms.Label()
         Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
         Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.cbDefProcess = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -463,10 +464,11 @@ Partial Class FormDefective
         '
         'pDefective1
         '
+        Me.pDefective1.Controls.Add(Me.Label19)
+        Me.pDefective1.Controls.Add(Me.cbDefProcess)
         Me.pDefective1.Controls.Add(Me.nuDefQtyMatLabel)
         Me.pDefective1.Controls.Add(Me.btnDefConfirmProcess)
         Me.pDefective1.Controls.Add(Me.Label8)
-        Me.pDefective1.Controls.Add(Me.btnDefectiveScan)
         Me.pDefective1.Controls.Add(Me.Label7)
         Me.pDefective1.Controls.Add(Me.txtDefMatLabel)
         Me.pDefective1.Dock = System.Windows.Forms.DockStyle.Top
@@ -477,7 +479,7 @@ Partial Class FormDefective
         '
         'nuDefQtyMatLabel
         '
-        Me.nuDefQtyMatLabel.Location = New System.Drawing.Point(275, 66)
+        Me.nuDefQtyMatLabel.Location = New System.Drawing.Point(275, 72)
         Me.nuDefQtyMatLabel.Name = "nuDefQtyMatLabel"
         Me.nuDefQtyMatLabel.Size = New System.Drawing.Size(359, 35)
         Me.nuDefQtyMatLabel.TabIndex = 21
@@ -495,26 +497,17 @@ Partial Class FormDefective
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(91, 28)
+        Me.Label8.Location = New System.Drawing.Point(712, 78)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(158, 29)
         Me.Label8.TabIndex = 10
         Me.Label8.Text = "Material label"
-        '
-        'btnDefectiveScan
-        '
-        Me.btnDefectiveScan.Enabled = False
-        Me.btnDefectiveScan.Location = New System.Drawing.Point(640, 25)
-        Me.btnDefectiveScan.Name = "btnDefectiveScan"
-        Me.btnDefectiveScan.Size = New System.Drawing.Size(220, 76)
-        Me.btnDefectiveScan.TabIndex = 17
-        Me.btnDefectiveScan.Text = "Scan"
-        Me.btnDefectiveScan.UseVisualStyleBackColor = True
+        Me.Label8.Visible = False
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(91, 69)
+        Me.Label7.Location = New System.Drawing.Point(137, 75)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(100, 29)
         Me.Label7.TabIndex = 1
@@ -524,10 +517,11 @@ Partial Class FormDefective
         '
         Me.txtDefMatLabel.Enabled = False
         Me.txtDefMatLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDefMatLabel.Location = New System.Drawing.Point(275, 25)
+        Me.txtDefMatLabel.Location = New System.Drawing.Point(896, 75)
         Me.txtDefMatLabel.Name = "txtDefMatLabel"
         Me.txtDefMatLabel.Size = New System.Drawing.Size(359, 35)
         Me.txtDefMatLabel.TabIndex = 8
+        Me.txtDefMatLabel.Visible = False
         '
         'tpFinishGoods
         '
@@ -1312,6 +1306,23 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbOnHoldProcess.TabIndex = 4
         '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(137, 27)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(101, 29)
+        Me.Label19.TabIndex = 22
+        Me.Label19.Text = "Process"
+        '
+        'cbDefProcess
+        '
+        Me.cbDefProcess.FormattingEnabled = True
+        Me.cbDefProcess.Location = New System.Drawing.Point(275, 24)
+        Me.cbDefProcess.Name = "cbDefProcess"
+        Me.cbDefProcess.Size = New System.Drawing.Size(359, 37)
+        Me.cbDefProcess.TabIndex = 23
+        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1385,7 +1396,6 @@ Partial Class FormDefective
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents tpDefective As TabPage
     Friend WithEvents pDefective1 As Panel
-    Friend WithEvents btnDefectiveScan As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents txtDefMatLabel As TextBox
     Friend WithEvents tpFinishGoods As TabPage
@@ -1476,4 +1486,6 @@ Partial Class FormDefective
     Friend WithEvents Label18 As Label
     Friend WithEvents txtBalanceMaterialPN As TextBox
     Friend WithEvents Button3 As Button
+    Friend WithEvents Label19 As Label
+    Friend WithEvents cbDefProcess As ComboBox
 End Class

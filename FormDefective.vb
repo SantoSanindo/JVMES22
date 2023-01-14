@@ -117,6 +117,9 @@ Public Class FormDefective
                 'cbDefProcess1.Items.Clear()
                 'cbDefProcess2.Items.Clear()
                 cbWIPProcess.Items.Clear()
+                cbOnHoldProcess.Items.Clear()
+                cbDefProcess.Items.Clear()
+
                 materialList.Clear()
 
                 If dtProcess.Rows.Count > 0 Then
@@ -125,6 +128,8 @@ Public Class FormDefective
                         'cbDefProcess2.Items.Add(dtProcess.Rows(i)(0))
                         cbWIPProcess.Items.Add(dtProcess.Rows(i)(3))
                         cbOnHoldProcess.Items.Add(dtProcess.Rows(i)(3))
+                        cbDefProcess.Items.Add(dtProcess.Rows(i)(3))
+
                         'Dim astr As String = dtProcess.Rows(i)(4)
                         If (IsDBNull(dtProcess.Rows(i)(4)) = True) Then
                             If i > 0 Then
@@ -1009,58 +1014,29 @@ Public Class FormDefective
         Dim result As DialogResult
 
         If dgBalance.Rows.Count > 1 Then
-            If Convert.ToInt16(txtBalanceQty.Text) > 0 Then
-                result = MessageBox.Show("Are you sure want to update quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.Yes Then
-                    Dim statusSimpan As Integer = 1
-                    'masih belum-+
+            If idBalanceMaterial <> "" Then
+                If Convert.ToInt16(txtBalanceQty.Text) > 0 Then
+                    result = MessageBox.Show("Are you sure want to update quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If result = DialogResult.Yes Then
+                        Try
+                            Call Database.koneksi_database()
+
+                            Dim sql As String = "update STOCK_CARD set ACTUAL_QTY='" & txtBalanceQty.Text & "' where id='" & idBalanceMaterial & "' AND STATUS='Return to Mini Store'"
+                            'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
 
 
+                            If cmd.ExecuteNonQuery() Then
+                                MessageBox.Show("Successfully update data!")
+                                loaddgBalance("")
+                                idBalanceMaterial = ""
+                            Else
+                                MessageBox.Show("Failed update data!")
+                            End If
+                        Catch ex As Exception
+                            MessageBox.Show("Failed update data!")
+                        End Try
 
-                    For i = 0 To dgOnHold.RowCount - 2
-                        Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
-                        Dim processName As String = dgOnHold.Rows(i).Cells(2).Value.ToString()
-                        Dim matPN As String = dgOnHold.Rows(i).Cells(4).Value.ToString()
-
-                        Call Database.koneksi_database()
-
-                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
-                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-
-                        If cmd.ExecuteNonQuery() Then
-                            statusSimpan *= 1
-                        Else
-                            statusSimpan *= 0
-                        End If
-                    Next
-
-                    If statusSimpan > 0 Then
-                        MessageBox.Show("Successfully update data!")
-                        LoaddgOnHold("")
-                    End If
-                End If
-            Else
-                result = MessageBox.Show("Are you sure want to delete ON HOLD data?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.Yes Then
-                    Dim statusSimpan As Integer = 1
-                    Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
-
-                    Call Database.koneksi_database()
-
-                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                    Dim sql As String = "delete from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD='" & id & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-
-                    If cmd.ExecuteNonQuery() Then
-                        statusSimpan *= 1
-                    Else
-                        statusSimpan *= 0
-                    End If
-
-                    If statusSimpan > 0 Then
-                        MessageBox.Show("Successfully update data!")
-                        LoaddgOnHold("")
                     End If
                 End If
             End If
@@ -1095,7 +1071,7 @@ Public Class FormDefective
 
                 .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-                .ColumnCount = 10
+                .ColumnCount = 9
                 .Columns(0).Name = "No"
                 .Columns(1).Name = "ID"
                 .Columns(2).Name = "Material Name"
@@ -1198,8 +1174,105 @@ Public Class FormDefective
 
     Private Sub dgBalance_Click(sender As Object, e As EventArgs) Handles dgBalance.Click
         idBalanceMaterial = dgBalance.Rows(dgBalance.CurrentCell.RowIndex).Cells(1).Value.ToString()
-        MessageBox.Show(idBalanceMaterial)
+        'MessageBox.Show(idBalanceMaterial)
+        txtBalanceQty.Text = dgBalance.Rows(dgBalance.CurrentCell.RowIndex).Cells(8).Value.ToString()
 
     End Sub
     '===================================== END BALANCE FUNCTION
+
+    '+++++++++++++++++++++++++++++++++++++ Defective Material
+    Sub LoaddgDefectiveListMaterial(proses As String)
+        Dim i As Integer = 0
+
+        Try
+            With dgDefectiveListMaterial
+                .Rows.Clear()
+
+                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                .ColumnCount = 4
+                .Columns(0).Name = "No"
+                .Columns(1).Name = "Checklist"
+                .Columns(2).Name = "Material Name"
+                .Columns(3).Name = "Quantity"
+
+                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                .Columns(0).Width = Int(.Width * 0.1)
+                .Columns(1).Width = Int(.Width * 0.2)
+                .Columns(2).Width = Int(.Width * 0.5)
+                .Columns(3).Width = Int(.Width * 0.2)
+
+
+                .EnableHeadersVisualStyles = False
+                With .ColumnHeadersDefaultCellStyle
+                    .BackColor = Color.Navy
+                    .ForeColor = Color.White
+                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                    .Alignment = HorizontalAlignment.Center
+                    .Alignment = ContentAlignment.MiddleCenter
+                End With
+
+                For i = 0 To 5
+
+                Next
+
+                '''''''''''''''''''''''''''''''''''''''''''''
+                'Dim sqlStr As String = ""
+
+                'If proses = "" Then
+                '    sqlStr = "select * from STOCK_PROD_WIP ORDER BY CODE_STOCK_PROD_WIP"
+                'Else
+                '    sqlStr = "select * from STOCK_PROD_WIP where PROCESS='" & proses & "' ORDER BY CODE_STOCK_PROD_WIP"
+                'End If
+
+                'Dim dttable As DataTable = Database.GetData(sqlStr)
+
+
+                'If dttable.Rows.Count > 0 Then
+                '    For i = 0 To dttable.Rows.Count - 1
+                '        .Rows.Add(1)
+                '        .Item(0, i).Value = (i + 1).ToString()
+                '        .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_WIP")
+                '        .Item(2, i).Value = dttable.Rows(i)("PROCESS")
+                '        .Item(3, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                '        .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
+                '        .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
+                '        .Item(6, i).Value = dttable.Rows(i)("TRACEABILITY")
+                '        '.Item(7, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                '        .Item(7, i).Value = dttable.Rows(i)("LOT_NO")
+                '        .Item(8, i).Value = dttable.Rows(i)("QTY")
+
+                '    Next
+                'End If
+                ''For i = 0 To matList.Length - 1
+                ''    If matList(i) = "" Then
+                ''        Continue For
+                ''    End If
+
+                ''    Dim dtMaterialInfo As DataTable = Database.GetData("select distinct NAME from _OLD_MASTER_MATERIAL where PART_NUMBER='" & matList(i) & "'")
+
+                ''    If dtMaterialInfo.Rows.Count > 0 Then
+                ''        .Rows.Add(1)
+                ''        .Item(0, i).Value = (i + 1).ToString()
+                ''        .Item(1, i).Value = matList(i)
+                ''        .Item(2, i).Value = dtMaterialInfo.Rows(0)(0)
+                ''        .Rows(i).Cells(3) = New DataGridViewCheckBoxCell()
+                ''        .Rows(i).Cells(3).Value = False
+                ''    End If
+                ''Next
+
+                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            End With
+
+
+
+        Catch ex As Exception
+            MessageBox.Show("error load ShowToDGView")
+        End Try
+    End Sub
+    '+++++++++++++++++++++++++++++++++++++ END Defective Material
 End Class

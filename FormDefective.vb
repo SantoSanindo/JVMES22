@@ -6,11 +6,11 @@ Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class FormDefective
-    Dim dept As String = "ZQSFP"
+    Dim dept As String = "zQSFP"
+    'Dim dept As String = globVar.department
     Dim idLine As New List(Of Integer)
     Dim materialList As New List(Of String)
     Dim idBalanceMaterial As String
-
 
     Private Sub txtPONumber_KeyDown(sender As Object, e As KeyEventArgs)
         'If (e.KeyCode = Keys.Enter) Then
@@ -39,72 +39,30 @@ Public Class FormDefective
     Private Sub cbLineNumber_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLineNumber.SelectedIndexChanged
         Try
             Call Database.koneksi_database()
-            Dim dtSubPO As DataTable = Database.GetData("select distinct MAIN_PO from SUB_SUB_PO where LINE='" & cbLineNumber.Text & "'")
+            Dim dtSubPO As DataTable = Database.GetData("select * from SUB_SUB_PO sp,main_po mp,master_finish_goods mfg where LINE='" & cbLineNumber.Text & "' and mp.id=sp.main_po and mfg.fg_part_number=mp.fg_pn")
 
-            Dim listIDPO As New List(Of String)
+            txtSubSubPODefective.Text = dtSubPO.Rows(0).Item("SUB_SUB_PO")
 
-            cbPONumber.Items.Clear()
+            cbPONumber.Text = dtSubPO.Rows(0).Item("PO")
 
-            If dtSubPO.Rows.Count > 0 Then
-                For i As Integer = 0 To dtSubPO.Rows.Count - 1
-                    listIDPO.Add(dtSubPO.Rows(i)(0))
-                    'cbPONumber.Items.Add(dtSubPO.Rows(i)(0))
+            cbFGPN.Text = dtSubPO.Rows(0).Item("FG_PN")
 
-                    Dim dtIdPO As DataTable = Database.GetData("select distinct PO from MAIN_PO where ID='" & dtSubPO.Rows(i)(0) & "'")
+            txtDescDefective.Text = dtSubPO.Rows(0).Item("DESCRIPTION")
 
-                    If dtIdPO.Rows.Count > 0 Then
-                        If cbPONumber.Items.Contains(dtIdPO.Rows(0)(0)) Then
-                            Continue For
-                        End If
-                        cbPONumber.Items.Add(dtIdPO.Rows(0)(0))
-                    End If
-                Next
+            txtSPQ.Text = dtSubPO.Rows(0).Item("SPQ")
+
+            If cbFGPN.Text <> "" Then
+                loadCBDefPartProcess(cbFGPN.Text)
             End If
-            'cbPONumber.DataSource = dtMasterMaterial
-            'cbPONumber.DisplayMember = "PO_NO"
-            'cbPONumber.ValueMember = "PO_NO"
 
-            'cbPONumber.Text = ""
+            enableStatusInputInput(True)
+            LoaddgWIP("")
+            LoaddgOnHold("")
+            loaddgBalance("")
+
         Catch ex As Exception
             MessageBox.Show("error load PO_NO")
         End Try
-    End Sub
-
-    Private Sub cbPONumber_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbPONumber.SelectedIndexChanged
-        If cbPONumber.Text <> "" And cbLineNumber.Text <> "" Then
-            Try
-                Call Database.koneksi_database()
-                Dim dtFG_PN As DataTable = Database.GetData("select distinct FG_PN from MAIN_PO where PO='" & cbPONumber.Text & "'")
-
-                cbFGPN.Items.Clear()
-
-                If dtFG_PN.Rows.Count > 0 Then
-                    For i As Integer = 0 To dtFG_PN.Rows.Count - 1
-                        cbFGPN.Items.Add(dtFG_PN.Rows(i)(0))
-                    Next
-                End If
-
-                'cbFGPN.DataSource = dtMasterMaterial
-                'cbFGPN.DisplayMember = "FG_PN"
-                'cbFGPN.ValueMember = "FG_PN"
-
-                'cbFGPN.Text = ""
-            Catch ex As Exception
-                MessageBox.Show("error load FG_PN")
-            End Try
-        End If
-    End Sub
-
-    Private Sub cbFGPN_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbFGPN.SelectedIndexChanged
-        'If cbFGPN.Text <> "" Then
-        loadCBDefPartProcess(cbFGPN.Text)
-        'End If
-        'MessageBox.Show(cbFGPN.SelectedIndex.ToString())
-
-        enableStatusInputInput(True)
-        LoaddgWIP("")
-        LoaddgOnHold("")
-        loaddgBalance("")
     End Sub
 
     Sub loadCBDefPartProcess(str As String)
@@ -267,10 +225,29 @@ Public Class FormDefective
 
     End Sub
 
+    Sub ReadonlyFormFG(_bool As Boolean)
+        txtFGLabel.ReadOnly = _bool
+        txtFGFlowTicket.ReadOnly = _bool
+        TextBox3.ReadOnly = _bool
+    End Sub
+
+    Sub ReadonlyFormSA(_bool As Boolean)
+        txtSAFlowTicket.ReadOnly = _bool
+        TextBox6.ReadOnly = _bool
+    End Sub
+
     Private Sub FormDefective_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         loadCBLine()
 
-        enableStatusInputInput(False)
+        ReadonlyFormSA(True)
+        ReadonlyFormFG(True)
+
+        'enableStatusInputInput(False)
+
+        'TableLayoutPanel8.Enabled = False
+        'TableLayoutPanel10.Enabled = False
+        'DataGridView1.Enabled = False
+        'DataGridView3.Enabled = False
     End Sub
 
     Sub enableStatusInputInput(statusEnable As Boolean)
@@ -288,8 +265,8 @@ Public Class FormDefective
 
     Sub loadCBLine()
         Try
-            Call Database.koneksi_database()
-            Dim dtLine As DataTable = Database.GetData("select distinct ID, NAME from MASTER_LINE where DEPARTEMENT='" & dept & "' ORDER BY NAME")
+            Dim query = "select ID, NAME from MASTER_LINE where DEPARTEMENT='" & dept & "' ORDER BY NAME"
+            Dim dtLine As DataTable = Database.GetData(query)
 
             cbLineNumber.Items.Clear()
             idLine.Clear()
@@ -308,7 +285,7 @@ Public Class FormDefective
 
             'cbDef.Text = ""
         Catch ex As Exception
-            MessageBox.Show("error load Process flow")
+            MessageBox.Show("error load Line ->" & ex.Message)
         End Try
     End Sub
 
@@ -1201,5 +1178,698 @@ Public Class FormDefective
         MessageBox.Show(idBalanceMaterial)
 
     End Sub
+
     '===================================== END BALANCE FUNCTION
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles rbFG.CheckedChanged
+        If rbFG.Checked = True Then
+            'ReadonlyFormFG(False)
+            'ReadonlyFormSA(True)
+            Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_REJECT), input_from_fg from out_prod_reject where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
+
+            If dtFG.Rows.Count > 0 Then
+
+                If dtFG.Rows(0).Item("INPUT_FROM_FG") = 1 Then
+
+                    ReadonlyFormFG(False)
+                    ReadonlyFormSA(True)
+
+                    rbSA.Checked = False
+                    DataGridView1.Enabled = False
+                    TableLayoutPanel8.Enabled = True
+
+                    DataGridView3.Enabled = False
+                    TableLayoutPanel9.Enabled = False
+
+                    Button5.Enabled = False
+                    Button4.Enabled = False
+
+                    'loadFG(cbFGPN.Text)
+                End If
+            Else
+                ReadonlyFormFG(False)
+                ReadonlyFormSA(True)
+
+                rbSA.Checked = False
+                DataGridView1.Enabled = False
+                TableLayoutPanel8.Enabled = True
+
+                DataGridView3.Enabled = False
+                TableLayoutPanel9.Enabled = False
+
+                Button5.Enabled = False
+                Button4.Enabled = False
+            End If
+
+        ElseIf rbSA.Checked = True Then
+
+            'ReadonlyFormFG(True)
+            'ReadonlyFormSA(False)
+            Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_REJECT), input_from_fg from out_prod_reject where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
+
+            If dtFG.Rows.Count > 0 Then
+
+                If dtFG.Rows(0).Item("INPUT_FROM_FG") = 0 Then
+
+                    ReadonlyFormFG(True)
+                    ReadonlyFormSA(False)
+
+                    rbFG.Checked = False
+                    DataGridView3.Enabled = True
+                    TableLayoutPanel9.Enabled = True
+
+                    DataGridView1.Enabled = False
+                    TableLayoutPanel8.Enabled = False
+
+                    'loadSA(cbFGPN.Text)
+
+                    Button4.Enabled = False
+                    Button5.Enabled = False
+                End If
+
+            Else
+                ReadonlyFormFG(True)
+                ReadonlyFormSA(False)
+
+                rbFG.Checked = False
+                DataGridView3.Enabled = False
+                TableLayoutPanel9.Enabled = True
+
+                DataGridView1.Enabled = False
+                TableLayoutPanel8.Enabled = False
+
+                'loadSA(cbFGPN.Text)
+
+                Button4.Enabled = False
+                Button5.Enabled = False
+            End If
+        End If
+    End Sub
+
+    Sub loadFG(str As String, flowticket As String)
+        If str <> "System.Data.DataRowView" Then
+            Dim splitFlowTicket() As String = flowticket.Split(";")
+            Try
+                DataGridView3.Rows.Clear()
+                DataGridView3.Columns.Clear()
+                DataGridView1.Rows.Clear()
+                DataGridView1.Columns.Clear()
+                Call Database.koneksi_database()
+                'Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
+
+                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_reject opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
+                Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
+
+                TextBox3.Text = dtFG.Rows(0).Item("LASER_CODE").ToString
+
+                With DataGridView1
+                    .Rows.Clear()
+
+                    .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                    .ColumnCount = 3
+                    .Columns(0).Name = "No"
+                    .Columns(1).Name = "Process Name"
+                    .Columns(2).Name = "Defact qty"
+
+                    .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                    .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                    .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                    .EnableHeadersVisualStyles = False
+                    With .ColumnHeadersDefaultCellStyle
+                        .BackColor = Color.Navy
+                        .ForeColor = Color.White
+                        .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                        .Alignment = HorizontalAlignment.Center
+                        .Alignment = ContentAlignment.MiddleCenter
+                    End With
+
+                    If dtProcess.Rows.Count > 0 Then
+                        For i = 0 To dtProcess.Rows.Count - 1
+                            .Rows.Add(1)
+                            .Item(0, i).Value = (i + 1).ToString()
+                            .Item(1, i).Value = dtProcess.Rows(i)("MASTER_PROCESS")
+                            .Item(2, i).Value = dtProcess.Rows(i)("PENGALI")
+                        Next
+                    End If
+
+                    .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+                    .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+                End With
+
+            Catch ex As Exception
+                MessageBox.Show("error load Data Process Flow")
+            End Try
+        End If
+    End Sub
+
+    Sub loadSA(str As String, flowticket As String)
+        If str <> "System.Data.DataRowView" Then
+            Dim splitFlowTicket() As String = flowticket.Split(";")
+            Try
+                DataGridView3.Rows.Clear()
+                DataGridView3.Columns.Clear()
+                DataGridView1.Rows.Clear()
+                DataGridView1.Columns.Clear()
+                Call Database.koneksi_database()
+                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_reject opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
+                'Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
+
+                Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
+
+                TextBox6.Text = dtFG.Rows(0).Item("LASER_CODE").ToString
+
+                With DataGridView3
+                    .Rows.Clear()
+
+                    .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                    .ColumnCount = 3
+                    .Columns(0).Name = "No"
+                    .Columns(1).Name = "Process Name"
+                    .Columns(2).Name = "Defact qty"
+
+                    .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                    .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                    .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                    .EnableHeadersVisualStyles = False
+                    With .ColumnHeadersDefaultCellStyle
+                        .BackColor = Color.Navy
+                        .ForeColor = Color.White
+                        .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                        .Alignment = HorizontalAlignment.Center
+                        .Alignment = ContentAlignment.MiddleCenter
+                    End With
+
+                    If dtProcess.Rows.Count > 0 Then
+                        For i = 0 To dtProcess.Rows.Count - 1
+                            .Rows.Add(1)
+                            .Item(0, i).Value = (i + 1).ToString()
+                            .Item(1, i).Value = dtProcess.Rows(i)("MASTER_PROCESS")
+                            .Item(2, i).Value = dtProcess.Rows(i)("PENGALI")
+                        Next
+                    End If
+
+                    .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+                    .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+                End With
+
+            Catch ex As Exception
+                MessageBox.Show("error load Data Process Flow")
+            End Try
+        End If
+    End Sub
+
+    Sub LoaddgvFG(proses As String)
+        Dim i As Integer = 0
+
+        Try
+            'Call Database.koneksi_database()
+            'Dim dtMaterialUsage As DataTable = Database.GetData("select distinct MATERIAL_USAGE from _OLD_MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "' AND MASTER_FINISH_GOODS_PN='" & cbFGPN.Text & "'")
+            ''Dim dtMaterialInfo As DataTable = Database.GetData("select distinct MATERIAL_USAGE from MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "'")
+
+            'Dim matUsage As String = dtMaterialUsage.Rows(i)(0).ToString()
+            'Dim matList() As String = matUsage.Split(";")
+
+            With dgWIP
+                .Rows.Clear()
+
+                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                .ColumnCount = 9
+                .Columns(0).Name = "No"
+                .Columns(1).Name = "ID"
+                .Columns(2).Name = "Process Name"
+                .Columns(3).Name = "Ticket No."
+                .Columns(4).Name = "Material PN"
+                .Columns(5).Name = "Inv No."
+                .Columns(6).Name = "MFG Date"
+                '.Columns(7).Name = "Flow Ticket No."
+                .Columns(7).Name = "Lot No."
+                .Columns(8).Name = "Qty"
+
+                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(8).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                '.Columns(9).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                'For i = 0 To 7
+                '    If ((i = 0) Or (i = 3) Or (i = 7)) Then
+                '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                '    Else
+                '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+                '    End If
+
+                '    .Columns(i).SortMode = DataGridViewColumnSortMode.NotSortable
+
+                '    .Columns(i).ReadOnly = True
+                '    'If (i <> 1) Then
+                '    '    .Columns(i).ReadOnly = True
+                '    'Else
+                '    '    .Columns(i).ReadOnly = False
+                '    'End If
+                'Next
+
+                .Columns(0).Width = Int(.Width * 0.05)
+                .Columns(1).Width = Int(.Width * 0.08)
+                .Columns(2).Width = Int(.Width * 0.26)
+                .Columns(3).Width = Int(.Width * 0.08)
+                .Columns(4).Width = Int(.Width * 0.1)
+                .Columns(5).Width = Int(.Width * 0.1)
+                .Columns(6).Width = Int(.Width * 0.15)
+                .Columns(7).Width = Int(.Width * 0.08)
+                .Columns(8).Width = Int(.Width * 0.08)
+                '.Columns(9).Width = Int(.Width * 0.08)
+
+
+                .EnableHeadersVisualStyles = False
+                With .ColumnHeadersDefaultCellStyle
+                    .BackColor = Color.Navy
+                    .ForeColor = Color.White
+                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                    .Alignment = HorizontalAlignment.Center
+                    .Alignment = ContentAlignment.MiddleCenter
+                End With
+
+
+
+                ''''''''''''''''''''''''''''''''''''''''''''
+                Dim sqlStr As String = ""
+
+                If proses = "" Then
+                    sqlStr = "select * from STOCK_PROD_WIP ORDER BY CODE_STOCK_PROD_WIP"
+                Else
+                    sqlStr = "select * from STOCK_PROD_WIP where PROCESS='" & proses & "' ORDER BY CODE_STOCK_PROD_WIP"
+                End If
+
+                Dim dttable As DataTable = Database.GetData(sqlStr)
+
+
+                If dttable.Rows.Count > 0 Then
+                    For i = 0 To dttable.Rows.Count - 1
+                        .Rows.Add(1)
+                        .Item(0, i).Value = (i + 1).ToString()
+                        .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_WIP")
+                        .Item(2, i).Value = dttable.Rows(i)("PROCESS")
+                        .Item(3, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                        .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
+                        .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
+                        .Item(6, i).Value = dttable.Rows(i)("TRACEABILITY")
+                        '.Item(7, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
+                        .Item(7, i).Value = dttable.Rows(i)("LOT_NO")
+                        .Item(8, i).Value = dttable.Rows(i)("QTY")
+
+                    Next
+                End If
+                'For i = 0 To matList.Length - 1
+                '    If matList(i) = "" Then
+                '        Continue For
+                '    End If
+
+                '    Dim dtMaterialInfo As DataTable = Database.GetData("select distinct NAME from _OLD_MASTER_MATERIAL where PART_NUMBER='" & matList(i) & "'")
+
+                '    If dtMaterialInfo.Rows.Count > 0 Then
+                '        .Rows.Add(1)
+                '        .Item(0, i).Value = (i + 1).ToString()
+                '        .Item(1, i).Value = matList(i)
+                '        .Item(2, i).Value = dtMaterialInfo.Rows(0)(0)
+                '        .Rows(i).Cells(3) = New DataGridViewCheckBoxCell()
+                '        .Rows(i).Cells(3).Value = False
+                '    End If
+                'Next
+
+                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            End With
+
+
+
+        Catch ex As Exception
+            MessageBox.Show("error load ShowToDGView")
+        End Try
+    End Sub
+
+    Private Sub TextBox4_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGFlowTicket.PreviewKeyDown
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+            Dim Split() As String = txtFGFlowTicket.Text.Split(";")
+            Dim Split1() As String = Split(0).Split("-")
+
+            txtTampungFlow.Text = Split1(0)
+
+            If Split1(0) = txtTampungLabel.Text Then
+                If rbFG.Checked = True Then
+                    loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                    Button4.Enabled = True
+                    DataGridView1.Enabled = True
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub txtFGLabel_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGLabel.PreviewKeyDown
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+            Dim splitQRCode() As String = txtFGLabel.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
+            Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
+
+            Dim intValue As Integer = 0
+            Integer.TryParse(splitQRCode1P(2), intValue)
+            txtTampungLabel.Text = intValue
+            txtINV.Text = splitQRCode(2)
+            txtBatchno.Text = splitQRCode1P(4)
+
+            If intValue.ToString = txtTampungFlow.Text Then
+                If rbFG.Checked = True Then
+                    loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                    Button4.Enabled = True
+                    DataGridView1.Enabled = True
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        If DataGridView1.Rows.Count > 0 Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                Dim doWhile As String = ""
+                If DataGridView1.Rows(i).Cells(2).Value IsNot "" And DataGridView1.Rows(i).Cells(2).Value IsNot Nothing And DataGridView1.Rows(i).Cells(2).Value IsNot DBNull.Value Then
+                    If IsNumeric(DataGridView1.Rows(i).Cells(2).Value) Then
+                        Dim query As String = "select * from master_process_flow where master_process='" & DataGridView1.Rows(i).Cells(1).Value & "'"
+                        Dim dtMasterProcessFlow As DataTable = Database.GetData(query)
+                        Dim numberInt As Integer = dtMasterProcessFlow.Rows(0).Item("ID") - 1
+                        If dtMasterProcessFlow.Rows.Count > 0 Then
+                            If IsDBNull(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                subInsertRejectFG(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE"), DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value)
+                            Else
+                                Do While doWhile Is ""
+                                    Dim queryKosong As String = "select * from master_process_flow where ID=" & numberInt
+                                    Dim dtKosong As DataTable = Database.GetData(queryKosong)
+                                    If IsDBNull(dtKosong.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                        doWhile = dtKosong.Rows(0).Item("MATERIAL_USAGE")
+                                    Else
+                                        numberInt = dtKosong.Rows(0).Item("ID") - 1
+                                    End If
+                                Loop
+                                subInsertRejectFG(doWhile, DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value)
+                            End If
+                        End If
+                    Else
+                        MessageBox.Show("this is not number -> " & DataGridView1.Rows(i).Cells(2).Value & ". Please change with number.")
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+    Sub subInsertRejectFG(pn As String, qty As Integer, process As String)
+        Dim splitPN() As String = pn.Split(";")
+        Dim splitFlowTicket() As String = txtFGFlowTicket.Text.Split(";")
+
+        Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_REJECT) from OUT_PROD_REJECT"
+        Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
+        Dim codeReject As String = "RJ" & dtCheckCodeReject.Rows.Count + 1
+
+        For i = 0 To splitPN.Length - 1
+
+            Dim queryGetUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
+            Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
+
+            If dtGetUsage.Rows.Count > 0 Then
+
+                Dim queryCheckMaterial As String = "select * from process_prod where level='Fresh' and pn_material='" & splitPN(i) & "' and qty>0 order by fifo"
+                Dim dtCheckMaterial As DataTable = Database.GetData(queryCheckMaterial)
+
+                Dim qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+
+                Dim qtyDoneFG = splitFlowTicket(3) * dtGetUsage.Rows(0).Item("USAGE")
+
+                Dim queryCheckRejectPN As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' AND DEPARTMENT='" & dept & "'"
+                Dim dtCheckRejectPN As DataTable = Database.GetData(queryCheckRejectPN)
+
+                If dtCheckRejectPN.Rows.Count > 0 Then
+                    Dim sqlUpdateRejectPN As String = "update out_prod_reject set qty=" & qtyReject & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and PROCESS_REJECT='" & process & "' and line='" & cbLineNumber.Text & "' and FLOW_TICKET_NO='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                    Dim cmdInsertRejectPN = New SqlCommand(sqlUpdateRejectPN, Database.koneksi)
+                    cmdInsertRejectPN.ExecuteNonQuery()
+                Else
+                    Dim queryCheckReject As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                    Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
+
+                    If dtCheckReject.Rows.Count > 0 Then
+
+                        'Insert Reject Prod
+                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                            VALUES ('" & dtCheckReject.Rows(0).Item("CODE_OUT_PROD_REJECT") & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                        If cmdInsertRejectPN.ExecuteNonQuery() Then
+
+                            'Update Stock Process Prod
+                            Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material='" & splitPN(i) & "' and level='Fresh' and qty>0)"
+                            Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                            cmdUpdateProcessProd.ExecuteNonQuery()
+
+                            'Insert Done FG
+                            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+                            If dtCheckDoneFG.Rows.Count = 0 Then
+                                Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, BATCH_NO,TRACEABILITY,INV_CTRL_DATE,laser_code,line,flow_ticket,QTY,department)
+                                    VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & txtBatchno.Text & "','" & txtTampungLabel.Text & "',
+                                    '" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "'," & txtSPQ.Text & ",'" & dept & "')"
+                                Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
+                                cmdInsertDoneFG.ExecuteNonQuery()
+                            End If
+                        End If
+                    Else
+                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                            VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+
+                        If cmdInsertRejectPN.ExecuteNonQuery() Then
+                            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+
+                            If dtCheckDoneFG.Rows.Count = 0 Then
+                                Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, BATCH_NO,TRACEABILITY,INV_CTRL_DATE,laser_code,line,flow_ticket,QTY,department)
+                                    VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & txtBatchno.Text & "','" & txtTampungLabel.Text & "',
+                                    '" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "'," & txtSPQ.Text & ",'" & dept & "')"
+                                Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
+                                cmdInsertDoneFG.ExecuteNonQuery()
+                            End If
+
+                            Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material='" & splitPN(i) & "' and level='Fresh' and qty>0)"
+                            Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                            cmdUpdateProcessProd.ExecuteNonQuery()
+                        End If
+                    End If
+                End If
+            End If
+        Next
+    End Sub
+
+    Sub subInsertRejectSA(pn As String, qty As Integer, process As String)
+        Dim splitPN() As String = pn.Split(";")
+        Dim splitFlowTicket() As String = txtFGFlowTicket.Text.Split(";")
+
+        Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_REJECT) from OUT_PROD_REJECT"
+        Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
+        Dim codeReject As String = "RJ" & dtCheckCodeReject.Rows.Count + 1
+
+        For i = 0 To splitPN.Length - 1
+
+            Dim queryGetUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
+            Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
+
+            If dtGetUsage.Rows.Count > 0 Then
+
+                Dim queryCheckMaterial As String = "select * from process_prod where level='Fresh' and pn_material='" & splitPN(i) & "' and qty>0 order by fifo"
+                Dim dtCheckMaterial As DataTable = Database.GetData(queryCheckMaterial)
+
+                Dim qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+
+                Dim queryCheckRejectPN As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' AND DEPARTMENT='" & dept & "'"
+                Dim dtCheckRejectPN As DataTable = Database.GetData(queryCheckRejectPN)
+
+                If dtCheckRejectPN.Rows.Count > 0 Then
+                    Dim sqlUpdateRejectPN As String = "update out_prod_reject set qty=" & qtyReject & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and PROCESS_REJECT='" & process & "' and line='" & cbLineNumber.Text & "' and FLOW_TICKET_NO='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                    Dim cmdInsertRejectPN = New SqlCommand(sqlUpdateRejectPN, Database.koneksi)
+                    cmdInsertRejectPN.ExecuteNonQuery()
+                Else
+                    Dim queryCheckReject As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                    Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
+
+                    If dtCheckReject.Rows.Count > 0 Then
+                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                            VALUES ('" & dtCheckReject.Rows(0).Item("CODE_OUT_PROD_REJECT") & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                        If cmdInsertRejectPN.ExecuteNonQuery() Then
+                            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+
+                            If dtCheckDoneFG.Rows.Count = 0 Then
+                                'insert disini
+                            End If
+
+                            Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material=1710813000 and level='Fresh' and qty>0)"
+                            Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                            cmdUpdateProcessProd.ExecuteNonQuery()
+                        End If
+                    Else
+                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                            VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+
+                        If cmdInsertRejectPN.ExecuteNonQuery() Then
+                            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+
+                            If dtCheckDoneFG.Rows.Count = 0 Then
+                                'insert disini
+                            End If
+
+                            Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material=1710813000 and level='Fresh' and qty>0)"
+                            Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                            cmdUpdateProcessProd.ExecuteNonQuery()
+                        End If
+                    End If
+                End If
+            End If
+        Next
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        If DataGridView1.Rows.Count > 0 Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                Dim doWhile As String = ""
+                If DataGridView1.Rows(i).Cells(2).Value IsNot "" And DataGridView1.Rows(i).Cells(2).Value IsNot Nothing Then
+                    If IsNumeric(DataGridView1.Rows(i).Cells(2).Value) Then
+                        Dim query As String = "select * from master_process_flow where master_process='" & DataGridView1.Rows(i).Cells(1).Value & "'"
+                        Dim dtMasterProcessFlow As DataTable = Database.GetData(query)
+                        Dim numberInt As Integer = dtMasterProcessFlow.Rows(0).Item("ID") - 1
+                        If dtMasterProcessFlow.Rows.Count > 0 Then
+                            If IsDBNull(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                subInsertRejectSA(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE"), DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value)
+                            Else
+                                Do While doWhile Is ""
+                                    Dim queryKosong As String = "select * from master_process_flow where ID=" & numberInt
+                                    Dim dtKosong As DataTable = Database.GetData(queryKosong)
+                                    If IsDBNull(dtKosong.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                        doWhile = dtKosong.Rows(0).Item("MATERIAL_USAGE")
+                                    Else
+                                        numberInt = dtKosong.Rows(0).Item("ID") - 1
+                                    End If
+                                Loop
+                                subInsertRejectSA(doWhile, DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value)
+                            End If
+                        End If
+                    Else
+                        MessageBox.Show("this is not number -> " & DataGridView1.Rows(i).Cells(2).Value & ". Please change with number.")
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub txtSAFlowTicket_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSAFlowTicket.PreviewKeyDown
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+            Dim Split() As String = txtSAFlowTicket.Text.Split(";")
+            Dim Split1() As String = Split(0).Split("-")
+
+            txtTampungFlow.Text = Split1(0)
+
+            If rbSA.Checked = True Then
+                loadSA(cbFGPN.Text, txtSAFlowTicket.Text)
+                Button5.Enabled = True
+                DataGridView2.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub txtLabelOtherPart_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtLabelOtherPart.PreviewKeyDown
+
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+            Dim query As String = "select part_number,sum(qty) qty from OUT_PROD_REJECT where code_OUT_PROD_REJECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "' GROUP BY part_number"
+            Dim dtOutProd As DataTable = Database.GetData(query)
+
+            With DataGridView2
+                .Rows.Clear()
+
+                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+                .ColumnCount = 4
+                .Columns(0).Name = "No"
+                .Columns(1).Name = "Part Number"
+                .Columns(2).Name = "Qty Maximal"
+                .Columns(3).Name = "Qty"
+
+                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+                .EnableHeadersVisualStyles = False
+                With .ColumnHeadersDefaultCellStyle
+                    .BackColor = Color.Navy
+                    .ForeColor = Color.White
+                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                    .Alignment = HorizontalAlignment.Center
+                    .Alignment = ContentAlignment.MiddleCenter
+                End With
+
+                If dtOutProd.Rows.Count > 0 Then
+                    For i = 0 To dtOutProd.Rows.Count - 1
+                        .Rows.Add(1)
+                        .Item(0, i).Value = (i + 1).ToString()
+                        .Item(1, i).Value = dtOutProd.Rows(i)("part_number")
+                        .Item(2, i).Value = dtOutProd.Rows(i)("qty")
+                        .Item(3, i).Value = ""
+                    Next
+                End If
+
+                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+            End With
+        End If
+    End Sub
+
+    Private Sub btnOtherSave_Click(sender As Object, e As EventArgs) Handles btnOtherSave.Click
+        If DataGridView2.Rows.Count > 0 Then
+            For i = 0 To DataGridView2.Rows.Count - 1
+
+                Dim queryCheckCodeOther As String = "select DISTINCT(CODE_stock_prod_others) from stock_prod_others"
+                Dim dtCheckCodeOther As DataTable = Database.GetData(queryCheckCodeOther)
+                Dim codeOther As String = "OTHERS" & dtCheckCodeOther.Rows.Count + 1
+
+                If DataGridView2.Rows(i).Cells(3).Value IsNot "" And DataGridView2.Rows(i).Cells(3).Value IsNot Nothing And DataGridView2.Rows(i).Cells(3).Value IsNot DBNull.Value Then
+                    If IsNumeric(DataGridView2.Rows(i).Cells(3).Value) Then
+                        If DataGridView2.Rows(i).Cells(3).Value <= DataGridView2.Rows(i).Cells(2).Value Then
+                            Dim query As String = "select * from stock_prod_others where code_out_prod_reject='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                            Dim dtCheckStockOthers As DataTable = Database.GetData(query)
+                            If dtCheckStockOthers.Rows.Count > 0 Then
+                                MessageBox.Show("Update")
+                                Dim sqlUpdateProcessProd As String = "update stock_prod_others set qty=" & DataGridView2.Rows(i).Cells(3).Value & " where code_out_prod_reject='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                                cmdUpdateProcessProd.ExecuteNonQuery()
+                            Else
+                                MessageBox.Show("Insert")
+                                Dim sqlInsertOther As String = "INSERT INTO stock_prod_others (CODE_STOCK_PROD_OTHERS, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,CODE_OUT_PROD_REJECT,DEPARTMENT)
+                                    VALUES ('" & codeOther & "','" & DataGridView2.Rows(i).Cells(1).Value & "','0','0','0','0','" & DataGridView2.Rows(i).Cells(3).Value & "','" & txtLabelOtherPart.Text & "','" & dept & "')"
+                                Dim cmdInsertOther = New SqlCommand(sqlInsertOther, Database.koneksi)
+                                cmdInsertOther.ExecuteNonQuery()
+                            End If
+                        End If
+                    Else
+                        MessageBox.Show("this is not number -> " & DataGridView2.Rows(i).Cells(2).Value & ". Please change with number.")
+                    End If
+                End If
+            Next
+        End If
+    End Sub
 End Class

@@ -271,5 +271,12 @@
             MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
+
+    Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
+        FormDefective.Close()
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(FormDefective)
+        TabControl1.TabPages(FormDefective).Select()
+    End Sub
     ' -----------------------End Menu FGA-------------------------'
 End Class

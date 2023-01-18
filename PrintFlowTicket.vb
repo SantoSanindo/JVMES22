@@ -84,14 +84,20 @@ Public Class PrintFlowTicket
             If CheckBox1.Checked Then
                 'MessageBox.Show("Print 1 of 1 Flow Ticket")
                 _PrintingFlowTicket.txt_Lot_No.Text = "1 of 1"
-                _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & ",1 of 1" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & ",1 of 1"
                 _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                 Try
                     Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po,department)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "',1,1,'" & TextBox8.Text & "','" & globVar.department & "')"
+                        VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "',1,1,'" & TextBox8.Text & "','" & globVar.department & "')"
                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                    cmdInsertPrintingRecord.ExecuteNonQuery()
+                    If cmdInsertPrintingRecord.ExecuteNonQuery() Then
+                        Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                    VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','1 of 1')"
+                        Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                        cmdInsertFlowTicket.ExecuteNonQuery()
+                    End If
                 Catch ex As Exception
                     MessageBox.Show("MainPOSubPO-12 : " & ex.Message)
                 End Try
@@ -117,15 +123,21 @@ Public Class PrintFlowTicket
             If CheckBox1.Checked Then
                 If Val(TextBox6.Text) Mod Val(TextBox7.Text) = 0 Then
                     For i = 1 To Val(TextBox6.Text) / Val(TextBox7.Text)
-                        _PrintingFlowTicket.txt_Lot_No.Text = i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text)
-                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & "," & i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text) 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                        Dim NoFlowTicket As String = i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text)
+                        _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
+                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & "," & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po,department)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Val(TextBox6.Text) / Val(TextBox7.Text) & ",'" & TextBox8.Text & "','" & globVar.department & "')"
+                                VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Val(TextBox6.Text) / Val(TextBox7.Text) & ",'" & TextBox8.Text & "','" & globVar.department & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
+                            If cmdInsertPrintingRecord.ExecuteNonQuery() Then
+                                Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                    VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
+                                Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                cmdInsertFlowTicket.ExecuteNonQuery()
+                            End If
                         Catch ex As Exception
                             MessageBox.Show("MainPOSubPO-14 : " & ex.Message)
                         End Try
@@ -135,15 +147,22 @@ Public Class PrintFlowTicket
                     Next
                 Else
                     For i = 1 To Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
-                        _PrintingFlowTicket.txt_Lot_No.Text = i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
-                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & "," & i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                        Dim NoFlowTicket As String = i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
+
+                        _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
+                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & "," & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, of_lot, sub_sub_po,department)
                                     VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & i & "," & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 & ",'" & TextBox8.Text & "','" & globVar.department & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
+                            If cmdInsertPrintingRecord.ExecuteNonQuery() Then
+                                Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                    VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
+                                Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                cmdInsertFlowTicket.ExecuteNonQuery()
+                            End If
                         Catch ex As Exception
                             MessageBox.Show("MainPOSubPO-15 : " & ex.Message)
                         End Try

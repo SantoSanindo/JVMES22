@@ -82,6 +82,8 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.RibResultProduction = New System.Windows.Forms.RibbonPanel()
+        Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -223,6 +225,7 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibOperator)
         Me.RibbonTab4.Panels.Add(Me.RibPrintFlowTicket)
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
+        Me.RibbonTab4.Panels.Add(Me.RibResultProduction)
         Me.RibbonTab4.Text = "Line Process"
         '
         'RibStockProd
@@ -510,6 +513,19 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
+        'RibResultProduction
+        '
+        Me.RibResultProduction.Items.Add(Me.ResultProductionBtn)
+        Me.RibResultProduction.Name = "RibResultProduction"
+        Me.RibResultProduction.Text = "Result Production"
+        '
+        'ResultProductionBtn
+        '
+        Me.ResultProductionBtn.Image = CType(resources.GetObject("ResultProductionBtn.Image"), System.Drawing.Image)
+        Me.ResultProductionBtn.LargeImage = CType(resources.GetObject("ResultProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.ResultProductionBtn.Name = "ResultProductionBtn"
+        Me.ResultProductionBtn.SmallImage = CType(resources.GetObject("ResultProductionBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -594,5 +610,7 @@ Partial Class HOME
     Friend WithEvents RibbonTab7 As RibbonTab
     Friend WithEvents RibFGA As RibbonPanel
     Friend WithEvents FGABtn As RibbonButton
+    Friend WithEvents RibResultProduction As RibbonPanel
+    Friend WithEvents ResultProductionBtn As RibbonButton
     '>>>>>>> Arif
 End Class

@@ -368,7 +368,6 @@ Partial Class ProductionRequest
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents GroupBox4 As GroupBox
-    Friend WithEvents DataGridView3 As DataGridView
     Friend WithEvents Button2 As Button
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents DataGridView4 As DataGridView
@@ -386,4 +385,5 @@ Partial Class ProductionRequest
     Friend WithEvents Label8 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents DataGridView3 As DataGridView
 End Class

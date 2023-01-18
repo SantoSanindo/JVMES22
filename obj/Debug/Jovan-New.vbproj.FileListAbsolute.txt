@@ -342,3 +342,4 @@ C:\Users\Arif\source\repos\2\JVMES22\bin\Debug\Jovan-New.pdb
 C:\Users\Arif\source\repos\2\JVMES22\bin\Debug\Jovan-New.xml
 C:\Users\Arif\source\repos\2\JVMES22\bin\Debug\SDK.NET.Interface.dll
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
+C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.FGA.resources

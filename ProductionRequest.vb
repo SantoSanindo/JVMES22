@@ -3,43 +3,47 @@ Imports System.Data.SqlClient
 
 Public Class ProductionRequest
     Sub DGV_MaterialNeed()
-        DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        DataGridView3.DataSource = Nothing
-        DataGridView3.Rows.Clear()
-        DataGridView3.Columns.Clear()
-        Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO,mp.fg_pn FG_Part_Number,mufg.component Component,mufg.description Description,mufg.usage [Usage],sp.sub_sub_po_qty Sub_Sub_Qty,ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS Total_Need,mp.po,mp.sub_po
+        Try
+            DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView3.DataSource = Nothing
+            DataGridView3.Rows.Clear()
+            DataGridView3.Columns.Clear()
+            Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO,mp.fg_pn FG_Part_Number,mufg.component Component,mufg.description Description,mufg.usage [Usage],sp.sub_sub_po_qty Sub_Sub_Qty,ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS Total_Need,mp.po,mp.sub_po
         from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
         where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox1.Text & "' and mp.department='" & globVar.department & "' order by sp.sub_sub_po"
-        Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)
+            Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)
 
-        If dtMaterialNeed.Rows.Count > 0 Then
-            DataGridView3.DataSource = dtMaterialNeed
+            If dtMaterialNeed.Rows.Count > 0 Then
+                DataGridView3.DataSource = dtMaterialNeed
 
-            DataGridView3.Columns(0).Width = 150
-            DataGridView3.Columns(1).Width = 200
-            DataGridView3.Columns(2).Width = 150
-            DataGridView3.Columns(3).Width = 400
-            DataGridView3.Columns(4).Width = 100
-            DataGridView3.Columns(5).Width = 150
-            DataGridView3.Columns(6).Width = 150
-            DataGridView3.Columns(7).Visible = False
-            DataGridView3.Columns(8).Visible = False
+                DataGridView3.Columns(0).Width = 150
+                DataGridView3.Columns(1).Width = 200
+                DataGridView3.Columns(2).Width = 150
+                DataGridView3.Columns(3).Width = 400
+                DataGridView3.Columns(4).Width = 100
+                DataGridView3.Columns(5).Width = 150
+                DataGridView3.Columns(6).Width = 150
+                DataGridView3.Columns(7).Visible = False
+                DataGridView3.Columns(8).Visible = False
 
-            For i As Integer = 0 To DataGridView3.RowCount - 1
-                If DataGridView3.Rows(i).Index Mod 2 = 0 Then
-                    DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-                Else
-                    DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-                End If
-            Next i
+                For i As Integer = 0 To DataGridView3.RowCount - 1
+                    If DataGridView3.Rows(i).Index Mod 2 = 0 Then
+                        DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                    Else
+                        DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                    End If
+                Next i
 
-            SubSubPO.Text = dtMaterialNeed.Rows(0).Item("Sub_Sub_PO").ToString
-            PO.Text = dtMaterialNeed.Rows(0).Item("PO").ToString
-            SubPO.Text = dtMaterialNeed.Rows(0).Item("Sub_PO").ToString
-            TextBox3.Text = dtMaterialNeed.Rows(0).Item("FG_Part_Number").ToString
-        Else
-            MessageBox.Show("Sorry this line not set for Production")
-        End If
+                SubSubPO.Text = dtMaterialNeed.Rows(0).Item("Sub_Sub_PO").ToString
+                PO.Text = dtMaterialNeed.Rows(0).Item("PO").ToString
+                SubPO.Text = dtMaterialNeed.Rows(0).Item("Sub_PO").ToString
+                TextBox3.Text = dtMaterialNeed.Rows(0).Item("FG_Part_Number").ToString
+            Else
+                MessageBox.Show("Sorry this line not set for Production")
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
@@ -142,25 +146,30 @@ Public Class ProductionRequest
     End Sub
 
     Sub DGV_InProductionMaterial()
-        DataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        DataGridView4.DataSource = Nothing
-        DataGridView4.Rows.Clear()
-        DataGridView4.Columns.Clear()
-        Call Database.koneksi_database()
-        Dim queryInProdMaterial As String = "select in_mat.MATERIAL,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY
+        Try
+            DataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView4.DataSource = Nothing
+            DataGridView4.Rows.Clear()
+            DataGridView4.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInProdMaterial As String = "select in_mat.MATERIAL,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY
             from stock_card in_mat, sub_sub_po sp 
-            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' AND DEPARTEMENT='" & globVar.department & "' and in_mat.[status]='Production Request' ORDER BY in_mat.DATETIME_INSERT"
-        Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
+            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTEMENT='" & globVar.department & "' and in_mat.[status]='Production Request' ORDER BY in_mat.DATETIME_INSERT"
+            Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
 
-        DataGridView4.DataSource = dtInProdMaterial
+            DataGridView4.DataSource = dtInProdMaterial
 
-        For i As Integer = 0 To DataGridView4.RowCount - 1
-            If DataGridView4.Rows(i).Index Mod 2 = 0 Then
-                DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-            Else
-                DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-            End If
-        Next i
+            For i As Integer = 0 To DataGridView4.RowCount - 1
+                If DataGridView4.Rows(i).Index Mod 2 = 0 Then
+                    DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged

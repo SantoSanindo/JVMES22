@@ -5,53 +5,62 @@ Imports MdiTabControl
 
 Public Class PrintFlowTicket
     Sub DGV_DOC()
-        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        DataGridView1.DataSource = Nothing
-        DataGridView1.Rows.Clear()
-        DataGridView1.Columns.Clear()
-        Call Database.koneksi_database()
-        Dim queryDOC As String = "select component Component,desc_comp Description,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and department='" & globVar.department & "'"
-        Dim dtDOC As DataTable = Database.GetData(queryDOC)
+        Try
+            DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView1.DataSource = Nothing
+            DataGridView1.Rows.Clear()
+            DataGridView1.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryDOC As String = "select component Component,desc_comp Description,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and department='" & globVar.department & "'"
+            Dim dtDOC As DataTable = Database.GetData(queryDOC)
 
-        DataGridView1.DataSource = dtDOC
+            DataGridView1.DataSource = dtDOC
 
-        For i As Integer = 0 To DataGridView1.RowCount - 1
-            If DataGridView1.Rows(i).Index Mod 2 = 0 Then
-                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-            Else
-                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-            End If
-        Next i
+            For i As Integer = 0 To DataGridView1.RowCount - 1
+                If DataGridView1.Rows(i).Index Mod 2 = 0 Then
+                    DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
 
     Sub DGV_DOP()
-        DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        DataGridView2.DataSource = Nothing
-        DataGridView2.Rows.Clear()
-        DataGridView2.Columns.Clear()
-        Call Database.koneksi_database()
-        Dim queryDOP As String = "select id_card_no [ID Card], pd.operator_id [Operator Name], pd.Process from prod_dop pd, users u where pd.line='" & ComboBox1.Text & "' and pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator_id=u.name and pd.department='" & globVar.department & "' order by pd.process_number"
-        Dim dtDOP As DataTable = Database.GetData(queryDOP)
+        Try
+            DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView2.DataSource = Nothing
+            DataGridView2.Rows.Clear()
+            DataGridView2.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryDOP As String = "select id_card_no [ID Card], pd.operator_id [Operator Name], pd.Process from prod_dop pd, users u where pd.line='" & ComboBox1.Text & "' and pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator_id=u.name and pd.department='" & globVar.department & "' order by pd.process_number"
+            Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
-        DataGridView2.DataSource = dtDOP
+            DataGridView2.DataSource = dtDOP
 
-        For i As Integer = 0 To DataGridView2.RowCount - 1
-            If DataGridView2.Rows(i).Index Mod 2 = 0 Then
-                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-            Else
-                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-            End If
-        Next i
+            For i As Integer = 0 To DataGridView2.RowCount - 1
+                If DataGridView2.Rows(i).Index Mod 2 = 0 Then
+                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg_pn='" & TextBox2.Text & "' and operator_id is null and department='" & globVar.department & "'"
-        Dim dtDOP As DataTable = Database.GetData(queryDOP)
-
-        If dtDOP.Rows.Count > 0 Then
-            MessageBox.Show("Sorry please input all operator first")
+        If DataGridView2.Rows.Count = 0 Then
+            MessageBox.Show("Cannot Print When Detail Of Process blank. Please set Operator First.")
             Exit Sub
         End If
+
+        Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg_pn='" & TextBox2.Text & "' and operator_id is null and department='" & globVar.department & "'"
+        Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
         _PrintingFlowTicket.txt_fg_part_number.Text = TextBox2.Text
         _PrintingFlowTicket.txt_part_description.Text = TextBox4.Text
@@ -179,28 +188,32 @@ Public Class PrintFlowTicket
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq
+        Try
+            Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq
             from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
             where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
-        Dim dt As DataTable = Database.GetData(query)
-        If dt.Rows.Count > 0 Then
-            TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
-            TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
-            TextBox5.Text = dt.Rows(0).Item("PO").ToString
-            TextBox6.Text = dt.Rows(0).Item("SUB_SUB_PO_QTY").ToString
-            TextBox7.Text = dt.Rows(0).Item("SPQ").ToString
-            TextBox8.Text = dt.Rows(0).Item("SUB_SUB_PO").ToString
+            Dim dt As DataTable = Database.GetData(query)
+            If dt.Rows.Count > 0 Then
+                TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
+                TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
+                TextBox5.Text = dt.Rows(0).Item("PO").ToString
+                TextBox6.Text = dt.Rows(0).Item("SUB_SUB_PO_QTY").ToString
+                TextBox7.Text = dt.Rows(0).Item("SPQ").ToString
+                TextBox8.Text = dt.Rows(0).Item("SUB_SUB_PO").ToString
 
-            Dim queryFam As String = "SELECT DISTINCT(FAMILY) FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER='" & dt.Rows(0).Item("FG_PN").ToString & "'"
-            Dim dtFam As DataTable = Database.GetData(queryFam)
-            TextBox3.Text = dtFam.Rows(0).Item("family").ToString
+                Dim queryFam As String = "SELECT DISTINCT(FAMILY) FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER='" & dt.Rows(0).Item("FG_PN").ToString & "'"
+                Dim dtFam As DataTable = Database.GetData(queryFam)
+                TextBox3.Text = dtFam.Rows(0).Item("family").ToString
 
-            DGV_DOC()
-            DGV_DOP()
-        Else
-            MessageBox.Show("This line no have any PO")
-            DGV_DOC()
-            DGV_DOP()
-        End If
+                DGV_DOC()
+                DGV_DOP()
+            Else
+                MessageBox.Show("This line no have any PO")
+                DGV_DOC()
+                DGV_DOP()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
 End Class

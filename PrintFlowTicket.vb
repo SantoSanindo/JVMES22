@@ -85,7 +85,7 @@ Public Class PrintFlowTicket
                 'MessageBox.Show("Print 1 of 1 Flow Ticket")
                 _PrintingFlowTicket.txt_Lot_No.Text = "1 of 1"
                 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
-                _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & ",1 of 1"
+                _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";1 of 1"
                 _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                 Try
@@ -106,7 +106,7 @@ Public Class PrintFlowTicket
             If CheckBox2.Checked Then
                 For i = 1 To Val(TextBox1.Text)
                     _PrintingFlowTicket.txt_Lot_No.Text = "0"
-                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & ",Add" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Add" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
                     'MessageBox.Show("Print + " & i & " Flow Ticket Additional")
                     Try
@@ -125,7 +125,7 @@ Public Class PrintFlowTicket
                     For i = 1 To Val(TextBox6.Text) / Val(TextBox7.Text)
                         Dim NoFlowTicket As String = i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text)
                         _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
-                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & "," & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
@@ -150,7 +150,7 @@ Public Class PrintFlowTicket
                         Dim NoFlowTicket As String = i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
 
                         _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
-                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & "," & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
@@ -176,7 +176,7 @@ Public Class PrintFlowTicket
                 For i = 1 To Val(TextBox1.Text)
                     'MessageBox.Show("Print + " & i & " Flow Ticket Additional")
                     _PrintingFlowTicket.txt_Lot_No.Text = "0"
-                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & "," & TextBox2.Text & "," & TextBox6.Text & "," & TextBox7.Text & "," & ComboBox1.Text & ",Add" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Add" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                     Try

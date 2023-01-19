@@ -296,10 +296,12 @@ Public Class FormDefective
 
             Try
                 Dim Part As String() = Nothing
+                Dim sFlow_Ticket As String() = Nothing
                 Dim i As Integer
                 Dim statusSimpan As Integer = 1
 
                 Part = materialList(cbWIPProcess.SelectedIndex).Split(";")
+                sFlow_Ticket = txtWIPTicketNo.Text.Split(";")
 
                 'diulang sebanyak part number yg ada
                 Call Database.koneksi_database()
@@ -308,17 +310,37 @@ Public Class FormDefective
 
                 If WIPcheckExistingData(dtsubsubpo, dept) = False Then
                     For i = 0 To Part.Length - 2
-                        Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                        Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo, sFlow_Ticket(5))
                         Dim arrdtList() As String
                         arrdtList = dtList.Split(";")
 
                         Dim tgl As String = arrdtList(11).Replace("/", "-")
 
                         Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,PO,FLOW_TICKET_NO,DEPARTMENT) VALUES ('" &
-                                        noCode & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(5) & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & cbWIPProcess.Text & "','" & WIPGetQtyperPart(Part(i), 0) & "','" & cbPONumber.Text & "','" & txtWIPTicketNo.Text & "','" & dept & "')"
+                                        noCode & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(9) & "','" & arrdtList(7) & "','" & arrdtList(6) & "','" & arrdtList(8) & "','" & cbWIPProcess.Text & "'," & WIPGetQtyperPart(Part(i), 0) & ",'" & cbPONumber.Text & "','" & sFlow_Ticket(5) & "','" & dept & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
-                            statusSimpan *= 1
+
+                            Dim sqlCheckStock = "select * from STOCK_card where status='Production Request' and sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "' and actual_qty>0 and lot_no='" & arrdtList(9) & "'"
+                            Dim dtCheckStock As DataTable = Database.GetData(sqlCheckStock)
+
+                            If dtCheckStock.Rows.Count > 0 And dtCheckStock.Rows(0).Item("actual_qty") > WIPGetQtyperPart(Part(i), 0) Then
+                                Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & WIPGetQtyperPart(Part(i), 0) & " where id='" & dtCheckStock.Rows(0).Item("ID") & "'"
+                                Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
+                                If cmdUpdateStock.ExecuteNonQuery() Then
+                                    statusSimpan *= 1
+                                Else
+                                    statusSimpan *= 0
+                                End If
+                            Else
+                                Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & WIPGetQtyperPart(Part(i), 0) & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Process' and material='" & Part(i) & "' and flow_ticket='" & sFlow_Ticket(5) & "' and fifo=(select min(fifo) from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Process' and material='" & Part(i) & "' and flow_ticket='" & sFlow_Ticket(5) & "' and actual_qty > 0)"
+                                Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
+                                If cmdUpdateStock.ExecuteNonQuery() Then
+                                    statusSimpan *= 1
+                                Else
+                                    statusSimpan *= 0
+                                End If
+                            End If
                         Else
                             statusSimpan *= 0
                         End If
@@ -327,6 +349,9 @@ Public Class FormDefective
                     If statusSimpan > 0 Then
                         MessageBox.Show("Success save data!!!")
                         LoaddgWIP("")
+                        cbWIPProcess.SelectedIndex = -1
+                        txtWIPTicketNo.Clear()
+                        txtWIPQuantity.Clear()
                     End If
                 Else
                     MessageBox.Show("Sorry, the data has been previously recorded. If you want to change it, you can click EDIT button.")
@@ -572,7 +597,7 @@ Public Class FormDefective
         Return qty
     End Function
 
-    Function WIPGetDataTraceability(pn_no As String, lineNo As String, subsubpo As String) As String
+    Function WIPGetDataTraceability(pn_no As String, lineNo As String, subsubpo As String, _flow_ticket As String) As String
         Dim dataTrace As String
         Dim i As Integer
 
@@ -582,7 +607,7 @@ Public Class FormDefective
 
             'get id PO dari MAIN_PO
             Dim idPO As String = ""
-            Dim dtCode As DataTable = Database.GetData("select * from PROCESS_PROD where PN_MATERIAL='" & pn_no & "' AND LINE='" & lineNo & "' AND SUB_SUB_PO='" & subsubpo & "' ORDER BY FIFO DESC")
+            Dim dtCode As DataTable = Database.GetData("select * from stock_card where material='" & pn_no & "' AND LINE='" & lineNo & "' AND SUB_SUB_PO='" & subsubpo & "' and status='Production Process' and flow_ticket='" & _flow_ticket & "' ORDER BY FIFO DESC")
             If dtCode.Rows.Count > 0 Then
                 For i = 0 To dtCode.Columns.Count - 1
                     dataTrace = dataTrace + IIf(IsDBNull(dtCode.Rows(0)(i).ToString()) = True, "", dtCode.Rows(0)(i).ToString()) + ";"
@@ -667,10 +692,13 @@ Public Class FormDefective
 
             Try
                 Dim Part As String() = Nothing
+                Dim sFlow_Ticket As String() = Nothing
                 Dim i As Integer
                 Dim statusSimpan As Integer = 1
 
                 Part = materialList(cbOnHoldProcess.SelectedIndex).Split(";")
+
+                sFlow_Ticket = txtOnHoldTicketNo.Text.Split(";")
 
                 'diulang sebanyak part number yg ada
                 Call Database.koneksi_database()
@@ -679,7 +707,7 @@ Public Class FormDefective
                 For i = 0 To Part.Length - 2
                     Dim dtsubsubpo As String = WIPGetSubsubPO()
 
-                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo)
+                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo, sFlow_Ticket(5))
                     Dim arrdtList() As String
                     arrdtList = dtList.Split(";")
 
@@ -885,39 +913,72 @@ Public Class FormDefective
 
     '===================================== BALANCE FUNCTION
     Private Sub btnBalanceAdd_Click(sender As Object, e As EventArgs) Handles btnBalanceAdd.Click
-        If txtBalanceBarcode.Text <> "" Then
+        If txtBalanceBarcode.Text <> "" And txtBalanceQty.Value <= txtBalanceQty.Maximum And txtBalanceQty.Value > 0 Then
             Try
                 Call Database.koneksi_database()
 
                 Dim dtsubsubpo As String = WIPGetSubsubPO()
+                Dim qtyUpdate As Integer = 0
 
-                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & dtsubsubpo & "' AND LINE='" & cbLineNumber.Text & "' ORDER BY LOT_NO")
+                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & dtsubsubpo & "' AND LINE='" & cbLineNumber.Text & "' and departement='" & globVar.department & "' ORDER BY LOT_NO")
                 If dtCekTable.Rows.Count > 0 Then
-                    MessageBox.Show("Sorry, the data has been previously recorded. If you want to change it, you can click on the table then click EDIT button.")
+
+                    Dim result = MessageBox.Show("Sorry, the data has been previously recorded. Are you sure for update?.", "Are You Sure?", MessageBoxButtons.YesNo)
+
+                    If result = DialogResult.Yes Then
+
+                        If dtCekTable.Rows(0).Item("actual_qty") > txtBalanceQty.Value Then
+                            qtyUpdate = dtCekTable.Rows(0).Item("actual_qty") - txtBalanceQty.Value
+
+                            Dim sqlCheckStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and departement='" & globVar.department & "'"
+                            Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
+
+                            If dtCheckStockCard.Rows.Count > 0 Then
+                                Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty+" & qtyUpdate & " where ID='" & dtCheckStockCard.Rows(0).Item("ID") & "'"
+                                Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
+                                cmdUpdateStock.ExecuteNonQuery()
+                            End If
+                        Else
+                            qtyUpdate = txtBalanceQty.Value - dtCekTable.Rows(0).Item("actual_qty")
+
+                            Dim sqlCheckStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and departement='" & globVar.department & "'"
+                            Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
+
+                            If dtCheckStockCard.Rows.Count > 0 Then
+                                Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & qtyUpdate & " where ID='" & dtCheckStockCard.Rows(0).Item("ID") & "'"
+                                Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
+                                cmdUpdateStock.ExecuteNonQuery()
+                            End If
+                        End If
+
+                        Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=" & txtBalanceQty.Value & " where ID='" & dtCekTable.Rows(0).Item("ID") & "'"
+                        Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
+                        If cmdUpdate.ExecuteNonQuery() Then
+                            MessageBox.Show("Update Success.")
+                        End If
+                    End If
+
                 Else
                     Dim idData As String = ""
 
-                    Dim querySelectStockCard As String = "select id,MATERIAL,lot_no,inv_ctrl_date,traceability,batch_no,qty,actual_qty from STOCK_CARD where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & dtsubsubpo & "' AND LINE='" & cbLineNumber.Text & "' and actual_qty > 0 ORDER BY LOT_NO"
+                    Dim querySelectStockCard As String = "select id,MATERIAL,lot_no,inv_ctrl_date,traceability,batch_no,qty,actual_qty from STOCK_CARD where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & dtsubsubpo & "' AND LINE='" & cbLineNumber.Text & "' and actual_qty > 0 and departement='" & globVar.department & "' ORDER BY LOT_NO"
                     Dim dtTable As DataTable = Database.GetData(querySelectStockCard)
                     If dtTable.Rows.Count > 0 Then
                         idData = dtTable.Rows(0)(0)
-                        txtBalanceQty.Text = dtTable.Rows(0).Item("actual_qty")
 
-                        If txtBalanceQty.Text <> "" Then
-                            Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & txtBalanceQty.Text & " where ID='" & idData & "'"
-                            Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
-                            If cmdUpdate.ExecuteNonQuery() Then
+                        Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & txtBalanceQty.Text & " where ID='" & idData & "'"
+                        Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
+                        If cmdUpdate.ExecuteNonQuery() Then
 
-                                Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,QRCODE,QTY,ACTUAL_QTY)" &
-                                                                  "select MTS_NO,DEPARTEMENT,MATERIAL,'Return to Mini Store',STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "',QTY," & txtBalanceQty.Text & " from STOCK_CARD where ID='" & idData & "'"
-                                Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
+                            Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTEMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,QRCODE,QTY,ACTUAL_QTY)" &
+                                                              "select MTS_NO,DEPARTEMENT,MATERIAL,'Return to Mini Store',STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "',QTY," & txtBalanceQty.Text & " from STOCK_CARD where ID='" & idData & "'"
+                            Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
 
-                                If cmdInsert.ExecuteNonQuery() Then
-                                    MessageBox.Show("Success save data!!!")
-                                    loaddgBalance("")
-                                End If
-
+                            If cmdInsert.ExecuteNonQuery() Then
+                                MessageBox.Show("Success save data!!!")
+                                loaddgBalance("")
                             End If
+
                         End If
 
                     Else
@@ -927,6 +988,8 @@ Public Class FormDefective
             Catch ex As Exception
                 MessageBox.Show("Error Insert : " & ex.Message)
             End Try
+        Else
+            MessageBox.Show("Sorry please fill the blank or Qty Return more than maximum value")
         End If
     End Sub
 
@@ -1035,6 +1098,17 @@ Public Class FormDefective
     Private Sub txtBalanceBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBalanceBarcode.KeyDown
         If e.KeyCode = Keys.Enter Then
             txtBalanceMaterialPN.Text = BalanceParsingMaterialPN(txtBalanceBarcode.Text)
+
+            Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Return To Mini Store' and actual_qty > 0 and departement='" & globVar.department & "'"
+            Dim dttableProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
+
+            If dttableProductionProcess.Rows.Count = 0 Then
+                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and departement='" & globVar.department & "'"
+                Dim dttable As DataTable = Database.GetData(queryCheck)
+                txtBalanceQty.Maximum = dttable.Rows(0).Item("actual_qty")
+                txtBalanceQty.Value = dttable.Rows(0).Item("actual_qty")
+            End If
+
             SendKeys.Send("{TAB}")
         End If
     End Sub
@@ -1125,9 +1199,9 @@ Public Class FormDefective
         'End If
     End Sub
 
-    Private Sub txtBalanceMaterialPN_TextChanged(sender As Object, e As EventArgs) Handles txtBalanceMaterialPN.TextChanged
-        loaddgBalance(txtBalanceMaterialPN.Text)
-    End Sub
+    'Private Sub txtBalanceMaterialPN_TextChanged(sender As Object, e As EventArgs) Handles txtBalanceMaterialPN.TextChanged
+    '    loaddgBalance(txtBalanceMaterialPN.Text)
+    'End Sub
 
     'Private Sub dgBalance_Click(sender As Object, e As EventArgs) Handles dgBalance.Click
     '    idBalanceMaterial = dgBalance.Rows(dgBalance.CurrentCell.RowIndex).Cells(1).Value.ToString()

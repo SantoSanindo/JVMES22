@@ -61,7 +61,6 @@ Partial Class FormDefective
         Me.txtBalanceQty = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.txtBalanceBarcode = New System.Windows.Forms.TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
         Me.txtBalanceMaterialPN = New System.Windows.Forms.TextBox()
         Me.btnBalanceAdd = New System.Windows.Forms.Button()
         Me.btnBalanceEdit = New System.Windows.Forms.Button()
@@ -119,6 +118,7 @@ Partial Class FormDefective
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnDefConfirmProcess = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -503,10 +503,10 @@ Partial Class FormDefective
         Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceQty, 2, 1)
         Me.TableLayoutPanel3.Controls.Add(Me.Label16, 1, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceBarcode, 2, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.Label18, 4, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceMaterialPN, 5, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceMaterialPN, 4, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceEdit, 5, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceAdd, 4, 1)
-        Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceEdit, 5, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.Button6, 5, 1)
         Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
@@ -552,24 +552,14 @@ Partial Class FormDefective
         Me.txtBalanceBarcode.Size = New System.Drawing.Size(403, 35)
         Me.txtBalanceBarcode.TabIndex = 4
         '
-        'Label18
-        '
-        Me.Label18.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(770, 13)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(241, 29)
-        Me.Label18.TabIndex = 5
-        Me.Label18.Text = "Material Part Number"
-        '
         'txtBalanceMaterialPN
         '
         Me.txtBalanceMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceMaterialPN.Enabled = False
-        Me.txtBalanceMaterialPN.Location = New System.Drawing.Point(1064, 10)
+        Me.txtBalanceMaterialPN.Location = New System.Drawing.Point(770, 10)
         Me.txtBalanceMaterialPN.Name = "txtBalanceMaterialPN"
-        Me.txtBalanceMaterialPN.Size = New System.Drawing.Size(403, 35)
+        Me.txtBalanceMaterialPN.Size = New System.Drawing.Size(288, 35)
         Me.txtBalanceMaterialPN.TabIndex = 6
+        Me.txtBalanceMaterialPN.Visible = False
         '
         'btnBalanceAdd
         '
@@ -584,15 +574,18 @@ Partial Class FormDefective
         'btnBalanceEdit
         '
         Me.btnBalanceEdit.BackColor = System.Drawing.Color.Yellow
-        Me.btnBalanceEdit.Location = New System.Drawing.Point(1064, 58)
+        Me.btnBalanceEdit.Location = New System.Drawing.Point(1064, 3)
         Me.btnBalanceEdit.Name = "btnBalanceEdit"
         Me.btnBalanceEdit.Size = New System.Drawing.Size(288, 49)
         Me.btnBalanceEdit.TabIndex = 10
         Me.btnBalanceEdit.Text = "Edit"
         Me.btnBalanceEdit.UseVisualStyleBackColor = False
+        Me.btnBalanceEdit.Visible = False
         '
         'dgBalance
         '
+        Me.dgBalance.AllowUserToAddRows = False
+        Me.dgBalance.AllowUserToDeleteRows = False
         Me.dgBalance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgBalance.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgBalance.Location = New System.Drawing.Point(3, 119)
@@ -704,6 +697,8 @@ Partial Class FormDefective
         '
         'dgWIP
         '
+        Me.dgWIP.AllowUserToAddRows = False
+        Me.dgWIP.AllowUserToDeleteRows = False
         Me.dgWIP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgWIP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgWIP.Location = New System.Drawing.Point(3, 164)
@@ -804,6 +799,8 @@ Partial Class FormDefective
         '
         'dgOnHold
         '
+        Me.dgOnHold.AllowUserToAddRows = False
+        Me.dgOnHold.AllowUserToDeleteRows = False
         Me.dgOnHold.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgOnHold.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgOnHold.Location = New System.Drawing.Point(3, 164)
@@ -1198,9 +1195,9 @@ Partial Class FormDefective
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(277, 67)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(86, 29)
+        Me.Label7.Size = New System.Drawing.Size(73, 29)
         Me.Label7.TabIndex = 21
-        Me.Label7.Text = "Label7"
+        Me.Label7.Text = "Label"
         '
         'btnDefConfirmProcess
         '
@@ -1221,6 +1218,16 @@ Partial Class FormDefective
         Me.btnOtherSave.Text = "Save"
         Me.btnOtherSave.UseVisualStyleBackColor = True
         '
+        'Button6
+        '
+        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button6.Location = New System.Drawing.Point(1064, 58)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(288, 49)
+        Me.Button6.TabIndex = 11
+        Me.Button6.Text = "Print"
+        Me.Button6.UseVisualStyleBackColor = False
+        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1229,7 +1236,7 @@ Partial Class FormDefective
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FormDefective"
-        Me.Text = "FormDefective"
+        Me.Text = "Result Production"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
@@ -1330,7 +1337,6 @@ Partial Class FormDefective
     Friend WithEvents btnBalanceAdd As Button
     Friend WithEvents Label16 As Label
     Friend WithEvents txtBalanceBarcode As TextBox
-    Friend WithEvents Label18 As Label
     Friend WithEvents txtBalanceMaterialPN As TextBox
     Friend WithEvents Button3 As Button
     Friend WithEvents txtTampungFlow As TextBox
@@ -1368,4 +1374,5 @@ Partial Class FormDefective
     Friend WithEvents btnOtherSave As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents txtLabelOtherPart As TextBox
+    Friend WithEvents Button6 As Button
 End Class

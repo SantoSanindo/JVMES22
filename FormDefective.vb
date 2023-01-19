@@ -1844,6 +1844,7 @@ Public Class FormDefective
                         _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockBalance.Rows(i).Item("batch_no")
                         _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockBalance.Rows(i).Item("lot_no")
                         _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockBalance.Rows(i).Item("actual_qty")
+                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockBalance.Rows(i).Item("material") & ";" & dtCheckStockBalance.Rows(i).Item("lot_no") & ";" & dtCheckStockBalance.Rows(i).Item("traceability") & ";" & dtCheckStockBalance.Rows(i).Item("inv_ctrl_date") & ";" & dtCheckStockBalance.Rows(i).Item("batch_no") & ";" & dtCheckStockBalance.Rows(i).Item("actual_qty") & ";" & dtCheckStockBalance.Rows(i).Item("id")
                         _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
                     End If
                 Next

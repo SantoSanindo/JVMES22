@@ -57,6 +57,7 @@ Partial Class Production
         Me.TextBox9 = New System.Windows.Forms.TextBox()
         Me.TextBox12 = New System.Windows.Forms.TextBox()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -80,7 +81,7 @@ Partial Class Production
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Location = New System.Drawing.Point(118, 18)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(481, 37)
+        Me.ComboBox1.Size = New System.Drawing.Size(224, 37)
         Me.ComboBox1.TabIndex = 2
         '
         'GroupBox1
@@ -174,6 +175,7 @@ Partial Class Production
         '
         Me.TextBox1.Location = New System.Drawing.Point(118, 65)
         Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(481, 35)
         Me.TextBox1.TabIndex = 7
         '
@@ -413,11 +415,21 @@ Partial Class Production
         Me.Button3.Text = "Save"
         Me.Button3.UseVisualStyleBackColor = True
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(802, 15)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(138, 41)
+        Me.Button1.TabIndex = 19
+        Me.Button1.Text = "Reset"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Production
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(14.0!, 29.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1867, 1004)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.TextBox12)
         Me.Controls.Add(Me.TextBox9)
@@ -482,4 +494,5 @@ Partial Class Production
     Friend WithEvents TextBox9 As TextBox
     Friend WithEvents TextBox12 As TextBox
     Friend WithEvents Button3 As Button
+    Friend WithEvents Button1 As Button
 End Class

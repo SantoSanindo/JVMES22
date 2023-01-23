@@ -305,47 +305,34 @@ Public Class FormDefective
 
                 'diulang sebanyak part number yg ada
                 Call Database.koneksi_database()
-                Dim dtsubsubpo As String = WIPGetSubsubPO()
                 Dim noCode As String = WIPGenerateCode()
 
-                If WIPcheckExistingData(dtsubsubpo, dept) = False Then
+                If WIPcheckExistingData(txtSubSubPODefective.Text, dept) = False Then
                     For i = 0 To Part.Length - 2
-                        Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo, sFlow_Ticket(5))
+                        Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, txtSubSubPODefective.Text, sFlow_Ticket(5))
                         Dim arrdtList() As String
                         arrdtList = dtList.Split(";")
 
                         Dim tgl As String = arrdtList(11).Replace("/", "-")
 
                         Dim sql As String = "INSERT INTO STOCK_PROD_WIP(CODE_STOCK_PROD_WIP,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS,QTY,PO,FLOW_TICKET_NO,DEPARTMENT) VALUES ('" &
-                                        noCode & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(9) & "','" & arrdtList(7) & "','" & arrdtList(6) & "','" & arrdtList(8) & "','" & cbWIPProcess.Text & "'," & WIPGetQtyperPart(Part(i), 0) & ",'" & cbPONumber.Text & "','" & sFlow_Ticket(5) & "','" & dept & "')"
+                                        noCode & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(9) & "','" & arrdtList(7) & "','" & arrdtList(6) & "','" & arrdtList(8) & "','" & cbWIPProcess.Text & "'," & WIPGetQtyperPart(Part(i), 0) & ",'" & cbPONumber.Text & "','" & sFlow_Ticket(5) & "','" & dept & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
+                            Dim sqlCheckStockProductionProcessLoop = "Select * From stock_card Where Status ='Production Request' and material='" & Part(i) & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no='" & arrdtList(9) & "' order by id"
+                            Dim dtCheckStockProductionProcessLoop As DataTable = Database.GetData(sqlCheckStockProductionProcessLoop)
 
-                            Dim sqlCheckStock = "select * from STOCK_card where status='Production Request' and sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "' and actual_qty>0 and lot_no='" & arrdtList(9) & "'"
-                            Dim dtCheckStock As DataTable = Database.GetData(sqlCheckStock)
-
-                            If dtCheckStock.Rows.Count > 0 And dtCheckStock.Rows(0).Item("actual_qty") > WIPGetQtyperPart(Part(i), 0) Then
-                                Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & WIPGetQtyperPart(Part(i), 0) & " where id='" & dtCheckStock.Rows(0).Item("ID") & "'"
-                                Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
-                                If cmdUpdateStock.ExecuteNonQuery() Then
-                                    statusSimpan *= 1
-                                Else
-                                    statusSimpan *= 0
-                                End If
+                            Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & WIPGetQtyperPart(Part(i), 0) & " where status='Production Process' and sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "' and lot_no='" & arrdtList(9) & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
+                            Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
+                            If cmdUpdateStock.ExecuteNonQuery() Then
+                                statusSimpan *= 1
                             Else
-                                Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & WIPGetQtyperPart(Part(i), 0) & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Process' and material='" & Part(i) & "' and flow_ticket='" & sFlow_Ticket(5) & "' and fifo=(select min(fifo) from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Process' and material='" & Part(i) & "' and flow_ticket='" & sFlow_Ticket(5) & "' and actual_qty > 0)"
-                                Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
-                                If cmdUpdateStock.ExecuteNonQuery() Then
-                                    statusSimpan *= 1
-                                Else
-                                    statusSimpan *= 0
-                                End If
+                                statusSimpan *= 0
                             End If
                         Else
                             statusSimpan *= 0
                         End If
                     Next
-
                     If statusSimpan > 0 Then
                         MessageBox.Show("Success save data!!!")
                         LoaddgWIP("")
@@ -705,18 +692,25 @@ Public Class FormDefective
                 Dim OnHoldCode As String = ONHOLDGenerateCode()
 
                 For i = 0 To Part.Length - 2
-                    Dim dtsubsubpo As String = WIPGetSubsubPO()
-
-                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, dtsubsubpo, sFlow_Ticket(5))
+                    Dim dtList As String = WIPGetDataTraceability(Part(i), cbLineNumber.Text, txtSubSubPODefective.Text, sFlow_Ticket(5))
                     Dim arrdtList() As String
                     arrdtList = dtList.Split(";")
 
 
-                    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_ONHOLD,LINE,FLOW_TICKET_NO,DEPARTMENT) VALUES ('" &
-                                        OnHoldCode & "','" & dtsubsubpo & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(5) & "','" & arrdtList(7) & "','" & arrdtList(8) & "','" & arrdtList(6) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & cbLineNumber.Text & "','" & txtOnHoldTicketNo.Text & "','" & dept & "')"
+                    Dim sql As String = "INSERT INTO STOCK_PROD_ONHOLD(CODE_STOCK_PROD_ONHOLD,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS,FLOW_TICKET_NO,DEPARTMENT) VALUES ('" &
+                                        OnHoldCode & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & Part(i) & "','" & arrdtList(9) & "','" & arrdtList(7) & "','" & arrdtList(6) & "','" & arrdtList(8) & "','" & WIPGetQtyperPart(Part(i), 1) & "','" & cbPONumber.Text & "','" & cbOnHoldProcess.Text & "','" & sFlow_Ticket(5) & "','" & dept & "')"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
-                        statusSimpan *= 1
+                        Dim sqlCheckStockProductionProcessLoop = "Select * From stock_card Where Status ='Production Request' and material='" & Part(i) & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no='" & arrdtList(9) & "' order by id"
+                        Dim dtCheckStockProductionProcessLoop As DataTable = Database.GetData(sqlCheckStockProductionProcessLoop)
+
+                        Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & WIPGetQtyperPart(Part(i), 1) & " where status='Production Process' and sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "' and lot_no='" & arrdtList(9) & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
+                        Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
+                        If cmdUpdateStock.ExecuteNonQuery() Then
+                            statusSimpan *= 1
+                        Else
+                            statusSimpan *= 0
+                        End If
                     Else
                         statusSimpan *= 0
                     End If
@@ -725,6 +719,9 @@ Public Class FormDefective
                 If statusSimpan > 0 Then
                     MessageBox.Show("Success save data!!!")
                     LoaddgOnHold("")
+                    cbOnHoldProcess.SelectedIndex = -1
+                    txtOnHoldTicketNo.Clear()
+                    txtOnHoldQty.Clear()
                 End If
             Catch ex As Exception
                 MessageBox.Show("Error Insert : " & ex.Message)
@@ -751,8 +748,8 @@ Public Class FormDefective
 
                         Call Database.koneksi_database()
 
-                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
-                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -852,7 +849,7 @@ Public Class FormDefective
                 If proses = "" Then
                     sqlStr = "select * from STOCK_PROD_ONHOLD OH, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and sp.status='Open' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
                 Else
-                    sqlStr = "select * from STOCK_PROD_ONHOLD oh, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and sp.status='Open' and oh.PROCESS_ONHOLD='" & proses & "' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
+                    sqlStr = "select * from STOCK_PROD_ONHOLD oh, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and sp.status='Open' and oh.PROCESS='" & proses & "' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
                 End If
 
                 Dim dttable As DataTable = Database.GetData(sqlStr)
@@ -863,7 +860,7 @@ Public Class FormDefective
                         .Rows.Add(1)
                         .Item(0, i).Value = (i + 1).ToString()
                         .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_ONHOLD")
-                        .Item(2, i).Value = dttable.Rows(i)("PROCESS_ONHOLD")
+                        .Item(2, i).Value = dttable.Rows(i)("PROCESS")
                         .Item(3, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
                         .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
                         .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
@@ -1043,8 +1040,6 @@ Public Class FormDefective
                     Dim statusSimpan As Integer = 1
                     'masih belum-+
 
-
-
                     For i = 0 To dgOnHold.RowCount - 2
                         Dim id As String = dgOnHold.Rows(i).Cells(1).Value.ToString()
                         Dim processName As String = dgOnHold.Rows(i).Cells(2).Value.ToString()
@@ -1052,8 +1047,8 @@ Public Class FormDefective
 
                         Call Database.koneksi_database()
 
-                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
-                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS_ONHOLD='" & processName & "'"
+                        Dim sql As String = "update STOCK_PROD_ONHOLD set FLOW_TICKET_NO='" & txtOnHoldTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                        'Dim sql As String = "update STOCK_PROD_ONHOLD set QTY='" & WIPGetQtyperPart(matPN, 1) & "' where CODE_STOCK_PROD_ONHOLD='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -1613,86 +1608,158 @@ Public Class FormDefective
         Dim splitPN() As String = pn.Split(";")
         Dim splitFlowTicket() As String = txtFGFlowTicket.Text.Split(";")
 
+        Dim qtyReject As Double
+        Dim sumQty As Double
+
         Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_REJECT) from OUT_PROD_REJECT"
         Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
         Dim codeReject As String = "RJ" & dtCheckCodeReject.Rows.Count + 1
 
         For i = 0 To splitPN.Length - 1
 
+            qtyReject = 0
+            sumQty = 0
+
             Dim queryGetUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
             Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
 
             If dtGetUsage.Rows.Count > 0 Then
+                qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
 
-                Dim queryCheckMaterial As String = "select * from process_prod where level='Fresh' and pn_material='" & splitPN(i) & "' and qty>0 order by fifo"
-                Dim dtCheckMaterial As DataTable = Database.GetData(queryCheckMaterial)
+                Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTEMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
+                    [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
+                    [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
+                    select [MTS_NO], [DEPARTEMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
+                    [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
+                    from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
+                If dtInsertTemp.ExecuteNonQuery() Then
+                    Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                    Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
+                    If dtDeleteStockCard.ExecuteNonQuery() Then
+                        Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "'"
+                        Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
+                        sumQty = dtCheckFlowTicketinTemp.Rows(0).Item("qty") - qtyReject
 
-                Dim qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no")
+                        Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
+                        If dtUpdateToStockCardqty.ExecuteNonQuery() Then
+                            Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                            Dim dtDistintLotNoinTemp As DataTable = Database.GetData(queryDistintLotNoinTemp)
+                            If dtDistintLotNoinTemp.Rows.Count > 0 Then
+                                For iDistint = 0 To dtDistintLotNoinTemp.Rows.Count - 1
+                                    If dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
+                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
+                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                    Else
+                                        Dim queryCheckStockCardProdReq As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no")
+                                        Dim dtCheckStockCardProdReq As DataTable = Database.GetData(queryCheckStockCardProdReq)
+                                        If dtCheckStockCardProdReq.Rows.Count > 0 Then
+                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockCardProdReq.Rows(0).Item("qty") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
+                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                        End If
+                                    End If
+                                Next
 
-                Dim qtyDoneFG = splitFlowTicket(3) * dtGetUsage.Rows(0).Item("USAGE")
-
-                Dim queryCheckRejectPN As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' AND DEPARTMENT='" & dept & "'"
-                Dim dtCheckRejectPN As DataTable = Database.GetData(queryCheckRejectPN)
-
-                If dtCheckRejectPN.Rows.Count > 0 Then
-                    Dim sqlUpdateRejectPN As String = "update out_prod_reject set qty=" & qtyReject & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and PROCESS_REJECT='" & process & "' and line='" & cbLineNumber.Text & "' and FLOW_TICKET_NO='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
-                    Dim cmdInsertRejectPN = New SqlCommand(sqlUpdateRejectPN, Database.koneksi)
-                    cmdInsertRejectPN.ExecuteNonQuery()
-                Else
-                    Dim queryCheckReject As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
-                    Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
-
-                    If dtCheckReject.Rows.Count > 0 Then
-
-                        'Insert Reject Prod
-                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
-                            VALUES ('" & dtCheckReject.Rows(0).Item("CODE_OUT_PROD_REJECT") & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
-                            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
-                            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
-                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
-                        If cmdInsertRejectPN.ExecuteNonQuery() Then
-
-                            'Update Stock Process Prod
-                            Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material='" & splitPN(i) & "' and level='Fresh' and qty>0)"
-                            Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
-                            cmdUpdateProcessProd.ExecuteNonQuery()
-
-                            'Insert Done FG
-                            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
-                            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
-                            If dtCheckDoneFG.Rows.Count = 0 Then
-                                Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, BATCH_NO,TRACEABILITY,INV_CTRL_DATE,laser_code,line,flow_ticket,QTY,department)
-                                    VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & txtBatchno.Text & "','" & txtTampungLabel.Text & "',
-                                    '" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "'," & txtSPQ.Text & ",'" & dept & "')"
-                                Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
-                                cmdInsertDoneFG.ExecuteNonQuery()
+                                Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                                    VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "',
+                                    '" & dtCheckFlowTicketinTemp.Rows(0).Item("TRACEABILITY") & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("BATCH_NO") & "',
+                                    " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                                Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                                If cmdInsertRejectPN.ExecuteNonQuery() Then
+                                    Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTEMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                                    Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
+                                    If dtDeleteStockCardTemporary.ExecuteNonQuery() Then
+                                        MessageBox.Show("Berhasil simpan")
+                                    End If
+                                End If
                             End If
-                        End If
-                    Else
-                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
-                            VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
-                            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
-                            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
-                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
-
-                        If cmdInsertRejectPN.ExecuteNonQuery() Then
-                            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
-                            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
-
-                            If dtCheckDoneFG.Rows.Count = 0 Then
-                                Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, BATCH_NO,TRACEABILITY,INV_CTRL_DATE,laser_code,line,flow_ticket,QTY,department)
-                                    VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & txtBatchno.Text & "','" & txtTampungLabel.Text & "',
-                                    '" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "'," & txtSPQ.Text & ",'" & dept & "')"
-                                Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
-                                cmdInsertDoneFG.ExecuteNonQuery()
-                            End If
-
-                            Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material='" & splitPN(i) & "' and level='Fresh' and qty>0)"
-                            Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
-                            cmdUpdateProcessProd.ExecuteNonQuery()
                         End If
                     End If
                 End If
+
+                'Dim queryCheckMaterial As String = "select * from stock_card where level='Fresh' and material='" & splitPN(i) & "' and qty>0 and status='Production Process' and sub_sub_po='" & txtSubSubPODefective.Text & "' and departement='" & dept & "' order by fifo"
+                'Dim dtCheckMaterial As DataTable = Database.GetData(queryCheckMaterial)
+
+
+                'Dim qtyDoneFG = splitFlowTicket(3) * dtGetUsage.Rows(0).Item("USAGE")
+
+                'Dim queryCheckRejectPN As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' AND DEPARTMENT='" & dept & "'"
+                'Dim dtCheckRejectPN As DataTable = Database.GetData(queryCheckRejectPN)
+
+                'If dtCheckRejectPN.Rows.Count > 0 Then
+                '    Dim sqlUpdateRejectPN As String = "update out_prod_reject set qty=" & qtyReject & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and PROCESS_REJECT='" & process & "' and line='" & cbLineNumber.Text & "' and FLOW_TICKET_NO='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                '    Dim cmdInsertRejectPN = New SqlCommand(sqlUpdateRejectPN, Database.koneksi)
+                '    cmdInsertRejectPN.ExecuteNonQuery()
+                'Else
+                '    Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                '            VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                '            '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                '            " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                '    Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                '    If cmdInsertRejectPN.ExecuteNonQuery() Then
+                '        Dim sqlUpdateProcessProd As String = "update stock_card set actual_qty=actual_qty-" & qtyReject & " where [level]='Fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTEMENT='" & dept & "' and qty>0 and status='Production Process' and flow_ticket='" & splitFlowTicket(5) & "'"
+                '        Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                '        If cmdUpdateProcessProd.ExecuteNonQuery() Then
+                '            MessageBox.Show("Berhasil")
+                '        End If
+                '    End If
+
+
+                'Dim queryCheckReject As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                'Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
+
+                'If dtCheckReject.Rows.Count > 0 Then
+
+                '    'Insert Reject Prod
+                '    Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                '        VALUES ('" & dtCheckReject.Rows(0).Item("CODE_OUT_PROD_REJECT") & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                '        '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                '        " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                '    Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                '    If cmdInsertRejectPN.ExecuteNonQuery() Then
+
+                '        'Update Stock Process Prod
+                '        Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material='" & splitPN(i) & "' and level='Fresh' and qty>0)"
+                '        Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                '        cmdUpdateProcessProd.ExecuteNonQuery()
+
+                '        'Insert Done FG
+                '        Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                '        Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+                '        If dtCheckDoneFG.Rows.Count = 0 Then
+                '            Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, BATCH_NO,TRACEABILITY,INV_CTRL_DATE,laser_code,line,flow_ticket,QTY,department)
+                '                VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & txtBatchno.Text & "','" & txtTampungLabel.Text & "',
+                '                '" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "'," & txtSPQ.Text & ",'" & dept & "')"
+                '            Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
+                '            cmdInsertDoneFG.ExecuteNonQuery()
+                '        End If
+                '    End If
+                'Else
+                '    Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                '        VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckMaterial.Rows(0).Item("LOT_NO") & "',
+                '        '" & dtCheckMaterial.Rows(0).Item("TRACEABILITY") & "','" & dtCheckMaterial.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckMaterial.Rows(0).Item("BATCH_NO") & "',
+                '        " & qtyReject & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",1)"
+                '    Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+
+                '    If cmdInsertRejectPN.ExecuteNonQuery() Then
+                '        Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "' AND DEPARTMENT='" & dept & "'"
+                '        Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+
+                '        If dtCheckDoneFG.Rows.Count = 0 Then
+                '            Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, BATCH_NO,TRACEABILITY,INV_CTRL_DATE,laser_code,line,flow_ticket,QTY,department)
+                '                VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & txtBatchno.Text & "','" & txtTampungLabel.Text & "',
+                '                '" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "'," & txtSPQ.Text & ",'" & dept & "')"
+                '            Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
+                '            cmdInsertDoneFG.ExecuteNonQuery()
+                '        End If
+
+                '        Dim sqlUpdateProcessProd As String = "update PROCESS_PROD set qty=qty-" & qtyReject & " where level='fresh' and sub_sub_po='" & txtSubSubPODefective.Text & "' and pn_material='" & splitPN(i) & "' and line='" & cbLineNumber.Text & "' AND DEPARTMENT='" & dept & "' and fifo=(select min(fifo) from PROCESS_PROD where pn_material='" & splitPN(i) & "' and level='Fresh' and qty>0)"
+                '        Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
+                '        cmdUpdateProcessProd.ExecuteNonQuery()
+                '    End If
+                'End If
+                'End If 
             End If
         Next
     End Sub

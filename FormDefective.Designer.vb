@@ -54,19 +54,6 @@ Partial Class FormDefective
         Me.Label14 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.tpBalance = New System.Windows.Forms.TabPage()
-        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.txtBalanceBarcode = New System.Windows.Forms.TextBox()
-        Me.txtBalanceMaterialPN = New System.Windows.Forms.TextBox()
-        Me.btnBalanceAdd = New System.Windows.Forms.Button()
-        Me.btnBalanceEdit = New System.Windows.Forms.Button()
-        Me.dgBalance = New System.Windows.Forms.DataGridView()
-        Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
-        Me.btnBalanceCancel = New System.Windows.Forms.Button()
-        Me.btnBalanceOK = New System.Windows.Forms.Button()
         Me.tpWIP = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel7 = New System.Windows.Forms.TableLayoutPanel()
@@ -109,6 +96,21 @@ Partial Class FormDefective
         Me.Label22 = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.tpBalance = New System.Windows.Forms.TabPage()
+        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
+        Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.txtBalanceBarcode = New System.Windows.Forms.TextBox()
+        Me.txtBalanceMaterialPN = New System.Windows.Forms.TextBox()
+        Me.btnBalanceEdit = New System.Windows.Forms.Button()
+        Me.btnBalanceAdd = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.txtBalanceQty = New System.Windows.Forms.NumericUpDown()
+        Me.dgBalance = New System.Windows.Forms.DataGridView()
+        Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
+        Me.btnBalanceCancel = New System.Windows.Forms.Button()
+        Me.btnBalanceOK = New System.Windows.Forms.Button()
         Me.tpDefective = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
@@ -117,16 +119,9 @@ Partial Class FormDefective
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnDefConfirmProcess = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.txtBalanceQty = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
-        Me.tpBalance.SuspendLayout()
-        Me.TableLayoutPanel2.SuspendLayout()
-        Me.TableLayoutPanel3.SuspendLayout()
-        CType(Me.dgBalance, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TableLayoutPanel4.SuspendLayout()
         Me.tpWIP.SuspendLayout()
         Me.TableLayoutPanel5.SuspendLayout()
         Me.TableLayoutPanel7.SuspendLayout()
@@ -143,11 +138,16 @@ Partial Class FormDefective
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel8.SuspendLayout()
         Me.TableLayoutPanel9.SuspendLayout()
+        Me.tpBalance.SuspendLayout()
+        Me.TableLayoutPanel2.SuspendLayout()
+        Me.TableLayoutPanel3.SuspendLayout()
+        CType(Me.txtBalanceQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgBalance, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TableLayoutPanel4.SuspendLayout()
         Me.tpDefective.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pDefective1.SuspendLayout()
-        CType(Me.txtBalanceQty, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -426,9 +426,9 @@ Partial Class FormDefective
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(3, 45)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(123, 29)
+        Me.Label13.Size = New System.Drawing.Size(138, 29)
         Me.Label13.TabIndex = 1
-        Me.Label13.Text = "Ticket No."
+        Me.Label13.Text = "Flow Ticket"
         '
         'Label14
         '
@@ -451,9 +451,9 @@ Partial Class FormDefective
         '
         'TabControl1
         '
+        Me.TabControl1.Controls.Add(Me.tpFinishGoods)
         Me.TabControl1.Controls.Add(Me.tpWIP)
         Me.TabControl1.Controls.Add(Me.tpOnHold)
-        Me.TabControl1.Controls.Add(Me.tpFinishGoods)
         Me.TabControl1.Controls.Add(Me.tpBalance)
         Me.TabControl1.Controls.Add(Me.tpDefective)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -463,165 +463,6 @@ Partial Class FormDefective
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(1652, 623)
         Me.TabControl1.TabIndex = 0
-        '
-        'tpBalance
-        '
-        Me.tpBalance.BackColor = System.Drawing.SystemColors.Control
-        Me.tpBalance.Controls.Add(Me.TableLayoutPanel2)
-        Me.tpBalance.Location = New System.Drawing.Point(4, 38)
-        Me.tpBalance.Name = "tpBalance"
-        Me.tpBalance.Size = New System.Drawing.Size(1644, 581)
-        Me.tpBalance.TabIndex = 2
-        Me.tpBalance.Text = "Balance Material"
-        '
-        'TableLayoutPanel2
-        '
-        Me.TableLayoutPanel2.ColumnCount = 1
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel3, 0, 0)
-        Me.TableLayoutPanel2.Controls.Add(Me.dgBalance, 0, 1)
-        Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel4, 0, 2)
-        Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel2.Location = New System.Drawing.Point(0, 0)
-        Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-        Me.TableLayoutPanel2.RowCount = 3
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1644, 581)
-        Me.TableLayoutPanel2.TabIndex = 0
-        '
-        'TableLayoutPanel3
-        '
-        Me.TableLayoutPanel3.ColumnCount = 6
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.0!))
-        Me.TableLayoutPanel3.Controls.Add(Me.Label11, 1, 1)
-        Me.TableLayoutPanel3.Controls.Add(Me.Label16, 1, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceBarcode, 2, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceMaterialPN, 4, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceEdit, 5, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceAdd, 4, 1)
-        Me.TableLayoutPanel3.Controls.Add(Me.Button6, 5, 1)
-        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceQty, 2, 1)
-        Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
-        Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
-        Me.TableLayoutPanel3.RowCount = 2
-        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1638, 110)
-        Me.TableLayoutPanel3.TabIndex = 0
-        '
-        'Label11
-        '
-        Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(35, 68)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(177, 29)
-        Me.Label11.TabIndex = 0
-        Me.Label11.Text = "Quantity Return"
-        '
-        'Label16
-        '
-        Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(35, 13)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(165, 29)
-        Me.Label16.TabIndex = 3
-        Me.Label16.Text = "Material Label"
-        '
-        'txtBalanceBarcode
-        '
-        Me.txtBalanceBarcode.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceBarcode.Location = New System.Drawing.Point(329, 10)
-        Me.txtBalanceBarcode.Name = "txtBalanceBarcode"
-        Me.txtBalanceBarcode.Size = New System.Drawing.Size(403, 35)
-        Me.txtBalanceBarcode.TabIndex = 4
-        '
-        'txtBalanceMaterialPN
-        '
-        Me.txtBalanceMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceMaterialPN.Location = New System.Drawing.Point(770, 10)
-        Me.txtBalanceMaterialPN.Name = "txtBalanceMaterialPN"
-        Me.txtBalanceMaterialPN.Size = New System.Drawing.Size(288, 35)
-        Me.txtBalanceMaterialPN.TabIndex = 6
-        Me.txtBalanceMaterialPN.Visible = False
-        '
-        'btnBalanceAdd
-        '
-        Me.btnBalanceAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btnBalanceAdd.Location = New System.Drawing.Point(770, 58)
-        Me.btnBalanceAdd.Name = "btnBalanceAdd"
-        Me.btnBalanceAdd.Size = New System.Drawing.Size(288, 49)
-        Me.btnBalanceAdd.TabIndex = 9
-        Me.btnBalanceAdd.Text = "Add"
-        Me.btnBalanceAdd.UseVisualStyleBackColor = False
-        '
-        'btnBalanceEdit
-        '
-        Me.btnBalanceEdit.BackColor = System.Drawing.Color.Yellow
-        Me.btnBalanceEdit.Location = New System.Drawing.Point(1064, 3)
-        Me.btnBalanceEdit.Name = "btnBalanceEdit"
-        Me.btnBalanceEdit.Size = New System.Drawing.Size(288, 49)
-        Me.btnBalanceEdit.TabIndex = 10
-        Me.btnBalanceEdit.Text = "Edit"
-        Me.btnBalanceEdit.UseVisualStyleBackColor = False
-        Me.btnBalanceEdit.Visible = False
-        '
-        'dgBalance
-        '
-        Me.dgBalance.AllowUserToAddRows = False
-        Me.dgBalance.AllowUserToDeleteRows = False
-        Me.dgBalance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgBalance.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.dgBalance.Location = New System.Drawing.Point(3, 119)
-        Me.dgBalance.Name = "dgBalance"
-        Me.dgBalance.Size = New System.Drawing.Size(1638, 400)
-        Me.dgBalance.TabIndex = 1
-        '
-        'TableLayoutPanel4
-        '
-        Me.TableLayoutPanel4.ColumnCount = 3
-        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
-        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.TableLayoutPanel4.Controls.Add(Me.btnBalanceCancel, 2, 0)
-        Me.TableLayoutPanel4.Controls.Add(Me.btnBalanceOK, 1, 0)
-        Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(3, 525)
-        Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
-        Me.TableLayoutPanel4.RowCount = 1
-        Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53.0!))
-        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1638, 53)
-        Me.TableLayoutPanel4.TabIndex = 2
-        '
-        'btnBalanceCancel
-        '
-        Me.btnBalanceCancel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnBalanceCancel.Location = New System.Drawing.Point(1312, 3)
-        Me.btnBalanceCancel.Name = "btnBalanceCancel"
-        Me.btnBalanceCancel.Size = New System.Drawing.Size(323, 47)
-        Me.btnBalanceCancel.TabIndex = 0
-        Me.btnBalanceCancel.Text = "Cancel"
-        Me.btnBalanceCancel.UseVisualStyleBackColor = True
-        '
-        'btnBalanceOK
-        '
-        Me.btnBalanceOK.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnBalanceOK.Location = New System.Drawing.Point(985, 3)
-        Me.btnBalanceOK.Name = "btnBalanceOK"
-        Me.btnBalanceOK.Size = New System.Drawing.Size(321, 47)
-        Me.btnBalanceOK.TabIndex = 1
-        Me.btnBalanceOK.Text = "OK"
-        Me.btnBalanceOK.UseVisualStyleBackColor = True
         '
         'tpWIP
         '
@@ -869,9 +710,9 @@ Partial Class FormDefective
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(3, 45)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(123, 29)
+        Me.Label10.Size = New System.Drawing.Size(138, 29)
         Me.Label10.TabIndex = 1
-        Me.Label10.Text = "Ticket No."
+        Me.Label10.Text = "Flow Ticket"
         '
         'Label15
         '
@@ -1126,6 +967,183 @@ Partial Class FormDefective
         Me.TextBox6.Size = New System.Drawing.Size(271, 35)
         Me.TextBox6.TabIndex = 7
         '
+        'tpBalance
+        '
+        Me.tpBalance.BackColor = System.Drawing.SystemColors.Control
+        Me.tpBalance.Controls.Add(Me.TableLayoutPanel2)
+        Me.tpBalance.Location = New System.Drawing.Point(4, 38)
+        Me.tpBalance.Name = "tpBalance"
+        Me.tpBalance.Size = New System.Drawing.Size(1644, 581)
+        Me.tpBalance.TabIndex = 2
+        Me.tpBalance.Text = "Balance Material"
+        '
+        'TableLayoutPanel2
+        '
+        Me.TableLayoutPanel2.ColumnCount = 1
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel3, 0, 0)
+        Me.TableLayoutPanel2.Controls.Add(Me.dgBalance, 0, 1)
+        Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel4, 0, 2)
+        Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel2.Location = New System.Drawing.Point(0, 0)
+        Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
+        Me.TableLayoutPanel2.RowCount = 3
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1644, 581)
+        Me.TableLayoutPanel2.TabIndex = 0
+        '
+        'TableLayoutPanel3
+        '
+        Me.TableLayoutPanel3.ColumnCount = 6
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.0!))
+        Me.TableLayoutPanel3.Controls.Add(Me.Label11, 1, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.Label16, 1, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceBarcode, 2, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceMaterialPN, 4, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceEdit, 5, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceAdd, 4, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.Button6, 5, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceQty, 2, 1)
+        Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
+        Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
+        Me.TableLayoutPanel3.RowCount = 2
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1638, 110)
+        Me.TableLayoutPanel3.TabIndex = 0
+        '
+        'Label11
+        '
+        Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(35, 68)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(177, 29)
+        Me.Label11.TabIndex = 0
+        Me.Label11.Text = "Quantity Return"
+        '
+        'Label16
+        '
+        Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(35, 13)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(165, 29)
+        Me.Label16.TabIndex = 3
+        Me.Label16.Text = "Material Label"
+        '
+        'txtBalanceBarcode
+        '
+        Me.txtBalanceBarcode.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtBalanceBarcode.Location = New System.Drawing.Point(329, 10)
+        Me.txtBalanceBarcode.Name = "txtBalanceBarcode"
+        Me.txtBalanceBarcode.Size = New System.Drawing.Size(403, 35)
+        Me.txtBalanceBarcode.TabIndex = 4
+        '
+        'txtBalanceMaterialPN
+        '
+        Me.txtBalanceMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtBalanceMaterialPN.Location = New System.Drawing.Point(770, 10)
+        Me.txtBalanceMaterialPN.Name = "txtBalanceMaterialPN"
+        Me.txtBalanceMaterialPN.Size = New System.Drawing.Size(288, 35)
+        Me.txtBalanceMaterialPN.TabIndex = 6
+        Me.txtBalanceMaterialPN.Visible = False
+        '
+        'btnBalanceEdit
+        '
+        Me.btnBalanceEdit.BackColor = System.Drawing.Color.Yellow
+        Me.btnBalanceEdit.Location = New System.Drawing.Point(1064, 3)
+        Me.btnBalanceEdit.Name = "btnBalanceEdit"
+        Me.btnBalanceEdit.Size = New System.Drawing.Size(288, 49)
+        Me.btnBalanceEdit.TabIndex = 10
+        Me.btnBalanceEdit.Text = "Edit"
+        Me.btnBalanceEdit.UseVisualStyleBackColor = False
+        Me.btnBalanceEdit.Visible = False
+        '
+        'btnBalanceAdd
+        '
+        Me.btnBalanceAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnBalanceAdd.Location = New System.Drawing.Point(770, 58)
+        Me.btnBalanceAdd.Name = "btnBalanceAdd"
+        Me.btnBalanceAdd.Size = New System.Drawing.Size(288, 49)
+        Me.btnBalanceAdd.TabIndex = 9
+        Me.btnBalanceAdd.Text = "Add"
+        Me.btnBalanceAdd.UseVisualStyleBackColor = False
+        '
+        'Button6
+        '
+        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button6.Location = New System.Drawing.Point(1064, 58)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(288, 49)
+        Me.Button6.TabIndex = 11
+        Me.Button6.Text = "Print"
+        Me.Button6.UseVisualStyleBackColor = False
+        '
+        'txtBalanceQty
+        '
+        Me.txtBalanceQty.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtBalanceQty.Location = New System.Drawing.Point(329, 65)
+        Me.txtBalanceQty.Name = "txtBalanceQty"
+        Me.txtBalanceQty.Size = New System.Drawing.Size(403, 35)
+        Me.txtBalanceQty.TabIndex = 12
+        '
+        'dgBalance
+        '
+        Me.dgBalance.AllowUserToAddRows = False
+        Me.dgBalance.AllowUserToDeleteRows = False
+        Me.dgBalance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgBalance.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.dgBalance.Location = New System.Drawing.Point(3, 119)
+        Me.dgBalance.Name = "dgBalance"
+        Me.dgBalance.Size = New System.Drawing.Size(1638, 400)
+        Me.dgBalance.TabIndex = 1
+        '
+        'TableLayoutPanel4
+        '
+        Me.TableLayoutPanel4.ColumnCount = 3
+        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
+        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
+        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
+        Me.TableLayoutPanel4.Controls.Add(Me.btnBalanceCancel, 2, 0)
+        Me.TableLayoutPanel4.Controls.Add(Me.btnBalanceOK, 1, 0)
+        Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(3, 525)
+        Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
+        Me.TableLayoutPanel4.RowCount = 1
+        Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53.0!))
+        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1638, 53)
+        Me.TableLayoutPanel4.TabIndex = 2
+        '
+        'btnBalanceCancel
+        '
+        Me.btnBalanceCancel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnBalanceCancel.Location = New System.Drawing.Point(1312, 3)
+        Me.btnBalanceCancel.Name = "btnBalanceCancel"
+        Me.btnBalanceCancel.Size = New System.Drawing.Size(323, 47)
+        Me.btnBalanceCancel.TabIndex = 0
+        Me.btnBalanceCancel.Text = "Cancel"
+        Me.btnBalanceCancel.UseVisualStyleBackColor = True
+        '
+        'btnBalanceOK
+        '
+        Me.btnBalanceOK.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnBalanceOK.Location = New System.Drawing.Point(985, 3)
+        Me.btnBalanceOK.Name = "btnBalanceOK"
+        Me.btnBalanceOK.Size = New System.Drawing.Size(321, 47)
+        Me.btnBalanceOK.TabIndex = 1
+        Me.btnBalanceOK.Text = "OK"
+        Me.btnBalanceOK.UseVisualStyleBackColor = True
+        '
         'tpDefective
         '
         Me.tpDefective.BackColor = System.Drawing.SystemColors.Control
@@ -1211,24 +1229,6 @@ Partial Class FormDefective
         Me.btnOtherSave.Text = "Save"
         Me.btnOtherSave.UseVisualStyleBackColor = True
         '
-        'Button6
-        '
-        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button6.Location = New System.Drawing.Point(1064, 58)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(288, 49)
-        Me.Button6.TabIndex = 11
-        Me.Button6.Text = "Print"
-        Me.Button6.UseVisualStyleBackColor = False
-        '
-        'txtBalanceQty
-        '
-        Me.txtBalanceQty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceQty.Location = New System.Drawing.Point(329, 65)
-        Me.txtBalanceQty.Name = "txtBalanceQty"
-        Me.txtBalanceQty.Size = New System.Drawing.Size(403, 35)
-        Me.txtBalanceQty.TabIndex = 12
-        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1243,12 +1243,6 @@ Partial Class FormDefective
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
-        Me.tpBalance.ResumeLayout(False)
-        Me.TableLayoutPanel2.ResumeLayout(False)
-        Me.TableLayoutPanel3.ResumeLayout(False)
-        Me.TableLayoutPanel3.PerformLayout()
-        CType(Me.dgBalance, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TableLayoutPanel4.ResumeLayout(False)
         Me.tpWIP.ResumeLayout(False)
         Me.TableLayoutPanel5.ResumeLayout(False)
         Me.TableLayoutPanel7.ResumeLayout(False)
@@ -1270,12 +1264,18 @@ Partial Class FormDefective
         Me.TableLayoutPanel8.PerformLayout()
         Me.TableLayoutPanel9.ResumeLayout(False)
         Me.TableLayoutPanel9.PerformLayout()
+        Me.tpBalance.ResumeLayout(False)
+        Me.TableLayoutPanel2.ResumeLayout(False)
+        Me.TableLayoutPanel3.ResumeLayout(False)
+        Me.TableLayoutPanel3.PerformLayout()
+        CType(Me.txtBalanceQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgBalance, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TableLayoutPanel4.ResumeLayout(False)
         Me.tpDefective.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pDefective1.ResumeLayout(False)
         Me.pDefective1.PerformLayout()
-        CType(Me.txtBalanceQty, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

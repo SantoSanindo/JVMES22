@@ -8,6 +8,10 @@ Public Class ProductionRequest
             DataGridView3.DataSource = Nothing
             DataGridView3.Rows.Clear()
             DataGridView3.Columns.Clear()
+            'Dim queryMasterFinishGoods As String = "select * from master_finish_goods mfg, sub_sub_po sp, main_po mp 
+            '    where sp.status= 'Open' and sp.line = '" & ComboBox1.Text & "' and sp.main_po= mp.id and mp.department='" & globVar.department & "' order by sp.sub_sub_po"
+            'Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)
+
             Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO,mp.fg_pn FG_Part_Number,mufg.component Component,mufg.description Description,mufg.usage [Usage],sp.sub_sub_po_qty Sub_Sub_Qty,ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS Total_Need,mp.po,mp.sub_po
                 from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
                 where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox1.Text & "' and mp.department='" & globVar.department & "' order by sp.sub_sub_po"

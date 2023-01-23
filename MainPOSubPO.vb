@@ -585,10 +585,20 @@ Public Class MainPOSubPO
             End If
 
             Try
-                Dim Sql As String = "update SUB_SUB_PO set SUB_SUB_PO_QTY=" & DataGridView2.Rows(e.RowIndex).Cells("SUB_PO_QTY").Value & " where ID=" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value
-                Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                If cmd.ExecuteNonQuery() Then
-                    MessageBox.Show("Success updated data")
+                Dim Sum As Integer = 0
+                For i = 0 To DataGridView2.Rows.Count - 1
+                    Sum += DataGridView2.Rows(i).Cells("SUB_SUB_PO_QTY").Value
+                Next
+
+                If TextBox4.Text >= Sum Then
+                    Dim Sql As String = "update SUB_SUB_PO set SUB_SUB_PO_QTY=" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO_QTY").Value & " where ID=" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        MessageBox.Show("Success updated data")
+                        DGV_SubSubPO()
+                    End If
+                Else
+                    MessageBox.Show("Sorry Qty more than Qty PO")
                 End If
             Catch ex As Exception
                 MessageBox.Show("MainPOSubPO-08 : " & ex.Message)

@@ -279,6 +279,7 @@ Public Class Production
     '    End If
     'End Sub
 
+    'Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
             If Len(Me.TextBox1.Text) >= 64 Then
@@ -290,182 +291,29 @@ Public Class Production
                     Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
                     Dim targetQty As Integer = 0
 
-                    For i = 0 To DataGridView1.Rows.Count - 1
-                        If DataGridView1.Rows(i).Cells(1).Value = splitQRCode1P(0) Then
-                            usage = DataGridView1.Rows(i).Cells(2).Value
-                        End If
-                    Next
-
-                    yieldlose = Math.Ceiling(usage * TextBox6.Text) + (usage * TextBox6.Text * TextBox8.Text / 100)
-
                     Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & splitQRCode1P(0) & "' and in_material.lot_no=" & splitQRCode1P(3) & " and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and departement='" & globVar.department & "'"
                     Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
-
-                    Dim sqlCheckFlowTicket As String = "select * from flow_ticket where sub_sub_po='" & TextBox11.Text & "' and department='" & globVar.department & "'"
-                    Dim qtyFlowTicket As DataTable = Database.GetData(sqlCheckFlowTicket)
-
-                    Dim sqlCheckMaterialUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & TextBox2.Text & "' and component='" & splitQRCode1P(0) & "'"
-                    Dim dtMaterialUsage As DataTable = Database.GetData(sqlCheckMaterialUsage)
-
                     If dtCheckInStock.Rows.Count > 0 Then
-                        Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(actual_qty),0) qty FROM stock_card WHERE sub_sub_po = '" & TextBox11.Text & "' and material=" & splitQRCode1P(0) & " and departement='" & globVar.department & "' and status='Production Process'"
-                        Dim dtCheckSumQtyProdcution As DataTable = Database.GetData(sqlCheckSumQtyProdcution)
-                        If dtCheckSumQtyProdcution.Rows(0).Item("qty") > yieldlose Then
-                            MessageBox.Show("Cannot add component because Qty more than Qty Need")
+                        Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & splitQRCode1P(0) & "' and lot_no=" & splitQRCode1P(3) & " and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and departement='" & globVar.department & "'"
+                        Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
+                        If dtCheckInStockNewRecord.Rows.Count > 0 Then
+                            MessageBox.Show("Double Scan")
                             TextBox1.Text = ""
+                            DGV_DOC()
                         Else
-                            For iFlowTicket = 0 To qtyFlowTicket.Rows.Count - 1
+                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty") & ",@material='" & splitQRCode1P(0) & "',@lot_material='" & splitQRCode1P(3) & "'"
+                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
 
-                                targetQty = qtyFlowTicket.Rows(iFlowTicket).Item("qty_per_lot") * dtMaterialUsage.Rows(0).Item("USAGE")
-
-                                Dim sqlCheckFlowTicketStockCard As String = "select isnull(sum(actual_qty),0) qty from stock_card where sub_sub_po='" & TextBox11.Text & "' and departement='" & globVar.department & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "' and material=" & splitQRCode1P(0)
-                                Dim dtsumStockCard As DataTable = Database.GetData(sqlCheckFlowTicketStockCard)
-
-                                Dim sqlCheckAfterUpdate As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & splitQRCode1P(0) & "' and in_material.lot_no=" & splitQRCode1P(3) & " and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and departement='" & globVar.department & "'"
-                                Dim dtCheckAfterUpdate As DataTable = Database.GetData(sqlCheckAfterUpdate)
-
-                                If dtsumStockCard.Rows(0).Item("qty") = targetQty Then
-                                    Continue For
-                                Else
-                                    If targetQty > dtCheckInStock.Rows(0).Item("actual_qty") + dtsumStockCard.Rows(0).Item("qty") Then
-                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & dtCheckAfterUpdate.Rows(0).Item("actual_qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                            TextBox1.Text = ""
-                                            DGV_DOC()
-                                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                            cmdUpdate.ExecuteNonQuery()
-                                            Exit For
-                                        End If
-                                    Else
-                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & targetQty - dtsumStockCard.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                            TextBox1.Text = ""
-                                            DGV_DOC()
-                                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=actual_qty-" & targetQty - dtsumStockCard.Rows(0).Item("qty") & " FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                            cmdUpdate.ExecuteNonQuery()
-                                        End If
-                                    End If
-                                End If
-
-
-
-
-                                'Dim sqlCheckStockAfterUpdate As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & splitQRCode1P(0) & "' and in_material.lot_no=" & splitQRCode1P(3) & " and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and departement='" & globVar.department & "'"
-                                'Dim dtCheckStockAfterUpdate As DataTable = Database.GetData(sqlCheckStockAfterUpdate)
-
-                                'Dim sqlCheckFlowTicketStockCard As String = "select isnull(sum(actual_qty),0) qty from stock_card where sub_sub_po='" & TextBox11.Text & "' and departement='" & globVar.department & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'"
-                                'Dim dtsumStockCard As DataTable = Database.GetData(sqlCheckFlowTicketStockCard)
-
-                                'Dim targetQty As Integer = qtyFlowTicket.Rows(iFlowTicket).Item("qty_per_lot") * dtMaterialUsage.Rows(0).Item("USAGE")
-                                'Dim existQty As Integer = targetQty - dtsumStockCard.Rows(0).Item("qty")
-
-                                'If targetQty > dtCheckInStock.Rows(0).Item("actual_qty") Then
-                                '    If existQty = targetQty Then
-                                '        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                '        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & dtCheckInStock.Rows(0).Item("actual_qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                '        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                '        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                '            TextBox1.Text = ""
-                                '            DGV_DOC()
-                                '            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                '            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                '            cmdUpdate.ExecuteNonQuery()
-                                '            Exit For
-                                '        End If
-                                '    Else
-                                '        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                '        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & existQty & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                '        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                '        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                '            TextBox1.Text = ""
-                                '            DGV_DOC()
-                                '            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=actual_qty-" & existQty & " FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                '            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                '            cmdUpdate.ExecuteNonQuery()
-                                '        End If
-                                '    End If
-                                'Else
-                                '    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                '        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & targetQty & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                '    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                '    If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                '        TextBox1.Text = ""
-                                '        DGV_DOC()
-                                '        Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=actual_qty-" & targetQty & " FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                '        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                '        cmdUpdate.ExecuteNonQuery()
-                                '    End If
-                                'End If
-
-
-
-
-
-
-
-
-
-
-
-
-                                'Dim sqlCheckFlowTicketStockCard As String = "select isnull(sum(actual_qty),0) qty from stock_card where sub_sub_po='" & TextBox11.Text & "' and departement='" & globVar.department & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'"
-                                'Dim dtsumStockCard As DataTable = Database.GetData(sqlCheckFlowTicketStockCard)
-
-                                'Dim targetQty As Integer = qtyFlowTicket.Rows(iFlowTicket).Item("qty_per_lot") * dtMaterialUsage.Rows(0).Item("USAGE")
-                                'Dim existQty As Integer = dtsumStockCard.Rows(0).Item("qty")
-
-                                'If targetQty > existQty Then
-                                '    If targetQty > dtCheckInStock.Rows(0).Item("actual_qty") Then
-                                '        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                '        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & dtCheckInStock.Rows(0).Item("actual_qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                '        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                '        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                '            TextBox1.Text = ""
-                                '            DGV_DOC()
-                                '            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                '            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                '            cmdUpdate.ExecuteNonQuery()
-                                '        End If
-                                '    Else
-                                '        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                '        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & targetQty & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                '        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                '        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                '            TextBox1.Text = ""
-                                '            DGV_DOC()
-                                '            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=actual_qty-" & targetQty & " FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                '            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                '            cmdUpdate.ExecuteNonQuery()
-                                '        End If
-                                '    End If
-                                'Else
-                                '    Dim qtyMin = existQty - targetQty
-                                '    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTEMENT,STANDARD_PACK,FIFO,ID_LEVEL,LEVEL,FLOW_TICKET)
-                                '        VALUES (" & splitQRCode1P(0) & "," & dtCheckInStock.Rows(0).Item("QTY") & "," & dtCheckInStock.Rows(0).Item("INV_CTRL_DATE") & "," & dtCheckInStock.Rows(0).Item("TRACEABILITY") & "," & splitQRCode1P(3) & ",'" & dtCheckInStock.Rows(0).Item("BATCH_NO") & "','" & TextBox5.Text & "','" & TextBox11.Text & "'," & TextBox2.Text & "," & qtyMin & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','" & dtCheckInStock.Rows(0).Item("standard_pack") & "',(select COUNT(material)+1 fifo from STOCK_CARD where MATERIAL=" & splitQRCode1P(0) & " and level='Fresh' and sub_sub_po='" & TextBox11.Text & "' and flow_ticket='" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "'),'" & splitQRCode1P(0) & "','Fresh','" & qtyFlowTicket.Rows(iFlowTicket).Item("flow_ticket") & "')"
-                                '    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                '    If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                '        TextBox1.Text = ""
-                                '        DGV_DOC()
-                                '        Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=actual_qty-" & qtyMin & " FROM STOCK_CARD WHERE material='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND DEPARTEMENT='" & globVar.department & "' AND STATUS='Production Request' and sub_sub_po='" & TextBox11.Text & "'"
-                                '        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                '        cmdUpdate.ExecuteNonQuery()
-                                '    End If
-                                'End If
-                            Next
+                            TextBox1.Text = ""
+                            DGV_DOC()
 
                             For i = 0 To DataGridView1.Rows.Count - 1
                                 If DataGridView1.Rows(i).Cells(1).Value = splitQRCode1P(0) Then
                                     DataGridView1.Rows(i).Cells(3).Selected = True
                                 End If
                             Next
-
                         End If
+
                     Else
                         MessageBox.Show("Sorry this material not for this line.")
                         TextBox1.Text = ""
@@ -716,7 +564,7 @@ Public Class Production
             DataGridView1.Columns(3).Width = 900
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
-                Dim queryCheck As String = "select lot_no,level from process_prod where pn_material=" & dtDOC.Rows(rowDataSet).Item("Component").ToString & " and line='" & ComboBox1.Text & "'"
+                Dim queryCheck As String = "select DISTINCT(lot_no),level from stock_card where material=" & dtDOC.Rows(rowDataSet).Item("Component").ToString & " and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Process'"
                 Dim dtCHECK As DataTable = Database.GetData(queryCheck)
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
                     If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
@@ -765,38 +613,44 @@ Public Class Production
 
     Private Sub Production_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBoxLine()
+        TextBox1.ReadOnly = True
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Try
-            Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq,ssp.yield_lose
+        If ComboBox1.Text <> "" Then
+            TextBox1.ReadOnly = False
+            Try
+                Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq,ssp.yield_lose
             from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
             where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
-            Dim dt As DataTable = Database.GetData(query)
-            If dt.Rows.Count > 0 Then
-                TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
-                TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
-                TextBox5.Text = dt.Rows(0).Item("PO").ToString
-                TextBox6.Text = dt.Rows(0).Item("SUB_SUB_PO_QTY").ToString
-                TextBox7.Text = dt.Rows(0).Item("SPQ").ToString
-                TextBox11.Text = dt.Rows(0).Item("SUB_SUB_PO").ToString
-                TextBox10.Text = dt.Rows(0).Item("SUB_PO").ToString
-                TextBox8.Text = dt.Rows(0).Item("YIELD_LOSE").ToString
+                Dim dt As DataTable = Database.GetData(query)
+                If dt.Rows.Count > 0 Then
+                    TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
+                    TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
+                    TextBox5.Text = dt.Rows(0).Item("PO").ToString
+                    TextBox6.Text = dt.Rows(0).Item("SUB_SUB_PO_QTY").ToString
+                    TextBox7.Text = dt.Rows(0).Item("SPQ").ToString
+                    TextBox11.Text = dt.Rows(0).Item("SUB_SUB_PO").ToString
+                    TextBox10.Text = dt.Rows(0).Item("SUB_PO").ToString
+                    TextBox8.Text = dt.Rows(0).Item("YIELD_LOSE").ToString
 
-                Dim queryFam As String = "SELECT DISTINCT(FAMILY) FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER='" & dt.Rows(0).Item("FG_PN").ToString & "'"
-                Dim dtFam As DataTable = Database.GetData(queryFam)
-                TextBox3.Text = dtFam.Rows(0).Item("family").ToString
+                    Dim queryFam As String = "SELECT DISTINCT(FAMILY) FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER='" & dt.Rows(0).Item("FG_PN").ToString & "'"
+                    Dim dtFam As DataTable = Database.GetData(queryFam)
+                    TextBox3.Text = dtFam.Rows(0).Item("family").ToString
 
-                DGV_DOC()
-                DGV_DOP()
-            Else
-                MessageBox.Show("This line no have any PO")
-                DGV_DOC()
-                DGV_DOP()
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
+                    DGV_DOC()
+                    DGV_DOP()
+                Else
+                    MessageBox.Show("This line no have any PO")
+                    DGV_DOC()
+                    DGV_DOP()
+                End If
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            MessageBox.Show("Please select line and fill the Flow Ticket first. ")
+        End If
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
@@ -910,5 +764,34 @@ Public Class Production
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Sub reset()
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Columns.Clear()
+        DataGridView1.Rows.Clear()
+
+        DataGridView2.DataSource = Nothing
+        DataGridView2.Columns.Clear()
+        DataGridView2.Rows.Clear()
+
+        ComboBox1.SelectedIndex = -1
+        TextBox1.Clear()
+        TextBox9.Clear()
+        TextBox12.Clear()
+        TextBox8.Clear()
+        TextBox2.Clear()
+        TextBox3.Clear()
+        TextBox6.Clear()
+        TextBox5.Clear()
+        TextBox10.Clear()
+        TextBox11.Clear()
+        TextBox4.Clear()
+        TextBox7.Clear()
+        TextBox1.ReadOnly = True
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        reset()
     End Sub
 End Class

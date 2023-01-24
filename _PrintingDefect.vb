@@ -31,7 +31,7 @@ Public Class _PrintingDefect
         End Try
     End Sub
 
-    Private Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
+    Public Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
         Try
             Clear_data()
             isi_data()

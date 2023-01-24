@@ -54,6 +54,32 @@ Partial Class FormDefective
         Me.Label14 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.tpFinishGoods = New System.Windows.Forms.TabPage()
+        Me.TableLayoutPanel12 = New System.Windows.Forms.TableLayoutPanel()
+        Me.rbFG = New System.Windows.Forms.RadioButton()
+        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.DataGridView3 = New System.Windows.Forms.DataGridView()
+        Me.rbSA = New System.Windows.Forms.RadioButton()
+        Me.TableLayoutPanel8 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.chkFGLserCodeFG = New System.Windows.Forms.CheckBox()
+        Me.txtFGLabel = New System.Windows.Forms.TextBox()
+        Me.txtFGFlowTicket = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel9 = New System.Windows.Forms.TableLayoutPanel()
+        Me.txtSAFlowTicket = New System.Windows.Forms.TextBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txtSABatchNo = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel10 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button7 = New System.Windows.Forms.Button()
+        Me.TableLayoutPanel11 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Button8 = New System.Windows.Forms.Button()
         Me.tpWIP = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel7 = New System.Windows.Forms.TableLayoutPanel()
@@ -76,26 +102,6 @@ Partial Class FormDefective
         Me.Label15 = New System.Windows.Forms.Label()
         Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
         Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
-        Me.tpFinishGoods = New System.Windows.Forms.TabPage()
-        Me.TableLayoutPanel12 = New System.Windows.Forms.TableLayoutPanel()
-        Me.rbFG = New System.Windows.Forms.RadioButton()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.DataGridView3 = New System.Windows.Forms.DataGridView()
-        Me.rbSA = New System.Windows.Forms.RadioButton()
-        Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.TableLayoutPanel8 = New System.Windows.Forms.TableLayoutPanel()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.chkFGLserCodeFG = New System.Windows.Forms.CheckBox()
-        Me.txtFGLabel = New System.Windows.Forms.TextBox()
-        Me.txtFGFlowTicket = New System.Windows.Forms.TextBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.TableLayoutPanel9 = New System.Windows.Forms.TableLayoutPanel()
-        Me.txtSAFlowTicket = New System.Windows.Forms.TextBox()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.tpBalance = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
@@ -119,9 +125,19 @@ Partial Class FormDefective
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnDefConfirmProcess = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
+        Me.Button9 = New System.Windows.Forms.Button()
+        Me.Button10 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
+        Me.tpFinishGoods.SuspendLayout()
+        Me.TableLayoutPanel12.SuspendLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TableLayoutPanel8.SuspendLayout()
+        Me.TableLayoutPanel9.SuspendLayout()
+        Me.TableLayoutPanel10.SuspendLayout()
+        Me.TableLayoutPanel11.SuspendLayout()
         Me.tpWIP.SuspendLayout()
         Me.TableLayoutPanel5.SuspendLayout()
         Me.TableLayoutPanel7.SuspendLayout()
@@ -132,12 +148,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel14.SuspendLayout()
         CType(Me.dgOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel15.SuspendLayout()
-        Me.tpFinishGoods.SuspendLayout()
-        Me.TableLayoutPanel12.SuspendLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TableLayoutPanel8.SuspendLayout()
-        Me.TableLayoutPanel9.SuspendLayout()
         Me.tpBalance.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.TableLayoutPanel3.SuspendLayout()
@@ -186,6 +196,7 @@ Partial Class FormDefective
         Me.txtSPQ.Name = "txtSPQ"
         Me.txtSPQ.Size = New System.Drawing.Size(100, 20)
         Me.txtSPQ.TabIndex = 24
+        Me.txtSPQ.Visible = False
         '
         'cbFGPN
         '
@@ -269,6 +280,7 @@ Partial Class FormDefective
         Me.txtTampungFlow.Name = "txtTampungFlow"
         Me.txtTampungFlow.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungFlow.TabIndex = 15
+        Me.txtTampungFlow.Visible = False
         '
         'txtTampungLabel
         '
@@ -276,6 +288,7 @@ Partial Class FormDefective
         Me.txtTampungLabel.Name = "txtTampungLabel"
         Me.txtTampungLabel.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungLabel.TabIndex = 14
+        Me.txtTampungLabel.Visible = False
         '
         'txtINV
         '
@@ -283,6 +296,7 @@ Partial Class FormDefective
         Me.txtINV.Name = "txtINV"
         Me.txtINV.Size = New System.Drawing.Size(100, 20)
         Me.txtINV.TabIndex = 13
+        Me.txtINV.Visible = False
         '
         'txtBatchno
         '
@@ -290,6 +304,7 @@ Partial Class FormDefective
         Me.txtBatchno.Name = "txtBatchno"
         Me.txtBatchno.Size = New System.Drawing.Size(100, 20)
         Me.txtBatchno.TabIndex = 12
+        Me.txtBatchno.Visible = False
         '
         'Button3
         '
@@ -463,6 +478,307 @@ Partial Class FormDefective
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(1652, 623)
         Me.TabControl1.TabIndex = 0
+        '
+        'tpFinishGoods
+        '
+        Me.tpFinishGoods.BackColor = System.Drawing.SystemColors.Control
+        Me.tpFinishGoods.Controls.Add(Me.TableLayoutPanel12)
+        Me.tpFinishGoods.Location = New System.Drawing.Point(4, 38)
+        Me.tpFinishGoods.Name = "tpFinishGoods"
+        Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 581)
+        Me.tpFinishGoods.TabIndex = 1
+        Me.tpFinishGoods.Text = "Finish Goods"
+        '
+        'TableLayoutPanel12
+        '
+        Me.TableLayoutPanel12.ColumnCount = 2
+        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel12.Controls.Add(Me.rbFG, 0, 0)
+        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView1, 0, 2)
+        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView3, 1, 2)
+        Me.TableLayoutPanel12.Controls.Add(Me.rbSA, 1, 0)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel8, 0, 1)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel9, 1, 1)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel10, 0, 3)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel11, 1, 3)
+        Me.TableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel12.Location = New System.Drawing.Point(3, 3)
+        Me.TableLayoutPanel12.Name = "TableLayoutPanel12"
+        Me.TableLayoutPanel12.RowCount = 4
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.0!))
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.0!))
+        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1638, 575)
+        Me.TableLayoutPanel12.TabIndex = 0
+        '
+        'rbFG
+        '
+        Me.rbFG.AutoSize = True
+        Me.rbFG.Location = New System.Drawing.Point(3, 3)
+        Me.rbFG.Name = "rbFG"
+        Me.rbFG.Size = New System.Drawing.Size(194, 33)
+        Me.rbFG.TabIndex = 0
+        Me.rbFG.TabStop = True
+        Me.rbFG.Text = "Goods To Ship"
+        Me.rbFG.UseVisualStyleBackColor = True
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.AllowUserToAddRows = False
+        Me.DataGridView1.AllowUserToDeleteRows = False
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 186)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.Size = New System.Drawing.Size(813, 339)
+        Me.DataGridView1.TabIndex = 1
+        '
+        'DataGridView3
+        '
+        Me.DataGridView3.AllowUserToAddRows = False
+        Me.DataGridView3.AllowUserToDeleteRows = False
+        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView3.Location = New System.Drawing.Point(822, 186)
+        Me.DataGridView3.Name = "DataGridView3"
+        Me.DataGridView3.Size = New System.Drawing.Size(813, 339)
+        Me.DataGridView3.TabIndex = 2
+        '
+        'rbSA
+        '
+        Me.rbSA.AutoSize = True
+        Me.rbSA.Location = New System.Drawing.Point(822, 3)
+        Me.rbSA.Name = "rbSA"
+        Me.rbSA.Size = New System.Drawing.Size(222, 33)
+        Me.rbSA.TabIndex = 3
+        Me.rbSA.TabStop = True
+        Me.rbSA.Text = "Sub Assy Material"
+        Me.rbSA.UseVisualStyleBackColor = True
+        '
+        'TableLayoutPanel8
+        '
+        Me.TableLayoutPanel8.ColumnCount = 3
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.471095!))
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0984!))
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.4305!))
+        Me.TableLayoutPanel8.Controls.Add(Me.Label20, 1, 1)
+        Me.TableLayoutPanel8.Controls.Add(Me.Label21, 1, 0)
+        Me.TableLayoutPanel8.Controls.Add(Me.chkFGLserCodeFG, 1, 2)
+        Me.TableLayoutPanel8.Controls.Add(Me.txtFGLabel, 2, 0)
+        Me.TableLayoutPanel8.Controls.Add(Me.txtFGFlowTicket, 2, 1)
+        Me.TableLayoutPanel8.Controls.Add(Me.TextBox3, 2, 2)
+        Me.TableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel8.Location = New System.Drawing.Point(3, 43)
+        Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
+        Me.TableLayoutPanel8.RowCount = 3
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel8.Size = New System.Drawing.Size(813, 137)
+        Me.TableLayoutPanel8.TabIndex = 6
+        '
+        'Label20
+        '
+        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(80, 53)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(216, 29)
+        Me.Label20.TabIndex = 0
+        Me.Label20.Text = "   Scan Flow Ticket"
+        '
+        'Label21
+        '
+        Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(80, 8)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(151, 29)
+        Me.Label21.TabIndex = 1
+        Me.Label21.Text = "   Scan Label"
+        '
+        'chkFGLserCodeFG
+        '
+        Me.chkFGLserCodeFG.AutoSize = True
+        Me.chkFGLserCodeFG.Location = New System.Drawing.Point(80, 93)
+        Me.chkFGLserCodeFG.Name = "chkFGLserCodeFG"
+        Me.chkFGLserCodeFG.Size = New System.Drawing.Size(157, 33)
+        Me.chkFGLserCodeFG.TabIndex = 0
+        Me.chkFGLserCodeFG.Text = "Laser Code"
+        Me.chkFGLserCodeFG.UseVisualStyleBackColor = True
+        '
+        'txtFGLabel
+        '
+        Me.txtFGLabel.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtFGLabel.Location = New System.Drawing.Point(406, 5)
+        Me.txtFGLabel.Name = "txtFGLabel"
+        Me.txtFGLabel.Size = New System.Drawing.Size(271, 35)
+        Me.txtFGLabel.TabIndex = 2
+        '
+        'txtFGFlowTicket
+        '
+        Me.txtFGFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtFGFlowTicket.Location = New System.Drawing.Point(406, 50)
+        Me.txtFGFlowTicket.Name = "txtFGFlowTicket"
+        Me.txtFGFlowTicket.Size = New System.Drawing.Size(271, 35)
+        Me.txtFGFlowTicket.TabIndex = 3
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox3.Location = New System.Drawing.Point(406, 96)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(271, 35)
+        Me.TextBox3.TabIndex = 4
+        '
+        'TableLayoutPanel9
+        '
+        Me.TableLayoutPanel9.ColumnCount = 3
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.4551!))
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.68143!))
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.98647!))
+        Me.TableLayoutPanel9.Controls.Add(Me.txtSAFlowTicket, 2, 0)
+        Me.TableLayoutPanel9.Controls.Add(Me.Label22, 1, 0)
+        Me.TableLayoutPanel9.Controls.Add(Me.CheckBox1, 1, 2)
+        Me.TableLayoutPanel9.Controls.Add(Me.TextBox6, 2, 2)
+        Me.TableLayoutPanel9.Controls.Add(Me.Label8, 1, 1)
+        Me.TableLayoutPanel9.Controls.Add(Me.txtSABatchNo, 2, 1)
+        Me.TableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel9.Location = New System.Drawing.Point(822, 43)
+        Me.TableLayoutPanel9.Name = "TableLayoutPanel9"
+        Me.TableLayoutPanel9.RowCount = 3
+        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
+        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
+        Me.TableLayoutPanel9.Size = New System.Drawing.Size(813, 137)
+        Me.TableLayoutPanel9.TabIndex = 7
+        '
+        'txtSAFlowTicket
+        '
+        Me.txtSAFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtSAFlowTicket.Location = New System.Drawing.Point(433, 5)
+        Me.txtSAFlowTicket.Name = "txtSAFlowTicket"
+        Me.txtSAFlowTicket.Size = New System.Drawing.Size(271, 35)
+        Me.txtSAFlowTicket.TabIndex = 5
+        '
+        'Label22
+        '
+        Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(87, 8)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(216, 29)
+        Me.Label22.TabIndex = 5
+        Me.Label22.Text = "   Scan Flow Ticket"
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(87, 93)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(157, 33)
+        Me.CheckBox1.TabIndex = 5
+        Me.CheckBox1.Text = "Laser Code"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'TextBox6
+        '
+        Me.TextBox6.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox6.Location = New System.Drawing.Point(433, 96)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(271, 35)
+        Me.TextBox6.TabIndex = 7
+        '
+        'Label8
+        '
+        Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(87, 53)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(129, 29)
+        Me.Label8.TabIndex = 8
+        Me.Label8.Text = "   Batch No"
+        '
+        'txtSABatchNo
+        '
+        Me.txtSABatchNo.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtSABatchNo.Location = New System.Drawing.Point(433, 50)
+        Me.txtSABatchNo.Name = "txtSABatchNo"
+        Me.txtSABatchNo.Size = New System.Drawing.Size(271, 35)
+        Me.txtSABatchNo.TabIndex = 9
+        '
+        'TableLayoutPanel10
+        '
+        Me.TableLayoutPanel10.ColumnCount = 3
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel10.Controls.Add(Me.Button9, 2, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.Button4, 0, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.Button7, 1, 0)
+        Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 531)
+        Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
+        Me.TableLayoutPanel10.RowCount = 1
+        Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel10.Size = New System.Drawing.Size(813, 41)
+        Me.TableLayoutPanel10.TabIndex = 8
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(3, 3)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(172, 35)
+        Me.Button4.TabIndex = 4
+        Me.Button4.Text = "Save"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Button7
+        '
+        Me.Button7.Location = New System.Drawing.Point(273, 3)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(175, 35)
+        Me.Button7.TabIndex = 5
+        Me.Button7.Text = "Print Reject"
+        Me.Button7.UseVisualStyleBackColor = True
+        '
+        'TableLayoutPanel11
+        '
+        Me.TableLayoutPanel11.ColumnCount = 3
+        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel11.Controls.Add(Me.Button10, 2, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.Button5, 0, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.Button8, 1, 0)
+        Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel11.Location = New System.Drawing.Point(822, 531)
+        Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
+        Me.TableLayoutPanel11.RowCount = 1
+        Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel11.Size = New System.Drawing.Size(813, 41)
+        Me.TableLayoutPanel11.TabIndex = 9
+        '
+        'Button5
+        '
+        Me.Button5.Location = New System.Drawing.Point(3, 3)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(172, 35)
+        Me.Button5.TabIndex = 5
+        Me.Button5.Text = "Save"
+        Me.Button5.UseVisualStyleBackColor = True
+        '
+        'Button8
+        '
+        Me.Button8.Location = New System.Drawing.Point(273, 3)
+        Me.Button8.Name = "Button8"
+        Me.Button8.Size = New System.Drawing.Size(190, 35)
+        Me.Button8.TabIndex = 6
+        Me.Button8.Text = "Print Reject"
+        Me.Button8.UseVisualStyleBackColor = True
         '
         'tpWIP
         '
@@ -738,235 +1054,6 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbOnHoldProcess.TabIndex = 4
         '
-        'tpFinishGoods
-        '
-        Me.tpFinishGoods.BackColor = System.Drawing.SystemColors.Control
-        Me.tpFinishGoods.Controls.Add(Me.TableLayoutPanel12)
-        Me.tpFinishGoods.Location = New System.Drawing.Point(4, 38)
-        Me.tpFinishGoods.Name = "tpFinishGoods"
-        Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 581)
-        Me.tpFinishGoods.TabIndex = 1
-        Me.tpFinishGoods.Text = "Finish Goods"
-        '
-        'TableLayoutPanel12
-        '
-        Me.TableLayoutPanel12.ColumnCount = 2
-        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel12.Controls.Add(Me.rbFG, 0, 0)
-        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView1, 0, 2)
-        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView3, 1, 2)
-        Me.TableLayoutPanel12.Controls.Add(Me.rbSA, 1, 0)
-        Me.TableLayoutPanel12.Controls.Add(Me.Button4, 0, 3)
-        Me.TableLayoutPanel12.Controls.Add(Me.Button5, 1, 3)
-        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel8, 0, 1)
-        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel9, 1, 1)
-        Me.TableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel12.Location = New System.Drawing.Point(3, 3)
-        Me.TableLayoutPanel12.Name = "TableLayoutPanel12"
-        Me.TableLayoutPanel12.RowCount = 4
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.0!))
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.0!))
-        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1638, 575)
-        Me.TableLayoutPanel12.TabIndex = 0
-        '
-        'rbFG
-        '
-        Me.rbFG.AutoSize = True
-        Me.rbFG.Location = New System.Drawing.Point(3, 3)
-        Me.rbFG.Name = "rbFG"
-        Me.rbFG.Size = New System.Drawing.Size(194, 33)
-        Me.rbFG.TabIndex = 0
-        Me.rbFG.TabStop = True
-        Me.rbFG.Text = "Goods To Ship"
-        Me.rbFG.UseVisualStyleBackColor = True
-        '
-        'DataGridView1
-        '
-        Me.DataGridView1.AllowUserToAddRows = False
-        Me.DataGridView1.AllowUserToDeleteRows = False
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 186)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(813, 339)
-        Me.DataGridView1.TabIndex = 1
-        '
-        'DataGridView3
-        '
-        Me.DataGridView3.AllowUserToAddRows = False
-        Me.DataGridView3.AllowUserToDeleteRows = False
-        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView3.Location = New System.Drawing.Point(822, 186)
-        Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(813, 339)
-        Me.DataGridView3.TabIndex = 2
-        '
-        'rbSA
-        '
-        Me.rbSA.AutoSize = True
-        Me.rbSA.Location = New System.Drawing.Point(822, 3)
-        Me.rbSA.Name = "rbSA"
-        Me.rbSA.Size = New System.Drawing.Size(222, 33)
-        Me.rbSA.TabIndex = 3
-        Me.rbSA.TabStop = True
-        Me.rbSA.Text = "Sub Assy Material"
-        Me.rbSA.UseVisualStyleBackColor = True
-        '
-        'Button4
-        '
-        Me.Button4.Location = New System.Drawing.Point(3, 531)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(172, 41)
-        Me.Button4.TabIndex = 4
-        Me.Button4.Text = "Save"
-        Me.Button4.UseVisualStyleBackColor = True
-        '
-        'Button5
-        '
-        Me.Button5.Location = New System.Drawing.Point(822, 531)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(172, 41)
-        Me.Button5.TabIndex = 5
-        Me.Button5.Text = "Save"
-        Me.Button5.UseVisualStyleBackColor = True
-        '
-        'TableLayoutPanel8
-        '
-        Me.TableLayoutPanel8.ColumnCount = 3
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.471095!))
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0984!))
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.4305!))
-        Me.TableLayoutPanel8.Controls.Add(Me.Label20, 1, 1)
-        Me.TableLayoutPanel8.Controls.Add(Me.Label21, 1, 0)
-        Me.TableLayoutPanel8.Controls.Add(Me.chkFGLserCodeFG, 1, 2)
-        Me.TableLayoutPanel8.Controls.Add(Me.txtFGLabel, 2, 0)
-        Me.TableLayoutPanel8.Controls.Add(Me.txtFGFlowTicket, 2, 1)
-        Me.TableLayoutPanel8.Controls.Add(Me.TextBox3, 2, 2)
-        Me.TableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel8.Location = New System.Drawing.Point(3, 43)
-        Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
-        Me.TableLayoutPanel8.RowCount = 3
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel8.Size = New System.Drawing.Size(813, 137)
-        Me.TableLayoutPanel8.TabIndex = 6
-        '
-        'Label20
-        '
-        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(80, 53)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(216, 29)
-        Me.Label20.TabIndex = 0
-        Me.Label20.Text = "   Scan Flow Ticket"
-        '
-        'Label21
-        '
-        Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(80, 8)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(151, 29)
-        Me.Label21.TabIndex = 1
-        Me.Label21.Text = "   Scan Label"
-        '
-        'chkFGLserCodeFG
-        '
-        Me.chkFGLserCodeFG.AutoSize = True
-        Me.chkFGLserCodeFG.Location = New System.Drawing.Point(80, 93)
-        Me.chkFGLserCodeFG.Name = "chkFGLserCodeFG"
-        Me.chkFGLserCodeFG.Size = New System.Drawing.Size(157, 33)
-        Me.chkFGLserCodeFG.TabIndex = 0
-        Me.chkFGLserCodeFG.Text = "Laser Code"
-        Me.chkFGLserCodeFG.UseVisualStyleBackColor = True
-        '
-        'txtFGLabel
-        '
-        Me.txtFGLabel.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtFGLabel.Location = New System.Drawing.Point(406, 5)
-        Me.txtFGLabel.Name = "txtFGLabel"
-        Me.txtFGLabel.Size = New System.Drawing.Size(271, 35)
-        Me.txtFGLabel.TabIndex = 2
-        '
-        'txtFGFlowTicket
-        '
-        Me.txtFGFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtFGFlowTicket.Location = New System.Drawing.Point(406, 50)
-        Me.txtFGFlowTicket.Name = "txtFGFlowTicket"
-        Me.txtFGFlowTicket.Size = New System.Drawing.Size(271, 35)
-        Me.txtFGFlowTicket.TabIndex = 3
-        '
-        'TextBox3
-        '
-        Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox3.Location = New System.Drawing.Point(406, 96)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(271, 35)
-        Me.TextBox3.TabIndex = 4
-        '
-        'TableLayoutPanel9
-        '
-        Me.TableLayoutPanel9.ColumnCount = 3
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.4551!))
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.68143!))
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.98647!))
-        Me.TableLayoutPanel9.Controls.Add(Me.txtSAFlowTicket, 2, 0)
-        Me.TableLayoutPanel9.Controls.Add(Me.Label22, 1, 0)
-        Me.TableLayoutPanel9.Controls.Add(Me.CheckBox1, 1, 1)
-        Me.TableLayoutPanel9.Controls.Add(Me.TextBox6, 2, 1)
-        Me.TableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel9.Location = New System.Drawing.Point(822, 43)
-        Me.TableLayoutPanel9.Name = "TableLayoutPanel9"
-        Me.TableLayoutPanel9.RowCount = 3
-        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
-        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
-        Me.TableLayoutPanel9.Size = New System.Drawing.Size(813, 137)
-        Me.TableLayoutPanel9.TabIndex = 7
-        '
-        'txtSAFlowTicket
-        '
-        Me.txtSAFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtSAFlowTicket.Location = New System.Drawing.Point(433, 5)
-        Me.txtSAFlowTicket.Name = "txtSAFlowTicket"
-        Me.txtSAFlowTicket.Size = New System.Drawing.Size(271, 35)
-        Me.txtSAFlowTicket.TabIndex = 5
-        '
-        'Label22
-        '
-        Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(87, 8)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(216, 29)
-        Me.Label22.TabIndex = 5
-        Me.Label22.Text = "   Scan Flow Ticket"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(87, 48)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(157, 33)
-        Me.CheckBox1.TabIndex = 5
-        Me.CheckBox1.Text = "Laser Code"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'TextBox6
-        '
-        Me.TextBox6.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox6.Location = New System.Drawing.Point(433, 50)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(271, 35)
-        Me.TextBox6.TabIndex = 7
-        '
         'tpBalance
         '
         Me.tpBalance.BackColor = System.Drawing.SystemColors.Control
@@ -1229,6 +1316,24 @@ Partial Class FormDefective
         Me.btnOtherSave.Text = "Save"
         Me.btnOtherSave.UseVisualStyleBackColor = True
         '
+        'Button9
+        '
+        Me.Button9.Location = New System.Drawing.Point(543, 3)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(172, 35)
+        Me.Button9.TabIndex = 6
+        Me.Button9.Text = "Reset"
+        Me.Button9.UseVisualStyleBackColor = True
+        '
+        'Button10
+        '
+        Me.Button10.Location = New System.Drawing.Point(543, 3)
+        Me.Button10.Name = "Button10"
+        Me.Button10.Size = New System.Drawing.Size(172, 35)
+        Me.Button10.TabIndex = 7
+        Me.Button10.Text = "Reset"
+        Me.Button10.UseVisualStyleBackColor = True
+        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1243,6 +1348,17 @@ Partial Class FormDefective
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
+        Me.tpFinishGoods.ResumeLayout(False)
+        Me.TableLayoutPanel12.ResumeLayout(False)
+        Me.TableLayoutPanel12.PerformLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TableLayoutPanel8.ResumeLayout(False)
+        Me.TableLayoutPanel8.PerformLayout()
+        Me.TableLayoutPanel9.ResumeLayout(False)
+        Me.TableLayoutPanel9.PerformLayout()
+        Me.TableLayoutPanel10.ResumeLayout(False)
+        Me.TableLayoutPanel11.ResumeLayout(False)
         Me.tpWIP.ResumeLayout(False)
         Me.TableLayoutPanel5.ResumeLayout(False)
         Me.TableLayoutPanel7.ResumeLayout(False)
@@ -1255,15 +1371,6 @@ Partial Class FormDefective
         CType(Me.dgOnHold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TableLayoutPanel15.ResumeLayout(False)
         Me.TableLayoutPanel15.PerformLayout()
-        Me.tpFinishGoods.ResumeLayout(False)
-        Me.TableLayoutPanel12.ResumeLayout(False)
-        Me.TableLayoutPanel12.PerformLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TableLayoutPanel8.ResumeLayout(False)
-        Me.TableLayoutPanel8.PerformLayout()
-        Me.TableLayoutPanel9.ResumeLayout(False)
-        Me.TableLayoutPanel9.PerformLayout()
         Me.tpBalance.ResumeLayout(False)
         Me.TableLayoutPanel2.ResumeLayout(False)
         Me.TableLayoutPanel3.ResumeLayout(False)
@@ -1377,4 +1484,12 @@ Partial Class FormDefective
     Friend WithEvents txtLabelOtherPart As TextBox
     Friend WithEvents Button6 As Button
     Friend WithEvents txtBalanceQty As NumericUpDown
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txtSABatchNo As TextBox
+    Friend WithEvents TableLayoutPanel10 As TableLayoutPanel
+    Friend WithEvents Button7 As Button
+    Friend WithEvents TableLayoutPanel11 As TableLayoutPanel
+    Friend WithEvents Button8 As Button
+    Friend WithEvents Button9 As Button
+    Friend WithEvents Button10 As Button
 End Class

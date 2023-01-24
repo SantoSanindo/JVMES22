@@ -36,7 +36,6 @@ Partial Class FormDefective
         Me.txtTampungLabel = New System.Windows.Forms.TextBox()
         Me.txtINV = New System.Windows.Forms.TextBox()
         Me.txtBatchno = New System.Windows.Forms.TextBox()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cbLineNumber = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -75,11 +74,13 @@ Partial Class FormDefective
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtSABatchNo = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel10 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button9 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button7 = New System.Windows.Forms.Button()
+        Me.btnPrintFGReject = New System.Windows.Forms.Button()
         Me.TableLayoutPanel11 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button10 = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button8 = New System.Windows.Forms.Button()
+        Me.btnPrintSAReject = New System.Windows.Forms.Button()
         Me.tpWIP = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel7 = New System.Windows.Forms.TableLayoutPanel()
@@ -87,6 +88,7 @@ Partial Class FormDefective
         Me.btnWIPOK = New System.Windows.Forms.Button()
         Me.dgWIP = New System.Windows.Forms.DataGridView()
         Me.TableLayoutPanel6 = New System.Windows.Forms.TableLayoutPanel()
+        Me.btnPrintWIP = New System.Windows.Forms.Button()
         Me.tpOnHold = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel13 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel14 = New System.Windows.Forms.TableLayoutPanel()
@@ -94,7 +96,6 @@ Partial Class FormDefective
         Me.Button2 = New System.Windows.Forms.Button()
         Me.dgOnHold = New System.Windows.Forms.DataGridView()
         Me.TableLayoutPanel15 = New System.Windows.Forms.TableLayoutPanel()
-        Me.btnOnHoldEdit = New System.Windows.Forms.Button()
         Me.btnOnHoldAdd = New System.Windows.Forms.Button()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.txtOnHoldQty = New System.Windows.Forms.TextBox()
@@ -102,6 +103,8 @@ Partial Class FormDefective
         Me.Label15 = New System.Windows.Forms.Label()
         Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
         Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
+        Me.btnOnHoldEdit = New System.Windows.Forms.Button()
+        Me.btnPrintOnhold = New System.Windows.Forms.Button()
         Me.tpBalance = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
@@ -111,7 +114,7 @@ Partial Class FormDefective
         Me.txtBalanceMaterialPN = New System.Windows.Forms.TextBox()
         Me.btnBalanceEdit = New System.Windows.Forms.Button()
         Me.btnBalanceAdd = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
+        Me.btnPrintBalance = New System.Windows.Forms.Button()
         Me.txtBalanceQty = New System.Windows.Forms.NumericUpDown()
         Me.dgBalance = New System.Windows.Forms.DataGridView()
         Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
@@ -125,8 +128,6 @@ Partial Class FormDefective
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnDefConfirmProcess = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
-        Me.Button9 = New System.Windows.Forms.Button()
-        Me.Button10 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -175,7 +176,6 @@ Partial Class FormDefective
         Me.GroupBox1.Controls.Add(Me.txtTampungLabel)
         Me.GroupBox1.Controls.Add(Me.txtINV)
         Me.GroupBox1.Controls.Add(Me.txtBatchno)
-        Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.cbLineNumber)
         Me.GroupBox1.Controls.Add(Me.Label6)
@@ -306,15 +306,6 @@ Partial Class FormDefective
         Me.txtBatchno.TabIndex = 12
         Me.txtBatchno.Visible = False
         '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(1362, 48)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(174, 71)
-        Me.Button3.TabIndex = 11
-        Me.Button3.Text = "Button3"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -405,9 +396,9 @@ Partial Class FormDefective
         'btnWIPEdit
         '
         Me.btnWIPEdit.BackColor = System.Drawing.Color.Yellow
-        Me.btnWIPEdit.Location = New System.Drawing.Point(975, 93)
+        Me.btnWIPEdit.Location = New System.Drawing.Point(975, 48)
         Me.btnWIPEdit.Name = "btnWIPEdit"
-        Me.btnWIPEdit.Size = New System.Drawing.Size(256, 59)
+        Me.btnWIPEdit.Size = New System.Drawing.Size(256, 39)
         Me.btnWIPEdit.TabIndex = 8
         Me.btnWIPEdit.Text = "Edit"
         Me.btnWIPEdit.UseVisualStyleBackColor = False
@@ -718,7 +709,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel10.Controls.Add(Me.Button9, 2, 0)
         Me.TableLayoutPanel10.Controls.Add(Me.Button4, 0, 0)
-        Me.TableLayoutPanel10.Controls.Add(Me.Button7, 1, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.btnPrintFGReject, 1, 0)
         Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 531)
         Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
@@ -726,6 +717,15 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel10.Size = New System.Drawing.Size(813, 41)
         Me.TableLayoutPanel10.TabIndex = 8
+        '
+        'Button9
+        '
+        Me.Button9.Location = New System.Drawing.Point(545, 3)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(172, 35)
+        Me.Button9.TabIndex = 6
+        Me.Button9.Text = "Reset"
+        Me.Button9.UseVisualStyleBackColor = True
         '
         'Button4
         '
@@ -736,14 +736,14 @@ Partial Class FormDefective
         Me.Button4.Text = "Save"
         Me.Button4.UseVisualStyleBackColor = True
         '
-        'Button7
+        'btnPrintFGReject
         '
-        Me.Button7.Location = New System.Drawing.Point(273, 3)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(175, 35)
-        Me.Button7.TabIndex = 5
-        Me.Button7.Text = "Print Reject"
-        Me.Button7.UseVisualStyleBackColor = True
+        Me.btnPrintFGReject.Location = New System.Drawing.Point(274, 3)
+        Me.btnPrintFGReject.Name = "btnPrintFGReject"
+        Me.btnPrintFGReject.Size = New System.Drawing.Size(175, 35)
+        Me.btnPrintFGReject.TabIndex = 5
+        Me.btnPrintFGReject.Text = "Print Reject"
+        Me.btnPrintFGReject.UseVisualStyleBackColor = True
         '
         'TableLayoutPanel11
         '
@@ -753,7 +753,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel11.Controls.Add(Me.Button10, 2, 0)
         Me.TableLayoutPanel11.Controls.Add(Me.Button5, 0, 0)
-        Me.TableLayoutPanel11.Controls.Add(Me.Button8, 1, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.btnPrintSAReject, 1, 0)
         Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel11.Location = New System.Drawing.Point(822, 531)
         Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
@@ -761,6 +761,15 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel11.Size = New System.Drawing.Size(813, 41)
         Me.TableLayoutPanel11.TabIndex = 9
+        '
+        'Button10
+        '
+        Me.Button10.Location = New System.Drawing.Point(545, 3)
+        Me.Button10.Name = "Button10"
+        Me.Button10.Size = New System.Drawing.Size(172, 35)
+        Me.Button10.TabIndex = 7
+        Me.Button10.Text = "Reset"
+        Me.Button10.UseVisualStyleBackColor = True
         '
         'Button5
         '
@@ -771,14 +780,14 @@ Partial Class FormDefective
         Me.Button5.Text = "Save"
         Me.Button5.UseVisualStyleBackColor = True
         '
-        'Button8
+        'btnPrintSAReject
         '
-        Me.Button8.Location = New System.Drawing.Point(273, 3)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(190, 35)
-        Me.Button8.TabIndex = 6
-        Me.Button8.Text = "Print Reject"
-        Me.Button8.UseVisualStyleBackColor = True
+        Me.btnPrintSAReject.Location = New System.Drawing.Point(274, 3)
+        Me.btnPrintSAReject.Name = "btnPrintSAReject"
+        Me.btnPrintSAReject.Size = New System.Drawing.Size(190, 35)
+        Me.btnPrintSAReject.TabIndex = 6
+        Me.btnPrintSAReject.Text = "Print Reject"
+        Me.btnPrintSAReject.UseVisualStyleBackColor = True
         '
         'tpWIP
         '
@@ -865,7 +874,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel6.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.64706!))
         Me.TableLayoutPanel6.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.64706!))
         Me.TableLayoutPanel6.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.05882!))
-        Me.TableLayoutPanel6.Controls.Add(Me.btnWIPEdit, 4, 2)
         Me.TableLayoutPanel6.Controls.Add(Me.btnWIPAdd, 3, 2)
         Me.TableLayoutPanel6.Controls.Add(Me.Label12, 0, 0)
         Me.TableLayoutPanel6.Controls.Add(Me.txtWIPQuantity, 1, 2)
@@ -873,6 +881,8 @@ Partial Class FormDefective
         Me.TableLayoutPanel6.Controls.Add(Me.Label14, 0, 2)
         Me.TableLayoutPanel6.Controls.Add(Me.txtWIPTicketNo, 1, 1)
         Me.TableLayoutPanel6.Controls.Add(Me.cbWIPProcess, 1, 0)
+        Me.TableLayoutPanel6.Controls.Add(Me.btnWIPEdit, 4, 1)
+        Me.TableLayoutPanel6.Controls.Add(Me.btnPrintWIP, 4, 2)
         Me.TableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel6.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel6.Name = "TableLayoutPanel6"
@@ -882,6 +892,16 @@ Partial Class FormDefective
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel6.Size = New System.Drawing.Size(1638, 155)
         Me.TableLayoutPanel6.TabIndex = 4
+        '
+        'btnPrintWIP
+        '
+        Me.btnPrintWIP.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnPrintWIP.Location = New System.Drawing.Point(975, 93)
+        Me.btnPrintWIP.Name = "btnPrintWIP"
+        Me.btnPrintWIP.Size = New System.Drawing.Size(256, 59)
+        Me.btnPrintWIP.TabIndex = 9
+        Me.btnPrintWIP.Text = "Print"
+        Me.btnPrintWIP.UseVisualStyleBackColor = False
         '
         'tpOnHold
         '
@@ -967,7 +987,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel15.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.64706!))
         Me.TableLayoutPanel15.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.64706!))
         Me.TableLayoutPanel15.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.05882!))
-        Me.TableLayoutPanel15.Controls.Add(Me.btnOnHoldEdit, 4, 2)
         Me.TableLayoutPanel15.Controls.Add(Me.btnOnHoldAdd, 3, 2)
         Me.TableLayoutPanel15.Controls.Add(Me.Label9, 0, 0)
         Me.TableLayoutPanel15.Controls.Add(Me.txtOnHoldQty, 1, 2)
@@ -975,6 +994,8 @@ Partial Class FormDefective
         Me.TableLayoutPanel15.Controls.Add(Me.Label15, 0, 2)
         Me.TableLayoutPanel15.Controls.Add(Me.txtOnHoldTicketNo, 1, 1)
         Me.TableLayoutPanel15.Controls.Add(Me.cbOnHoldProcess, 1, 0)
+        Me.TableLayoutPanel15.Controls.Add(Me.btnOnHoldEdit, 4, 1)
+        Me.TableLayoutPanel15.Controls.Add(Me.btnPrintOnhold, 4, 2)
         Me.TableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel15.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel15.Name = "TableLayoutPanel15"
@@ -984,16 +1005,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel15.Size = New System.Drawing.Size(1638, 155)
         Me.TableLayoutPanel15.TabIndex = 4
-        '
-        'btnOnHoldEdit
-        '
-        Me.btnOnHoldEdit.BackColor = System.Drawing.Color.Yellow
-        Me.btnOnHoldEdit.Location = New System.Drawing.Point(975, 93)
-        Me.btnOnHoldEdit.Name = "btnOnHoldEdit"
-        Me.btnOnHoldEdit.Size = New System.Drawing.Size(256, 59)
-        Me.btnOnHoldEdit.TabIndex = 8
-        Me.btnOnHoldEdit.Text = "Edit"
-        Me.btnOnHoldEdit.UseVisualStyleBackColor = False
         '
         'btnOnHoldAdd
         '
@@ -1054,6 +1065,26 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbOnHoldProcess.TabIndex = 4
         '
+        'btnOnHoldEdit
+        '
+        Me.btnOnHoldEdit.BackColor = System.Drawing.Color.Yellow
+        Me.btnOnHoldEdit.Location = New System.Drawing.Point(975, 48)
+        Me.btnOnHoldEdit.Name = "btnOnHoldEdit"
+        Me.btnOnHoldEdit.Size = New System.Drawing.Size(256, 39)
+        Me.btnOnHoldEdit.TabIndex = 8
+        Me.btnOnHoldEdit.Text = "Edit"
+        Me.btnOnHoldEdit.UseVisualStyleBackColor = False
+        '
+        'btnPrintOnhold
+        '
+        Me.btnPrintOnhold.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnPrintOnhold.Location = New System.Drawing.Point(975, 93)
+        Me.btnPrintOnhold.Name = "btnPrintOnhold"
+        Me.btnPrintOnhold.Size = New System.Drawing.Size(256, 59)
+        Me.btnPrintOnhold.TabIndex = 9
+        Me.btnPrintOnhold.Text = "Print"
+        Me.btnPrintOnhold.UseVisualStyleBackColor = False
+        '
         'tpBalance
         '
         Me.tpBalance.BackColor = System.Drawing.SystemColors.Control
@@ -1096,7 +1127,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceMaterialPN, 4, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceEdit, 5, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.btnBalanceAdd, 4, 1)
-        Me.TableLayoutPanel3.Controls.Add(Me.Button6, 5, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.btnPrintBalance, 5, 1)
         Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceQty, 2, 1)
         Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
@@ -1165,15 +1196,15 @@ Partial Class FormDefective
         Me.btnBalanceAdd.Text = "Add"
         Me.btnBalanceAdd.UseVisualStyleBackColor = False
         '
-        'Button6
+        'btnPrintBalance
         '
-        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button6.Location = New System.Drawing.Point(1064, 58)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(288, 49)
-        Me.Button6.TabIndex = 11
-        Me.Button6.Text = "Print"
-        Me.Button6.UseVisualStyleBackColor = False
+        Me.btnPrintBalance.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnPrintBalance.Location = New System.Drawing.Point(1064, 58)
+        Me.btnPrintBalance.Name = "btnPrintBalance"
+        Me.btnPrintBalance.Size = New System.Drawing.Size(288, 49)
+        Me.btnPrintBalance.TabIndex = 11
+        Me.btnPrintBalance.Text = "Print"
+        Me.btnPrintBalance.UseVisualStyleBackColor = False
         '
         'txtBalanceQty
         '
@@ -1316,24 +1347,6 @@ Partial Class FormDefective
         Me.btnOtherSave.Text = "Save"
         Me.btnOtherSave.UseVisualStyleBackColor = True
         '
-        'Button9
-        '
-        Me.Button9.Location = New System.Drawing.Point(543, 3)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(172, 35)
-        Me.Button9.TabIndex = 6
-        Me.Button9.Text = "Reset"
-        Me.Button9.UseVisualStyleBackColor = True
-        '
-        'Button10
-        '
-        Me.Button10.Location = New System.Drawing.Point(543, 3)
-        Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(172, 35)
-        Me.Button10.TabIndex = 7
-        Me.Button10.Text = "Reset"
-        Me.Button10.UseVisualStyleBackColor = True
-        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1446,7 +1459,6 @@ Partial Class FormDefective
     Friend WithEvents Label16 As Label
     Friend WithEvents txtBalanceBarcode As TextBox
     Friend WithEvents txtBalanceMaterialPN As TextBox
-    Friend WithEvents Button3 As Button
     Friend WithEvents txtTampungFlow As TextBox
     Friend WithEvents txtTampungLabel As TextBox
     Friend WithEvents txtINV As TextBox
@@ -1482,14 +1494,16 @@ Partial Class FormDefective
     Friend WithEvents btnOtherSave As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents txtLabelOtherPart As TextBox
-    Friend WithEvents Button6 As Button
+    Friend WithEvents btnPrintBalance As Button
     Friend WithEvents txtBalanceQty As NumericUpDown
     Friend WithEvents Label8 As Label
     Friend WithEvents txtSABatchNo As TextBox
     Friend WithEvents TableLayoutPanel10 As TableLayoutPanel
-    Friend WithEvents Button7 As Button
+    Friend WithEvents btnPrintFGReject As Button
     Friend WithEvents TableLayoutPanel11 As TableLayoutPanel
-    Friend WithEvents Button8 As Button
+    Friend WithEvents btnPrintSAReject As Button
     Friend WithEvents Button9 As Button
     Friend WithEvents Button10 As Button
+    Friend WithEvents btnPrintWIP As Button
+    Friend WithEvents btnPrintOnhold As Button
 End Class

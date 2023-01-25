@@ -332,6 +332,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HOME.resx">
       <DependentUpon>HOME.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>

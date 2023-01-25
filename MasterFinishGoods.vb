@@ -14,7 +14,7 @@ Public Class MasterFinishGoods
                     MessageBox.Show("Material Exist")
                 Else
                     Try
-                        Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTEMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE) VALUES ('" & txt_pn.Text & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & txt_desc.Text & "'," & txt_spq.Text & ",'" & txt_laser.Text & "')"
+                        Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE) VALUES ('" & txt_pn.Text & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & txt_desc.Text & "'," & txt_spq.Text & ",'" & txt_laser.Text & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -49,11 +49,11 @@ Public Class MasterFinishGoods
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from department")
 
         txt_dept.DataSource = dtMasterDepart
-        txt_dept.DisplayMember = "departement"
-        txt_dept.ValueMember = "departement"
+        txt_dept.DisplayMember = "department"
+        txt_dept.ValueMember = "department"
         txt_dept.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         txt_dept.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
@@ -70,7 +70,7 @@ Public Class MasterFinishGoods
         dgv_finish_goods.Rows.Clear()
         dgv_finish_goods.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTEMENT,FG_PART_NUMBER,DESCRIPTION,LEVEL, SPQ, LASER_CODE from MASTER_FINISH_GOODS")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT,FG_PART_NUMBER,DESCRIPTION,LEVEL, SPQ, LASER_CODE from MASTER_FINISH_GOODS")
 
         dgv_finish_goods.DataSource = dtMasterMaterial
 

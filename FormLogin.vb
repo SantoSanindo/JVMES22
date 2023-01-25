@@ -9,11 +9,11 @@ Public Class FormLogin
 
         If dt.Rows.Count > 0 Then
             globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
-            globVar.department = dt.Rows(0).Item("DEPARTEMENT").ToString
+            globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
             txtUname.Clear()
             txtPass.Clear()
 
-            HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & dt.Rows(0).Item("DEPARTEMENT").ToString
+            HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & dt.Rows(0).Item("DEPARTMENT").ToString
         Else
             MessageBox.Show("Login Failed. Please Try Again.")
             txtUname.Clear()
@@ -39,11 +39,11 @@ Public Class FormLogin
 
             If dt.Rows.Count > 0 Then
                 globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
-                globVar.department = dt.Rows(0).Item("DEPARTEMENT").ToString
+                globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
                 txtUname.Clear()
                 txtPass.Clear()
 
-                HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & dt.Rows(0).Item("DEPARTEMENT").ToString
+                HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & dt.Rows(0).Item("DEPARTMENT").ToString
             Else
                 MessageBox.Show("Login Failed. Please Try Again.")
                 txtUname.Clear()

@@ -34,8 +34,10 @@ Public Class _PrintingSubAssyRawMaterial
             Clear_data()
             isi_data()
             label.Print(1)
+            globVar.failPrint = "No"
         Catch ex As Exception
             MsgBox(ex.Message)
+            globVar.failPrint = "Yes"
         End Try
     End Sub
     Private Sub isi_data()

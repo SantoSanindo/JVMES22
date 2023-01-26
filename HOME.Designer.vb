@@ -51,6 +51,8 @@ Partial Class HOME
         Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
         Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibResultProduction = New System.Windows.Forms.RibbonPanel()
+        Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
         Me.RibFGA = New System.Windows.Forms.RibbonPanel()
         Me.FGABtn = New System.Windows.Forms.RibbonButton()
@@ -82,8 +84,6 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibResultProduction = New System.Windows.Forms.RibbonPanel()
-        Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -292,6 +292,19 @@ Partial Class HOME
         Me.ProductionBtn.LargeImage = CType(resources.GetObject("ProductionBtn.LargeImage"), System.Drawing.Image)
         Me.ProductionBtn.Name = "ProductionBtn"
         Me.ProductionBtn.SmallImage = CType(resources.GetObject("ProductionBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibResultProduction
+        '
+        Me.RibResultProduction.Items.Add(Me.ResultProductionBtn)
+        Me.RibResultProduction.Name = "RibResultProduction"
+        Me.RibResultProduction.Text = "Production Result"
+        '
+        'ResultProductionBtn
+        '
+        Me.ResultProductionBtn.Image = CType(resources.GetObject("ResultProductionBtn.Image"), System.Drawing.Image)
+        Me.ResultProductionBtn.LargeImage = CType(resources.GetObject("ResultProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.ResultProductionBtn.Name = "ResultProductionBtn"
+        Me.ResultProductionBtn.SmallImage = CType(resources.GetObject("ResultProductionBtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab7
         '
@@ -512,19 +525,6 @@ Partial Class HOME
         Me.LoginUser.Name = "LoginUser"
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
-        '
-        'RibResultProduction
-        '
-        Me.RibResultProduction.Items.Add(Me.ResultProductionBtn)
-        Me.RibResultProduction.Name = "RibResultProduction"
-        Me.RibResultProduction.Text = "Result Production"
-        '
-        'ResultProductionBtn
-        '
-        Me.ResultProductionBtn.Image = CType(resources.GetObject("ResultProductionBtn.Image"), System.Drawing.Image)
-        Me.ResultProductionBtn.LargeImage = CType(resources.GetObject("ResultProductionBtn.LargeImage"), System.Drawing.Image)
-        Me.ResultProductionBtn.Name = "ResultProductionBtn"
-        Me.ResultProductionBtn.SmallImage = CType(resources.GetObject("ResultProductionBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '

@@ -49,12 +49,11 @@ Public Class StockMinistore
             If status = "All" Then
                 DGV_StockMiniststore()
             Else
-                DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
                 DataGridView1.DataSource = Nothing
                 DataGridView1.Rows.Clear()
                 DataGridView1.Columns.Clear()
                 Call Database.koneksi_database()
-                Dim queryInputStockDetail As String = "SELECT MATERIAL,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY,ACTUAL_QTY FROM STOCK_CARD  WHERE STATUS='" & status & "' and actual_qty > 0 order by MATERIAL,LOT_NO,actual_qty"
+                Dim queryInputStockDetail As String = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD  WHERE STATUS='" & status & "' and actual_qty > 0 order by datetime_insert"
                 Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
                 DataGridView1.DataSource = dtInputStockDetail
             End If
@@ -65,15 +64,13 @@ Public Class StockMinistore
 
     Private Sub DGV_StockMiniststore()
         Try
-            DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.DataSource = Nothing
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT MATERIAL,LOT_NO,TRACEABILITY,BATCH_NO,INV_CTRL_DATE,QTY,ACTUAL_QTY,STATUS FROM STOCK_CARD order by MATERIAL,LOT_NO,actual_qty"
+            Dim queryInputStockDetail As String = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
-
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try

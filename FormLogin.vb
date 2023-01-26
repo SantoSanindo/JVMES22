@@ -10,10 +10,16 @@ Public Class FormLogin
         If dt.Rows.Count > 0 Then
             globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
             globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
+            globVar.username = txtUname.Text
+
             txtUname.Clear()
             txtPass.Clear()
 
-            HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & dt.Rows(0).Item("DEPARTMENT").ToString
+            HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
+
+            If globVar.username = "admin" Then
+                ComboBox1.Enabled = True
+            End If
         Else
             MessageBox.Show("Login Failed. Please Try Again.")
             txtUname.Clear()
@@ -30,6 +36,7 @@ Public Class FormLogin
     Private Sub FormLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtUname.Select()
         Call Database.koneksi_database()
+        ComboBox1.Enabled = False
     End Sub
 
     Private Sub txtPass_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtPass.PreviewKeyDown
@@ -40,10 +47,14 @@ Public Class FormLogin
             If dt.Rows.Count > 0 Then
                 globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
                 globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
+                globVar.username = txtUname.Text
                 txtUname.Clear()
                 txtPass.Clear()
 
-                HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & dt.Rows(0).Item("DEPARTMENT").ToString
+                HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
+                If globVar.username = "admin" Then
+                    ComboBox1.Enabled = True
+                End If
             Else
                 MessageBox.Show("Login Failed. Please Try Again.")
                 txtUname.Clear()
@@ -51,5 +62,10 @@ Public Class FormLogin
                 txtUname.Select()
             End If
         End If
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        globVar.department = ComboBox1.Text
+        HOME.LoginUser.Text = "Administrator - " & globVar.department
     End Sub
 End Class

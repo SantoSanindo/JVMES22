@@ -8,28 +8,32 @@ Public Class ReceiveReturnMaterial
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And TextBox1.Text <> "" Then
-            Dim splitQRCode() As String = Nothing
-            splitQRCode = TextBox1.Text.Split(New String() {";"}, StringSplitOptions.None)
-            Dim sqlCheckReturnMaterial As String = "SELECT * FROM stock_card WHERE material = '" & splitQRCode(0) & "' and lot_no=" & splitQRCode(2) & " and department='" & globVar.department & "' and status='Return To Mini Store' and actual_qty>0"
+
+            Dim sqlCheckReturnMaterial As String = "SELECT * FROM stock_card WHERE id_level='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Return To Mini Store'"
             Dim dtCheckReturnMaterial As DataTable = Database.GetData(sqlCheckReturnMaterial)
             If dtCheckReturnMaterial.Rows.Count > 0 Then
-                Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE material = '" & splitQRCode(0) & "' and lot_no=" & splitQRCode(2) & " and department='" & globVar.department & "' and status='Receive From Production'"
-                Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
-                If dtCheckStockCard.Rows.Count > 0 Then
-                    MessageBox.Show("Sorry. Double Scan")
-                Else
-                    Dim sqlInsertReceiveFromProduction As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, ACTUAL_QTY,STATUS,DEPARTMENT,STANDARD_PACK)
-                    VALUES (" & splitQRCode(0) & "," & splitQRCode(1) & "," & splitQRCode(3) & "," & splitQRCode(4) & "," & splitQRCode(2) & ",'" & splitQRCode(5) & "'," & splitQRCode(1) & ",'Receive From Production','" & globVar.department & "','" & splitQRCode(6) & "')"
-                    Dim cmdInsertReceiveFromProduction = New SqlCommand(sqlInsertReceiveFromProduction, Database.koneksi)
-                    If cmdInsertReceiveFromProduction.ExecuteNonQuery() Then
-                        Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & splitQRCode(0) & "' and lot_no='" & splitQRCode(2) & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Return To Mini Store' and actual_qty > 0"
-                        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                        cmdUpdate.ExecuteNonQuery()
+                For i = 0 To dtCheckReturnMaterial.Rows.Count - 1
+                    Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE material = '" & dtCheckReturnMaterial.Rows(i).Item("material") & "' and lot_no=" & dtCheckReturnMaterial.Rows(i).Item("lot_no") & " and department='" & globVar.department & "' and status='Receive From Production'"
+                    Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
+                    If dtCheckStockCard.Rows.Count > 0 Then
 
-                        DGV_ReceiveFromProduction()
-                        TextBox1.Clear()
+                    Else
+                        Dim sql = "insert into stock_card([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], 
+                        [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
+                        [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY] from stock_card 
+                        where id=" & dtCheckReturnMaterial.Rows(i).Item("id")
+
+                        Dim cmdInsertReceiveFromProduction = New SqlCommand(sql, Database.koneksi)
+                        If cmdInsertReceiveFromProduction.ExecuteNonQuery() Then
+                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE id=" & dtCheckReturnMaterial.Rows(i).Item("id")
+                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                            If cmdUpdate.ExecuteNonQuery() Then
+                                DGV_ReceiveFromProduction()
+                                TextBox1.Clear()
+                            End If
+                        End If
                     End If
-                End If
+                Next
             End If
         End If
     End Sub

@@ -91,7 +91,7 @@ Public Class ProductionRequest
                         MessageBox.Show("Sorry QR Code already in database production")
                         TextBox1.Text = ""
                     Else
-                        Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM stock_card WHERE sub_sub_po = '" & SubSubPO.Text & "' and material=" & splitQRCode1P(0) & " AND LINE='" & ComboBox1.Text & "' and department='" & globVar.department & "'"
+                        Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM stock_card WHERE sub_sub_po = '" & SubSubPO.Text & "' and material=" & splitQRCode1P(0) & " AND LINE='" & ComboBox1.Text & "' and department='" & globVar.department & "' and status='Production Request'"
                         Dim dtCheckSumQtyProdcution As DataTable = Database.GetData(sqlCheckSumQtyProdcution)
                         If dtCheckSumQtyProdcution.Rows(0).Item("qty") > DataGridView3.Rows(CurrentRowIndex).Cells("Total_Need").Value Then
                             MessageBox.Show("Cannot add component because Qty more than Qty Need")
@@ -235,7 +235,7 @@ Public Class ProductionRequest
                     MessageBox.Show("Sorry QR Code already in database production")
                     TextBox1.Text = ""
                 Else
-                    Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM stock_card WHERE sub_sub_po = '" & SubSubPO.Text & "' and material=" & TextBox2.Text & " AND LINE='" & ComboBox1.Text & "' and department='" & globVar.department & "'"
+                    Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM stock_card WHERE sub_sub_po = '" & SubSubPO.Text & "' and material=" & TextBox2.Text & " AND LINE='" & ComboBox1.Text & "' and department='" & globVar.department & "' and status='Production Request'"
                     Dim dtCheckSumQtyProdcution As DataTable = Database.GetData(sqlCheckSumQtyProdcution)
                     If dtCheckSumQtyProdcution.Rows(0).Item("qty") > DataGridView3.Rows(CurrentRowIndex).Cells("Total_Need").Value Then
                         MessageBox.Show("Cannot add component because Qty more than Qty Need")

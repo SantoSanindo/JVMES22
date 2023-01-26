@@ -26,8 +26,9 @@ Partial Class FormLogin
         Me.txtUname = New System.Windows.Forms.TextBox()
         Me.txtPass = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.btnLogin = New System.Windows.Forms.Button()
         Me.btnKeluar = New System.Windows.Forms.Button()
+        Me.btnLogin = New System.Windows.Forms.Button()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -67,35 +68,46 @@ Partial Class FormLogin
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Password"
         '
-        'btnLogin
-        '
-        Me.btnLogin.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnLogin.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnLogin.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLogin.Location = New System.Drawing.Point(156, 179)
-        Me.btnLogin.Name = "btnLogin"
-        Me.btnLogin.Size = New System.Drawing.Size(116, 53)
-        Me.btnLogin.TabIndex = 4
-        Me.btnLogin.Text = "Login"
-        Me.btnLogin.UseVisualStyleBackColor = True
-        '
         'btnKeluar
         '
         Me.btnKeluar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnKeluar.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnKeluar.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnKeluar.Location = New System.Drawing.Point(313, 179)
+        Me.btnKeluar.Location = New System.Drawing.Point(308, 219)
         Me.btnKeluar.Name = "btnKeluar"
         Me.btnKeluar.Size = New System.Drawing.Size(108, 53)
         Me.btnKeluar.TabIndex = 5
         Me.btnKeluar.Text = "Clear"
         Me.btnKeluar.UseVisualStyleBackColor = True
         '
+        'btnLogin
+        '
+        Me.btnLogin.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnLogin.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.btnLogin.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLogin.Location = New System.Drawing.Point(151, 219)
+        Me.btnLogin.Name = "btnLogin"
+        Me.btnLogin.Size = New System.Drawing.Size(116, 53)
+        Me.btnLogin.TabIndex = 4
+        Me.btnLogin.Text = "Login"
+        Me.btnLogin.UseVisualStyleBackColor = True
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Items.AddRange(New Object() {"zQSFP", "Ten60"})
+        Me.ComboBox1.Location = New System.Drawing.Point(109, 170)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(366, 37)
+        Me.ComboBox1.TabIndex = 6
+        '
         'FormLogin
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1260, 666)
+        Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.txtPass)
         Me.Controls.Add(Me.btnKeluar)
         Me.Controls.Add(Me.Label1)
@@ -117,6 +129,7 @@ Partial Class FormLogin
     Friend WithEvents txtUname As TextBox
     Friend WithEvents txtPass As TextBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents btnLogin As Button
     Friend WithEvents btnKeluar As Button
+    Friend WithEvents btnLogin As Button
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

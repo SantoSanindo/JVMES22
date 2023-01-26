@@ -2,7 +2,7 @@
 
 Public Class StockMinistore
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
-        DGV_StockMiniststore()
+        DGV_StockMiniststore("")
         ComboBox1.SelectedIndex = 0
     End Sub
 
@@ -47,15 +47,32 @@ Public Class StockMinistore
     Private Sub DGV_StockMiniststore(status As String)
         Try
             If status = "All" Then
-                DGV_StockMiniststore()
+                DGV_StockMiniststore("")
             Else
                 DataGridView1.DataSource = Nothing
                 DataGridView1.Rows.Clear()
                 DataGridView1.Columns.Clear()
                 Call Database.koneksi_database()
-                Dim queryInputStockDetail As String = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD  WHERE STATUS='" & status & "' and actual_qty > 0 order by datetime_insert"
+                Dim queryInputStockDetail As String
+                Dim queryCB As String
+                If status = "" Then
+                    queryInputStockDetail = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD order by datetime_insert"
+                    queryCB = "SELECT DISTINCT [SUB_SUB_PO] FROM STOCK_CARD where [SUB_SUB_PO] is not null"
+                Else
+                    queryInputStockDetail = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD  WHERE STATUS='" & status & "' and actual_qty > 0 order by datetime_insert"
+                    queryCB = "SELECT DISTINCT [SUB_SUB_PO] FROM STOCK_CARD  WHERE STATUS='" & status & "' and [SUB_SUB_PO] is not null"
+                End If
+
                 Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
                 DataGridView1.DataSource = dtInputStockDetail
+
+                Dim dtMasterDepart As DataTable = Database.GetData(queryCB)
+
+                For i As Integer = 0 To dtMasterDepart.Rows.Count - 1
+                    ComboBox2.Items.Add(dtMasterDepart.Rows(i).Item(0))
+                Next
+
+
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -68,7 +85,7 @@ Public Class StockMinistore
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where sub_sub_po='" & ComboBox2.Text & "' order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception
@@ -88,9 +105,13 @@ Public Class StockMinistore
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         If ComboBox1.SelectedIndex = 0 Then
-            DGV_StockMiniststore()
+            DGV_StockMiniststore("")
         Else
             DGV_StockMiniststore(ComboBox1.Text)
         End If
+    End Sub
+
+    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
+        DGV_StockMiniststore()
     End Sub
 End Class

@@ -534,6 +534,7 @@ Partial Class HOME
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Name = "HOME"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

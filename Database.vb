@@ -9,7 +9,7 @@ Public Class Database
 
     Public Shared Sub koneksi_database()
         Try
-            database = "Data Source=10.13.8.203;
+            database = "Data Source=localhost;
             initial catalog=JOVAN;
             Persist Security Info=True;
             User ID=sa;
@@ -18,6 +18,16 @@ Public Class Database
             Pooling=True"
             koneksi = New SqlConnection(database)
             If koneksi.State = ConnectionState.Closed Then koneksi.Open() Else koneksi.Close()
+
+            'database = "Data Source=10.13.8.203;
+            'initial catalog=JOVAN;
+            'Persist Security Info=True;
+            'User ID=sa;
+            'Password=jovan123;
+            'Max Pool Size=5000;
+            'Pooling=True"
+            'koneksi = New SqlConnection(database)
+            'If koneksi.State = ConnectionState.Closed Then koneksi.Open() Else koneksi.Close()
         Catch ex As Exception
             MsgBox("Please Contact IT Team. This is Database Problem -> " + ex.Message)
         End Try

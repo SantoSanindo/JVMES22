@@ -51,6 +51,8 @@ Partial Class HOME
         Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
         Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibResultProduction = New System.Windows.Forms.RibbonPanel()
+        Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
         Me.RibFGA = New System.Windows.Forms.RibbonPanel()
         Me.FGABtn = New System.Windows.Forms.RibbonButton()
@@ -167,7 +169,7 @@ Partial Class HOME
         '
         Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
         Me.RibReturnStock.Name = "RibReturnStock"
-        Me.RibReturnStock.Text = "Return Stock"
+        Me.RibReturnStock.Text = "Return to The Stock"
         '
         'ReturnStockBtn
         '
@@ -193,7 +195,7 @@ Partial Class HOME
         '
         Me.RibReceiveReturnMaterial.Items.Add(Me.ReceiveReturnMaterialBtn)
         Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
-        Me.RibReceiveReturnMaterial.Text = "Receive Return Material"
+        Me.RibReceiveReturnMaterial.Text = "Receive / Return Material"
         '
         'ReceiveReturnMaterialBtn
         '
@@ -223,6 +225,7 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibOperator)
         Me.RibbonTab4.Panels.Add(Me.RibPrintFlowTicket)
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
+        Me.RibbonTab4.Panels.Add(Me.RibResultProduction)
         Me.RibbonTab4.Text = "Line Process"
         '
         'RibStockProd
@@ -289,6 +292,19 @@ Partial Class HOME
         Me.ProductionBtn.LargeImage = CType(resources.GetObject("ProductionBtn.LargeImage"), System.Drawing.Image)
         Me.ProductionBtn.Name = "ProductionBtn"
         Me.ProductionBtn.SmallImage = CType(resources.GetObject("ProductionBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibResultProduction
+        '
+        Me.RibResultProduction.Items.Add(Me.ResultProductionBtn)
+        Me.RibResultProduction.Name = "RibResultProduction"
+        Me.RibResultProduction.Text = "Production Result"
+        '
+        'ResultProductionBtn
+        '
+        Me.ResultProductionBtn.Image = CType(resources.GetObject("ResultProductionBtn.Image"), System.Drawing.Image)
+        Me.ResultProductionBtn.LargeImage = CType(resources.GetObject("ResultProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.ResultProductionBtn.Name = "ResultProductionBtn"
+        Me.ResultProductionBtn.SmallImage = CType(resources.GetObject("ResultProductionBtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab7
         '
@@ -378,7 +394,7 @@ Partial Class HOME
         '
         Me.RibMaterialUsageFinishGoods.Items.Add(Me.MaterialUsageFinishGoodsBtn)
         Me.RibMaterialUsageFinishGoods.Name = "RibMaterialUsageFinishGoods"
-        Me.RibMaterialUsageFinishGoods.Text = "Material Usage Finish Goods"
+        Me.RibMaterialUsageFinishGoods.Text = "Material Usage & Finish Goods"
         '
         'MaterialUsageFinishGoodsBtn
         '
@@ -518,6 +534,7 @@ Partial Class HOME
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Name = "HOME"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -594,5 +611,7 @@ Partial Class HOME
     Friend WithEvents RibbonTab7 As RibbonTab
     Friend WithEvents RibFGA As RibbonPanel
     Friend WithEvents FGABtn As RibbonButton
+    Friend WithEvents RibResultProduction As RibbonPanel
+    Friend WithEvents ResultProductionBtn As RibbonButton
     '>>>>>>> Arif
 End Class

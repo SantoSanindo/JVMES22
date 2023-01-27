@@ -11,7 +11,7 @@ Public Class Users
                 MessageBox.Show("Users Exist")
             Else
                 Try
-                    Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,departement,role) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox2.Text & "','" & ComboBox1.Text & "')"
+                    Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox2.Text & "','" & ComboBox1.Text & "')"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                     If cmd.ExecuteNonQuery() Then
@@ -33,11 +33,11 @@ Public Class Users
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from department")
 
         ComboBox2.DataSource = dtMasterDepart
-        ComboBox2.DisplayMember = "departement"
-        ComboBox2.ValueMember = "departement"
+        ComboBox2.DisplayMember = "department"
+        ComboBox2.ValueMember = "department"
         ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
@@ -52,7 +52,7 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,role Role, departement Department from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,role Role, department Department from USERS order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 

@@ -97,6 +97,7 @@ Public Class FGA
                     ComboBox3.SelectedIndex = -1
                     ComboBox4.SelectedIndex = -1
                     ComboBox5.SelectedIndex = -1
+                    DGV_FGA()
                 End If
             Catch ex As Exception
                 MessageBox.Show(ex.Message)

@@ -29,10 +29,16 @@ Public Class _PrintingWIPOnHold
         End Try
     End Sub
 
-    Private Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
-        Clear_data()
-        isi_data()
-        label.Print(1)
+    Public Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
+        Try
+            Clear_data()
+            isi_data()
+            label.Print(1)
+            globVar.failPrint = "NO"
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            globVar.failPrint = "Yes"
+        End Try
     End Sub
     Private Sub isi_data()
         Application.DoEvents()

@@ -4,14 +4,14 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class MasterLine
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
-            Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, departement) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
+            Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, department) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
             Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
             If cmdInsertMasterLine.ExecuteNonQuery() Then
                 TextBox1.Text = ""
                 DGV_MasterLine()
             End If
         Else
-            MessageBox.Show("Line Name or Departement cannot be blank")
+            MessageBox.Show("Line Name or Department cannot be blank")
         End If
     End Sub
 
@@ -23,11 +23,11 @@ Public Class MasterLine
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from departement")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from department")
 
         ComboBox1.DataSource = dtMasterDepart
-        ComboBox1.DisplayMember = "departement"
-        ComboBox1.ValueMember = "departement"
+        ComboBox1.DisplayMember = "department"
+        ComboBox1.ValueMember = "department"
         ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub

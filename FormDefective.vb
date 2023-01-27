@@ -2190,7 +2190,7 @@ Public Class FormDefective
                                 End If
                             End If
                         Else
-                            MessageBox.Show("this is line not number -> " & DataGridView2.Rows(i).Cells(3).Value & ". Please change with number.")
+                            MessageBox.Show("this is not line number -> " & DataGridView2.Rows(i).Cells(3).Value & ". Please change with number.")
                         End If
                     End If
                 Next
@@ -2303,10 +2303,10 @@ Public Class FormDefective
                     MsgBox("Dont have Reject Data")
                 End If
             Else
-                MessageBox.Show("Sorry please input flow ticket first.")
+                MessageBox.Show("Sorry, please input flow ticket first.")
             End If
         Else
-            MessageBox.Show("Sorry please select Line First.")
+            MessageBox.Show("Sorry, please select Line First.")
         End If
     End Sub
 

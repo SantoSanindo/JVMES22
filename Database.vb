@@ -29,7 +29,7 @@ Public Class Database
             'koneksi = New SqlConnection(database)
             'If koneksi.State = ConnectionState.Closed Then koneksi.Open() Else koneksi.Close()
         Catch ex As Exception
-            MsgBox("Please Contact IT Team. This is Database Problem -> " + ex.Message)
+            MsgBox("Please Contact IT Team. This is Database connection Problem -> " + ex.Message)
         End Try
     End Sub
 

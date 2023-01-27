@@ -169,7 +169,7 @@ Partial Class HOME
         '
         Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
         Me.RibReturnStock.Name = "RibReturnStock"
-        Me.RibReturnStock.Text = "Return Stock"
+        Me.RibReturnStock.Text = "Return to The Stock"
         '
         'ReturnStockBtn
         '
@@ -195,7 +195,7 @@ Partial Class HOME
         '
         Me.RibReceiveReturnMaterial.Items.Add(Me.ReceiveReturnMaterialBtn)
         Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
-        Me.RibReceiveReturnMaterial.Text = "Receive Return Material"
+        Me.RibReceiveReturnMaterial.Text = "Receive / Return Material"
         '
         'ReceiveReturnMaterialBtn
         '
@@ -394,7 +394,7 @@ Partial Class HOME
         '
         Me.RibMaterialUsageFinishGoods.Items.Add(Me.MaterialUsageFinishGoodsBtn)
         Me.RibMaterialUsageFinishGoods.Name = "RibMaterialUsageFinishGoods"
-        Me.RibMaterialUsageFinishGoods.Text = "Material Usage Finish Goods"
+        Me.RibMaterialUsageFinishGoods.Text = "Material Usage & Finish Goods"
         '
         'MaterialUsageFinishGoodsBtn
         '

@@ -21,7 +21,7 @@ Public Class _PrintingFlowTicket
         Next
 
         'For i As Integer = 1 To 30
-        '    Dim row As String() = New String() {i.ToString, "A", "BB", "CC"}
+        '    Dim row As String() = New String() {i.ToString, "", "", ""}
         '    DataGridView2.Rows.Add(row)
         'Next
 
@@ -45,6 +45,7 @@ Public Class _PrintingFlowTicket
     Public Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
         Try
             Clear_data()
+            compress_line()
             isi_data()
             label.Print(1)
             globVar.failPrint = "No"
@@ -85,11 +86,6 @@ Public Class _PrintingFlowTicket
     End Sub
 
     Private Sub compress_line()
-        '{\rtf1\deff0{\fonttbl{\f0 Arial;}}
-        '{\f0\fs11\cf0 1\tab 2\tab 3}
-        '{\par\f0\fs11\cf0 ----------------------------------------------------------------------------------------------------------------}
-        '\f0\fs16\par}
-
         Dim header_rtf = "{\rtf1\deff0{\fonttbl{\f0 Arial;}}"
         Dim a_char = "{\f0\fs12\cf0 "
         Dim b_tab_char = "}{\f0\fs12\cf0\tab "

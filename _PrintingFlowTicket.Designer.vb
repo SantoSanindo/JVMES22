@@ -54,6 +54,8 @@ Partial Class _PrintingFlowTicket
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txt_fg_part_number = New System.Windows.Forms.TextBox()
         Me.btn_Refresh = New System.Windows.Forms.Button()
+        Me.txt_compress = New System.Windows.Forms.TextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -74,7 +76,7 @@ Partial Class _PrintingFlowTicket
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.No2, Me.Operator2, Me.ID2, Me.Process2, Me.Check_Mark2, Me.Defect_Qty2})
         Me.DataGridView2.Location = New System.Drawing.Point(25, 300)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(410, 245)
+        Me.DataGridView2.Size = New System.Drawing.Size(410, 111)
         Me.DataGridView2.TabIndex = 23
         '
         'No2
@@ -295,11 +297,30 @@ Partial Class _PrintingFlowTicket
         Me.btn_Refresh.Text = "Refresh"
         Me.btn_Refresh.UseVisualStyleBackColor = True
         '
+        'txt_compress
+        '
+        Me.txt_compress.Location = New System.Drawing.Point(25, 417)
+        Me.txt_compress.Multiline = True
+        Me.txt_compress.Name = "txt_compress"
+        Me.txt_compress.Size = New System.Drawing.Size(410, 123)
+        Me.txt_compress.TabIndex = 26
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(259, 580)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 27
+        Me.Button1.Text = "Compress"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         '_PrintingFlowTicket
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(475, 613)
+        Me.ClientSize = New System.Drawing.Size(465, 613)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.txt_compress)
         Me.Controls.Add(Me.btn_Refresh)
         Me.Controls.Add(Me.btn_Print)
         Me.Controls.Add(Me.DataGridView2)
@@ -364,4 +385,6 @@ Partial Class _PrintingFlowTicket
     Friend WithEvents Label10 As Label
     Friend WithEvents txt_fg_part_number As TextBox
     Friend WithEvents btn_Refresh As Button
+    Friend WithEvents txt_compress As TextBox
+    Friend WithEvents Button1 As Button
 End Class

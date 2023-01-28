@@ -389,3 +389,7 @@ D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.xml
 D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.pdb
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FGA.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.AddChangeOperator.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.PrintFlowTicket.resources
+C:\Users\Susanto\OneDrive - Politeknik Negeri Batam\__project\2022\Jovan\MES App\Program\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources

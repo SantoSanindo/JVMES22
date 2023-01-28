@@ -128,22 +128,10 @@
     <Compile Include="FormLogin.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormReject.Designer.vb">
-      <DependentUpon>FormReject.vb</DependentUpon>
-    </Compile>
-    <Compile Include="FormReject.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="AddChangeOperator.Designer.vb">
       <DependentUpon>AddChangeOperator.vb</DependentUpon>
     </Compile>
     <Compile Include="AddChangeOperator.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OldFormReturnStock.Designer.vb">
-      <DependentUpon>OldFormReturnStock.vb</DependentUpon>
-    </Compile>
-    <Compile Include="OldFormReturnStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="globVar.vb" />
@@ -259,12 +247,6 @@
     <Compile Include="ReceiveReturnMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ResultProduction.Designer.vb">
-      <DependentUpon>ResultProduction.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ResultProduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="StockMinistore.Designer.vb">
       <DependentUpon>StockMinistore.vb</DependentUpon>
     </Compile>
@@ -324,14 +306,8 @@
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormReject.resx">
-      <DependentUpon>FormReject.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AddChangeOperator.resx">
       <DependentUpon>AddChangeOperator.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OldFormReturnStock.resx">
-      <DependentUpon>OldFormReturnStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HOME.resx">
       <DependentUpon>HOME.vb</DependentUpon>
@@ -384,9 +360,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReceiveReturnMaterial.resx">
       <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ResultProduction.resx">
-      <DependentUpon>ResultProduction.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockMinistore.resx">
       <DependentUpon>StockMinistore.vb</DependentUpon>

@@ -20,10 +20,10 @@ Public Class _PrintingFlowTicket
             DataGridView1.Rows.Add(row)
         Next
 
-        'For i As Integer = 1 To 30
-        '    Dim row As String() = New String() {i.ToString, "", "", ""}
-        '    DataGridView2.Rows.Add(row)
-        'Next
+        For i As Integer = 1 To 30
+            Dim row As String() = New String() {i.ToString, "", "", ""}
+            DataGridView2.Rows.Add(row)
+        Next
 
     End Sub
     Private Sub InitializePrintEngine()

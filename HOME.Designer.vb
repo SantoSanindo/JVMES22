@@ -29,6 +29,8 @@ Partial Class HOME
         Me.Ribbon1 = New System.Windows.Forms.Ribbon()
         Me.RibbonSeparator1 = New System.Windows.Forms.RibbonSeparator()
         Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator()
+        Me.Login_DropDown = New System.Windows.Forms.RibbonButton()
+        Me.RibbonButton_Login = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
@@ -122,6 +124,10 @@ Partial Class HOME
         Me.Ribbon1.OrbStyle = System.Windows.Forms.RibbonOrbStyle.Office_2010
         Me.Ribbon1.OrbText = ""
         Me.Ribbon1.OrbVisible = False
+        '
+        '
+        '
+        Me.Ribbon1.QuickAccessToolbar.DropDownButtonItems.Add(Me.Login_DropDown)
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
         Me.Ribbon1.Size = New System.Drawing.Size(1236, 137)
         Me.Ribbon1.TabIndex = 0
@@ -140,6 +146,26 @@ Partial Class HOME
         'RibbonSeparator2
         '
         Me.RibbonSeparator2.Name = "RibbonSeparator2"
+        '
+        'Login_DropDown
+        '
+        Me.Login_DropDown.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.Login_DropDown.DropDownItems.Add(Me.RibbonButton_Login)
+        Me.Login_DropDown.Image = CType(resources.GetObject("Login_DropDown.Image"), System.Drawing.Image)
+        Me.Login_DropDown.LargeImage = CType(resources.GetObject("Login_DropDown.LargeImage"), System.Drawing.Image)
+        Me.Login_DropDown.Name = "Login_DropDown"
+        Me.Login_DropDown.SmallImage = CType(resources.GetObject("Login_DropDown.SmallImage"), System.Drawing.Image)
+        Me.Login_DropDown.Text = "Login"
+        '
+        'RibbonButton_Login
+        '
+        Me.RibbonButton_Login.CheckOnClick = True
+        Me.RibbonButton_Login.Image = CType(resources.GetObject("RibbonButton_Login.Image"), System.Drawing.Image)
+        Me.RibbonButton_Login.LargeImage = CType(resources.GetObject("RibbonButton_Login.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton_Login.Name = "RibbonButton_Login"
+        Me.RibbonButton_Login.SmallImage = CType(resources.GetObject("RibbonButton_Login.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton_Login.Text = "Login"
+        Me.RibbonButton_Login.Value = ""
         '
         'RibbonTab3
         '
@@ -613,5 +639,7 @@ Partial Class HOME
     Friend WithEvents FGABtn As RibbonButton
     Friend WithEvents RibResultProduction As RibbonPanel
     Friend WithEvents ResultProductionBtn As RibbonButton
+    Friend WithEvents Login_DropDown As RibbonButton
+    Friend WithEvents RibbonButton_Login As RibbonButton
     '>>>>>>> Arif
 End Class

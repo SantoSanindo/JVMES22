@@ -1,6 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Microsoft.Office.Interop
 
 Public Class MasterMaterial
 
@@ -208,5 +209,51 @@ Public Class MasterMaterial
                 dgv_material.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+    End Sub
+
+    Private Sub ExportToExcel()
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            Dim misValue As Object = System.Reflection.Missing.Value
+            Dim i As Integer
+            Dim j As Integer
+
+            xlWorkBook = xlApp.Workbooks.Add(misValue)
+            xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+        For i = 1 To dgv_material.RowCount
+            For j = 1 To dgv_material.ColumnCount - 1
+                For k As Integer = 1 To dgv_material.Columns.Count
+                    xlWorkSheet.Cells(1, k) = dgv_material.Columns(k - 1).HeaderText
+                    xlWorkSheet.Cells(i + 2, j + 1) = dgv_material(j, i).Value.ToString()
+                Next
+            Next
+        Next
+
+        xlWorkSheet.SaveAs("D:\csharp-Excel.xlsx")
+            xlWorkBook.Close()
+            xlApp.Quit()
+
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
+
+            MsgBox("You can find the file D:\csharp-Excel.xlsx")
+        End Sub
+
+    Private Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
+    End Sub
+
+    Private Sub btn_export_template_Click(sender As Object, e As EventArgs) Handles btn_export_template.Click
+        ExportToExcel()
     End Sub
 End Class

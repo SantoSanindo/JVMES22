@@ -9,7 +9,7 @@ Public Class Database
 
     Public Shared Sub koneksi_database()
         Try
-            database = "Data Source=localhost;
+            database = "Data Source=10.10.11.51;
             initial catalog=JOVAN;
             Persist Security Info=True;
             User ID=sa;
@@ -34,15 +34,19 @@ Public Class Database
     End Sub
 
     Public Shared Function GetData(ByVal query As String) As DataTable
-        koneksi_database()
-        Using cmd As SqlCommand = New SqlCommand(query, koneksi)
-            Using sda As SqlDataAdapter = New SqlDataAdapter(cmd)
-                Using dt As DataTable = New DataTable
-                    sda.Fill(dt)
-                    Return dt
+        Try
+            koneksi_database()
+            Using cmd As SqlCommand = New SqlCommand(query, koneksi)
+                Using sda As SqlDataAdapter = New SqlDataAdapter(cmd)
+                    Using dt As DataTable = New DataTable
+                        sda.Fill(dt)
+                        Return dt
+                    End Using
                 End Using
             End Using
-        End Using
+        Catch ex As Exception
+            MsgBox("Error Query ->" + ex.Message)
+        End Try
     End Function
 
     Public Shared Sub close_koneksi()

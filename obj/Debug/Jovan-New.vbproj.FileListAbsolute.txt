@@ -389,3 +389,45 @@ D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.xml
 D:\MES Jovan\VB Program\Demo 27 Jan\obj\Debug\Jovan-New.pdb
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.FGA.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.FormDefective.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.FormInputStock.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.FormLogin.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.AddChangeOperator.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.HOME.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MasterLine.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.Resources.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.frmTesting.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.PrintFlowTicket.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.Production.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.StockProd.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New.Users.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New._PrintingDefect.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New._PrintingFlowTicket.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New._PrintingSubAssyRawMaterial.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan_New._PrintingWIPOnHold.resources
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.exe
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.xml
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.pdb
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\Jovan-New.exe.config
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\Jovan-New.exe
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\Jovan-New.pdb
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\Jovan-New.xml
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\SDK.NET.Interface.dll
+C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete

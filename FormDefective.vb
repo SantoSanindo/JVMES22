@@ -5,7 +5,6 @@ Imports System.Reflection.Emit
 Imports System.Runtime.Remoting
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports ZXing
 
 Public Class FormDefective
     'Dim dept As String = "zQSFP"
@@ -1345,7 +1344,7 @@ Public Class FormDefective
         If rbFG.Checked = True Then
             'ReadonlyFormFG(False)
             'ReadonlyFormSA(True)
-            Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_REJECT), input_from_fg from out_prod_reject where SUB_SUB_PO='" & txtSubSubPODefective.Text & "' and input_from_fg=1")
+            Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_DEFECT), input_from_fg from out_prod_defect where SUB_SUB_PO='" & txtSubSubPODefective.Text & "' and input_from_fg=1")
 
             If dtFG.Rows.Count > 0 Then
 
@@ -1393,7 +1392,7 @@ Public Class FormDefective
 
             'ReadonlyFormFG(True)
             'ReadonlyFormSA(False)
-            Dim dtSA As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_REJECT), input_from_fg from out_prod_reject where SUB_SUB_PO='" & txtSubSubPODefective.Text & "' and input_from_fg=0")
+            Dim dtSA As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_DEFECT), input_from_fg from out_prod_defect where SUB_SUB_PO='" & txtSubSubPODefective.Text & "' and input_from_fg=0")
 
             If dtSA.Rows.Count > 0 Then
 
@@ -1443,7 +1442,7 @@ Public Class FormDefective
 
     Private Sub rbSA_CheckedChanged(sender As Object, e As EventArgs) Handles rbSA.CheckedChanged
         If rbSA.Checked = True Then
-            Dim dtSA As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_REJECT), input_from_fg from out_prod_reject where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
+            Dim dtSA As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_DEFECT), input_from_fg from out_prod_defect where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
 
             If dtSA.Rows.Count > 0 Then
 
@@ -1486,7 +1485,7 @@ Public Class FormDefective
                 btnPrintSAReject.Enabled = False
             End If
         ElseIf rbFG.Checked = True Then
-            Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_REJECT), input_from_fg from out_prod_reject where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
+            Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_DEFECT), input_from_fg from out_prod_defect where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
 
             If dtFG.Rows.Count > 0 Then
 
@@ -1539,7 +1538,7 @@ Public Class FormDefective
                 Call Database.koneksi_database()
                 'Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
 
-                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_reject opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
+                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
                 Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
 
                 TextBox3.Text = dtFG.Rows(0).Item("LASER_CODE").ToString
@@ -1595,7 +1594,7 @@ Public Class FormDefective
                 DataGridView1.Rows.Clear()
                 DataGridView1.Columns.Clear()
                 Call Database.koneksi_database()
-                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_reject opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
+                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
                 'Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
 
                 Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
@@ -1944,7 +1943,7 @@ Public Class FormDefective
                 Dim i As Integer = 0
                 Dim result As Integer = 1
 
-                Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_REJECT) from OUT_PROD_REJECT"
+                Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT"
                 Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
                 Dim codeReject As String = "RJ" & dtCheckCodeReject.Rows.Count + 1
 
@@ -1996,7 +1995,7 @@ Public Class FormDefective
                                             End If
                                         Next
 
-                                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_reject (CODE_OUT_PROD_REJECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
+                                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_defect (CODE_OUT_PROD_DEFECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG)
                                             VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "',
                                             '" & dtCheckFlowTicketinTemp.Rows(0).Item("TRACEABILITY") & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("BATCH_NO") & "',
                                             " & qtyReject.ToString.Replace(",", ".") & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",'" & input_from_fg & "')"
@@ -2042,7 +2041,7 @@ Public Class FormDefective
 
     Sub loadDGVOthers()
         Try
-            Dim query As String = "select part_number,sum(qty) qty from OUT_PROD_REJECT where code_OUT_PROD_REJECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "' GROUP BY part_number"
+            Dim query As String = "select part_number,sum(qty) qty from OUT_PROD_DEFECT where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "' GROUP BY part_number"
             Dim dtOutProd As DataTable = Database.GetData(query)
 
             With DataGridView2
@@ -2073,7 +2072,7 @@ Public Class FormDefective
 
                 If dtOutProd.Rows.Count > 0 Then
                     For i = 0 To dtOutProd.Rows.Count - 1
-                        Dim queryOthersStock As String = "select qty from stock_prod_others where code_OUT_PROD_REJECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "' and part_number='" & dtOutProd.Rows(i)("part_number") & "'"
+                        Dim queryOthersStock As String = "select qty from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "' and part_number='" & dtOutProd.Rows(i)("part_number") & "'"
                         Dim dtOthersStock As DataTable = Database.GetData(queryOthersStock)
                         Dim qtyOthers As Integer = 0
                         If dtOthersStock.Rows.Count > 0 Then
@@ -2092,7 +2091,7 @@ Public Class FormDefective
                 .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
             End With
 
-            Dim queryOthers As String = "select * from stock_prod_others where code_OUT_PROD_REJECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "'"
+            Dim queryOthers As String = "select * from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & dept & "'"
             Dim dtOthers As DataTable = Database.GetData(queryOthers)
 
             With DataGridView4
@@ -2135,7 +2134,7 @@ Public Class FormDefective
                     For i = 0 To dtOthers.Rows.Count - 1
                         .Rows.Add(1)
                         .Item(0, i).Value = (i + 1).ToString()
-                        .Item(1, i).Value = dtOthers.Rows(i)("code_OUT_PROD_REJECT")
+                        .Item(1, i).Value = dtOthers.Rows(i)("CODE_OUT_PROD_DEFECT")
                         .Item(2, i).Value = dtOthers.Rows(i)("code_stock_prod_others")
                         .Item(3, i).Value = dtOthers.Rows(i)("part_number")
                         .Item(4, i).Value = dtOthers.Rows(i)("lot_no")
@@ -2172,16 +2171,16 @@ Public Class FormDefective
                         If IsNumeric(DataGridView2.Rows(i).Cells(3).Value) Then
                             If DataGridView2.Rows(i).Cells(3).Value > 0 Then
                                 If DataGridView2.Rows(i).Cells(3).Value <= DataGridView2.Rows(i).Cells(2).Value Then
-                                    Dim query As String = "select * from stock_prod_others where code_out_prod_reject='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                    Dim query As String = "select * from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
                                     Dim dtCheckStockOthers As DataTable = Database.GetData(query)
                                     If dtCheckStockOthers.Rows.Count > 0 Then
                                         MessageBox.Show("Update")
-                                        Dim sqlUpdateProcessProd As String = "update stock_prod_others set qty=" & DataGridView2.Rows(i).Cells(3).Value & " where code_out_prod_reject='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                        Dim sqlUpdateProcessProd As String = "update stock_prod_others set qty=" & DataGridView2.Rows(i).Cells(3).Value & " where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
                                         Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
                                         cmdUpdateProcessProd.ExecuteNonQuery()
                                     Else
-                                        Dim sqlInsertOther As String = "INSERT INTO stock_prod_others (CODE_STOCK_PROD_OTHERS, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,CODE_OUT_PROD_REJECT,DEPARTMENT)
-                                        select '" & codeOther & "',part_number,lot_no,TRACEABILITY,INV_CTRL_DATE,BATCH_NO, '" & DataGridView2.Rows(i).Cells(3).Value & "', CODE_OUT_PROD_REJECT,DEPARTMENT FROM OUT_PROD_REJECT WHERE CODE_OUT_PROD_REJECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "'"
+                                        Dim sqlInsertOther As String = "INSERT INTO stock_prod_others (CODE_STOCK_PROD_OTHERS, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,CODE_OUT_PROD_DEFECT,DEPARTMENT)
+                                        select '" & codeOther & "',part_number,lot_no,TRACEABILITY,INV_CTRL_DATE,BATCH_NO, '" & DataGridView2.Rows(i).Cells(3).Value & "', CODE_OUT_PROD_DEFECT,DEPARTMENT FROM OUT_PROD_DEFECT WHERE CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "'"
                                         Dim cmdInsertOther = New SqlCommand(sqlInsertOther, Database.koneksi)
                                         cmdInsertOther.ExecuteNonQuery()
                                     End If
@@ -2242,14 +2241,14 @@ Public Class FormDefective
         If txtSubSubPODefective.Text <> "" Then
             If txtFGFlowTicket.Text <> "" Then
                 Dim split() As String = txtFGFlowTicket.Text.Split(";")
-                Dim query As String = "select DISTINCT(CODE_OUT_PROD_REJECT) from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' and input_from_fg=1"
+                Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' and input_from_fg=1"
                 Dim dtCheckStockReject As DataTable = Database.GetData(query)
                 If dtCheckStockReject.Rows.Count > 0 Then
                     For i = 0 To dtCheckStockReject.Rows.Count - 1
                         globVar.failPrint = ""
-                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_REJECT")
+                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
                         _PrintingDefect.Label2.Text = "Defect Ticket"
-                        _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_REJECT")
+                        _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
                         _PrintingDefect.txt_part_number.Text = cbFGPN.Text
                         _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
                         _PrintingDefect.txt_Traceability.Text = txtTampungLabel.Text
@@ -2258,7 +2257,7 @@ Public Class FormDefective
 
                         If globVar.failPrint = "No" Then
                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_REJECT") & "')"
+                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
                         End If
@@ -2278,14 +2277,14 @@ Public Class FormDefective
         If txtSubSubPODefective.Text <> "" Then
             If txtSAFlowTicket.Text <> "" Then
                 Dim split() As String = txtSAFlowTicket.Text.Split(";")
-                Dim query As String = "select DISTINCT(CODE_OUT_PROD_REJECT) from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' and input_from_fg=1"
+                Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' and input_from_fg=1"
                 Dim dtCheckStockReject As DataTable = Database.GetData(query)
                 If dtCheckStockReject.Rows.Count > 0 Then
                     For i = 0 To dtCheckStockReject.Rows.Count - 1
                         globVar.failPrint = ""
-                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_REJECT")
+                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
                         _PrintingDefect.Label2.Text = "Defect Ticket"
-                        _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_REJECT")
+                        _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
                         _PrintingDefect.txt_part_number.Text = cbFGPN.Text
                         _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
                         _PrintingDefect.txt_Traceability.Text = txtTampungLabel.Text
@@ -2294,7 +2293,7 @@ Public Class FormDefective
 
                         If globVar.failPrint = "No" Then
                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                            VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_REJECT") & "')"
+                            VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
                         End If
@@ -2475,7 +2474,7 @@ Public Class FormDefective
     Private Sub btnPrintOthersPart_Click(sender As Object, e As EventArgs) Handles btnPrintOthersPart.Click
         If txtSubSubPODefective.Text <> "" Then
             Try
-                Dim query As String = "select stock_prod_others.*,master_material.name from stock_prod_others, master_material where code_out_prod_reject='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and stock_prod_others.part_number=master_material.part_number"
+                Dim query As String = "select stock_prod_others.*,master_material.name from stock_prod_others, master_material where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and stock_prod_others.part_number=master_material.part_number"
                 Dim dtCheckOthersMaterialBalance As DataTable = Database.GetData(query)
                 If dtCheckOthersMaterialBalance.Rows.Count > 0 Then
                     For i = 0 To dtCheckOthersMaterialBalance.Rows.Count - 1
@@ -2523,13 +2522,14 @@ Public Class FormDefective
         End If
         txtBalanceBarcode.Clear()
         txtBalanceMaterialPN.Clear()
+        txtBalanceQty.Clear()
         TextBox1.Clear()
         TextBox2.Clear()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
-            Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox1.Text & "' and status='Return To Mini Store' and actual_qty > 0 and department='" & globVar.department & "'"
+            Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox1.Text & "' and status='Return To Mini Store' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox2.Text & "'"
             Dim dttableProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
 
             If dttableProductionProcess.Rows.Count = 0 Then
@@ -2543,12 +2543,78 @@ Public Class FormDefective
                     txtBalanceMaterialPN.Clear()
                 End If
             Else
-                MsgBox("Double Scan")
-                TextBox1.Clear()
-                TextBox2.Clear()
+                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox1.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox2.Text & "'"
+                Dim dttable As DataTable = Database.GetData(queryCheck)
+                If dttable.Rows.Count > 0 Then
+                    txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
+                Else
+                    MsgBox("This material Qty = 0 or this material not exist in DB.")
+                    txtBalanceBarcode.Clear()
+                    txtBalanceMaterialPN.Clear()
+                End If
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+    End Sub
+
+    Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
+        If CheckBox2.CheckState = CheckState.Unchecked Then
+            TableLayoutPanel19.Enabled = True
+            TableLayoutPanel20.Enabled = True
+            txtRejectBarcode.Enabled = False
+        Else
+            TableLayoutPanel19.Enabled = False
+            TableLayoutPanel20.Enabled = False
+            txtRejectBarcode.Enabled = True
+        End If
+        txtRejectBarcode.Clear()
+        txtRejectMaterialPN.Clear()
+        txtRejectQty.Clear()
+        TextBox7.Clear()
+        TextBox8.Clear()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Try
+            Dim queryCheckProductionProcess As String = "select * from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox7.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox8.Text & "'"
+            Dim dttableProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
+
+            If dttableProductionProcess.Rows.Count > 0 Then
+                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox7.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox8.Text & "'"
+                Dim dttable As DataTable = Database.GetData(queryCheck)
+                If dttable.Rows.Count > 0 Then
+                    txtRejectQty.Text = dttable.Rows(0).Item("sum_qty")
+                Else
+                    MsgBox("This material Qty = 0 or this material not exist in DB.")
+                    txtRejectBarcode.Clear()
+                    txtRejectMaterialPN.Clear()
+                End If
+            Else
+                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox7.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox8.Text & "'"
+                Dim dttable As DataTable = Database.GetData(queryCheck)
+                If dttable.Rows.Count > 0 Then
+                    txtRejectQty.Text = dttable.Rows(0).Item("sum_qty")
+                Else
+                    MsgBox("This material Qty = 0 or this material not exist in DB.")
+                    txtRejectBarcode.Clear()
+                    txtRejectMaterialPN.Clear()
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If txtRejectBarcode.Text <> "" And Convert.ToInt16(txtRejectQty.Text) > 0 Then
+            Try
+
+            Catch ex As Exception
+                MessageBox.Show("Error Insert : " & ex.Message)
+            End Try
+        Else
+            MessageBox.Show("Sorry please fill the blank or Qty Return more than maximum value")
+        End If
     End Sub
 End Class

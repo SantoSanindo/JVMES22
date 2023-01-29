@@ -53,6 +53,28 @@ Partial Class FormDefective
         Me.Label14 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.tpRejectMaterial = New System.Windows.Forms.TabPage()
+        Me.TableLayoutPanel16 = New System.Windows.Forms.TableLayoutPanel()
+        Me.TableLayoutPanel17 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.TableLayoutPanel18 = New System.Windows.Forms.TableLayoutPanel()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.txtRejectBarcode = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel19 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.TextBox7 = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel20 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.txtRejectQty = New System.Windows.Forms.TextBox()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.txtRejectMaterialPN = New System.Windows.Forms.TextBox()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.TextBox5 = New System.Windows.Forms.TextBox()
+        Me.dgReject = New System.Windows.Forms.DataGridView()
         Me.tpFinishGoods = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel12 = New System.Windows.Forms.TableLayoutPanel()
         Me.rbFG = New System.Windows.Forms.RadioButton()
@@ -129,29 +151,16 @@ Partial Class FormDefective
         Me.btnPrintOthersPart = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
         Me.DataGridView4 = New System.Windows.Forms.DataGridView()
-        Me.tpRejectMaterial = New System.Windows.Forms.TabPage()
-        Me.TableLayoutPanel16 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel17 = New System.Windows.Forms.TableLayoutPanel()
-        Me.DataGridView5 = New System.Windows.Forms.DataGridView()
-        Me.Label23 = New System.Windows.Forms.Label()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.TableLayoutPanel18 = New System.Windows.Forms.TableLayoutPanel()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.TableLayoutPanel19 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel20 = New System.Windows.Forms.TableLayoutPanel()
-        Me.txtRejectQty = New System.Windows.Forms.TextBox()
-        Me.txtRejectBarcode = New System.Windows.Forms.TextBox()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.txtRejectMaterialPN = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
+        Me.tpRejectMaterial.SuspendLayout()
+        Me.TableLayoutPanel16.SuspendLayout()
+        Me.TableLayoutPanel17.SuspendLayout()
+        Me.TableLayoutPanel18.SuspendLayout()
+        Me.TableLayoutPanel19.SuspendLayout()
+        Me.TableLayoutPanel20.SuspendLayout()
+        CType(Me.dgReject, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpFinishGoods.SuspendLayout()
         Me.TableLayoutPanel12.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -180,13 +189,6 @@ Partial Class FormDefective
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pDefective1.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tpRejectMaterial.SuspendLayout()
-        Me.TableLayoutPanel16.SuspendLayout()
-        Me.TableLayoutPanel17.SuspendLayout()
-        CType(Me.DataGridView5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TableLayoutPanel18.SuspendLayout()
-        Me.TableLayoutPanel19.SuspendLayout()
-        Me.TableLayoutPanel20.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -501,6 +503,262 @@ Partial Class FormDefective
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(1652, 623)
         Me.TabControl1.TabIndex = 0
+        '
+        'tpRejectMaterial
+        '
+        Me.tpRejectMaterial.Controls.Add(Me.TableLayoutPanel16)
+        Me.tpRejectMaterial.Location = New System.Drawing.Point(4, 38)
+        Me.tpRejectMaterial.Name = "tpRejectMaterial"
+        Me.tpRejectMaterial.Size = New System.Drawing.Size(1644, 581)
+        Me.tpRejectMaterial.TabIndex = 5
+        Me.tpRejectMaterial.Text = "Reject Material"
+        Me.tpRejectMaterial.UseVisualStyleBackColor = True
+        '
+        'TableLayoutPanel16
+        '
+        Me.TableLayoutPanel16.ColumnCount = 1
+        Me.TableLayoutPanel16.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel16.Controls.Add(Me.TableLayoutPanel17, 0, 0)
+        Me.TableLayoutPanel16.Controls.Add(Me.dgReject, 0, 1)
+        Me.TableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel16.Location = New System.Drawing.Point(0, 0)
+        Me.TableLayoutPanel16.Name = "TableLayoutPanel16"
+        Me.TableLayoutPanel16.RowCount = 2
+        Me.TableLayoutPanel16.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.97824!))
+        Me.TableLayoutPanel16.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.02176!))
+        Me.TableLayoutPanel16.Size = New System.Drawing.Size(1644, 581)
+        Me.TableLayoutPanel16.TabIndex = 0
+        '
+        'TableLayoutPanel17
+        '
+        Me.TableLayoutPanel17.BackColor = System.Drawing.SystemColors.Control
+        Me.TableLayoutPanel17.ColumnCount = 7
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
+        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.TableLayoutPanel17.Controls.Add(Me.Label23, 1, 0)
+        Me.TableLayoutPanel17.Controls.Add(Me.Label27, 1, 1)
+        Me.TableLayoutPanel17.Controls.Add(Me.TableLayoutPanel18, 2, 0)
+        Me.TableLayoutPanel17.Controls.Add(Me.TableLayoutPanel19, 4, 0)
+        Me.TableLayoutPanel17.Controls.Add(Me.TableLayoutPanel20, 5, 0)
+        Me.TableLayoutPanel17.Controls.Add(Me.txtRejectQty, 2, 1)
+        Me.TableLayoutPanel17.Controls.Add(Me.Button2, 4, 1)
+        Me.TableLayoutPanel17.Controls.Add(Me.Button6, 5, 1)
+        Me.TableLayoutPanel17.Controls.Add(Me.txtRejectMaterialPN, 0, 0)
+        Me.TableLayoutPanel17.Controls.Add(Me.TextBox4, 0, 1)
+        Me.TableLayoutPanel17.Controls.Add(Me.TextBox5, 3, 0)
+        Me.TableLayoutPanel17.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel17.Location = New System.Drawing.Point(3, 3)
+        Me.TableLayoutPanel17.Name = "TableLayoutPanel17"
+        Me.TableLayoutPanel17.RowCount = 2
+        Me.TableLayoutPanel17.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel17.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel17.Size = New System.Drawing.Size(1638, 121)
+        Me.TableLayoutPanel17.TabIndex = 0
+        '
+        'Label23
+        '
+        Me.Label23.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(35, 15)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(165, 29)
+        Me.Label23.TabIndex = 0
+        Me.Label23.Text = "Material Label"
+        '
+        'Label27
+        '
+        Me.Label27.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(35, 76)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(175, 29)
+        Me.Label27.TabIndex = 1
+        Me.Label27.Text = "Quantity Reject"
+        '
+        'TableLayoutPanel18
+        '
+        Me.TableLayoutPanel18.ColumnCount = 2
+        Me.TableLayoutPanel18.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel18.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel18.Controls.Add(Me.CheckBox3, 1, 0)
+        Me.TableLayoutPanel18.Controls.Add(Me.txtRejectBarcode, 0, 0)
+        Me.TableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel18.Location = New System.Drawing.Point(329, 3)
+        Me.TableLayoutPanel18.Name = "TableLayoutPanel18"
+        Me.TableLayoutPanel18.RowCount = 1
+        Me.TableLayoutPanel18.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel18.Size = New System.Drawing.Size(321, 54)
+        Me.TableLayoutPanel18.TabIndex = 2
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox3.Location = New System.Drawing.Point(163, 10)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(133, 33)
+        Me.CheckBox3.TabIndex = 0
+        Me.CheckBox3.Text = "QR Code"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
+        'txtRejectBarcode
+        '
+        Me.txtRejectBarcode.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtRejectBarcode.Location = New System.Drawing.Point(3, 9)
+        Me.txtRejectBarcode.Name = "txtRejectBarcode"
+        Me.txtRejectBarcode.Size = New System.Drawing.Size(154, 35)
+        Me.txtRejectBarcode.TabIndex = 1
+        '
+        'TableLayoutPanel19
+        '
+        Me.TableLayoutPanel19.ColumnCount = 2
+        Me.TableLayoutPanel19.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
+        Me.TableLayoutPanel19.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
+        Me.TableLayoutPanel19.Controls.Add(Me.Label28, 0, 0)
+        Me.TableLayoutPanel19.Controls.Add(Me.TextBox7, 1, 0)
+        Me.TableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel19.Location = New System.Drawing.Point(688, 3)
+        Me.TableLayoutPanel19.Name = "TableLayoutPanel19"
+        Me.TableLayoutPanel19.RowCount = 1
+        Me.TableLayoutPanel19.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel19.Size = New System.Drawing.Size(288, 54)
+        Me.TableLayoutPanel19.TabIndex = 3
+        '
+        'Label28
+        '
+        Me.Label28.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(3, 12)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(78, 29)
+        Me.Label28.TabIndex = 0
+        Me.Label28.Text = "Comp"
+        '
+        'TextBox7
+        '
+        Me.TextBox7.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox7.Location = New System.Drawing.Point(89, 9)
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.Size = New System.Drawing.Size(196, 35)
+        Me.TextBox7.TabIndex = 1
+        '
+        'TableLayoutPanel20
+        '
+        Me.TableLayoutPanel20.ColumnCount = 3
+        Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
+        Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
+        Me.TableLayoutPanel20.Controls.Add(Me.Label29, 0, 0)
+        Me.TableLayoutPanel20.Controls.Add(Me.TextBox8, 1, 0)
+        Me.TableLayoutPanel20.Controls.Add(Me.Button3, 2, 0)
+        Me.TableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel20.Location = New System.Drawing.Point(982, 3)
+        Me.TableLayoutPanel20.Name = "TableLayoutPanel20"
+        Me.TableLayoutPanel20.RowCount = 1
+        Me.TableLayoutPanel20.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel20.Size = New System.Drawing.Size(485, 54)
+        Me.TableLayoutPanel20.TabIndex = 4
+        '
+        'Label29
+        '
+        Me.Label29.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label29.AutoSize = True
+        Me.Label29.Location = New System.Drawing.Point(3, 12)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(84, 29)
+        Me.Label29.TabIndex = 0
+        Me.Label29.Text = "Lot No"
+        '
+        'TextBox8
+        '
+        Me.TextBox8.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox8.Location = New System.Drawing.Point(100, 9)
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.Size = New System.Drawing.Size(236, 35)
+        Me.TextBox8.TabIndex = 1
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(342, 3)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(140, 48)
+        Me.Button3.TabIndex = 2
+        Me.Button3.Text = "Check"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'txtRejectQty
+        '
+        Me.txtRejectQty.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtRejectQty.Location = New System.Drawing.Point(329, 73)
+        Me.txtRejectQty.Name = "txtRejectQty"
+        Me.txtRejectQty.Size = New System.Drawing.Size(321, 35)
+        Me.txtRejectQty.TabIndex = 5
+        '
+        'Button2
+        '
+        Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button2.Location = New System.Drawing.Point(688, 66)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(288, 49)
+        Me.Button2.TabIndex = 6
+        Me.Button2.Text = "Save"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'Button6
+        '
+        Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Button6.BackColor = System.Drawing.Color.Yellow
+        Me.Button6.Location = New System.Drawing.Point(982, 66)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(288, 49)
+        Me.Button6.TabIndex = 7
+        Me.Button6.Text = "Edit"
+        Me.Button6.UseVisualStyleBackColor = False
+        Me.Button6.Visible = False
+        '
+        'txtRejectMaterialPN
+        '
+        Me.txtRejectMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtRejectMaterialPN.Location = New System.Drawing.Point(3, 12)
+        Me.txtRejectMaterialPN.Name = "txtRejectMaterialPN"
+        Me.txtRejectMaterialPN.Size = New System.Drawing.Size(26, 35)
+        Me.txtRejectMaterialPN.TabIndex = 8
+        Me.txtRejectMaterialPN.Visible = False
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(3, 63)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(26, 35)
+        Me.TextBox4.TabIndex = 9
+        Me.TextBox4.Visible = False
+        '
+        'TextBox5
+        '
+        Me.TextBox5.Location = New System.Drawing.Point(656, 3)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.Size = New System.Drawing.Size(26, 35)
+        Me.TextBox5.TabIndex = 10
+        Me.TextBox5.Visible = False
+        '
+        'dgReject
+        '
+        Me.dgReject.AllowUserToAddRows = False
+        Me.dgReject.AllowUserToDeleteRows = False
+        Me.dgReject.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgReject.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.dgReject.Location = New System.Drawing.Point(3, 130)
+        Me.dgReject.Name = "dgReject"
+        Me.dgReject.Size = New System.Drawing.Size(1638, 448)
+        Me.dgReject.TabIndex = 1
         '
         'tpFinishGoods
         '
@@ -1404,243 +1662,6 @@ Partial Class FormDefective
         Me.DataGridView4.Size = New System.Drawing.Size(1632, 212)
         Me.DataGridView4.TabIndex = 19
         '
-        'tpRejectMaterial
-        '
-        Me.tpRejectMaterial.Controls.Add(Me.TableLayoutPanel16)
-        Me.tpRejectMaterial.Location = New System.Drawing.Point(4, 38)
-        Me.tpRejectMaterial.Name = "tpRejectMaterial"
-        Me.tpRejectMaterial.Size = New System.Drawing.Size(1644, 581)
-        Me.tpRejectMaterial.TabIndex = 5
-        Me.tpRejectMaterial.Text = "Reject Material"
-        Me.tpRejectMaterial.UseVisualStyleBackColor = True
-        '
-        'TableLayoutPanel16
-        '
-        Me.TableLayoutPanel16.ColumnCount = 1
-        Me.TableLayoutPanel16.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel16.Controls.Add(Me.TableLayoutPanel17, 0, 0)
-        Me.TableLayoutPanel16.Controls.Add(Me.DataGridView5, 0, 1)
-        Me.TableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel16.Location = New System.Drawing.Point(0, 0)
-        Me.TableLayoutPanel16.Name = "TableLayoutPanel16"
-        Me.TableLayoutPanel16.RowCount = 2
-        Me.TableLayoutPanel16.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.97824!))
-        Me.TableLayoutPanel16.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.02176!))
-        Me.TableLayoutPanel16.Size = New System.Drawing.Size(1644, 581)
-        Me.TableLayoutPanel16.TabIndex = 0
-        '
-        'TableLayoutPanel17
-        '
-        Me.TableLayoutPanel17.BackColor = System.Drawing.SystemColors.Control
-        Me.TableLayoutPanel17.ColumnCount = 7
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.0!))
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.0!))
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel17.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.TableLayoutPanel17.Controls.Add(Me.Label23, 1, 0)
-        Me.TableLayoutPanel17.Controls.Add(Me.Label27, 1, 1)
-        Me.TableLayoutPanel17.Controls.Add(Me.TableLayoutPanel18, 2, 0)
-        Me.TableLayoutPanel17.Controls.Add(Me.TableLayoutPanel19, 4, 0)
-        Me.TableLayoutPanel17.Controls.Add(Me.TableLayoutPanel20, 5, 0)
-        Me.TableLayoutPanel17.Controls.Add(Me.txtRejectQty, 2, 1)
-        Me.TableLayoutPanel17.Controls.Add(Me.Button2, 4, 1)
-        Me.TableLayoutPanel17.Controls.Add(Me.Button6, 5, 1)
-        Me.TableLayoutPanel17.Controls.Add(Me.txtRejectMaterialPN, 3, 0)
-        Me.TableLayoutPanel17.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel17.Location = New System.Drawing.Point(3, 3)
-        Me.TableLayoutPanel17.Name = "TableLayoutPanel17"
-        Me.TableLayoutPanel17.RowCount = 2
-        Me.TableLayoutPanel17.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel17.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel17.Size = New System.Drawing.Size(1638, 121)
-        Me.TableLayoutPanel17.TabIndex = 0
-        '
-        'DataGridView5
-        '
-        Me.DataGridView5.AllowUserToAddRows = False
-        Me.DataGridView5.AllowUserToDeleteRows = False
-        Me.DataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView5.Location = New System.Drawing.Point(3, 130)
-        Me.DataGridView5.Name = "DataGridView5"
-        Me.DataGridView5.ReadOnly = True
-        Me.DataGridView5.Size = New System.Drawing.Size(1638, 448)
-        Me.DataGridView5.TabIndex = 1
-        '
-        'Label23
-        '
-        Me.Label23.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(35, 15)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(165, 29)
-        Me.Label23.TabIndex = 0
-        Me.Label23.Text = "Material Label"
-        '
-        'Label27
-        '
-        Me.Label27.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(35, 76)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(175, 29)
-        Me.Label27.TabIndex = 1
-        Me.Label27.Text = "Quantity Reject"
-        '
-        'TableLayoutPanel18
-        '
-        Me.TableLayoutPanel18.ColumnCount = 2
-        Me.TableLayoutPanel18.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel18.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel18.Controls.Add(Me.CheckBox3, 1, 0)
-        Me.TableLayoutPanel18.Controls.Add(Me.txtRejectBarcode, 0, 0)
-        Me.TableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel18.Location = New System.Drawing.Point(329, 3)
-        Me.TableLayoutPanel18.Name = "TableLayoutPanel18"
-        Me.TableLayoutPanel18.RowCount = 1
-        Me.TableLayoutPanel18.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel18.Size = New System.Drawing.Size(321, 54)
-        Me.TableLayoutPanel18.TabIndex = 2
-        '
-        'CheckBox3
-        '
-        Me.CheckBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Checked = True
-        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox3.Location = New System.Drawing.Point(163, 10)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(133, 33)
-        Me.CheckBox3.TabIndex = 0
-        Me.CheckBox3.Text = "QR Code"
-        Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'TableLayoutPanel19
-        '
-        Me.TableLayoutPanel19.ColumnCount = 2
-        Me.TableLayoutPanel19.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel19.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
-        Me.TableLayoutPanel19.Controls.Add(Me.Label28, 0, 0)
-        Me.TableLayoutPanel19.Controls.Add(Me.TextBox7, 1, 0)
-        Me.TableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel19.Location = New System.Drawing.Point(688, 3)
-        Me.TableLayoutPanel19.Name = "TableLayoutPanel19"
-        Me.TableLayoutPanel19.RowCount = 1
-        Me.TableLayoutPanel19.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel19.Size = New System.Drawing.Size(288, 54)
-        Me.TableLayoutPanel19.TabIndex = 3
-        '
-        'TableLayoutPanel20
-        '
-        Me.TableLayoutPanel20.ColumnCount = 3
-        Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel20.Controls.Add(Me.Label29, 0, 0)
-        Me.TableLayoutPanel20.Controls.Add(Me.TextBox8, 1, 0)
-        Me.TableLayoutPanel20.Controls.Add(Me.Button3, 2, 0)
-        Me.TableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel20.Location = New System.Drawing.Point(982, 3)
-        Me.TableLayoutPanel20.Name = "TableLayoutPanel20"
-        Me.TableLayoutPanel20.RowCount = 1
-        Me.TableLayoutPanel20.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel20.Size = New System.Drawing.Size(485, 54)
-        Me.TableLayoutPanel20.TabIndex = 4
-        '
-        'txtRejectQty
-        '
-        Me.txtRejectQty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtRejectQty.Location = New System.Drawing.Point(329, 73)
-        Me.txtRejectQty.Name = "txtRejectQty"
-        Me.txtRejectQty.Size = New System.Drawing.Size(321, 35)
-        Me.txtRejectQty.TabIndex = 5
-        '
-        'txtRejectBarcode
-        '
-        Me.txtRejectBarcode.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtRejectBarcode.Location = New System.Drawing.Point(3, 9)
-        Me.txtRejectBarcode.Name = "txtRejectBarcode"
-        Me.txtRejectBarcode.Size = New System.Drawing.Size(154, 35)
-        Me.txtRejectBarcode.TabIndex = 1
-        '
-        'Label28
-        '
-        Me.Label28.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(3, 12)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(78, 29)
-        Me.Label28.TabIndex = 0
-        Me.Label28.Text = "Comp"
-        '
-        'Label29
-        '
-        Me.Label29.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(3, 12)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(84, 29)
-        Me.Label29.TabIndex = 0
-        Me.Label29.Text = "Lot No"
-        '
-        'TextBox7
-        '
-        Me.TextBox7.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox7.Location = New System.Drawing.Point(89, 9)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(196, 35)
-        Me.TextBox7.TabIndex = 1
-        '
-        'TextBox8
-        '
-        Me.TextBox8.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox8.Location = New System.Drawing.Point(100, 9)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(236, 35)
-        Me.TextBox8.TabIndex = 1
-        '
-        'Button2
-        '
-        Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Button2.Location = New System.Drawing.Point(688, 66)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(288, 49)
-        Me.Button2.TabIndex = 6
-        Me.Button2.Text = "Add"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(342, 3)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(140, 48)
-        Me.Button3.TabIndex = 2
-        Me.Button3.Text = "Check"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'Button6
-        '
-        Me.Button6.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Button6.BackColor = System.Drawing.Color.Yellow
-        Me.Button6.Location = New System.Drawing.Point(982, 66)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(288, 49)
-        Me.Button6.TabIndex = 7
-        Me.Button6.Text = "Edit"
-        Me.Button6.UseVisualStyleBackColor = False
-        '
-        'txtRejectMaterialPN
-        '
-        Me.txtRejectMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtRejectMaterialPN.Location = New System.Drawing.Point(656, 12)
-        Me.txtRejectMaterialPN.Name = "txtRejectMaterialPN"
-        Me.txtRejectMaterialPN.Size = New System.Drawing.Size(26, 35)
-        Me.txtRejectMaterialPN.TabIndex = 8
-        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1655,6 +1676,17 @@ Partial Class FormDefective
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
+        Me.tpRejectMaterial.ResumeLayout(False)
+        Me.TableLayoutPanel16.ResumeLayout(False)
+        Me.TableLayoutPanel17.ResumeLayout(False)
+        Me.TableLayoutPanel17.PerformLayout()
+        Me.TableLayoutPanel18.ResumeLayout(False)
+        Me.TableLayoutPanel18.PerformLayout()
+        Me.TableLayoutPanel19.ResumeLayout(False)
+        Me.TableLayoutPanel19.PerformLayout()
+        Me.TableLayoutPanel20.ResumeLayout(False)
+        Me.TableLayoutPanel20.PerformLayout()
+        CType(Me.dgReject, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpFinishGoods.ResumeLayout(False)
         Me.TableLayoutPanel12.ResumeLayout(False)
         Me.TableLayoutPanel12.PerformLayout()
@@ -1693,17 +1725,6 @@ Partial Class FormDefective
         Me.pDefective1.ResumeLayout(False)
         Me.pDefective1.PerformLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tpRejectMaterial.ResumeLayout(False)
-        Me.TableLayoutPanel16.ResumeLayout(False)
-        Me.TableLayoutPanel17.ResumeLayout(False)
-        Me.TableLayoutPanel17.PerformLayout()
-        CType(Me.DataGridView5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TableLayoutPanel18.ResumeLayout(False)
-        Me.TableLayoutPanel18.PerformLayout()
-        Me.TableLayoutPanel19.ResumeLayout(False)
-        Me.TableLayoutPanel19.PerformLayout()
-        Me.TableLayoutPanel20.ResumeLayout(False)
-        Me.TableLayoutPanel20.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1818,10 +1839,9 @@ Partial Class FormDefective
     Friend WithEvents tpRejectMaterial As TabPage
     Friend WithEvents TableLayoutPanel16 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel17 As TableLayoutPanel
-    Friend WithEvents DataGridView5 As DataGridView
+    Friend WithEvents dgReject As DataGridView
     Friend WithEvents Label23 As Label
     Friend WithEvents Label27 As Label
-    Friend WithEvents TableLayoutPanel18 As TableLayoutPanel
     Friend WithEvents CheckBox3 As CheckBox
     Friend WithEvents TableLayoutPanel19 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel20 As TableLayoutPanel
@@ -1835,4 +1855,7 @@ Partial Class FormDefective
     Friend WithEvents Button3 As Button
     Friend WithEvents Button6 As Button
     Friend WithEvents txtRejectMaterialPN As TextBox
+    Friend WithEvents TableLayoutPanel18 As TableLayoutPanel
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents TextBox5 As TextBox
 End Class

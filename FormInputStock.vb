@@ -24,119 +24,127 @@ Public Class FormInputStock
     End Sub
 
     Private Sub DGV_InputStock(id As String)
-        If id = "" Then
-            Exit Sub
-        End If
-        dgv_forminputstock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgv_forminputstock.DataSource = Nothing
-        dgv_forminputstock.Rows.Clear()
-        dgv_forminputstock.Columns.Clear()
-        Call Database.koneksi_database()
-        Dim queryInputStockDetail As String = "SELECT ID,MATERIAL,LOT_NO,TRACEABILITY TRACE,BATCH_NO,INV_CTRL_DATE ICD,QTY FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' and MATERIAL='" & id & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
-        Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
-        dgv_forminputstock.DataSource = dtInputStockDetail
+        Try
+            If id = "" Then
+                Exit Sub
+            End If
+            dgv_forminputstock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            dgv_forminputstock.DataSource = Nothing
+            dgv_forminputstock.Rows.Clear()
+            dgv_forminputstock.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT ID,MATERIAL,LOT_NO,TRACEABILITY TRACE,BATCH_NO,INV_CTRL_DATE ICD,QTY FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' and MATERIAL='" & id & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            dgv_forminputstock.DataSource = dtInputStockDetail
 
-        Dim queryCheckLock As String = "SELECT TOP 1 * FROM STOCK_CARD WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
-        Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
+            Dim queryCheckLock As String = "SELECT TOP 1 * FROM STOCK_CARD WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
+            Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
 
-        If dtCheckLock.Rows.Count > 0 Then
-            If dtCheckLock.Rows(0).Item("SAVE") = 0 Then
-                Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
-                delete.Name = "delete"
-                delete.HeaderText = "Delete"
-                delete.Width = 50
-                delete.Text = "Delete"
-                delete.UseColumnTextForButtonValue = True
+            If dtCheckLock.Rows.Count > 0 Then
+                If dtCheckLock.Rows(0).Item("SAVE") = 0 Then
+                    Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
+                    delete.Name = "delete"
+                    delete.HeaderText = "Delete"
+                    delete.Width = 50
+                    delete.Text = "Delete"
+                    delete.UseColumnTextForButtonValue = True
 
-                dgv_forminputstock.Columns.Insert(7, delete)
+                    dgv_forminputstock.Columns.Insert(7, delete)
 
+                    Button2.Enabled = True
+                End If
+            Else
                 Button2.Enabled = True
             End If
-        Else
-            Button2.Enabled = True
-        End If
 
-        dgv_forminputstock.Columns(0).Width = 100
-        dgv_forminputstock.Columns(2).Width = 150
+            dgv_forminputstock.Columns(0).Width = 100
+            dgv_forminputstock.Columns(2).Width = 150
 
-        For i As Integer = 0 To dgv_forminputstock.RowCount - 1
-            If dgv_forminputstock.Rows(i).Index Mod 2 = 0 Then
-                dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            For i As Integer = 0 To dgv_forminputstock.RowCount - 1
+                If dgv_forminputstock.Rows(i).Index Mod 2 = 0 Then
+                    dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
+
+            If dtCheckLock.Rows.Count > 0 Then
+                dgv_forminputstock.ReadOnly = dtCheckLock.Rows(0).Item("SAVE")
             Else
-                dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                dgv_forminputstock.ReadOnly = False
             End If
-        Next i
-
-        If dtCheckLock.Rows.Count > 0 Then
-            dgv_forminputstock.ReadOnly = dtCheckLock.Rows(0).Item("SAVE")
-        Else
-            dgv_forminputstock.ReadOnly = False
-        End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
     End Sub
 
     Private Sub txt_forminputstock_qrcode_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_qrcode.PreviewKeyDown
-        Call Database.koneksi_database()
+        Try
+            Call Database.koneksi_database()
 
-        Dim adapter As SqlDataAdapter
-        Dim ds As New DataTable
+            Dim adapter As SqlDataAdapter
+            Dim ds As New DataTable
 
-        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And Len(Me.txt_forminputstock_qrcode.Text) >= 64 Then
-            Dim splitQRCode() As String = txt_forminputstock_qrcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-            Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
+            If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And Len(Me.txt_forminputstock_qrcode.Text) >= 64 Then
+                Dim splitQRCode() As String = txt_forminputstock_qrcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
+                Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
 
-            Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & splitQRCode1P(0) & "'"
-            adapter = New SqlDataAdapter(sql, Database.koneksi)
-            adapter.Fill(ds)
+                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & splitQRCode1P(0) & "'"
+                adapter = New SqlDataAdapter(sql, Database.koneksi)
+                adapter.Fill(ds)
 
-            If ds.Rows.Count > 0 Then
+                If ds.Rows.Count > 0 Then
 
-                Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no=" & splitQRCode1P(3) & " AND MATERIAL='" & splitQRCode1P(0) & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
-                Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no=" & splitQRCode1P(3) & " AND MATERIAL='" & splitQRCode1P(0) & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                    Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
-                If dtCheckInputStockDetail.Rows.Count > 0 Then
-                    MessageBox.Show("This QRCode Already Scan")
+                    If dtCheckInputStockDetail.Rows.Count > 0 Then
+                        MessageBox.Show("This QRCode Already Scan")
 
+                        txt_forminputstock_qrcode.Text = ""
+                        txt_forminputstock_qrcode.Select()
+
+                        dgv_forminputstock.DataSource = Nothing
+                        dgv_forminputstock.Rows.Clear()
+                        dgv_forminputstock.Columns.Clear()
+
+                        treeView_show()
+                    Else
+                        Try
+                            Dim StandartPack As String
+
+                            If ds.Rows(0).Item("STANDARD_QTY") = splitQRCode1P(1) Then
+                                StandartPack = "YES"
+                            Else
+                                StandartPack = "NO"
+                            End If
+
+                            Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY)
+                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & splitQRCode1P(1) & ")"
+                            Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                            If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+                                txt_forminputstock_qrcode.Text = ""
+                                txt_forminputstock_qrcode.Select()
+
+                                dgv_forminputstock.DataSource = Nothing
+                                dgv_forminputstock.Rows.Clear()
+                                dgv_forminputstock.Columns.Clear()
+
+                                treeView_show()
+                            End If
+                        Catch ex As Exception
+                            MessageBox.Show("Error Insert" & ex.Message)
+                        End Try
+                    End If
+                Else
+                    MessageBox.Show("Part Number not in DB")
                     txt_forminputstock_qrcode.Text = ""
                     txt_forminputstock_qrcode.Select()
-
-                    dgv_forminputstock.DataSource = Nothing
-                    dgv_forminputstock.Rows.Clear()
-                    dgv_forminputstock.Columns.Clear()
-
-                    treeView_show()
-                Else
-                    Try
-                        Dim StandartPack As String
-
-                        If ds.Rows(0).Item("STANDARD_QTY") = splitQRCode1P(1) Then
-                            StandartPack = "YES"
-                        Else
-                            StandartPack = "NO"
-                        End If
-
-                        Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY)
-                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & splitQRCode1P(1) & ")"
-                        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                            txt_forminputstock_qrcode.Text = ""
-                            txt_forminputstock_qrcode.Select()
-
-                            dgv_forminputstock.DataSource = Nothing
-                            dgv_forminputstock.Rows.Clear()
-                            dgv_forminputstock.Columns.Clear()
-
-                            treeView_show()
-                        End If
-                    Catch ex As Exception
-                        MessageBox.Show("Error Insert" & ex.Message)
-                    End Try
                 End If
-            Else
-                MessageBox.Show("Part Number not in DB")
-                txt_forminputstock_qrcode.Text = ""
-                txt_forminputstock_qrcode.Select()
             End If
-        End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub dgv_forminputstock_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_forminputstock.CellValueChanged
@@ -214,63 +222,69 @@ Public Class FormInputStock
     End Sub
 
     Private Sub txt_forminputstock_mts_no_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_mts_no.PreviewKeyDown
-        If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then
-            If txt_forminputstock_mts_no.Text = "" Then
-                MessageBox.Show("MTS cannot be null.")
-                txt_forminputstock_mts_no.Select()
-            Else
-                Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status != 'Receive From Main Store'"
-                Dim dtCheck As DataTable = Database.GetData(queryCheck)
-                If dtCheck.Rows.Count > 0 Then
-                    MessageBox.Show("Sorry MTS Number already in DB")
-                    txt_forminputstock_mts_no.Clear()
-                    Exit Sub
-                End If
+        Try
 
-                txt_forminputstock_mts_no.ReadOnly = True
-                checkQr.Enabled = True
 
-                If checkQr.Checked Then
-                    txt_forminputstock_qrcode.ReadOnly = False
-                    txt_forminputstock_qrcode.Select()
-
-                    txtmanualPN.ReadOnly = True
-                    txtmanualTraceability.ReadOnly = True
-                    txtmanualInv.ReadOnly = True
-                    txtmanualBatch.ReadOnly = True
-                    txtmanualLot.ReadOnly = True
-                    txtmanualQty.ReadOnly = True
+            If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then
+                If txt_forminputstock_mts_no.Text = "" Then
+                    MessageBox.Show("MTS cannot be null.")
+                    txt_forminputstock_mts_no.Select()
                 Else
-                    txtmanualPN.ReadOnly = False
-                    txtmanualTraceability.ReadOnly = False
-                    txtmanualInv.ReadOnly = False
-                    txtmanualBatch.ReadOnly = False
-                    txtmanualLot.ReadOnly = False
-                    txtmanualQty.ReadOnly = False
-                    txtmanualPN.Select()
-                    txt_forminputstock_qrcode.ReadOnly = True
-                End If
-
-                treeView_show()
-
-                Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and department='" & globVar.department & "' and status='Receive From Main Store'"
-                Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
-
-                If dtCheckLock.Rows.Count > 0 Then
-                    If dtCheckLock.Rows(0).Item("SAVE") = 0 Then
-                        Button2.Enabled = True
-                    Else
-                        txt_forminputstock_qrcode.ReadOnly = True
-                        checkQr.Enabled = False
-                        Button2.Enabled = False
-                        dgv_forminputstock.ReadOnly = True
+                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status != 'Receive From Main Store'"
+                    Dim dtCheck As DataTable = Database.GetData(queryCheck)
+                    If dtCheck.Rows.Count > 0 Then
+                        MessageBox.Show("Sorry MTS Number already in DB")
+                        txt_forminputstock_mts_no.Clear()
+                        Exit Sub
                     End If
-                Else
-                    Button2.Enabled = True
 
+                    txt_forminputstock_mts_no.ReadOnly = True
+                    checkQr.Enabled = True
+
+                    If checkQr.Checked Then
+                        txt_forminputstock_qrcode.ReadOnly = False
+                        txt_forminputstock_qrcode.Select()
+
+                        txtmanualPN.ReadOnly = True
+                        txtmanualTraceability.ReadOnly = True
+                        txtmanualInv.ReadOnly = True
+                        txtmanualBatch.ReadOnly = True
+                        txtmanualLot.ReadOnly = True
+                        txtmanualQty.ReadOnly = True
+                    Else
+                        txtmanualPN.ReadOnly = False
+                        txtmanualTraceability.ReadOnly = False
+                        txtmanualInv.ReadOnly = False
+                        txtmanualBatch.ReadOnly = False
+                        txtmanualLot.ReadOnly = False
+                        txtmanualQty.ReadOnly = False
+                        txtmanualPN.Select()
+                        txt_forminputstock_qrcode.ReadOnly = True
+                    End If
+
+                    treeView_show()
+
+                    Dim queryCheckLock As String = "SELECT TOP 1 * FROM stock_card WHERE MTS_NO = '" & txt_forminputstock_mts_no.Text & "' and department='" & globVar.department & "' and status='Receive From Main Store'"
+                    Dim dtCheckLock As DataTable = Database.GetData(queryCheckLock)
+
+                    If dtCheckLock.Rows.Count > 0 Then
+                        If dtCheckLock.Rows(0).Item("SAVE") = 0 Then
+                            Button2.Enabled = True
+                        Else
+                            txt_forminputstock_qrcode.ReadOnly = True
+                            checkQr.Enabled = False
+                            Button2.Enabled = False
+                            dgv_forminputstock.ReadOnly = True
+                        End If
+                    Else
+                        Button2.Enabled = True
+
+                    End If
                 End If
             End If
-        End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect

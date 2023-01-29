@@ -133,11 +133,6 @@
     <Compile Include="HOME.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JOVANDataSet.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="MainPOSubPO.Designer.vb">
       <DependentUpon>MainPOSubPO.vb</DependentUpon>
     </Compile>
@@ -366,17 +361,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="JOVANDataSet.xsc">
-      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="JOVANDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>JOVANDataSet.Designer.vb</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="JOVANDataSet.xss">
-      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
-    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

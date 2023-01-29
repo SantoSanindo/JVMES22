@@ -4,14 +4,14 @@
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
-        _PrintingDefect.Show()
-        _PrintingDefect.Hide()
-        _PrintingFlowTicket.Show()
-        _PrintingFlowTicket.Hide()
-        _PrintingSubAssyRawMaterial.Show()
-        _PrintingSubAssyRawMaterial.Hide()
-        _PrintingWIPOnHold.Show()
-        _PrintingWIPOnHold.Hide()
+        '_PrintingDefect.Show()
+        '_PrintingDefect.Hide()
+        '_PrintingFlowTicket.Show()
+        '_PrintingFlowTicket.Hide()
+        '_PrintingSubAssyRawMaterial.Show()
+        '_PrintingSubAssyRawMaterial.Hide()
+        '_PrintingWIPOnHold.Show()
+        '_PrintingWIPOnHold.Hide()
     End Sub
 
     ' -----------------------Start Menu Master Data-------------------------'

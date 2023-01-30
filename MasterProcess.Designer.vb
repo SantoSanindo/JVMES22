@@ -62,16 +62,16 @@ Partial Class MasterProcess
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(-1, -11)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1316, 636)
+        Me.GroupBox1.Size = New System.Drawing.Size(1855, 636)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
         'btn_ex_template
         '
-        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(479, 567)
+        Me.btn_ex_template.Location = New System.Drawing.Point(1240, 23)
         Me.btn_ex_template.Name = "btn_ex_template"
         Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_ex_template.TabIndex = 17
@@ -80,10 +80,10 @@ Partial Class MasterProcess
         '
         'btn_export_Master_Process
         '
-        Me.btn_export_Master_Process.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_Master_Process.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_export_Master_Process.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btn_export_Master_Process.ForeColor = System.Drawing.Color.White
-        Me.btn_export_Master_Process.Location = New System.Drawing.Point(714, 567)
+        Me.btn_export_Master_Process.Location = New System.Drawing.Point(1475, 23)
         Me.btn_export_Master_Process.Name = "btn_export_Master_Process"
         Me.btn_export_Master_Process.Size = New System.Drawing.Size(193, 42)
         Me.btn_export_Master_Process.TabIndex = 16
@@ -95,7 +95,7 @@ Partial Class MasterProcess
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(1157, 25)
+        Me.Button2.Location = New System.Drawing.Point(1696, 25)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(153, 38)
         Me.Button2.TabIndex = 8
@@ -105,7 +105,7 @@ Partial Class MasterProcess
         'txt_masterprocess_search
         '
         Me.txt_masterprocess_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterprocess_search.Location = New System.Drawing.Point(1035, 567)
+        Me.txt_masterprocess_search.Location = New System.Drawing.Point(1574, 572)
         Me.txt_masterprocess_search.Name = "txt_masterprocess_search"
         Me.txt_masterprocess_search.Size = New System.Drawing.Size(275, 35)
         Me.txt_masterprocess_search.TabIndex = 7
@@ -114,7 +114,7 @@ Partial Class MasterProcess
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(931, 570)
+        Me.Label3.Location = New System.Drawing.Point(1470, 575)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(89, 29)
         Me.Label3.TabIndex = 6
@@ -156,7 +156,7 @@ Partial Class MasterProcess
         Me.dgv_masterprocess.ReadOnly = True
         Me.dgv_masterprocess.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_masterprocess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_masterprocess.Size = New System.Drawing.Size(1304, 482)
+        Me.dgv_masterprocess.Size = New System.Drawing.Size(1843, 482)
         Me.dgv_masterprocess.TabIndex = 4
         '
         'txt_masterprocess_desc
@@ -211,7 +211,7 @@ Partial Class MasterProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1314, 626)
+        Me.ClientSize = New System.Drawing.Size(1855, 626)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "MasterProcess"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

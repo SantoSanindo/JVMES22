@@ -277,6 +277,7 @@ Public Class MasterProcessFlow
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
+        MsgBox("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Finish_Goods_Click(sender As Object, e As EventArgs) Handles btn_export_Finish_Goods.Click

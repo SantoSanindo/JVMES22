@@ -287,5 +287,6 @@ Public Class MasterMaterial
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
+        MsgBox("Export Template Success !")
     End Sub
 End Class

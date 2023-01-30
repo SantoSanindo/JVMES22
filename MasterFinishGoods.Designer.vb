@@ -22,8 +22,10 @@ Partial Class MasterFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_template = New System.Windows.Forms.Button()
         Me.txt_dept = New System.Windows.Forms.ComboBox()
         Me.txt_laser = New System.Windows.Forms.TextBox()
         Me.txt_spq = New System.Windows.Forms.TextBox()
@@ -43,8 +45,6 @@ Partial Class MasterFinishGoods
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.btn_ex_template = New System.Windows.Forms.Button()
-        Me.btn_export_template = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_finish_goods, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +81,30 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Size = New System.Drawing.Size(1913, 705)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(1351, 63)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 20
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_template
+        '
+        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_template.ForeColor = System.Drawing.Color.White
+        Me.btn_export_template.Location = New System.Drawing.Point(1586, 63)
+        Me.btn_export_template.Name = "btn_export_template"
+        Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_template.TabIndex = 19
+        Me.btn_export_template.Text = "Export to Excel"
+        Me.btn_export_template.UseVisualStyleBackColor = False
         '
         'txt_dept
         '
@@ -142,7 +166,7 @@ Partial Class MasterFinishGoods
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(1598, 634)
+        Me.Label4.Location = New System.Drawing.Point(1598, 638)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(89, 29)
         Me.Label4.TabIndex = 11
@@ -167,7 +191,7 @@ Partial Class MasterFinishGoods
         'txt_masterfinishgoods_search
         '
         Me.txt_masterfinishgoods_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1690, 631)
+        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1690, 635)
         Me.txt_masterfinishgoods_search.Name = "txt_masterfinishgoods_search"
         Me.txt_masterfinishgoods_search.Size = New System.Drawing.Size(217, 35)
         Me.txt_masterfinishgoods_search.TabIndex = 8
@@ -217,14 +241,14 @@ Partial Class MasterFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_finish_goods.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_finish_goods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_finish_goods.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 152)
@@ -264,30 +288,6 @@ Partial Class MasterFinishGoods
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'btn_ex_template
-        '
-        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(1117, 634)
-        Me.btn_ex_template.Name = "btn_ex_template"
-        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
-        Me.btn_ex_template.TabIndex = 20
-        Me.btn_ex_template.Text = "Export Template"
-        Me.btn_ex_template.UseVisualStyleBackColor = False
-        '
-        'btn_export_template
-        '
-        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.btn_export_template.ForeColor = System.Drawing.Color.White
-        Me.btn_export_template.Location = New System.Drawing.Point(1352, 634)
-        Me.btn_export_template.Name = "btn_export_template"
-        Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
-        Me.btn_export_template.TabIndex = 19
-        Me.btn_export_template.Text = "Export to Excel"
-        Me.btn_export_template.UseVisualStyleBackColor = False
         '
         'MasterFinishGoods
         '

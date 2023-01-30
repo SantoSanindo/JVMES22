@@ -22,7 +22,7 @@ Partial Class MasterProcessFlow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.masterprocessflow_search = New System.Windows.Forms.TextBox()
@@ -32,6 +32,9 @@ Partial Class MasterProcessFlow
         Me.cb_masterprocessflow = New System.Windows.Forms.ComboBox()
         Me.dgv_masterprocessflow = New System.Windows.Forms.DataGridView()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_Finish_Goods = New System.Windows.Forms.Button()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterprocessflow, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,6 +44,8 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_Finish_Goods)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.masterprocessflow_search)
         Me.GroupBox1.Controls.Add(Me.Button2)
@@ -124,14 +129,14 @@ Partial Class MasterProcessFlow
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocessflow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.dgv_masterprocessflow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgv_masterprocessflow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocessflow.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterprocessflow.Location = New System.Drawing.Point(3, 72)
@@ -145,6 +150,30 @@ Partial Class MasterProcessFlow
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(633, 645)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 19
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_Finish_Goods
+        '
+        Me.btn_export_Finish_Goods.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_Finish_Goods.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_Finish_Goods.ForeColor = System.Drawing.Color.White
+        Me.btn_export_Finish_Goods.Location = New System.Drawing.Point(868, 645)
+        Me.btn_export_Finish_Goods.Name = "btn_export_Finish_Goods"
+        Me.btn_export_Finish_Goods.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_Finish_Goods.TabIndex = 18
+        Me.btn_export_Finish_Goods.Text = "Export to Excel"
+        Me.btn_export_Finish_Goods.UseVisualStyleBackColor = False
         '
         'MasterProcessFlow
         '
@@ -173,4 +202,7 @@ Partial Class MasterProcessFlow
     Friend WithEvents masterprocessflow_search As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents btn_ex_template As Button
+    Friend WithEvents btn_export_Finish_Goods As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

@@ -22,8 +22,10 @@ Partial Class MasterProcess
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_Master_Process = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.txt_masterprocess_search = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -36,6 +38,7 @@ Partial Class MasterProcess
         Me.process_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.process_desc = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterprocess, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -45,6 +48,8 @@ Partial Class MasterProcess
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_Master_Process)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.txt_masterprocess_search)
         Me.GroupBox1.Controls.Add(Me.Label3)
@@ -60,6 +65,30 @@ Partial Class MasterProcess
         Me.GroupBox1.Size = New System.Drawing.Size(1316, 636)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(479, 567)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 17
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_Master_Process
+        '
+        Me.btn_export_Master_Process.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_Master_Process.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_Master_Process.ForeColor = System.Drawing.Color.White
+        Me.btn_export_Master_Process.Location = New System.Drawing.Point(714, 567)
+        Me.btn_export_Master_Process.Name = "btn_export_Master_Process"
+        Me.btn_export_Master_Process.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_Master_Process.TabIndex = 16
+        Me.btn_export_Master_Process.Text = "Export to Excel"
+        Me.btn_export_Master_Process.UseVisualStyleBackColor = False
         '
         'Button2
         '
@@ -111,14 +140,14 @@ Partial Class MasterProcess
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocess.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_masterprocess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocess.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterprocess.Location = New System.Drawing.Point(6, 79)
@@ -207,4 +236,7 @@ Partial Class MasterProcess
     Friend WithEvents process_desc As DataGridViewTextBoxColumn
     Friend WithEvents Button2 As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents btn_ex_template As Button
+    Friend WithEvents btn_export_Master_Process As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

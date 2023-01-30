@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
+Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
 
@@ -210,19 +211,17 @@ Public Class MasterMaterial
             End If
         Next i
     End Sub
-
     Private Sub ExportToExcel()
-            Dim xlApp As New Excel.Application
-            Dim xlWorkBook As Excel.Workbook
-            Dim xlWorkSheet As Excel.Worksheet
-            Dim misValue As Object = System.Reflection.Missing.Value
-            Dim i As Integer
-            Dim j As Integer
+        Dim xlApp As New Excel.Application
+        Dim xlWorkBook As Excel.Workbook
+        Dim xlWorkSheet As Excel.Worksheet
+        Dim misValue As Object = System.Reflection.Missing.Value
+        Dim i As Integer
+        Dim j As Integer
+        xlWorkBook = xlApp.Workbooks.Add(misValue)
+        xlWorkSheet = xlWorkBook.Sheets("sheet1")
 
-            xlWorkBook = xlApp.Workbooks.Add(misValue)
-            xlWorkSheet = xlWorkBook.Sheets("sheet1")
-
-        For i = 1 To dgv_material.RowCount
+        For i = 1 To dgv_material.RowCount - 2
             For j = 1 To dgv_material.ColumnCount - 1
                 For k As Integer = 1 To dgv_material.Columns.Count
                     xlWorkSheet.Cells(1, k) = dgv_material.Columns(k - 1).HeaderText
@@ -230,17 +229,22 @@ Public Class MasterMaterial
                 Next
             Next
         Next
+        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
-        xlWorkSheet.SaveAs("D:\csharp-Excel.xlsx")
-            xlWorkBook.Close()
-            xlApp.Quit()
+        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+            xlWorkSheet.SaveAs(directoryPath & "\Master Material.xlsx")
+        End If
 
-            releaseObject(xlWorkSheet)
-            releaseObject(xlWorkBook)
-            releaseObject(xlApp)
+        xlWorkBook.Close()
+        xlApp.Quit()
 
-            MsgBox("You can find the file D:\csharp-Excel.xlsx")
-        End Sub
+        releaseObject(xlWorkSheet)
+        releaseObject(xlWorkBook)
+        releaseObject(xlApp)
+
+        MsgBox("Export to Excel Success !")
+    End Sub
 
     Private Sub releaseObject(ByVal obj As Object)
         Try
@@ -255,5 +259,33 @@ Public Class MasterMaterial
 
     Private Sub btn_export_template_Click(sender As Object, e As EventArgs) Handles btn_export_template.Click
         ExportToExcel()
+    End Sub
+
+    Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
+        Dim excelApp As Excel.Application = New Excel.Application()
+
+        'create new workbook
+        Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
+
+        'create new worksheet
+        Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
+
+        'write data to worksheet
+        worksheet.Range("A1").Value = "Part Number"
+        worksheet.Range("B1").Value = "Name"
+        worksheet.Range("C1").Value = "Standard Qty"
+        worksheet.Range("D1").Value = "Family"
+
+        'save the workbook
+        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+            workbook.SaveAs(directoryPath & "\Master Material Template.xlsx")
+        End If
+
+        'cleanup
+        excelApp.Quit()
+        Marshal.ReleaseComObject(excelApp)
     End Sub
 End Class

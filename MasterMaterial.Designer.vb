@@ -22,8 +22,9 @@ Partial Class MasterMaterial
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btn_export_template = New System.Windows.Forms.Button()
         Me.txt_mastermaterial_family = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -39,7 +40,8 @@ Partial Class MasterMaterial
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.btn_export_template = New System.Windows.Forms.Button()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_material, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -49,6 +51,7 @@ Partial Class MasterMaterial
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_template)
         Me.GroupBox1.Controls.Add(Me.txt_mastermaterial_family)
         Me.GroupBox1.Controls.Add(Me.Label5)
@@ -70,6 +73,18 @@ Partial Class MasterMaterial
         Me.GroupBox1.Size = New System.Drawing.Size(1725, 705)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'btn_export_template
+        '
+        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_template.ForeColor = System.Drawing.Color.White
+        Me.btn_export_template.Location = New System.Drawing.Point(1152, 637)
+        Me.btn_export_template.Name = "btn_export_template"
+        Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_template.TabIndex = 14
+        Me.btn_export_template.Text = "Export to Excel"
+        Me.btn_export_template.UseVisualStyleBackColor = False
         '
         'txt_mastermaterial_family
         '
@@ -167,14 +182,14 @@ Partial Class MasterMaterial
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_material.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_material.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_material.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_material.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_material.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_material.Location = New System.Drawing.Point(6, 87)
@@ -222,17 +237,17 @@ Partial Class MasterMaterial
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'btn_export_template
+        'btn_ex_template
         '
-        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.btn_export_template.ForeColor = System.Drawing.Color.White
-        Me.btn_export_template.Location = New System.Drawing.Point(1152, 637)
-        Me.btn_export_template.Name = "btn_export_template"
-        Me.btn_export_template.Size = New System.Drawing.Size(242, 42)
-        Me.btn_export_template.TabIndex = 14
-        Me.btn_export_template.Text = "Export Template"
-        Me.btn_export_template.UseVisualStyleBackColor = False
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(917, 637)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 15
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
         '
         'MasterMaterial
         '
@@ -268,4 +283,6 @@ Partial Class MasterMaterial
     Friend WithEvents Label5 As Label
     Friend WithEvents txt_mastermaterial_family As TextBox
     Friend WithEvents btn_export_template As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents btn_ex_template As Button
 End Class

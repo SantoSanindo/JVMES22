@@ -22,8 +22,9 @@ Partial Class MasterFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txt_dept = New System.Windows.Forms.ComboBox()
         Me.txt_laser = New System.Windows.Forms.TextBox()
         Me.txt_spq = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -42,7 +43,9 @@ Partial Class MasterFinishGoods
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.txt_dept = New System.Windows.Forms.ComboBox()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_template = New System.Windows.Forms.Button()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_finish_goods, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -52,6 +55,8 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_template)
         Me.GroupBox1.Controls.Add(Me.txt_dept)
         Me.GroupBox1.Controls.Add(Me.txt_laser)
         Me.GroupBox1.Controls.Add(Me.txt_spq)
@@ -76,6 +81,14 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Size = New System.Drawing.Size(1913, 705)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'txt_dept
+        '
+        Me.txt_dept.FormattingEnabled = True
+        Me.txt_dept.Location = New System.Drawing.Point(167, 28)
+        Me.txt_dept.Name = "txt_dept"
+        Me.txt_dept.Size = New System.Drawing.Size(198, 37)
+        Me.txt_dept.TabIndex = 18
         '
         'txt_laser
         '
@@ -204,14 +217,14 @@ Partial Class MasterFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_finish_goods.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.dgv_finish_goods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_finish_goods.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 152)
@@ -252,13 +265,29 @@ Partial Class MasterFinishGoods
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'txt_dept
+        'btn_ex_template
         '
-        Me.txt_dept.FormattingEnabled = True
-        Me.txt_dept.Location = New System.Drawing.Point(167, 28)
-        Me.txt_dept.Name = "txt_dept"
-        Me.txt_dept.Size = New System.Drawing.Size(198, 37)
-        Me.txt_dept.TabIndex = 18
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(1117, 634)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 20
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_template
+        '
+        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_template.ForeColor = System.Drawing.Color.White
+        Me.btn_export_template.Location = New System.Drawing.Point(1352, 634)
+        Me.btn_export_template.Name = "btn_export_template"
+        Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_template.TabIndex = 19
+        Me.btn_export_template.Text = "Export to Excel"
+        Me.btn_export_template.UseVisualStyleBackColor = False
         '
         'MasterFinishGoods
         '
@@ -297,4 +326,7 @@ Partial Class MasterFinishGoods
     Friend WithEvents txt_spq As TextBox
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents txt_dept As ComboBox
+    Friend WithEvents btn_ex_template As Button
+    Friend WithEvents btn_export_template As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

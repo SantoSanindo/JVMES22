@@ -22,8 +22,9 @@ Partial Class MaterialUsageFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.cb_masterfinishgoods_pn = New System.Windows.Forms.ComboBox()
         Me.txt_masterfinishgoods_usage = New System.Windows.Forms.TextBox()
         Me.txt_masterfinishgoods_comp = New System.Windows.Forms.TextBox()
@@ -41,8 +42,10 @@ Partial Class MaterialUsageFinishGoods
         Me.txt_masterfinishgoods_desc = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_Master_Usage_Finish_Goods = New System.Windows.Forms.Button()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterfinishgoods_atas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -52,6 +55,8 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_Master_Usage_Finish_Goods)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_pn)
         Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_usage)
@@ -76,6 +81,19 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Size = New System.Drawing.Size(1922, 648)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Location = New System.Drawing.Point(1363, 579)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(240, 33)
+        Me.CheckBox1.TabIndex = 27
+        Me.CheckBox1.Text = "Search From Table"
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'cb_masterfinishgoods_pn
         '
@@ -204,14 +222,14 @@ Partial Class MaterialUsageFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterfinishgoods_atas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.dgv_masterfinishgoods_atas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterfinishgoods_atas.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterfinishgoods_atas.Location = New System.Drawing.Point(397, 129)
@@ -247,22 +265,33 @@ Partial Class MaterialUsageFinishGoods
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "FG Part Number"
         '
-        'CheckBox1
-        '
-        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(1363, 579)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(240, 33)
-        Me.CheckBox1.TabIndex = 27
-        Me.CheckBox1.Text = "Search From Table"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(898, 580)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 29
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_Master_Usage_Finish_Goods
+        '
+        Me.btn_export_Master_Usage_Finish_Goods.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_Master_Usage_Finish_Goods.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_Master_Usage_Finish_Goods.ForeColor = System.Drawing.Color.White
+        Me.btn_export_Master_Usage_Finish_Goods.Location = New System.Drawing.Point(1133, 580)
+        Me.btn_export_Master_Usage_Finish_Goods.Name = "btn_export_Master_Usage_Finish_Goods"
+        Me.btn_export_Master_Usage_Finish_Goods.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_Master_Usage_Finish_Goods.TabIndex = 28
+        Me.btn_export_Master_Usage_Finish_Goods.Text = "Export to Excel"
+        Me.btn_export_Master_Usage_Finish_Goods.UseVisualStyleBackColor = False
         '
         'MaterialUsageFinishGoods
         '
@@ -300,4 +329,7 @@ Partial Class MaterialUsageFinishGoods
     Friend WithEvents cb_masterfinishgoods_pn As ComboBox
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents btn_ex_template As Button
+    Friend WithEvents btn_export_Master_Usage_Finish_Goods As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

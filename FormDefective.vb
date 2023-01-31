@@ -361,6 +361,74 @@ Public Class FormDefective
 
     End Sub
 
+    Private Sub btnWIPEdit_Click(sender As Object, e As EventArgs) Handles btnWIPEdit.Click
+        'MessageBox.Show((WIPGetQtyperPart("1717213000") * 10).ToString())
+        Try
+            Dim i As Integer
+            Dim result As DialogResult
+
+            If Convert.ToDouble(txtWIPQuantity.Text) > 0 Then
+                result = MessageBox.Show("Are you sure want to update the ticket no. and quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Dim statusSimpan As Integer = 1
+
+                    For i = 0 To dgWIP.RowCount - 2
+                        Dim id As String = dgWIP.Rows(i).Cells(1).Value.ToString()
+                        Dim processName As String = dgWIP.Rows(i).Cells(2).Value.ToString()
+                        Dim matPN As String = dgWIP.Rows(i).Cells(4).Value.ToString()
+
+                        Call Database.koneksi_database()
+
+                        Dim sql As String = "update STOCK_PROD_WIP set FLOW_TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 0) & "',PENGALI=" & txtWIPQuantity.Text & " where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                        'Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN, 0) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                        If cmd.ExecuteNonQuery() Then
+                            statusSimpan *= 1
+                        Else
+                            statusSimpan *= 0
+                        End If
+                    Next
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Successfully update data!")
+                        LoaddgWIP("")
+                    End If
+                End If
+            Else
+                result = MessageBox.Show("Are you sure want to delete WIP data?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Dim statusSimpan As Integer = 1
+                    Dim id As String = dgWIP.Rows(i).Cells(1).Value.ToString()
+
+                    Call Database.koneksi_database()
+
+                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
+                    Dim sql As String = "delete from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & id & "'"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                    If cmd.ExecuteNonQuery() Then
+                        statusSimpan *= 1
+                    Else
+                        statusSimpan *= 0
+                    End If
+
+                    If statusSimpan > 0 Then
+                        MessageBox.Show("Successfully update data!")
+                        LoaddgWIP("")
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub Button8_Click_1(sender As Object, e As EventArgs) Handles btnWIPDelete.Click
+
+    End Sub
+
     Function WIPcheckExistingData(subsubpo As String, department As String) As Boolean
         Dim data As Boolean = False
 
@@ -636,75 +704,13 @@ Public Class FormDefective
         Return dataTrace
     End Function
 
-    Private Sub btnWIPEdit_Click(sender As Object, e As EventArgs) Handles btnWIPEdit.Click
-        'MessageBox.Show((WIPGetQtyperPart("1717213000") * 10).ToString())
-        Try
-            Dim i As Integer
-            Dim result As DialogResult
 
-            If Convert.ToDouble(txtWIPQuantity.Text) > 0 Then
-                result = MessageBox.Show("Are you sure want to update the ticket no. and quantity?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.Yes Then
-                    Dim statusSimpan As Integer = 1
-
-                    For i = 0 To dgWIP.RowCount - 2
-                        Dim id As String = dgWIP.Rows(i).Cells(1).Value.ToString()
-                        Dim processName As String = dgWIP.Rows(i).Cells(2).Value.ToString()
-                        Dim matPN As String = dgWIP.Rows(i).Cells(4).Value.ToString()
-
-                        Call Database.koneksi_database()
-
-                        Dim sql As String = "update STOCK_PROD_WIP set FLOW_TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN, 0) & "',PENGALI=" & txtWIPQuantity.Text & " where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                        'Dim sql As String = "update STOCK_PROD_WIP set QTY='" & WIPGetQtyperPart(matPN, 0) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-
-                        If cmd.ExecuteNonQuery() Then
-                            statusSimpan *= 1
-                        Else
-                            statusSimpan *= 0
-                        End If
-                    Next
-
-                    If statusSimpan > 0 Then
-                        MessageBox.Show("Successfully update data!")
-                        LoaddgWIP("")
-                    End If
-                End If
-            Else
-                result = MessageBox.Show("Are you sure want to delete WIP data?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.Yes Then
-                    Dim statusSimpan As Integer = 1
-                    Dim id As String = dgWIP.Rows(i).Cells(1).Value.ToString()
-
-                    Call Database.koneksi_database()
-
-                    'Dim sql As String = "update STOCK_PROD_WIP set TICKET_NO='" & txtWIPTicketNo.Text & "',QTY='" & WIPGetQtyperPart(matPN) & "' where CODE_STOCK_PROD_WIP='" & id & "' AND PART_NUMBER='" & matPN & "' AND PROCESS='" & processName & "'"
-                    Dim sql As String = "delete from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & id & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-
-                    If cmd.ExecuteNonQuery() Then
-                        statusSimpan *= 1
-                    Else
-                        statusSimpan *= 0
-                    End If
-
-                    If statusSimpan > 0 Then
-                        MessageBox.Show("Successfully update data!")
-                        LoaddgWIP("")
-                    End If
-                End If
-            End If
-
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
-    End Sub
 
     '''''''''''''''''''''''''''''''''''''' END WIP FUNCTION
 
 
     '************************************* ON HOLD FUNCTION
-    Private Sub btnOnHoldAdd_Click(sender As Object, e As EventArgs) Handles btnOnHoldAdd.Click
+    Private Sub btnOnHoldAdd_Click(sender As Object, e As EventArgs) Handles btnOnHoldSave.Click
         If cbOnHoldProcess.Text <> "" And txtOnHoldTicketNo.Text <> "" And txtOnHoldQty.Text <> "" Then
 
             Try
@@ -861,6 +867,10 @@ Public Class FormDefective
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles btnOnHoldDelete.Click
+
     End Sub
 
     Sub LoaddgOnHold(proses As String)
@@ -2640,7 +2650,7 @@ Public Class FormDefective
         End Try
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnRejectSave.Click
         If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "" And txtRejectQty.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And TextBox8.Text <> "" And txtRejectQty.Text <> "") Then
             Dim _dQtyReject As Double
             Dim _sPNReject As String
@@ -2858,7 +2868,7 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub Button6_Click_1(sender As Object, e As EventArgs) Handles Button6.Click
+    Private Sub Button6_Click_1(sender As Object, e As EventArgs) Handles btnRejectEdit.Click
         If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "" And txtRejectQty.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And TextBox8.Text <> "" And txtRejectQty.Text <> "") Then
             Dim _dQtyReject As Double
             Dim _sPNReject As String
@@ -2964,7 +2974,7 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles Button7.Click
+    Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles btnRejectDelete.Click
         If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And TextBox8.Text <> "") Then
             Dim _sPNReject As String
 
@@ -3060,4 +3070,6 @@ Public Class FormDefective
             MsgBox("Material Label & Qty cannot be blank.")
         End If
     End Sub
+
+
 End Class

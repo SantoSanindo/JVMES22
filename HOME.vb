@@ -12,6 +12,9 @@
         _PrintingSubAssyRawMaterial.Hide()
         _PrintingWIPOnHold.Show()
         _PrintingWIPOnHold.Hide()
+
+        QRCode.Baca("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
+
     End Sub
 
     ' -----------------------Start Menu Master Data-------------------------'
@@ -279,4 +282,12 @@
         TabControl1.TabPages(FormDefective).Select()
     End Sub
     ' -----------------------End Menu FGA-------------------------'
+
+    ' -----------------------Start Menu Drop Down-------------------------'
+    Private Sub Btn_login_dropdown(sender As Object, e As EventArgs) Handles Login_DropDown.Click
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(FormLogin)
+        TabControl1.TabPages(FormLogin).Select()
+    End Sub
+    ' -----------------------End Menu Drop Down-------------------------'
 End Class

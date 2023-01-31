@@ -12,6 +12,9 @@
         _PrintingSubAssyRawMaterial.Hide()
         _PrintingWIPOnHold.Show()
         _PrintingWIPOnHold.Hide()
+
+        QRCode.QRCode_Read("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
+
     End Sub
 
     ' -----------------------Start Menu Master Data-------------------------'

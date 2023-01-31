@@ -97,6 +97,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Baca_QRCode.vb" />
     <Compile Include="Database.vb" />
     <Compile Include="FGA.Designer.vb">
       <DependentUpon>FGA.vb</DependentUpon>

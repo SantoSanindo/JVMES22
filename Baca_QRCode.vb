@@ -1,6 +1,6 @@
 ﻿Public Module QRCode
 
-    Public Sub QRCode_Read(Input_QRCode As String)
+    Public Sub Baca(Input_QRCode As String)
         If Input_QRCode.Length = 99 Then
             globVar.QRCode_modul_sub_assy_part_Number = Input_QRCode.Substring(0, 16)
             globVar.QRCode_Qty = Input_QRCode.Substring(16, 13)

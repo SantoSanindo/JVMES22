@@ -304,11 +304,8 @@ C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.FormDefective.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.FormInputStock.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.FormLogin.resources
-C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.FormReject.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.AddChangeOperator.resources
-C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.OldFormReturnStock.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.HOME.resources
-C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.MainForm.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.MasterLine.resources
@@ -323,7 +320,6 @@ C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.PrintFlowTicket.resourc
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.Production.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources
-C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.ResultProduction.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.StockProd.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.Users.resources

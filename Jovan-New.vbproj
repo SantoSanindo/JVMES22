@@ -254,6 +254,7 @@
     <Compile Include="ProductionRequest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Read_version.vb" />
     <Compile Include="ReceiveReturnMaterial.Designer.vb">
       <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
     </Compile>

@@ -1,5 +1,10 @@
 ﻿Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Text = "MES Application v " & Application.ProductVersion
+        'If read_notepad() <> Application.ProductVersion Then
+        '    Process.Start(updater.exe)
+        'End If
+
         TabControl1.TabPages.Clear()
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
@@ -13,7 +18,7 @@
         _PrintingWIPOnHold.Show()
         _PrintingWIPOnHold.Hide()
 
-        QRCode.Baca("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
+        'QRCode.Baca("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
 
     End Sub
 

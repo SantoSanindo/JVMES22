@@ -439,3 +439,7 @@ D:\MES Jovan\VB Program\Santo\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\VB Program\Santo\obj\Debug\Jovan-New.exe
 D:\MES Jovan\VB Program\Santo\obj\Debug\Jovan-New.xml
 D:\MES Jovan\VB Program\Santo\obj\Debug\Jovan-New.pdb
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.FGA.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.AddChangeOperator.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.PrintFlowTicket.resources
+C:\Users\Susanto\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources

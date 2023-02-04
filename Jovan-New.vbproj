@@ -89,6 +89,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Baca_QRCode.vb" />
     <Compile Include="Database.vb" />
     <Compile Include="FGA.Designer.vb">
       <DependentUpon>FGA.vb</DependentUpon>
@@ -221,6 +222,7 @@
     <Compile Include="ProductionRequest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Read_version.vb" />
     <Compile Include="ReceiveReturnMaterial.Designer.vb">
       <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
     </Compile>

@@ -22,8 +22,10 @@ Partial Class MasterProcess
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_Master_Process = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.txt_masterprocess_search = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -36,6 +38,7 @@ Partial Class MasterProcess
         Me.process_name = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.process_desc = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterprocess, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -45,6 +48,8 @@ Partial Class MasterProcess
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_Master_Process)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.txt_masterprocess_search)
         Me.GroupBox1.Controls.Add(Me.Label3)
@@ -57,16 +62,40 @@ Partial Class MasterProcess
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(-1, -11)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1316, 636)
+        Me.GroupBox1.Size = New System.Drawing.Size(1855, 636)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(1240, 23)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 17
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_Master_Process
+        '
+        Me.btn_export_Master_Process.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_Master_Process.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_Master_Process.ForeColor = System.Drawing.Color.White
+        Me.btn_export_Master_Process.Location = New System.Drawing.Point(1475, 23)
+        Me.btn_export_Master_Process.Name = "btn_export_Master_Process"
+        Me.btn_export_Master_Process.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_Master_Process.TabIndex = 16
+        Me.btn_export_Master_Process.Text = "Export to Excel"
+        Me.btn_export_Master_Process.UseVisualStyleBackColor = False
         '
         'Button2
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(1157, 25)
+        Me.Button2.Location = New System.Drawing.Point(1696, 25)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(153, 38)
         Me.Button2.TabIndex = 8
@@ -76,7 +105,7 @@ Partial Class MasterProcess
         'txt_masterprocess_search
         '
         Me.txt_masterprocess_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterprocess_search.Location = New System.Drawing.Point(1035, 567)
+        Me.txt_masterprocess_search.Location = New System.Drawing.Point(1574, 572)
         Me.txt_masterprocess_search.Name = "txt_masterprocess_search"
         Me.txt_masterprocess_search.Size = New System.Drawing.Size(275, 35)
         Me.txt_masterprocess_search.TabIndex = 7
@@ -85,7 +114,7 @@ Partial Class MasterProcess
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(931, 570)
+        Me.Label3.Location = New System.Drawing.Point(1470, 575)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(89, 29)
         Me.Label3.TabIndex = 6
@@ -111,14 +140,14 @@ Partial Class MasterProcess
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocess.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_masterprocess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocess.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterprocess.Location = New System.Drawing.Point(6, 79)
@@ -127,7 +156,7 @@ Partial Class MasterProcess
         Me.dgv_masterprocess.ReadOnly = True
         Me.dgv_masterprocess.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_masterprocess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_masterprocess.Size = New System.Drawing.Size(1304, 482)
+        Me.dgv_masterprocess.Size = New System.Drawing.Size(1843, 482)
         Me.dgv_masterprocess.TabIndex = 4
         '
         'txt_masterprocess_desc
@@ -182,7 +211,7 @@ Partial Class MasterProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1314, 626)
+        Me.ClientSize = New System.Drawing.Size(1855, 626)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "MasterProcess"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -207,4 +236,7 @@ Partial Class MasterProcess
     Friend WithEvents process_desc As DataGridViewTextBoxColumn
     Friend WithEvents Button2 As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents btn_ex_template As Button
+    Friend WithEvents btn_export_Master_Process As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

@@ -24,6 +24,9 @@ Partial Class MasterMaterial
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_template = New System.Windows.Forms.Button()
+        Me.txt_mastermaterial_family = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txt_pn_name = New System.Windows.Forms.TextBox()
@@ -38,7 +41,7 @@ Partial Class MasterMaterial
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.txt_mastermaterial_family = New System.Windows.Forms.TextBox()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_material, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -48,6 +51,8 @@ Partial Class MasterMaterial
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_template)
         Me.GroupBox1.Controls.Add(Me.txt_mastermaterial_family)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -65,9 +70,40 @@ Partial Class MasterMaterial
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(-2, -11)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1725, 705)
+        Me.GroupBox1.Size = New System.Drawing.Size(1925, 705)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(1145, 641)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 15
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_template
+        '
+        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_template.ForeColor = System.Drawing.Color.White
+        Me.btn_export_template.Location = New System.Drawing.Point(1380, 641)
+        Me.btn_export_template.Name = "btn_export_template"
+        Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_template.TabIndex = 14
+        Me.btn_export_template.Text = "Export to Excel"
+        Me.btn_export_template.UseVisualStyleBackColor = False
+        '
+        'txt_mastermaterial_family
+        '
+        Me.txt_mastermaterial_family.Location = New System.Drawing.Point(1181, 28)
+        Me.txt_mastermaterial_family.Name = "txt_mastermaterial_family"
+        Me.txt_mastermaterial_family.Size = New System.Drawing.Size(174, 35)
+        Me.txt_mastermaterial_family.TabIndex = 13
         '
         'Label5
         '
@@ -82,7 +118,7 @@ Partial Class MasterMaterial
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(1410, 637)
+        Me.Label4.Location = New System.Drawing.Point(1610, 641)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(89, 29)
         Me.Label4.TabIndex = 11
@@ -107,7 +143,7 @@ Partial Class MasterMaterial
         'txt_mastermaterial_search
         '
         Me.txt_mastermaterial_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_mastermaterial_search.Location = New System.Drawing.Point(1502, 634)
+        Me.txt_mastermaterial_search.Location = New System.Drawing.Point(1702, 638)
         Me.txt_mastermaterial_search.Name = "txt_mastermaterial_search"
         Me.txt_mastermaterial_search.Size = New System.Drawing.Size(217, 35)
         Me.txt_mastermaterial_search.TabIndex = 8
@@ -130,7 +166,7 @@ Partial Class MasterMaterial
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(1596, 25)
+        Me.Button2.Location = New System.Drawing.Point(1796, 25)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(123, 41)
         Me.Button2.TabIndex = 6
@@ -142,7 +178,7 @@ Partial Class MasterMaterial
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1394, 25)
+        Me.Button1.Location = New System.Drawing.Point(1657, 25)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(133, 41)
         Me.Button1.TabIndex = 5
@@ -174,7 +210,7 @@ Partial Class MasterMaterial
         Me.dgv_material.ReadOnly = True
         Me.dgv_material.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_material.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_material.Size = New System.Drawing.Size(1713, 541)
+        Me.dgv_material.Size = New System.Drawing.Size(1913, 541)
         Me.dgv_material.TabIndex = 4
         '
         'txt_mastermaterial_qty
@@ -213,18 +249,11 @@ Partial Class MasterMaterial
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'txt_mastermaterial_family
-        '
-        Me.txt_mastermaterial_family.Location = New System.Drawing.Point(1181, 28)
-        Me.txt_mastermaterial_family.Name = "txt_mastermaterial_family"
-        Me.txt_mastermaterial_family.Size = New System.Drawing.Size(174, 35)
-        Me.txt_mastermaterial_family.TabIndex = 13
-        '
         'MasterMaterial
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1724, 696)
+        Me.ClientSize = New System.Drawing.Size(1924, 696)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "MasterMaterial"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -253,4 +282,7 @@ Partial Class MasterMaterial
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents txt_mastermaterial_family As TextBox
+    Friend WithEvents btn_export_template As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents btn_ex_template As Button
 End Class

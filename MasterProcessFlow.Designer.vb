@@ -24,6 +24,8 @@ Partial Class MasterProcessFlow
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btn_ex_template = New System.Windows.Forms.Button()
+        Me.btn_export_Finish_Goods = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.masterprocessflow_search = New System.Windows.Forms.TextBox()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -32,6 +34,7 @@ Partial Class MasterProcessFlow
         Me.cb_masterprocessflow = New System.Windows.Forms.ComboBox()
         Me.dgv_masterprocessflow = New System.Windows.Forms.DataGridView()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterprocessflow, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,6 +44,8 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.btn_ex_template)
+        Me.GroupBox1.Controls.Add(Me.btn_export_Finish_Goods)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.masterprocessflow_search)
         Me.GroupBox1.Controls.Add(Me.Button2)
@@ -57,11 +62,35 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         '
+        'btn_ex_template
+        '
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btn_ex_template.ForeColor = System.Drawing.Color.White
+        Me.btn_ex_template.Location = New System.Drawing.Point(851, 21)
+        Me.btn_ex_template.Name = "btn_ex_template"
+        Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
+        Me.btn_ex_template.TabIndex = 19
+        Me.btn_ex_template.Text = "Export Template"
+        Me.btn_ex_template.UseVisualStyleBackColor = False
+        '
+        'btn_export_Finish_Goods
+        '
+        Me.btn_export_Finish_Goods.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_Finish_Goods.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btn_export_Finish_Goods.ForeColor = System.Drawing.Color.White
+        Me.btn_export_Finish_Goods.Location = New System.Drawing.Point(1086, 21)
+        Me.btn_export_Finish_Goods.Name = "btn_export_Finish_Goods"
+        Me.btn_export_Finish_Goods.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_Finish_Goods.TabIndex = 18
+        Me.btn_export_Finish_Goods.Text = "Export to Excel"
+        Me.btn_export_Finish_Goods.UseVisualStyleBackColor = False
+        '
         'Label2
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(1107, 645)
+        Me.Label2.Location = New System.Drawing.Point(1107, 652)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(89, 29)
         Me.Label2.TabIndex = 11
@@ -70,7 +99,7 @@ Partial Class MasterProcessFlow
         'masterprocessflow_search
         '
         Me.masterprocessflow_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.masterprocessflow_search.Location = New System.Drawing.Point(1202, 642)
+        Me.masterprocessflow_search.Location = New System.Drawing.Point(1202, 649)
         Me.masterprocessflow_search.Name = "masterprocessflow_search"
         Me.masterprocessflow_search.Size = New System.Drawing.Size(240, 35)
         Me.masterprocessflow_search.TabIndex = 9
@@ -173,4 +202,7 @@ Partial Class MasterProcessFlow
     Friend WithEvents masterprocessflow_search As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents btn_ex_template As Button
+    Friend WithEvents btn_export_Finish_Goods As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

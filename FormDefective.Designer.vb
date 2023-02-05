@@ -90,10 +90,10 @@ Partial Class FormDefective
         Me.txtFGLabel = New System.Windows.Forms.TextBox()
         Me.txtFGFlowTicket = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.btnPrintFGReject = New System.Windows.Forms.Button()
+        Me.btnPrintFGDefect = New System.Windows.Forms.Button()
         Me.TableLayoutPanel9 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnResetSA = New System.Windows.Forms.Button()
-        Me.btnPrintSAReject = New System.Windows.Forms.Button()
+        Me.btnPrintSADefect = New System.Windows.Forms.Button()
         Me.txtSAFlowTicket = New System.Windows.Forms.TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
@@ -101,8 +101,10 @@ Partial Class FormDefective
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtSABatchNo = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel10 = New System.Windows.Forms.TableLayoutPanel()
+        Me.btnSaveFGDefect = New System.Windows.Forms.Button()
         Me.btnSaveFG = New System.Windows.Forms.Button()
         Me.TableLayoutPanel11 = New System.Windows.Forms.TableLayoutPanel()
+        Me.btnSaveSADefect = New System.Windows.Forms.Button()
         Me.btnSaveSA = New System.Windows.Forms.Button()
         Me.tpWIP = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
@@ -496,9 +498,9 @@ Partial Class FormDefective
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.tpRejectMaterial)
-        Me.TabControl1.Controls.Add(Me.tpFinishGoods)
         Me.TabControl1.Controls.Add(Me.tpWIP)
         Me.TabControl1.Controls.Add(Me.tpOnHold)
+        Me.TabControl1.Controls.Add(Me.tpFinishGoods)
         Me.TabControl1.Controls.Add(Me.tpBalance)
         Me.TabControl1.Controls.Add(Me.tpDefective)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -886,7 +888,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel8.Controls.Add(Me.txtFGLabel, 2, 0)
         Me.TableLayoutPanel8.Controls.Add(Me.txtFGFlowTicket, 2, 1)
         Me.TableLayoutPanel8.Controls.Add(Me.TextBox3, 2, 2)
-        Me.TableLayoutPanel8.Controls.Add(Me.btnPrintFGReject, 3, 2)
+        Me.TableLayoutPanel8.Controls.Add(Me.btnPrintFGDefect, 3, 2)
         Me.TableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel8.Location = New System.Drawing.Point(3, 43)
         Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
@@ -962,18 +964,18 @@ Partial Class FormDefective
         Me.TextBox3.Size = New System.Drawing.Size(271, 35)
         Me.TextBox3.TabIndex = 4
         '
-        'btnPrintFGReject
+        'btnPrintFGDefect
         '
-        Me.btnPrintFGReject.BackColor = System.Drawing.Color.SkyBlue
-        Me.btnPrintFGReject.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnPrintFGReject.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintFGReject.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintFGReject.Location = New System.Drawing.Point(611, 93)
-        Me.btnPrintFGReject.Name = "btnPrintFGReject"
-        Me.btnPrintFGReject.Size = New System.Drawing.Size(199, 41)
-        Me.btnPrintFGReject.TabIndex = 5
-        Me.btnPrintFGReject.Text = "Print"
-        Me.btnPrintFGReject.UseVisualStyleBackColor = False
+        Me.btnPrintFGDefect.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnPrintFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnPrintFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnPrintFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnPrintFGDefect.Location = New System.Drawing.Point(611, 93)
+        Me.btnPrintFGDefect.Name = "btnPrintFGDefect"
+        Me.btnPrintFGDefect.Size = New System.Drawing.Size(199, 41)
+        Me.btnPrintFGDefect.TabIndex = 5
+        Me.btnPrintFGDefect.Text = "Print"
+        Me.btnPrintFGDefect.UseVisualStyleBackColor = False
         '
         'TableLayoutPanel9
         '
@@ -983,7 +985,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.TableLayoutPanel9.Controls.Add(Me.btnResetSA, 3, 0)
-        Me.TableLayoutPanel9.Controls.Add(Me.btnPrintSAReject, 3, 2)
+        Me.TableLayoutPanel9.Controls.Add(Me.btnPrintSADefect, 3, 2)
         Me.TableLayoutPanel9.Controls.Add(Me.txtSAFlowTicket, 2, 0)
         Me.TableLayoutPanel9.Controls.Add(Me.Label22, 1, 0)
         Me.TableLayoutPanel9.Controls.Add(Me.CheckBox1, 1, 2)
@@ -1011,18 +1013,18 @@ Partial Class FormDefective
         Me.btnResetSA.Text = "Reset"
         Me.btnResetSA.UseVisualStyleBackColor = True
         '
-        'btnPrintSAReject
+        'btnPrintSADefect
         '
-        Me.btnPrintSAReject.BackColor = System.Drawing.Color.SkyBlue
-        Me.btnPrintSAReject.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnPrintSAReject.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintSAReject.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintSAReject.Location = New System.Drawing.Point(611, 93)
-        Me.btnPrintSAReject.Name = "btnPrintSAReject"
-        Me.btnPrintSAReject.Size = New System.Drawing.Size(199, 41)
-        Me.btnPrintSAReject.TabIndex = 6
-        Me.btnPrintSAReject.Text = "Print"
-        Me.btnPrintSAReject.UseVisualStyleBackColor = False
+        Me.btnPrintSADefect.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnPrintSADefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnPrintSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnPrintSADefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnPrintSADefect.Location = New System.Drawing.Point(611, 93)
+        Me.btnPrintSADefect.Name = "btnPrintSADefect"
+        Me.btnPrintSADefect.Size = New System.Drawing.Size(199, 41)
+        Me.btnPrintSADefect.TabIndex = 6
+        Me.btnPrintSADefect.Text = "Print"
+        Me.btnPrintSADefect.UseVisualStyleBackColor = False
         '
         'txtSAFlowTicket
         '
@@ -1084,7 +1086,8 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFG, 0, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFGDefect, 0, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFG, 2, 0)
         Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 531)
         Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
@@ -1093,17 +1096,30 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.Size = New System.Drawing.Size(813, 41)
         Me.TableLayoutPanel10.TabIndex = 8
         '
+        'btnSaveFGDefect
+        '
+        Me.btnSaveFGDefect.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnSaveFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnSaveFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnSaveFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnSaveFGDefect.Location = New System.Drawing.Point(3, 3)
+        Me.btnSaveFGDefect.Name = "btnSaveFGDefect"
+        Me.btnSaveFGDefect.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveFGDefect.TabIndex = 4
+        Me.btnSaveFGDefect.Text = "Save Defect"
+        Me.btnSaveFGDefect.UseVisualStyleBackColor = False
+        '
         'btnSaveFG
         '
-        Me.btnSaveFG.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnSaveFG.BackColor = System.Drawing.Color.Tan
         Me.btnSaveFG.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnSaveFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnSaveFG.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveFG.Location = New System.Drawing.Point(3, 3)
+        Me.btnSaveFG.Location = New System.Drawing.Point(545, 3)
         Me.btnSaveFG.Name = "btnSaveFG"
         Me.btnSaveFG.Size = New System.Drawing.Size(265, 35)
-        Me.btnSaveFG.TabIndex = 4
-        Me.btnSaveFG.Text = "Save"
+        Me.btnSaveFG.TabIndex = 5
+        Me.btnSaveFG.Text = "Save Finish Goods"
         Me.btnSaveFG.UseVisualStyleBackColor = False
         '
         'TableLayoutPanel11
@@ -1112,7 +1128,8 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 0, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSADefect, 0, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 2, 0)
         Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel11.Location = New System.Drawing.Point(822, 531)
         Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
@@ -1121,17 +1138,30 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.Size = New System.Drawing.Size(813, 41)
         Me.TableLayoutPanel11.TabIndex = 9
         '
+        'btnSaveSADefect
+        '
+        Me.btnSaveSADefect.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnSaveSADefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnSaveSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnSaveSADefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnSaveSADefect.Location = New System.Drawing.Point(3, 3)
+        Me.btnSaveSADefect.Name = "btnSaveSADefect"
+        Me.btnSaveSADefect.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveSADefect.TabIndex = 5
+        Me.btnSaveSADefect.Text = "Save Defect"
+        Me.btnSaveSADefect.UseVisualStyleBackColor = False
+        '
         'btnSaveSA
         '
-        Me.btnSaveSA.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnSaveSA.BackColor = System.Drawing.Color.Tan
         Me.btnSaveSA.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnSaveSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnSaveSA.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveSA.Location = New System.Drawing.Point(3, 3)
+        Me.btnSaveSA.Location = New System.Drawing.Point(545, 3)
         Me.btnSaveSA.Name = "btnSaveSA"
         Me.btnSaveSA.Size = New System.Drawing.Size(265, 35)
-        Me.btnSaveSA.TabIndex = 5
-        Me.btnSaveSA.Text = "Save"
+        Me.btnSaveSA.TabIndex = 6
+        Me.btnSaveSA.Text = "Save Sub Assy"
         Me.btnSaveSA.UseVisualStyleBackColor = False
         '
         'tpWIP
@@ -1923,8 +1953,8 @@ Partial Class FormDefective
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents DataGridView3 As DataGridView
     Friend WithEvents rbSA As RadioButton
-    Friend WithEvents btnSaveFG As Button
-    Friend WithEvents btnSaveSA As Button
+    Friend WithEvents btnSaveFGDefect As Button
+    Friend WithEvents btnSaveSADefect As Button
     Friend WithEvents TableLayoutPanel8 As TableLayoutPanel
     Friend WithEvents Label20 As Label
     Friend WithEvents Label21 As Label
@@ -1954,9 +1984,9 @@ Partial Class FormDefective
     Friend WithEvents Label8 As Label
     Friend WithEvents txtSABatchNo As TextBox
     Friend WithEvents TableLayoutPanel10 As TableLayoutPanel
-    Friend WithEvents btnPrintFGReject As Button
+    Friend WithEvents btnPrintFGDefect As Button
     Friend WithEvents TableLayoutPanel11 As TableLayoutPanel
-    Friend WithEvents btnPrintSAReject As Button
+    Friend WithEvents btnPrintSADefect As Button
     Friend WithEvents btnResetFG As Button
     Friend WithEvents btnResetSA As Button
     Friend WithEvents btnPrintWIP As Button
@@ -2004,4 +2034,6 @@ Partial Class FormDefective
     Friend WithEvents TextBox11 As TextBox
     Friend WithEvents TextBox12 As TextBox
     Friend WithEvents TextBox10 As TextBox
+    Friend WithEvents btnSaveFG As Button
+    Friend WithEvents btnSaveSA As Button
 End Class

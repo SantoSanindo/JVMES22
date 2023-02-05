@@ -282,6 +282,17 @@ Public Class FormDefective
                 Part = materialList(cbWIPProcess.SelectedIndex).Split(";")
                 sFlow_Ticket = txtWIPTicketNo.Text.Split(";")
 
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no=" & sFlow_Ticket(5)(0)
+                Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+                If dtCheckDoneFG.Rows.Count > 0 Then
+                    MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                    LoaddgWIP("")
+                    cbWIPProcess.SelectedIndex = -1
+                    txtWIPTicketNo.Clear()
+                    txtWIPQuantity.Clear()
+                    Exit Sub
+                End If
+
                 'diulang sebanyak part number yg ada
                 Call Database.koneksi_database()
                 Dim noCode As String = WIPGenerateCode()
@@ -904,6 +915,17 @@ Public Class FormDefective
 
                 If Convert.ToInt32(txtOnHoldQty.Text) = 0 Then
                     MsgBox("Sorry Qty 0 is not valid.")
+                    Exit Sub
+                End If
+
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no=" & sFlow_Ticket(5)(0)
+                Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+                If dtCheckDoneFG.Rows.Count > 0 Then
+                    MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                    LoaddgOnHold("")
+                    cbOnHoldProcess.SelectedIndex = -1
+                    txtOnHoldTicketNo.Clear()
+                    txtOnHoldQty.Clear()
                     Exit Sub
                 End If
 
@@ -1771,10 +1793,11 @@ Public Class FormDefective
                 DataGridView3.Rows.Clear()
                 DataGridView3.Columns.Clear()
 
-                btnSaveSA.Enabled = False
+                btnSaveSADefect.Enabled = False
+                btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnPrintFGReject.Enabled = False
-                btnPrintSAReject.Enabled = False
+                btnPrintFGDefect.Enabled = False
+                btnPrintSADefect.Enabled = False
 
                 'loadFG(cbFGPN.Text)
             Else
@@ -1791,10 +1814,11 @@ Public Class FormDefective
                 DataGridView3.Enabled = False
                 TableLayoutPanel9.Enabled = False
 
-                btnSaveSA.Enabled = False
+                btnSaveSADefect.Enabled = False
+                btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnPrintFGReject.Enabled = False
-                btnPrintSAReject.Enabled = False
+                btnPrintFGDefect.Enabled = False
+                btnPrintSADefect.Enabled = False
             End If
 
         ElseIf rbSA.Checked = True Then
@@ -1820,10 +1844,11 @@ Public Class FormDefective
 
                 'loadSA(cbFGPN.Text)
 
+                btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnSaveSA.Enabled = False
-                btnPrintFGReject.Enabled = False
-                btnPrintSAReject.Enabled = False
+                btnSaveSADefect.Enabled = False
+                btnPrintFGDefect.Enabled = False
+                btnPrintSADefect.Enabled = False
 
             Else
                 ReadonlyFormFG(True)
@@ -1841,10 +1866,11 @@ Public Class FormDefective
 
                 'loadSA(cbFGPN.Text)
 
+                btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnSaveSA.Enabled = False
-                btnPrintFGReject.Enabled = False
-                btnPrintSAReject.Enabled = False
+                btnSaveSADefect.Enabled = False
+                btnPrintFGDefect.Enabled = False
+                btnPrintSADefect.Enabled = False
             End If
         End If
     End Sub
@@ -1869,10 +1895,11 @@ Public Class FormDefective
 
                     'loadSA(cbFGPN.Text)
 
+                    btnSaveFGDefect.Enabled = False
                     btnSaveFG.Enabled = False
-                    btnSaveSA.Enabled = False
-                    btnPrintFGReject.Enabled = False
-                    btnPrintSAReject.Enabled = False
+                    btnSaveSADefect.Enabled = False
+                    btnPrintFGDefect.Enabled = False
+                    btnPrintSADefect.Enabled = False
                 End If
 
             Else
@@ -1888,10 +1915,11 @@ Public Class FormDefective
 
                 'loadSA(cbFGPN.Text)
 
+                btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnSaveSA.Enabled = False
-                btnPrintFGReject.Enabled = False
-                btnPrintSAReject.Enabled = False
+                btnSaveSADefect.Enabled = False
+                btnPrintFGDefect.Enabled = False
+                btnPrintSADefect.Enabled = False
             End If
         ElseIf rbFG.Checked = True Then
             Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_DEFECT), input_from_fg from out_prod_defect where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
@@ -1910,10 +1938,11 @@ Public Class FormDefective
                     DataGridView3.Enabled = False
                     TableLayoutPanel9.Enabled = False
 
-                    btnSaveSA.Enabled = False
+                    btnSaveSADefect.Enabled = False
+                    btnSaveFGDefect.Enabled = False
                     btnSaveFG.Enabled = False
-                    btnPrintFGReject.Enabled = False
-                    btnPrintSAReject.Enabled = False
+                    btnPrintFGDefect.Enabled = False
+                    btnPrintSADefect.Enabled = False
 
                     'loadFG(cbFGPN.Text)
                 End If
@@ -1928,10 +1957,11 @@ Public Class FormDefective
                 DataGridView3.Enabled = False
                 TableLayoutPanel9.Enabled = False
 
-                btnSaveSA.Enabled = False
+                btnSaveSADefect.Enabled = False
+                btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnPrintFGReject.Enabled = False
-                btnPrintSAReject.Enabled = False
+                btnPrintFGDefect.Enabled = False
+                btnPrintSADefect.Enabled = False
             End If
         End If
     End Sub
@@ -2189,8 +2219,9 @@ Public Class FormDefective
             If Split1(0) = txtTampungLabel.Text Then
                 If rbFG.Checked = True Then
                     loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                    btnSaveFGDefect.Enabled = True
                     btnSaveFG.Enabled = True
-                    btnPrintFGReject.Enabled = True
+                    btnPrintFGDefect.Enabled = True
                     DataGridView1.Enabled = True
                     txtFGLabel.ReadOnly = True
                     txtFGFlowTicket.ReadOnly = True
@@ -2214,8 +2245,9 @@ Public Class FormDefective
                 If intValue.ToString = txtTampungFlow.Text Then
                     If rbFG.Checked = True Then
                         loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                        btnSaveFGDefect.Enabled = True
                         btnSaveFG.Enabled = True
-                        btnPrintFGReject.Enabled = True
+                        btnPrintFGDefect.Enabled = True
                         DataGridView1.Enabled = True
                         txtFGLabel.ReadOnly = True
                         txtFGFlowTicket.ReadOnly = True
@@ -2227,11 +2259,19 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub btnSaveFG_Click(sender As Object, e As EventArgs) Handles btnSaveFG.Click
+    Private Sub btnSaveFGDefect_Click(sender As Object, e As EventArgs) Handles btnSaveFGDefect.Click
         If DataGridView1.Rows.Count > 0 Then
             Try
                 Dim sResult As Integer = 0
                 Dim sFlowTicket = txtFGFlowTicket.Text.Split(";")
+
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no=" & sFlowTicket(5)(0)
+                Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+                If dtCheckDoneFG.Rows.Count > 0 Then
+                    MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                    Exit Sub
+                End If
+
                 For i = 0 To DataGridView1.Rows.Count - 1
                     Dim doWhile As String = ""
                     If IsNumeric(DataGridView1.Rows(i).Cells(2).Value) Then
@@ -2280,7 +2320,65 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles btnSaveSA.Click
+    Private Sub btnSaveFG_Click(sender As Object, e As EventArgs) Handles btnSaveFG.Click
+        Dim sResult As Integer = 1
+        Dim sFlowTicket = txtFGFlowTicket.Text.Split(";")
+
+        Dim result = MessageBox.Show("Are you sure for save Finish Goods. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+
+        If result = DialogResult.Yes Then
+            Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "'"
+            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+            If dtCheckDoneFG.Rows.Count = 0 Then
+                Dim sqlInsertRejectPN As String = "INSERT INTO done_fg (po, sub_sub_po, FG ,FLOW_TICKET,DEPARTMENT,laser_code, LOT_NO, qty,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,line)
+                VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & sFlowTicket(5) & "','" & globVar.department & "',
+                '" & TextBox3.Text & "'," & sFlowTicket(5)(0) & "," & txtSPQ.Text & ",'" & txtTampungLabel.Text & "','" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "')"
+                Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                If cmdInsertRejectPN.ExecuteNonQuery() Then
+                    Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
+                    Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
+                    If dtCheckProductionProcess.Rows.Count > 0 Then
+                        For i = 0 To dtCheckProductionProcess.Rows.Count - 1
+                            Dim queryInsertResultProduction As String = "insert into stock_card([MTS_NO],[DEPARTMENT],[MATERIAL],[STATUS],[STANDARD_PACK],[INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],
+                            [FINISH_GOODS_PN],[PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QTY],[ACTUAL_QTY],[ID_LEVEL],[LEVEL],[FLOW_TICKET]) 
+                            select [MTS_NO],[DEPARTMENT],[MATERIAL],'Production Result','NO',[INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],
+                            [FINISH_GOODS_PN],[PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[ACTUAL_QTY],[ACTUAL_QTY],[ID_LEVEL],'FG',[FLOW_TICKET] 
+                            from stock_card where id=" & dtCheckProductionProcess.Rows(i).Item("id")
+                            Dim dtInsertResultProduction = New SqlCommand(queryInsertResultProduction, Database.koneksi)
+                            If dtInsertResultProduction.ExecuteNonQuery() Then
+                                Dim queryUpdateStockCardProdReq As String = "update stock_card set sum_qty=sum_qty-" & dtCheckProductionProcess.Rows(i).Item("actual_qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckProductionProcess.Rows(i).Item("lot_no")
+                                Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                dtUpdateStockCardProdReq.ExecuteNonQuery()
+
+                                Dim queryDeleteStockCardProdProcess As String = "delete from stock_card where id=" & dtCheckProductionProcess.Rows(i).Item("id")
+                                Dim dtDeleteStockCardProdProcess = New SqlCommand(queryDeleteStockCardProdProcess, Database.koneksi)
+                                dtDeleteStockCardProdProcess.ExecuteNonQuery()
+
+                                Dim queryUpdateFlowTicket As String = "update flow_ticket set done=1 where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "'"
+                                Dim dtUpdateFlowTicket = New SqlCommand(queryUpdateFlowTicket, Database.koneksi)
+                                If dtUpdateFlowTicket.ExecuteNonQuery() Then
+                                    sResult *= 1
+                                Else
+                                    sResult *= 0
+                                End If
+                            End If
+                        Next
+                    End If
+                End If
+
+                If sResult > 0 Then
+                    MessageBox.Show("Success Save FG data!!!")
+                    ClearInputFG()
+                Else
+                    MessageBox.Show("Fail Save FG data!!!")
+                End If
+            Else
+                MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+            End If
+        End If
+    End Sub
+
+    Private Sub btnSaveSADefect_Click(sender As Object, e As EventArgs) Handles btnSaveSADefect.Click
         If DataGridView3.Rows.Count > 0 Then
             Try
                 For i = 0 To DataGridView3.Rows.Count - 1
@@ -2315,6 +2413,10 @@ Public Class FormDefective
                 MsgBox("Error - ERDEF2" & ex.Message)
             End Try
         End If
+    End Sub
+
+    Private Sub btnSaveSA_Click(sender As Object, e As EventArgs) Handles btnSaveSA.Click
+
     End Sub
 
     Public Function GetStockCard(pn As String, qty As Integer) As String
@@ -2617,8 +2719,8 @@ Public Class FormDefective
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
             If txtSAFlowTicket.Text <> "" Then
                 loadSA(cbFGPN.Text, txtSAFlowTicket.Text)
-                btnSaveSA.Enabled = True
-                btnPrintSAReject.Enabled = True
+                btnSaveSADefect.Enabled = True
+                btnPrintSADefect.Enabled = True
                 DataGridView3.Enabled = True
                 txtSAFlowTicket.ReadOnly = True
             End If
@@ -2829,7 +2931,7 @@ Public Class FormDefective
                         _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockBalance.Rows(i).Item("lot_no")
                         _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockBalance.Rows(i).Item("actual_qty")
                         _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Balance Material"
-                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockBalance.Rows(i).Item("id_level")
+                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockBalance.Rows(i).Item("id_level") & Environment.NewLine
                         _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
                         If globVar.failPrint = "No" Then
@@ -2848,7 +2950,7 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles btnPrintFGReject.Click
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles btnPrintFGDefect.Click
         If txtSubSubPODefective.Text <> "" Then
             If txtFGFlowTicket.Text <> "" Then
                 Dim split() As String = txtFGFlowTicket.Text.Split(";")
@@ -2857,7 +2959,7 @@ Public Class FormDefective
                 If dtCheckStockReject.Rows.Count > 0 Then
                     For i = 0 To dtCheckStockReject.Rows.Count - 1
                         globVar.failPrint = ""
-                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
+                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
                         _PrintingDefect.Label2.Text = "Defect Ticket"
                         _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
                         _PrintingDefect.txt_part_number.Text = cbFGPN.Text
@@ -2884,7 +2986,7 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles btnPrintSAReject.Click
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles btnPrintSADefect.Click
         If txtSubSubPODefective.Text <> "" Then
             If txtSAFlowTicket.Text <> "" Then
                 Dim split() As String = txtSAFlowTicket.Text.Split(";")
@@ -2893,7 +2995,7 @@ Public Class FormDefective
                 If dtCheckStockReject.Rows.Count > 0 Then
                     For i = 0 To dtCheckStockReject.Rows.Count - 1
                         globVar.failPrint = ""
-                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
+                        _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
                         _PrintingDefect.Label2.Text = "Defect Ticket"
                         _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
                         _PrintingDefect.txt_part_number.Text = cbFGPN.Text
@@ -2946,6 +3048,12 @@ Public Class FormDefective
         txtSABatchNo.ReadOnly = False
         DataGridView1.Rows.Clear()
         DataGridView3.Rows.Clear()
+        btnPrintFGDefect.Enabled = False
+        btnSaveFGDefect.Enabled = False
+        btnSaveFG.Enabled = False
+        btnPrintSADefect.Enabled = False
+        btnSaveFGDefect.Enabled = False
+        btnSaveSA.Enabled = False
     End Sub
 
     Public Sub btnPrintWIP_Click(sender As Object, e As EventArgs) Handles btnPrintWIP.Click
@@ -2957,7 +3065,7 @@ Public Class FormDefective
                 If dt.Rows.Count > 0 Then
                     For i = 0 To dt.Rows.Count - 1
                         globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip")
+                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip") & Environment.NewLine
                         _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
                         _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
                         _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
@@ -2985,7 +3093,7 @@ Public Class FormDefective
                 If dt.Rows.Count > 0 Then
                     For i = 0 To dt.Rows.Count - 1
                         globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip")
+                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip") & Environment.NewLine
                         _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
                         _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
                         _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
@@ -3023,7 +3131,7 @@ Public Class FormDefective
                     For i = 0 To dt.Rows.Count - 1
 
                         globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold")
+                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold") & Environment.NewLine
                         _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
                         _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
                         _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
@@ -3053,7 +3161,7 @@ Public Class FormDefective
                     For i = 0 To dt.Rows.Count - 1
 
                         globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold")
+                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold") & Environment.NewLine
                         _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
                         _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
                         _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
@@ -3094,18 +3202,14 @@ Public Class FormDefective
                         _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others")
                         _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckOthersMaterialBalance.Rows(i).Item("part_number")
                         _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckOthersMaterialBalance.Rows(i).Item("name")
-                        _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckOthersMaterialBalance.Rows(i).Item("traceability")
-                        _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckOthersMaterialBalance.Rows(i).Item("inv_ctrl_date")
-                        _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckOthersMaterialBalance.Rows(i).Item("batch_no")
-                        _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckOthersMaterialBalance.Rows(i).Item("lot_no")
                         _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckOthersMaterialBalance.Rows(i).Item("qty")
                         _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Others Material"
-                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others")
+                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & Environment.NewLine
                         _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
                         If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, remark,sub_sub_po,department,material,code_print)
-                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("lot_no") & "','Others Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("part_number") & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & "')"
+                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,material,code_print)
+                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Others Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("part_number") & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
                         End If

@@ -88,7 +88,7 @@ Public Class PrintFlowTicket
                 globVar.failPrint = ""
                 _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
                 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
-                _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket
+                _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket & Environment.NewLine
                 _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                 Try
@@ -114,7 +114,7 @@ Public Class PrintFlowTicket
 
                     globVar.failPrint = ""
                     _PrintingFlowTicket.txt_Lot_No.Text = "0"
-                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Additional" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Additional" & Environment.NewLine 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
                     'MessageBox.Show("Print + " & i & " Flow Ticket Additional")
                     Try
@@ -137,7 +137,7 @@ Public Class PrintFlowTicket
 
                         globVar.failPrint = ""
                         _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
-                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket & Environment.NewLine 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
@@ -165,7 +165,7 @@ Public Class PrintFlowTicket
 
                         globVar.failPrint = ""
                         _PrintingFlowTicket.txt_Lot_No.Text = NoFlowTicket
-                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                        _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";" & NoFlowTicket & Environment.NewLine 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                         _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                         Try
@@ -195,7 +195,7 @@ Public Class PrintFlowTicket
                     Dim NoFlowTicket = i & " of 0"
                     globVar.failPrint = ""
                     _PrintingFlowTicket.txt_Lot_No.Text = "0"
-                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Additional" 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
+                    _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Additional" & Environment.NewLine 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
 
                     Try

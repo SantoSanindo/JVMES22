@@ -233,6 +233,17 @@
         End If
     End Sub
 
+    Private Sub BtnSummaryProduction(sender As Object, e As EventArgs) Handles SummaryProductionBtn.Click
+        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR PRODUCTION" Or globVar.hakAkses = "LEADER" Then
+            Summary.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(Summary)
+            TabControl1.TabPages(Summary).Select()
+        Else
+            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
     ' -----------------------End Menu Production----------------------'
 
     ' -----------------------Start Menu Setting-------------------------'

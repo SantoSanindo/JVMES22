@@ -76,6 +76,27 @@ Partial Class FormDefective
         Me.btnRejectDelete = New System.Windows.Forms.Button()
         Me.btnRejectEdit = New System.Windows.Forms.Button()
         Me.dgReject = New System.Windows.Forms.DataGridView()
+        Me.tpWIP = New System.Windows.Forms.TabPage()
+        Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
+        Me.dgWIP = New System.Windows.Forms.DataGridView()
+        Me.TableLayoutPanel6 = New System.Windows.Forms.TableLayoutPanel()
+        Me.btnPrintWIP = New System.Windows.Forms.Button()
+        Me.TextBox11 = New System.Windows.Forms.TextBox()
+        Me.btnWIPDelete = New System.Windows.Forms.Button()
+        Me.tpOnHold = New System.Windows.Forms.TabPage()
+        Me.TableLayoutPanel13 = New System.Windows.Forms.TableLayoutPanel()
+        Me.dgOnHold = New System.Windows.Forms.DataGridView()
+        Me.TableLayoutPanel15 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.txtOnHoldQty = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
+        Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
+        Me.btnPrintOnhold = New System.Windows.Forms.Button()
+        Me.btnOnHoldSave = New System.Windows.Forms.Button()
+        Me.TextBox12 = New System.Windows.Forms.TextBox()
+        Me.btnOnHoldDelete = New System.Windows.Forms.Button()
         Me.tpFinishGoods = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel12 = New System.Windows.Forms.TableLayoutPanel()
         Me.rbFG = New System.Windows.Forms.RadioButton()
@@ -106,27 +127,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel11 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnSaveSADefect = New System.Windows.Forms.Button()
         Me.btnSaveSA = New System.Windows.Forms.Button()
-        Me.tpWIP = New System.Windows.Forms.TabPage()
-        Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
-        Me.dgWIP = New System.Windows.Forms.DataGridView()
-        Me.TableLayoutPanel6 = New System.Windows.Forms.TableLayoutPanel()
-        Me.btnPrintWIP = New System.Windows.Forms.Button()
-        Me.TextBox11 = New System.Windows.Forms.TextBox()
-        Me.btnWIPDelete = New System.Windows.Forms.Button()
-        Me.tpOnHold = New System.Windows.Forms.TabPage()
-        Me.TableLayoutPanel13 = New System.Windows.Forms.TableLayoutPanel()
-        Me.dgOnHold = New System.Windows.Forms.DataGridView()
-        Me.TableLayoutPanel15 = New System.Windows.Forms.TableLayoutPanel()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.txtOnHoldQty = New System.Windows.Forms.TextBox()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
-        Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
-        Me.btnPrintOnhold = New System.Windows.Forms.Button()
-        Me.btnOnHoldSave = New System.Windows.Forms.Button()
-        Me.TextBox12 = New System.Windows.Forms.TextBox()
-        Me.btnOnHoldDelete = New System.Windows.Forms.Button()
         Me.tpBalance = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
@@ -161,6 +161,7 @@ Partial Class FormDefective
         Me.btnPrintOthersPart = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
         Me.DataGridView4 = New System.Windows.Forms.DataGridView()
+        Me.txtStatusSubSubPO = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -172,14 +173,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel20.SuspendLayout()
         Me.TableLayoutPanel21.SuspendLayout()
         CType(Me.dgReject, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tpFinishGoods.SuspendLayout()
-        Me.TableLayoutPanel12.SuspendLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TableLayoutPanel8.SuspendLayout()
-        Me.TableLayoutPanel9.SuspendLayout()
-        Me.TableLayoutPanel10.SuspendLayout()
-        Me.TableLayoutPanel11.SuspendLayout()
         Me.tpWIP.SuspendLayout()
         Me.TableLayoutPanel5.SuspendLayout()
         CType(Me.dgWIP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -188,6 +181,14 @@ Partial Class FormDefective
         Me.TableLayoutPanel13.SuspendLayout()
         CType(Me.dgOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel15.SuspendLayout()
+        Me.tpFinishGoods.SuspendLayout()
+        Me.TableLayoutPanel12.SuspendLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TableLayoutPanel8.SuspendLayout()
+        Me.TableLayoutPanel9.SuspendLayout()
+        Me.TableLayoutPanel10.SuspendLayout()
+        Me.TableLayoutPanel11.SuspendLayout()
         Me.tpBalance.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.TableLayoutPanel3.SuspendLayout()
@@ -205,6 +206,7 @@ Partial Class FormDefective
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtStatusSubSubPO)
         Me.GroupBox1.Controls.Add(Me.txtSPQ)
         Me.GroupBox1.Controls.Add(Me.cbFGPN)
         Me.GroupBox1.Controls.Add(Me.txtDescDefective)
@@ -281,9 +283,8 @@ Partial Class FormDefective
         'txtSubSubPODefective
         '
         Me.txtSubSubPODefective.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSubSubPODefective.Location = New System.Drawing.Point(285, 104)
+        Me.txtSubSubPODefective.Location = New System.Drawing.Point(285, 19)
         Me.txtSubSubPODefective.Name = "txtSubSubPODefective"
-        Me.txtSubSubPODefective.ReadOnly = True
         Me.txtSubSubPODefective.Size = New System.Drawing.Size(359, 35)
         Me.txtSubSubPODefective.TabIndex = 19
         '
@@ -301,7 +302,7 @@ Partial Class FormDefective
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(33, 107)
+        Me.Label24.Location = New System.Drawing.Point(33, 22)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(146, 29)
         Me.Label24.TabIndex = 17
@@ -360,10 +361,11 @@ Partial Class FormDefective
         '
         'cbLineNumber
         '
+        Me.cbLineNumber.Enabled = False
         Me.cbLineNumber.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbLineNumber.FormattingEnabled = True
         Me.cbLineNumber.Items.AddRange(New Object() {"Line 1", "Line 2", "Line 3"})
-        Me.cbLineNumber.Location = New System.Drawing.Point(285, 19)
+        Me.cbLineNumber.Location = New System.Drawing.Point(285, 104)
         Me.cbLineNumber.Name = "cbLineNumber"
         Me.cbLineNumber.Size = New System.Drawing.Size(359, 37)
         Me.cbLineNumber.TabIndex = 6
@@ -412,7 +414,7 @@ Partial Class FormDefective
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(33, 22)
+        Me.Label1.Location = New System.Drawing.Point(33, 107)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(152, 29)
         Me.Label1.TabIndex = 0
@@ -450,7 +452,7 @@ Partial Class FormDefective
         '
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -795,375 +797,6 @@ Partial Class FormDefective
         Me.dgReject.Size = New System.Drawing.Size(1638, 448)
         Me.dgReject.TabIndex = 1
         '
-        'tpFinishGoods
-        '
-        Me.tpFinishGoods.BackColor = System.Drawing.SystemColors.Control
-        Me.tpFinishGoods.Controls.Add(Me.TableLayoutPanel12)
-        Me.tpFinishGoods.Location = New System.Drawing.Point(4, 38)
-        Me.tpFinishGoods.Name = "tpFinishGoods"
-        Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 581)
-        Me.tpFinishGoods.TabIndex = 1
-        Me.tpFinishGoods.Text = "Finish Goods"
-        '
-        'TableLayoutPanel12
-        '
-        Me.TableLayoutPanel12.ColumnCount = 2
-        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel12.Controls.Add(Me.rbFG, 0, 0)
-        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView1, 0, 2)
-        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView3, 1, 2)
-        Me.TableLayoutPanel12.Controls.Add(Me.rbSA, 1, 0)
-        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel8, 0, 1)
-        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel9, 1, 1)
-        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel10, 0, 3)
-        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel11, 1, 3)
-        Me.TableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel12.Location = New System.Drawing.Point(3, 3)
-        Me.TableLayoutPanel12.Name = "TableLayoutPanel12"
-        Me.TableLayoutPanel12.RowCount = 4
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.0!))
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
-        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.0!))
-        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1638, 575)
-        Me.TableLayoutPanel12.TabIndex = 0
-        '
-        'rbFG
-        '
-        Me.rbFG.AutoSize = True
-        Me.rbFG.Location = New System.Drawing.Point(3, 3)
-        Me.rbFG.Name = "rbFG"
-        Me.rbFG.Size = New System.Drawing.Size(194, 33)
-        Me.rbFG.TabIndex = 0
-        Me.rbFG.TabStop = True
-        Me.rbFG.Text = "Goods To Ship"
-        Me.rbFG.UseVisualStyleBackColor = True
-        '
-        'DataGridView1
-        '
-        Me.DataGridView1.AllowUserToAddRows = False
-        Me.DataGridView1.AllowUserToDeleteRows = False
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 186)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(813, 339)
-        Me.DataGridView1.TabIndex = 1
-        '
-        'DataGridView3
-        '
-        Me.DataGridView3.AllowUserToAddRows = False
-        Me.DataGridView3.AllowUserToDeleteRows = False
-        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView3.Location = New System.Drawing.Point(822, 186)
-        Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(813, 339)
-        Me.DataGridView3.TabIndex = 2
-        '
-        'rbSA
-        '
-        Me.rbSA.AutoSize = True
-        Me.rbSA.Location = New System.Drawing.Point(822, 3)
-        Me.rbSA.Name = "rbSA"
-        Me.rbSA.Size = New System.Drawing.Size(222, 33)
-        Me.rbSA.TabIndex = 3
-        Me.rbSA.TabStop = True
-        Me.rbSA.Text = "Sub Assy Material"
-        Me.rbSA.UseVisualStyleBackColor = True
-        '
-        'TableLayoutPanel8
-        '
-        Me.TableLayoutPanel8.ColumnCount = 4
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.TableLayoutPanel8.Controls.Add(Me.btnResetFG, 3, 0)
-        Me.TableLayoutPanel8.Controls.Add(Me.Label20, 1, 1)
-        Me.TableLayoutPanel8.Controls.Add(Me.Label21, 1, 0)
-        Me.TableLayoutPanel8.Controls.Add(Me.chkFGLserCodeFG, 1, 2)
-        Me.TableLayoutPanel8.Controls.Add(Me.txtFGLabel, 2, 0)
-        Me.TableLayoutPanel8.Controls.Add(Me.txtFGFlowTicket, 2, 1)
-        Me.TableLayoutPanel8.Controls.Add(Me.TextBox3, 2, 2)
-        Me.TableLayoutPanel8.Controls.Add(Me.btnPrintFGDefect, 3, 2)
-        Me.TableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel8.Location = New System.Drawing.Point(3, 43)
-        Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
-        Me.TableLayoutPanel8.RowCount = 3
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel8.Size = New System.Drawing.Size(813, 137)
-        Me.TableLayoutPanel8.TabIndex = 6
-        '
-        'btnResetFG
-        '
-        Me.btnResetFG.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnResetFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnResetFG.Location = New System.Drawing.Point(611, 3)
-        Me.btnResetFG.Name = "btnResetFG"
-        Me.btnResetFG.Size = New System.Drawing.Size(199, 39)
-        Me.btnResetFG.TabIndex = 6
-        Me.btnResetFG.Text = "Reset"
-        Me.btnResetFG.UseVisualStyleBackColor = True
-        '
-        'Label20
-        '
-        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(43, 53)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(216, 29)
-        Me.Label20.TabIndex = 0
-        Me.Label20.Text = "   Scan Flow Ticket"
-        '
-        'Label21
-        '
-        Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(43, 8)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(151, 29)
-        Me.Label21.TabIndex = 1
-        Me.Label21.Text = "   Scan Label"
-        '
-        'chkFGLserCodeFG
-        '
-        Me.chkFGLserCodeFG.AutoSize = True
-        Me.chkFGLserCodeFG.Location = New System.Drawing.Point(43, 93)
-        Me.chkFGLserCodeFG.Name = "chkFGLserCodeFG"
-        Me.chkFGLserCodeFG.Size = New System.Drawing.Size(157, 33)
-        Me.chkFGLserCodeFG.TabIndex = 0
-        Me.chkFGLserCodeFG.Text = "Laser Code"
-        Me.chkFGLserCodeFG.UseVisualStyleBackColor = True
-        '
-        'txtFGLabel
-        '
-        Me.txtFGLabel.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtFGLabel.Location = New System.Drawing.Point(286, 5)
-        Me.txtFGLabel.Name = "txtFGLabel"
-        Me.txtFGLabel.Size = New System.Drawing.Size(271, 35)
-        Me.txtFGLabel.TabIndex = 2
-        '
-        'txtFGFlowTicket
-        '
-        Me.txtFGFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtFGFlowTicket.Location = New System.Drawing.Point(286, 50)
-        Me.txtFGFlowTicket.Name = "txtFGFlowTicket"
-        Me.txtFGFlowTicket.Size = New System.Drawing.Size(271, 35)
-        Me.txtFGFlowTicket.TabIndex = 3
-        '
-        'TextBox3
-        '
-        Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox3.Location = New System.Drawing.Point(286, 96)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(271, 35)
-        Me.TextBox3.TabIndex = 4
-        '
-        'btnPrintFGDefect
-        '
-        Me.btnPrintFGDefect.BackColor = System.Drawing.Color.SkyBlue
-        Me.btnPrintFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnPrintFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintFGDefect.Location = New System.Drawing.Point(611, 93)
-        Me.btnPrintFGDefect.Name = "btnPrintFGDefect"
-        Me.btnPrintFGDefect.Size = New System.Drawing.Size(199, 41)
-        Me.btnPrintFGDefect.TabIndex = 5
-        Me.btnPrintFGDefect.Text = "Print"
-        Me.btnPrintFGDefect.UseVisualStyleBackColor = False
-        '
-        'TableLayoutPanel9
-        '
-        Me.TableLayoutPanel9.ColumnCount = 4
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.TableLayoutPanel9.Controls.Add(Me.btnResetSA, 3, 0)
-        Me.TableLayoutPanel9.Controls.Add(Me.btnPrintSADefect, 3, 2)
-        Me.TableLayoutPanel9.Controls.Add(Me.txtSAFlowTicket, 2, 0)
-        Me.TableLayoutPanel9.Controls.Add(Me.Label22, 1, 0)
-        Me.TableLayoutPanel9.Controls.Add(Me.CheckBox1, 1, 2)
-        Me.TableLayoutPanel9.Controls.Add(Me.TextBox6, 2, 2)
-        Me.TableLayoutPanel9.Controls.Add(Me.Label8, 1, 1)
-        Me.TableLayoutPanel9.Controls.Add(Me.txtSABatchNo, 2, 1)
-        Me.TableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel9.Location = New System.Drawing.Point(822, 43)
-        Me.TableLayoutPanel9.Name = "TableLayoutPanel9"
-        Me.TableLayoutPanel9.RowCount = 3
-        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332!))
-        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
-        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
-        Me.TableLayoutPanel9.Size = New System.Drawing.Size(813, 137)
-        Me.TableLayoutPanel9.TabIndex = 7
-        '
-        'btnResetSA
-        '
-        Me.btnResetSA.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnResetSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnResetSA.Location = New System.Drawing.Point(611, 3)
-        Me.btnResetSA.Name = "btnResetSA"
-        Me.btnResetSA.Size = New System.Drawing.Size(199, 39)
-        Me.btnResetSA.TabIndex = 7
-        Me.btnResetSA.Text = "Reset"
-        Me.btnResetSA.UseVisualStyleBackColor = True
-        '
-        'btnPrintSADefect
-        '
-        Me.btnPrintSADefect.BackColor = System.Drawing.Color.SkyBlue
-        Me.btnPrintSADefect.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnPrintSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintSADefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintSADefect.Location = New System.Drawing.Point(611, 93)
-        Me.btnPrintSADefect.Name = "btnPrintSADefect"
-        Me.btnPrintSADefect.Size = New System.Drawing.Size(199, 41)
-        Me.btnPrintSADefect.TabIndex = 6
-        Me.btnPrintSADefect.Text = "Print"
-        Me.btnPrintSADefect.UseVisualStyleBackColor = False
-        '
-        'txtSAFlowTicket
-        '
-        Me.txtSAFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtSAFlowTicket.Location = New System.Drawing.Point(286, 5)
-        Me.txtSAFlowTicket.Name = "txtSAFlowTicket"
-        Me.txtSAFlowTicket.Size = New System.Drawing.Size(271, 35)
-        Me.txtSAFlowTicket.TabIndex = 5
-        '
-        'Label22
-        '
-        Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(43, 8)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(216, 29)
-        Me.Label22.TabIndex = 5
-        Me.Label22.Text = "   Scan Flow Ticket"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(43, 93)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(157, 33)
-        Me.CheckBox1.TabIndex = 5
-        Me.CheckBox1.Text = "Laser Code"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'TextBox6
-        '
-        Me.TextBox6.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox6.Location = New System.Drawing.Point(286, 96)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(271, 35)
-        Me.TextBox6.TabIndex = 7
-        '
-        'Label8
-        '
-        Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(43, 53)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(129, 29)
-        Me.Label8.TabIndex = 8
-        Me.Label8.Text = "   Batch No"
-        '
-        'txtSABatchNo
-        '
-        Me.txtSABatchNo.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtSABatchNo.Location = New System.Drawing.Point(286, 50)
-        Me.txtSABatchNo.Name = "txtSABatchNo"
-        Me.txtSABatchNo.Size = New System.Drawing.Size(271, 35)
-        Me.txtSABatchNo.TabIndex = 9
-        '
-        'TableLayoutPanel10
-        '
-        Me.TableLayoutPanel10.ColumnCount = 3
-        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFGDefect, 0, 0)
-        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFG, 2, 0)
-        Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 531)
-        Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
-        Me.TableLayoutPanel10.RowCount = 1
-        Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel10.Size = New System.Drawing.Size(813, 41)
-        Me.TableLayoutPanel10.TabIndex = 8
-        '
-        'btnSaveFGDefect
-        '
-        Me.btnSaveFGDefect.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
-        Me.btnSaveFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnSaveFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnSaveFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveFGDefect.Location = New System.Drawing.Point(3, 3)
-        Me.btnSaveFGDefect.Name = "btnSaveFGDefect"
-        Me.btnSaveFGDefect.Size = New System.Drawing.Size(265, 35)
-        Me.btnSaveFGDefect.TabIndex = 4
-        Me.btnSaveFGDefect.Text = "Save Defect"
-        Me.btnSaveFGDefect.UseVisualStyleBackColor = False
-        '
-        'btnSaveFG
-        '
-        Me.btnSaveFG.BackColor = System.Drawing.Color.Tan
-        Me.btnSaveFG.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnSaveFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnSaveFG.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveFG.Location = New System.Drawing.Point(545, 3)
-        Me.btnSaveFG.Name = "btnSaveFG"
-        Me.btnSaveFG.Size = New System.Drawing.Size(265, 35)
-        Me.btnSaveFG.TabIndex = 5
-        Me.btnSaveFG.Text = "Save Finish Goods"
-        Me.btnSaveFG.UseVisualStyleBackColor = False
-        '
-        'TableLayoutPanel11
-        '
-        Me.TableLayoutPanel11.ColumnCount = 3
-        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
-        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSADefect, 0, 0)
-        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 2, 0)
-        Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel11.Location = New System.Drawing.Point(822, 531)
-        Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
-        Me.TableLayoutPanel11.RowCount = 1
-        Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel11.Size = New System.Drawing.Size(813, 41)
-        Me.TableLayoutPanel11.TabIndex = 9
-        '
-        'btnSaveSADefect
-        '
-        Me.btnSaveSADefect.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
-        Me.btnSaveSADefect.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnSaveSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnSaveSADefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveSADefect.Location = New System.Drawing.Point(3, 3)
-        Me.btnSaveSADefect.Name = "btnSaveSADefect"
-        Me.btnSaveSADefect.Size = New System.Drawing.Size(265, 35)
-        Me.btnSaveSADefect.TabIndex = 5
-        Me.btnSaveSADefect.Text = "Save Defect"
-        Me.btnSaveSADefect.UseVisualStyleBackColor = False
-        '
-        'btnSaveSA
-        '
-        Me.btnSaveSA.BackColor = System.Drawing.Color.Tan
-        Me.btnSaveSA.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btnSaveSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnSaveSA.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveSA.Location = New System.Drawing.Point(545, 3)
-        Me.btnSaveSA.Name = "btnSaveSA"
-        Me.btnSaveSA.Size = New System.Drawing.Size(265, 35)
-        Me.btnSaveSA.TabIndex = 6
-        Me.btnSaveSA.Text = "Save Sub Assy"
-        Me.btnSaveSA.UseVisualStyleBackColor = False
-        '
         'tpWIP
         '
         Me.tpWIP.BackColor = System.Drawing.SystemColors.Control
@@ -1378,7 +1011,7 @@ Partial Class FormDefective
         '
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1426,6 +1059,377 @@ Partial Class FormDefective
         Me.btnOnHoldDelete.TabIndex = 10
         Me.btnOnHoldDelete.Text = "Delete"
         Me.btnOnHoldDelete.UseVisualStyleBackColor = False
+        '
+        'tpFinishGoods
+        '
+        Me.tpFinishGoods.BackColor = System.Drawing.SystemColors.Control
+        Me.tpFinishGoods.Controls.Add(Me.TableLayoutPanel12)
+        Me.tpFinishGoods.Location = New System.Drawing.Point(4, 38)
+        Me.tpFinishGoods.Name = "tpFinishGoods"
+        Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 581)
+        Me.tpFinishGoods.TabIndex = 1
+        Me.tpFinishGoods.Text = "Finish Goods"
+        '
+        'TableLayoutPanel12
+        '
+        Me.TableLayoutPanel12.ColumnCount = 2
+        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel12.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel12.Controls.Add(Me.rbFG, 0, 0)
+        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView1, 0, 2)
+        Me.TableLayoutPanel12.Controls.Add(Me.DataGridView3, 1, 2)
+        Me.TableLayoutPanel12.Controls.Add(Me.rbSA, 1, 0)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel8, 0, 1)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel9, 1, 1)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel10, 0, 3)
+        Me.TableLayoutPanel12.Controls.Add(Me.TableLayoutPanel11, 1, 3)
+        Me.TableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel12.Location = New System.Drawing.Point(3, 3)
+        Me.TableLayoutPanel12.Name = "TableLayoutPanel12"
+        Me.TableLayoutPanel12.RowCount = 4
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.0!))
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
+        Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.0!))
+        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1638, 575)
+        Me.TableLayoutPanel12.TabIndex = 0
+        '
+        'rbFG
+        '
+        Me.rbFG.AutoSize = True
+        Me.rbFG.Location = New System.Drawing.Point(3, 3)
+        Me.rbFG.Name = "rbFG"
+        Me.rbFG.Size = New System.Drawing.Size(194, 33)
+        Me.rbFG.TabIndex = 0
+        Me.rbFG.TabStop = True
+        Me.rbFG.Text = "Goods To Ship"
+        Me.rbFG.UseVisualStyleBackColor = True
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.AllowUserToAddRows = False
+        Me.DataGridView1.AllowUserToDeleteRows = False
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 186)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.Size = New System.Drawing.Size(813, 339)
+        Me.DataGridView1.TabIndex = 1
+        '
+        'DataGridView3
+        '
+        Me.DataGridView3.AllowUserToAddRows = False
+        Me.DataGridView3.AllowUserToDeleteRows = False
+        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView3.Location = New System.Drawing.Point(822, 186)
+        Me.DataGridView3.Name = "DataGridView3"
+        Me.DataGridView3.Size = New System.Drawing.Size(813, 339)
+        Me.DataGridView3.TabIndex = 2
+        '
+        'rbSA
+        '
+        Me.rbSA.AutoSize = True
+        Me.rbSA.Location = New System.Drawing.Point(822, 3)
+        Me.rbSA.Name = "rbSA"
+        Me.rbSA.Size = New System.Drawing.Size(222, 33)
+        Me.rbSA.TabIndex = 3
+        Me.rbSA.TabStop = True
+        Me.rbSA.Text = "Sub Assy Material"
+        Me.rbSA.UseVisualStyleBackColor = True
+        '
+        'TableLayoutPanel8
+        '
+        Me.TableLayoutPanel8.ColumnCount = 4
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+        Me.TableLayoutPanel8.Controls.Add(Me.btnResetFG, 3, 0)
+        Me.TableLayoutPanel8.Controls.Add(Me.Label20, 1, 1)
+        Me.TableLayoutPanel8.Controls.Add(Me.Label21, 1, 0)
+        Me.TableLayoutPanel8.Controls.Add(Me.chkFGLserCodeFG, 1, 2)
+        Me.TableLayoutPanel8.Controls.Add(Me.txtFGLabel, 2, 0)
+        Me.TableLayoutPanel8.Controls.Add(Me.txtFGFlowTicket, 2, 1)
+        Me.TableLayoutPanel8.Controls.Add(Me.TextBox3, 2, 2)
+        Me.TableLayoutPanel8.Controls.Add(Me.btnPrintFGDefect, 3, 2)
+        Me.TableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel8.Location = New System.Drawing.Point(3, 43)
+        Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
+        Me.TableLayoutPanel8.RowCount = 3
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel8.Size = New System.Drawing.Size(813, 137)
+        Me.TableLayoutPanel8.TabIndex = 6
+        '
+        'btnResetFG
+        '
+        Me.btnResetFG.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnResetFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnResetFG.Location = New System.Drawing.Point(611, 3)
+        Me.btnResetFG.Name = "btnResetFG"
+        Me.btnResetFG.Size = New System.Drawing.Size(199, 39)
+        Me.btnResetFG.TabIndex = 6
+        Me.btnResetFG.Text = "Reset"
+        Me.btnResetFG.UseVisualStyleBackColor = True
+        Me.btnResetFG.Visible = False
+        '
+        'Label20
+        '
+        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(43, 53)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(216, 29)
+        Me.Label20.TabIndex = 0
+        Me.Label20.Text = "   Scan Flow Ticket"
+        '
+        'Label21
+        '
+        Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(43, 8)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(151, 29)
+        Me.Label21.TabIndex = 1
+        Me.Label21.Text = "   Scan Label"
+        '
+        'chkFGLserCodeFG
+        '
+        Me.chkFGLserCodeFG.AutoSize = True
+        Me.chkFGLserCodeFG.Location = New System.Drawing.Point(43, 93)
+        Me.chkFGLserCodeFG.Name = "chkFGLserCodeFG"
+        Me.chkFGLserCodeFG.Size = New System.Drawing.Size(157, 33)
+        Me.chkFGLserCodeFG.TabIndex = 0
+        Me.chkFGLserCodeFG.Text = "Laser Code"
+        Me.chkFGLserCodeFG.UseVisualStyleBackColor = True
+        '
+        'txtFGLabel
+        '
+        Me.txtFGLabel.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtFGLabel.Location = New System.Drawing.Point(286, 5)
+        Me.txtFGLabel.Name = "txtFGLabel"
+        Me.txtFGLabel.Size = New System.Drawing.Size(271, 35)
+        Me.txtFGLabel.TabIndex = 2
+        '
+        'txtFGFlowTicket
+        '
+        Me.txtFGFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtFGFlowTicket.Location = New System.Drawing.Point(286, 50)
+        Me.txtFGFlowTicket.Name = "txtFGFlowTicket"
+        Me.txtFGFlowTicket.Size = New System.Drawing.Size(271, 35)
+        Me.txtFGFlowTicket.TabIndex = 3
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox3.Location = New System.Drawing.Point(286, 96)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(271, 35)
+        Me.TextBox3.TabIndex = 4
+        '
+        'btnPrintFGDefect
+        '
+        Me.btnPrintFGDefect.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnPrintFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnPrintFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnPrintFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnPrintFGDefect.Location = New System.Drawing.Point(611, 93)
+        Me.btnPrintFGDefect.Name = "btnPrintFGDefect"
+        Me.btnPrintFGDefect.Size = New System.Drawing.Size(199, 41)
+        Me.btnPrintFGDefect.TabIndex = 5
+        Me.btnPrintFGDefect.Text = "Print"
+        Me.btnPrintFGDefect.UseVisualStyleBackColor = False
+        '
+        'TableLayoutPanel9
+        '
+        Me.TableLayoutPanel9.ColumnCount = 4
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+        Me.TableLayoutPanel9.Controls.Add(Me.btnResetSA, 3, 0)
+        Me.TableLayoutPanel9.Controls.Add(Me.btnPrintSADefect, 3, 2)
+        Me.TableLayoutPanel9.Controls.Add(Me.txtSAFlowTicket, 2, 0)
+        Me.TableLayoutPanel9.Controls.Add(Me.Label22, 1, 0)
+        Me.TableLayoutPanel9.Controls.Add(Me.CheckBox1, 1, 2)
+        Me.TableLayoutPanel9.Controls.Add(Me.TextBox6, 2, 2)
+        Me.TableLayoutPanel9.Controls.Add(Me.Label8, 1, 1)
+        Me.TableLayoutPanel9.Controls.Add(Me.txtSABatchNo, 2, 1)
+        Me.TableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel9.Location = New System.Drawing.Point(822, 43)
+        Me.TableLayoutPanel9.Name = "TableLayoutPanel9"
+        Me.TableLayoutPanel9.RowCount = 3
+        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332!))
+        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
+        Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
+        Me.TableLayoutPanel9.Size = New System.Drawing.Size(813, 137)
+        Me.TableLayoutPanel9.TabIndex = 7
+        '
+        'btnResetSA
+        '
+        Me.btnResetSA.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnResetSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnResetSA.Location = New System.Drawing.Point(611, 3)
+        Me.btnResetSA.Name = "btnResetSA"
+        Me.btnResetSA.Size = New System.Drawing.Size(199, 39)
+        Me.btnResetSA.TabIndex = 7
+        Me.btnResetSA.Text = "Reset"
+        Me.btnResetSA.UseVisualStyleBackColor = True
+        Me.btnResetSA.Visible = False
+        '
+        'btnPrintSADefect
+        '
+        Me.btnPrintSADefect.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnPrintSADefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnPrintSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnPrintSADefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnPrintSADefect.Location = New System.Drawing.Point(611, 93)
+        Me.btnPrintSADefect.Name = "btnPrintSADefect"
+        Me.btnPrintSADefect.Size = New System.Drawing.Size(199, 41)
+        Me.btnPrintSADefect.TabIndex = 6
+        Me.btnPrintSADefect.Text = "Print"
+        Me.btnPrintSADefect.UseVisualStyleBackColor = False
+        '
+        'txtSAFlowTicket
+        '
+        Me.txtSAFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtSAFlowTicket.Location = New System.Drawing.Point(286, 5)
+        Me.txtSAFlowTicket.Name = "txtSAFlowTicket"
+        Me.txtSAFlowTicket.Size = New System.Drawing.Size(271, 35)
+        Me.txtSAFlowTicket.TabIndex = 5
+        '
+        'Label22
+        '
+        Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(43, 8)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(216, 29)
+        Me.Label22.TabIndex = 5
+        Me.Label22.Text = "   Scan Flow Ticket"
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(43, 93)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(157, 33)
+        Me.CheckBox1.TabIndex = 5
+        Me.CheckBox1.Text = "Laser Code"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'TextBox6
+        '
+        Me.TextBox6.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox6.Location = New System.Drawing.Point(286, 96)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(271, 35)
+        Me.TextBox6.TabIndex = 7
+        '
+        'Label8
+        '
+        Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(43, 53)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(129, 29)
+        Me.Label8.TabIndex = 8
+        Me.Label8.Text = "   Batch No"
+        '
+        'txtSABatchNo
+        '
+        Me.txtSABatchNo.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtSABatchNo.Location = New System.Drawing.Point(286, 50)
+        Me.txtSABatchNo.Name = "txtSABatchNo"
+        Me.txtSABatchNo.Size = New System.Drawing.Size(271, 35)
+        Me.txtSABatchNo.TabIndex = 9
+        '
+        'TableLayoutPanel10
+        '
+        Me.TableLayoutPanel10.ColumnCount = 3
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFGDefect, 0, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFG, 2, 0)
+        Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 531)
+        Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
+        Me.TableLayoutPanel10.RowCount = 1
+        Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel10.Size = New System.Drawing.Size(813, 41)
+        Me.TableLayoutPanel10.TabIndex = 8
+        '
+        'btnSaveFGDefect
+        '
+        Me.btnSaveFGDefect.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnSaveFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnSaveFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnSaveFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnSaveFGDefect.Location = New System.Drawing.Point(3, 3)
+        Me.btnSaveFGDefect.Name = "btnSaveFGDefect"
+        Me.btnSaveFGDefect.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveFGDefect.TabIndex = 4
+        Me.btnSaveFGDefect.Text = "Save Defect"
+        Me.btnSaveFGDefect.UseVisualStyleBackColor = False
+        '
+        'btnSaveFG
+        '
+        Me.btnSaveFG.BackColor = System.Drawing.Color.Tan
+        Me.btnSaveFG.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnSaveFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnSaveFG.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnSaveFG.Location = New System.Drawing.Point(545, 3)
+        Me.btnSaveFG.Name = "btnSaveFG"
+        Me.btnSaveFG.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveFG.TabIndex = 5
+        Me.btnSaveFG.Text = "Save Finish Goods"
+        Me.btnSaveFG.UseVisualStyleBackColor = False
+        '
+        'TableLayoutPanel11
+        '
+        Me.TableLayoutPanel11.ColumnCount = 3
+        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSADefect, 0, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 2, 0)
+        Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel11.Location = New System.Drawing.Point(822, 531)
+        Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
+        Me.TableLayoutPanel11.RowCount = 1
+        Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel11.Size = New System.Drawing.Size(813, 41)
+        Me.TableLayoutPanel11.TabIndex = 9
+        '
+        'btnSaveSADefect
+        '
+        Me.btnSaveSADefect.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnSaveSADefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnSaveSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnSaveSADefect.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnSaveSADefect.Location = New System.Drawing.Point(3, 3)
+        Me.btnSaveSADefect.Name = "btnSaveSADefect"
+        Me.btnSaveSADefect.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveSADefect.TabIndex = 5
+        Me.btnSaveSADefect.Text = "Save Defect"
+        Me.btnSaveSADefect.UseVisualStyleBackColor = False
+        '
+        'btnSaveSA
+        '
+        Me.btnSaveSA.BackColor = System.Drawing.Color.Tan
+        Me.btnSaveSA.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btnSaveSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnSaveSA.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnSaveSA.Location = New System.Drawing.Point(545, 3)
+        Me.btnSaveSA.Name = "btnSaveSA"
+        Me.btnSaveSA.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveSA.TabIndex = 6
+        Me.btnSaveSA.Text = "Save Sub Assy"
+        Me.btnSaveSA.UseVisualStyleBackColor = False
         '
         'tpBalance
         '
@@ -1828,6 +1832,14 @@ Partial Class FormDefective
         Me.DataGridView4.Size = New System.Drawing.Size(1632, 226)
         Me.DataGridView4.TabIndex = 19
         '
+        'txtStatusSubSubPO
+        '
+        Me.txtStatusSubSubPO.Location = New System.Drawing.Point(760, 143)
+        Me.txtStatusSubSubPO.Name = "txtStatusSubSubPO"
+        Me.txtStatusSubSubPO.Size = New System.Drawing.Size(100, 20)
+        Me.txtStatusSubSubPO.TabIndex = 26
+        Me.txtStatusSubSubPO.Visible = False
+        '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1854,6 +1866,16 @@ Partial Class FormDefective
         Me.TableLayoutPanel20.PerformLayout()
         Me.TableLayoutPanel21.ResumeLayout(False)
         CType(Me.dgReject, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpWIP.ResumeLayout(False)
+        Me.TableLayoutPanel5.ResumeLayout(False)
+        CType(Me.dgWIP, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TableLayoutPanel6.ResumeLayout(False)
+        Me.TableLayoutPanel6.PerformLayout()
+        Me.tpOnHold.ResumeLayout(False)
+        Me.TableLayoutPanel13.ResumeLayout(False)
+        CType(Me.dgOnHold, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TableLayoutPanel15.ResumeLayout(False)
+        Me.TableLayoutPanel15.PerformLayout()
         Me.tpFinishGoods.ResumeLayout(False)
         Me.TableLayoutPanel12.ResumeLayout(False)
         Me.TableLayoutPanel12.PerformLayout()
@@ -1865,16 +1887,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel9.PerformLayout()
         Me.TableLayoutPanel10.ResumeLayout(False)
         Me.TableLayoutPanel11.ResumeLayout(False)
-        Me.tpWIP.ResumeLayout(False)
-        Me.TableLayoutPanel5.ResumeLayout(False)
-        CType(Me.dgWIP, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TableLayoutPanel6.ResumeLayout(False)
-        Me.TableLayoutPanel6.PerformLayout()
-        Me.tpOnHold.ResumeLayout(False)
-        Me.TableLayoutPanel13.ResumeLayout(False)
-        CType(Me.dgOnHold, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TableLayoutPanel15.ResumeLayout(False)
-        Me.TableLayoutPanel15.PerformLayout()
         Me.tpBalance.ResumeLayout(False)
         Me.TableLayoutPanel2.ResumeLayout(False)
         Me.TableLayoutPanel3.ResumeLayout(False)
@@ -2036,4 +2048,5 @@ Partial Class FormDefective
     Friend WithEvents TextBox10 As TextBox
     Friend WithEvents btnSaveFG As Button
     Friend WithEvents btnSaveSA As Button
+    Friend WithEvents txtStatusSubSubPO As TextBox
 End Class

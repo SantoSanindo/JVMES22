@@ -427,3 +427,4 @@ C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\Jovan-New.pdb
 C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\Jovan-New.xml
 C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\bin\Debug\SDK.NET.Interface.dll
 C:\Users\CEO-Perusahaan\Source\Repos\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
+C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.Summary.resources

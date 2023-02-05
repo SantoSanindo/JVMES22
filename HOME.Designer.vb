@@ -86,6 +86,8 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.RibProdSummary = New System.Windows.Forms.RibbonPanel()
+        Me.SummaryProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -252,6 +254,7 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibPrintFlowTicket)
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Panels.Add(Me.RibResultProduction)
+        Me.RibbonTab4.Panels.Add(Me.RibProdSummary)
         Me.RibbonTab4.Text = "Line Process"
         '
         'RibStockProd
@@ -552,6 +555,19 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
+        'RibProdSummary
+        '
+        Me.RibProdSummary.Items.Add(Me.SummaryProductionBtn)
+        Me.RibProdSummary.Name = "RibProdSummary"
+        Me.RibProdSummary.Text = "Production Summary"
+        '
+        'SummaryProductionBtn
+        '
+        Me.SummaryProductionBtn.Image = CType(resources.GetObject("SummaryProductionBtn.Image"), System.Drawing.Image)
+        Me.SummaryProductionBtn.LargeImage = CType(resources.GetObject("SummaryProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.SummaryProductionBtn.Name = "SummaryProductionBtn"
+        Me.SummaryProductionBtn.SmallImage = CType(resources.GetObject("SummaryProductionBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -641,5 +657,7 @@ Partial Class HOME
     Friend WithEvents ResultProductionBtn As RibbonButton
     Friend WithEvents Login_DropDown As RibbonButton
     Friend WithEvents RibbonButton_Login As RibbonButton
+    Friend WithEvents RibProdSummary As RibbonPanel
+    Friend WithEvents SummaryProductionBtn As RibbonButton
     '>>>>>>> Arif
 End Class

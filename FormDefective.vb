@@ -13,47 +13,102 @@ Public Class FormDefective
     Dim materialList As New List(Of String)
     Dim idBalanceMaterial As String
 
-    Private Sub cbLineNumber_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLineNumber.SelectedIndexChanged
-        Try
-            Call Database.koneksi_database()
-            Dim dtSubPO As DataTable = Database.GetData("select * from SUB_SUB_PO sp,main_po mp,master_finish_goods mfg where LINE='" & cbLineNumber.Text & "' and mp.id=sp.main_po and mfg.fg_part_number=mp.fg_pn and sp.status='Open'")
+    'Private Sub cbLineNumber_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLineNumber.SelectedIndexChanged
+    '    Try
+    '        Call Database.koneksi_database()
+    '        Dim dtSubPO As DataTable = Database.GetData("select * from SUB_SUB_PO sp,main_po mp,master_finish_goods mfg where LINE='" & cbLineNumber.Text & "' and mp.id=sp.main_po and mfg.fg_part_number=mp.fg_pn")
 
-            txtSubSubPODefective.Text = dtSubPO.Rows(0).Item("SUB_SUB_PO")
+    '        If dtSubPO.Rows.Count > 0 Then
 
-            cbPONumber.Text = dtSubPO.Rows(0).Item("PO")
+    '            txtSubSubPODefective.Text = dtSubPO.Rows(0).Item("SUB_SUB_PO")
 
-            cbFGPN.Text = dtSubPO.Rows(0).Item("FG_PN")
+    '            cbPONumber.Text = dtSubPO.Rows(0).Item("PO")
 
-            txtDescDefective.Text = dtSubPO.Rows(0).Item("DESCRIPTION")
+    '            cbFGPN.Text = dtSubPO.Rows(0).Item("FG_PN")
 
-            txtSPQ.Text = dtSubPO.Rows(0).Item("SPQ")
+    '            txtDescDefective.Text = dtSubPO.Rows(0).Item("DESCRIPTION")
 
-            If cbFGPN.Text <> "" Then
-                loadCBDefPartProcess(cbFGPN.Text)
-            End If
+    '            txtSPQ.Text = dtSubPO.Rows(0).Item("SPQ")
 
-            enableStatusInputInput(True)
-            LoaddgWIP("")
-            LoaddgOnHold("")
-            loaddgBalance("")
-            loaddgReject("")
+    '            If cbFGPN.Text <> "" Then
+    '                loadCBDefPartProcess(cbFGPN.Text)
+    '            End If
 
-            If dtSubPO.Rows(0).Item("level") = "FG" Then
-                rbFG.Checked = True
-                rbSA.Checked = False
-                rbSA.Enabled = False
-            Else
-                rbSA.Checked = True
-                rbFG.Checked = False
-                rbFG.Enabled = False
-            End If
+    '            enableStatusInputInput(True)
+    '            LoaddgWIP("")
+    '            LoaddgOnHold("")
+    '            loaddgBalance("")
+    '            loaddgReject("")
 
-            TableLayoutPanel14.Enabled = False
-            TableLayoutPanel7.Enabled = False
+    '            If dtSubPO.Rows(0).Item("level") = "FG" Then
+    '                rbFG.Checked = True
+    '                rbSA.Checked = False
+    '                rbSA.Enabled = False
+    '            Else
+    '                rbSA.Checked = True
+    '                rbFG.Checked = False
+    '                rbFG.Enabled = False
+    '            End If
 
-        Catch ex As Exception
-            MessageBox.Show("Error Load PO_NO")
-        End Try
+    '            TableLayoutPanel14.Enabled = False
+    '            TableLayoutPanel7.Enabled = False
+    '        End If
+
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error Load PO_NO")
+    '    End Try
+    'End Sub
+
+    Private Sub txtSubSubPODefective_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSubSubPODefective.PreviewKeyDown
+        If (e.KeyData = Keys.Enter) Then
+            Try
+                Call Database.koneksi_database()
+                Dim dtSubPO As DataTable = Database.GetData("select sp.line,mp.po,mp.fg_pn,mfg.spq,mfg.description,mfg.[level],sp.status from SUB_SUB_PO sp,main_po mp,master_finish_goods mfg where mp.id=sp.main_po and mfg.fg_part_number=mp.fg_pn and sp.sub_sub_po='" & txtSubSubPODefective.Text & "'")
+
+                If dtSubPO.Rows.Count > 0 Then
+
+                    cbLineNumber.Text = dtSubPO.Rows(0).Item("line")
+
+                    cbPONumber.Text = dtSubPO.Rows(0).Item("PO")
+
+                    cbFGPN.Text = dtSubPO.Rows(0).Item("FG_PN")
+
+                    txtDescDefective.Text = dtSubPO.Rows(0).Item("DESCRIPTION")
+
+                    txtSPQ.Text = dtSubPO.Rows(0).Item("SPQ")
+
+                    txtStatusSubSubPO.Text = dtSubPO.Rows(0).Item("status")
+
+                    If cbFGPN.Text <> "" Then
+                        loadCBDefPartProcess(cbFGPN.Text)
+                    End If
+
+                    enableStatusInputInput(True)
+                    LoaddgWIP("")
+                    LoaddgOnHold("")
+                    loaddgBalance("")
+                    loaddgReject("")
+
+                    If dtSubPO.Rows(0).Item("level") = "FG" Then
+                        rbFG.Checked = True
+                        rbSA.Checked = False
+                        rbSA.Enabled = False
+                    Else
+                        rbSA.Checked = True
+                        rbFG.Checked = False
+                        rbFG.Enabled = False
+                    End If
+
+                    TableLayoutPanel14.Enabled = False
+                    TableLayoutPanel7.Enabled = False
+                End If
+
+
+            Catch ex As Exception
+                MessageBox.Show("Error Load PO_NO")
+            End Try
+        End If
     End Sub
 
     Sub loadCBDefPartProcess(str As String)
@@ -272,6 +327,11 @@ Public Class FormDefective
                     Exit Sub
                 End If
 
+                If txtStatusSubSubPO.Text = "Closed" Then
+                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    Exit Sub
+                End If
+
                 Dim Part As String() = Nothing
                 Dim sFlow_Ticket As String() = Nothing
                 Dim i As Integer
@@ -486,6 +546,12 @@ Public Class FormDefective
     Private Sub btnWIPDelete_Click(sender As Object, e As EventArgs) Handles btnWIPDelete.Click
         Try
             If cbWIPProcess.Text <> "" And txtWIPTicketNo.Text <> "" Then
+
+                If txtStatusSubSubPO.Text = "Closed" Then
+                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    Exit Sub
+                End If
+
                 Dim Part As String() = Nothing
                 Dim sFlow_Ticket As String() = Nothing
                 Dim i As Integer
@@ -521,7 +587,7 @@ Public Class FormDefective
                             Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no")
                             Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
                             If dtUpdateAdd.ExecuteNonQuery() Then
-                                Dim queryDelete As String = "delete from STOCK_PROD_WIP where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbWIPProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "'"
+                                Dim queryDelete As String = "delete from STOCK_PROD_WIP where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbWIPProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "' and part_number='" & Part(i) & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no")
                                 Dim dtqueryDelete = New SqlCommand(queryDelete, Database.koneksi)
                                 If dtqueryDelete.ExecuteNonQuery() Then
                                     Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
@@ -687,9 +753,9 @@ Public Class FormDefective
                 Dim sqlStr As String = ""
 
                 If proses = "" Then
-                    sqlStr = "select * from STOCK_PROD_WIP wip, sub_sub_po sp where wip.sub_sub_po=sp.sub_sub_po and sp.status='Open' and wip.line='" & cbLineNumber.Text & "' ORDER BY wip.CODE_STOCK_PROD_WIP"
+                    sqlStr = "select * from STOCK_PROD_WIP wip, sub_sub_po sp where wip.sub_sub_po=sp.sub_sub_po and wip.line='" & cbLineNumber.Text & "' ORDER BY wip.CODE_STOCK_PROD_WIP"
                 Else
-                    sqlStr = "select * from STOCK_PROD_WIP wip, sub_sub_po sp where wip.sub_sub_po=sp.sub_sub_po and sp.status='Open' and wip.PROCESS='" & proses & "' and wip.line='" & cbLineNumber.Text & "' ORDER BY wip.CODE_STOCK_PROD_WIP"
+                    sqlStr = "select * from STOCK_PROD_WIP wip, sub_sub_po sp where wip.sub_sub_po=sp.sub_sub_po and wip.PROCESS='" & proses & "' and wip.line='" & cbLineNumber.Text & "' ORDER BY wip.CODE_STOCK_PROD_WIP"
                 End If
 
                 Dim dttable As DataTable = Database.GetData(sqlStr)
@@ -783,7 +849,7 @@ Public Class FormDefective
             dtCode.Clear()
 
             'get sub_sub_po dari SUB_SUB_PO
-            dtCode = Database.GetData("select SUB_SUB_PO from SUB_SUB_PO where MAIN_PO='" & idPO & "' AND LINE='" & cbLineNumber.Text & "' AND STATUS='Open' ORDER BY ID")
+            dtCode = Database.GetData("select SUB_SUB_PO from SUB_SUB_PO where MAIN_PO='" & idPO & "' AND LINE='" & cbLineNumber.Text & "' ORDER BY ID")
             If dtCode.Rows.Count > 0 Then
                 SubsubPO = dtCode.Rows(0)(0)
             End If
@@ -893,6 +959,11 @@ Public Class FormDefective
         If cbOnHoldProcess.Text <> "" And txtOnHoldTicketNo.Text <> "" And txtOnHoldQty.Text <> "" Then
 
             Try
+                If txtStatusSubSubPO.Text = "Closed" Then
+                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    Exit Sub
+                End If
+
                 Dim Part As String() = Nothing
                 Dim sFlow_Ticket As String() = Nothing
                 Dim i As Integer
@@ -1113,6 +1184,11 @@ Public Class FormDefective
     Private Sub btnOnHoldDelete_Click(sender As Object, e As EventArgs) Handles btnOnHoldDelete.Click
         If cbOnHoldProcess.Text <> "" And txtOnHoldTicketNo.Text <> "" Then
             Try
+                If txtStatusSubSubPO.Text = "Closed" Then
+                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    Exit Sub
+                End If
+
                 Dim Part As String() = Nothing
                 Dim sFlow_Ticket As String() = Nothing
                 Dim i As Integer
@@ -1146,7 +1222,7 @@ Public Class FormDefective
                             Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no")
                             Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
                             If dtUpdateAdd.ExecuteNonQuery() Then
-                                Dim queryDelete As String = "delete from STOCK_PROD_ONHOLD where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbOnHoldProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "'"
+                                Dim queryDelete As String = "delete from STOCK_PROD_ONHOLD where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbOnHoldProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "' and part_number='" & Part(i) & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no")
                                 Dim dtqueryDelete = New SqlCommand(queryDelete, Database.koneksi)
                                 If dtqueryDelete.ExecuteNonQuery() Then
                                     Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
@@ -1276,9 +1352,9 @@ Public Class FormDefective
                 Dim sqlStr As String = ""
 
                 If proses = "" Then
-                    sqlStr = "select * from STOCK_PROD_ONHOLD OH, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and sp.status='Open' and oh.line='" & cbLineNumber.Text & "' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
+                    sqlStr = "select * from STOCK_PROD_ONHOLD OH, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and oh.line='" & cbLineNumber.Text & "' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
                 Else
-                    sqlStr = "select * from STOCK_PROD_ONHOLD oh, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and sp.status='Open' and oh.PROCESS='" & proses & "' and oh.line='" & cbLineNumber.Text & "' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
+                    sqlStr = "select * from STOCK_PROD_ONHOLD oh, sub_sub_po sp where oh.sub_sub_po=sp.sub_sub_po and oh.PROCESS='" & proses & "' and oh.line='" & cbLineNumber.Text & "' ORDER BY oh.CODE_STOCK_PROD_ONHOLD"
                 End If
 
                 Dim dttable As DataTable = Database.GetData(sqlStr)
@@ -1376,10 +1452,10 @@ Public Class FormDefective
                         Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
 
                         If dtCheckStockCard.Rows.Count > 0 Then
-                            Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & Convert.ToDouble(txtBalanceQty.Text) & ",SUM_QTY=SUM_QTY-" & Convert.ToDouble(txtBalanceQty.Text) & " where ID='" & dtCheckStockCard.Rows(0).Item("ID") & "'"
+                            Dim sqlUpdateStock As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & Convert.ToDouble(txtBalanceQty.Text).ToString.Replace(",", ".") & ",SUM_QTY=SUM_QTY-" & Convert.ToDouble(txtBalanceQty.Text).ToString.Replace(",", ".") & " where ID='" & dtCheckStockCard.Rows(0).Item("ID") & "'"
                             Dim cmdUpdateStock = New SqlCommand(sqlUpdateStock, Database.koneksi)
                             If cmdUpdateStock.ExecuteNonQuery() Then
-                                Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=ACTUAL_QTY+" & Convert.ToDouble(txtBalanceQty.Text) & " where ID='" & dtCekTable.Rows(0).Item("ID") & "'"
+                                Dim sqlUpdate As String = "update STOCK_CARD set qty=qty+" & Convert.ToDouble(txtBalanceQty.Text).ToString.Replace(",", ".") & ",ACTUAL_QTY=ACTUAL_QTY+" & Convert.ToDouble(txtBalanceQty.Text).ToString.Replace(",", ".") & " where ID='" & dtCekTable.Rows(0).Item("ID") & "'"
                                 Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
                                 If cmdUpdate.ExecuteNonQuery() Then
                                     MessageBox.Show("Success save data!!!")
@@ -1405,12 +1481,12 @@ Public Class FormDefective
                         If dtTable.Rows.Count > 0 Then
                             idData = dtTable.Rows(0)(0)
 
-                            Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & txtBalanceQty.Text & ",SUM_QTY=SUM_QTY-" & txtBalanceQty.Text & " where ID='" & idData & "'"
+                            Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty-" & txtBalanceQty.Text.Replace(",", ".") & ",SUM_QTY=SUM_QTY-" & txtBalanceQty.Text.Replace(",", ".") & " where ID='" & idData & "'"
                             Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
                             If cmdUpdate.ExecuteNonQuery() Then
 
                                 Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,QRCODE,QTY,ACTUAL_QTY,ID_LEVEL,LEVEL)" &
-                                                        "select MTS_NO,DEPARTMENT,MATERIAL,'Return to Mini Store',STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "',QTY," & txtBalanceQty.Text & ",'" & codeBalance & "','B' from STOCK_CARD where ID='" & idData & "'"
+                                                        "select MTS_NO,DEPARTMENT,MATERIAL,'Return to Mini Store',STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "'," & txtBalanceQty.Text.Replace(",", ".") & "," & txtBalanceQty.Text.Replace(",", ".") & ",'" & codeBalance & "','B' from STOCK_CARD where ID='" & idData & "'"
                                 Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
 
                                 If cmdInsert.ExecuteNonQuery() Then
@@ -1660,9 +1736,9 @@ Public Class FormDefective
                 Dim sqlStr As String = ""
 
                 If material = "" Then
-                    sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.id_level ID,sc.material Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Lot Qty],sc.actual_qty [Actual Qty] from STOCK_CARD sc, sub_sub_po sp where sc.DEPARTMENT='" & dept & "' AND sc.STATUS='Return to Mini Store' and sc.sub_sub_po=sp.sub_sub_po and sp.sub_sub_po='" & txtSubSubPODefective.Text & "' and sp.status='Open' and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
+                    sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.id_level ID,sc.material Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Lot Qty],sc.actual_qty [Actual Qty] from STOCK_CARD sc, sub_sub_po sp where sc.DEPARTMENT='" & dept & "' AND sc.STATUS='Return to Mini Store' and sc.sub_sub_po=sp.sub_sub_po and sp.sub_sub_po='" & txtSubSubPODefective.Text & "' and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
                 Else
-                    sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.id_level ID,sc.material Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Lot Qty],sc.actual_qty [Actual Qty] from STOCK_CARD sc, sub_sub_po sp where sc.MATERIAL='" & material & "' AND sc.DEPARTMENT='" & dept & "' AND sc.STATUS='Return to Mini Store' and sc.sub_sub_po=sp.sub_sub_po and sp.sub_sub_po='" & txtSubSubPODefective.Text & "' and sp.status='Open' and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
+                    sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.id_level ID,sc.material Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Lot Qty],sc.actual_qty [Actual Qty] from STOCK_CARD sc, sub_sub_po sp where sc.MATERIAL='" & material & "' AND sc.DEPARTMENT='" & dept & "' AND sc.STATUS='Return to Mini Store' and sc.sub_sub_po=sp.sub_sub_po and sp.sub_sub_po='" & txtSubSubPODefective.Text & "'  and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
                 End If
 
                 Dim dttable As DataTable = Database.GetData(sqlStr)
@@ -2262,6 +2338,11 @@ Public Class FormDefective
     Private Sub btnSaveFGDefect_Click(sender As Object, e As EventArgs) Handles btnSaveFGDefect.Click
         If DataGridView1.Rows.Count > 0 Then
             Try
+                If txtStatusSubSubPO.Text = "Closed" Then
+                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    Exit Sub
+                End If
+
                 Dim sResult As Integer = 0
                 Dim sFlowTicket = txtFGFlowTicket.Text.Split(";")
 
@@ -2269,6 +2350,7 @@ Public Class FormDefective
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count > 0 Then
                     MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                    ClearInputFG()
                     Exit Sub
                 End If
 
@@ -2311,6 +2393,7 @@ Public Class FormDefective
 
                 If sResult > 0 Then
                     MessageBox.Show("Success Save data!!!")
+                    loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
                 Else
                     MessageBox.Show("Fail Save data!!!")
                 End If
@@ -2323,6 +2406,11 @@ Public Class FormDefective
     Private Sub btnSaveFG_Click(sender As Object, e As EventArgs) Handles btnSaveFG.Click
         Dim sResult As Integer = 1
         Dim sFlowTicket = txtFGFlowTicket.Text.Split(";")
+
+        If txtStatusSubSubPO.Text = "Closed" Then
+            MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+            Exit Sub
+        End If
 
         Dim result = MessageBox.Show("Are you sure for save Finish Goods. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
@@ -2369,13 +2457,58 @@ Public Class FormDefective
                 If sResult > 0 Then
                     MessageBox.Show("Success Save FG data!!!")
                     ClearInputFG()
+                    UpdateQtySubSubPO()
                 Else
                     MessageBox.Show("Fail Save FG data!!!")
                 End If
             Else
                 MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                ClearInputFG()
+                UpdateQtySubSubPO()
             End If
         End If
+    End Sub
+
+    Sub UpdateQtySubSubPO()
+        Try
+            Dim queryCheckDoneFG As String = "select isnull(sum(qty),0) sum_qty from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "'"
+            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+            If dtCheckDoneFG.Rows.Count > 0 Then
+                Dim querySelectSubsubpo As String = "select * from sub_sub_po where sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "'"
+                Dim dtSelectSubsubpo As DataTable = Database.GetData(querySelectSubsubpo)
+                If dtSelectSubsubpo.Rows.Count > 0 Then
+                    If Convert.ToInt16(dtSelectSubsubpo.Rows(0).Item("sub_sub_po_qty")) >= Convert.ToInt16(dtCheckDoneFG.Rows(0).Item("sum_qty")) Then
+                        Dim queryUpdateSubsubpo As String = "update sub_sub_po set actual_qty=" & dtCheckDoneFG.Rows(0).Item("sum_qty") & ", status='Closed' where id=" & dtSelectSubsubpo.Rows(0).Item("id")
+                        Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                        dtUpdateSubsubpo.ExecuteNonQuery()
+                    Else
+                        Dim queryUpdateSubsubpo As String = "update sub_sub_po set actual_qty=" & dtCheckDoneFG.Rows(0).Item("sum_qty") & " where id=" & dtSelectSubsubpo.Rows(0).Item("id")
+                        Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                        dtUpdateSubsubpo.ExecuteNonQuery()
+                    End If
+
+                    Dim queryCheckQtySubsubpo As String = "select isnull(sum(actual_qty),0) sum_qty from sub_sub_po where main_po=" & dtSelectSubsubpo.Rows(0).Item("main_po")
+                    Dim dtCheckQtySubsubpo As DataTable = Database.GetData(queryCheckQtySubsubpo)
+                    If dtCheckQtySubsubpo.Rows.Count > 0 Then
+                        Dim querySelectMainPO As String = "select * from main_po where id=" & dtSelectSubsubpo.Rows(0).Item("main_po")
+                        Dim dtSelectMainPO As DataTable = Database.GetData(querySelectMainPO)
+                        If dtSelectMainPO.Rows.Count > 0 Then
+                            If Convert.ToInt16(dtSelectMainPO.Rows(0).Item("sub_po_qty")) >= Convert.ToInt16(dtCheckQtySubsubpo.Rows(0).Item("sum_qty")) Then
+                                Dim queryUpdateMainPO As String = "update main_po set actual_qty=" & dtCheckDoneFG.Rows(0).Item("sum_qty") & ", status='Closed' where id=" & dtSelectSubsubpo.Rows(0).Item("main_po")
+                                Dim dtUpdateMainPO = New SqlCommand(queryUpdateMainPO, Database.koneksi)
+                                dtUpdateMainPO.ExecuteNonQuery()
+                            Else
+                                Dim queryUpdateMainPO As String = "update main_po set actual_qty=" & dtCheckDoneFG.Rows(0).Item("sum_qty") & " where id=" & dtSelectSubsubpo.Rows(0).Item("main_po")
+                                Dim dtUpdateMainPO = New SqlCommand(queryUpdateMainPO, Database.koneksi)
+                                dtUpdateMainPO.ExecuteNonQuery()
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnSaveSADefect_Click(sender As Object, e As EventArgs) Handles btnSaveSADefect.Click
@@ -2455,7 +2588,6 @@ Public Class FormDefective
     Function funcDeleteReject(id As Integer, pn As String, lot As Integer, qty As Integer, sFlowTicket As String)
         Try
             Dim sResult As Integer = 1
-            Dim sumQty As Double
             Dim i As Integer = 0
             Dim addQty As Double
 
@@ -2549,13 +2681,15 @@ Public Class FormDefective
                 Dim i As Integer = 0
                 Dim addQty As Double
 
-                Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "'"
+                Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket_no='" & sFlowTicket(5) & "'"
                 Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
                 Dim codeReject As String = ""
                 If dtCheckCodeReject.Rows.Count > 0 Then
                     codeReject = dtCheckCodeReject.Rows(0).Item(0)
                 Else
-                    codeReject = "D" & dtCheckCodeReject.Rows.Count + 1
+                    Dim queryCount As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT"
+                    Dim dtCount As DataTable = Database.GetData(queryCount)
+                    codeReject = "D" & dtCount.Rows.Count + 1
                 End If
 
                 Dim queryGetExistingDB As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=1"
@@ -3031,7 +3165,6 @@ Public Class FormDefective
     End Sub
 
     Sub ClearInputFG()
-        txtSPQ.Clear()
         txtBatchno.Clear()
         txtINV.Clear()
         txtTampungLabel.Clear()
@@ -3329,6 +3462,11 @@ Public Class FormDefective
                 _sPNReject = TextBox7.Text
             End If
 
+            If txtStatusSubSubPO.Text = "Closed" Then
+                MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                Exit Sub
+            End If
+
             Try
 
                 If IsNumeric(txtRejectQty.Text) = False Then
@@ -3504,6 +3642,11 @@ Public Class FormDefective
                 _sPNReject = TextBox7.Text
             End If
 
+            If txtStatusSubSubPO.Text = "Closed" Then
+                MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                Exit Sub
+            End If
+
             Try
 
                 Dim result = MessageBox.Show("Are you sure for edit?.", "Are You Sure?", MessageBoxButtons.YesNo)
@@ -3621,6 +3764,11 @@ Public Class FormDefective
                 _sPNReject = txtRejectMaterialPN.Text
             Else
                 _sPNReject = TextBox7.Text
+            End If
+
+            If txtStatusSubSubPO.Text = "Closed" Then
+                MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                Exit Sub
             End If
 
             Try

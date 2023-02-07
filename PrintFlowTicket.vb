@@ -75,9 +75,12 @@ Public Class PrintFlowTicket
         Next
 
         For i As Integer = 0 To DataGridView2.Rows.Count - 1
-            _PrintingFlowTicket.DataGridView2.Rows(i).Cells(1).Value = DataGridView2.Rows(i).Cells(1).Value
-            _PrintingFlowTicket.DataGridView2.Rows(i).Cells(2).Value = DataGridView2.Rows(i).Cells(0).Value
-            _PrintingFlowTicket.DataGridView2.Rows(i).Cells(3).Value = DataGridView2.Rows(i).Cells(2).Value
+            '_PrintingFlowTicket.DataGridView2.Rows(i).Cells(1).Value = DataGridView2.Rows(i).Cells(1).Value
+            '_PrintingFlowTicket.DataGridView2.Rows(i).Cells(2).Value = DataGridView2.Rows(i).Cells(0).Value
+            '_PrintingFlowTicket.DataGridView2.Rows(i).Cells(3).Value = DataGridView2.Rows(i).Cells(2).Value
+
+            Dim row As String() = New String() {i.ToString, DataGridView2.Rows(i).Cells(1).Value, DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
+            _PrintingFlowTicket.DataGridView2.Rows.Add(row)
         Next
 
         If Val(TextBox6.Text) <= Val(TextBox7.Text) Then

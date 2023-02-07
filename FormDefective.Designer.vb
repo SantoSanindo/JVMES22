@@ -23,6 +23,7 @@ Partial Class FormDefective
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtStatusSubSubPO = New System.Windows.Forms.TextBox()
         Me.txtSPQ = New System.Windows.Forms.TextBox()
         Me.cbFGPN = New System.Windows.Forms.TextBox()
         Me.txtDescDefective = New System.Windows.Forms.TextBox()
@@ -161,7 +162,6 @@ Partial Class FormDefective
         Me.btnPrintOthersPart = New System.Windows.Forms.Button()
         Me.btnOtherSave = New System.Windows.Forms.Button()
         Me.DataGridView4 = New System.Windows.Forms.DataGridView()
-        Me.txtStatusSubSubPO = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -233,6 +233,14 @@ Partial Class FormDefective
         Me.GroupBox1.Size = New System.Drawing.Size(1658, 169)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'txtStatusSubSubPO
+        '
+        Me.txtStatusSubSubPO.Location = New System.Drawing.Point(760, 143)
+        Me.txtStatusSubSubPO.Name = "txtStatusSubSubPO"
+        Me.txtStatusSubSubPO.Size = New System.Drawing.Size(100, 20)
+        Me.txtStatusSubSubPO.TabIndex = 26
+        Me.txtStatusSubSubPO.Visible = False
         '
         'txtSPQ
         '
@@ -452,7 +460,7 @@ Partial Class FormDefective
         '
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -1011,7 +1019,7 @@ Partial Class FormDefective
         '
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1831,14 +1839,6 @@ Partial Class FormDefective
         Me.DataGridView4.ReadOnly = True
         Me.DataGridView4.Size = New System.Drawing.Size(1632, 226)
         Me.DataGridView4.TabIndex = 19
-        '
-        'txtStatusSubSubPO
-        '
-        Me.txtStatusSubSubPO.Location = New System.Drawing.Point(760, 143)
-        Me.txtStatusSubSubPO.Name = "txtStatusSubSubPO"
-        Me.txtStatusSubSubPO.Size = New System.Drawing.Size(100, 20)
-        Me.txtStatusSubSubPO.TabIndex = 26
-        Me.txtStatusSubSubPO.Visible = False
         '
         'FormDefective
         '

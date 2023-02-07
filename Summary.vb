@@ -10,21 +10,27 @@ Public Class Summary
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
             .ColumnCount = 15
-            .Columns(0).Name = "No"
-            .Columns(1).Name = "Sub Sub PO"
-            .Columns(2).Name = "FG"
-            .Columns(3).Name = "Mat"
-            .Columns(4).Name = "In Fresh"
-            .Columns(5).Name = "In Others"
-            .Columns(6).Name = "In WIP"
-            .Columns(7).Name = "In On Hold"
-            .Columns(8).Name = "In Sub Assy"
-            .Columns(9).Name = "Out Return"
-            .Columns(10).Name = "Out Others"
-            .Columns(11).Name = "Out WIP"
-            .Columns(12).Name = "Out On Hold"
-            .Columns(13).Name = "Out FG"
-            .Columns(14).Name = "Out Balance"
+            .Columns(0).HeaderText = "No"
+            .Columns(0).Width = 50
+            .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(1).HeaderText = "Sub Sub PO"
+            .Columns(2).HeaderText = "FG"
+            .Columns(3).HeaderText = "Mat"
+            .Columns(4).HeaderText = "In Fresh"
+            .Columns(5).HeaderText = "In Others"
+            .Columns(6).HeaderText = "In WIP"
+            .Columns(7).HeaderText = "In On Hold"
+            .Columns(8).HeaderText = "In Sub Assy"
+            .Columns(9).HeaderText = "Out Return"
+            .Columns(10).HeaderText = "Out Others"
+            .Columns(11).HeaderText = "Out WIP"
+            .Columns(12).HeaderText = "Out On Hold"
+            .Columns(13).HeaderText = "Out FG"
+            .Columns(14).HeaderText = "Out Balance"
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
 
             Dim sqlStr As String = "select mp.fg_pn, mufg.component from material_usage_finish_goods mufg, main_po mp, sub_sub_po ssp where mufg.fg_part_number=mp.fg_pn and mp.id=ssp.main_po and ssp.sub_sub_po='" & txtSummarySubSubPO.Text & "'"
 
@@ -48,7 +54,7 @@ Public Class Summary
                     Dim dtInSA As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='SA'")
 
                     Dim dtOutReturn As DataTable = Database.GetData("select isnull(sum(qty),0) from out_prod_reject where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
-                    Dim dtOutOthers As DataTable = Database.GetData("select sum(q.qty) from (select DISTINCT(d.code_out_prod_defect),ot.qty from stock_prod_others ot, out_prod_defect d where d.sub_sub_po='" & txtSummarySubSubPO.Text & "' and d.part_number='" & dttable.Rows(i).Item("component") & "' and d.code_out_prod_defect=ot.code_out_prod_defect) q")
+                    Dim dtOutOthers As DataTable = Database.GetData("select isnull(sum(q.qty),0) from (select DISTINCT(d.code_out_prod_defect),ot.qty from stock_prod_others ot, out_prod_defect d where d.sub_sub_po='" & txtSummarySubSubPO.Text & "' and d.part_number='" & dttable.Rows(i).Item("component") & "' and d.code_out_prod_defect=ot.code_out_prod_defect) q")
                     Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutFG As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Result'")

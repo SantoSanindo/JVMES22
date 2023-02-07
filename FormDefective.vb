@@ -2977,8 +2977,8 @@ Public Class FormDefective
                         .Item(1, i).Value = dtOthers.Rows(i)("CODE_OUT_PROD_DEFECT")
                         .Item(2, i).Value = dtOthers.Rows(i)("code_stock_prod_others")
                         .Item(3, i).Value = dtOthers.Rows(i)("part_number")
-                        .Item(3, i).Value = dtOthers.Rows(i)("lot_no")
-                        .Item(4, i).Value = dtOthers.Rows(i)("qty")
+                        .Item(4, i).Value = dtOthers.Rows(i)("lot_no")
+                        .Item(5, i).Value = dtOthers.Rows(i)("qty")
                     Next
                 End If
 
@@ -3001,6 +3001,10 @@ Public Class FormDefective
             Try
                 Dim over As Boolean = False
                 Dim statusSimpan As Integer = 1
+                Dim qtyReject As Double
+
+                Dim rCode As String = RejectGenerateCode()
+
                 For i = 0 To DataGridView2.Rows.Count - 1
                     If DataGridView2.Rows(i).Cells(7).Value IsNot "" And DataGridView2.Rows(i).Cells(7).Value IsNot Nothing And DataGridView2.Rows(i).Cells(7).Value IsNot DBNull.Value Then
                         If IsNumeric(DataGridView2.Rows(i).Cells(7).Value) Then
@@ -3029,10 +3033,12 @@ Public Class FormDefective
                         If IsNumeric(DataGridView2.Rows(i).Cells(7).Value) Then
                             If DataGridView2.Rows(i).Cells(7).Value > 0 Then
                                 If DataGridView2.Rows(i).Cells(7).Value <= DataGridView2.Rows(i).Cells(6).Value Then
+                                    qtyReject = DataGridView2.Rows(i).Cells(6).Value - DataGridView2.Rows(i).Cells(7).Value
+
                                     Dim query As String = "select * from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
                                     Dim dtCheckStockOthers As DataTable = Database.GetData(query)
                                     If dtCheckStockOthers.Rows.Count > 0 Then
-                                        Dim sqlUpdateProcessProd As String = "update stock_prod_others set qty=" & DataGridView2.Rows(i).Cells(7).Value & " where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                        Dim sqlUpdateProcessProd As String = "update stock_prod_others set qty=" & DataGridView2.Rows(i).Cells(7).Value.ToString().Replace(",", ".") & " where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
                                         Dim cmdUpdateProcessProd = New SqlCommand(sqlUpdateProcessProd, Database.koneksi)
                                         If cmdUpdateProcessProd.ExecuteNonQuery() Then
                                             statusSimpan *= 1
@@ -3041,7 +3047,7 @@ Public Class FormDefective
                                         End If
                                     Else
                                         Dim sqlInsertOther As String = "INSERT INTO stock_prod_others (CODE_STOCK_PROD_OTHERS, PART_NUMBER, QTY,CODE_OUT_PROD_DEFECT,DEPARTMENT,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO)
-                                        values ('" & codeOther & "','" & DataGridView2.Rows(i).Cells(1).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "','" & txtLabelOtherPart.Text & "','" & globVar.department & "'," & DataGridView2.Rows(i).Cells(2).Value & ",'" & DataGridView2.Rows(i).Cells(3).Value & "','" & DataGridView2.Rows(i).Cells(5).Value & "','" & DataGridView2.Rows(i).Cells(4).Value & "')"
+                                        values ('" & codeOther & "','" & DataGridView2.Rows(i).Cells(1).Value & "','" & DataGridView2.Rows(i).Cells(7).Value.ToString().Replace(",", ".") & "','" & txtLabelOtherPart.Text & "','" & globVar.department & "'," & DataGridView2.Rows(i).Cells(2).Value & ",'" & DataGridView2.Rows(i).Cells(3).Value & "','" & DataGridView2.Rows(i).Cells(5).Value & "','" & DataGridView2.Rows(i).Cells(4).Value & "')"
                                         Dim cmdInsertOther = New SqlCommand(sqlInsertOther, Database.koneksi)
                                         If cmdInsertOther.ExecuteNonQuery() Then
                                             statusSimpan *= 1
@@ -3049,11 +3055,68 @@ Public Class FormDefective
                                             statusSimpan *= 0
                                         End If
                                     End If
+
+                                    Dim queryGetDefect As String = "select * from out_prod_reject where code_out_prod_defect='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                    Dim dtcheckGetDefect As DataTable = Database.GetData(queryGetDefect)
+
+                                    If qtyReject = 0 Then
+                                        If dtcheckGetDefect.Rows.Count > 0 Then
+                                            Dim queryDelete As String = "delete from out_prod_reject where id=" & dtcheckGetDefect.Rows(0).Item("id")
+                                            Dim dtDelete = New SqlCommand(queryDelete, Database.koneksi)
+                                            dtDelete.ExecuteNonQuery()
+                                        End If
+                                    Else
+                                        If dtcheckGetDefect.Rows.Count > 0 Then
+                                            Dim sqlupdateprocessprod As String = "update out_prod_reject set qty=" & qtyReject.ToString().Replace(",", ".") & " where id=" & dtcheckGetDefect.Rows(0).Item("id")
+                                            Dim cmdupdateprocessprod = New SqlCommand(sqlupdateprocessprod, Database.koneksi)
+                                            If cmdupdateprocessprod.ExecuteNonQuery() Then
+                                                statusSimpan *= 1
+                                            Else
+                                                statusSimpan *= 0
+                                            End If
+                                        Else
+                                            Dim sqlinsertother As String = "insert into out_prod_reject (code_out_prod_reject, sub_sub_po, fg_pn,part_number,lot_no,traceability,inv_ctrl_date,batch_no,qty,po,line,department,code_out_prod_defect)
+                                            select '" & rCode & "',sub_sub_po,fg_pn,part_number,lot_no,traceability,inv_ctrl_date,batch_no," & qtyReject.ToString().Replace(",", ".") & ",po,line,department,'" & txtLabelOtherPart.Text & "' from out_prod_defect where code_out_prod_defect='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "'"
+                                            Dim cmdinsertother = New SqlCommand(sqlinsertother, Database.koneksi)
+                                            If cmdinsertother.ExecuteNonQuery() Then
+                                                statusSimpan *= 1
+                                            Else
+                                                statusSimpan *= 0
+                                            End If
+                                        End If
+                                    End If
                                 Else
                                     MsgBox("The quantity cannot exceed the maximum quantity")
                                 End If
                             Else
+                                Dim queryGetOthers As String = "select * from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                Dim dtCheckStockOthers As DataTable = Database.GetData(queryGetOthers)
+                                If dtCheckStockOthers.Rows.Count > 0 Then
+                                    Dim queryDelete As String = "delete from stock_prod_others where id=" & dtCheckStockOthers.Rows(0).Item("id")
+                                    Dim dtDelete = New SqlCommand(queryDelete, Database.koneksi)
+                                    dtDelete.ExecuteNonQuery()
+                                End If
 
+                                Dim queryGetDefect As String = "select * from out_prod_reject where code_out_prod_defect='" & txtLabelOtherPart.Text & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "' and department='" & dept & "'"
+                                Dim dtcheckGetDefect As DataTable = Database.GetData(queryGetDefect)
+                                If dtcheckGetDefect.Rows.Count > 0 Then
+                                    Dim sqlupdateprocessprod As String = "update out_prod_reject set qty=" & DataGridView2.Rows(i).Cells(6).Value.ToString().Replace(",", ".") & " where id=" & dtcheckGetDefect.Rows(0).Item("id")
+                                    Dim cmdupdateprocessprod = New SqlCommand(sqlupdateprocessprod, Database.koneksi)
+                                    If cmdupdateprocessprod.ExecuteNonQuery() Then
+                                        statusSimpan *= 1
+                                    Else
+                                        statusSimpan *= 0
+                                    End If
+                                Else
+                                    Dim sqlinsertother As String = "insert into out_prod_reject (code_out_prod_reject, sub_sub_po, fg_pn,part_number,lot_no,traceability,inv_ctrl_date,batch_no,qty,po,line,department,code_out_prod_defect)
+                                            select '" & rCode & "',sub_sub_po,fg_pn,part_number,lot_no,traceability,inv_ctrl_date,batch_no," & DataGridView2.Rows(i).Cells(6).Value.ToString().Replace(",", ".") & ",po,line,department,'" & txtLabelOtherPart.Text & "' from out_prod_defect where code_out_prod_defect='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and part_number='" & DataGridView2.Rows(i).Cells(1).Value & "'"
+                                    Dim cmdinsertother = New SqlCommand(sqlinsertother, Database.koneksi)
+                                    If cmdinsertother.ExecuteNonQuery() Then
+                                        statusSimpan *= 1
+                                    Else
+                                        statusSimpan *= 0
+                                    End If
+                                End If
                             End If
                         Else
                             MessageBox.Show("this is not number -> " & DataGridView2.Rows(i).Cells(3).Value & ". Please change with number.")

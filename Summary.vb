@@ -9,24 +9,26 @@ Public Class Summary
         With DGSummary
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-            .ColumnCount = 15
+            .ColumnCount = 17
             .Columns(0).HeaderText = "No"
             .Columns(0).Width = 50
             .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             .Columns(1).HeaderText = "Sub Sub PO"
             .Columns(2).HeaderText = "FG"
             .Columns(3).HeaderText = "Mat"
-            .Columns(4).HeaderText = "In Fresh"
-            .Columns(5).HeaderText = "In Others"
-            .Columns(6).HeaderText = "In WIP"
-            .Columns(7).HeaderText = "In On Hold"
-            .Columns(8).HeaderText = "In Sub Assy"
-            .Columns(9).HeaderText = "Out Return"
-            .Columns(10).HeaderText = "Out Others"
-            .Columns(11).HeaderText = "Out WIP"
-            .Columns(12).HeaderText = "Out On Hold"
-            .Columns(13).HeaderText = "Out FG"
-            .Columns(14).HeaderText = "Out Balance"
+            .Columns(4).HeaderText = "Fresh"
+            .Columns(5).HeaderText = "Others"
+            .Columns(6).HeaderText = "WIP"
+            .Columns(7).HeaderText = "On Hold"
+            .Columns(8).HeaderText = "Sub Assy"
+            .Columns(9).HeaderText = "Sum Input"
+            .Columns(10).HeaderText = "Return"
+            .Columns(11).HeaderText = "Others"
+            .Columns(12).HeaderText = "WIP"
+            .Columns(13).HeaderText = "On Hold"
+            .Columns(14).HeaderText = "FG"
+            .Columns(15).HeaderText = "Balance"
+            .Columns(16).HeaderText = "Sum Output"
 
             For i As Integer = 0 To .ColumnCount - 1
                 .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -46,6 +48,8 @@ Public Class Summary
             Dim dttable As DataTable = Database.GetData(sqlStr)
 
             If dttable.Rows.Count > 0 Then
+                .Rows.Clear()
+
                 For i = 0 To dttable.Rows.Count - 1
                     Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='Fresh'")
                     Dim dtInOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='OT'")
@@ -54,7 +58,7 @@ Public Class Summary
                     Dim dtInSA As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='SA'")
 
                     Dim dtOutReturn As DataTable = Database.GetData("select isnull(sum(qty),0) from out_prod_reject where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
-                    Dim dtOutOthers As DataTable = Database.GetData("select isnull(sum(q.qty),0) from (select DISTINCT(d.code_out_prod_defect),ot.qty from stock_prod_others ot, out_prod_defect d where d.sub_sub_po='" & txtSummarySubSubPO.Text & "' and d.part_number='" & dttable.Rows(i).Item("component") & "' and d.code_out_prod_defect=ot.code_out_prod_defect) q")
+                    Dim dtOutOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_others where code_out_prod_defect=(select DISTINCT(code_out_prod_defect) from out_prod_defect where sub_sub_po='" & txtSummarySubSubPO.Text & "') and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutFG As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Result'")
@@ -70,13 +74,19 @@ Public Class Summary
                     .Item(6, i).Value = dtInWIP.Rows(0)(0)
                     .Item(7, i).Value = dtInOnHold.Rows(0)(0)
                     .Item(8, i).Value = dtInSA.Rows(0)(0)
-                    .Item(9, i).Value = dtOutReturn.Rows(0)(0)
-                    .Item(10, i).Value = dtOutOthers.Rows(0)(0)
-                    .Item(11, i).Value = dtOutWIP.Rows(0)(0)
-                    .Item(12, i).Value = dtOutOnHold.Rows(0)(0)
-                    .Item(13, i).Value = dtOutFG.Rows(0)(0)
-                    .Item(14, i).Value = dtOutBalance.Rows(0)(0)
+                    .Item(9, i).Value = dtInFresh.Rows(0)(0) + dtInOthers.Rows(0)(0) + dtInWIP.Rows(0)(0) + dtInOnHold.Rows(0)(0) + dtInSA.Rows(0)(0)
+                    .Item(9, i).Style.BackColor = Color.Green
+                    .Item(10, i).Value = dtOutReturn.Rows(0)(0)
+                    .Item(11, i).Value = dtOutOthers.Rows(0)(0)
+                    .Item(12, i).Value = dtOutWIP.Rows(0)(0)
+                    .Item(13, i).Value = dtOutOnHold.Rows(0)(0)
+                    .Item(14, i).Value = dtOutFG.Rows(0)(0)
+                    .Item(15, i).Value = dtOutBalance.Rows(0)(0)
+                    .Item(16, i).Value = dtOutReturn.Rows(0)(0) + dtOutOthers.Rows(0)(0) + dtOutWIP.Rows(0)(0) + dtOutOnHold.Rows(0)(0) + dtOutFG.Rows(0)(0) + dtOutBalance.Rows(0)(0)
+                    .Item(16, i).Style.BackColor = Color.Green
                 Next
+            Else
+                .Rows.Clear()
             End If
 
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders

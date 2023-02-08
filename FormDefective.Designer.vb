@@ -460,7 +460,7 @@ Partial Class FormDefective
         '
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -728,7 +728,7 @@ Partial Class FormDefective
         Me.btnRejectSave.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.btnRejectSave.Size = New System.Drawing.Size(162, 49)
         Me.btnRejectSave.TabIndex = 6
-        Me.btnRejectSave.Text = "Save"
+        Me.btnRejectSave.Text = "ADD (+)"
         Me.btnRejectSave.UseVisualStyleBackColor = False
         '
         'txtRejectMaterialPN
@@ -791,7 +791,7 @@ Partial Class FormDefective
         Me.btnRejectEdit.Name = "btnRejectEdit"
         Me.btnRejectEdit.Size = New System.Drawing.Size(162, 49)
         Me.btnRejectEdit.TabIndex = 7
-        Me.btnRejectEdit.Text = "Edit"
+        Me.btnRejectEdit.Text = "SUB (-)"
         Me.btnRejectEdit.UseVisualStyleBackColor = False
         '
         'dgReject
@@ -1019,7 +1019,7 @@ Partial Class FormDefective
         '
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4

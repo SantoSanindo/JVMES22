@@ -5,21 +5,35 @@
         '    Process.Start(updater.exe)
         'End If
 
+        buka_printer()
+
         TabControl1.TabPages.Clear()
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
-        _PrintingDefect.Show()
-        _PrintingDefect.Hide()
-        _PrintingFlowTicket.Show()
-        _PrintingFlowTicket.Hide()
-        _PrintingSubAssyRawMaterial.Show()
-        _PrintingSubAssyRawMaterial.Hide()
-        _PrintingWIPOnHold.Show()
-        _PrintingWIPOnHold.Hide()
+        ''_PrintingDefect.Show()
+        '_PrintingDefect.Hide()
+        '' _PrintingFlowTicket.Show()
+        '_PrintingFlowTicket.Hide()
+        ''_PrintingSubAssyRawMaterial.Show()
+        '_PrintingSubAssyRawMaterial.Hide()
+        '' _PrintingWIPOnHold.Show()
+        '_PrintingWIPOnHold.Hide()
 
         'QRCode.Baca("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
 
+    End Sub
+
+    Private Sub buka_printer()
+        TabControl1.TabPages.Clear()
+        TabControl1.TabPages.Add(_PrintingFlowTicket)
+        TabControl1.TabPages.Add(_PrintingDefect)
+        TabControl1.TabPages.Add(_PrintingSubAssyRawMaterial)
+        TabControl1.TabPages.Add(_PrintingWIPOnHold)
+        TabControl1.TabPages(_PrintingFlowTicket).Select()
+        TabControl1.TabPages(_PrintingDefect).Select()
+        TabControl1.TabPages(_PrintingSubAssyRawMaterial).Select()
+        TabControl1.TabPages(_PrintingWIPOnHold).Select()
     End Sub
 
     ' -----------------------Start Menu Master Data-------------------------'

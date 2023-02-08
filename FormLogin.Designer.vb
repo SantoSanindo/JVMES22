@@ -29,6 +29,7 @@ Partial Class FormLogin
         Me.btnKeluar = New System.Windows.Forms.Button()
         Me.btnLogin = New System.Windows.Forms.Button()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -102,11 +103,19 @@ Partial Class FormLogin
         Me.ComboBox1.Size = New System.Drawing.Size(366, 37)
         Me.ComboBox1.TabIndex = 6
         '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(478, 252)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(737, 20)
+        Me.TextBox1.TabIndex = 7
+        '
         'FormLogin
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1260, 666)
+        Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.txtPass)
         Me.Controls.Add(Me.btnKeluar)
@@ -132,4 +141,5 @@ Partial Class FormLogin
     Friend WithEvents btnKeluar As Button
     Friend WithEvents btnLogin As Button
     Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents TextBox1 As TextBox
 End Class

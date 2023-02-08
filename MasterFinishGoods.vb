@@ -56,8 +56,8 @@ Public Class MasterFinishGoods
         txt_dept.DataSource = dtMasterDepart
         txt_dept.DisplayMember = "department"
         txt_dept.ValueMember = "department"
-        txt_dept.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        txt_dept.AutoCompleteSource = AutoCompleteSource.ListItems
+        'txt_dept.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'txt_dept.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub MasterFinishGoods_Load(sender As Object, e As EventArgs) Handles Me.Load

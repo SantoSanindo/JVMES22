@@ -38,8 +38,8 @@ Public Class Users
         ComboBox2.DataSource = dtMasterDepart
         ComboBox2.DisplayMember = "department"
         ComboBox2.ValueMember = "department"
-        ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
+        'ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub Users_Load(sender As Object, e As EventArgs) Handles Me.Load

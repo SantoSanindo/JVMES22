@@ -28,8 +28,8 @@ Public Class MasterLine
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "department"
         ComboBox1.ValueMember = "department"
-        ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
+        'ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub DGV_MasterLine()

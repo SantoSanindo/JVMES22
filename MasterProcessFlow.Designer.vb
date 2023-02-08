@@ -138,6 +138,7 @@ Partial Class MasterProcessFlow
         '
         'cb_masterprocessflow
         '
+        Me.cb_masterprocessflow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cb_masterprocessflow.FormattingEnabled = True
         Me.cb_masterprocessflow.Location = New System.Drawing.Point(241, 25)
         Me.cb_masterprocessflow.Name = "cb_masterprocessflow"

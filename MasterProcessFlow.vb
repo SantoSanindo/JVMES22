@@ -88,8 +88,8 @@ Public Class MasterProcessFlow
         cb_masterprocessflow.DataSource = dtMasterFinishGoods
         cb_masterprocessflow.DisplayMember = "fg_part_number"
         cb_masterprocessflow.ValueMember = "fg_part_number"
-        cb_masterprocessflow.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cb_masterprocessflow.AutoCompleteSource = AutoCompleteSource.ListItems
+        'cb_masterprocessflow.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'cb_masterprocessflow.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

@@ -99,6 +99,7 @@ Partial Class StockMinistore
         '
         'ComboBox1
         '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"All", "Receive From Main Store", "Receive From Production", "Return To Main Store", "Return To Mini Store", "Production Request", "Production Process"})
         Me.ComboBox1.Location = New System.Drawing.Point(80, 26)
@@ -146,6 +147,7 @@ Partial Class StockMinistore
         '
         'ComboBox2
         '
+        Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Location = New System.Drawing.Point(653, 26)
         Me.ComboBox2.Name = "ComboBox2"

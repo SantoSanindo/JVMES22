@@ -229,12 +229,6 @@
     <Compile Include="StockMinistore.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockProd.Designer.vb">
-      <DependentUpon>StockProd.vb</DependentUpon>
-    </Compile>
-    <Compile Include="StockProd.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Summary.Designer.vb">
       <DependentUpon>Summary.vb</DependentUpon>
     </Compile>
@@ -339,9 +333,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StockMinistore.resx">
       <DependentUpon>StockMinistore.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockProd.resx">
-      <DependentUpon>StockProd.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Summary.resx">
       <DependentUpon>Summary.vb</DependentUpon>

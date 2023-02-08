@@ -49,8 +49,8 @@ Public Class MaterialUsageFinishGoods
         cb_masterfinishgoods_pn.DataSource = dtMasterFinishGoods
         cb_masterfinishgoods_pn.DisplayMember = "fg_part_number"
         cb_masterfinishgoods_pn.ValueMember = "fg_part_number"
-        cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
+        'cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub treeView_show()

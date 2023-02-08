@@ -320,7 +320,6 @@ C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.Production.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
-C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.StockProd.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.Users.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New._PrintingDefect.resources
 C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New._PrintingFlowTicket.resources

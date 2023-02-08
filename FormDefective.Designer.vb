@@ -460,7 +460,7 @@ Partial Class FormDefective
         '
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -1019,7 +1019,7 @@ Partial Class FormDefective
         '
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1533,7 +1533,7 @@ Partial Class FormDefective
         Me.btnBalanceAdd.Name = "btnBalanceAdd"
         Me.btnBalanceAdd.Size = New System.Drawing.Size(162, 49)
         Me.btnBalanceAdd.TabIndex = 9
-        Me.btnBalanceAdd.Text = "Save"
+        Me.btnBalanceAdd.Text = "ADD (+)"
         Me.btnBalanceAdd.UseVisualStyleBackColor = False
         '
         'txtBalanceQty
@@ -1698,7 +1698,7 @@ Partial Class FormDefective
         Me.btnBalanceEdit.Name = "btnBalanceEdit"
         Me.btnBalanceEdit.Size = New System.Drawing.Size(162, 49)
         Me.btnBalanceEdit.TabIndex = 10
-        Me.btnBalanceEdit.Text = "Edit"
+        Me.btnBalanceEdit.Text = "SUB (-)"
         Me.btnBalanceEdit.UseVisualStyleBackColor = False
         '
         'btnBalanceDelete

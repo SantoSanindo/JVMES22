@@ -26,28 +26,28 @@ Public Class Production
                     Dim ds As New DataSet
                     Dim yieldlose As Integer = 0
                     Dim usage As Integer = 0
-                    Dim splitQRCode() As String = TextBox1.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-                    Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
                     Dim targetQty As Integer = 0
 
-                    Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & splitQRCode1P(0) & "' and in_material.lot_no=" & splitQRCode1P(3) & " and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
+                    QRCode.Baca(TextBox1.Text)
+
+                    Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & globVar.QRCode_PN & "' and in_material.lot_no=" & globVar.QRCode_lot & " and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
                     Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
                     If dtCheckInStock.Rows.Count > 0 Then
-                        Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & splitQRCode1P(0) & "' and lot_no=" & splitQRCode1P(3) & " and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
+                        Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
                         Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
                         If dtCheckInStockNewRecord.Rows.Count > 0 Then
                             MessageBox.Show("Double Scan")
                             TextBox1.Text = ""
                             DGV_DOC()
                         Else
-                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty").ToString.Replace(",", ".") & ",@material='" & splitQRCode1P(0) & "',@lot_material='" & splitQRCode1P(3) & "'"
+                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty").ToString.Replace(",", ".") & ",@material='" & globVar.QRCode_PN & "',@lot_material='" & globVar.QRCode_lot & "'"
                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
 
                             TextBox1.Text = ""
                             DGV_DOC()
 
                             For i = 0 To DataGridView1.Rows.Count - 1
-                                If DataGridView1.Rows(i).Cells(1).Value = splitQRCode1P(0) Then
+                                If DataGridView1.Rows(i).Cells(1).Value = globVar.QRCode_PN Then
                                     DataGridView1.Rows(i).Cells(3).Selected = True
                                 End If
                             Next

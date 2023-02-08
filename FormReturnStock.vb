@@ -78,10 +78,9 @@ Public Class FormReturnStock
         Dim ds As New DataTable
 
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And Len(Me.txt_forminputstock_qrcode.Text) >= 64 Then
-            Dim splitQRCode() As String = txt_forminputstock_qrcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-            Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
+            QRCode.Baca(txt_forminputstock_qrcode.Text)
 
-            Dim sql As String = "SELECT * FROM STOCK_CARD where MATERIAL='" & splitQRCode1P(0) & "' and lot_no='" & splitQRCode1P(3) & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and department='" & globVar.department & "' and actual_qty>0"
+            Dim sql As String = "SELECT * FROM STOCK_CARD where MATERIAL='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and department='" & globVar.department & "' and actual_qty>0"
             adapter = New SqlDataAdapter(sql, Database.koneksi)
             adapter.Fill(ds)
 

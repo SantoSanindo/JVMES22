@@ -198,12 +198,6 @@
     <Compile Include="ProcessFlowMaterialUsage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTesting.Designer.vb">
-      <DependentUpon>frmTesting.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmTesting.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="PrintFlowTicket.Designer.vb">
       <DependentUpon>PrintFlowTicket.vb</DependentUpon>
     </Compile>
@@ -330,9 +324,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessFlowMaterialUsage.resx">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmTesting.resx">
-      <DependentUpon>frmTesting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintFlowTicket.resx">
       <DependentUpon>PrintFlowTicket.vb</DependentUpon>

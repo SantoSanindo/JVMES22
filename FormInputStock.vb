@@ -86,16 +86,15 @@ Public Class FormInputStock
             Dim ds As New DataTable
 
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And Len(Me.txt_forminputstock_qrcode.Text) >= 64 Then
-                Dim splitQRCode() As String = txt_forminputstock_qrcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-                Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
+                QRCode.Baca(txt_forminputstock_qrcode.Text)
 
-                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & splitQRCode1P(0) & "'"
+                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & globVar.QRCode_PN & "'"
                 adapter = New SqlDataAdapter(sql, Database.koneksi)
                 adapter.Fill(ds)
 
                 If ds.Rows.Count > 0 Then
 
-                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no=" & splitQRCode1P(3) & " AND MATERIAL='" & splitQRCode1P(0) & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no=" & globVar.QRCode_lot & " AND MATERIAL='" & globVar.QRCode_PN & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
                     Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                     If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -113,14 +112,14 @@ Public Class FormInputStock
                         Try
                             Dim StandartPack As String
 
-                            If ds.Rows(0).Item("STANDARD_QTY") = splitQRCode1P(1) Then
+                            If ds.Rows(0).Item("STANDARD_QTY") = globVar.QRCode_Qty Then
                                 StandartPack = "YES"
                             Else
                                 StandartPack = "NO"
                             End If
 
                             Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY)
-                                    VALUES (" & splitQRCode1P(0) & "," & splitQRCode1P(1) & "," & splitQRCode(2) & "," & splitQRCode1P(2) & "," & splitQRCode1P(3) & ",'" & splitQRCode1P(4) & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & splitQRCode1P(1) & ")"
+                                    VALUES (" & globVar.QRCode_PN & "," & globVar.QRCode_Qty & "," & globVar.QRCode_Inv & "," & globVar.QRCode_Traceability & "," & globVar.QRCode_lot & ",'" & globVar.QRCode_Batch & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & globVar.QRCode_Qty & ")"
                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                 txt_forminputstock_qrcode.Text = ""

@@ -68,10 +68,4 @@ Public Class FormLogin
         globVar.department = ComboBox1.Text
         HOME.LoginUser.Text = "Administrator - " & globVar.department
     End Sub
-
-    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
-        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
-            QRCode.Baca(TextBox1.Text)
-        End If
-    End Sub
 End Class

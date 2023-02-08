@@ -1663,17 +1663,17 @@ Public Class FormDefective
         If e.KeyCode = Keys.Enter Then
             Try
                 If txtSubSubPODefective.Text <> "" Then
-                    Dim splitQRCode() As String = txtBalanceBarcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-                    Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
 
-                    txtBalanceMaterialPN.Text = BalanceParsingMaterialPN(txtBalanceBarcode.Text)
-                    TextBox9.Text = splitQRCode1P(3)
+                    QRCode.Baca(txtBalanceBarcode.Text)
+
+                    txtBalanceMaterialPN.Text = globVar.QRCode_PN
+                    TextBox9.Text = globVar.QRCode_lot
 
                     Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Return To Mini Store' and actual_qty > 0 and department='" & globVar.department & "'"
                     Dim dttableProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
 
                     If dttableProductionProcess.Rows.Count = 0 Then
-                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no=" & splitQRCode1P(3)
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no=" & globVar.QRCode_lot
                         Dim dttable As DataTable = Database.GetData(queryCheck)
                         If dttable.Rows.Count > 0 Then
                             txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
@@ -1683,7 +1683,7 @@ Public Class FormDefective
                             txtBalanceMaterialPN.Clear()
                         End If
                     Else
-                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no=" & splitQRCode1P(3)
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no=" & globVar.QRCode_lot
                         Dim dttable As DataTable = Database.GetData(queryCheck)
                         If dttable.Rows.Count > 0 Then
                             txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
@@ -2311,14 +2311,13 @@ Public Class FormDefective
     Private Sub txtFGLabel_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGLabel.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
             Try
-                Dim splitQRCode() As String = txtFGLabel.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-                Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
+                QRCode.Baca(txtFGLabel.Text)
 
                 Dim intValue As Integer = 0
-                Integer.TryParse(splitQRCode1P(2), intValue)
+                Integer.TryParse(globVar.QRCode_PN, intValue)
                 txtTampungLabel.Text = intValue
-                txtINV.Text = splitQRCode(2)
-                txtBatchno.Text = splitQRCode1P(4)
+                txtINV.Text = globVar.QRCode_Inv
+                txtBatchno.Text = globVar.QRCode_Batch
 
                 If intValue.ToString = txtTampungFlow.Text Then
                     If rbFG.Checked = True Then
@@ -3994,16 +3993,15 @@ Public Class FormDefective
             Try
                 If txtSubSubPODefective.Text <> "" Then
 
-                    Dim splitQRCode() As String = txtRejectBarcode.Text.Split(New String() {"1P", "12D", "4L", "MLX"}, StringSplitOptions.None)
-                    Dim splitQRCode1P() As String = splitQRCode(1).Split(New String() {"Q", "S", "13Q", "B"}, StringSplitOptions.None)
+                    QRCode.Baca(txtRejectBarcode.Text)
 
-                    txtRejectMaterialPN.Text = BalanceParsingMaterialPN(txtRejectBarcode.Text)
+                    txtRejectMaterialPN.Text = globVar.QRCode_PN
 
-                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no=" & splitQRCode1P(3)
+                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no=" & globVar.QRCode_lot
                     Dim dttable As DataTable = Database.GetData(queryCheck)
                     If dttable.Rows.Count > 0 Then
                         loaddgReject(TextBox7.Text)
-                        TextBox4.Text = splitQRCode1P(3)
+                        TextBox4.Text = globVar.QRCode_lot
                     Else
                         MsgBox("This material Qty = 0 or this material not exist in DB.")
                         txtRejectBarcode.Clear()

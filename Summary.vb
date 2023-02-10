@@ -10,19 +10,17 @@ Public Class Summary
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
             .ColumnCount = 17
-            .Columns(0).HeaderText = "No"
-            .Columns(0).Width = 50
-            .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-            .Columns(1).HeaderText = "Sub Sub PO"
-            .Columns(2).HeaderText = "FG"
-            .Columns(3).HeaderText = "Mat"
-            .Columns(4).HeaderText = "Fresh"
-            .Columns(5).HeaderText = "Others"
-            .Columns(6).HeaderText = "WIP"
-            .Columns(7).HeaderText = "On Hold"
-            .Columns(8).HeaderText = "Sub Assy"
-            .Columns(9).HeaderText = "Sum Input"
-            .Columns(10).HeaderText = "Return"
+            .Columns(0).HeaderText = "Sub Sub PO"
+            .Columns(1).HeaderText = "FG"
+            .Columns(2).HeaderText = "Mat"
+            .Columns(3).HeaderText = "Fresh"
+            .Columns(4).HeaderText = "Others"
+            .Columns(5).HeaderText = "WIP"
+            .Columns(6).HeaderText = "On Hold"
+            .Columns(7).HeaderText = "Sub Assy"
+            .Columns(8).HeaderText = "Sum Input"
+            .Columns(9).HeaderText = "Return"
+            .Columns(10).HeaderText = "Defect"
             .Columns(11).HeaderText = "Others"
             .Columns(12).HeaderText = "WIP"
             .Columns(13).HeaderText = "On Hold"
@@ -58,6 +56,7 @@ Public Class Summary
                     Dim dtInSA As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='SA'")
 
                     Dim dtOutReturn As DataTable = Database.GetData("select isnull(sum(qty),0) from out_prod_reject where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
+                    Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_others where code_out_prod_defect in (select DISTINCT(code_out_prod_defect) from out_prod_defect where sub_sub_po='" & txtSummarySubSubPO.Text & "') and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
                     Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & txtSummarySubSubPO.Text & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
@@ -65,25 +64,29 @@ Public Class Summary
                     Dim dtOutBalance As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Return To Mini Store'")
 
                     .Rows.Add(1)
-                    .Item(0, i).Value = (i + 1).ToString()
-                    .Item(1, i).Value = txtSummarySubSubPO.Text
-                    .Item(2, i).Value = dttable.Rows(i).Item("fg_pn")
-                    .Item(3, i).Value = dttable.Rows(i).Item("component")
-                    .Item(4, i).Value = dtInFresh.Rows(0)(0)
-                    .Item(5, i).Value = dtInOthers.Rows(0)(0)
-                    .Item(6, i).Value = dtInWIP.Rows(0)(0)
-                    .Item(7, i).Value = dtInOnHold.Rows(0)(0)
-                    .Item(8, i).Value = dtInSA.Rows(0)(0)
-                    .Item(9, i).Value = dtInFresh.Rows(0)(0) + dtInOthers.Rows(0)(0) + dtInWIP.Rows(0)(0) + dtInOnHold.Rows(0)(0) + dtInSA.Rows(0)(0)
-                    .Item(9, i).Style.BackColor = Color.Green
-                    .Item(10, i).Value = dtOutReturn.Rows(0)(0)
+                    .Item(0, i).Value = txtSummarySubSubPO.Text
+                    .Item(1, i).Value = dttable.Rows(i).Item("fg_pn")
+                    .Item(2, i).Value = dttable.Rows(i).Item("component")
+                    .Item(3, i).Value = dtInFresh.Rows(0)(0)
+                    .Item(4, i).Value = dtInOthers.Rows(0)(0)
+                    .Item(5, i).Value = dtInWIP.Rows(0)(0)
+                    .Item(6, i).Value = dtInOnHold.Rows(0)(0)
+                    .Item(7, i).Value = dtInSA.Rows(0)(0)
+                    .Item(8, i).Value = dtInFresh.Rows(0)(0) + dtInOthers.Rows(0)(0) + dtInWIP.Rows(0)(0) + dtInOnHold.Rows(0)(0) + dtInSA.Rows(0)(0)
+                    .Item(8, i).Style.BackColor = Color.Green
+                    .Item(9, i).Value = dtOutReturn.Rows(0)(0)
+                    .Item(10, i).Value = dtOutDefect.Rows(0)(0)
                     .Item(11, i).Value = dtOutOthers.Rows(0)(0)
                     .Item(12, i).Value = dtOutWIP.Rows(0)(0)
                     .Item(13, i).Value = dtOutOnHold.Rows(0)(0)
                     .Item(14, i).Value = dtOutFG.Rows(0)(0)
                     .Item(15, i).Value = dtOutBalance.Rows(0)(0)
-                    .Item(16, i).Value = dtOutReturn.Rows(0)(0) + dtOutOthers.Rows(0)(0) + dtOutWIP.Rows(0)(0) + dtOutOnHold.Rows(0)(0) + dtOutFG.Rows(0)(0) + dtOutBalance.Rows(0)(0)
-                    .Item(16, i).Style.BackColor = Color.Green
+                    .Item(16, i).Value = Math.Floor(dtOutReturn.Rows(0)(0) + dtOutOthers.Rows(0)(0) + dtOutWIP.Rows(0)(0) + dtOutOnHold.Rows(0)(0) + dtOutFG.Rows(0)(0) + dtOutBalance.Rows(0)(0) + dtOutDefect.Rows(0)(0))
+                    If .Item(16, i).Value = .Item(8, i).Value Then
+                        .Item(16, i).Style.BackColor = Color.Green
+                    Else
+                        .Item(16, i).Style.BackColor = Color.Red
+                    End If
                 Next
             Else
                 .Rows.Clear()

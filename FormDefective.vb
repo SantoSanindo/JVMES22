@@ -1872,6 +1872,7 @@ Public Class FormDefective
                 DataGridView3.Columns.Clear()
 
                 btnSaveSADefect.Enabled = False
+                btnSaveSA.Enabled = False
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
                 btnPrintFGDefect.Enabled = False
@@ -1893,6 +1894,7 @@ Public Class FormDefective
                 TableLayoutPanel9.Enabled = False
 
                 btnSaveSADefect.Enabled = False
+                btnSaveSA.Enabled = False
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
                 btnPrintFGDefect.Enabled = False
@@ -1925,6 +1927,7 @@ Public Class FormDefective
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
                 btnSaveSADefect.Enabled = False
+                btnSaveSA.Enabled = False
                 btnPrintFGDefect.Enabled = False
                 btnPrintSADefect.Enabled = False
 
@@ -1947,6 +1950,7 @@ Public Class FormDefective
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
                 btnSaveSADefect.Enabled = False
+                btnSaveSA.Enabled = False
                 btnPrintFGDefect.Enabled = False
                 btnPrintSADefect.Enabled = False
             End If
@@ -1976,6 +1980,7 @@ Public Class FormDefective
                     btnSaveFGDefect.Enabled = False
                     btnSaveFG.Enabled = False
                     btnSaveSADefect.Enabled = False
+                    btnSaveSA.Enabled = False
                     btnPrintFGDefect.Enabled = False
                     btnPrintSADefect.Enabled = False
                 End If
@@ -1996,6 +2001,7 @@ Public Class FormDefective
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
                 btnSaveSADefect.Enabled = False
+                btnSaveSA.Enabled = False
                 btnPrintFGDefect.Enabled = False
                 btnPrintSADefect.Enabled = False
             End If
@@ -2017,6 +2023,7 @@ Public Class FormDefective
                     TableLayoutPanel9.Enabled = False
 
                     btnSaveSADefect.Enabled = False
+                    btnSaveSA.Enabled = False
                     btnSaveFGDefect.Enabled = False
                     btnSaveFG.Enabled = False
                     btnPrintFGDefect.Enabled = False
@@ -2036,6 +2043,7 @@ Public Class FormDefective
                 TableLayoutPanel9.Enabled = False
 
                 btnSaveSADefect.Enabled = False
+                btnSaveSA.Enabled = False
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
                 btnPrintFGDefect.Enabled = False
@@ -2111,16 +2119,13 @@ Public Class FormDefective
                 DataGridView1.Rows.Clear()
                 DataGridView1.Columns.Clear()
                 Call Database.koneksi_database()
-                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,opr.pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
-                'Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
 
+                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,isnull(opr.pengali,0) pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
                 Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
 
                 TextBox6.Text = dtFG.Rows(0).Item("LASER_CODE").ToString
 
                 With DataGridView3
-                    .Rows.Clear()
-
                     .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
                     .ColumnCount = 3
@@ -2148,6 +2153,8 @@ Public Class FormDefective
                             .Item(1, i).Value = dtProcess.Rows(i)("MASTER_PROCESS")
                             .Item(2, i).Value = dtProcess.Rows(i)("PENGALI")
                         Next
+                    Else
+                        .Rows.Clear()
                     End If
 
                     .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
@@ -2346,8 +2353,9 @@ Public Class FormDefective
 
                 Dim sResult As Integer = 0
                 Dim sFlowTicket = txtFGFlowTicket.Text.Split(";")
+                Dim sFlow_Ticket5 = sFlowTicket(5).Split(" of ")
 
-                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no=" & sFlowTicket(5)(0)
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no=" & sFlow_Ticket5(0)
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count > 0 Then
                     MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -2514,28 +2522,62 @@ Public Class FormDefective
 
     Private Sub btnSaveSADefect_Click(sender As Object, e As EventArgs) Handles btnSaveSADefect.Click
         If DataGridView3.Rows.Count > 0 Then
+            If txtStatusSubSubPO.Text = "Closed" Then
+                MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                Exit Sub
+            End If
+
+            Dim sResult As Integer = 0
+            Dim sFlowTicket = txtSAFlowTicket.Text.Split(";")
+            Dim sFlow_Ticket5 = sFlowTicket(5).Split(" of ")
+
+            Dim queryCheckDoneFG As String = "select * from STOCK_PROD_SUB_ASSY where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no=" & sFlow_Ticket5(0)
+            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+            If dtCheckDoneFG.Rows.Count > 0 Then
+                MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                ClearInputFG()
+                Exit Sub
+            End If
+
             Try
                 For i = 0 To DataGridView3.Rows.Count - 1
                     Dim doWhile As String = ""
                     If DataGridView3.Rows(i).Cells(2).Value IsNot "" And DataGridView3.Rows(i).Cells(2).Value IsNot Nothing And DataGridView3.Rows(i).Cells(2).Value IsNot DBNull.Value Then
                         If IsNumeric(DataGridView3.Rows(i).Cells(2).Value) Then
-                            Dim query As String = "select * from master_process_flow where master_process='" & DataGridView3.Rows(i).Cells(1).Value & "'"
-                            Dim dtMasterProcessFlow As DataTable = Database.GetData(query)
-                            Dim numberInt As Integer = dtMasterProcessFlow.Rows(0).Item("ID") - 1
-                            If dtMasterProcessFlow.Rows.Count > 0 Then
-                                If IsDBNull(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE")) = False Then
-                                    funcInsertReject(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE"), DataGridView3.Rows(i).Cells(2).Value, DataGridView3.Rows(i).Cells(1).Value, 0, txtSAFlowTicket.Text)
-                                Else
-                                    Do While doWhile Is ""
-                                        Dim queryKosong As String = "select * from master_process_flow where ID=" & numberInt
+                            If Convert.ToInt32(DataGridView3.Rows(i).Cells(2).Value) > 0 Then
+                                Dim query As String = "select * from master_process_flow where master_process='" & DataGridView3.Rows(i).Cells(1).Value & "' and master_finish_goods_pn='" & cbFGPN.Text & "'"
+                                Dim dtMasterProcessFlow As DataTable = Database.GetData(query)
+                                Dim numberInt As Integer = dtMasterProcessFlow.Rows(0).Item("ID")
+                                If dtMasterProcessFlow.Rows.Count > 0 Then
+                                    If IsDBNull(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                        sResult = funcInsertReject(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE"), DataGridView3.Rows(i).Cells(2).Value, DataGridView3.Rows(i).Cells(1).Value, 0, txtSAFlowTicket.Text)
+                                    Else
+                                        Dim queryKosong As String = "select * from master_process_flow where master_finish_goods_pn='" & cbFGPN.Text & "' order by id"
                                         Dim dtKosong As DataTable = Database.GetData(queryKosong)
-                                        If IsDBNull(dtKosong.Rows(0).Item("MATERIAL_USAGE")) = False Then
-                                            doWhile = dtKosong.Rows(0).Item("MATERIAL_USAGE")
-                                        Else
-                                            numberInt = dtKosong.Rows(0).Item("ID") - 1
-                                        End If
-                                    Loop
-                                    funcInsertReject(doWhile, DataGridView3.Rows(i).Cells(2).Value, DataGridView3.Rows(i).Cells(1).Value, 0, txtSAFlowTicket.Text)
+                                        Do While doWhile Is ""
+                                            Dim queryGetMaterialUsage As String = "select * from master_process_flow where ID=" & numberInt
+                                            Dim dtKosongGetMaterialUsage As DataTable = Database.GetData(queryGetMaterialUsage)
+                                            If numberInt <= dtKosong.Rows(0).Item("ID") Then
+                                                doWhile = "Kosong-" & DataGridView3.Rows(i).Cells(1).Value
+                                                DataGridView3.Rows(i).Cells(2).Value = 0
+                                            Else
+                                                If IsDBNull(dtKosong.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                                    doWhile = dtKosongGetMaterialUsage.Rows(0).Item("MATERIAL_USAGE")
+                                                Else
+                                                    numberInt = dtKosongGetMaterialUsage.Rows(0).Item("ID") - 1
+                                                End If
+                                            End If
+                                        Loop
+                                        sResult = funcInsertReject(doWhile, DataGridView3.Rows(i).Cells(2).Value, DataGridView3.Rows(i).Cells(1).Value, 0, txtSAFlowTicket.Text)
+                                    End If
+                                End If
+                            Else
+                                Dim queryCheckDefect As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and process_reject='" & DataGridView3.Rows(i).Cells(1).Value & "' and flow_ticket_no='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and pengali > 0 and input_from_fg=0"
+                                Dim dtCheckDefect As DataTable = Database.GetData(queryCheckDefect)
+                                If dtCheckDefect.Rows.Count > 0 Then
+                                    For d = 0 To dtCheckDefect.Rows.Count - 1
+                                        sResult = funcDeleteReject(dtCheckDefect.Rows(d).Item("id"), dtCheckDefect.Rows(d).Item("part_number"), dtCheckDefect.Rows(d).Item("lot_no"), dtCheckDefect.Rows(d).Item("qty"), sFlowTicket(5))
+                                    Next
                                 End If
                             End If
                         Else
@@ -2543,14 +2585,114 @@ Public Class FormDefective
                         End If
                     End If
                 Next
+
+                If sResult > 0 Then
+                    MessageBox.Show("Success Save data!!!")
+                    loadSA(cbFGPN.Text, txtSAFlowTicket.Text)
+                Else
+                    MessageBox.Show("Fail Save data!!!")
+                End If
+
             Catch ex As Exception
                 MsgBox("Error - ERDEF2" & ex.Message)
             End Try
         End If
     End Sub
 
-    Private Sub btnSaveSA_Click(sender As Object, e As EventArgs) Handles btnSaveSA.Click
+    Public Sub BandingkanJam(ByVal jamSekarang As TimeSpan)
+        If jamSekarang >= globVar.shift1Awal AndAlso jamSekarang <= globVar.shift1Akhir Then
+            globVar.shift = "1"
+        ElseIf jamSekarang >= globVar.shift2Awal AndAlso jamSekarang <= globVar.shift2Akhir Then
+            globVar.shift = "2"
+        ElseIf jamSekarang >= globVar.shift3Awal AndAlso jamSekarang <= globVar.shift3Akhir Then
+            globVar.shift = "3"
+        End If
+    End Sub
 
+    Private Sub btnSaveSA_Click(sender As Object, e As EventArgs) Handles btnSaveSA.Click
+        Dim sResult As Integer = 1
+        Dim sFlowTicket = txtSAFlowTicket.Text.Split(";")
+        Dim sLine = cbLineNumber.Text.Split(" ")
+        Dim codeSubassy As String = ""
+
+        If txtStatusSubSubPO.Text = "Closed" Then
+            MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+            Exit Sub
+        End If
+
+        Dim result = MessageBox.Show("Are you sure for save Sub Assy. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+
+        BandingkanJam(DateTime.Now.TimeOfDay)
+
+        Dim tahun As Integer = DateTime.Now.Year
+        Dim digitTerakhir As Integer = tahun Mod 10
+
+        Dim now As DateTime = DateTime.Now
+        Dim dateString As String = now.ToString("yyyyMMdd")
+
+        If sLine(1) < 9 Then
+            sLine(1) = "0" & sLine(1)
+        End If
+
+        Dim batchFormat = "JV" & digitTerakhir & now.ToString("MMdd") & sLine(1) & globVar.shift
+
+        Dim queryCount As String = "select DISTINCT(code_stock_prod_sub_assy) from stock_prod_sub_assy"
+        Dim dtCount As DataTable = Database.GetData(queryCount)
+        codeSubassy = "SA" & dtCount.Rows.Count + 1
+
+        If result = DialogResult.Yes Then
+            Dim queryCheckDoneFG As String = "select * from stock_prod_sub_assy where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "'"
+            Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
+            If dtCheckDoneFG.Rows.Count = 0 Then
+                Dim sqlInsertRejectPN As String = "INSERT INTO stock_prod_sub_assy (code_stock_prod_sub_assy, po, sub_sub_po, FG ,FLOW_TICKET,DEPARTMENT,laser_code, LOT_NO, qty,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,line)
+                VALUES ('" & codeSubassy & "','" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & sFlowTicket(5) & "','" & globVar.department & "',
+                '" & TextBox6.Text & "'," & sFlowTicket(5)(0) & "," & txtSPQ.Text & ",'" & cbPONumber.Text & "','" & dateString & "','" & batchFormat & "','" & cbLineNumber.Text & "')"
+                Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                If cmdInsertRejectPN.ExecuteNonQuery() Then
+                    Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
+                    Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
+                    If dtCheckProductionProcess.Rows.Count > 0 Then
+                        For i = 0 To dtCheckProductionProcess.Rows.Count - 1
+                            Dim queryInsertResultProduction As String = "insert into stock_card([MTS_NO],[DEPARTMENT],[MATERIAL],[STATUS],[STANDARD_PACK],[INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],
+                                [FINISH_GOODS_PN],[PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QTY],[ACTUAL_QTY],[ID_LEVEL],[LEVEL],[FLOW_TICKET]) 
+                                select [MTS_NO],[DEPARTMENT],[MATERIAL],'Production Result','NO',[INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],
+                                [FINISH_GOODS_PN],[PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[ACTUAL_QTY],[ACTUAL_QTY],[ID_LEVEL],'SA',[FLOW_TICKET] 
+                                from stock_card where id=" & dtCheckProductionProcess.Rows(i).Item("id")
+                            Dim dtInsertResultProduction = New SqlCommand(queryInsertResultProduction, Database.koneksi)
+                            If dtInsertResultProduction.ExecuteNonQuery() Then
+                                Dim queryUpdateStockCardProdReq As String = "update stock_card set sum_qty=sum_qty-" & dtCheckProductionProcess.Rows(i).Item("actual_qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckProductionProcess.Rows(i).Item("lot_no") & " AND ID_LEVEL='" & dtCheckProductionProcess.Rows(i).Item("ID_LEVEL") & "'"
+                                Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                dtUpdateStockCardProdReq.ExecuteNonQuery()
+
+                                Dim queryDeleteStockCardProdProcess As String = "delete from stock_card where id=" & dtCheckProductionProcess.Rows(i).Item("id")
+                                Dim dtDeleteStockCardProdProcess = New SqlCommand(queryDeleteStockCardProdProcess, Database.koneksi)
+                                dtDeleteStockCardProdProcess.ExecuteNonQuery()
+
+                                Dim queryUpdateFlowTicket As String = "update flow_ticket set done=1 where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "'"
+                                Dim dtUpdateFlowTicket = New SqlCommand(queryUpdateFlowTicket, Database.koneksi)
+                                If dtUpdateFlowTicket.ExecuteNonQuery() Then
+                                    sResult *= 1
+                                Else
+                                    sResult *= 0
+                                End If
+                            End If
+                        Next
+                    End If
+                End If
+
+                If sResult > 0 Then
+                    MessageBox.Show("Success Save FG data!!!")
+                    ClearInputFG()
+                    UpdateQtySubSubPO()
+                Else
+                    MessageBox.Show("Fail Save FG data!!!")
+                End If
+            Else
+                MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                ClearInputFG()
+                UpdateQtySubSubPO()
+            End If
+        End If
     End Sub
 
     Public Function GetStockCard(pn As String, qty As Integer) As String
@@ -2581,7 +2723,6 @@ Public Class FormDefective
             Else
                 sReturnValue = "Kosong"
             End If
-
         Next
         Return sReturnValue
     End Function
@@ -2667,6 +2808,10 @@ Public Class FormDefective
 
     Function funcInsertReject(pn As String, qty As Integer, process As String, input_from_fg As Integer, sFlowTicket As String)
         Try
+            If pn.Split("-")(0) = "Kosong" Then
+                MsgBox("Sorry, the " & pn.Split("-")(1) & " does not use any material")
+                Exit Function
+            End If
             Dim sResult As Integer = 1
             Dim sTampung As String = GetStockCard(pn, qty)
             If sTampung <> "" And sTampung <> "Kosong" Then
@@ -2682,7 +2827,7 @@ Public Class FormDefective
                 Dim i As Integer = 0
                 Dim addQty As Double
 
-                Dim queryGetExistingDB As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=1"
+                Dim queryGetExistingDB As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=" & input_from_fg
                 Dim dtGetGetExistingDB As DataTable = Database.GetData(queryGetExistingDB)
 
                 If dtGetGetExistingDB.Rows.Count > 0 Then
@@ -2869,6 +3014,7 @@ Public Class FormDefective
                 btnPrintSADefect.Enabled = True
                 DataGridView3.Enabled = True
                 txtSAFlowTicket.ReadOnly = True
+                btnSaveSA.Enabled = True
             End If
         End If
     End Sub
@@ -3320,6 +3466,7 @@ Public Class FormDefective
         btnPrintSADefect.Enabled = False
         btnSaveFGDefect.Enabled = False
         btnSaveSA.Enabled = False
+        btnSaveSADefect.Enabled = False
     End Sub
 
     Public Sub btnPrintWIP_Click(sender As Object, e As EventArgs) Handles btnPrintWIP.Click
@@ -3782,6 +3929,16 @@ Public Class FormDefective
             Else
                 _dQtyReject = txtRejectQty.Text
                 _sPNReject = TextBox7.Text
+            End If
+
+            If Convert.ToDouble(txtRejectQty.Text) > Convert.ToDouble(TextBox5.Text) Then
+                MsgBox("Sorry. The result of the subtraction is < 0")
+                Exit Sub
+            End If
+
+            If Convert.ToDouble(txtRejectQty.Text) = Convert.ToDouble(TextBox5.Text) Then
+                MsgBox("Sorry. The quantity is the same with exists. If you want to delete, please use the delete button")
+                Exit Sub
             End If
 
             If txtStatusSubSubPO.Text = "Closed" Then

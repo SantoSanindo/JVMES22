@@ -8,12 +8,12 @@ Public Class MasterFinishGoods
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Call Database.koneksi_database()
-        If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" And txt_laser.Text <> "" Then
+        If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" Then
             If IsNumeric(txt_spq.Text) Then
-                Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_pn.Text & "'"
+                Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_pn.Text & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
                 If dtCheck.Rows.Count > 0 Then
-                    MessageBox.Show("Material Exist")
+                    MessageBox.Show("Finish Goods Already Exist")
                 Else
                     Try
                         Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE) VALUES ('" & txt_pn.Text & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & txt_desc.Text & "'," & txt_spq.Text & ",'" & txt_laser.Text & "')"

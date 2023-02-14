@@ -12,6 +12,17 @@
     Public Shared QRCode_lot As String
     Public Shared QRCode_Country As String
 
+    Public Shared shift As String
+
+    Public Shared shift1Awal As New TimeSpan(7, 0, 1)
+    Public Shared shift1Akhir As New TimeSpan(15, 0, 0)
+
+    Public Shared shift2Awal As New TimeSpan(15, 0, 1)
+    Public Shared shift2Akhir As New TimeSpan(23, 0, 0)
+
+    Public Shared shift3Awal As New TimeSpan(23, 0, 1)
+    Public Shared shift3Akhir As New TimeSpan(7, 0, 0)
+
 End Class
 
 

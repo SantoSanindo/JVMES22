@@ -454,7 +454,7 @@ Partial Class FormDefective
         '
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -732,7 +732,6 @@ Partial Class FormDefective
         Me.txtRejectMaterialPN.Name = "txtRejectMaterialPN"
         Me.txtRejectMaterialPN.Size = New System.Drawing.Size(26, 35)
         Me.txtRejectMaterialPN.TabIndex = 8
-        Me.txtRejectMaterialPN.Visible = False
         '
         'TextBox4
         '
@@ -740,7 +739,6 @@ Partial Class FormDefective
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(26, 35)
         Me.TextBox4.TabIndex = 9
-        Me.TextBox4.Visible = False
         '
         'TextBox5
         '
@@ -748,7 +746,6 @@ Partial Class FormDefective
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(26, 35)
         Me.TextBox5.TabIndex = 10
-        Me.TextBox5.Visible = False
         '
         'TableLayoutPanel21
         '
@@ -1013,7 +1010,7 @@ Partial Class FormDefective
         '
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4

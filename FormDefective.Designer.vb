@@ -240,6 +240,7 @@ Partial Class FormDefective
         Me.txtStatusSubSubPO.Name = "txtStatusSubSubPO"
         Me.txtStatusSubSubPO.Size = New System.Drawing.Size(100, 20)
         Me.txtStatusSubSubPO.TabIndex = 26
+        Me.txtStatusSubSubPO.Visible = False
         '
         'txtSPQ
         '
@@ -247,6 +248,7 @@ Partial Class FormDefective
         Me.txtSPQ.Name = "txtSPQ"
         Me.txtSPQ.Size = New System.Drawing.Size(100, 20)
         Me.txtSPQ.TabIndex = 24
+        Me.txtSPQ.Visible = False
         '
         'cbFGPN
         '
@@ -329,6 +331,7 @@ Partial Class FormDefective
         Me.txtTampungFlow.Name = "txtTampungFlow"
         Me.txtTampungFlow.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungFlow.TabIndex = 15
+        Me.txtTampungFlow.Visible = False
         '
         'txtTampungLabel
         '
@@ -336,6 +339,7 @@ Partial Class FormDefective
         Me.txtTampungLabel.Name = "txtTampungLabel"
         Me.txtTampungLabel.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungLabel.TabIndex = 14
+        Me.txtTampungLabel.Visible = False
         '
         'txtINV
         '
@@ -343,6 +347,7 @@ Partial Class FormDefective
         Me.txtINV.Name = "txtINV"
         Me.txtINV.Size = New System.Drawing.Size(100, 20)
         Me.txtINV.TabIndex = 13
+        Me.txtINV.Visible = False
         '
         'txtBatchno
         '
@@ -350,6 +355,7 @@ Partial Class FormDefective
         Me.txtBatchno.Name = "txtBatchno"
         Me.txtBatchno.Size = New System.Drawing.Size(100, 20)
         Me.txtBatchno.TabIndex = 12
+        Me.txtBatchno.Visible = False
         '
         'Label4
         '
@@ -732,6 +738,7 @@ Partial Class FormDefective
         Me.txtRejectMaterialPN.Name = "txtRejectMaterialPN"
         Me.txtRejectMaterialPN.Size = New System.Drawing.Size(26, 35)
         Me.txtRejectMaterialPN.TabIndex = 8
+        Me.txtRejectMaterialPN.Visible = False
         '
         'TextBox4
         '
@@ -739,6 +746,7 @@ Partial Class FormDefective
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(26, 35)
         Me.TextBox4.TabIndex = 9
+        Me.TextBox4.Visible = False
         '
         'TextBox5
         '
@@ -746,6 +754,7 @@ Partial Class FormDefective
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(26, 35)
         Me.TextBox5.TabIndex = 10
+        Me.TextBox5.Visible = False
         '
         'TableLayoutPanel21
         '

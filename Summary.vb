@@ -72,7 +72,7 @@ Public Class Summary
                     .Item(5, i).Value = dtInWIP.Rows(0)(0)
                     .Item(6, i).Value = dtInOnHold.Rows(0)(0)
                     .Item(7, i).Value = dtInSA.Rows(0)(0)
-                    .Item(8, i).Value = dtInFresh.Rows(0)(0) + dtInOthers.Rows(0)(0) + dtInWIP.Rows(0)(0) + dtInOnHold.Rows(0)(0) + dtInSA.Rows(0)(0)
+                    .Item(8, i).Value = Math.Round(dtInFresh.Rows(0)(0) + dtInOthers.Rows(0)(0) + dtInWIP.Rows(0)(0) + dtInOnHold.Rows(0)(0) + dtInSA.Rows(0)(0))
                     .Item(8, i).Style.BackColor = Color.Green
                     .Item(9, i).Value = dtOutReturn.Rows(0)(0)
                     .Item(10, i).Value = dtOutDefect.Rows(0)(0)
@@ -81,7 +81,7 @@ Public Class Summary
                     .Item(13, i).Value = dtOutOnHold.Rows(0)(0)
                     .Item(14, i).Value = dtOutFG.Rows(0)(0)
                     .Item(15, i).Value = dtOutBalance.Rows(0)(0)
-                    .Item(16, i).Value = Math.Floor(dtOutReturn.Rows(0)(0) + dtOutOthers.Rows(0)(0) + dtOutWIP.Rows(0)(0) + dtOutOnHold.Rows(0)(0) + dtOutFG.Rows(0)(0) + dtOutBalance.Rows(0)(0) + dtOutDefect.Rows(0)(0))
+                    .Item(16, i).Value = Math.Round(dtOutReturn.Rows(0)(0) + dtOutOthers.Rows(0)(0) + dtOutWIP.Rows(0)(0) + dtOutOnHold.Rows(0)(0) + dtOutFG.Rows(0)(0) + dtOutBalance.Rows(0)(0) + dtOutDefect.Rows(0)(0))
                     If .Item(16, i).Value = .Item(8, i).Value Then
                         .Item(16, i).Style.BackColor = Color.Green
                     Else

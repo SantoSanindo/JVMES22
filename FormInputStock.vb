@@ -66,6 +66,14 @@ Public Class FormInputStock
                 Else
                     dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
                 End If
+
+                Dim queryMaterial As String = "SELECT standard_qty FROM master_material WHERE part_number='" & dgv_forminputstock.Rows(i).Cells(1).Value & "'"
+                Dim dtMaterial As DataTable = Database.GetData(queryMaterial)
+
+                If dtMaterial.Rows(0).Item(0) = dgv_forminputstock.Rows(i).Cells(6).Value Then
+                    dgv_forminputstock.Rows(i).Cells(6).Style.BackColor = Color.Green
+                End If
+
             Next i
 
             If dtCheckLock.Rows.Count > 0 Then

@@ -22,7 +22,7 @@ Partial Class MasterFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_template = New System.Windows.Forms.Button()
@@ -31,7 +31,6 @@ Partial Class MasterFinishGoods
         Me.txt_spq = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.txt_level = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txt_pn = New System.Windows.Forms.TextBox()
@@ -46,6 +45,7 @@ Partial Class MasterFinishGoods
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.txt_level = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_finish_goods, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -55,6 +55,7 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.txt_level)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_template)
         Me.GroupBox1.Controls.Add(Me.txt_dept)
@@ -62,7 +63,6 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Controls.Add(Me.txt_spq)
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Label6)
-        Me.GroupBox1.Controls.Add(Me.txt_level)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.txt_pn)
@@ -146,13 +146,6 @@ Partial Class MasterFinishGoods
         Me.Label6.Size = New System.Drawing.Size(64, 29)
         Me.Label6.TabIndex = 14
         Me.Label6.Text = "SPQ"
-        '
-        'txt_level
-        '
-        Me.txt_level.Location = New System.Drawing.Point(498, 90)
-        Me.txt_level.Name = "txt_level"
-        Me.txt_level.Size = New System.Drawing.Size(227, 35)
-        Me.txt_level.TabIndex = 13
         '
         'Label5
         '
@@ -242,14 +235,14 @@ Partial Class MasterFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_finish_goods.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_finish_goods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_finish_goods.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 152)
@@ -290,6 +283,16 @@ Partial Class MasterFinishGoods
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'txt_level
+        '
+        Me.txt_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.txt_level.FormattingEnabled = True
+        Me.txt_level.Items.AddRange(New Object() {"FG", "Sub Assy"})
+        Me.txt_level.Location = New System.Drawing.Point(498, 90)
+        Me.txt_level.Name = "txt_level"
+        Me.txt_level.Size = New System.Drawing.Size(227, 37)
+        Me.txt_level.TabIndex = 21
+        '
         'MasterFinishGoods
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -308,7 +311,6 @@ Partial Class MasterFinishGoods
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents txt_level As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents txt_pn As TextBox
@@ -330,4 +332,5 @@ Partial Class MasterFinishGoods
     Friend WithEvents btn_ex_template As Button
     Friend WithEvents btn_export_template As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents txt_level As ComboBox
 End Class

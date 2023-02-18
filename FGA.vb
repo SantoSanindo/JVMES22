@@ -11,7 +11,10 @@ Public Class FGA
 
     Private Sub FGA_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBoxInspector()
-        tampilDataComboBoxPacker()
+        tampilDataComboBoxPacker1()
+        tampilDataComboBoxPacker2()
+        tampilDataComboBoxPacker3()
+        tampilDataComboBoxPacker4()
 
         ComboBox1.Enabled = False
         ComboBox2.Enabled = False
@@ -33,7 +36,7 @@ Public Class FGA
         ComboBox1.SelectedIndex = -1
     End Sub
 
-    Sub tampilDataComboBoxPacker()
+    Sub tampilDataComboBoxPacker1()
         Call Database.koneksi_database()
         Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
 
@@ -41,22 +44,36 @@ Public Class FGA
         ComboBox2.DisplayMember = "NAME"
         ComboBox2.ValueMember = "NAME"
         ComboBox2.SelectedIndex = -1
+    End Sub
+
+    Sub tampilDataComboBoxPacker2()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
 
         ComboBox3.DataSource = dtMasterDepart
-        ComboBox3.DisplayMember = "NAME"
-        ComboBox3.ValueMember = "NAME"
+        ComboBox3.DisplayMember = "name"
+        ComboBox3.ValueMember = "name"
         ComboBox3.SelectedIndex = -1
+    End Sub
+
+    Sub tampilDataComboBoxPacker3()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
 
         ComboBox4.DataSource = dtMasterDepart
         ComboBox4.DisplayMember = "NAME"
         ComboBox4.ValueMember = "NAME"
         ComboBox4.SelectedIndex = -1
+    End Sub
+
+    Sub tampilDataComboBoxPacker4()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
 
         ComboBox5.DataSource = dtMasterDepart
         ComboBox5.DisplayMember = "NAME"
         ComboBox5.ValueMember = "NAME"
         ComboBox5.SelectedIndex = -1
-
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

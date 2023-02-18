@@ -90,7 +90,7 @@ Partial Class Users
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"ADMIN", "LEADER", "INSPECTOR", "OPERATOR_MINISTORE", "OPERATOR_PRODUCTION", "OPERATOR_PACKING"})
+        Me.ComboBox1.Items.AddRange(New Object() {"ADMIN", "LEADER", "INSPECTOR", "OPERATOR MINISTORE", "OPERATOR PRODUCTION", "OPERATOR PACKING"})
         Me.ComboBox1.Location = New System.Drawing.Point(962, 28)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(415, 37)

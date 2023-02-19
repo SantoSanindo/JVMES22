@@ -180,8 +180,8 @@ Public Class AddChangeOperator
                 If dtDOPDetailCount.Rows(0).Item(0) = 0 Then
                     For i As Integer = 0 To dtProdDOP.Rows.Count - 1
                         For j As Integer = 0 To totalLot - 1
-                            Dim sqlInsertDOPDetails As String = "INSERT INTO prod_dop_details (sub_sub_po, process, operator, lot_flow_ticket, DEPARTMENT)
-                    VALUES ('" & TextBox17.Text & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & dtProdDOP.Rows(i).Item("operator_id") & "'," & j + 1 & ",'" & globVar.department & "')"
+                            Dim sqlInsertDOPDetails As String = "INSERT INTO prod_dop_details (sub_sub_po, process, operator, lot_flow_ticket, DEPARTMENT, PROCESS_NUMBER)
+                    VALUES ('" & TextBox17.Text & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & dtProdDOP.Rows(i).Item("operator_id") & "'," & j + 1 & ",'" & globVar.department & "'," & dtProdDOP.Rows(i).Item("order") & ")"
                             Dim cmdInsertDOPDetails = New SqlCommand(sqlInsertDOPDetails, Database.koneksi)
                             If cmdInsertDOPDetails.ExecuteNonQuery() Then
                                 TabControl1.SelectedTab = TabPage1
@@ -193,6 +193,8 @@ Public Class AddChangeOperator
                 End If
 
             End If
+            TabControl1.SelectedIndex = 0
+            TabControl1.SelectedIndex = 1
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
@@ -229,6 +231,12 @@ Public Class AddChangeOperator
                             varProcess = varProcess + ",[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
                         End If
                     Next
+
+                    If varProcess = "" Then
+                        MsgBox("If you want to change the operator, please use the 'change operator' button.")
+                        TabControl1.SelectedIndex = 0
+                        Exit Sub
+                    End If
 
                     Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table"
                     Dim dtDOP As DataTable = Database.GetData(query)

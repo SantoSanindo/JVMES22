@@ -76,7 +76,7 @@ Public Class ProductionRequest
                     MessageBox.Show("Production no need for this Part Number.")
                     TextBox1.Text = ""
                 Else
-                    Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0"
+                    Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
                     Dim dtCheckStockMinistore As DataTable = Database.GetData(sqlCheckStockMinistore)
                     If dtCheckStockMinistore.Rows.Count > 0 Then
                         Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"

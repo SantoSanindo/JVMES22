@@ -2064,7 +2064,7 @@ Public Class FormDefective
                 DataGridView1.Columns.Clear()
                 Call Database.koneksi_database()
 
-                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,isnull(opr.pengali,0) pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
+                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,isnull(opr.pengali,0) pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' and mpf.master_process is not null GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
                 Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
 
                 TextBox3.Text = dtFG.Rows(0).Item("LASER_CODE").ToString
@@ -2367,38 +2367,47 @@ Public Class FormDefective
 
                 For i = 0 To DataGridView1.Rows.Count - 1
                     Dim doWhile As String = ""
-                    If IsNumeric(DataGridView1.Rows(i).Cells(2).Value) Then
-                        If Convert.ToInt32(DataGridView1.Rows(i).Cells(2).Value) > 0 Then
-                            Dim query As String = "select * from master_process_flow where master_process='" & DataGridView1.Rows(i).Cells(1).Value & "'"
-                            Dim dtMasterProcessFlow As DataTable = Database.GetData(query)
-                            Dim numberInt As Integer = dtMasterProcessFlow.Rows(0).Item("ID") - 1
-                            If dtMasterProcessFlow.Rows.Count > 0 Then
-                                If IsDBNull(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE")) = False Then
-                                    sResult = funcInsertReject(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE"), DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value, 1, txtFGFlowTicket.Text)
-                                Else
-                                    Do While doWhile Is ""
-                                        Dim queryKosong As String = "select * from master_process_flow where ID=" & numberInt
+                    If DataGridView1.Rows(i).Cells(2).Value IsNot "" And DataGridView1.Rows(i).Cells(2).Value IsNot Nothing And DataGridView1.Rows(i).Cells(2).Value IsNot DBNull.Value Then
+                        If IsNumeric(DataGridView1.Rows(i).Cells(2).Value) Then
+                            If Convert.ToInt32(DataGridView1.Rows(i).Cells(2).Value) > 0 Then
+                                Dim query As String = "select * from master_process_flow where master_finish_goods_pn='" & cbFGPN.Text & "' and master_process='" & DataGridView1.Rows(i).Cells(1).Value & "'"
+                                Dim dtMasterProcessFlow As DataTable = Database.GetData(query)
+                                Dim numberInt As Integer = dtMasterProcessFlow.Rows(0).Item("ID")
+                                If dtMasterProcessFlow.Rows.Count > 0 Then
+                                    If IsDBNull(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                        sResult = funcInsertReject(dtMasterProcessFlow.Rows(0).Item("MATERIAL_USAGE"), DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value, 1, txtFGFlowTicket.Text)
+                                    Else
+                                        Dim queryKosong As String = "select * from master_process_flow where master_finish_goods_pn='" & cbFGPN.Text & "' order by id"
                                         Dim dtKosong As DataTable = Database.GetData(queryKosong)
-                                        If IsDBNull(dtKosong.Rows(0).Item("MATERIAL_USAGE")) = False Then
-                                            doWhile = dtKosong.Rows(0).Item("MATERIAL_USAGE")
-                                        Else
-                                            numberInt = dtKosong.Rows(0).Item("ID") - 1
-                                        End If
-                                    Loop
-                                    sResult = funcInsertReject(doWhile, DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value, 1, txtFGFlowTicket.Text)
+                                        Do While doWhile Is ""
+                                            Dim queryGetMaterialUsage As String = "select * from master_process_flow where ID=" & numberInt
+                                            Dim dtKosongGetMaterialUsage As DataTable = Database.GetData(queryGetMaterialUsage)
+                                            If numberInt <= dtKosong.Rows(0).Item("ID") Then
+                                                doWhile = "Kosong-" & DataGridView1.Rows(i).Cells(1).Value
+                                                DataGridView1.Rows(i).Cells(2).Value = 0
+                                            Else
+                                                If IsDBNull(dtKosongGetMaterialUsage.Rows(0).Item("MATERIAL_USAGE")) = False Then
+                                                    doWhile = dtKosongGetMaterialUsage.Rows(0).Item("MATERIAL_USAGE")
+                                                Else
+                                                    numberInt = dtKosongGetMaterialUsage.Rows(0).Item("ID") - 1
+                                                End If
+                                            End If
+                                        Loop
+                                        sResult = funcInsertReject(doWhile, DataGridView1.Rows(i).Cells(2).Value, DataGridView1.Rows(i).Cells(1).Value, 1, txtFGFlowTicket.Text)
+                                    End If
+                                End If
+                            Else
+                                Dim queryCheckDefect As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and process_reject='" & DataGridView1.Rows(i).Cells(1).Value & "' and flow_ticket_no='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and pengali > 0 and input_from_fg=1"
+                                Dim dtCheckDefect As DataTable = Database.GetData(queryCheckDefect)
+                                If dtCheckDefect.Rows.Count > 0 Then
+                                    For d = 0 To dtCheckDefect.Rows.Count - 1
+                                        sResult = funcDeleteReject(dtCheckDefect.Rows(d).Item("id"), dtCheckDefect.Rows(d).Item("part_number"), dtCheckDefect.Rows(d).Item("lot_no"), dtCheckDefect.Rows(d).Item("qty"), sFlowTicket(5))
+                                    Next
                                 End If
                             End If
                         Else
-                            Dim queryCheckDefect As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and process_reject='" & DataGridView1.Rows(i).Cells(1).Value & "' and flow_ticket_no='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and pengali > 0 and input_from_fg=1"
-                            Dim dtCheckDefect As DataTable = Database.GetData(queryCheckDefect)
-                            If dtCheckDefect.Rows.Count > 0 Then
-                                For d = 0 To dtCheckDefect.Rows.Count - 1
-                                    sResult = funcDeleteReject(dtCheckDefect.Rows(d).Item("id"), dtCheckDefect.Rows(d).Item("part_number"), dtCheckDefect.Rows(d).Item("lot_no"), dtCheckDefect.Rows(d).Item("qty"), sFlowTicket(5))
-                                Next
-                            End If
+                            MessageBox.Show("this is not number -> " & DataGridView1.Rows(i).Cells(2).Value & ". Please change with number.")
                         End If
-                    Else
-                        MessageBox.Show("this is not number -> " & DataGridView1.Rows(i).Cells(2).Value & ". Please change with number.")
                     End If
                 Next
 

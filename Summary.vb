@@ -99,21 +99,126 @@ Public Class Summary
     End Sub
 
     Sub loadTraceability1()
+        With DGTraceability1
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            .ColumnCount = 43
+            .Columns(0).HeaderText = "Date"
+            .Columns(1).HeaderText = "Sub Sub PO"
+            .Columns(2).HeaderText = "Line"
+            .Columns(3).HeaderText = "FG"
+            .Columns(4).HeaderText = "Laser Code"
+            .Columns(5).HeaderText = "Inv."
+            .Columns(6).HeaderText = "Batch No"
+            .Columns(7).HeaderText = "Lot No"
+            .Columns(8).HeaderText = "Inspector"
+            .Columns(9).HeaderText = "Packer 1"
+            .Columns(10).HeaderText = "Packer 2"
+            .Columns(11).HeaderText = "Packer 3"
+            .Columns(12).HeaderText = "Packer 4"
+            .Columns(13).HeaderText = "Process 1"
+            .Columns(14).HeaderText = "Process 2"
+            .Columns(15).HeaderText = "Process 3"
+            .Columns(16).HeaderText = "Process 4"
+            .Columns(17).HeaderText = "Process 5"
+            .Columns(18).HeaderText = "Process 6"
+            .Columns(19).HeaderText = "Process 7"
+            .Columns(20).HeaderText = "Process 8"
+            .Columns(21).HeaderText = "Process 9"
+            .Columns(22).HeaderText = "Process 10"
+            .Columns(23).HeaderText = "Process 11"
+            .Columns(24).HeaderText = "Process 12"
+            .Columns(25).HeaderText = "Process 13"
+            .Columns(26).HeaderText = "Process 14"
+            .Columns(27).HeaderText = "Process 15"
+            .Columns(28).HeaderText = "Process 16"
+            .Columns(29).HeaderText = "Process 17"
+            .Columns(30).HeaderText = "Process 18"
+            .Columns(31).HeaderText = "Process 19"
+            .Columns(32).HeaderText = "Process 20"
+            .Columns(33).HeaderText = "Process 21"
+            .Columns(34).HeaderText = "Process 22"
+            .Columns(35).HeaderText = "Process 23"
+            .Columns(36).HeaderText = "Process 24"
+            .Columns(37).HeaderText = "Process 25"
+            .Columns(38).HeaderText = "Process 26"
+            .Columns(39).HeaderText = "Process 27"
+            .Columns(40).HeaderText = "Process 28"
+            .Columns(41).HeaderText = "Process 29"
+            .Columns(42).HeaderText = "Process 30"
+
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            Dim sqlStr As String = "SELECT d.DATETIME_INSERT,d.sub_sub_po,d.line,d.fg,d.laser_code,d.INV_CTRL_DATE,d.BATCH_NO,d.LOT_NO,f.inspector,f.packer1,f.packer2,f.packer3,f.packer4 FROM done_fg d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtTraceability.Text & "'"
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            Dim dttable As DataTable = Database.GetData(sqlStr)
+
+            If dttable.Rows.Count > 0 Then
+                .Rows.Clear()
+                For i = 0 To dttable.Rows.Count - 1
+                    .Rows.Add(1)
+                    .Item(0, i).Value = dttable.Rows(i).Item("DATETIME_INSERT")
+                    .Item(1, i).Value = dttable.Rows(i).Item("sub_sub_po")
+                    .Item(2, i).Value = dttable.Rows(i).Item("line")
+                    .Item(3, i).Value = dttable.Rows(i).Item("fg")
+                    .Item(4, i).Value = dttable.Rows(i).Item("laser_code")
+                    .Item(5, i).Value = dttable.Rows(i).Item("INV_CTRL_DATE")
+                    .Item(6, i).Value = dttable.Rows(i).Item("BATCH_NO")
+                    .Item(7, i).Value = dttable.Rows(i).Item("LOT_NO")
+                    .Item(8, i).Value = dttable.Rows(i).Item("inspector")
+                    .Item(9, i).Value = dttable.Rows(i).Item("packer1")
+                    .Item(10, i).Value = dttable.Rows(i).Item("packer2")
+                    .Item(11, i).Value = dttable.Rows(i).Item("packer3")
+                    .Item(12, i).Value = dttable.Rows(i).Item("packer4")
+                Next
+            Else
+                .Rows.Clear()
+            End If
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+        End With
+
+        For Each col As DataGridViewColumn In DGTraceability1.Columns
+            col.MinimumWidth = 300
+        Next
+        loadTraceability2()
+
+        loadOperator()
+
+        Dim rowIndexMax As Integer = 5
+        Dim colors As New List(Of Color)({Color.LightBlue, Color.LightGreen, Color.LightGray, Color.LightPink, Color.LightYellow})
+        Dim colorsIndexNow = 0
+
+        For i As Integer = 0 To DGTraceability1.RowCount - 1
+            If i = 0 Then
+                colorsIndexNow = 0
+            Else
+                If colorsIndexNow = rowIndexMax - 1 Then
+                    colorsIndexNow = 0
+                Else
+                    colorsIndexNow += 1
+                End If
+            End If
+            DGTraceability1.Rows(i).DefaultCellStyle.BackColor = colors(colorsIndexNow)
+        Next
+    End Sub
+
+    Sub loadTraceability11()
         Dim varProcess As String = ""
 
-        Dim queryCek As String = "select * from MASTER_PROCESS_NUMBER"
-        Dim dsexist = New DataSet
-        Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
-        adapterexist.Fill(dsexist)
-        For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
-            If i = 0 Then
-                varProcess = "[" + dsexist.Tables(0).Rows(i).Item("PROCESS_NAME").ToString + "]"
-            Else
-                varProcess = varProcess + ",[" + dsexist.Tables(0).Rows(i).Item("PROCESS_NAME").ToString + "]"
-            End If
-        Next
-
-        Dim sqlStr As String = "SELECT * FROM ( SELECT d.DATETIME_INSERT [Date],d.line [Line],d.fg [FG],d.laser_code [Laser Code],d.INV_CTRL_DATE [Inv.],d.BATCH_NO [Batch No],d.LOT_NO [Lot No],f.inspector [Outgoing Inspector],f.packer1 [Packer 1],f.packer2 [Packer 2],f.packer3 [Packer 3],f.packer4 [Packer 4],p.process + ' (' + p.operator_id + ')' as process_operator,m.process_name FROM done_fg d LEFT JOIN prod_dop p ON p.sub_sub_po= d.sub_sub_po left join master_process_number m on p.process_number=m.[order] left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtTraceability.Text & "') t PIVOT (MAX (process_operator) FOR process_name IN ( " + varProcess + " )) pivot_table"
+        Dim sqlStr As String = "SELECT d.DATETIME_INSERT [Date],d.sub_sub_po [Sub Sub PO],d.line [Line],d.fg [FG],d.laser_code [Laser Code],d.INV_CTRL_DATE [Inv.],d.BATCH_NO [Batch No],d.LOT_NO [Lot No],f.inspector [Outgoing Inspector],f.packer1 [Packer 1],f.packer2 [Packer 2],f.packer3 [Packer 3],f.packer4 [Packer 4] FROM done_fg d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtTraceability.Text & "'"
 
         Dim dttable As DataTable = Database.GetData(sqlStr)
 
@@ -149,6 +254,48 @@ Public Class Summary
             End If
             DGTraceability1.Rows(i).DefaultCellStyle.BackColor = colors(colorsIndexNow)
         Next
+
+        For k As Integer = 1 To 30
+            DGTraceability1.Columns.Add("Process_" & k, "Process " & k)
+        Next
+
+        Threading.Thread.Sleep(2000)
+        loadOperator()
+    End Sub
+
+    Sub loadOperator()
+        If DGTraceability1.Rows.Count > 0 Then
+
+            For r As Integer = 0 To DGTraceability1.Rows.Count - 1
+                For c As Integer = 0 To DGTraceability1.Columns.Count - 1
+                    Dim sqlCheckOperatorDetails As String = "SELECT * FROM prod_dop_details WHERE sub_sub_po= '" & DGTraceability1.Rows(r).Cells(1).Value & "'"
+                    Dim dtOperatorDetails As DataTable = Database.GetData(sqlCheckOperatorDetails)
+                    If dtOperatorDetails.Rows.Count > 0 Then
+                        For l As Integer = 0 To dtOperatorDetails.Rows.Count - 1
+                            If DGTraceability1.Columns(c).Index > 12 Then
+                                If DGTraceability1.Columns(c).HeaderText = "Process " & dtOperatorDetails.Rows(l).Item("process_number") Then
+                                    If r + 1 = dtOperatorDetails.Rows(l).Item("lot_flow_ticket") Then
+                                        DGTraceability1(c, r).Value = dtOperatorDetails.Rows(l).Item("process") & "(" & dtOperatorDetails.Rows(l).Item("operator") & ")"
+                                    End If
+                                End If
+                            End If
+                        Next
+                    Else
+                        Dim sqlOperator As String = "SELECT * FROM prod_dop WHERE fg_pn= '" & txtTraceability.Text & "' and sub_sub_po='" & DGTraceability1.Rows(r).Cells(1).Value & "'"
+                        Dim dtOperator As DataTable = Database.GetData(sqlOperator)
+                        If DGTraceability1.Rows.Count > 0 Then
+                            For l As Integer = 0 To dtOperator.Rows.Count - 1
+                                If DGTraceability1.Columns(c).Index > 12 Then
+                                    If DGTraceability1.Columns(c).HeaderText = "Process " & dtOperator.Rows(l).Item("process_number") Then
+                                        DGTraceability1(c, r).Value = dtOperator.Rows(l).Item("process") & "(" & dtOperator.Rows(l).Item("operator_id") & ")"
+                                    End If
+                                End If
+                            Next
+                        End If
+                    End If
+                Next
+            Next
+        End If
     End Sub
 
     Sub loadTraceability2()

@@ -302,21 +302,22 @@ Public Class Summary
         With DGTraceability2
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-            .ColumnCount = 8
-            .Columns(0).HeaderText = "Component"
-            .Columns(1).HeaderText = "Desc"
-            .Columns(2).HeaderText = "Inv."
-            .Columns(3).HeaderText = "Batch No"
-            .Columns(4).HeaderText = "Lot Component"
-            .Columns(5).HeaderText = "Lot FG"
-            .Columns(6).HeaderText = "Qty"
-            .Columns(7).HeaderText = "Remark"
+            .ColumnCount = 9
+            .Columns(0).HeaderText = "Line"
+            .Columns(1).HeaderText = "Component"
+            .Columns(2).HeaderText = "Desc"
+            .Columns(3).HeaderText = "Inv."
+            .Columns(4).HeaderText = "Batch No"
+            .Columns(5).HeaderText = "Lot Component"
+            .Columns(6).HeaderText = "Lot FG"
+            .Columns(7).HeaderText = "Qty"
+            .Columns(8).HeaderText = "Remark"
 
             For i As Integer = 0 To .ColumnCount - 1
                 .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             Next
 
-            Dim sqlStr As String = "select sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,qty,id_level from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & txtTraceability.Text & "' and sc.material=mm.part_number order by sc.flow_ticket,sc.material"
+            Dim sqlStr As String = "select sc.line,sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,qty,id_level from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & txtTraceability.Text & "' and sc.material=mm.part_number order by sc.line,sc.flow_ticket,sc.material"
 
             .EnableHeadersVisualStyles = False
             With .ColumnHeadersDefaultCellStyle
@@ -333,17 +334,18 @@ Public Class Summary
                 .Rows.Clear()
                 For i = 0 To dttable.Rows.Count - 1
                     .Rows.Add(1)
-                    .Item(0, i).Value = dttable.Rows(i).Item("material")
-                    .Item(1, i).Value = dttable.Rows(i).Item("name")
-                    .Item(2, i).Value = dttable.Rows(i).Item("inv_ctrl_date")
-                    .Item(3, i).Value = dttable.Rows(i).Item("batch_no")
-                    .Item(4, i).Value = dttable.Rows(i).Item("lot_no")
-                    .Item(5, i).Value = dttable.Rows(i).Item("flow_ticket")
-                    .Item(6, i).Value = dttable.Rows(i).Item("qty")
+                    .Item(0, i).Value = dttable.Rows(i).Item("line")
+                    .Item(1, i).Value = dttable.Rows(i).Item("material")
+                    .Item(2, i).Value = dttable.Rows(i).Item("name")
+                    .Item(3, i).Value = dttable.Rows(i).Item("inv_ctrl_date")
+                    .Item(4, i).Value = dttable.Rows(i).Item("batch_no")
+                    .Item(5, i).Value = dttable.Rows(i).Item("lot_no")
+                    .Item(6, i).Value = dttable.Rows(i).Item("flow_ticket")
+                    .Item(7, i).Value = dttable.Rows(i).Item("qty")
                     If InStr(dttable.Rows(i).Item("id_level").ToString, "SA") > 0 Or InStr(dttable.Rows(i).Item("id_level").ToString, "WIP") > 0 Or InStr(dttable.Rows(i).Item("id_level").ToString, "OT") > 0 Then
-                        .Item(7, i).Value = dttable.Rows(i).Item("id_level")
+                        .Item(8, i).Value = dttable.Rows(i).Item("id_level")
                     Else
-                        .Item(7, i).Value = "Fresh"
+                        .Item(8, i).Value = "Fresh"
                     End If
                 Next
             Else
@@ -363,11 +365,11 @@ Public Class Summary
 
         For i As Integer = 0 To DGTraceability2.RowCount - 1
             If i = 0 Then
-                DataIndexNow = DGTraceability2.Rows(i).Cells(5).Value
+                DataIndexNow = DGTraceability2.Rows(i).Cells(6).Value
                 colorsIndexNow = colorsIndexFirst
             End If
 
-            If DGTraceability2.Rows(i).Cells(5).Value = DataIndexNow Then
+            If DGTraceability2.Rows(i).Cells(6).Value = DataIndexNow Then
                 colorsIndexSet = colorsIndexNow
             Else
                 If colorsIndexNow = rowIndexMax - 1 Then
@@ -377,7 +379,7 @@ Public Class Summary
                 End If
             End If
 
-            DataIndexNow = DGTraceability2.Rows(i).Cells(5).Value
+            DataIndexNow = DGTraceability2.Rows(i).Cells(6).Value
             DGTraceability2.Rows(i).DefaultCellStyle.BackColor = colors(colorsIndexNow)
         Next
     End Sub

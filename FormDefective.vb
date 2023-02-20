@@ -1,6 +1,7 @@
 ﻿Imports System.CodeDom
 Imports System.Data.SqlClient
 Imports System.Globalization
+Imports System.Reflection
 Imports System.Reflection.Emit
 Imports System.Runtime.Remoting
 Imports System.Text.RegularExpressions
@@ -116,7 +117,7 @@ Public Class FormDefective
             Try
                 Call Database.koneksi_database()
                 'Dim dtProcess As DataTable = Database.GetData("select distinct MASTER_PROCESS from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
-                Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' ORDER BY ID")
+                Dim dtProcess As DataTable = Database.GetData("select * from MASTER_PROCESS_FLOW where MASTER_FINISH_GOODS_PN='" & str & "' and master_process is not null ORDER BY ID")
 
                 'cbDefProcess1.Items.Clear()
                 'cbDefProcess2.Items.Clear()
@@ -1877,8 +1878,8 @@ Public Class FormDefective
                 btnSaveSA.Enabled = False
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnPrintFGDefect.Enabled = False
-                btnPrintSADefect.Enabled = False
+                'btnPrintFGDefect.Enabled = False
+                'btnPrintSADefect.Enabled = False
 
                 'loadFG(cbFGPN.Text)
             Else
@@ -1899,8 +1900,8 @@ Public Class FormDefective
                 btnSaveSA.Enabled = False
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnPrintFGDefect.Enabled = False
-                btnPrintSADefect.Enabled = False
+                'btnPrintFGDefect.Enabled = False
+                'btnPrintSADefect.Enabled = False
             End If
 
         ElseIf rbSA.Checked = True Then
@@ -1930,8 +1931,8 @@ Public Class FormDefective
                 btnSaveFG.Enabled = False
                 btnSaveSADefect.Enabled = False
                 btnSaveSA.Enabled = False
-                btnPrintFGDefect.Enabled = False
-                btnPrintSADefect.Enabled = False
+                'btnPrintFGDefect.Enabled = False
+                'btnPrintSADefect.Enabled = False
 
             Else
                 ReadonlyFormFG(True)
@@ -1953,8 +1954,8 @@ Public Class FormDefective
                 btnSaveFG.Enabled = False
                 btnSaveSADefect.Enabled = False
                 btnSaveSA.Enabled = False
-                btnPrintFGDefect.Enabled = False
-                btnPrintSADefect.Enabled = False
+                'btnPrintFGDefect.Enabled = False
+                'btnPrintSADefect.Enabled = False
             End If
         End If
     End Sub
@@ -1983,8 +1984,8 @@ Public Class FormDefective
                     btnSaveFG.Enabled = False
                     btnSaveSADefect.Enabled = False
                     btnSaveSA.Enabled = False
-                    btnPrintFGDefect.Enabled = False
-                    btnPrintSADefect.Enabled = False
+                    'btnPrintFGDefect.Enabled = False
+                    'btnPrintSADefect.Enabled = False
                 End If
 
             Else
@@ -2004,8 +2005,8 @@ Public Class FormDefective
                 btnSaveFG.Enabled = False
                 btnSaveSADefect.Enabled = False
                 btnSaveSA.Enabled = False
-                btnPrintFGDefect.Enabled = False
-                btnPrintSADefect.Enabled = False
+                'btnPrintFGDefect.Enabled = False
+                'btnPrintSADefect.Enabled = False
             End If
         ElseIf rbFG.Checked = True Then
             Dim dtFG As DataTable = Database.GetData("select DISTINCT(CODE_OUT_PROD_DEFECT), input_from_fg from out_prod_defect where SUB_SUB_PO='" & txtSubSubPODefective.Text & "'")
@@ -2028,8 +2029,8 @@ Public Class FormDefective
                     btnSaveSA.Enabled = False
                     btnSaveFGDefect.Enabled = False
                     btnSaveFG.Enabled = False
-                    btnPrintFGDefect.Enabled = False
-                    btnPrintSADefect.Enabled = False
+                    'btnPrintFGDefect.Enabled = False
+                    'btnPrintSADefect.Enabled = False
 
                     'loadFG(cbFGPN.Text)
                 End If
@@ -2048,8 +2049,8 @@ Public Class FormDefective
                 btnSaveSA.Enabled = False
                 btnSaveFGDefect.Enabled = False
                 btnSaveFG.Enabled = False
-                btnPrintFGDefect.Enabled = False
-                btnPrintSADefect.Enabled = False
+                'btnPrintFGDefect.Enabled = False
+                'btnPrintSADefect.Enabled = False
             End If
         End If
     End Sub
@@ -2308,7 +2309,7 @@ Public Class FormDefective
                     loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
                     btnSaveFGDefect.Enabled = True
                     btnSaveFG.Enabled = True
-                    btnPrintFGDefect.Enabled = True
+                    'btnPrintFGDefect.Enabled = True
                     DataGridView1.Enabled = True
                     txtFGLabel.ReadOnly = True
                     txtFGFlowTicket.ReadOnly = True
@@ -2333,7 +2334,7 @@ Public Class FormDefective
                         loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
                         btnSaveFGDefect.Enabled = True
                         btnSaveFG.Enabled = True
-                        btnPrintFGDefect.Enabled = True
+                        'btnPrintFGDefect.Enabled = True
                         DataGridView1.Enabled = True
                         txtFGLabel.ReadOnly = True
                         txtFGFlowTicket.ReadOnly = True
@@ -2737,32 +2738,36 @@ Public Class FormDefective
 
     Public Function GetStockCard(pn As String, qty As Integer) As String
         Dim splitPN() As String = pn.Split(";")
-        Dim qtyReject As Double
         Dim i As Integer = 0
         Dim sReturnValue As String = ""
         For i = 0 To splitPN.Length - 2
-            qtyReject = 0
-            Dim queryGetUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
-            Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
 
-            qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+            Dim querySelectSumFlowTicket As String = "select isnull(sum(ft.qty_per_lot*mufg.[usage]),0) qty from material_usage_finish_goods mufg, flow_ticket ft where mufg.fg_part_number='" & cbFGPN.Text & "' and mufg.component='" & splitPN(i) & "' and ft.fg=mufg.fg_part_number and ft.sub_sub_po='" & txtSubSubPODefective.Text & "' and ft.done=0"
+            Dim dtSelectSumFlowTicket As DataTable = Database.GetData(querySelectSumFlowTicket)
 
-            Dim querySelectMaxFlowTicket As String = "select max(id) id from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-            Dim dtSelectMaxFlowTicket As DataTable = Database.GetData(querySelectMaxFlowTicket)
+            Dim querySelectSumMaterial As String = "select isnull(sum(sum_qty),0) qty from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no in (select DISTINCT(lot_no) from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "')"
+            Dim dtSelectSumMaterial As DataTable = Database.GetData(querySelectSumMaterial)
 
-            If IsDBNull(dtSelectMaxFlowTicket.Rows(0).Item("id")) = False Then
-                Dim querySelectLotNo As String = "select * from stock_card where id=" & dtSelectMaxFlowTicket.Rows(0).Item("id")
-                Dim dtSelectLotNo As DataTable = Database.GetData(querySelectLotNo)
-
-                Dim querySelectQtyExist As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtSelectLotNo.Rows(0).Item("lot_no") & "'"
-                Dim dtSelectQtyExist As DataTable = Database.GetData(querySelectQtyExist)
-
-                If dtSelectQtyExist.Rows(0).Item("actual_qty") < qtyReject Then
-                    sReturnValue += splitPN(i) & ","
-                End If
-            Else
-                sReturnValue = "Kosong"
+            If dtSelectSumMaterial.Rows(0).Item("qty") < dtSelectSumFlowTicket.Rows(0).Item("qty") Then
+                sReturnValue += splitPN(i) & ","
             End If
+
+            'Dim querySelectMaxFlowTicket As String = "select max(id) id from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+            'Dim dtSelectMaxFlowTicket As DataTable = Database.GetData(querySelectMaxFlowTicket)
+
+            'If IsDBNull(dtSelectMaxFlowTicket.Rows(0).Item("id")) = False Then
+            '    Dim querySelectLotNo As String = "select * from stock_card where id=" & dtSelectMaxFlowTicket.Rows(0).Item("id")
+            '    Dim dtSelectLotNo As DataTable = Database.GetData(querySelectLotNo)
+
+            '    Dim querySelectQtyExist As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtSelectLotNo.Rows(0).Item("lot_no") & "'"
+            '    Dim dtSelectQtyExist As DataTable = Database.GetData(querySelectQtyExist)
+
+            '    If dtSelectQtyExist.Rows(0).Item("sum_qty") < qtyReject Then
+            '        sReturnValue += splitPN(i) & ","
+            '    End If
+            'Else
+            '    sReturnValue = "Kosong"
+            'End If
         Next
         Return sReturnValue
     End Function
@@ -2779,6 +2784,10 @@ Public Class FormDefective
             ElseIf sTampung = "Kosong" Then
                 MessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
             Else
+                Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and material='" & pn & "'"
+                Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
+                dtUpdateSame.ExecuteNonQuery()
+
                 Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & lot & " AND [LEVEL]='Fresh'"
                 Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
                 If dtCheckAdd.Rows.Count > 0 Then
@@ -2870,8 +2879,14 @@ Public Class FormDefective
                 Dim queryGetExistingDB As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=" & input_from_fg
                 Dim dtGetExistingDB As DataTable = Database.GetData(queryGetExistingDB)
 
+
                 If dtGetExistingDB.Rows.Count > 0 Then
                     For i = 0 To splitPN.Length - 2
+
+                        Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and material='" & splitPN(i) & "'"
+                        Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
+                        dtUpdateSame.ExecuteNonQuery()
+
                         Dim queryGetDefect As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=" & input_from_fg
                         Dim dtGetDefect As DataTable = Database.GetData(queryGetDefect)
 
@@ -2964,6 +2979,10 @@ Public Class FormDefective
                     For i = 0 To splitPN.Length - 2
                         qtyReject = 0
                         sumQty = 0
+
+                        Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and material='" & splitPN(i) & "'"
+                        Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
+                        dtUpdateSame.ExecuteNonQuery()
 
                         Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "'"
                         Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
@@ -3067,7 +3086,7 @@ Public Class FormDefective
 
                 loadSA(cbFGPN.Text, txtSAFlowTicket.Text)
                 btnSaveSADefect.Enabled = True
-                btnPrintSADefect.Enabled = True
+                'btnPrintSADefect.Enabled = True
                 DataGridView3.Enabled = True
                 txtSAFlowTicket.ReadOnly = True
                 btnSaveSA.Enabled = True
@@ -3388,28 +3407,34 @@ Public Class FormDefective
                 Dim query As String = "select sc.id_level,sc.material,m.name,sc.traceability,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.actual_qty,sc.lot_no from stock_card sc, master_material m where sc.status='Return To Mini Store' and sc.sub_sub_po='" & txtSubSubPODefective.Text & "' and sc.actual_qty>0 and sc.material=m.part_number"
                 Dim dtCheckStockBalance As DataTable = Database.GetData(query)
                 If dtCheckStockBalance.Rows.Count > 0 Then
+                    globVar.failPrint = ""
+                    _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockBalance.Rows(0).Item("id_level")
                     For i = 0 To dtCheckStockBalance.Rows.Count - 1
-
-                        globVar.failPrint = ""
-                        _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockBalance.Rows(i).Item("id_level")
-                        _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckStockBalance.Rows(i).Item("material")
-                        _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckStockBalance.Rows(i).Item("name")
-                        _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockBalance.Rows(i).Item("traceability")
-                        _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockBalance.Rows(i).Item("inv_ctrl_date")
-                        _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockBalance.Rows(i).Item("batch_no")
-                        _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockBalance.Rows(i).Item("lot_no")
-                        _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockBalance.Rows(i).Item("actual_qty")
-                        _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Balance Material"
-                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockBalance.Rows(i).Item("id_level") & Environment.NewLine
-                        _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
-
-                        If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, lot, remark,sub_sub_po,department,material,code_print)
-                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','" & dtCheckStockBalance.Rows(i).Item("lot_no") & "','Balance Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockBalance.Rows(i).Item("material") & "','" & dtCheckStockBalance.Rows(i).Item("id_level") & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
-                        End If
+                        _PrintingSubAssyRawMaterial.txt_part_number.Text += dtCheckStockBalance.Rows(i).Item("material") & "(" & dtCheckStockBalance.Rows(i).Item("lot_no") & "),"
+                        '_PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckStockBalance.Rows(i).Item("name")
+                        '_PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockBalance.Rows(i).Item("traceability")
+                        '_PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockBalance.Rows(i).Item("inv_ctrl_date")
+                        '_PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockBalance.Rows(i).Item("batch_no")
+                        '_PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockBalance.Rows(i).Item("lot_no")
+                        '_PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockBalance.Rows(i).Item("actual_qty")
                     Next
+                    _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Balance Material"
+                    _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockBalance.Rows(0).Item("id_level") & Environment.NewLine
+                    _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                    'If globVar.failPrint = "No" Then
+                    '    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,material,code_print)
+                    '            VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','" & dtCheckStockBalance.Rows(i).Item("lot_no") & "','Balance Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockBalance.Rows(i).Item("material") & "','" & dtCheckStockBalance.Rows(i).Item("id_level") & "')"
+                    '    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                    '    cmdInsertPrintingRecord.ExecuteNonQuery()
+                    'End If
+
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,code_print)
+                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Balance Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockBalance.Rows(0).Item("id_level") & "')"
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
+                    End If
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -3421,12 +3446,12 @@ Public Class FormDefective
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles btnPrintFGDefect.Click
         If txtSubSubPODefective.Text <> "" Then
-            If txtFGFlowTicket.Text <> "" Then
-                Dim split() As String = txtFGFlowTicket.Text.Split(";")
-                Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' and input_from_fg=1"
-                Dim dtCheckStockReject As DataTable = Database.GetData(query)
-                If dtCheckStockReject.Rows.Count > 0 Then
-                    For i = 0 To dtCheckStockReject.Rows.Count - 1
+            Dim countPrint = 0
+            Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT),[print],flow_ticket_no from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and input_from_fg=1"
+            Dim dtCheckStockReject As DataTable = Database.GetData(query)
+            If dtCheckStockReject.Rows.Count > 0 Then
+                For i = 0 To dtCheckStockReject.Rows.Count - 1
+                    If dtCheckStockReject.Rows(i).Item("print") = 0 Then
                         globVar.failPrint = ""
                         _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
                         _PrintingDefect.Label2.Text = "Defect Ticket"
@@ -3439,16 +3464,44 @@ Public Class FormDefective
 
                         If globVar.failPrint = "No" Then
                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
+                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockReject.Rows(i).Item("flow_ticket_no") & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
+
+                            Dim sqlupdateDefect As String = "update out_prod_defect set [print]=1 where CODE_OUT_PROD_DEFECT='" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "'"
+                            Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
+                            cmdupdateDefect.ExecuteNonQuery()
                         End If
-                    Next
-                Else
-                    MsgBox("Dont have Reject Data")
+                    Else
+                        countPrint += 1
+                    End If
+                Next
+
+                If dtCheckStockReject.Rows.Count = countPrint Then
+                    Dim result As DialogResult = MessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                    If result = DialogResult.Yes Then
+                        For i = 0 To dtCheckStockReject.Rows.Count - 1
+                            globVar.failPrint = ""
+                            _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
+                            _PrintingDefect.Label2.Text = "Defect Ticket"
+                            _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
+                            _PrintingDefect.txt_part_number.Text = cbFGPN.Text
+                            _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
+                            _PrintingDefect.txt_Traceability.Text = txtTampungLabel.Text
+                            _PrintingDefect.txt_Inv_crtl_date.Text = txtINV.Text
+                            _PrintingDefect.btn_Print_Click(sender, e)
+
+                            If globVar.failPrint = "No" Then
+                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                        VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material (Again)','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockReject.Rows(i).Item("flow_ticket_no") & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
+                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                            End If
+                        Next
+                    End If
                 End If
             Else
-                MessageBox.Show("Sorry please input flow ticket first.")
+                MsgBox("Dont have Reject Data")
             End If
         Else
             MessageBox.Show("Sorry please select Line First.")
@@ -3457,12 +3510,12 @@ Public Class FormDefective
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles btnPrintSADefect.Click
         If txtSubSubPODefective.Text <> "" Then
-            If txtSAFlowTicket.Text <> "" Then
-                Dim split() As String = txtSAFlowTicket.Text.Split(";")
-                Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' and input_from_fg=1"
-                Dim dtCheckStockReject As DataTable = Database.GetData(query)
-                If dtCheckStockReject.Rows.Count > 0 Then
-                    For i = 0 To dtCheckStockReject.Rows.Count - 1
+            Dim countPrint = 0
+            Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT),[print],flow_ticket_no from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and input_from_fg=0"
+            Dim dtCheckStockReject As DataTable = Database.GetData(query)
+            If dtCheckStockReject.Rows.Count > 0 Then
+                For i = 0 To dtCheckStockReject.Rows.Count - 1
+                    If dtCheckStockReject.Rows(i).Item("print") = 0 Then
                         globVar.failPrint = ""
                         _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
                         _PrintingDefect.Label2.Text = "Defect Ticket"
@@ -3475,16 +3528,44 @@ Public Class FormDefective
 
                         If globVar.failPrint = "No" Then
                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                            VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
+                                    VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockReject.Rows(i).Item("flow_ticket_no") & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                             cmdInsertPrintingRecord.ExecuteNonQuery()
+
+                            Dim sqlupdateDefect As String = "update out_prod_defect set [print]=1 where CODE_OUT_PROD_DEFECT='" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "'"
+                            Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
+                            cmdupdateDefect.ExecuteNonQuery()
                         End If
-                    Next
-                Else
-                    MsgBox("Dont have Reject Data")
+                    Else
+                        countPrint += 1
+                    End If
+                Next
+
+                If dtCheckStockReject.Rows.Count = countPrint Then
+                    Dim result As DialogResult = MessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                    If result = DialogResult.Yes Then
+                        For i = 0 To dtCheckStockReject.Rows.Count - 1
+                            globVar.failPrint = ""
+                            _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
+                            _PrintingDefect.Label2.Text = "Defect Ticket"
+                            _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
+                            _PrintingDefect.txt_part_number.Text = cbFGPN.Text
+                            _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
+                            _PrintingDefect.txt_Traceability.Text = txtTampungLabel.Text
+                            _PrintingDefect.txt_Inv_crtl_date.Text = txtINV.Text
+                            _PrintingDefect.btn_Print_Click(sender, e)
+
+                            If globVar.failPrint = "No" Then
+                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                        VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Reject Material (Again)','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockReject.Rows(i).Item("flow_ticket_no") & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
+                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                            End If
+                        Next
+                    End If
                 End If
             Else
-                MessageBox.Show("Sorry, please input flow ticket first.")
+                MsgBox("Dont have Reject Data")
             End If
         Else
             MessageBox.Show("Sorry, please select Line First.")
@@ -3516,10 +3597,10 @@ Public Class FormDefective
         txtSABatchNo.ReadOnly = False
         DataGridView1.Rows.Clear()
         DataGridView3.Rows.Clear()
-        btnPrintFGDefect.Enabled = False
+        'btnPrintFGDefect.Enabled = False
         btnSaveFGDefect.Enabled = False
         btnSaveFG.Enabled = False
-        btnPrintSADefect.Enabled = False
+        'btnPrintSADefect.Enabled = False
         btnSaveFGDefect.Enabled = False
         btnSaveSA.Enabled = False
         btnSaveSADefect.Enabled = False
@@ -3533,163 +3614,208 @@ Public Class FormDefective
     End Sub
 
     Public Sub btnPrintWIP_Click(sender As Object, e As EventArgs) Handles btnPrintWIP.Click
-        If txtSubSubPODefective.Text <> "" Then
-            If txtWIPTicketNo.Text <> "" Then
-                Dim split() As String = txtWIPTicketNo.Text.Split(";")
-                Dim query As String = "select code_stock_prod_wip,flow_ticket_no,process,pengali from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' group by code_stock_prod_wip,flow_ticket_no,process,pengali"
-                Dim dt As DataTable = Database.GetData(query)
-                If dt.Rows.Count > 0 Then
-                    For i = 0 To dt.Rows.Count - 1
-                        globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip") & Environment.NewLine
-                        _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
-                        _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
-                        _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
-                        _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
-                        _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
-                        _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
-                        _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
-                        _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_wip")
-                        _PrintingWIPOnHold.txt_Status.Text = "WIP"
-                        _PrintingWIPOnHold.btn_Print_Click(sender, e)
+        Try
+            Dim queryDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
+            Dim dtDoneFG As DataTable = Database.GetData(queryDoneFG)
 
-                        If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+            Dim queryFT As String = "select * from flow_ticket where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
+            Dim dtDoneFT As DataTable = Database.GetData(queryFT)
+
+            If dtDoneFT.Rows.Count = dtDoneFG.Rows.Count Then
+                If txtSubSubPODefective.Text <> "" Then
+                    If txtWIPTicketNo.Text <> "" Then
+                        Dim split() As String = txtWIPTicketNo.Text.Split(";")
+                        Dim query As String = "select code_stock_prod_wip,flow_ticket_no,process,pengali from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' group by code_stock_prod_wip,flow_ticket_no,process,pengali"
+                        Dim dt As DataTable = Database.GetData(query)
+                        If dt.Rows.Count > 0 Then
+                            For i = 0 To dt.Rows.Count - 1
+                                globVar.failPrint = ""
+                                _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip") & Environment.NewLine
+                                _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
+                                _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
+                                _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
+                                _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
+                                _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
+                                _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
+                                _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                                _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_wip")
+                                _PrintingWIPOnHold.txt_Status.Text = "WIP"
+                                _PrintingWIPOnHold.btn_Print_Click(sender, e)
+
+                                If globVar.failPrint = "No" Then
+                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
                                 VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','WIP','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dt.Rows(i).Item("code_stock_prod_wip") & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
+                                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                    cmdInsertPrintingRecord.ExecuteNonQuery()
+                                End If
+                            Next
+                        Else
+                            MsgBox("Dont have WIP Data")
                         End If
-                    Next
+                    Else
+                        Dim query As String = "select code_stock_prod_wip,flow_ticket_no,process,pengali from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' group by code_stock_prod_wip,flow_ticket_no,process,pengali"
+                        Dim dt As DataTable = Database.GetData(query)
+                        If dt.Rows.Count > 0 Then
+                            For i = 0 To dt.Rows.Count - 1
+                                globVar.failPrint = ""
+                                _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip") & Environment.NewLine
+                                _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
+                                _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
+                                _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
+                                _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
+                                _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
+                                _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
+                                _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                                _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_wip")
+                                _PrintingWIPOnHold.txt_Status.Text = "WIP"
+                                _PrintingWIPOnHold.btn_Print_Click(sender, e)
+
+                                If globVar.failPrint = "No" Then
+                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','WIP','" & txtSubSubPODefective.Text & "','" & dept & "','" & dt.Rows(i).Item("flow_ticket_no") & "','" & dt.Rows(i).Item("code_stock_prod_wip") & "')"
+                                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                    cmdInsertPrintingRecord.ExecuteNonQuery()
+                                End If
+                            Next
+                        Else
+                            MsgBox("Dont have WIP Data")
+                        End If
+                    End If
                 Else
-                    MsgBox("Dont have WIP Data")
+                    MessageBox.Show("Sorry please select Line First.")
                 End If
             Else
-                Dim query As String = "select code_stock_prod_wip,flow_ticket_no,process,pengali from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' group by code_stock_prod_wip,flow_ticket_no,process,pengali"
-                Dim dt As DataTable = Database.GetData(query)
-                If dt.Rows.Count > 0 Then
-                    For i = 0 To dt.Rows.Count - 1
-                        globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_wip") & Environment.NewLine
-                        _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
-                        _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
-                        _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
-                        _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
-                        _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
-                        _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
-                        _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
-                        _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_wip")
-                        _PrintingWIPOnHold.txt_Status.Text = "WIP"
-                        _PrintingWIPOnHold.btn_Print_Click(sender, e)
-
-                        If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','WIP','" & txtSubSubPODefective.Text & "','" & dept & "','" & dt.Rows(i).Item("flow_ticket_no") & "','" & dt.Rows(i).Item("code_stock_prod_wip") & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
-                        End If
-                    Next
-                Else
-                    MsgBox("Dont have WIP Data")
-                End If
+                MsgBox("cannot print now because the PO is not yet completed.")
             End If
-        Else
-            MessageBox.Show("Sorry please select Line First.")
-        End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnPrintOnhold_Click(sender As Object, e As EventArgs) Handles btnPrintOnhold.Click
-        If txtSubSubPODefective.Text <> "" Then
-            If txtOnHoldTicketNo.Text <> "" Then
-                Dim split() As String = txtOnHoldTicketNo.Text.Split(";")
-                Dim query As String = "select code_stock_prod_onhold,flow_ticket_no,process,pengali from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' group by code_stock_prod_onhold,flow_ticket_no,process,pengali"
-                Dim dt As DataTable = Database.GetData(query)
-                If dt.Rows.Count > 0 Then
-                    For i = 0 To dt.Rows.Count - 1
+        Try
+            If txtSubSubPODefective.Text <> "" Then
+                If txtOnHoldTicketNo.Text <> "" Then
+                    Dim split() As String = txtOnHoldTicketNo.Text.Split(";")
+                    Dim query As String = "select code_stock_prod_onhold,flow_ticket_no,process,pengali from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' group by code_stock_prod_onhold,flow_ticket_no,process,pengali"
+                    Dim dt As DataTable = Database.GetData(query)
+                    If dt.Rows.Count > 0 Then
+                        For i = 0 To dt.Rows.Count - 1
 
-                        globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold") & Environment.NewLine
-                        _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
-                        _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
-                        _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
-                        _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
-                        _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
-                        _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
-                        _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
-                        _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_onhold")
-                        _PrintingWIPOnHold.txt_Status.Text = "ONHOLD"
-                        _PrintingWIPOnHold.btn_Print_Click(sender, e)
+                            globVar.failPrint = ""
+                            _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold") & Environment.NewLine
+                            _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
+                            _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
+                            _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
+                            _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
+                            _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
+                            _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
+                            _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                            _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_onhold")
+                            _PrintingWIPOnHold.txt_Status.Text = "ONHOLD"
+                            _PrintingWIPOnHold.btn_Print_Click(sender, e)
 
-                        If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                            If globVar.failPrint = "No" Then
+                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
                                 VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','OnHold','" & txtSubSubPODefective.Text & "','" & dept & "','" & split(5) & "','" & dt.Rows(i).Item("code_stock_prod_onhold") & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
-                        End If
+                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                            End If
 
-                    Next
+                        Next
+                    Else
+                        MsgBox("Dont have On Hold Data")
+                    End If
                 Else
-                    MsgBox("Dont have On Hold Data")
+                    Dim query As String = "select code_stock_prod_onhold,flow_ticket_no,process,pengali from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' group by code_stock_prod_onhold,flow_ticket_no,process,pengali"
+                    Dim dt As DataTable = Database.GetData(query)
+                    If dt.Rows.Count > 0 Then
+                        For i = 0 To dt.Rows.Count - 1
+
+                            globVar.failPrint = ""
+                            _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold") & Environment.NewLine
+                            _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
+                            _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
+                            _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
+                            _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
+                            _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
+                            _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
+                            _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                            _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_onhold")
+                            _PrintingWIPOnHold.txt_Status.Text = "ONHOLD"
+                            _PrintingWIPOnHold.btn_Print_Click(sender, e)
+
+                            If globVar.failPrint = "No" Then
+                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','OnHold','" & txtSubSubPODefective.Text & "','" & dept & "','" & dt.Rows(i).Item("flow_ticket_no") & "','" & dt.Rows(i).Item("code_stock_prod_onhold") & "')"
+                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                            End If
+
+                        Next
+                    Else
+                        MsgBox("Dont have On Hold Data")
+                    End If
                 End If
             Else
-                Dim query As String = "select code_stock_prod_onhold,flow_ticket_no,process,pengali from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' group by code_stock_prod_onhold,flow_ticket_no,process,pengali"
-                Dim dt As DataTable = Database.GetData(query)
-                If dt.Rows.Count > 0 Then
-                    For i = 0 To dt.Rows.Count - 1
-
-                        globVar.failPrint = ""
-                        _PrintingWIPOnHold.txt_QR_Code.Text = dt.Rows(i).Item("code_stock_prod_onhold") & Environment.NewLine
-                        _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
-                        _PrintingWIPOnHold.txt_part_number.Text = cbFGPN.Text
-                        _PrintingWIPOnHold.txt_Part_Description.Text = txtDescDefective.Text
-                        _PrintingWIPOnHold.txt_Process.Text = dt.Rows(i).Item("process")
-                        _PrintingWIPOnHold.txt_Qty.Text = dt.Rows(i).Item("pengali")
-                        _PrintingWIPOnHold.txt_Traceability.Text = cbPONumber.Text
-                        _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
-                        _PrintingWIPOnHold.txt_Unique_id.Text = dt.Rows(i).Item("code_stock_prod_onhold")
-                        _PrintingWIPOnHold.txt_Status.Text = "ONHOLD"
-                        _PrintingWIPOnHold.btn_Print_Click(sender, e)
-
-                        If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','OnHold','" & txtSubSubPODefective.Text & "','" & dept & "','" & dt.Rows(i).Item("flow_ticket_no") & "','" & dt.Rows(i).Item("code_stock_prod_onhold") & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
-                        End If
-
-                    Next
-                Else
-                    MsgBox("Dont have On Hold Data")
-                End If
+                MessageBox.Show("Sorry please select Line First.")
             End If
-        Else
-            MessageBox.Show("Sorry please select Line First.")
-        End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnPrintOthersPart_Click(sender As Object, e As EventArgs) Handles btnPrintOthersPart.Click
         If txtSubSubPODefective.Text <> "" Then
+            Dim countPrint = 0
             Try
                 Dim query As String = "select stock_prod_others.*,master_material.name from stock_prod_others, master_material where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and stock_prod_others.part_number=master_material.part_number"
                 Dim dtCheckOthersMaterialBalance As DataTable = Database.GetData(query)
                 If dtCheckOthersMaterialBalance.Rows.Count > 0 Then
                     For i = 0 To dtCheckOthersMaterialBalance.Rows.Count - 1
+                        If dtCheckOthersMaterialBalance.Rows(i).Item("print") = 0 Then
+                            globVar.failPrint = ""
+                            _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others")
+                            _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckOthersMaterialBalance.Rows(i).Item("part_number")
+                            _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckOthersMaterialBalance.Rows(i).Item("name")
+                            _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckOthersMaterialBalance.Rows(i).Item("qty")
+                            _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Others Material"
+                            _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & Environment.NewLine
+                            _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
-                        globVar.failPrint = ""
-                        _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others")
-                        _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckOthersMaterialBalance.Rows(i).Item("part_number")
-                        _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckOthersMaterialBalance.Rows(i).Item("name")
-                        _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckOthersMaterialBalance.Rows(i).Item("qty")
-                        _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Others Material"
-                        _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & Environment.NewLine
-                        _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
-
-                        If globVar.failPrint = "No" Then
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,material,code_print)
+                            If globVar.failPrint = "No" Then
+                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,material,code_print)
                                 VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Others Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("part_number") & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            cmdInsertPrintingRecord.ExecuteNonQuery()
+                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                            End If
+                        Else
+                            countPrint += 1
                         End If
                     Next
+
+                    If dtCheckOthersMaterialBalance.Rows.Count = countPrint Then
+                        Dim result As DialogResult = MessageBox.Show("All Others have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                        If result = DialogResult.Yes Then
+                            For i = 0 To dtCheckOthersMaterialBalance.Rows.Count - 1
+                                globVar.failPrint = ""
+                                _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others")
+                                _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckOthersMaterialBalance.Rows(i).Item("part_number")
+                                _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckOthersMaterialBalance.Rows(i).Item("name")
+                                _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckOthersMaterialBalance.Rows(i).Item("qty")
+                                _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Others Material"
+                                _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & Environment.NewLine
+                                _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                                If globVar.failPrint = "No" Then
+                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,material,code_print)
+                                        VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Others Material (Again)','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("part_number") & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & "')"
+                                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                    cmdInsertPrintingRecord.ExecuteNonQuery()
+                                End If
+                            Next
+                        End If
+                    End If
                 Else
                     MessageBox.Show("Sorry dont have any others part.")
                 End If

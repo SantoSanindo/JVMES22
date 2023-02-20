@@ -101,9 +101,11 @@ Public Class _PrintingFlowTicket
             Dim int_No_label As Integer = DataGridView2.Item(0, jml_row).Value
             No_label = int_No_label.ToString("D2")
             optr_label = DataGridView2.Item(1, jml_row).Value
-            Id_label = DataGridView2.Item(2, jml_row).Value
+            Dim int_Id_label As Integer = DataGridView2.Item(2, jml_row).Value
+            Id_label = int_Id_label.ToString("D4")
             process_label = DataGridView2.Item(3, jml_row).Value
-            txt_compress.Text = txt_compress.Text & No_label & "  " & optr_label & tab_label & Id_label & tab_label & process_label & tab_label & tab_label & "|" & tab_label & "|" & last_format
+            process_label = process_label.PadRight(33)
+            txt_compress.Text = txt_compress.Text & No_label & "  " & optr_label & tab_label & Id_label & "  " & process_label & tab_label & "|" & tab_label & "|" & last_format
         Next
         txt_compress.Text = txt_compress.Text & end_header
     End Sub

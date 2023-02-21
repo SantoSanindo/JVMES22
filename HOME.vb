@@ -7,7 +7,6 @@
 
         buka_printer()
 
-        TabControl1.TabPages.Clear()
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
@@ -25,15 +24,11 @@
     End Sub
 
     Private Sub buka_printer()
-        TabControl1.TabPages.Clear()
         TabControl1.TabPages.Add(_PrintingFlowTicket)
         TabControl1.TabPages.Add(_PrintingDefect)
         TabControl1.TabPages.Add(_PrintingSubAssyRawMaterial)
         TabControl1.TabPages.Add(_PrintingWIPOnHold)
-        TabControl1.TabPages(_PrintingFlowTicket).Select()
-        TabControl1.TabPages(_PrintingDefect).Select()
-        TabControl1.TabPages(_PrintingSubAssyRawMaterial).Select()
-        TabControl1.TabPages(_PrintingWIPOnHold).Select()
+        TabControl1.TabPages.Clear()
     End Sub
 
     ' -----------------------Start Menu Master Data-------------------------'
@@ -170,8 +165,10 @@
         If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "OPERATOR MINISTORE" Or globVar.hakAkses = "LEADER" Then
             StockMinistore.Close()
             TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(StockMinistore)
-            TabControl1.TabPages(StockMinistore).Select()
+            'TabControl1.TabPages.Add(StockMinistore)
+            'TabControl1.TabPages(StockMinistore).Select()
+            TabControl1.TabPages.Add(StockMinistoreV2)
+            TabControl1.TabPages(StockMinistoreV2).Select()
         Else
             MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

@@ -395,8 +395,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="logo-sanindo-tekno-batam %281%29.ico" />
-    <Content Include="logo-sanindo-tekno-batam.ico" />
     <Content Include="sanindo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -4,4 +4,5 @@
         Me.STOCK_CARDTableAdapter.Fill(Me.JOVANDataSet.STOCK_CARD)
 
     End Sub
+
 End Class

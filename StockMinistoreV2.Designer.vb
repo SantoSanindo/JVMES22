@@ -23,11 +23,7 @@ Partial Class StockMinistoreV2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.AdvancedDataGridViewSearchToolBar1 = New Zuby.ADGV.AdvancedDataGridViewSearchToolBar()
         Me.AdvancedDataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
-        Me.JOVANDataSet = New Jovan_New.JOVANDataSet()
-        Me.STOCKCARDBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.STOCK_CARDTableAdapter = New Jovan_New.JOVANDataSetTableAdapters.STOCK_CARDTableAdapter()
         Me.IDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MTSNODataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DEPARTMENTDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -54,53 +50,31 @@ Partial Class StockMinistoreV2
         Me.LEVELDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.FLOWTICKETDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SUMQTYDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.STOCKCARDBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.JOVANDataSet = New Jovan_New.JOVANDataSet()
+        Me.STOCK_CARDTableAdapter = New Jovan_New.JOVANDataSetTableAdapters.STOCK_CARDTableAdapter()
         CType(Me.AdvancedDataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'AdvancedDataGridViewSearchToolBar1
-        '
-        Me.AdvancedDataGridViewSearchToolBar1.AllowMerge = False
-        Me.AdvancedDataGridViewSearchToolBar1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.AdvancedDataGridViewSearchToolBar1.Location = New System.Drawing.Point(0, 0)
-        Me.AdvancedDataGridViewSearchToolBar1.MaximumSize = New System.Drawing.Size(0, 27)
-        Me.AdvancedDataGridViewSearchToolBar1.MinimumSize = New System.Drawing.Size(0, 27)
-        Me.AdvancedDataGridViewSearchToolBar1.Name = "AdvancedDataGridViewSearchToolBar1"
-        Me.AdvancedDataGridViewSearchToolBar1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.AdvancedDataGridViewSearchToolBar1.Size = New System.Drawing.Size(1182, 27)
-        Me.AdvancedDataGridViewSearchToolBar1.TabIndex = 0
-        Me.AdvancedDataGridViewSearchToolBar1.Text = "AdvancedDataGridViewSearchToolBar1"
         '
         'AdvancedDataGridView1
         '
+        Me.AdvancedDataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.AdvancedDataGridView1.AutoGenerateColumns = False
         Me.AdvancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.AdvancedDataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.IDDataGridViewTextBoxColumn, Me.MTSNODataGridViewTextBoxColumn, Me.DEPARTMENTDataGridViewTextBoxColumn, Me.MATERIALDataGridViewTextBoxColumn, Me.STATUSDataGridViewTextBoxColumn, Me.STANDARDPACKDataGridViewTextBoxColumn, Me.INVCTRLDATEDataGridViewTextBoxColumn, Me.TRACEABILITYDataGridViewTextBoxColumn, Me.BATCHNODataGridViewTextBoxColumn, Me.LOTNODataGridViewTextBoxColumn, Me.FINISHGOODSPNDataGridViewTextBoxColumn, Me.PODataGridViewTextBoxColumn, Me.SUBPODataGridViewTextBoxColumn, Me.SUBSUBPODataGridViewTextBoxColumn, Me.LINEDataGridViewTextBoxColumn, Me.DATETIMEINSERTDataGridViewTextBoxColumn, Me.SAVEDataGridViewTextBoxColumn, Me.QRCODEDataGridViewTextBoxColumn, Me.DATETIMESAVEDataGridViewTextBoxColumn, Me.QTYDataGridViewTextBoxColumn, Me.ACTUALQTYDataGridViewTextBoxColumn, Me.FIFODataGridViewTextBoxColumn, Me.IDLEVELDataGridViewTextBoxColumn, Me.LEVELDataGridViewTextBoxColumn, Me.FLOWTICKETDataGridViewTextBoxColumn, Me.SUMQTYDataGridViewTextBoxColumn})
         Me.AdvancedDataGridView1.DataSource = Me.STOCKCARDBindingSource
-        Me.AdvancedDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.AdvancedDataGridView1.FilterAndSortEnabled = True
         Me.AdvancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = True
-        Me.AdvancedDataGridView1.Location = New System.Drawing.Point(0, 27)
+        Me.AdvancedDataGridView1.Location = New System.Drawing.Point(14, 24)
         Me.AdvancedDataGridView1.Name = "AdvancedDataGridView1"
         Me.AdvancedDataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.AdvancedDataGridView1.Size = New System.Drawing.Size(1182, 642)
+        Me.AdvancedDataGridView1.Size = New System.Drawing.Size(1156, 493)
         Me.AdvancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.AdvancedDataGridView1.TabIndex = 1
-        '
-        'JOVANDataSet
-        '
-        Me.JOVANDataSet.DataSetName = "JOVANDataSet"
-        Me.JOVANDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'STOCKCARDBindingSource
-        '
-        Me.STOCKCARDBindingSource.DataMember = "STOCK_CARD"
-        Me.STOCKCARDBindingSource.DataSource = Me.JOVANDataSet
-        '
-        'STOCK_CARDTableAdapter
-        '
-        Me.STOCK_CARDTableAdapter.ClearBeforeFill = True
         '
         'IDDataGridViewTextBoxColumn
         '
@@ -311,24 +285,34 @@ Partial Class StockMinistoreV2
         Me.SUMQTYDataGridViewTextBoxColumn.Name = "SUMQTYDataGridViewTextBoxColumn"
         Me.SUMQTYDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic
         '
+        'STOCKCARDBindingSource
+        '
+        Me.STOCKCARDBindingSource.DataMember = "STOCK_CARD"
+        Me.STOCKCARDBindingSource.DataSource = Me.JOVANDataSet
+        '
+        'JOVANDataSet
+        '
+        Me.JOVANDataSet.DataSetName = "JOVANDataSet"
+        Me.JOVANDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        '
+        'STOCK_CARDTableAdapter
+        '
+        Me.STOCK_CARDTableAdapter.ClearBeforeFill = True
+        '
         'StockMinistoreV2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1182, 669)
         Me.Controls.Add(Me.AdvancedDataGridView1)
-        Me.Controls.Add(Me.AdvancedDataGridViewSearchToolBar1)
         Me.Name = "StockMinistoreV2"
         Me.Text = "StockMinistoreV2"
         CType(Me.AdvancedDataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents AdvancedDataGridViewSearchToolBar1 As Zuby.ADGV.AdvancedDataGridViewSearchToolBar
     Friend WithEvents AdvancedDataGridView1 As Zuby.ADGV.AdvancedDataGridView
     Friend WithEvents JOVANDataSet As JOVANDataSet
     Friend WithEvents STOCKCARDBindingSource As BindingSource

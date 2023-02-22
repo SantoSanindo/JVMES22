@@ -1887,7 +1887,7 @@ Namespace JOVANDataSetTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")>  _
         Private Sub InitConnection()
             Me._connection = New Global.System.Data.SqlClient.SqlConnection()
-            Me._connection.ConnectionString = Global.Jovan_New.My.MySettings.Default.JOVANConnectionString
+            Me._connection.ConnectionString = Global.Jovan_New.My.MySettings.Default.JOVANdb
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _

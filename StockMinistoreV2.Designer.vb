@@ -24,6 +24,10 @@ Partial Class StockMinistoreV2
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.AdvancedDataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
+        Me.JOVANDataSet = New Jovan_New.JOVANDataSet()
+        Me.JOVANDataSet1 = New Jovan_New.JOVANDataSet()
+        Me.STOCKCARDBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.STOCK_CARDTableAdapter = New Jovan_New.JOVANDataSetTableAdapters.STOCK_CARDTableAdapter()
         Me.IDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MTSNODataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DEPARTMENTDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -50,12 +54,10 @@ Partial Class StockMinistoreV2
         Me.LEVELDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.FLOWTICKETDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SUMQTYDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.STOCKCARDBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.JOVANDataSet = New Jovan_New.JOVANDataSet()
-        Me.STOCK_CARDTableAdapter = New Jovan_New.JOVANDataSetTableAdapters.STOCK_CARDTableAdapter()
         CType(Me.AdvancedDataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.JOVANDataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'AdvancedDataGridView1
@@ -75,6 +77,25 @@ Partial Class StockMinistoreV2
         Me.AdvancedDataGridView1.Size = New System.Drawing.Size(1156, 493)
         Me.AdvancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.AdvancedDataGridView1.TabIndex = 1
+        '
+        'JOVANDataSet
+        '
+        Me.JOVANDataSet.DataSetName = "JOVANDataSet"
+        Me.JOVANDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        '
+        'JOVANDataSet1
+        '
+        Me.JOVANDataSet1.DataSetName = "JOVANDataSet"
+        Me.JOVANDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        '
+        'STOCKCARDBindingSource
+        '
+        Me.STOCKCARDBindingSource.DataMember = "STOCK_CARD"
+        Me.STOCKCARDBindingSource.DataSource = Me.JOVANDataSet1
+        '
+        'STOCK_CARDTableAdapter
+        '
+        Me.STOCK_CARDTableAdapter.ClearBeforeFill = True
         '
         'IDDataGridViewTextBoxColumn
         '
@@ -285,20 +306,6 @@ Partial Class StockMinistoreV2
         Me.SUMQTYDataGridViewTextBoxColumn.Name = "SUMQTYDataGridViewTextBoxColumn"
         Me.SUMQTYDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic
         '
-        'STOCKCARDBindingSource
-        '
-        Me.STOCKCARDBindingSource.DataMember = "STOCK_CARD"
-        Me.STOCKCARDBindingSource.DataSource = Me.JOVANDataSet
-        '
-        'JOVANDataSet
-        '
-        Me.JOVANDataSet.DataSetName = "JOVANDataSet"
-        Me.JOVANDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'STOCK_CARDTableAdapter
-        '
-        Me.STOCK_CARDTableAdapter.ClearBeforeFill = True
-        '
         'StockMinistoreV2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -308,13 +315,15 @@ Partial Class StockMinistoreV2
         Me.Name = "StockMinistoreV2"
         Me.Text = "StockMinistoreV2"
         CType(Me.AdvancedDataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.JOVANDataSet1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents AdvancedDataGridView1 As Zuby.ADGV.AdvancedDataGridView
     Friend WithEvents JOVANDataSet As JOVANDataSet
+    Friend WithEvents JOVANDataSet1 As JOVANDataSet
     Friend WithEvents STOCKCARDBindingSource As BindingSource
     Friend WithEvents STOCK_CARDTableAdapter As JOVANDataSetTableAdapters.STOCK_CARDTableAdapter
     Friend WithEvents IDDataGridViewTextBoxColumn As DataGridViewTextBoxColumn

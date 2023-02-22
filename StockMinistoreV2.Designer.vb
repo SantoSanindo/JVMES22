@@ -23,6 +23,9 @@ Partial Class StockMinistoreV2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.AdvancedDataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
         Me.IDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MTSNODataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -53,6 +56,7 @@ Partial Class StockMinistoreV2
         Me.STOCKCARDBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.JOVANDataSet = New Jovan_New.JOVANDataSet()
         Me.STOCK_CARDTableAdapter = New Jovan_New.JOVANDataSetTableAdapters.STOCK_CARDTableAdapter()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.AdvancedDataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.STOCKCARDBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.JOVANDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,14 +68,38 @@ Partial Class StockMinistoreV2
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.AdvancedDataGridView1.AutoGenerateColumns = False
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle10.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.AdvancedDataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle10
         Me.AdvancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.AdvancedDataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.IDDataGridViewTextBoxColumn, Me.MTSNODataGridViewTextBoxColumn, Me.DEPARTMENTDataGridViewTextBoxColumn, Me.MATERIALDataGridViewTextBoxColumn, Me.STATUSDataGridViewTextBoxColumn, Me.STANDARDPACKDataGridViewTextBoxColumn, Me.INVCTRLDATEDataGridViewTextBoxColumn, Me.TRACEABILITYDataGridViewTextBoxColumn, Me.BATCHNODataGridViewTextBoxColumn, Me.LOTNODataGridViewTextBoxColumn, Me.FINISHGOODSPNDataGridViewTextBoxColumn, Me.PODataGridViewTextBoxColumn, Me.SUBPODataGridViewTextBoxColumn, Me.SUBSUBPODataGridViewTextBoxColumn, Me.LINEDataGridViewTextBoxColumn, Me.DATETIMEINSERTDataGridViewTextBoxColumn, Me.SAVEDataGridViewTextBoxColumn, Me.QRCODEDataGridViewTextBoxColumn, Me.DATETIMESAVEDataGridViewTextBoxColumn, Me.QTYDataGridViewTextBoxColumn, Me.ACTUALQTYDataGridViewTextBoxColumn, Me.FIFODataGridViewTextBoxColumn, Me.IDLEVELDataGridViewTextBoxColumn, Me.LEVELDataGridViewTextBoxColumn, Me.FLOWTICKETDataGridViewTextBoxColumn, Me.SUMQTYDataGridViewTextBoxColumn})
         Me.AdvancedDataGridView1.DataSource = Me.STOCKCARDBindingSource
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.AdvancedDataGridView1.DefaultCellStyle = DataGridViewCellStyle11
         Me.AdvancedDataGridView1.FilterAndSortEnabled = True
         Me.AdvancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = True
         Me.AdvancedDataGridView1.Location = New System.Drawing.Point(14, 24)
         Me.AdvancedDataGridView1.Name = "AdvancedDataGridView1"
         Me.AdvancedDataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle12.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.AdvancedDataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle12
         Me.AdvancedDataGridView1.Size = New System.Drawing.Size(1156, 493)
         Me.AdvancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.AdvancedDataGridView1.TabIndex = 1
@@ -299,11 +327,25 @@ Partial Class StockMinistoreV2
         '
         Me.STOCK_CARDTableAdapter.ClearBeforeFill = True
         '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.BackColor = System.Drawing.Color.Blue
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.Button1.Location = New System.Drawing.Point(1013, 523)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(157, 37)
+        Me.Button1.TabIndex = 2
+        Me.Button1.Text = "Export To Excel"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
         'StockMinistoreV2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1182, 669)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.AdvancedDataGridView1)
         Me.Name = "StockMinistoreV2"
         Me.Text = "StockMinistoreV2"
@@ -343,4 +385,5 @@ Partial Class StockMinistoreV2
     Friend WithEvents LEVELDataGridViewTextBoxColumn As DataGridViewTextBoxColumn
     Friend WithEvents FLOWTICKETDataGridViewTextBoxColumn As DataGridViewTextBoxColumn
     Friend WithEvents SUMQTYDataGridViewTextBoxColumn As DataGridViewTextBoxColumn
+    Friend WithEvents Button1 As Button
 End Class

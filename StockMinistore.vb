@@ -93,7 +93,7 @@ Public Class StockMinistore
         End Try
     End Sub
 
-    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
+    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs)
         For i As Integer = 0 To DataGridView1.RowCount - 1
             If DataGridView1.Rows(i).Index Mod 2 = 0 Then
                 DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue

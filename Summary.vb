@@ -1,5 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Runtime.Remoting
+Imports Microsoft.Office.Interop
 
 Public Class Summary
     Private Sub Summary_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -402,5 +403,72 @@ Public Class Summary
                 MsgBox("Sorry please fill the sub sub po")
             End If
         End If
+    End Sub
+
+
+    Private Sub exportToExcel(ByVal dgv As DataGridView)
+
+        ' membuat objek Excel dan workbook baru
+        Dim xlApp As New Excel.Application
+        Dim xlWorkBook As Excel.Workbook = xlApp.Workbooks.Add
+        Dim xlWorkSheet As Excel.Worksheet = xlWorkBook.Worksheets(1)
+
+        ' mengisi data ke worksheet
+        Dim dgvColumnIndex As Integer = 0
+        For Each column As DataGridViewColumn In dgv.Columns
+            dgvColumnIndex += 1
+            xlWorkSheet.Cells(1, dgvColumnIndex) = column.HeaderText
+        Next
+        Dim dgvRowIndex As Integer = 0
+        For Each row As DataGridViewRow In dgv.Rows
+            dgvRowIndex += 1
+            dgvColumnIndex = 0
+            For Each cell As DataGridViewCell In row.Cells
+                dgvColumnIndex += 1
+                xlWorkSheet.Cells(dgvRowIndex + 1, dgvColumnIndex) = cell.Value
+            Next
+        Next
+
+        ' menyimpan workbook ke file Excel
+        Dim saveFileDialog1 As New SaveFileDialog()
+        saveFileDialog1.Filter = "Excel Workbook|*.xlsx"
+        saveFileDialog1.Title = "Save Excel File"
+        saveFileDialog1.ShowDialog()
+
+        If saveFileDialog1.FileName <> "" Then
+            xlWorkBook.SaveAs(saveFileDialog1.FileName)
+            MsgBox("File saved successfully.")
+        End If
+
+        ' membersihkan objek Excel
+        xlWorkBook.Close()
+        xlApp.Quit()
+        releaseObject(xlApp)
+        releaseObject(xlWorkBook)
+        releaseObject(xlWorkSheet)
+
+    End Sub
+
+    Private Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
+    End Sub
+
+    Private Sub Btn_Export_DGSummary_Click(sender As Object, e As EventArgs) Handles Btn_Export_DGSummary.Click
+        exportToExcel(DGSummary)
+    End Sub
+
+    Private Sub btn_ExportTrace1_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace1.Click
+        exportToExcel(DGTraceability1)
+    End Sub
+
+    Private Sub btn_ExportTrace2_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace2.Click
+        exportToExcel(DGTraceability2)
     End Sub
 End Class

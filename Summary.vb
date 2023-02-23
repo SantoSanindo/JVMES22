@@ -3,9 +3,7 @@ Imports System.Runtime.Remoting
 Imports Microsoft.Office.Interop
 
 Public Class Summary
-    Private Sub Summary_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-    End Sub
 
     Sub loadDGV()
         With DGSummary

@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar
+Imports Microsoft.Office.Interop
 
 Public Class StockMinistore
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -114,4 +115,64 @@ Public Class StockMinistore
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
         DGV_StockMiniststore()
     End Sub
+
+    Private Sub btn_ExportTrace1_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace1.Click
+        exportToExcel(DataGridView1)
+    End Sub
+
+
+    Private Sub exportToExcel(ByVal dgv As DataGridView)
+
+        ' membuat objek Excel dan workbook baru
+        Dim xlApp As New Excel.Application
+        Dim xlWorkBook As Excel.Workbook = xlApp.Workbooks.Add
+        Dim xlWorkSheet As Excel.Worksheet = xlWorkBook.Worksheets(1)
+
+        ' mengisi data ke worksheet
+        Dim dgvColumnIndex As Integer = 0
+        For Each column As DataGridViewColumn In dgv.Columns
+            dgvColumnIndex += 1
+            xlWorkSheet.Cells(1, dgvColumnIndex) = column.HeaderText
+        Next
+        Dim dgvRowIndex As Integer = 0
+        For Each row As DataGridViewRow In dgv.Rows
+            dgvRowIndex += 1
+            dgvColumnIndex = 0
+            For Each cell As DataGridViewCell In row.Cells
+                dgvColumnIndex += 1
+                xlWorkSheet.Cells(dgvRowIndex + 1, dgvColumnIndex) = cell.Value
+            Next
+        Next
+
+        ' menyimpan workbook ke file Excel
+        Dim saveFileDialog1 As New SaveFileDialog()
+        saveFileDialog1.Filter = "Excel Workbook|*.xlsx"
+        saveFileDialog1.Title = "Save Excel File"
+        saveFileDialog1.ShowDialog()
+
+        If saveFileDialog1.FileName <> "" Then
+            xlWorkBook.SaveAs(saveFileDialog1.FileName)
+            MsgBox("File saved successfully.")
+        End If
+
+        ' membersihkan objek Excel
+        xlWorkBook.Close()
+        xlApp.Quit()
+        releaseObject(xlApp)
+        releaseObject(xlWorkBook)
+        releaseObject(xlWorkSheet)
+
+    End Sub
+
+    Private Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
+    End Sub
+
 End Class

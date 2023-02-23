@@ -167,8 +167,8 @@
             TabControl1.TabPages.Clear()
             'TabControl1.TabPages.Add(StockMinistore)
             'TabControl1.TabPages(StockMinistore).Select()
-            TabControl1.TabPages.Add(StockMinistoreV2)
-            TabControl1.TabPages(StockMinistoreV2).Select()
+            TabControl1.TabPages.Add(StockMinistore)
+            TabControl1.TabPages(StockMinistore).Select()
         Else
             MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

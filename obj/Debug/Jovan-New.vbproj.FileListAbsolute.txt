@@ -470,4 +470,3 @@ C:\Users\SERVER\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
 C:\Users\SERVER\source\repos\SantoSanindo\JVMES22\bin\Debug\AdvancedDataGridView.dll
 C:\Users\SERVER\source\repos\SantoSanindo\JVMES22\obj\Debug\Jovan_New.StockMinistoreV2.resources
 C:\Users\Arif\source\repos\2\JVMES22\bin\Debug\AdvancedDataGridView.dll
-C:\Users\Arif\source\repos\2\JVMES22\obj\Debug\Jovan_New.StockMinistoreV2.resources

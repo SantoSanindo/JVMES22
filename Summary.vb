@@ -1,10 +1,9 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Runtime.Remoting
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
 
 Public Class Summary
-
-
     Sub loadDGV()
         With DGSummary
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
@@ -97,6 +96,45 @@ Public Class Summary
         End With
     End Sub
 
+    Function SummaryFG(sub_sub_po As String)
+        Dim _Result As Integer = 0
+        Dim sqlStr As String = "select mp.fg_pn, mufg.component from material_usage_finish_goods mufg, main_po mp, sub_sub_po ssp where mufg.fg_part_number=mp.fg_pn and mp.id=ssp.main_po and ssp.sub_sub_po='" & txtSummarySubSubPO.Text & "'"
+        Dim dttable As DataTable = Database.GetData(sqlStr)
+        For i = 0 To dttable.Rows.Count - 1
+            Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='Fresh'")
+            Dim dtInOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='OT'")
+            Dim dtInWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='WIP'")
+            Dim dtInOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='OH'")
+            Dim dtInSA As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Request' and [level]='SA'")
+
+            Dim dtOutReturn As DataTable = Database.GetData("select isnull(sum(qty),0) from out_prod_reject where sub_sub_po='" & sub_sub_po & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
+            Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & sub_sub_po & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
+            Dim dtOutOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_others where code_out_prod_defect in (select DISTINCT(code_out_prod_defect) from out_prod_defect where sub_sub_po='" & sub_sub_po & "') and part_number='" & dttable.Rows(i).Item("component") & "'")
+            Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & sub_sub_po & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
+            Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & sub_sub_po & "' and part_number='" & dttable.Rows(i).Item("component") & "'")
+            Dim dtOutFG As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Production Result'")
+            Dim dtOutBalance As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "' and status='Return To Mini Store'")
+
+            Dim sqlCheckSummaryFG As String = "SELECT * FROM summary_fg WHERE sub_sub_po = '" & sub_sub_po & "' and material='" & dttable.Rows(i).Item("component") & "'"
+            Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+            If dtCheckSummaryFG.Rows.Count = 0 Then
+                Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg([SUB_SUB_PO], [FG], [MATERIAL], [FRESH_IN], [BALANCE_IN], [OTHERS_IN], [WIP_IN],
+                [ONHOLD_IN], [SA_IN], [TOTAL_IN], [RETURN_OUT], [DEFECT_OUT], [OTHERS_OUT], [WIP_OUT], [ONHOLD_OUT], [BALANCE_OUT], [FG_OUT], [TOTAL_OUT]) 
+                VALUES ('" & sub_sub_po & "','" & dttable.Rows(i).Item("fg_pn") & "',
+                '" & dttable.Rows(i).Item("component") & "'," & dtInFresh.Rows(0)(0).ToString().Replace(",", ".") & ",0," & dtInOthers.Rows(0)(0).ToString().Replace(",", ".") & ",
+                " & dtInWIP.Rows(0)(0).ToString().Replace(",", ".") & "," & dtInOnHold.Rows(0)(0).ToString().Replace(",", ".") & "," & dtInSA.Rows(0)(0).ToString().Replace(",", ".") & ",
+                " & Math.Round(dtInFresh.Rows(0)(0) + dtInOthers.Rows(0)(0) + dtInWIP.Rows(0)(0) + dtInOnHold.Rows(0)(0) + dtInSA.Rows(0)(0)).ToString().Replace(",", ".") & ",
+                " & dtOutReturn.Rows(0)(0).ToString().Replace(",", ".") & "," & dtOutDefect.Rows(0)(0).ToString().Replace(",", ".") & "," & dtOutOthers.Rows(0)(0).ToString().Replace(",", ".") & ",
+                " & dtOutWIP.Rows(0)(0).ToString().Replace(",", ".") & "," & dtOutOnHold.Rows(0)(0).ToString().Replace(",", ".") & "," & dtOutBalance.Rows(0)(0).ToString().Replace(",", ".") & ",
+                " & dtOutFG.Rows(0)(0).ToString().Replace(",", ".") & "," & Math.Round(dtOutReturn.Rows(0)(0) + dtOutOthers.Rows(0)(0) + dtOutWIP.Rows(0)(0) + dtOutOnHold.Rows(0)(0) + dtOutFG.Rows(0)(0) + dtOutBalance.Rows(0)(0) + dtOutDefect.Rows(0)(0)).ToString().Replace(",", ".") & ")"
+                Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                cmdInsertSummaryFG.ExecuteNonQuery()
+            End If
+            _Result = _Result + 1
+        Next
+        Return _Result
+    End Function
+
     Sub loadTraceability1()
         With DGTraceability1
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
@@ -145,7 +183,6 @@ Public Class Summary
             .Columns(40).HeaderText = "Process 28"
             .Columns(41).HeaderText = "Process 29"
             .Columns(42).HeaderText = "Process 30"
-
 
             For i As Integer = 0 To .ColumnCount - 1
                 .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -214,53 +251,28 @@ Public Class Summary
         Next
     End Sub
 
-    Sub loadTraceability11()
-        Dim varProcess As String = ""
-
-        Dim sqlStr As String = "SELECT d.DATETIME_INSERT [Date],d.sub_sub_po [Sub Sub PO],d.line [Line],d.fg [FG],d.laser_code [Laser Code],d.INV_CTRL_DATE [Inv.],d.BATCH_NO [Batch No],d.LOT_NO [Lot No],f.inspector [Outgoing Inspector],f.packer1 [Packer 1],f.packer2 [Packer 2],f.packer3 [Packer 3],f.packer4 [Packer 4] FROM done_fg d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtTraceability.Text & "'"
-
+    Function summaryTraceability(fg)
+        Dim _result As Integer = 0
+        Dim sqlStr As String = "SELECT d.DATETIME_INSERT,d.sub_sub_po,d.line,d.fg,d.laser_code,d.INV_CTRL_DATE,d.BATCH_NO,d.LOT_NO,f.inspector,f.packer1,f.packer2,f.packer3,f.packer4 FROM done_fg d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & fg & "'"
         Dim dttable As DataTable = Database.GetData(sqlStr)
-
-        DGTraceability1.DataSource = dttable
-        DGTraceability1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-        DGTraceability1.EnableHeadersVisualStyles = False
-        With DGTraceability1.ColumnHeadersDefaultCellStyle
-            .BackColor = Color.Navy
-            .ForeColor = Color.White
-            .Font = New Font("Tahoma", 13, FontStyle.Bold)
-            .Alignment = HorizontalAlignment.Center
-            .Alignment = ContentAlignment.MiddleCenter
-        End With
-
-        For Each col As DataGridViewColumn In DGTraceability1.Columns
-            col.MinimumWidth = 300
-        Next
-        loadTraceability2()
-
-        Dim rowIndexMax As Integer = 5
-        Dim colors As New List(Of Color)({Color.LightBlue, Color.LightGreen, Color.LightGray, Color.LightPink, Color.LightYellow})
-        Dim colorsIndexNow = 0
-
-        For i As Integer = 0 To DGTraceability1.RowCount - 1
-            If i = 0 Then
-                colorsIndexNow = 0
-            Else
-                If colorsIndexNow = rowIndexMax - 1 Then
-                    colorsIndexNow = 0
-                Else
-                    colorsIndexNow += 1
+        If dttable.Rows.Count > 0 Then
+            For i = 0 To dttable.Rows.Count - 1
+                Dim sqlCheckSummaryTraceability As String = "SELECT * FROM summary_traceability WHERE sub_sub_po = '" & dttable.Rows(i).Item("sub_sub_po") & "' and fg='" & fg & "' and lot_no='" & dttable.Rows(i).Item("LOT_NO") & "'"
+                Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
+                If dtCheckSummaryTraceability.Rows.Count = 0 Then
+                    Dim sqlInsertSummaryFG As String = "INSERT INTO SUMMARY_TRACEABILITY([DATE], [SUB_SUB_PO], [LINE], [FG], [LASER_CODE], [INV], [BATCH_NO], [LOT_NO], 
+                        [INSPECTOR], [PACKER1], [PACKER2], [PACKER3], [PACKER4]) VALUES (cast(CONVERT(datetime, '" & dttable.Rows(i).Item("DATETIME_INSERT") & "', 105) as varchar(19)), '" & dttable.Rows(i).Item("sub_sub_po") & "', 
+                        '" & dttable.Rows(i).Item("line") & "', '" & dttable.Rows(i).Item("fg") & "', '" & dttable.Rows(i).Item("laser_code") & "', '" & dttable.Rows(i).Item("INV_CTRL_DATE") & "', 
+                        '" & dttable.Rows(i).Item("BATCH_NO") & "', '" & dttable.Rows(i).Item("LOT_NO") & "', '" & dttable.Rows(i).Item("inspector") & "', '" & dttable.Rows(i).Item("packer1") & "', 
+                        '" & dttable.Rows(i).Item("packer2") & "', '" & dttable.Rows(i).Item("packer3") & "', '" & dttable.Rows(i).Item("packer4") & "')"
+                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                    cmdInsertSummaryFG.ExecuteNonQuery()
                 End If
-            End If
-            DGTraceability1.Rows(i).DefaultCellStyle.BackColor = colors(colorsIndexNow)
-        Next
-
-        For k As Integer = 1 To 30
-            DGTraceability1.Columns.Add("Process_" & k, "Process " & k)
-        Next
-
-        Threading.Thread.Sleep(2000)
-        loadOperator()
-    End Sub
+                _result = _result + 1
+            Next
+        End If
+        Return _result
+    End Function
 
     Sub loadOperator()
         If DGTraceability1.Rows.Count > 0 Then
@@ -383,10 +395,70 @@ Public Class Summary
         Next
     End Sub
 
+    Function summaryTraceabilityMat(fg)
+        Dim _result As Integer = 0
+        Dim _remark As String = ""
+        Dim sqlStr As String = "select sc.line,sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,qty,id_level from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & fg & "' and sc.material=mm.part_number order by sc.line,sc.flow_ticket,sc.material"
+        Dim dttable As DataTable = Database.GetData(sqlStr)
+        If dttable.Rows.Count > 0 Then
+            For i = 0 To dttable.Rows.Count - 1
+                Dim sqlCheckSummaryTraceability As String = "SELECT * FROM summary_traceability_comp WHERE line = '" & dttable.Rows(i).Item("line") & "' and lot_fg='" & dttable.Rows(i).Item("flow_ticket") & "' and component='" & dttable.Rows(i).Item("material") & "'"
+                Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
+                If dtCheckSummaryTraceability.Rows.Count = 0 Then
+                    If InStr(dttable.Rows(i).Item("id_level").ToString, "SA") > 0 Or InStr(dttable.Rows(i).Item("id_level").ToString, "WIP") > 0 Or InStr(dttable.Rows(i).Item("id_level").ToString, "OT") > 0 Then
+                        _remark = dttable.Rows(i).Item("id_level")
+                    Else
+                        _remark = "Fresh"
+                    End If
+                    Dim sqlInsertSummaryFG As String = "INSERT INTO [SUMMARY_TRACEABILITY_COMP]([LINE], [COMPONENT], [DESC], [INV], [BATCH_NO], [LOT_COMP], [LOT_FG], 
+                        [QTY], [REMARK]) VALUES ('" & dttable.Rows(i).Item("line") & "', '" & dttable.Rows(i).Item("material") & "', '" & dttable.Rows(i).Item("name") & "', 
+                        '" & dttable.Rows(i).Item("inv_ctrl_date") & "', '" & dttable.Rows(i).Item("batch_no") & "', '" & dttable.Rows(i).Item("lot_no") & "', 
+                        '" & dttable.Rows(i).Item("flow_ticket") & "', " & dttable.Rows(i).Item("qty").ToString().Replace(",", ".") & ", '" & _remark & "')"
+                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                    cmdInsertSummaryFG.ExecuteNonQuery()
+                End If
+                _result = _result + 1
+            Next
+        End If
+        Return _result
+    End Function
+
+    Function summaryTraceabilityOperator(fg)
+        Dim _result As Integer = 0
+        Dim sqlStr As String = "select * from summary_traceability where fg='" & fg & "'"
+        Dim dttable As DataTable = Database.GetData(sqlStr)
+        If dttable.Rows.Count > 0 Then
+            For i = 0 To dttable.Rows.Count - 1
+                Dim sqlCheckOperatorDetails As String = "SELECT * FROM prod_dop_details WHERE sub_sub_po= '" & dttable.Rows(i).Item("sub_sub_po") & "' and lot_flow_ticket=" & dttable.Rows(i).Item("lot_no")
+                Dim dtOperatorDetails As DataTable = Database.GetData(sqlCheckOperatorDetails)
+                If dtOperatorDetails.Rows.Count > 0 Then
+                    For l As Integer = 0 To dtOperatorDetails.Rows.Count - 1
+                        Dim SqlUpdate As String = "UPDATE summary_traceability SET process" & dtOperatorDetails.Rows(l).Item("process_number") & "='" & dtOperatorDetails.Rows(l).Item("process") & "(" & dtOperatorDetails.Rows(l).Item("operator") & ")' WHERE id=" & dttable.Rows(i).Item("id")
+                        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                        cmdUpdate.ExecuteNonQuery()
+                    Next
+                Else
+                    Dim sqlOperator As String = "SELECT * FROM prod_dop WHERE fg_pn= '" & fg & "' and sub_sub_po='" & dttable.Rows(i).Item("sub_sub_po") & "'"
+                    Dim dtOperator As DataTable = Database.GetData(sqlOperator)
+                    If dtOperator.Rows.Count > 0 Then
+                        For l As Integer = 0 To dtOperator.Rows.Count - 1
+                            Dim SqlUpdate As String = "UPDATE summary_traceability SET process" & dtOperator.Rows(l).Item("process_number") & "='" & dtOperator.Rows(l).Item("process") & "(" & dtOperator.Rows(l).Item("operator_id") & ")' WHERE id=" & dttable.Rows(i).Item("id")
+                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                            cmdUpdate.ExecuteNonQuery()
+                        Next
+                    End If
+                End If
+                _result = _result + 1
+            Next
+        End If
+        Return _result
+    End Function
+
     Private Sub txtSummarySubSubPO_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSummarySubSubPO.PreviewKeyDown
         If (e.KeyData = Keys.Enter) Then
             If txtSummarySubSubPO.Text <> "" Then
                 loadDGV()
+                SummaryFG(txtSummarySubSubPO.Text)
             Else
                 MsgBox("Sorry please fill the sub sub po")
             End If
@@ -397,6 +469,9 @@ Public Class Summary
         If (e.KeyData = Keys.Enter) Then
             If txtTraceability.Text <> "" Then
                 loadTraceability1()
+                summaryTraceability(txtTraceability.Text)
+                summaryTraceabilityMat(txtTraceability.Text)
+                summaryTraceabilityOperator(txtTraceability.Text)
             Else
                 MsgBox("Sorry please fill the sub sub po")
             End If

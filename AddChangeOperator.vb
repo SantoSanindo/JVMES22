@@ -152,8 +152,8 @@ Public Class AddChangeOperator
             Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
             Dim queryProdDOP As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mpf.master_process,mpn.[order],pd.operator_id
-        from sub_sub_po sp,main_po mp,MASTER_PROCESS_FLOW MPF, master_process_number mpn,prod_dop pd 
-        where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox2.Text & "' and mp.fg_pn = '" & TextBox13.Text & "' and sp.sub_sub_po='" & TextBox17.Text & "' and mpn.process_name=mpf.master_process_number and master_process is not null and pd.line=sp.line and pd.fg_pn=mp.fg_pn and pd.sub_sub_po=sp.sub_sub_po and pd.process=mpf.master_process AND MP.DEPARTMENT='" & globVar.department & "' order by sp.sub_sub_po"
+                from sub_sub_po sp,main_po mp,MASTER_PROCESS_FLOW MPF, master_process_number mpn,prod_dop pd 
+                where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox2.Text & "' and mp.fg_pn = '" & TextBox13.Text & "' and sp.sub_sub_po='" & TextBox17.Text & "' and mpn.process_name=mpf.master_process_number and master_process is not null and pd.line=sp.line and pd.fg_pn=mp.fg_pn and pd.sub_sub_po=sp.sub_sub_po and pd.process=mpf.master_process AND MP.DEPARTMENT='" & globVar.department & "' order by sp.sub_sub_po"
             Dim dtProdDOP As DataTable = Database.GetData(queryProdDOP)
             If dtProdDOP.Rows.Count > 0 Then
                 Dim queryCount As String = "select count(*) from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn=" & TextBox13.Text & " and operator_id is null AND DEPARTMENT='" & globVar.department & "'"
@@ -336,5 +336,49 @@ Public Class AddChangeOperator
 
         DataGridView1.Columns.Clear()
         DataGridView1.Rows.Clear()
+    End Sub
+
+    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
+        With DataGridView1
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DataGridView3_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView3.DataBindingComplete
+        With DataGridView3
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
     End Sub
 End Class

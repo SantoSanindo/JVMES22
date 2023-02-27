@@ -552,6 +552,94 @@ Public Class Summary
         Me.SUMMARY_TRACEABILITYTableAdapter.Fill(Me.JOVANDataSet1.SUMMARY_TRACEABILITY)
         'TODO: This line of code loads data into the 'JOVANDataSet.SUMMARY_FG' table. You can move, or remove it, as needed.
         Me.SUMMARY_FGTableAdapter.Fill(Me.JOVANDataSet.SUMMARY_FG)
+    End Sub
 
+    Private Sub DGTraceability1V2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DGTraceability1V2.DataBindingComplete
+        DGTraceability1V2.DefaultCellStyle.Font = New Font("Tahoma", 14)
+        DGTraceability1V2.EnableHeadersVisualStyles = False
+        With DGTraceability1V2.ColumnHeadersDefaultCellStyle
+            .BackColor = Color.Navy
+            .ForeColor = Color.White
+            .Font = New Font("Tahoma", 13, FontStyle.Bold)
+            .Alignment = HorizontalAlignment.Center
+            .Alignment = ContentAlignment.MiddleCenter
+        End With
+        DGTraceability1V2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+
+        For i As Integer = 0 To DGTraceability1V2.ColumnCount - 1
+            DGTraceability1V2.Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        Next
+
+        For Each col As DataGridViewColumn In DGTraceability1V2.Columns
+            col.MinimumWidth = 300
+        Next
+
+        For i As Integer = 0 To DGTraceability1V2.RowCount - 1
+            If DGTraceability1V2.Rows(i).Index Mod 2 = 0 Then
+                DGTraceability1V2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DGTraceability1V2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+    End Sub
+
+    Private Sub DGTraceability2V2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DGTraceability2V2.DataBindingComplete
+        With DGTraceability2V2
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+
+        For i As Integer = 0 To DGTraceability2V2.RowCount - 1
+            If DGTraceability2V2.Rows(i).Index Mod 2 = 0 Then
+                DGTraceability2V2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DGTraceability2V2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+    End Sub
+
+    Private Sub DGSummaryV2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DGSummaryV2.DataBindingComplete
+        With DGSummaryV2
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+
+        For i As Integer = 0 To DGSummaryV2.RowCount - 1
+            If DGSummaryV2.Rows(i).Index Mod 2 = 0 Then
+                DGSummaryV2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DGSummaryV2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
     End Sub
 End Class

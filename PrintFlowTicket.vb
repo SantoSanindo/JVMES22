@@ -68,6 +68,7 @@ Public Class PrintFlowTicket
         _PrintingFlowTicket.txt_PO_Number.Text = TextBox8.Text
         _PrintingFlowTicket.txt_Quantity_PO.Text = TextBox6.Text
         _PrintingFlowTicket.txt_Qty_per_Lot.Text = TextBox7.Text
+        _PrintingFlowTicket.DataGridView2.Rows.Clear()
 
         For i As Integer = 0 To DataGridView1.Rows.Count - 1
             _PrintingFlowTicket.DataGridView1.Rows(i).Cells(1).Value = DataGridView1.Rows(i).Cells(0).Value
@@ -75,11 +76,7 @@ Public Class PrintFlowTicket
         Next
 
         For i As Integer = 0 To DataGridView2.Rows.Count - 1
-            '_PrintingFlowTicket.DataGridView2.Rows(i).Cells(1).Value = DataGridView2.Rows(i).Cells(1).Value
-            '_PrintingFlowTicket.DataGridView2.Rows(i).Cells(2).Value = DataGridView2.Rows(i).Cells(0).Value
-            '_PrintingFlowTicket.DataGridView2.Rows(i).Cells(3).Value = DataGridView2.Rows(i).Cells(2).Value
-
-            Dim row As String() = New String() {i.ToString, DataGridView2.Rows(i).Cells(1).Value, DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
+            Dim row As String() = New String() {i + 1.ToString, DataGridView2.Rows(i).Cells(1).Value, DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
             _PrintingFlowTicket.DataGridView2.Rows.Add(row)
         Next
 

@@ -1,7 +1,7 @@
 ﻿Imports System.Data.Common
 Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports ZXing
+'Imports ZXing
 
 Public Class MainPOSubPO
     Private Sub MainPOSubPO_Load(sender As Object, e As EventArgs) Handles Me.Load

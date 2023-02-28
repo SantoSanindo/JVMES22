@@ -22,10 +22,5 @@ Jovan-New
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
-<member name="T:Jovan_New.DataSet1">
-<summary>
-Represents a strongly typed in-memory cache of data.
-</summary>
-</member>
 </members>
 </doc>

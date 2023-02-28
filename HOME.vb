@@ -1,9 +1,16 @@
-﻿Public Class HOME
+﻿Imports System.IO
+Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = "MES Application v " & Application.ProductVersion
-        'If read_notepad() <> Application.ProductVersion Then
-        '    Process.Start(updater.exe)
-        'End If
+        'Try
+        '    Me.Text = "MES Application v " & Application.ProductVersion
+        '    If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
+        '        Process.Start("Updater.exe")
+        '        Me.Close()
+        '    End If
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
+
 
         buka_printer()
 
@@ -22,6 +29,11 @@
         'QRCode.Baca("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
 
     End Sub
+
+    Public Function read_notepad(filePath As String) As String
+        Dim fileContents As String = File.ReadAllText(filePath)
+        Return fileContents
+    End Function
 
     Private Sub buka_printer()
         TabControl1.TabPages.Add(_PrintingFlowTicket)

@@ -95,6 +95,11 @@
   <ItemGroup>
     <Compile Include="Baca_QRCode.vb" />
     <Compile Include="Database.vb" />
+    <Compile Include="DataSet1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="FGA.Designer.vb">
       <DependentUpon>FGA.vb</DependentUpon>
     </Compile>
@@ -137,21 +142,6 @@
     </Compile>
     <Compile Include="HOME.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="JOVANDataSet.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="JOVANDataSet1.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JOVANDataSet1.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="JOVANDataSet2.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JOVANDataSet2.xsd</DependentUpon>
     </Compile>
     <Compile Include="MainPOSubPO.Designer.vb">
       <DependentUpon>MainPOSubPO.vb</DependentUpon>
@@ -373,38 +363,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="JOVANDataSet.xsc">
-      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
+    <None Include="DataSet1.xsc">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
     </None>
-    <None Include="JOVANDataSet.xsd">
+    <None Include="DataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>JOVANDataSet.Designer.vb</LastGenOutput>
+      <LastGenOutput>DataSet1.Designer.vb</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="JOVANDataSet.xss">
-      <DependentUpon>JOVANDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="JOVANDataSet1.xsc">
-      <DependentUpon>JOVANDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="JOVANDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>JOVANDataSet1.Designer.vb</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="JOVANDataSet1.xss">
-      <DependentUpon>JOVANDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="JOVANDataSet2.xsc">
-      <DependentUpon>JOVANDataSet2.xsd</DependentUpon>
-    </None>
-    <None Include="JOVANDataSet2.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>JOVANDataSet2.Designer.vb</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="JOVANDataSet2.xss">
-      <DependentUpon>JOVANDataSet2.xsd</DependentUpon>
+    <None Include="DataSet1.xss">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
     </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

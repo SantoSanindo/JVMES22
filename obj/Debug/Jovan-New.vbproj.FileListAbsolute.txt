@@ -469,3 +469,44 @@ C:\Users\SERVER\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\SERVER\Source\Repos\SantoSanindo\JVMES22\obj\Debug\Jovan-New.pdb
 C:\Users\SERVER\source\repos\SantoSanindo\JVMES22\bin\Debug\AdvancedDataGridView.dll
 C:\Users\Arif\source\repos\2\JVMES22\bin\Debug\AdvancedDataGridView.dll
+D:\MES Jovan\Jovan\JVMES22\bin\Debug\Jovan-New.exe.config
+D:\MES Jovan\Jovan\JVMES22\bin\Debug\Jovan-New.exe
+D:\MES Jovan\Jovan\JVMES22\bin\Debug\Jovan-New.pdb
+D:\MES Jovan\Jovan\JVMES22\bin\Debug\Jovan-New.xml
+D:\MES Jovan\Jovan\JVMES22\bin\Debug\AdvancedDataGridView.dll
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.AssemblyReference.cache
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.SuggestedBindingRedirects.cache
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.ResolveComReference.cache
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.FGA.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.FormDefective.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.FormReturnStock.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.FormInputStock.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.FormLogin.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.AddChangeOperator.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.HOME.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MainPOSubPO.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MasterFinishGoods.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MasterLine.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MaterialUsageFinishGoods.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MasterMaterial.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MasterProcess.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.MasterProcessFlow.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.Resources.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.ProcessFlowMaterialUsage.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.PrintFlowTicket.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.Production.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.ProductionRequest.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.ReceiveReturnMaterial.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.StockMinistore.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.Summary.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.Users.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New._PrintingDefect.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New._PrintingFlowTicket.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New._PrintingSubAssyRawMaterial.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New._PrintingWIPOnHold.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.GenerateResource.cache
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.CoreCompileInputs.cache
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.exe
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.xml
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.pdb

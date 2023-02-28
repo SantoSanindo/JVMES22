@@ -457,7 +457,7 @@ Public Class Summary
     Private Sub txtSummarySubSubPO_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSummarySubSubPO.PreviewKeyDown
         If (e.KeyData = Keys.Enter) Then
             If txtSummarySubSubPO.Text <> "" Then
-                loadDGV()
+                loadDGVNew()
                 SummaryFG(txtSummarySubSubPO.Text)
             Else
                 MsgBox("Sorry please fill the sub sub po")
@@ -465,18 +465,67 @@ Public Class Summary
         End If
     End Sub
 
-    'Private Sub txtTraceability_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtTraceability.PreviewKeyDown
-    '    If (e.KeyData = Keys.Enter) Then
-    '        If txtTraceability.Text <> "" Then
-    '            loadTraceability1()
-    '            summaryTraceability(txtTraceability.Text)
-    '            summaryTraceabilityMat(txtTraceability.Text)
-    '            summaryTraceabilityOperator(txtTraceability.Text)
-    '        Else
-    '            MsgBox("Sorry please fill the sub sub po")
-    '        End If
-    '    End If
-    'End Sub
+    Sub loadDGVNew()
+        Try
+            DGSummaryV2.DataSource = Nothing
+            DGSummaryV2.Rows.Clear()
+            DGSummaryV2.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String
+
+            queryInputStockDetail = "SELECT * FROM summary_fg WHERE sub_sub_po='" & txtSummarySubSubPO.Text & "'"
+
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DGSummaryV2.DataSource = dtInputStockDetail
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Sub loadDGVTrace()
+        Try
+            DGTraceability1V2.DataSource = Nothing
+            DGTraceability1V2.Rows.Clear()
+            DGTraceability1V2.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String
+
+            queryInputStockDetail = "SELECT * FROM summary_traceability WHERE fg='" & txtTraceability.Text & "' order by line,lot_no"
+
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DGTraceability1V2.DataSource = dtInputStockDetail
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Sub loadDGVTraceMat()
+        Try
+            DGTraceability2V2.DataSource = Nothing
+            DGTraceability2V2.Rows.Clear()
+            DGTraceability2V2.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String
+
+            queryInputStockDetail = "SELECT * FROM summary_traceability_comp"
+
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DGTraceability2V2.DataSource = dtInputStockDetail
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtTraceability_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtTraceability.PreviewKeyDown
+        If (e.KeyData = Keys.Enter) Then
+            If txtTraceability.Text <> "" Then
+                loadDGVTrace()
+                loadDGVTraceMat()
+            Else
+                MsgBox("Sorry please fill the sub sub po")
+            End If
+        End If
+    End Sub
 
 
     Private Sub exportToExcel(ByVal dgv As DataGridView)
@@ -543,15 +592,6 @@ Public Class Summary
 
     Private Sub btn_ExportTrace2_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace2.Click
         exportToExcel(DGTraceability2V2)
-    End Sub
-
-    Private Sub Summary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'TODO: This line of code loads data into the 'JOVANDataSet2.SUMMARY_TRACEABILITY_COMP' table. You can move, or remove it, as needed.
-        Me.SUMMARY_TRACEABILITY_COMPTableAdapter.Fill(Me.JOVANDataSet2.SUMMARY_TRACEABILITY_COMP)
-        'TODO: This line of code loads data into the 'JOVANDataSet1.SUMMARY_TRACEABILITY' table. You can move, or remove it, as needed.
-        Me.SUMMARY_TRACEABILITYTableAdapter.Fill(Me.JOVANDataSet1.SUMMARY_TRACEABILITY)
-        'TODO: This line of code loads data into the 'JOVANDataSet.SUMMARY_FG' table. You can move, or remove it, as needed.
-        Me.SUMMARY_FGTableAdapter.Fill(Me.JOVANDataSet.SUMMARY_FG)
     End Sub
 
     Private Sub DGTraceability1V2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DGTraceability1V2.DataBindingComplete

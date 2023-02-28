@@ -374,4 +374,34 @@ Public Class FormReturnStock
             MessageBox.Show("Please fill all form")
         End If
     End Sub
+
+    Private Sub dgv_forminputstock_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_forminputstock.DataBindingComplete
+        For i As Integer = 0 To dgv_forminputstock.RowCount - 1
+            If dgv_forminputstock.Rows(i).Index Mod 2 = 0 Then
+                dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgv_forminputstock.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With dgv_forminputstock
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
 End Class

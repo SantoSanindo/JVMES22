@@ -224,6 +224,26 @@ Public Class MainPOSubPO
                 DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+
+        With DataGridView1
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -531,6 +551,26 @@ Public Class MainPOSubPO
                 DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+
+        With DataGridView2
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
     End Sub
 
     Private Sub DataGridView2_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellClick

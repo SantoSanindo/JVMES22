@@ -192,6 +192,17 @@ Public Class MasterProcessFlow
                 dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+
+        With dgv_masterprocessflow
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+            End With
+        End With
     End Sub
 
     Private Sub dgv_masterprocessflow_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles dgv_masterprocessflow.EditingControlShowing
@@ -328,5 +339,4 @@ Public Class MasterProcessFlow
             GC.Collect()
         End Try
     End Sub
-
 End Class

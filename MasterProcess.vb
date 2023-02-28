@@ -1,7 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.Runtime.InteropServices
-Imports System.Windows.Forms.VisualStyles
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
 
 Public Class MasterProcess
@@ -92,6 +92,26 @@ Public Class MasterProcess
                 dgv_masterprocess.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+
+        With dgv_masterprocess
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
     End Sub
 
     Private Sub txt_masterprocess_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterprocess_search.PreviewKeyDown

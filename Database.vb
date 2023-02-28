@@ -9,7 +9,8 @@ Public Class Database
 
     Public Shared Sub koneksi_database()
         Try
-            database = "Data Source=10.14.3.46;
+            'database = "Data Source=10.14.3.46;
+            database = "Data Source=192.168.0.254;
             initial catalog=JOVAN;
             Persist Security Info=True;
             User ID=sa;

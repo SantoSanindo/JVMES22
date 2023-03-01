@@ -1,15 +1,23 @@
 ﻿Imports System.IO
 Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Try
-        '    Me.Text = "MES Application v " & Application.ProductVersion
-        '    If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
-        '        Process.Start("Updater.exe")
-        '        Me.Close()
-        '    End If
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        'End Try
+        Try
+            Me.Text = "MES Application v " & Application.ProductVersion
+            If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
+
+                Dim result As DialogResult = MessageBox.Show(
+                              "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
+                              MessageBoxButtons.YesNo)
+
+                If result = DialogResult.Yes Then
+                    Process.Start("Updater.exe")
+                    Me.Close()
+                End If
+
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
 
 
         buka_printer()

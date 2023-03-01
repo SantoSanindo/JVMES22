@@ -7,43 +7,43 @@ Public Class StockMinistore
         ComboBox1.SelectedIndex = 0
     End Sub
 
-    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
-        If e.KeyData = Keys.Enter And TextBox1.Text <> "" Then
-            Dim Found As Boolean = False
-            Dim StringToSearch As String = ""
-            Dim ValueToSearchFor As String = Me.TextBox1.Text.Trim.ToLower
-            Dim CurrentRowIndex As Integer = 0
-            Try
-                If DataGridView1.Rows.Count = 0 Then
-                    CurrentRowIndex = 0
-                Else
-                    CurrentRowIndex = DataGridView1.CurrentRow.Index + 1
-                End If
-                If CurrentRowIndex > DataGridView1.Rows.Count Then
-                    CurrentRowIndex = DataGridView1.Rows.Count - 1
-                End If
-                If DataGridView1.Rows.Count > 0 Then
-                    For Each gRow As DataGridViewRow In DataGridView1.Rows
-                        StringToSearch = gRow.Cells(0).Value.ToString.Trim.ToLower
-                        If InStr(1, StringToSearch, LCase(Trim(TextBox1.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(0)
-                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
-                            DataGridView1.CurrentCell = myCurrentCell
-                            CurrentRowIndex = DataGridView1.CurrentRow.Index
-                            Found = True
-                        End If
-                        If Found Then Exit For
-                    Next
-                End If
-                If Found = False Then
-                    MessageBox.Show("Data not found")
-                    TextBox1.Text = ""
-                End If
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-            End Try
-        End If
-    End Sub
+    'Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs)
+    '    If e.KeyData = Keys.Enter And TextBox1.Text <> "" Then
+    '        Dim Found As Boolean = False
+    '        Dim StringToSearch As String = ""
+    '        Dim ValueToSearchFor As String = Me.TextBox1.Text.Trim.ToLower
+    '        Dim CurrentRowIndex As Integer = 0
+    '        Try
+    '            If DataGridView1.Rows.Count = 0 Then
+    '                CurrentRowIndex = 0
+    '            Else
+    '                CurrentRowIndex = DataGridView1.CurrentRow.Index + 1
+    '            End If
+    '            If CurrentRowIndex > DataGridView1.Rows.Count Then
+    '                CurrentRowIndex = DataGridView1.Rows.Count - 1
+    '            End If
+    '            If DataGridView1.Rows.Count > 0 Then
+    '                For Each gRow As DataGridViewRow In DataGridView1.Rows
+    '                    StringToSearch = gRow.Cells(0).Value.ToString.Trim.ToLower
+    '                    If InStr(1, StringToSearch, LCase(Trim(TextBox1.Text)), vbTextCompare) = 1 Then
+    '                        Dim myCurrentCell As DataGridViewCell = gRow.Cells(0)
+    '                        Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
+    '                        DataGridView1.CurrentCell = myCurrentCell
+    '                        CurrentRowIndex = DataGridView1.CurrentRow.Index
+    '                        Found = True
+    '                    End If
+    '                    If Found Then Exit For
+    '                Next
+    '            End If
+    '            If Found = False Then
+    '                MessageBox.Show("Data not found")
+    '                TextBox1.Text = ""
+    '            End If
+    '        Catch ex As Exception
+    '            MsgBox(ex.ToString)
+    '        End Try
+    '    End If
+    'End Sub
 
     Private Sub DGV_StockMiniststore(status As String)
         Try

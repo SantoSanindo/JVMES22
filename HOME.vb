@@ -25,16 +25,6 @@ Public Class HOME
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
-        ''_PrintingDefect.Show()
-        '_PrintingDefect.Hide()
-        '' _PrintingFlowTicket.Show()
-        '_PrintingFlowTicket.Hide()
-        ''_PrintingSubAssyRawMaterial.Show()
-        '_PrintingSubAssyRawMaterial.Hide()
-        '' _PrintingWIPOnHold.Show()
-        '_PrintingWIPOnHold.Hide()
-
-        'QRCode.Baca("MX2D1P1703285000Q000000000120S00000000221713Q0000BYD2022041912D202204194L               CHINAMLX001")
 
     End Sub
 

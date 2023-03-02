@@ -521,6 +521,9 @@ Public Class Summary
             If txtTraceability.Text <> "" Then
                 loadDGVTrace()
                 loadDGVTraceMat()
+                summaryTraceabilityMat(txtTraceability.Text)
+                summaryTraceabilityOperator(txtTraceability.Text)
+                summaryTraceability(txtTraceability.Text)
             Else
                 MsgBox("Sorry please fill the sub sub po")
             End If

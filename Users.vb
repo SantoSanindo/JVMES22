@@ -73,34 +73,6 @@ Public Class Users
         DataGridView1.Columns.Insert(5, delete)
     End Sub
 
-    'Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-    '    If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-    '        Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
-
-    '        If result = DialogResult.Yes Then
-    '            Try
-    '                Dim sql As String = "delete from users where id='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
-    '                Dim cmd = New SqlCommand(sql, Database.koneksi)
-    '                cmd.ExecuteNonQuery()
-
-    '                DGV_Users()
-    '                MessageBox.Show("Delete Success.")
-    '            Catch ex As Exception
-    '                MessageBox.Show("failed" & ex.Message)
-    '            End Try
-    '        End If
-    '    End If
-
-    '    If e.ColumnIndex = 0 Then
-    '        'MessageBox.Show(e.RowIndex)
-    '        If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
-    '            DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
-    '        Else
-    '            DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
-    '        End If
-    '    End If
-    'End Sub
-
     Private Sub TextBox5_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox5.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
             Dim Found As Boolean = False
@@ -226,7 +198,7 @@ Public Class Users
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from users where id='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
+                    Dim sql As String = "delete from users where id_card_no='" & DataGridView1.Rows(e.RowIndex).Cells("ID Card").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
 

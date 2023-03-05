@@ -311,9 +311,10 @@ Public Class MasterFinishGoods
         'write data to worksheet
         worksheet.Range("A1").Value = "Finish Goods Part Number"
         worksheet.Range("B1").Value = "Department"
-        worksheet.Range("C1").Value = "Description"
-        worksheet.Range("D1").Value = "Standard Pack"
-        worksheet.Range("E1").Value = "Laser Code"
+        worksheet.Range("C1").Value = "Level"
+        worksheet.Range("D1").Value = "Description"
+        worksheet.Range("E1").Value = "Standard Pack"
+        worksheet.Range("F1").Value = "Laser Code"
 
         'save the workbook
         FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

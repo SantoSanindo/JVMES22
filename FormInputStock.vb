@@ -20,7 +20,15 @@ Public Class FormInputStock
 
         Button2.Enabled = False
 
+        unlock.Enabled = False
+
         checkQr.Enabled = False
+
+        If globVar.hakAkses = "ADMIN" Then
+            unlock.Visible = True
+        Else
+            unlock.Visible = False
+        End If
     End Sub
 
     Private Sub DGV_InputStock(id As String)
@@ -52,9 +60,11 @@ Public Class FormInputStock
                     dgv_forminputstock.Columns.Insert(7, delete)
 
                     Button2.Enabled = True
+                    unlock.Enabled = False
                 End If
             Else
                 Button2.Enabled = True
+                unlock.Enabled = False
             End If
 
             dgv_forminputstock.Columns(0).Width = 100
@@ -186,6 +196,7 @@ Public Class FormInputStock
                     txt_forminputstock_qrcode.ReadOnly = True
                     checkQr.Enabled = False
                     Button2.Enabled = False
+                    unlock.Enabled = True
                     dgv_forminputstock.ReadOnly = True
 
                     MessageBox.Show("Success Save The Data")
@@ -275,15 +286,17 @@ Public Class FormInputStock
                     If dtCheckLock.Rows.Count > 0 Then
                         If dtCheckLock.Rows(0).Item("SAVE") = 0 Then
                             Button2.Enabled = True
+                            unlock.Enabled = False
                         Else
                             txt_forminputstock_qrcode.ReadOnly = True
                             checkQr.Enabled = False
                             Button2.Enabled = False
+                            unlock.Enabled = True
                             dgv_forminputstock.ReadOnly = True
                         End If
                     Else
                         Button2.Enabled = True
-
+                        unlock.Enabled = False
                     End If
                 End If
             End If
@@ -332,6 +345,7 @@ Public Class FormInputStock
 
         Button2.Enabled = False
         Button3.Enabled = False
+        unlock.Enabled = False
     End Sub
 
     Private Sub checkQr_CheckStateChanged(sender As Object, e As EventArgs) Handles checkQr.CheckStateChanged
@@ -381,12 +395,6 @@ Public Class FormInputStock
                 If dtCheckInputStockDetail.Rows.Count > 0 Then
                     MessageBox.Show("Part Number & Lot No already in DB")
 
-                    txtmanualBatch.Text = ""
-                    txtmanualInv.Text = ""
-                    txtmanualLot.Text = ""
-                    txtmanualPN.Text = ""
-                    txtmanualQty.Text = ""
-                    txtmanualTraceability.Text = ""
                     txtmanualPN.Select()
 
                     dgv_forminputstock.DataSource = Nothing
@@ -455,5 +463,34 @@ Public Class FormInputStock
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+    End Sub
+
+    Private Sub unlock_Click(sender As Object, e As EventArgs) Handles unlock.Click
+        Dim result = MessageBox.Show("The data already saved. Are you sure to edit this MTS Data?", "Warning", MessageBoxButtons.YesNo)
+
+        If result = DialogResult.Yes Then
+            Try
+                Dim sqlInsertInputStockDetail As String = "INSERT INTO LOG (MENU, REMARK, WHO) VALUES ('INPUT STOCK','Edit Input Stock After Save','" & globVar.username & "')"
+                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+                    Dim Sql As String = "UPDATE STOCK_CARD SET [SAVE]=0, DATETIME_SAVE=null FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If (cmd.ExecuteNonQuery() > 0) Then
+
+                        dgv_forminputstock.DataSource = Nothing
+                        treeView_show()
+                        txt_forminputstock_qrcode.ReadOnly = False
+                        checkQr.Enabled = True
+                        Button2.Enabled = True
+                        unlock.Enabled = False
+                        dgv_forminputstock.ReadOnly = False
+
+                        MessageBox.Show("Success Change The Data. You can EDIT now.")
+                    End If
+                End If
+            Catch ex As Exception
+                MessageBox.Show("failed" & ex.Message)
+            End Try
+        End If
     End Sub
 End Class

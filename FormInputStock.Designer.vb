@@ -22,7 +22,7 @@ Partial Class FormInputStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
@@ -48,6 +48,7 @@ Partial Class FormInputStock
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txt_forminputstock_qrcode = New System.Windows.Forms.TextBox()
         Me.txt_forminputstock_mts_no = New System.Windows.Forms.TextBox()
+        Me.unlock = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.dgv_forminputstock, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,6 +71,7 @@ Partial Class FormInputStock
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.unlock)
         Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.checkQr)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
@@ -86,7 +88,7 @@ Partial Class FormInputStock
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(0)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(0)
-        Me.GroupBox1.Size = New System.Drawing.Size(1821, 719)
+        Me.GroupBox1.Size = New System.Drawing.Size(1875, 719)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
@@ -129,7 +131,7 @@ Partial Class FormInputStock
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Location = New System.Drawing.Point(6, 76)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(1463, 113)
+        Me.GroupBox2.Size = New System.Drawing.Size(1414, 113)
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         '
@@ -243,9 +245,9 @@ Partial Class FormInputStock
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.BackColor = System.Drawing.Color.Green
+        Me.Button1.BackColor = System.Drawing.Color.MediumSeaGreen
         Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button1.Location = New System.Drawing.Point(1694, 59)
+        Me.Button1.Location = New System.Drawing.Point(1748, 59)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(113, 78)
         Me.Button1.TabIndex = 10
@@ -266,7 +268,7 @@ Partial Class FormInputStock
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button2.Location = New System.Drawing.Point(1502, 59)
+        Me.Button2.Location = New System.Drawing.Point(1589, 59)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(143, 78)
         Me.Button2.TabIndex = 6
@@ -282,22 +284,22 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_forminputstock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgv_forminputstock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_forminputstock.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_forminputstock.Location = New System.Drawing.Point(399, 195)
         Me.dgv_forminputstock.MultiSelect = False
         Me.dgv_forminputstock.Name = "dgv_forminputstock"
         Me.dgv_forminputstock.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.dgv_forminputstock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_forminputstock.Size = New System.Drawing.Size(1415, 499)
+        Me.dgv_forminputstock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.dgv_forminputstock.Size = New System.Drawing.Size(1469, 499)
         Me.dgv_forminputstock.TabIndex = 4
         '
         'Label2
@@ -323,11 +325,24 @@ Partial Class FormInputStock
         Me.txt_forminputstock_mts_no.Size = New System.Drawing.Size(218, 35)
         Me.txt_forminputstock_mts_no.TabIndex = 1
         '
+        'unlock
+        '
+        Me.unlock.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.unlock.BackColor = System.Drawing.Color.IndianRed
+        Me.unlock.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.unlock.Location = New System.Drawing.Point(1426, 59)
+        Me.unlock.Name = "unlock"
+        Me.unlock.Size = New System.Drawing.Size(143, 78)
+        Me.unlock.TabIndex = 14
+        Me.unlock.Text = "EDIT"
+        Me.unlock.UseVisualStyleBackColor = False
+        Me.unlock.Visible = False
+        '
         'FormInputStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1819, 707)
+        Me.ClientSize = New System.Drawing.Size(1873, 707)
         Me.ControlBox = False
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FormInputStock"
@@ -368,4 +383,5 @@ Partial Class FormInputStock
     Friend WithEvents checkQr As CheckBox
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button3 As Button
+    Friend WithEvents unlock As Button
 End Class

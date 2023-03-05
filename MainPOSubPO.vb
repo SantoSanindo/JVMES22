@@ -254,7 +254,7 @@ Public Class MainPOSubPO
                 Dim sqlcheck As String = "select * from sub_sub_po where main_po='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
                 Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
                 If dtMainPOCheck.Rows.Count > 0 Then
-                    MessageBox.Show("Cannot delete this data because Sub Sub PO still Open")
+                    MessageBox.Show("Cannot delete this data because Sub Sub PO already create")
                     Exit Sub
                 End If
 

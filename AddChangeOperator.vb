@@ -69,7 +69,7 @@ Public Class AddChangeOperator
                     Dim name As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
                     name.Name = "name"
                     name.HeaderText = "Operator Name"
-                    Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users where role='OPERATOR PRODUCTION' and department='" & globVar.department & "'order by name"
+                    Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users where role='PRODUCTION' and department='" & globVar.department & "'order by name"
                     Dim dtUsers As DataTable = Database.GetData(queryUsers)
                     name.DataSource = dtUsers
                     name.DisplayMember = "id_name"
@@ -252,7 +252,7 @@ Public Class AddChangeOperator
                             DataGridView1.Rows.Add(row)
                         Next
 
-                        Dim queryOperator As String = "select name from users where role='OPERATOR PRODUCTION' AND department='" & globVar.department & "' order by name"
+                        Dim queryOperator As String = "select name from users where role='PRODUCTION' AND department='" & globVar.department & "' order by name"
                         Dim dsOperator = New DataSet
                         Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
                         adapterOperator.Fill(dsOperator)

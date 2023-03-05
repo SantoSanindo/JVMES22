@@ -7,44 +7,6 @@ Public Class StockMinistore
         ComboBox1.SelectedIndex = 0
     End Sub
 
-    'Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs)
-    '    If e.KeyData = Keys.Enter And TextBox1.Text <> "" Then
-    '        Dim Found As Boolean = False
-    '        Dim StringToSearch As String = ""
-    '        Dim ValueToSearchFor As String = Me.TextBox1.Text.Trim.ToLower
-    '        Dim CurrentRowIndex As Integer = 0
-    '        Try
-    '            If DataGridView1.Rows.Count = 0 Then
-    '                CurrentRowIndex = 0
-    '            Else
-    '                CurrentRowIndex = DataGridView1.CurrentRow.Index + 1
-    '            End If
-    '            If CurrentRowIndex > DataGridView1.Rows.Count Then
-    '                CurrentRowIndex = DataGridView1.Rows.Count - 1
-    '            End If
-    '            If DataGridView1.Rows.Count > 0 Then
-    '                For Each gRow As DataGridViewRow In DataGridView1.Rows
-    '                    StringToSearch = gRow.Cells(0).Value.ToString.Trim.ToLower
-    '                    If InStr(1, StringToSearch, LCase(Trim(TextBox1.Text)), vbTextCompare) = 1 Then
-    '                        Dim myCurrentCell As DataGridViewCell = gRow.Cells(0)
-    '                        Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
-    '                        DataGridView1.CurrentCell = myCurrentCell
-    '                        CurrentRowIndex = DataGridView1.CurrentRow.Index
-    '                        Found = True
-    '                    End If
-    '                    If Found Then Exit For
-    '                Next
-    '            End If
-    '            If Found = False Then
-    '                MessageBox.Show("Data not found")
-    '                TextBox1.Text = ""
-    '            End If
-    '        Catch ex As Exception
-    '            MsgBox(ex.ToString)
-    '        End Try
-    '    End If
-    'End Sub
-
     Private Sub DGV_StockMiniststore(status As String)
         Try
             If status = "All" Then
@@ -57,10 +19,10 @@ Public Class StockMinistore
                 Dim queryInputStockDetail As String
                 Dim queryCB As String
                 If status = "" Then
-                    queryInputStockDetail = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD order by datetime_insert"
+                    queryInputStockDetail = "SELECT [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where department='" & globVar.department & "' order by datetime_insert"
                     queryCB = "SELECT DISTINCT [SUB_SUB_PO] FROM STOCK_CARD where [SUB_SUB_PO] is not null"
                 Else
-                    queryInputStockDetail = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD  WHERE STATUS='" & status & "' and actual_qty > 0 order by datetime_insert"
+                    queryInputStockDetail = "SELECT [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD  WHERE STATUS='" & status & "' and actual_qty > 0 and department='" & globVar.department & "' order by datetime_insert"
                     queryCB = "SELECT DISTINCT [SUB_SUB_PO] FROM STOCK_CARD  WHERE STATUS='" & status & "' and [SUB_SUB_PO] is not null"
                 End If
 
@@ -86,7 +48,7 @@ Public Class StockMinistore
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [MTS_NO], [DEPARTMENT], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where sub_sub_po='" & ComboBox2.Text & "' order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where sub_sub_po='" & ComboBox2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception

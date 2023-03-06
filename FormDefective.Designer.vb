@@ -755,8 +755,8 @@ Partial Class FormDefective
         Me.TableLayoutPanel21.ColumnCount = 2
         Me.TableLayoutPanel21.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.77319!))
         Me.TableLayoutPanel21.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.2268!))
-        Me.TableLayoutPanel21.Controls.Add(Me.btnRejectDelete, 1, 0)
-        Me.TableLayoutPanel21.Controls.Add(Me.btnRejectEdit, 0, 0)
+        Me.TableLayoutPanel21.Controls.Add(Me.btnRejectDelete, 0, 0)
+        Me.TableLayoutPanel21.Controls.Add(Me.btnRejectEdit, 1, 0)
         Me.TableLayoutPanel21.Location = New System.Drawing.Point(891, 63)
         Me.TableLayoutPanel21.Name = "TableLayoutPanel21"
         Me.TableLayoutPanel21.RowCount = 1
@@ -769,7 +769,7 @@ Partial Class FormDefective
         Me.btnRejectDelete.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnRejectDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnRejectDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnRejectDelete.Location = New System.Drawing.Point(322, 3)
+        Me.btnRejectDelete.Location = New System.Drawing.Point(3, 3)
         Me.btnRejectDelete.Name = "btnRejectDelete"
         Me.btnRejectDelete.Size = New System.Drawing.Size(160, 49)
         Me.btnRejectDelete.TabIndex = 8
@@ -781,9 +781,9 @@ Partial Class FormDefective
         Me.btnRejectEdit.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnRejectEdit.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(102, Byte), Integer))
         Me.btnRejectEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnRejectEdit.Location = New System.Drawing.Point(3, 3)
+        Me.btnRejectEdit.Location = New System.Drawing.Point(322, 3)
         Me.btnRejectEdit.Name = "btnRejectEdit"
-        Me.btnRejectEdit.Size = New System.Drawing.Size(162, 49)
+        Me.btnRejectEdit.Size = New System.Drawing.Size(160, 49)
         Me.btnRejectEdit.TabIndex = 7
         Me.btnRejectEdit.Text = "SUB (-)"
         Me.btnRejectEdit.UseVisualStyleBackColor = False
@@ -889,9 +889,10 @@ Partial Class FormDefective
         '
         'btnWIPDelete
         '
+        Me.btnWIPDelete.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnWIPDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnWIPDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnWIPDelete.Location = New System.Drawing.Point(1015, 3)
+        Me.btnWIPDelete.Location = New System.Drawing.Point(1015, 5)
         Me.btnWIPDelete.Name = "btnWIPDelete"
         Me.btnWIPDelete.Size = New System.Drawing.Size(162, 49)
         Me.btnWIPDelete.TabIndex = 10
@@ -1675,8 +1676,8 @@ Partial Class FormDefective
         Me.TableLayoutPanel22.ColumnCount = 2
         Me.TableLayoutPanel22.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.23769!))
         Me.TableLayoutPanel22.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.76231!))
-        Me.TableLayoutPanel22.Controls.Add(Me.btnBalanceEdit, 0, 0)
-        Me.TableLayoutPanel22.Controls.Add(Me.btnBalanceDelete, 1, 0)
+        Me.TableLayoutPanel22.Controls.Add(Me.btnBalanceEdit, 1, 0)
+        Me.TableLayoutPanel22.Controls.Add(Me.btnBalanceDelete, 0, 0)
         Me.TableLayoutPanel22.Location = New System.Drawing.Point(879, 64)
         Me.TableLayoutPanel22.Name = "TableLayoutPanel22"
         Me.TableLayoutPanel22.RowCount = 1
@@ -1689,9 +1690,9 @@ Partial Class FormDefective
         Me.btnBalanceEdit.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnBalanceEdit.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(102, Byte), Integer))
         Me.btnBalanceEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnBalanceEdit.Location = New System.Drawing.Point(3, 3)
+        Me.btnBalanceEdit.Location = New System.Drawing.Point(317, 3)
         Me.btnBalanceEdit.Name = "btnBalanceEdit"
-        Me.btnBalanceEdit.Size = New System.Drawing.Size(162, 49)
+        Me.btnBalanceEdit.Size = New System.Drawing.Size(147, 49)
         Me.btnBalanceEdit.TabIndex = 10
         Me.btnBalanceEdit.Text = "SUB (-)"
         Me.btnBalanceEdit.UseVisualStyleBackColor = False
@@ -1701,7 +1702,7 @@ Partial Class FormDefective
         '
         Me.btnBalanceDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnBalanceDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnBalanceDelete.Location = New System.Drawing.Point(317, 3)
+        Me.btnBalanceDelete.Location = New System.Drawing.Point(3, 3)
         Me.btnBalanceDelete.Name = "btnBalanceDelete"
         Me.btnBalanceDelete.Size = New System.Drawing.Size(147, 49)
         Me.btnBalanceDelete.TabIndex = 11

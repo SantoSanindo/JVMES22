@@ -40,31 +40,36 @@ Partial Class StockMinistore
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(6, 518)
+        Me.Button1.Location = New System.Drawing.Point(11, 541)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(115, 38)
         Me.Button1.TabIndex = 3
         Me.Button1.Text = "Refresh"
         Me.Button1.UseVisualStyleBackColor = False
+        Me.Button1.Visible = False
         '
         'ComboBox1
         '
+        Me.ComboBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"All", "Receive From Main Store", "Receive From Production", "Return To Main Store", "Return To Mini Store", "Production Request", "Production Process"})
-        Me.ComboBox1.Location = New System.Drawing.Point(80, 26)
+        Me.ComboBox1.Location = New System.Drawing.Point(251, 543)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(315, 37)
         Me.ComboBox1.TabIndex = 4
+        Me.ComboBox1.Visible = False
         '
         'Label2
         '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 29)
+        Me.Label2.Location = New System.Drawing.Point(177, 546)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(68, 29)
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Filter"
+        Me.Label2.Visible = False
         '
         'GroupBox1
         '
@@ -87,10 +92,10 @@ Partial Class StockMinistore
         '
         'btn_ExportTrace1
         '
-        Me.btn_ExportTrace1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_ExportTrace1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ExportTrace1.BackColor = System.Drawing.Color.Blue
         Me.btn_ExportTrace1.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btn_ExportTrace1.Location = New System.Drawing.Point(968, 22)
+        Me.btn_ExportTrace1.Location = New System.Drawing.Point(996, 540)
         Me.btn_ExportTrace1.Name = "btn_ExportTrace1"
         Me.btn_ExportTrace1.Size = New System.Drawing.Size(296, 41)
         Me.btn_ExportTrace1.TabIndex = 9
@@ -99,6 +104,8 @@ Partial Class StockMinistore
         '
         'DataGridView1
         '
+        Me.DataGridView1.AllowUserToAddRows = False
+        Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -107,30 +114,35 @@ Partial Class StockMinistore
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.FilterAndSortEnabled = True
         Me.DataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = True
-        Me.DataGridView1.Location = New System.Drawing.Point(11, 82)
+        Me.DataGridView1.Location = New System.Drawing.Point(11, 26)
         Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.DataGridView1.Size = New System.Drawing.Size(1281, 418)
+        Me.DataGridView1.Size = New System.Drawing.Size(1281, 508)
         Me.DataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DataGridView1.TabIndex = 8
         '
         'Label3
         '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(499, 29)
+        Me.Label3.Location = New System.Drawing.Point(606, 545)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(148, 29)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Sub-Sub PO"
+        Me.Label3.Visible = False
         '
         'ComboBox2
         '
+        Me.ComboBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(653, 26)
+        Me.ComboBox2.Location = New System.Drawing.Point(760, 542)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(198, 37)
         Me.ComboBox2.TabIndex = 6
+        Me.ComboBox2.Visible = False
         '
         'StockMinistore
         '

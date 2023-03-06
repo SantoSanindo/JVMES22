@@ -458,7 +458,7 @@ Public Class Summary
         If (e.KeyData = Keys.Enter) Then
             If txtSummarySubSubPO.Text <> "" Then
                 loadDGVNew()
-                SummaryFG(txtSummarySubSubPO.Text)
+                'SummaryFG(txtSummarySubSubPO.Text)
             Else
                 MsgBox("Sorry please fill the sub sub po")
             End If
@@ -507,7 +507,7 @@ Public Class Summary
             Call Database.koneksi_database()
             Dim queryInputStockDetail As String
 
-            queryInputStockDetail = "SELECT * FROM summary_traceability_comp"
+            queryInputStockDetail = "SELECT * FROM summary_traceability_comp where sub_sub_po in (SELECT DISTINCT(sub_sub_po) FROM summary_traceability WHERE fg='" & txtTraceability.Text & "')"
 
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DGTraceability2V2.DataSource = dtInputStockDetail
@@ -521,9 +521,9 @@ Public Class Summary
             If txtTraceability.Text <> "" Then
                 loadDGVTrace()
                 loadDGVTraceMat()
-                summaryTraceabilityMat(txtTraceability.Text)
-                summaryTraceabilityOperator(txtTraceability.Text)
-                summaryTraceability(txtTraceability.Text)
+                'summaryTraceabilityMat(txtTraceability.Text)
+                'summaryTraceabilityOperator(txtTraceability.Text)
+                'summaryTraceability(txtTraceability.Text)
             Else
                 MsgBox("Sorry please fill the sub sub po")
             End If

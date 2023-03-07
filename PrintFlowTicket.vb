@@ -76,7 +76,7 @@ Public Class PrintFlowTicket
         Next
 
         For i As Integer = 0 To DataGridView2.Rows.Count - 1
-            Dim row As String() = New String() {i + 1.ToString, DataGridView2.Rows(i).Cells(1).Value, DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
+            Dim row As String() = New String() {i + 1.ToString, DataGridView2.Rows(i).Cells(1).Value.ToString.Substring(0, 4), DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
             _PrintingFlowTicket.DataGridView2.Rows.Add(row)
         Next
 
@@ -97,10 +97,15 @@ Public Class PrintFlowTicket
                         VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
                         Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                         If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                            Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                            Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
+                            Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
+                            If dtCheckFlowTicket.Rows.Count = 0 Then
+                                Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
                                     VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
-                            Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
-                            cmdInsertFlowTicket.ExecuteNonQuery()
+                                Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                cmdInsertFlowTicket.ExecuteNonQuery()
+                            End If
+
                         End If
                     End If
                 Catch ex As Exception
@@ -146,10 +151,15 @@ Public Class PrintFlowTicket
                                 VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
                                 Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                                 If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                                    Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                    Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
+                                    Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
+                                    If dtCheckFlowTicket.Rows.Count = 0 Then
+
+                                        Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
                                     VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
-                                    Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
-                                    cmdInsertFlowTicket.ExecuteNonQuery()
+                                        Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                        cmdInsertFlowTicket.ExecuteNonQuery()
+                                    End If
                                 End If
                             End If
                         Catch ex As Exception
@@ -174,10 +184,15 @@ Public Class PrintFlowTicket
                                         VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
                                 Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                                 If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                                    Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                    Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
+                                    Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
+                                    If dtCheckFlowTicket.Rows.Count = 0 Then
+
+                                        Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
                                         VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
-                                    Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
-                                    cmdInsertFlowTicket.ExecuteNonQuery()
+                                        Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                        cmdInsertFlowTicket.ExecuteNonQuery()
+                                    End If
                                 End If
                             End If
                         Catch ex As Exception

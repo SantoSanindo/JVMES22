@@ -483,7 +483,8 @@ Public Class Production
                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty") & ",@material='" & TextBox9.Text & "',@lot_material='" & TextBox12.Text & "'"
                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
 
-                        TextBox1.Text = ""
+                        TextBox9.Text = ""
+                        TextBox12.Clear()
                         DGV_DOC()
 
                         For i = 0 To DataGridView1.Rows.Count - 1
@@ -495,8 +496,9 @@ Public Class Production
 
                 Else
                     MessageBox.Show("Sorry this material not for this line.")
-                    TextBox1.Text = ""
-                    TextBox1.Select()
+                    TextBox9.Text = ""
+                    TextBox12.Clear()
+                    TextBox9.Select()
                 End If
             Else
                 TextBox9.Clear()

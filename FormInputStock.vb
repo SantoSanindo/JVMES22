@@ -103,7 +103,7 @@ Public Class FormInputStock
             Dim adapter As SqlDataAdapter
             Dim ds As New DataTable
 
-            If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And Len(Me.txt_forminputstock_qrcode.Text) >= 64 Then
+            If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
                 QRCode.Baca(txt_forminputstock_qrcode.Text)
 
                 Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & globVar.QRCode_PN & "'"

@@ -43,16 +43,16 @@ Public Class _PrintingFlowTicket
     End Sub
 
     Public Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
-        Try
-            Clear_data()
+        'Try
+        Clear_data()
             compress_line()
             isi_data()
             label.Print(1)
             globVar.failPrint = "No"
-        Catch ex As Exception
-            MsgBox(ex.Message)
-            globVar.failPrint = "Yes"
-        End Try
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        '    globVar.failPrint = "Yes"
+        'End Try
     End Sub
 
     Private Sub isi_data()
@@ -101,10 +101,15 @@ Public Class _PrintingFlowTicket
             Dim int_No_label As Integer = DataGridView2.Item(0, jml_row).Value
             No_label = int_No_label.ToString("D2")
             optr_label = DataGridView2.Item(1, jml_row).Value
-            Dim int_Id_label As Integer = DataGridView2.Item(2, jml_row).Value
-            Id_label = int_Id_label.ToString("D4")
+            'Dim int_Id_label As Integer = DataGridView2.Item(2, jml_row).Value
+            'Dim int_Id_label As String = DataGridView2.Item(2, jml_row).ToString
+            'Id_label = int_Id_label.ToString("D4")
+            Id_label = DataGridView2.Item(2, jml_row).Value
             process_label = DataGridView2.Item(3, jml_row).Value
-            process_label = process_label.PadRight(33)
+            If process_label.Length >= 23 Then
+                process_label = process_label.Substring(0, 19)
+            End If
+            process_label = process_label.PadRight(20)
             txt_compress.Text = txt_compress.Text & No_label & "  " & optr_label & tab_label & Id_label & "  " & process_label & tab_label & "|" & tab_label & "|" & last_format
         Next
         txt_compress.Text = txt_compress.Text & end_header

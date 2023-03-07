@@ -130,40 +130,94 @@ Public Class MasterMaterial
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+        OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
         If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
-            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-            Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-            oleCon = New OleDbConnection(koneksiExcel)
-            oleCon.Open()
-
-            Dim queryExcel As String = "select * from [" & SheetName & "$]"
-            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-            Dim rd As OleDbDataReader
-
-            Call Database.koneksi_database()
-            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-                bulkCopy.DestinationTableName = "dbo.MASTER_MATERIAL"
-                Try
-                    rd = cmd.ExecuteReader
-
-                    bulkCopy.ColumnMappings.Add(0, 0)
-                    bulkCopy.ColumnMappings.Add(1, 1)
-                    bulkCopy.ColumnMappings.Add(2, 2)
-                    bulkCopy.ColumnMappings.Add(3, 3)
-
-                    bulkCopy.WriteToServer(rd)
-                    rd.Close()
-
-                    DGV_MasterMaterial()
-                    MsgBox("Import Material Success")
-                Catch ex As Exception
-                    MsgBox("Import Material Failed " & ex.Message)
-                End Try
-            End Using
+            Dim filePath As String = OpenFileDialog1.FileName
+            importOneByOne(filePath)
         End If
+    End Sub
+
+    Sub importOneByOne(filePath As String)
+        Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(filePath)
+        Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+        Dim connectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+        oleCon = New OleDbConnection(connectionString)
+        Dim totalInsert As Integer = 0
+
+        Call Database.koneksi_database()
+        Try
+            oleCon.Open()
+            Dim cmd As New OleDbCommand("SELECT * FROM [" & SheetName & "$]", oleCon)
+            Dim reader As OleDbDataReader = cmd.ExecuteReader()
+            While reader.Read()
+                Dim PN As String
+                Dim FamMaterial As String = reader.GetString(3)
+                Dim NameMaterial As String = reader.GetString(1)
+                Dim SPQMaterial As Double = reader.GetDouble(2)
+                'Dim PNMaterial As String = reader.GetString(0)
+
+                Dim PNMaterial As Object = reader.GetValue(0)
+                If IsNumeric(SPQMaterial) Then
+                    Dim PNMaterialNumeric As Double = CDbl(PNMaterial)
+                    PN = PNMaterialNumeric
+                Else
+                    Dim PNMaterialString As String = CStr(PNMaterial)
+                    PN = PNMaterialString
+                End If
+
+                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "'", Database.koneksi)
+                Dim count As Integer = existsCmd.ExecuteScalar()
+
+                If count = 0 Then
+                    Dim sql As String = "INSERT INTO dbo.MASTER_MATERIAL (part_number,name,standard_qty,family) VALUES ('" & PN & "', '" & NameMaterial & "', " & SPQMaterial & ",'" & FamMaterial & "')"
+
+                    Dim insertCmd As New SqlCommand(sql, Database.koneksi)
+                    insertCmd.ExecuteNonQuery()
+                    totalInsert = totalInsert + 1
+                End If
+            End While
+            DGV_MasterMaterial()
+            MessageBox.Show("Import Material Success. Total " & totalInsert & " new Material ")
+        Catch ex As Exception
+            MessageBox.Show("Import Material Failed " & ex.Message)
+        Finally
+            oleCon.Close()
+        End Try
+    End Sub
+
+    Sub ImportBulk(filePath As String)
+        Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(filePath)
+        Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+        Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+        oleCon = New OleDbConnection(koneksiExcel)
+        oleCon.Open()
+
+        Dim queryExcel As String = "select * from [" & SheetName & "$]"
+        Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+        Dim rd As OleDbDataReader
+
+        Call Database.koneksi_database()
+        Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+            bulkCopy.DestinationTableName = "dbo.MASTER_MATERIAL"
+            Try
+                rd = cmd.ExecuteReader
+
+                bulkCopy.ColumnMappings.Add(0, 0)
+                bulkCopy.ColumnMappings.Add(1, 1)
+                bulkCopy.ColumnMappings.Add(2, 2)
+                bulkCopy.ColumnMappings.Add(3, 3)
+
+                bulkCopy.WriteToServer(rd)
+                rd.Close()
+
+                DGV_MasterMaterial()
+                MsgBox("Import Material Success")
+            Catch ex As Exception
+                MsgBox("Import Material Failed " & ex.Message)
+            End Try
+        End Using
     End Sub
 
     Private Sub txt_mastermaterial_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_mastermaterial_search.PreviewKeyDown
@@ -241,7 +295,7 @@ Public Class MasterMaterial
         xlWorkBook = xlApp.Workbooks.Add(misValue)
         xlWorkSheet = xlWorkBook.Sheets("sheet1")
 
-        For i = 1 To dgv_material.RowCount - 2
+        For i = 0 To dgv_material.RowCount - 1
             For j = 1 To dgv_material.ColumnCount - 1
                 For k As Integer = 1 To dgv_material.Columns.Count
                     xlWorkSheet.Cells(1, k) = dgv_material.Columns(k - 1).HeaderText

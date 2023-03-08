@@ -43,16 +43,16 @@ Public Class _PrintingFlowTicket
     End Sub
 
     Public Sub btn_Print_Click(sender As Object, e As EventArgs) Handles btn_Print.Click
-        'Try
-        Clear_data()
+        Try
+            Clear_data()
             compress_line()
             isi_data()
             label.Print(1)
             globVar.failPrint = "No"
-        'Catch ex As Exception
-        '    MsgBox(ex.Message)
-        '    globVar.failPrint = "Yes"
-        'End Try
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            globVar.failPrint = "Yes"
+        End Try
     End Sub
 
     Private Sub isi_data()

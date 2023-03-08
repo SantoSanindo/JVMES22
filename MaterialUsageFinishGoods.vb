@@ -7,14 +7,14 @@ Public Class MaterialUsageFinishGoods
     Dim oleCon As OleDbConnection
     Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And txt_masterfinishgoods_comp.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
-            Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & txt_masterfinishgoods_comp.Text & "'"
+        If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And cb_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
+            Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
                 MessageBox.Show("FG Part Number and Comp exist")
             Else
                 Try
-                    Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & txt_masterfinishgoods_comp.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
+                    Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & cb_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
 
@@ -23,12 +23,11 @@ Public Class MaterialUsageFinishGoods
 
                     idP = cb_masterfinishgoods_pn.Text
 
-                    cb_masterfinishgoods_pn.Text = ""
+                    cb_masterfinishgoods_pn.SelectedIndex = -1
                     txt_masterfinishgoods_desc.Text = ""
-                    txt_masterfinishgoods_family.Text = ""
-                    txt_masterfinishgoods_comp.Text = ""
+                    cb_masterfinishgoods_family.SelectedIndex = -1
+                    cb_masterfinishgoods_component.SelectedIndex = -1
                     txt_masterfinishgoods_usage.Text = ""
-                    cb_masterfinishgoods_pn.Select()
                 Catch ex As Exception
                     MessageBox.Show("Error Insert" & ex.Message)
                 End Try
@@ -40,6 +39,10 @@ Public Class MaterialUsageFinishGoods
         treeView_show()
         idP = ""
         tampilDataComboBox()
+        tampilDataComboBoxMaterial()
+        cb_masterfinishgoods_pn.SelectedIndex = -1
+        cb_masterfinishgoods_family.SelectedIndex = -1
+        cb_masterfinishgoods_component.SelectedIndex = -1
     End Sub
 
     Sub tampilDataComboBox()
@@ -49,8 +52,19 @@ Public Class MaterialUsageFinishGoods
         cb_masterfinishgoods_pn.DataSource = dtMasterFinishGoods
         cb_masterfinishgoods_pn.DisplayMember = "fg_part_number"
         cb_masterfinishgoods_pn.ValueMember = "fg_part_number"
-        'cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
+        cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
+    End Sub
+
+    Sub tampilDataComboBoxMaterial()
+        Call Database.koneksi_database()
+        Dim dtMasterMaterial As DataTable = Database.GetData("select part_number from master_material where standard_qty>0 order by part_number")
+
+        cb_masterfinishgoods_component.DataSource = dtMasterMaterial
+        cb_masterfinishgoods_component.DisplayMember = "part_number"
+        cb_masterfinishgoods_component.ValueMember = "part_number"
+        cb_masterfinishgoods_component.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cb_masterfinishgoods_component.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub treeView_show()
@@ -377,5 +391,13 @@ Public Class MaterialUsageFinishGoods
         Finally
             GC.Collect()
         End Try
+    End Sub
+
+    Private Sub cb_masterfinishgoods_pn_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_masterfinishgoods_pn.SelectedIndexChanged
+        If cb_masterfinishgoods_pn.SelectedIndex > 0 Then
+            Dim queryMasterFinishGoods As String = "select * from MASTER_FINISH_GOODS where fg_part_number='" & cb_masterfinishgoods_pn.Text & "'"
+            Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+            txt_masterfinishgoods_desc.Text = dtMasterFG.Rows(0).Item("description")
+        End If
     End Sub
 End Class

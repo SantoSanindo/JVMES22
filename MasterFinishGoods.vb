@@ -65,6 +65,8 @@ Public Class MasterFinishGoods
         txt_dept.Select()
         txt_dept.Text = ""
         tampilDataComboBoxDepartement()
+        txt_dept.SelectedIndex = -1
+        txt_level.SelectedIndex = -1
     End Sub
 
     Sub DGV_MasterFinishGoods()

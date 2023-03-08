@@ -8,7 +8,7 @@ Public Class MasterProcess
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If txt_masterprocess_nama.Text <> "" Then
-            Dim querycheck As String = "select * from MASTER_PROCESS where lower(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToLower) & "'"
+            Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
                 MessageBox.Show("Process Exist")
@@ -151,38 +151,80 @@ Public Class MasterProcess
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+        OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
         If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
-            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-            Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-            oleCon = New OleDbConnection(koneksiExcel)
-            oleCon.Open()
-
-            Dim queryExcel As String = "select * from [" & SheetName & "$]"
-            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-            Dim rd As OleDbDataReader
-
-            Call Database.koneksi_database()
-            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-                bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS"
-                Try
-                    rd = cmd.ExecuteReader
-
-                    bulkCopy.ColumnMappings.Add(0, 1)
-                    bulkCopy.ColumnMappings.Add(1, 2)
-
-                    bulkCopy.WriteToServer(rd)
-                    rd.Close()
-
-                    DGV_MasterProcesss()
-                    MsgBox("Import Master Process Success")
-                Catch ex As Exception
-                    MsgBox("Import Master Process Failed " & ex.Message)
-                End Try
-            End Using
+            Dim filePath As String = OpenFileDialog1.FileName
+            importOneByOne(filePath)
         End If
+    End Sub
+
+    Sub importOneByOne(filePath As String)
+        Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(filePath)
+        Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+        Dim connectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+        oleCon = New OleDbConnection(connectionString)
+        Dim totalInsert As Integer = 0
+
+        Call Database.koneksi_database()
+        Try
+            oleCon.Open()
+            Dim cmd As New OleDbCommand("SELECT * FROM [" & SheetName & "$]", oleCon)
+            Dim reader As OleDbDataReader = cmd.ExecuteReader()
+            While reader.Read()
+                Dim ProcessName As String = reader.GetString(0)
+                Dim ProcessDesc As String = reader.GetString(1)
+
+                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_PROCESS WHERE [process_name] = '" & ProcessName & "'", Database.koneksi)
+                Dim count As Integer = existsCmd.ExecuteScalar()
+
+                If count = 0 Then
+                    Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC) VALUES ('" & Trim(ProcessName) & "','" & Trim(ProcessDesc) & "')"
+
+                    Dim insertCmd As New SqlCommand(sql, Database.koneksi)
+                    insertCmd.ExecuteNonQuery()
+                    totalInsert = totalInsert + 1
+                End If
+            End While
+            DGV_MasterProcesss()
+            MessageBox.Show("Import Master Process Success. Total " & totalInsert & " new Material ")
+        Catch ex As Exception
+            MessageBox.Show("Import Master Process Failed " & ex.Message)
+        Finally
+            oleCon.Close()
+        End Try
+    End Sub
+
+    Sub ImportBulk(filePath As String)
+        Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(filePath)
+        Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+        Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+        oleCon = New OleDbConnection(koneksiExcel)
+        oleCon.Open()
+
+        Dim queryExcel As String = "select * from [" & SheetName & "$]"
+        Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+        Dim rd As OleDbDataReader
+
+        Call Database.koneksi_database()
+        Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+            bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS"
+            Try
+                rd = cmd.ExecuteReader
+
+                bulkCopy.ColumnMappings.Add(0, 1)
+                bulkCopy.ColumnMappings.Add(1, 2)
+
+                bulkCopy.WriteToServer(rd)
+                rd.Close()
+
+                DGV_MasterProcesss()
+                MsgBox("Import Master Process Success")
+            Catch ex As Exception
+                MsgBox("Import Master Process Failed " & ex.Message)
+            End Try
+        End Using
     End Sub
 
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
@@ -260,5 +302,10 @@ Public Class MasterProcess
         Finally
             GC.Collect()
         End Try
+    End Sub
+
+    Private Sub txt_masterprocess_nama_TextChanged(sender As Object, e As EventArgs) Handles txt_masterprocess_nama.TextChanged
+        txt_masterprocess_nama.Text = txt_masterprocess_nama.Text.ToUpper()
+        txt_masterprocess_nama.SelectionStart = txt_masterprocess_nama.Text.Length
     End Sub
 End Class

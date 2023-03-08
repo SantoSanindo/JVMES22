@@ -4,10 +4,28 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class MasterLine
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
+            Dim splitLine() As String = TextBox1.Text.Split(" ")
+
+            If splitLine(0) <> "Line" Then
+                MsgBox("Wrong Format")
+                Exit Sub
+            End If
+
+            If IsNumeric(splitLine(1)) Then
+                If splitLine(1) = 0 Then
+                    MsgBox("Wrong Format")
+                    Exit Sub
+                End If
+            Else
+                MsgBox("Wrong Format")
+                Exit Sub
+            End If
+
             Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, department) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
             Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
             If cmdInsertMasterLine.ExecuteNonQuery() Then
                 TextBox1.Text = ""
+                ComboBox1.SelectedIndex = -1
                 DGV_MasterLine()
             End If
         Else
@@ -19,6 +37,7 @@ Public Class MasterLine
         Call Database.koneksi_database()
         DGV_MasterLine()
         tampilDataComboBoxDepartement()
+        ComboBox1.SelectedIndex = -1
     End Sub
 
     Sub tampilDataComboBoxDepartement()

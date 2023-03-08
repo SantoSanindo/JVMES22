@@ -24,6 +24,7 @@ Partial Class MasterFinishGoods
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txt_level = New System.Windows.Forms.ComboBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_template = New System.Windows.Forms.Button()
         Me.txt_dept = New System.Windows.Forms.ComboBox()
@@ -45,7 +46,6 @@ Partial Class MasterFinishGoods
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.txt_level = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_finish_goods, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -81,6 +81,16 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Size = New System.Drawing.Size(1913, 705)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'txt_level
+        '
+        Me.txt_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.txt_level.FormattingEnabled = True
+        Me.txt_level.Items.AddRange(New Object() {"FG", "Sub Assy"})
+        Me.txt_level.Location = New System.Drawing.Point(498, 90)
+        Me.txt_level.Name = "txt_level"
+        Me.txt_level.Size = New System.Drawing.Size(227, 37)
+        Me.txt_level.TabIndex = 21
         '
         'btn_ex_template
         '
@@ -282,16 +292,6 @@ Partial Class MasterFinishGoods
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'txt_level
-        '
-        Me.txt_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.txt_level.FormattingEnabled = True
-        Me.txt_level.Items.AddRange(New Object() {"FG", "Sub Assy"})
-        Me.txt_level.Location = New System.Drawing.Point(498, 90)
-        Me.txt_level.Name = "txt_level"
-        Me.txt_level.Size = New System.Drawing.Size(227, 37)
-        Me.txt_level.TabIndex = 21
         '
         'MasterFinishGoods
         '

@@ -22,11 +22,10 @@ Partial Class MasterMaterial
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_template = New System.Windows.Forms.Button()
-        Me.txt_mastermaterial_family = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txt_pn_name = New System.Windows.Forms.TextBox()
@@ -42,6 +41,7 @@ Partial Class MasterMaterial
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.cb_mastermaterial_family = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_material, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -51,9 +51,9 @@ Partial Class MasterMaterial
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.cb_mastermaterial_family)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_template)
-        Me.GroupBox1.Controls.Add(Me.txt_mastermaterial_family)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.txt_pn_name)
@@ -97,13 +97,6 @@ Partial Class MasterMaterial
         Me.btn_export_template.TabIndex = 14
         Me.btn_export_template.Text = "Export to Excel"
         Me.btn_export_template.UseVisualStyleBackColor = False
-        '
-        'txt_mastermaterial_family
-        '
-        Me.txt_mastermaterial_family.Location = New System.Drawing.Point(1181, 28)
-        Me.txt_mastermaterial_family.Name = "txt_mastermaterial_family"
-        Me.txt_mastermaterial_family.Size = New System.Drawing.Size(174, 35)
-        Me.txt_mastermaterial_family.TabIndex = 13
         '
         'Label5
         '
@@ -194,14 +187,14 @@ Partial Class MasterMaterial
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_material.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_material.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_material.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_material.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_material.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_material.Location = New System.Drawing.Point(6, 87)
@@ -249,6 +242,16 @@ Partial Class MasterMaterial
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'cb_mastermaterial_family
+        '
+        Me.cb_mastermaterial_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cb_mastermaterial_family.FormattingEnabled = True
+        Me.cb_mastermaterial_family.Items.AddRange(New Object() {"zSFP", "zQSFP", "Ten60"})
+        Me.cb_mastermaterial_family.Location = New System.Drawing.Point(1181, 28)
+        Me.cb_mastermaterial_family.Name = "cb_mastermaterial_family"
+        Me.cb_mastermaterial_family.Size = New System.Drawing.Size(197, 37)
+        Me.cb_mastermaterial_family.TabIndex = 16
+        '
         'MasterMaterial
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -281,8 +284,8 @@ Partial Class MasterMaterial
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
-    Friend WithEvents txt_mastermaterial_family As TextBox
     Friend WithEvents btn_export_template As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents btn_ex_template As Button
+    Friend WithEvents cb_mastermaterial_family As ComboBox
 End Class

@@ -124,7 +124,7 @@ Partial Class MasterProcess
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(917, 26)
+        Me.Button1.Location = New System.Drawing.Point(1026, 26)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(153, 38)
         Me.Button1.TabIndex = 5
@@ -161,7 +161,7 @@ Partial Class MasterProcess
         '
         'txt_masterprocess_desc
         '
-        Me.txt_masterprocess_desc.Location = New System.Drawing.Point(666, 28)
+        Me.txt_masterprocess_desc.Location = New System.Drawing.Point(775, 28)
         Me.txt_masterprocess_desc.Name = "txt_masterprocess_desc"
         Me.txt_masterprocess_desc.Size = New System.Drawing.Size(219, 35)
         Me.txt_masterprocess_desc.TabIndex = 3
@@ -170,13 +170,13 @@ Partial Class MasterProcess
         '
         Me.txt_masterprocess_nama.Location = New System.Drawing.Point(215, 28)
         Me.txt_masterprocess_nama.Name = "txt_masterprocess_nama"
-        Me.txt_masterprocess_nama.Size = New System.Drawing.Size(208, 35)
+        Me.txt_masterprocess_nama.Size = New System.Drawing.Size(327, 35)
         Me.txt_masterprocess_nama.TabIndex = 2
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(466, 31)
+        Me.Label2.Location = New System.Drawing.Point(575, 31)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(181, 29)
         Me.Label2.TabIndex = 1

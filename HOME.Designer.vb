@@ -173,9 +173,9 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
-        Me.RibbonTab3.Panels.Add(Me.RibReturnStock)
         Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
         Me.RibbonTab3.Panels.Add(Me.RibReceiveReturnMaterial)
+        Me.RibbonTab3.Panels.Add(Me.RibReturnStock)
         Me.RibbonTab3.Panels.Add(Me.RibStockMinistore)
         Me.RibbonTab3.Text = "Mini Store"
         '

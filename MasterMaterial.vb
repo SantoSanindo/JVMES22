@@ -9,7 +9,7 @@ Public Class MasterMaterial
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Call Database.koneksi_database()
-        If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" Then
+        If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" And cb_mastermaterial_family.Text <> "" Then
             If IsNumeric(txt_mastermaterial_pn.Text) And IsNumeric(txt_mastermaterial_qty.Text) Then
                 Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
@@ -17,13 +17,14 @@ Public Class MasterMaterial
                     MessageBox.Show("Material Exist")
                 Else
                     Try
-                        Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & txt_mastermaterial_family.Text & "')"
+                        Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & cb_mastermaterial_family.Text & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
                             txt_pn_name.Text = ""
                             txt_mastermaterial_pn.Text = ""
                             txt_mastermaterial_qty.Text = ""
+                            cb_mastermaterial_family.SelectedIndex = -1
                             txt_mastermaterial_pn.Select()
 
                             dgv_material.DataSource = Nothing
@@ -40,6 +41,8 @@ Public Class MasterMaterial
                 txt_mastermaterial_qty.Text = ""
                 txt_mastermaterial_pn.Select()
             End If
+        Else
+            MsgBox("Please input all data")
         End If
     End Sub
 
@@ -47,6 +50,7 @@ Public Class MasterMaterial
         txt_mastermaterial_pn.Select()
         DGV_MasterMaterial()
         txt_mastermaterial_search.Text = ""
+        cb_mastermaterial_family.SelectedIndex = -1
     End Sub
 
     Private Sub DGV_MasterMaterial()

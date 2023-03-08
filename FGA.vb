@@ -79,6 +79,7 @@ Public Class FGA
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim queryCheck As String = "select * from fga where FLOW_TICKET='" & TextBox1.Text & "'"
         Dim dtCheck As DataTable = Database.GetData(queryCheck)
+        Dim sFlowTicket = TextBox1.Text.Split(";")
 
         If dtCheck.Rows.Count > 0 Then
             MessageBox.Show("Double Scan")
@@ -109,9 +110,9 @@ Public Class FGA
                                     VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "','" & sub_sub_po & "','" & pn_fg & "','" & line & "','" & noflowticket & "','" & globVar.department & "')"
                 Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                 If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                    'Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" &  & "'"
-                    'Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                    'cmdUpdate.ExecuteNonQuery()
+                    Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" & sFlowTicket(5)(0) & "'"
+                    Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                    cmdUpdate.ExecuteNonQuery()
 
                     ComboBox1.SelectedIndex = -1
                     ComboBox2.SelectedIndex = -1

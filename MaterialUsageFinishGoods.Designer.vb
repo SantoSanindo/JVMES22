@@ -22,15 +22,13 @@ Partial Class MaterialUsageFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_Master_Usage_Finish_Goods = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.cb_masterfinishgoods_pn = New System.Windows.Forms.ComboBox()
         Me.txt_masterfinishgoods_usage = New System.Windows.Forms.TextBox()
-        Me.txt_masterfinishgoods_comp = New System.Windows.Forms.TextBox()
-        Me.txt_masterfinishgoods_family = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -46,6 +44,8 @@ Partial Class MaterialUsageFinishGoods
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.cb_masterfinishgoods_family = New System.Windows.Forms.ComboBox()
+        Me.cb_masterfinishgoods_component = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterfinishgoods_atas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -55,13 +55,13 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_component)
+        Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_family)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_Master_Usage_Finish_Goods)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_pn)
         Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_usage)
-        Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_comp)
-        Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_family)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -121,7 +121,6 @@ Partial Class MaterialUsageFinishGoods
         '
         'cb_masterfinishgoods_pn
         '
-        Me.cb_masterfinishgoods_pn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cb_masterfinishgoods_pn.FormattingEnabled = True
         Me.cb_masterfinishgoods_pn.Location = New System.Drawing.Point(200, 27)
         Me.cb_masterfinishgoods_pn.Name = "cb_masterfinishgoods_pn"
@@ -134,20 +133,6 @@ Partial Class MaterialUsageFinishGoods
         Me.txt_masterfinishgoods_usage.Name = "txt_masterfinishgoods_usage"
         Me.txt_masterfinishgoods_usage.Size = New System.Drawing.Size(222, 35)
         Me.txt_masterfinishgoods_usage.TabIndex = 25
-        '
-        'txt_masterfinishgoods_comp
-        '
-        Me.txt_masterfinishgoods_comp.Location = New System.Drawing.Point(638, 77)
-        Me.txt_masterfinishgoods_comp.Name = "txt_masterfinishgoods_comp"
-        Me.txt_masterfinishgoods_comp.Size = New System.Drawing.Size(232, 35)
-        Me.txt_masterfinishgoods_comp.TabIndex = 24
-        '
-        'txt_masterfinishgoods_family
-        '
-        Me.txt_masterfinishgoods_family.Location = New System.Drawing.Point(638, 27)
-        Me.txt_masterfinishgoods_family.Name = "txt_masterfinishgoods_family"
-        Me.txt_masterfinishgoods_family.Size = New System.Drawing.Size(236, 35)
-        Me.txt_masterfinishgoods_family.TabIndex = 23
         '
         'Label6
         '
@@ -247,14 +232,14 @@ Partial Class MaterialUsageFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterfinishgoods_atas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_masterfinishgoods_atas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterfinishgoods_atas.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterfinishgoods_atas.Location = New System.Drawing.Point(397, 129)
@@ -269,6 +254,7 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.txt_masterfinishgoods_desc.Location = New System.Drawing.Point(200, 77)
         Me.txt_masterfinishgoods_desc.Name = "txt_masterfinishgoods_desc"
+        Me.txt_masterfinishgoods_desc.ReadOnly = True
         Me.txt_masterfinishgoods_desc.Size = New System.Drawing.Size(247, 35)
         Me.txt_masterfinishgoods_desc.TabIndex = 3
         '
@@ -293,6 +279,25 @@ Partial Class MaterialUsageFinishGoods
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'cb_masterfinishgoods_family
+        '
+        Me.cb_masterfinishgoods_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cb_masterfinishgoods_family.FormattingEnabled = True
+        Me.cb_masterfinishgoods_family.Items.AddRange(New Object() {"zQSFP", "zSFP", "Ten60"})
+        Me.cb_masterfinishgoods_family.Location = New System.Drawing.Point(638, 22)
+        Me.cb_masterfinishgoods_family.Name = "cb_masterfinishgoods_family"
+        Me.cb_masterfinishgoods_family.Size = New System.Drawing.Size(232, 37)
+        Me.cb_masterfinishgoods_family.TabIndex = 30
+        '
+        'cb_masterfinishgoods_component
+        '
+        Me.cb_masterfinishgoods_component.FormattingEnabled = True
+        Me.cb_masterfinishgoods_component.Items.AddRange(New Object() {"zQSFP", "zSFP", "Ten60"})
+        Me.cb_masterfinishgoods_component.Location = New System.Drawing.Point(638, 75)
+        Me.cb_masterfinishgoods_component.Name = "cb_masterfinishgoods_component"
+        Me.cb_masterfinishgoods_component.Size = New System.Drawing.Size(232, 37)
+        Me.cb_masterfinishgoods_component.TabIndex = 31
         '
         'MaterialUsageFinishGoods
         '
@@ -323,8 +328,6 @@ Partial Class MaterialUsageFinishGoods
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents txt_masterfinishgoods_usage As TextBox
-    Friend WithEvents txt_masterfinishgoods_comp As TextBox
-    Friend WithEvents txt_masterfinishgoods_family As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents cb_masterfinishgoods_pn As ComboBox
@@ -333,4 +336,6 @@ Partial Class MaterialUsageFinishGoods
     Friend WithEvents btn_ex_template As Button
     Friend WithEvents btn_export_Master_Usage_Finish_Goods As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents cb_masterfinishgoods_family As ComboBox
+    Friend WithEvents cb_masterfinishgoods_component As ComboBox
 End Class

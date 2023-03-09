@@ -40,7 +40,7 @@ Public Class ProductionRequest
                 SubPO.Text = dtMaterialNeed.Rows(0).Item("Sub_PO").ToString
                 TextBox3.Text = dtMaterialNeed.Rows(0).Item("FG_Part_Number").ToString
             Else
-                MessageBox.Show("Sorry this line not set for Production")
+                RJMessageBox.Show("Sorry this line not set for Production")
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -73,7 +73,7 @@ Public Class ProductionRequest
                 End If
 
                 If Found = False Then
-                    MessageBox.Show("Production no need for this Part Number.")
+                    RJMessageBox.Show("Production no need for this Part Number.")
                     TextBox1.Text = ""
                 Else
                     Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
@@ -82,13 +82,13 @@ Public Class ProductionRequest
                         Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
                         Dim dtCheckInProdFreshMaterial As DataTable = Database.GetData(sqlCheckInProdFreshMaterial)
                         If dtCheckInProdFreshMaterial.Rows.Count > 0 Then
-                            MessageBox.Show("Sorry QR Code already in database production")
+                            RJMessageBox.Show("Sorry QR Code already in database production")
                             TextBox1.Text = ""
                         Else
                             Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM stock_card WHERE sub_sub_po = '" & SubSubPO.Text & "' and material='" & globVar.QRCode_PN & "' AND LINE='" & ComboBox1.Text & "' and department='" & globVar.department & "' and status='Production Request'"
                             Dim dtCheckSumQtyProdcution As DataTable = Database.GetData(sqlCheckSumQtyProdcution)
                             If dtCheckSumQtyProdcution.Rows(0).Item("qty") > DataGridView3.Rows(CurrentRowIndex).Cells("Total_Need").Value Then
-                                MessageBox.Show("Cannot add component because Qty more than Qty Need")
+                                RJMessageBox.Show("Cannot add component because Qty more than Qty Need")
                                 TextBox1.Text = ""
                                 DGV_InProductionMaterial()
                             Else
@@ -106,7 +106,7 @@ Public Class ProductionRequest
                                             TextBox1.Clear()
                                         End If
                                     Catch ex As Exception
-                                        MessageBox.Show("Error Insert" & ex.Message)
+                                        RJMessageBox.Show("Error Insert" & ex.Message)
                                     End Try
                                 Else
                                     Try
@@ -122,13 +122,13 @@ Public Class ProductionRequest
                                             TextBox1.Clear()
                                         End If
                                     Catch ex As Exception
-                                        MessageBox.Show("Error Insert" & ex.Message)
+                                        RJMessageBox.Show("Error Insert" & ex.Message)
                                     End Try
                                 End If
                             End If
                         End If
                     Else
-                        MessageBox.Show("This QR Code not available in Stock Ministore. Please goto input stock first")
+                        RJMessageBox.Show("This QR Code not available in Stock Ministore. Please goto input stock first")
                         TextBox1.Text = ""
                     End If
                 End If
@@ -219,7 +219,7 @@ Public Class ProductionRequest
             End If
 
             If Found = False Then
-                MessageBox.Show("Production no need for this Part Number.")
+                RJMessageBox.Show("Production no need for this Part Number.")
                 TextBox1.Text = ""
             Else
                 Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' and lot_no=" & TextBox6.Text & " and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0"
@@ -228,13 +228,13 @@ Public Class ProductionRequest
                     Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' and lot_no=" & TextBox6.Text & " and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
                     Dim dtCheckInProdFreshMaterial As DataTable = Database.GetData(sqlCheckInProdFreshMaterial)
                     If dtCheckInProdFreshMaterial.Rows.Count > 0 Then
-                        MessageBox.Show("Sorry QR Code already in database production")
+                        RJMessageBox.Show("Sorry QR Code already in database production")
                         TextBox1.Text = ""
                     Else
                         Dim sqlCheckSumQtyProdcution As String = "SELECT isnull(sum(QTY),0) qty FROM stock_card WHERE sub_sub_po = '" & SubSubPO.Text & "' and material='" & TextBox2.Text & "' AND LINE='" & ComboBox1.Text & "' and department='" & globVar.department & "' and status='Production Request'"
                         Dim dtCheckSumQtyProdcution As DataTable = Database.GetData(sqlCheckSumQtyProdcution)
                         If dtCheckSumQtyProdcution.Rows(0).Item("qty") > DataGridView3.Rows(CurrentRowIndex).Cells("Total_Need").Value Then
-                            MessageBox.Show("Cannot add component because Qty more than Qty Need")
+                            RJMessageBox.Show("Cannot add component because Qty more than Qty Need")
                             TextBox1.Text = ""
                             DGV_InProductionMaterial()
                         Else
@@ -253,10 +253,10 @@ Public Class ProductionRequest
                                         Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                         cmdUpdate.ExecuteNonQuery()
 
-                                        MessageBox.Show("Add Material Success")
+                                        RJMessageBox.Show("Add Material Success")
                                     End If
                                 Catch ex As Exception
-                                    MessageBox.Show("Error Insert" & ex.Message)
+                                    RJMessageBox.Show("Error Insert" & ex.Message)
                                 End Try
                             Else
                                 Try
@@ -272,16 +272,16 @@ Public Class ProductionRequest
                                         Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                         cmdUpdate.ExecuteNonQuery()
 
-                                        MessageBox.Show("Add Material Success")
+                                        RJMessageBox.Show("Add Material Success")
                                     End If
                                 Catch ex As Exception
-                                    MessageBox.Show("Error Insert" & ex.Message)
+                                    RJMessageBox.Show("Error Insert" & ex.Message)
                                 End Try
                             End If
                         End If
                     End If
                 Else
-                    MessageBox.Show("This Material not available in Stock Ministore. Please goto input stock first")
+                    RJMessageBox.Show("This Material not available in Stock Ministore. Please goto input stock first")
                     TextBox2.Text = ""
                     TextBox6.Text = ""
                 End If

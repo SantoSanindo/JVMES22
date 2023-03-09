@@ -5,7 +5,7 @@ Public Class HOME
             Me.Text = "MES Application v " & Application.ProductVersion
             If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
 
-                Dim result As DialogResult = MessageBox.Show(
+                Dim result As DialogResult = RJMessageBox.Show(
                               "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
                               MessageBoxButtons.YesNo)
 
@@ -49,7 +49,7 @@ Public Class HOME
             TabControl1.TabPages.Add(Users)
             TabControl1.TabPages(Users).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -60,7 +60,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MasterMaterial)
             TabControl1.TabPages(MasterMaterial).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -71,7 +71,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MasterProcess)
             TabControl1.TabPages(MasterProcess).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -82,7 +82,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MasterProcessFlow)
             TabControl1.TabPages(MasterProcessFlow).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -93,7 +93,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MasterFinishGoods)
             TabControl1.TabPages(MasterFinishGoods).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -105,7 +105,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MaterialUsageFinishGoods)
             TabControl1.TabPages(MaterialUsageFinishGoods).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -117,7 +117,7 @@ Public Class HOME
             TabControl1.TabPages.Add(ProcessFlowMaterialUsage)
             TabControl1.TabPages(ProcessFlowMaterialUsage).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -129,7 +129,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MasterLine)
             TabControl1.TabPages(MasterLine).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -143,7 +143,7 @@ Public Class HOME
             TabControl1.TabPages.Add(FormInputStock)
             TabControl1.TabPages(FormInputStock).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -155,7 +155,7 @@ Public Class HOME
             TabControl1.TabPages.Add(FormReturnStock)
             TabControl1.TabPages(FormReturnStock).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -166,7 +166,7 @@ Public Class HOME
             TabControl1.TabPages.Add(ProductionRequest)
             TabControl1.TabPages(ProductionRequest).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -180,7 +180,7 @@ Public Class HOME
             TabControl1.TabPages.Add(StockMinistore)
             TabControl1.TabPages(StockMinistore).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -191,7 +191,7 @@ Public Class HOME
             TabControl1.TabPages.Add(ReceiveReturnMaterial)
             TabControl1.TabPages(ReceiveReturnMaterial).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -206,7 +206,7 @@ Public Class HOME
             TabControl1.TabPages.Add(MainPOSubPO)
             TabControl1.TabPages(MainPOSubPO).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -218,7 +218,7 @@ Public Class HOME
             TabControl1.TabPages.Add(Production)
             TabControl1.TabPages(Production).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -229,7 +229,7 @@ Public Class HOME
             TabControl1.TabPages.Add(StockMinistore)
             TabControl1.TabPages(StockMinistore).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -240,7 +240,7 @@ Public Class HOME
             TabControl1.TabPages.Add(AddChangeOperator)
             TabControl1.TabPages(AddChangeOperator).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
     Private Sub BtnPrintFlowTicket(sender As Object, e As EventArgs) Handles PrintFlowTicketBtn.Click
@@ -250,7 +250,7 @@ Public Class HOME
             TabControl1.TabPages.Add(PrintFlowTicket)
             TabControl1.TabPages(PrintFlowTicket).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -261,7 +261,7 @@ Public Class HOME
             TabControl1.TabPages.Add(Summary)
             TabControl1.TabPages(Summary).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -281,7 +281,7 @@ Public Class HOME
             TabControl1.TabPages(_PrintingSubAssyRawMaterial).Select()
             TabControl1.TabPages(_PrintingWIPOnHold).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -308,7 +308,7 @@ Public Class HOME
             TabControl1.TabPages.Add(FGA)
             TabControl1.TabPages(FGA).Select()
         Else
-            MessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 

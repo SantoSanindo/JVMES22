@@ -78,7 +78,7 @@ Public Class MasterProcessFlow
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -140,7 +140,7 @@ Public Class MasterProcessFlow
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -177,16 +177,16 @@ Public Class MasterProcessFlow
 
                 DGV_ProcessFlow()
             Catch ex As Exception
-                MessageBox.Show("Error Insert" & ex.Message)
+                RJMessageBox.Show("Error Insert" & ex.Message)
             End Try
         End If
     End Sub
 
     Private Sub dgv_masterprocessflow_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocessflow.CellClick
         Call Database.koneksi_database()
-        'MessageBox.Show(e.ColumnIndex)
+        'rjMessageBox.Show(e.ColumnIndex)
         If dgv_masterprocessflow.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
@@ -194,9 +194,9 @@ Public Class MasterProcessFlow
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     DGV_ProcessFlow()
-                    MessageBox.Show("Success delete.")
+                    RJMessageBox.Show("Success delete.")
                 Catch ex As Exception
-                    MessageBox.Show("Failed delete" & ex.Message)
+                    RJMessageBox.Show("Failed delete" & ex.Message)
                 End Try
             End If
         End If

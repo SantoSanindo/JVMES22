@@ -92,7 +92,7 @@ Public Class FormInputStock
                 dgv_forminputstock.ReadOnly = False
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -116,7 +116,7 @@ Public Class FormInputStock
                     Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                     If dtCheckInputStockDetail.Rows.Count > 0 Then
-                        MessageBox.Show("This QRCode Already Scan")
+                        RJMessageBox.Show("This QRCode Already Scan")
 
                         txt_forminputstock_qrcode.Text = ""
                         txt_forminputstock_qrcode.Select()
@@ -150,11 +150,11 @@ Public Class FormInputStock
                                 treeView_show()
                             End If
                         Catch ex As Exception
-                            MessageBox.Show("Error Insert" & ex.Message)
+                            RJMessageBox.Show("Error Insert" & ex.Message)
                         End Try
                     End If
                 Else
-                    MessageBox.Show("Part Number not in DB")
+                    RJMessageBox.Show("Part Number not in DB")
                     txt_forminputstock_qrcode.Text = ""
                     txt_forminputstock_qrcode.Select()
                 End If
@@ -174,16 +174,16 @@ Public Class FormInputStock
 
                 DGV_InputStock(TextBox1.Text)
                 treeView_show()
-                MessageBox.Show("Success updated data")
+                RJMessageBox.Show("Success updated data")
             Catch ex As Exception
-                MessageBox.Show("Failed" & ex.Message)
+                RJMessageBox.Show("Failed" & ex.Message)
             End Try
 
         End If
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim result = MessageBox.Show("The data has been saved cannot be changed. Are you sure to save this MTS Data?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("The data has been saved cannot be changed. Are you sure to save this MTS Data?", "Warning", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             Try
@@ -199,17 +199,17 @@ Public Class FormInputStock
                     unlock.Enabled = True
                     dgv_forminputstock.ReadOnly = True
 
-                    MessageBox.Show("Success Save The Data")
+                    RJMessageBox.Show("Success Save The Data")
                 End If
             Catch ex As Exception
-                MessageBox.Show("failed" & ex.Message)
+                RJMessageBox.Show("failed" & ex.Message)
             End Try
         End If
     End Sub
 
     Private Sub dgv_forminputstock_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_forminputstock.CellClick
         If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
             If result = DialogResult.Yes Then
                 Try
                     Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("ID").Value
@@ -217,10 +217,10 @@ Public Class FormInputStock
                     If cmd.ExecuteNonQuery() Then
                         DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
                         treeView_show()
-                        MessageBox.Show("Success delete.")
+                        RJMessageBox.Show("Success delete.")
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
+                    RJMessageBox.Show("failed" & ex.Message)
                 End Try
             End If
         End If
@@ -243,13 +243,13 @@ Public Class FormInputStock
         Try
             If e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter Then
                 If txt_forminputstock_mts_no.Text = "" Then
-                    MessageBox.Show("MTS cannot be null.")
+                    RJMessageBox.Show("MTS cannot be null.")
                     txt_forminputstock_mts_no.Select()
                 Else
                     Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status != 'Receive From Main Store'"
                     Dim dtCheck As DataTable = Database.GetData(queryCheck)
                     If dtCheck.Rows.Count > 0 Then
-                        MessageBox.Show("Sorry MTS Number already in DB")
+                        RJMessageBox.Show("Sorry MTS Number already in DB")
                         txt_forminputstock_mts_no.Clear()
                         Exit Sub
                     End If
@@ -376,7 +376,7 @@ Public Class FormInputStock
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         If txtmanualBatch.Text <> "" And txtmanualInv.Text <> "" And txtmanualLot.Text <> "" And txtmanualPN.Text <> "" And txtmanualQty.Text <> "" And txtmanualTraceability.Text <> "" Then
             If Not IsNumeric(txtmanualQty.Text) Or Not IsNumeric(txtmanualLot.Text) Then
-                MessageBox.Show("Sorry. Lot No / Qty must be Number.")
+                RJMessageBox.Show("Sorry. Lot No / Qty must be Number.")
                 Exit Sub
             End If
 
@@ -393,7 +393,7 @@ Public Class FormInputStock
                 Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                 If dtCheckInputStockDetail.Rows.Count > 0 Then
-                    MessageBox.Show("Part Number & Lot No already in DB")
+                    RJMessageBox.Show("Part Number & Lot No already in DB")
 
                     txtmanualPN.Select()
 
@@ -432,14 +432,14 @@ Public Class FormInputStock
                             treeView_show()
                         End If
                     Catch ex As Exception
-                        MessageBox.Show("Error Insert" & ex.Message)
+                        RJMessageBox.Show("Error Insert" & ex.Message)
                     End Try
                 End If
             Else
-                MessageBox.Show("Sorry, Part Number not exist in data Master Material.")
+                RJMessageBox.Show("Sorry, Part Number not exist in data Master Material.")
             End If
         Else
-            MessageBox.Show("Please fill all form")
+            RJMessageBox.Show("Please fill all form")
         End If
     End Sub
 
@@ -466,7 +466,7 @@ Public Class FormInputStock
     End Sub
 
     Private Sub unlock_Click(sender As Object, e As EventArgs) Handles unlock.Click
-        Dim result = MessageBox.Show("The data already saved. Are you sure to edit this MTS Data?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("The data already saved. Are you sure to edit this MTS Data?", "Warning", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             Try
@@ -485,11 +485,11 @@ Public Class FormInputStock
                         unlock.Enabled = False
                         dgv_forminputstock.ReadOnly = False
 
-                        MessageBox.Show("Success Change The Data. You can EDIT now.")
+                        RJMessageBox.Show("Success Change The Data. You can EDIT now.")
                     End If
                 End If
             Catch ex As Exception
-                MessageBox.Show("failed" & ex.Message)
+                RJMessageBox.Show("failed" & ex.Message)
             End Try
         End If
     End Sub

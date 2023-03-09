@@ -29,7 +29,7 @@ Public Class MasterLine
                 DGV_MasterLine()
             End If
         Else
-            MessageBox.Show("Line Name or Department cannot be blank")
+            RJMessageBox.Show("Line Name or Department cannot be blank")
         End If
     End Sub
 
@@ -72,7 +72,7 @@ Public Class MasterLine
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
             If result = DialogResult.Yes Then
                 Try
                     Dim sql As String = "delete from master_line where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
@@ -81,7 +81,7 @@ Public Class MasterLine
                         DGV_MasterLine()
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("MasterLine-01 : " & ex.Message)
+                    RJMessageBox.Show("MasterLine-01 : " & ex.Message)
                 End Try
             End If
         End If

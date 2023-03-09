@@ -55,7 +55,7 @@ Public Class PrintFlowTicket
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If DataGridView2.Rows.Count = 0 Then
-            MessageBox.Show("Cannot Print When Detail Of Process blank. Please set Operator First.")
+            RJMessageBox.Show("Cannot Print When Detail Of Process blank. Please set Operator First.")
             Exit Sub
         End If
 
@@ -82,7 +82,7 @@ Public Class PrintFlowTicket
 
         If Val(TextBox6.Text) <= Val(TextBox7.Text) Then
             If CheckBox1.Checked Then
-                'MessageBox.Show("Print 1 of 1 Flow Ticket")
+                'rjMessageBox.Show("Print 1 of 1 Flow Ticket")
                 Dim NoFlowTicket = "1 of 1"
 
                 globVar.failPrint = ""
@@ -109,7 +109,7 @@ Public Class PrintFlowTicket
                         End If
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("MainPOSubPO-12 : " & ex.Message)
+                    RJMessageBox.Show("MainPOSubPO-12 : " & ex.Message)
                 End Try
             End If
 
@@ -121,7 +121,7 @@ Public Class PrintFlowTicket
                     _PrintingFlowTicket.txt_Lot_No.Text = "0"
                     _PrintingFlowTicket.txt_QR_Code.Text = TextBox8.Text & ";" & TextBox2.Text & ";" & TextBox6.Text & ";" & TextBox7.Text & ";" & ComboBox1.Text & ";Additional" & Environment.NewLine 'Subsubpo,fg,qtypo,qtyperlot,line,noflowticket
                     _PrintingFlowTicket.btn_Print_Click(sender, e)
-                    'MessageBox.Show("Print + " & i & " Flow Ticket Additional")
+                    'rjMessageBox.Show("Print + " & i & " Flow Ticket Additional")
                     Try
                         If globVar.failPrint = "No" Then
                             Dim sqlInsertPrintingRecordAdditional As String = "INSERT INTO record_printing (po, fg, line, remark, sub_sub_po,department,flow_ticket)
@@ -130,7 +130,7 @@ Public Class PrintFlowTicket
                             cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
                         End If
                     Catch ex As Exception
-                        MessageBox.Show("MainPOSubPO-13 : " & ex.Message)
+                        RJMessageBox.Show("MainPOSubPO-13 : " & ex.Message)
                     End Try
                 Next
             End If
@@ -163,11 +163,11 @@ Public Class PrintFlowTicket
                                 End If
                             End If
                         Catch ex As Exception
-                            MessageBox.Show("MainPOSubPO-14 : " & ex.Message)
+                            RJMessageBox.Show("MainPOSubPO-14 : " & ex.Message)
                         End Try
 
 
-                        'MessageBox.Show("Print " & i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text) & " Label Flow Ticket")
+                        'rjMessageBox.Show("Print " & i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text) & " Label Flow Ticket")
                     Next
                 Else
                     For i = 1 To Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
@@ -196,17 +196,17 @@ Public Class PrintFlowTicket
                                 End If
                             End If
                         Catch ex As Exception
-                            MessageBox.Show("MainPOSubPO-15 : " & ex.Message)
+                            RJMessageBox.Show("MainPOSubPO-15 : " & ex.Message)
                         End Try
 
-                        'MessageBox.Show("Print " & i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 & " Label Flow Ticket")
+                        'rjMessageBox.Show("Print " & i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 & " Label Flow Ticket")
                     Next
                 End If
             End If
 
             If CheckBox2.Checked Then
                 For i = 1 To Val(TextBox1.Text)
-                    'MessageBox.Show("Print + " & i & " Flow Ticket Additional")
+                    'rjMessageBox.Show("Print + " & i & " Flow Ticket Additional")
                     Dim NoFlowTicket = i & " of 0"
                     globVar.failPrint = ""
                     _PrintingFlowTicket.txt_Lot_No.Text = "0"
@@ -221,7 +221,7 @@ Public Class PrintFlowTicket
                             cmdInsertPrintingRecordAdditional.ExecuteNonQuery()
                         End If
                     Catch ex As Exception
-                        MessageBox.Show("MainPOSubPO-16 : " & ex.Message)
+                        RJMessageBox.Show("MainPOSubPO-16 : " & ex.Message)
                     End Try
                 Next
             End If
@@ -263,7 +263,7 @@ Public Class PrintFlowTicket
                 DGV_DOC()
                 DGV_DOP()
             Else
-                MessageBox.Show("This line no have any PO")
+                RJMessageBox.Show("This line no have any PO")
                 DGV_DOC()
                 DGV_DOP()
             End If

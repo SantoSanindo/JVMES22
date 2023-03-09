@@ -8,7 +8,7 @@ Public Class Users
             Dim querycheck As String = "select * from users where id_card_no='" & TextBox1.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
-                MessageBox.Show("Users Exist")
+                RJMessageBox.Show("Users Exist")
             Else
                 Try
                     Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox2.Text & "','" & ComboBox1.Text & "')"
@@ -25,7 +25,7 @@ Public Class Users
                     End If
 
                 Catch ex As Exception
-                    MessageBox.Show("Error Insert" & ex.Message)
+                    RJMessageBox.Show("Error Insert" & ex.Message)
                 End Try
             End If
         End If
@@ -94,7 +94,7 @@ Public Class Users
                         If Found Then Exit For
                     Next
                 Else
-                    MessageBox.Show("Cannot Search Users couse Users is blank.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    RJMessageBox.Show("Cannot Search Users couse Users is blank.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -104,7 +104,7 @@ Public Class Users
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Dim hapus As Integer = 0
-        Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In DataGridView1.Rows
@@ -119,7 +119,7 @@ Public Class Users
 
         DataGridView1.DataSource = Nothing
         DGV_Users()
-        MessageBox.Show("Delete Success " & hapus & " Data.")
+        RJMessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
@@ -194,7 +194,7 @@ Public Class Users
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
@@ -203,15 +203,15 @@ Public Class Users
                     cmd.ExecuteNonQuery()
 
                     DGV_Users()
-                    MessageBox.Show("Delete Success.")
+                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
+                    RJMessageBox.Show("failed" & ex.Message)
                 End Try
             End If
         End If
 
         If e.ColumnIndex = 0 Then
-            'MessageBox.Show(e.RowIndex)
+            'rjMessageBox.Show(e.RowIndex)
             If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
                 DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
             Else

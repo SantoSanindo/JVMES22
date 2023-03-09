@@ -11,7 +11,7 @@ Public Class MaterialUsageFinishGoods
             Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
-                MessageBox.Show("FG Part Number and Comp exist")
+                RJMessageBox.Show("FG Part Number and Comp exist")
             Else
                 Try
                     Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & cb_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
@@ -29,7 +29,7 @@ Public Class MaterialUsageFinishGoods
                     cb_masterfinishgoods_component.SelectedIndex = -1
                     txt_masterfinishgoods_usage.Text = ""
                 Catch ex As Exception
-                    MessageBox.Show("Error Insert" & ex.Message)
+                    RJMessageBox.Show("Error Insert" & ex.Message)
                 End Try
             End If
         End If
@@ -83,7 +83,7 @@ Public Class MaterialUsageFinishGoods
     Private Sub dgv_masterfinishgoods_atas_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterfinishgoods_atas.CellClick
         If dgv_masterfinishgoods_atas.Columns(e.ColumnIndex).Name = "delete" Then
 
-            Dim result = MessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
@@ -92,9 +92,9 @@ Public Class MaterialUsageFinishGoods
                     cmd.ExecuteNonQuery()
                     DGV_Masterfinishgoods_atass(idP)
                     treeView_show()
-                    MessageBox.Show("Delete Success.")
+                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
-                    MessageBox.Show("Delete Failed" & ex.Message)
+                    RJMessageBox.Show("Delete Failed" & ex.Message)
                 End Try
             End If
         End If
@@ -152,7 +152,7 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
         Dim hapus As Integer = 0
-        Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
@@ -167,7 +167,7 @@ Public Class MaterialUsageFinishGoods
 
         treeView_show()
         DGV_Masterfinishgoods_atass(idP)
-        MessageBox.Show("Delete Success " & hapus & " Data.")
+        RJMessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
@@ -187,7 +187,7 @@ Public Class MaterialUsageFinishGoods
                     End If
                 Next
                 If FoundTreeview = False Then
-                    MessageBox.Show("Data not Found")
+                    RJMessageBox.Show("Data not Found")
                 End If
             Else
                 Dim Found As Boolean = False
@@ -197,7 +197,7 @@ Public Class MaterialUsageFinishGoods
                 Try
                     If dgv_masterfinishgoods_atas.Rows.Count = 0 Then
                         CurrentRowIndex = 0
-                        MessageBox.Show("Data not Found")
+                        RJMessageBox.Show("Data not Found")
                         txt_masterfinishgoods_search.Clear()
                     Else
                         CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index + 1
@@ -219,7 +219,7 @@ Public Class MaterialUsageFinishGoods
                             End If
                         Next
                         If Found = False Then
-                            MessageBox.Show("Data not Found")
+                            RJMessageBox.Show("Data not Found")
                         End If
                     End If
                 Catch ex As Exception

@@ -13,7 +13,7 @@ Public Class MasterFinishGoods
                 Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_pn.Text & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
                 If dtCheck.Rows.Count > 0 Then
-                    MessageBox.Show("Finish Goods Already Exist")
+                    RJMessageBox.Show("Finish Goods Already Exist")
                 Else
                     Try
                         Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE) VALUES ('" & txt_pn.Text & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & txt_desc.Text & "'," & txt_spq.Text & ",'" & txt_laser.Text & "')"
@@ -33,11 +33,11 @@ Public Class MasterFinishGoods
                         End If
 
                     Catch ex As Exception
-                        MessageBox.Show("Error Insert" & ex.Message)
+                        RJMessageBox.Show("Error Insert" & ex.Message)
                     End Try
                 End If
             Else
-                MessageBox.Show("SPQ must be number.")
+                RJMessageBox.Show("SPQ must be number.")
                 txt_dept.Text = ""
                 txt_pn.Text = ""
                 txt_desc.Text = ""
@@ -107,7 +107,7 @@ Public Class MasterFinishGoods
             Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
             Dim excelpath As String = OpenFileDialog1.FileName
             Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-            oleCon = New OLEDBConnection(koneksiExcel)
+            oleCon = New OleDbConnection(koneksiExcel)
             oleCon.Open()
 
             Dim queryExcel As String = "select * from [" & SheetName & "$]"
@@ -142,7 +142,7 @@ Public Class MasterFinishGoods
 
     Private Sub dgv_finish_goods_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_finish_goods.CellClick
         If dgv_finish_goods.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
@@ -151,9 +151,9 @@ Public Class MasterFinishGoods
                     cmd.ExecuteNonQuery()
                     dgv_finish_goods.DataSource = Nothing
                     DGV_MasterFinishGoods()
-                    MessageBox.Show("Delete Success.")
+                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
+                    RJMessageBox.Show("failed" & ex.Message)
                 End Try
             End If
         End If
@@ -169,7 +169,7 @@ Public Class MasterFinishGoods
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Dim hapus As Integer = 0
-        Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_finish_goods.Rows
@@ -184,7 +184,7 @@ Public Class MasterFinishGoods
 
         dgv_finish_goods.DataSource = Nothing
         DGV_MasterFinishGoods()
-        MessageBox.Show("Delete Success " & hapus & " Data.")
+        RJMessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub txt_masterfinishgoods_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown

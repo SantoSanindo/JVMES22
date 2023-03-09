@@ -14,7 +14,7 @@ Public Class MasterMaterial
                 Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
                 If dtCheck.Rows.Count > 0 Then
-                    MessageBox.Show("Material Exist")
+                    RJMessageBox.Show("Material Exist")
                 Else
                     Try
                         Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & cb_mastermaterial_family.Text & "')"
@@ -32,11 +32,11 @@ Public Class MasterMaterial
                         End If
 
                     Catch ex As Exception
-                        MessageBox.Show("Error Insert" & ex.Message)
+                        RJMessageBox.Show("Error Insert" & ex.Message)
                     End Try
                 End If
             Else
-                MessageBox.Show("Part Number / Qty must be number.")
+                RJMessageBox.Show("Part Number / Qty must be number.")
                 txt_mastermaterial_pn.Text = ""
                 txt_mastermaterial_qty.Text = ""
                 txt_mastermaterial_pn.Select()
@@ -85,10 +85,10 @@ Public Class MasterMaterial
     End Sub
 
     Private Sub dgv_material_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_material.CellClick
-        'MessageBox.Show(e.ColumnIndex)
+        'rjMessageBox.Show(e.ColumnIndex)
 
         If dgv_material.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
@@ -97,9 +97,9 @@ Public Class MasterMaterial
                     cmd.ExecuteNonQuery()
                     dgv_material.DataSource = Nothing
                     DGV_MasterMaterial()
-                    MessageBox.Show("Delete Success.")
+                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
-                    MessageBox.Show("failed" & ex.Message)
+                    RJMessageBox.Show("failed" & ex.Message)
                 End Try
             End If
         End If
@@ -115,7 +115,7 @@ Public Class MasterMaterial
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Dim hapus As Integer = 0
-        Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_material.Rows
@@ -129,7 +129,7 @@ Public Class MasterMaterial
         End If
 
         DGV_MasterMaterial()
-        MessageBox.Show("Delete Success " & hapus & " Data.")
+        RJMessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -182,9 +182,9 @@ Public Class MasterMaterial
                 End If
             End While
             DGV_MasterMaterial()
-            MessageBox.Show("Import Material Success. Total " & totalInsert & " new Material ")
+            RJMessageBox.Show("Import Material Success. Total " & totalInsert & " new Material ")
         Catch ex As Exception
-            MessageBox.Show("Import Material Failed " & ex.Message)
+            RJMessageBox.Show("Import Material Failed " & ex.Message)
         Finally
             oleCon.Close()
         End Try

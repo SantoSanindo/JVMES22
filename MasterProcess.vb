@@ -11,7 +11,7 @@ Public Class MasterProcess
             Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
-                MessageBox.Show("Process Exist")
+                RJMessageBox.Show("Process Exist")
                 txt_masterprocess_nama.Text = ""
                 txt_masterprocess_desc.Text = ""
             Else
@@ -27,7 +27,7 @@ Public Class MasterProcess
                     dgv_masterprocess.DataSource = Nothing
                     DGV_MasterProcesss()
                 Catch ex As Exception
-                    MessageBox.Show("Error Insert" & ex.Message)
+                    RJMessageBox.Show("Error Insert" & ex.Message)
                 End Try
             End If
         End If
@@ -61,24 +61,24 @@ Public Class MasterProcess
 
     Private Sub dgv_masterprocess_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocess.CellClick
         If dgv_masterprocess.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = MessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
                 Try
                     Dim querycheck As String = "select * from MASTER_PROCESS_FLOW where lower(MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells(1).Value.ToLower) & "'"
                     Dim dtCheck As DataTable = Database.GetData(querycheck)
                     If dtCheck.Rows.Count > 0 Then
-                        MessageBox.Show("Cannot Delete this data because refrence to process flow.")
+                        RJMessageBox.Show("Cannot Delete this data because refrence to process flow.")
                     Else
                         Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells(1).Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
                         dgv_masterprocess.DataSource = Nothing
                         DGV_MasterProcesss()
-                        MessageBox.Show("Delete Success.")
+                        RJMessageBox.Show("Delete Success.")
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("Delete failed" & ex.Message)
+                    RJMessageBox.Show("Delete failed" & ex.Message)
                 End Try
             End If
         End If
@@ -187,9 +187,9 @@ Public Class MasterProcess
                 End If
             End While
             DGV_MasterProcesss()
-            MessageBox.Show("Import Master Process Success. Total " & totalInsert & " new Material ")
+            RJMessageBox.Show("Import Master Process Success. Total " & totalInsert & " new Material ")
         Catch ex As Exception
-            MessageBox.Show("Import Master Process Failed " & ex.Message)
+            RJMessageBox.Show("Import Master Process Failed " & ex.Message)
         Finally
             oleCon.Close()
         End Try

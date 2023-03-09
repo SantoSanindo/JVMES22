@@ -99,12 +99,12 @@ Public Class ProcessFlowMaterialUsage
             Else
                 If cheq.ToString <> "" Then
                     If TreeView1.SelectedNode.Name Is Nothing Then
-                        MessageBox.Show("Please Select process First")
+                        RJMessageBox.Show("Please Select process First")
                         Exit Sub
                     End If
 
                     If TreeView1.SelectedNode.Name = "" Then
-                        MessageBox.Show("Please Select process First")
+                        RJMessageBox.Show("Please Select process First")
                         Exit Sub
                     End If
 
@@ -140,7 +140,7 @@ Public Class ProcessFlowMaterialUsage
                 End If
             Next
             If FoundTreeview = False Then
-                MessageBox.Show("Data not Found")
+                RJMessageBox.Show("Data not Found")
             End If
         End If
     End Sub

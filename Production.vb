@@ -18,7 +18,7 @@ Public Class Production
             If Len(Me.TextBox1.Text) >= 64 Then
                 Try
                     If DataGridView2.Rows.Count = 0 Then
-                        MessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
+                        RJMessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
                         TextBox1.Clear()
                         Exit Sub
                     End If
@@ -62,7 +62,7 @@ Public Class Production
                         Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & globVar.QRCode_PN & "' and lot_no=" & globVar.QRCode_lot & " and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
                         Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
                         If dtCheckInStockNewRecord.Rows.Count > 0 Then
-                            MessageBox.Show("Double Scan")
+                            RJMessageBox.Show("Double Scan")
                             TextBox1.Text = ""
                             DGV_DOC()
                         Else
@@ -80,7 +80,7 @@ Public Class Production
                         End If
 
                     Else
-                        MessageBox.Show("Sorry this material not for this line.")
+                        RJMessageBox.Show("Sorry this material not for this line.")
                         TextBox1.Text = ""
                         TextBox1.Select()
                     End If
@@ -108,7 +108,7 @@ Public Class Production
                             Next
 
                             If CompExist <> "" Then
-                                MessageBox.Show("Cannot add WIP. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                RJMessageBox.Show("Cannot add WIP. Because (" & CompExist & ") Material Qty more than Qty Need")
                                 TextBox1.Clear()
                                 Exit Sub
                             End If
@@ -176,7 +176,7 @@ Public Class Production
                             Next
 
                             If CompExist <> "" Then
-                                MessageBox.Show("Cannot add ONHOLD. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                RJMessageBox.Show("Cannot add ONHOLD. Because (" & CompExist & ") Material Qty more than Qty Need")
                                 TextBox1.Clear()
                                 Exit Sub
                             End If
@@ -243,7 +243,7 @@ Public Class Production
                             Next
 
                             If CompExist <> "" Then
-                                MessageBox.Show("Cannot add OTHERS. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                RJMessageBox.Show("Cannot add OTHERS. Because (" & CompExist & ") Material Qty more than Qty Need")
                                 TextBox1.Clear()
                                 Exit Sub
                             End If
@@ -310,7 +310,7 @@ Public Class Production
                             Next
 
                             If CompExist <> "" Then
-                                MessageBox.Show("Cannot add Sub Assy. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                RJMessageBox.Show("Cannot add Sub Assy. Because (" & CompExist & ") Material Qty more than Qty Need")
                                 TextBox1.Clear()
                                 Exit Sub
                             End If
@@ -461,7 +461,7 @@ Public Class Production
                     DGV_DOC()
                     DGV_DOP()
                 Else
-                    MessageBox.Show("This line no have any PO")
+                    RJMessageBox.Show("This line no have any PO")
                     DGV_DOC()
                     DGV_DOP()
                 End If
@@ -469,7 +469,7 @@ Public Class Production
                 MsgBox(ex.Message)
             End Try
         Else
-            MessageBox.Show("Please select line and fill the Flow Ticket first. ")
+            RJMessageBox.Show("Please select line and fill the Flow Ticket first. ")
         End If
     End Sub
 
@@ -490,7 +490,7 @@ Public Class Production
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Try
             If DataGridView2.Rows.Count = 0 Then
-                MessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
+                RJMessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
                 TextBox9.Clear()
                 TextBox12.Clear()
                 Exit Sub
@@ -503,7 +503,7 @@ Public Class Production
                     Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & TextBox9.Text & "' and lot_no=" & TextBox12.Text & " and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
                     Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
                     If dtCheckInStockNewRecord.Rows.Count > 0 Then
-                        MessageBox.Show("Double Scan")
+                        RJMessageBox.Show("Double Scan")
                         TextBox1.Text = ""
                         DGV_DOC()
                     Else
@@ -541,7 +541,7 @@ Public Class Production
                     End If
 
                 Else
-                    MessageBox.Show("Sorry this material not for this line.")
+                    RJMessageBox.Show("Sorry this material not for this line.")
                     TextBox9.Text = ""
                     TextBox12.Clear()
                     TextBox9.Select()
@@ -550,7 +550,7 @@ Public Class Production
                 TextBox9.Clear()
                 TextBox12.Clear()
                 TextBox9.Select()
-                MessageBox.Show("Sorry Comp and Lot No cannot be blank")
+                RJMessageBox.Show("Sorry Comp and Lot No cannot be blank")
             End If
         Catch ex As Exception
             MsgBox(ex.Message)

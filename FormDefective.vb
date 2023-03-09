@@ -57,7 +57,7 @@ Public Class FormDefective
 
 
     '    Catch ex As Exception
-    '        MessageBox.Show("Error Load PO_NO")
+    '        rjMessageBox.Show("Error Load PO_NO")
     '    End Try
     'End Sub
 
@@ -113,7 +113,7 @@ Public Class FormDefective
 
 
             Catch ex As Exception
-                MessageBox.Show("Error Load PO_NO")
+                RJMessageBox.Show("Error Load PO_NO", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -154,7 +154,9 @@ Public Class FormDefective
 
                 'cbDef.Text = ""
             Catch ex As Exception
-                MessageBox.Show("Error Load Process flow")
+                'rjMessageBox.Show("Error Load Process flow")
+                RJMessageBox.Show("Error Load Process flow", "", MessageBoxButtons.OK,
+                                      MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -239,7 +241,9 @@ Public Class FormDefective
                 .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             End With
         Catch ex As Exception
-            MessageBox.Show("Error Load DGV")
+            'rjMessageBox.Show("Error Load DGV")
+            RJMessageBox.Show("Error Load DGV", "", MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -310,7 +314,9 @@ Public Class FormDefective
 
             'cbDef.Text = ""
         Catch ex As Exception
-            MessageBox.Show("Error Load Line ->" & ex.Message)
+            'rjMessageBox.Show("Error Load Line ->" & ex.Message)
+            RJMessageBox.Show("Error Load Line", "", MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -325,17 +331,23 @@ Public Class FormDefective
         If cbWIPProcess.Text <> "" And txtWIPTicketNo.Text <> "" And txtWIPQuantity.Text <> "" Then
             Try
                 If IsNumeric(txtWIPQuantity.Text) = False Then
-                    MsgBox("Sorry Qty not number")
+                    'MsgBox("Sorry Qty not number")
+                    RJMessageBox.Show("Sorry Qty is not a number", "", MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error)
                     Exit Sub
                 End If
 
                 If Convert.ToInt32(txtWIPQuantity.Text) = 0 Then
-                    MsgBox("Sorry Qty 0 is not valid.")
+                    'MsgBox("Sorry Qty 0 is not valid.")
+                    RJMessageBox.Show("Sorry Qty 0 is not valid", "", MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error)
                     Exit Sub
                 End If
 
                 If txtStatusSubSubPO.Text = "Closed" Then
-                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    'MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    RJMessageBox.Show("Sorry This Sub Sub PO status is closed. Cannot use this menu.", "", MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error)
                     Exit Sub
                 End If
 
@@ -354,7 +366,9 @@ Public Class FormDefective
                 Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no=" & sFlow_Ticket5(0)
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count > 0 Then
-                    MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                    'MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
+                    RJMessageBox.Show("Sorry this Flow Ticket already Done. Cannot Save.", "", MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error)
                     LoaddgWIP("")
                     cbWIPProcess.SelectedIndex = -1
                     txtWIPTicketNo.Clear()
@@ -367,7 +381,7 @@ Public Class FormDefective
                 Dim noCode As String = WIPGenerateCode()
 
                 If WIPcheckExistingData(txtSubSubPODefective.Text, dept) = False Then
-                    Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure for save?.", "Saving !", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
                         For i = 0 To Part.Length - 2
@@ -441,13 +455,13 @@ Public Class FormDefective
                         Next
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Save data!!!")
+                            RJMessageBox.Show("Success Save data!!!")
                             LoaddgWIP("")
                             cbWIPProcess.SelectedIndex = -1
                             txtWIPTicketNo.Clear()
                             txtWIPQuantity.Clear()
                         Else
-                            MessageBox.Show("Fail Save data!!!")
+                            RJMessageBox.Show("Fail Save data!!!", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgWIP("")
                             cbWIPProcess.SelectedIndex = -1
                             txtWIPTicketNo.Clear()
@@ -455,7 +469,7 @@ Public Class FormDefective
                         End If
                     End If
                 Else
-                    Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure for save?.", "Saving", MessageBoxButtons.YesNo)
 
                     If result = DialogResult.Yes Then
 
@@ -538,13 +552,13 @@ Public Class FormDefective
                         Next
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Edit data!!!")
+                            RJMessageBox.Show("Success Edit data!!!")
                             LoaddgWIP("")
                             cbWIPProcess.SelectedIndex = -1
                             txtWIPTicketNo.Clear()
                             txtWIPQuantity.Clear()
                         Else
-                            MessageBox.Show("Fail Edit data")
+                            RJMessageBox.Show("Fail Edit data", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgWIP("")
                             cbWIPProcess.SelectedIndex = -1
                             txtWIPTicketNo.Clear()
@@ -553,7 +567,7 @@ Public Class FormDefective
                     End If
                 End If
             Catch ex As Exception
-                MessageBox.Show("Error Save WIP : " & ex.Message)
+                RJMessageBox.Show("Error Save WIP : " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -563,7 +577,7 @@ Public Class FormDefective
             If cbWIPProcess.Text <> "" And txtWIPTicketNo.Text <> "" Then
 
                 If txtStatusSubSubPO.Text = "Closed" Then
-                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    RJMessageBox.Show("Sorry This Sub Sub PO status is closed. Cannot use this menu.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Exit Sub
                 End If
 
@@ -581,7 +595,7 @@ Public Class FormDefective
                 Call Database.koneksi_database()
 
                 If WIPcheckExistingData(txtSubSubPODefective.Text, dept) = True Then
-                    Dim result = MessageBox.Show("Are you sure for delete?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure you want to delete this item?.", "Deleting !", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
                         For i = 0 To Part.Length - 2
@@ -666,13 +680,13 @@ Public Class FormDefective
                         Next
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Delete data!!!")
+                            RJMessageBox.Show("Success Delete data!!!", "", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             LoaddgWIP("")
                             cbWIPProcess.SelectedIndex = -1
                             txtWIPTicketNo.Clear()
                             txtWIPQuantity.Clear()
                         Else
-                            MessageBox.Show("Fail Delete data!!!")
+                            RJMessageBox.Show("Fail to Delete data!!!", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgWIP("")
                             cbWIPProcess.SelectedIndex = -1
                             txtWIPTicketNo.Clear()
@@ -680,11 +694,11 @@ Public Class FormDefective
                         End If
                     End If
                 Else
-                    MsgBox("Sorry the data not exist in DB. Cannot delete.")
+                    RJMessageBox.Show("Sorry the data not exist in DB. Cannot be deleted.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show("Error Delete WIP : " & ex.Message)
+            RJMessageBox.Show("Error Delete WIP : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -809,7 +823,7 @@ Public Class FormDefective
             End With
 
         Catch ex As Exception
-            MessageBox.Show("Error Load DGV WIP(Process)")
+            RJMessageBox.Show("Error Load DGV WIP(Process)", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -829,7 +843,7 @@ Public Class FormDefective
                 wipCode = "WIP1"
             End If
         Catch ex As Exception
-            MessageBox.Show("Error Insert WIP : " & ex.Message)
+            RJMessageBox.Show("Error Insert WIP : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Return wipCode
@@ -849,7 +863,7 @@ Public Class FormDefective
                 rCode = "R" & dtCode.Rows.Count + 1
             End If
         Catch ex As Exception
-            MessageBox.Show("Error Generate Code Reject : " & ex.Message)
+            RJMessageBox.Show("Error Generate Code Reject : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Return rCode
@@ -876,7 +890,7 @@ Public Class FormDefective
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error Insert" & ex.Message)
+            RJMessageBox.Show("Error Insert" & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
@@ -900,7 +914,7 @@ Public Class FormDefective
 
             Double.TryParse(dtQty, qty)
         Catch ex As Exception
-            MessageBox.Show("Error Insert" & ex.Message)
+            RJMessageBox.Show("Error Insert" & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Dim dt As Double
@@ -931,7 +945,7 @@ Public Class FormDefective
 
             Double.TryParse(dtQty, qty)
         Catch ex As Exception
-            MessageBox.Show("Error Insert" & ex.Message)
+            RJMessageBox.Show("Error Insert" & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Dim dt As Double
@@ -964,7 +978,7 @@ Public Class FormDefective
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error Insert" & ex.Message)
+            RJMessageBox.Show("Error Insert" & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Return dataTrace
@@ -981,7 +995,7 @@ Public Class FormDefective
 
             Try
                 If txtStatusSubSubPO.Text = "Closed" Then
-                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    RJMessageBox.Show("Sorry This Sub Sub PO status is closed. Cannot use this menu.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Exit Sub
                 End If
 
@@ -1024,7 +1038,7 @@ Public Class FormDefective
                 End If
 
                 If ONHOLDcheckExistingData(txtSubSubPODefective.Text, dept) = False Then
-                    Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure to Save?.", "Saving", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
                         For i = 0 To Part.Length - 2
@@ -1097,13 +1111,13 @@ Public Class FormDefective
                         Next
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Save data!!!")
+                            RJMessageBox.Show("Success Save data!!!", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgOnHold("")
                             cbOnHoldProcess.SelectedIndex = -1
                             txtOnHoldTicketNo.Clear()
                             txtOnHoldQty.Clear()
                         Else
-                            MessageBox.Show("Fail Save data!!!")
+                            RJMessageBox.Show("Fail Save data!!!", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgOnHold("")
                             cbOnHoldProcess.SelectedIndex = -1
                             txtOnHoldTicketNo.Clear()
@@ -1111,7 +1125,7 @@ Public Class FormDefective
                         End If
                     End If
                 Else
-                    Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure to save?.", "Saving!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
                         For i = 0 To Part.Length - 2
@@ -1190,13 +1204,13 @@ Public Class FormDefective
                         Next
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Edit data!!!")
+                            RJMessageBox.Show("Success Edit data!!!")
                             LoaddgOnHold("")
                             cbOnHoldProcess.SelectedIndex = -1
                             txtOnHoldTicketNo.Clear()
                             txtOnHoldQty.Clear()
                         Else
-                            MessageBox.Show("Fail Edit data!!!")
+                            RJMessageBox.Show("Fail Edit data!!!", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgOnHold("")
                             cbOnHoldProcess.SelectedIndex = -1
                             txtOnHoldTicketNo.Clear()
@@ -1205,7 +1219,7 @@ Public Class FormDefective
                     End If
                 End If
             Catch ex As Exception
-                MessageBox.Show("Error Save On Hold : " & ex.Message)
+                RJMessageBox.Show("Error Save On Hold : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -1214,7 +1228,7 @@ Public Class FormDefective
         If cbOnHoldProcess.Text <> "" And txtOnHoldTicketNo.Text <> "" Then
             Try
                 If txtStatusSubSubPO.Text = "Closed" Then
-                    MsgBox("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
+                    RJMessageBox.Show("Sorry This Sub Sub PO status is closed. Cannot use this menu.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Exit Sub
                 End If
 
@@ -1232,7 +1246,7 @@ Public Class FormDefective
                 Call Database.koneksi_database()
 
                 If ONHOLDcheckExistingData(txtSubSubPODefective.Text, dept) = True Then
-                    Dim result = MessageBox.Show("Are you sure for delete?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure to delete?.", "Deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
                         For i = 0 To Part.Length - 2
@@ -1317,13 +1331,13 @@ Public Class FormDefective
                         Next
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Delete data!!!")
+                            RJMessageBox.Show("Success Delete data!!!")
                             LoaddgOnHold("")
                             cbOnHoldProcess.SelectedIndex = -1
                             txtOnHoldTicketNo.Clear()
                             txtOnHoldQty.Clear()
                         Else
-                            MessageBox.Show("Fail Delete data!!!")
+                            RJMessageBox.Show("Fail Delete data!!!", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             LoaddgOnHold("")
                             cbOnHoldProcess.SelectedIndex = -1
                             txtOnHoldTicketNo.Clear()
@@ -1331,10 +1345,10 @@ Public Class FormDefective
                         End If
                     End If
                 Else
-                    MsgBox("Sorry the data not exist in DB. Cannot delete.")
+                    RJMessageBox.Show("Sorry the data not exist in DB. Cannot delete.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             Catch ex As Exception
-                MessageBox.Show("Error Delete On Hold : " & ex.Message)
+                RJMessageBox.Show("Error Delete On Hold : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -1421,7 +1435,7 @@ Public Class FormDefective
             End With
 
         Catch ex As Exception
-            MessageBox.Show("Error Load DGV On Hold (Process)")
+            RJMessageBox.Show("Error Load DGV On Hold (Process)", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1443,7 +1457,7 @@ Public Class FormDefective
                 wipCode = "OH" & dtOnHold.Rows.Count + 1
             End If
         Catch ex As Exception
-            MessageBox.Show("Error Insert ONHOLD : " & ex.Message)
+            RJMessageBox.Show("Error Insert ONHOLD : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         Return wipCode
@@ -1462,7 +1476,7 @@ Public Class FormDefective
                 balanceCode = "B" & dtCheckCount.Rows.Count + 1
             End If
         Catch ex As Exception
-            MessageBox.Show("Error Insert Balance Material : " & ex.Message)
+            RJMessageBox.Show("Error Insert Balance Material : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
         Return balanceCode
     End Function
@@ -1479,7 +1493,7 @@ Public Class FormDefective
                 Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no=" & TextBox9.Text & " ORDER BY LOT_NO")
                 If dtCekTable.Rows.Count > 0 Then
 
-                    Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
 
@@ -1503,7 +1517,7 @@ Public Class FormDefective
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
-                                    MessageBox.Show("Success save data!!!")
+                                    RJMessageBox.Show("Success save data!!!")
                                     loaddgBalance("")
                                     TextBox1.Clear()
                                     TextBox2.Clear()
@@ -1517,7 +1531,7 @@ Public Class FormDefective
                     End If
                 Else
 
-                    Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
                         Dim idData As String = ""
@@ -1541,7 +1555,7 @@ Public Class FormDefective
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
-                                    MessageBox.Show("Success save data!!!")
+                                    RJMessageBox.Show("Success saving data!!!")
                                     loaddgBalance("")
                                     TextBox1.Clear()
                                     TextBox2.Clear()
@@ -1552,7 +1566,7 @@ Public Class FormDefective
                                 End If
                             End If
                         Else
-                            MessageBox.Show("This Material qty=0 or this material not exist in DB")
+                            RJMessageBox.Show("This Material qty=0 or this material not exist in DB", "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                             loaddgBalance("")
                             TextBox1.Clear()
                             TextBox2.Clear()
@@ -1564,10 +1578,10 @@ Public Class FormDefective
                     End If
                 End If
             Else
-                MessageBox.Show("Sorry please fill the blank or Qty Return more than maximum value")
+                RJMessageBox.Show("Sorry please fill the blank or Qty Return more than maximum value")
             End If
         Catch ex As Exception
-            MessageBox.Show("Error Insert : " & ex.Message)
+            RJMessageBox.Show("Error Insert : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1576,7 +1590,7 @@ Public Class FormDefective
             Dim qtyUpdate As Integer = 0
             Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no=" & TextBox9.Text & " ORDER BY LOT_NO")
             If dtCekTable.Rows.Count > 0 Then
-                Dim result = MessageBox.Show("Are you sure for edit?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                Dim result = RJMessageBox.Show("Are you sure for edit?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                 If result = DialogResult.Yes Then
 
@@ -1590,7 +1604,7 @@ Public Class FormDefective
                             Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=ACTUAL_QTY+" & Convert.ToDouble(txtBalanceQty.Text) & ",sum_qty=sum_qty+" & Convert.ToDouble(txtBalanceQty.Text) & " where ID='" & dtCheckStockCard.Rows(0).Item("ID") & "'"
                             Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
                             If cmdUpdate.ExecuteNonQuery() Then
-                                MessageBox.Show("Update Success.")
+                                RJMessageBox.Show("Update Success.")
                                 loaddgBalance("")
                                 TextBox1.Clear()
                                 TextBox2.Clear()
@@ -1603,7 +1617,7 @@ Public Class FormDefective
                     End If
                 End If
             Else
-                MessageBox.Show("Sorry, the data not exist in DB. Please use Save Button.")
+                RJMessageBox.Show("Sorry, the data not exist in DB. Please use Save Button.")
                 loaddgBalance("")
                 TextBox1.Clear()
                 TextBox2.Clear()
@@ -1619,7 +1633,7 @@ Public Class FormDefective
 
     Private Sub btnBalanceDelete_Click(sender As Object, e As EventArgs) Handles btnBalanceDelete.Click
         If (CheckBox2.CheckState = CheckState.Checked And txtBalanceBarcode.Text <> "") Or (CheckBox2.CheckState = CheckState.Unchecked And TextBox1.Text <> "" And TextBox2.Text <> "") Then
-            Dim result = MessageBox.Show("Are you sure for delete?.", "Are You Sure?", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure for delete?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
             If result = DialogResult.Yes Then
 
@@ -1631,7 +1645,7 @@ Public Class FormDefective
                         Dim queryDelete As String = "delete from stock_card where id=" & dtCekTable.Rows(0).Item("id")
                         Dim dtDelete = New SqlCommand(queryDelete, Database.koneksi)
                         If dtDelete.ExecuteNonQuery() Then
-                            MessageBox.Show("Success Delete data!!!")
+                            RJMessageBox.Show("Success Delete data!!!")
                             loaddgBalance("")
                             TextBox1.Clear()
                             TextBox2.Clear()
@@ -1645,7 +1659,7 @@ Public Class FormDefective
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
 
                         Else
-                            MessageBox.Show("Fail Delete data!!!")
+                            RJMessageBox.Show("Fail Delete data!!!")
                             loaddgBalance("")
                             TextBox1.Clear()
                             TextBox2.Clear()
@@ -1702,7 +1716,7 @@ Public Class FormDefective
                 Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=" & dgBalance.Rows(e.RowIndex).Cells("Actual Qty").Value & " where ID='" & dgBalance.Rows(e.RowIndex).Cells("ID").Value & "'"
                 Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
                 If cmdUpdate.ExecuteNonQuery() Then
-                    MessageBox.Show("Update Success.")
+                    RJMessageBox.Show("Update Success.")
                 End If
 
             Catch ex As Exception
@@ -1750,7 +1764,7 @@ Public Class FormDefective
 
                     SendKeys.Send("{TAB}")
                 Else
-                    MessageBox.Show("Sorry, please input Sub Sub PO First")
+                    RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                     txtBalanceBarcode.Clear()
                     txtBalanceMaterialPN.Clear()
                 End If
@@ -1767,7 +1781,7 @@ Public Class FormDefective
         Dim idxStop As Integer = strBarcode.IndexOf("Q")
         dtReturn = strBarcode.Substring(idxStart + 2, (idxStop - idxStart - 2))
 
-        'MessageBox.Show(dtReturn)
+        'rjMessageBox.Show(dtReturn)
 
         Return dtReturn
     End Function
@@ -1779,7 +1793,7 @@ Public Class FormDefective
         Dim idxStop As Integer = strBarcode.IndexOf("Q")
         dtReturn = strBarcode.Substring(idxStart + 2, (idxStop - idxStart - 2))
 
-        'MessageBox.Show(dtReturn)
+        'rjMessageBox.Show(dtReturn)
 
         Return dtReturn
     End Function
@@ -1838,7 +1852,7 @@ Public Class FormDefective
                 End If
             End With
         Catch ex As Exception
-            MessageBox.Show("Error Load DGV Balance " & ex.Message)
+            RJMessageBox.Show("Error Load DGV Balance " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1898,7 +1912,7 @@ Public Class FormDefective
                 End If
             End With
         Catch ex As Exception
-            MessageBox.Show("Error Load DGV Reject " & ex.Message)
+            RJMessageBox.Show("Error Load DGV Reject " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -2175,7 +2189,7 @@ Public Class FormDefective
                 End With
 
             Catch ex As Exception
-                MessageBox.Show("Error Load Data Process Flow")
+                RJMessageBox.Show("Error Load Data Process Flow", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -2232,7 +2246,7 @@ Public Class FormDefective
                 End With
 
             Catch ex As Exception
-                MessageBox.Show("Error Load Data Process Flow")
+                RJMessageBox.Show("Error Load Data Process Flow", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -2360,7 +2374,7 @@ Public Class FormDefective
                 .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             End With
         Catch ex As Exception
-            MessageBox.Show("Error Load DGV FG")
+            RJMessageBox.Show("Error Load DGV FG", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -2487,16 +2501,16 @@ Public Class FormDefective
                                 End If
                             End If
                         Else
-                            MessageBox.Show("this is not number -> " & DataGridView1.Rows(i).Cells(2).Value & ". Please change with number.")
+                            RJMessageBox.Show("this is not number -> " & DataGridView1.Rows(i).Cells(2).Value & ". Please change with number.")
                         End If
                     End If
                 Next
 
                 If sResult > 0 Then
-                    MessageBox.Show("Success Save data!!!")
+                    RJMessageBox.Show("Success Save data!!!")
                     loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
                 Else
-                    MessageBox.Show("Fail Save data!!!")
+                    RJMessageBox.Show("Fail Save data!!!")
                     loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
                 End If
             Catch ex As Exception
@@ -2515,7 +2529,7 @@ Public Class FormDefective
             Exit Sub
         End If
 
-        Dim result = MessageBox.Show("Are you sure for save Finish Goods. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("Are you sure for save Finish Goods. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
             'Dim queryMaterialUsage As String = "select * from MATERIAL_USAGE_FINISH_GOODS where fg_part_number='" & cbFGPN.Text & "'"
@@ -2652,11 +2666,11 @@ Public Class FormDefective
                 End If
 
                 If sResult > 0 Then
-                    MessageBox.Show("Success Save FG data!!!")
+                    RJMessageBox.Show("Success Save FG data!!!")
                     ClearInputFG()
                     UpdateQtySubSubPO()
                 Else
-                    MessageBox.Show("Fail Save FG data!!!")
+                    RJMessageBox.Show("Fail Save FG data!!!")
                 End If
             Else
                 MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -2809,20 +2823,20 @@ Public Class FormDefective
                                 End If
                             End If
                         Else
-                            MessageBox.Show("this is not number -> " & DataGridView3.Rows(i).Cells(2).Value & ". Please change with number.")
+                            RJMessageBox.Show("this is not number -> " & DataGridView3.Rows(i).Cells(2).Value & ". Please change with number.")
                         End If
                     End If
                 Next
 
                 If sResult > 0 Then
-                    MessageBox.Show("Success Save data!!!")
+                    RJMessageBox.Show("Success Save data!!!")
                     loadSA(cbFGPN.Text, txtSAFlowTicket.Text)
                 Else
-                    MessageBox.Show("Fail Save data!!!")
+                    RJMessageBox.Show("Fail Save data!!!")
                 End If
 
             Catch ex As Exception
-                MsgBox("Error - ERDEF2" & ex.Message)
+                RJMessageBox.Show("Error - ERDEF2" & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -2849,7 +2863,7 @@ Public Class FormDefective
             Exit Sub
         End If
 
-        Dim result = MessageBox.Show("Are you sure for save Sub Assy. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+        Dim result = RJMessageBox.Show("Are you sure for save Sub Assy. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
         Dim queryCount As String = "select DISTINCT(code_stock_prod_sub_assy) from stock_prod_sub_assy"
         Dim dtCount As DataTable = Database.GetData(queryCount)
@@ -3034,11 +3048,11 @@ Public Class FormDefective
                 End If
 
                 If sResult > 0 Then
-                    MessageBox.Show("Success Save Sub Assy data!!!")
+                    RJMessageBox.Show("Success Save Sub Assy data!!!")
                     ClearInputFG()
                     UpdateQtySubSubPO()
                 Else
-                    MessageBox.Show("Fail Save Sub Assy data!!!")
+                    RJMessageBox.Show("Fail Save Sub Assy data!!!")
                 End If
             Else
                 MsgBox("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -3092,9 +3106,9 @@ Public Class FormDefective
 
             Dim sTampung As String = GetStockCard(pn, qty)
             If sTampung <> "" And sTampung <> "Kosong" Then
-                MessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
+                RJMessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
             ElseIf sTampung = "Kosong" Then
-                MessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
+                RJMessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
             Else
                 Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and material='" & pn & "'"
                 Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
@@ -3177,10 +3191,10 @@ Public Class FormDefective
             Dim sResult As Integer = 1
             Dim sTampung As String = GetStockCard(pn, qty)
             If sTampung <> "" And sTampung <> "Kosong" Then
-                MessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
+                RJMessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
                 Return 0
             ElseIf sTampung = "Kosong" Then
-                MessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
+                RJMessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
                 Return 0
             Else
                 Dim splitPN() As String = pn.Split(";")
@@ -3609,7 +3623,7 @@ Public Class FormDefective
                                 End If
                             End If
                         Else
-                            MessageBox.Show("this is not number -> " & DataGridView2.Rows(i).Cells(10).Value & ". Please change with number.")
+                            RJMessageBox.Show("this is not number -> " & DataGridView2.Rows(i).Cells(10).Value & ". Please change with number.")
                         End If
                     End If
                 Next
@@ -3750,16 +3764,16 @@ Public Class FormDefective
                             Dim dtUpdateSummaryFG = New SqlCommand(queryUpdatSummaryFG, Database.koneksi)
                             dtUpdateSummaryFG.ExecuteNonQuery()
                         Else
-                            MessageBox.Show("this is not number -> " & DataGridView2.Rows(i).Cells(10).Value & ". Please change with number.")
+                            RJMessageBox.Show("this is not number -> " & DataGridView2.Rows(i).Cells(10).Value & ". Please change with number.")
                         End If
                     End If
                 Next
 
                 If statusSimpan > 0 Then
-                    MessageBox.Show("Success Save data!!!")
+                    RJMessageBox.Show("Success Save data!!!")
                     loadDGVOthers()
                 Else
-                    MessageBox.Show("Fail Save data!!!")
+                    RJMessageBox.Show("Fail Save data!!!")
                     loadDGVOthers()
                 End If
 
@@ -3808,7 +3822,7 @@ Public Class FormDefective
                 MsgBox(ex.Message)
             End Try
         Else
-            MessageBox.Show("Sorry please input Sub Sub PO First.")
+            RJMessageBox.Show("Sorry please input Sub Sub PO First.")
         End If
     End Sub
 
@@ -3846,7 +3860,7 @@ Public Class FormDefective
                 Next
 
                 If dtCheckStockReject.Rows.Count = countPrint Then
-                    Dim result As DialogResult = MessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                    Dim result As DialogResult = RJMessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
                     If result = DialogResult.Yes Then
                         For i = 0 To dtCheckStockReject.Rows.Count - 1
                             globVar.failPrint = ""
@@ -3872,7 +3886,7 @@ Public Class FormDefective
                 MsgBox("This Sub Sub PO dont have Defect Data")
             End If
         Else
-            MessageBox.Show("Sorry please input Sub Sub PO First.")
+            RJMessageBox.Show("Sorry please input Sub Sub PO First.")
         End If
     End Sub
 
@@ -3910,7 +3924,7 @@ Public Class FormDefective
                 Next
 
                 If dtCheckStockReject.Rows.Count = countPrint Then
-                    Dim result As DialogResult = MessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                    Dim result As DialogResult = RJMessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
                     If result = DialogResult.Yes Then
                         For i = 0 To dtCheckStockReject.Rows.Count - 1
                             globVar.failPrint = ""
@@ -3936,7 +3950,7 @@ Public Class FormDefective
                 MsgBox("This Sub Sub PO dont have Reject Data")
             End If
         Else
-            MessageBox.Show("Sorry, please input Sub Sub PO First.")
+            RJMessageBox.Show("Sorry, please input Sub Sub PO First.")
         End If
     End Sub
 
@@ -4052,7 +4066,7 @@ Public Class FormDefective
                         End If
                     End If
                 Else
-                    MessageBox.Show("Sorry please input Sub Sub PO First.")
+                    RJMessageBox.Show("Sorry please input Sub Sub PO First.")
                 End If
             Else
                 MsgBox("cannot print now because the PO is not yet completed.")
@@ -4128,7 +4142,7 @@ Public Class FormDefective
                     End If
                 End If
             Else
-                MessageBox.Show("Sorry please input Sub Sub PO First.")
+                RJMessageBox.Show("Sorry please input Sub Sub PO First.")
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -4165,7 +4179,7 @@ Public Class FormDefective
                     Next
 
                     If dtCheckOthersMaterialBalance.Rows.Count = countPrint Then
-                        Dim result As DialogResult = MessageBox.Show("All Others have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                        Dim result As DialogResult = RJMessageBox.Show("All Others have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
                         If result = DialogResult.Yes Then
                             For i = 0 To dtCheckOthersMaterialBalance.Rows.Count - 1
                                 globVar.failPrint = ""
@@ -4187,13 +4201,13 @@ Public Class FormDefective
                         End If
                     End If
                 Else
-                    MessageBox.Show("Sorry dont have any others part.")
+                    RJMessageBox.Show("Sorry dont have any others part.")
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
         Else
-            MessageBox.Show("Sorry please input Sub Sub PO First.")
+            RJMessageBox.Show("Sorry please input Sub Sub PO First.")
         End If
     End Sub
 
@@ -4241,7 +4255,7 @@ Public Class FormDefective
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -4278,13 +4292,13 @@ Public Class FormDefective
                 End If
 
             Else
-                MessageBox.Show("Sorry, please input Sub Sub PO First")
+                RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                 TextBox7.Clear()
                 TextBox8.Clear()
                 txtRejectQty.Clear()
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -4310,9 +4324,9 @@ Public Class FormDefective
 
                 Dim sTampung As String = GetStockCard(_sPNReject, _dQtyReject)
                 If sTampung <> "" And sTampung <> "Kosong" Then
-                    MessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
+                    RJMessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
                 ElseIf sTampung = "Kosong" Then
-                    MessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
+                    RJMessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
                 Else
 
                     If IsNumeric(txtRejectQty.Text) = False Then
@@ -4328,7 +4342,7 @@ Public Class FormDefective
                     Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
 
                     If dtCheckReject.Rows.Count > 0 Then
-                        Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                        Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                         If result = DialogResult.Yes Then
                             Dim queryUpdateStocktoDefault As String = "update stock_card set sum_qty=sum_qty+" & dtCheckReject.Rows(0).Item("qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
@@ -4392,7 +4406,7 @@ Public Class FormDefective
                             End If
                         End If
                     Else
-                        Dim result = MessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                        Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                         If result = DialogResult.Yes Then
                             Dim sql As String = "INSERT INTO out_prod_reject(CODE_OUT_PROD_REJECT,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,DEPARTMENT,LINE) select '" & rCode & "',SUB_SUB_PO,FINISH_GOODS_PN,MATERIAL,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO," & txtRejectQty.Text & ",PO,DEPARTMENT,LINE from stock_card where status='Production Request' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and material='" & _sPNReject & "' and lot_no=" & TextBox4.Text
@@ -4460,7 +4474,7 @@ Public Class FormDefective
                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
                     If statusSimpan > 0 Then
-                        MessageBox.Show("Success Save data!!!")
+                        RJMessageBox.Show("Success Save data!!!")
                         loaddgReject("")
                         txtRejectBarcode.Clear()
                         txtRejectMaterialPN.Clear()
@@ -4468,7 +4482,7 @@ Public Class FormDefective
                         TextBox7.Clear()
                         TextBox8.Clear()
                     Else
-                        MessageBox.Show("Fail Save data!!!")
+                        RJMessageBox.Show("Fail Save data!!!")
                         loaddgReject("")
                         txtRejectBarcode.Clear()
                         txtRejectMaterialPN.Clear()
@@ -4480,7 +4494,7 @@ Public Class FormDefective
                 End If
 
             Catch ex As Exception
-                MessageBox.Show("Error Save Reject : " & ex.Message)
+                RJMessageBox.Show("Error Save Reject : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Else
             MsgBox("Material Label & Qty cannot be blank.")
@@ -4519,11 +4533,11 @@ Public Class FormDefective
 
                 Dim sTampung As String = GetStockCard(_sPNReject, _dQtyReject)
                 If sTampung <> "" And sTampung <> "Kosong" Then
-                    MessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
+                    RJMessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
                 ElseIf sTampung = "Kosong" Then
-                    MessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
+                    RJMessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
                 Else
-                    Dim result = MessageBox.Show("Are you sure for edit?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                    Dim result = RJMessageBox.Show("Are you sure for edit?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                     If result = DialogResult.Yes Then
 
@@ -4594,7 +4608,7 @@ Public Class FormDefective
                                 End If
                             End If
                         Else
-                            MessageBox.Show("Sorry, the data not exist in DB. Please use Save Button.")
+                            RJMessageBox.Show("Sorry, the data not exist in DB. Please use Save Button.")
                             loaddgReject("")
                             txtRejectBarcode.Clear()
                             txtRejectMaterialPN.Clear()
@@ -4605,7 +4619,7 @@ Public Class FormDefective
                         End If
 
                         If statusSimpan > 0 Then
-                            MessageBox.Show("Success Edit data!!!")
+                            RJMessageBox.Show("Success Edit data!!!")
                             loaddgReject("")
                             txtRejectBarcode.Clear()
                             txtRejectMaterialPN.Clear()
@@ -4613,7 +4627,7 @@ Public Class FormDefective
                             TextBox7.Clear()
                             TextBox8.Clear()
                         Else
-                            MessageBox.Show("Fail Edit data!!!")
+                            RJMessageBox.Show("Fail Edit data!!!")
                             loaddgReject("")
                             txtRejectBarcode.Clear()
                             txtRejectMaterialPN.Clear()
@@ -4624,7 +4638,7 @@ Public Class FormDefective
                     End If
                 End If
             Catch ex As Exception
-                MessageBox.Show("Error Edit Reject : " & ex.Message)
+                RJMessageBox.Show("Error Edit Reject : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Else
             MsgBox("Material Label & Qty cannot be blank.")
@@ -4647,7 +4661,7 @@ Public Class FormDefective
             End If
 
             Try
-                Dim result = MessageBox.Show("Are you sure for delete?.", "Are You Sure?", MessageBoxButtons.YesNo)
+                Dim result = RJMessageBox.Show("Are you sure for delete?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                 If result = DialogResult.Yes Then
 
@@ -4727,7 +4741,7 @@ Public Class FormDefective
                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
                     If statusSimpan > 0 Then
-                        MessageBox.Show("Success Delete data!!!")
+                        RJMessageBox.Show("Success Delete data!!!")
                         loaddgReject("")
                         txtRejectBarcode.Clear()
                         txtRejectMaterialPN.Clear()
@@ -4735,7 +4749,7 @@ Public Class FormDefective
                         TextBox7.Clear()
                         TextBox8.Clear()
                     Else
-                        MessageBox.Show("Fail Delete data!!!")
+                        RJMessageBox.Show("Fail Delete data!!!")
                         loaddgReject("")
                         txtRejectBarcode.Clear()
                         txtRejectMaterialPN.Clear()
@@ -4747,7 +4761,7 @@ Public Class FormDefective
                 End If
 
             Catch ex As Exception
-                MessageBox.Show("Error Delete Reject : " & ex.Message)
+                RJMessageBox.Show("Error Delete Reject : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Else
             MsgBox("Material Label & Qty cannot be blank.")
@@ -4775,7 +4789,7 @@ Public Class FormDefective
                         txtRejectQty.Clear()
                     End If
                 Else
-                    MessageBox.Show("Sorry, please input Sub Sub PO First")
+                    RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                     txtRejectBarcode.Clear()
                     txtRejectMaterialPN.Clear()
                     txtRejectQty.Clear()
@@ -4852,7 +4866,7 @@ Public Class FormDefective
                     End If
 
                     If statusSimpan > 0 Then
-                        MessageBox.Show("Success save data!!!")
+                        RJMessageBox.Show("Success save data!!!")
                         loaddgReject("")
                         txtRejectBarcode.Clear()
                         txtRejectMaterialPN.Clear()
@@ -4897,7 +4911,7 @@ Public Class FormDefective
                 Next
 
                 If dtCheckStockReject.Rows.Count = countPrint Then
-                    Dim result As DialogResult = MessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                    Dim result As DialogResult = RJMessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
                     If result = DialogResult.Yes Then
                         For i = 0 To dtCheckStockReject.Rows.Count - 1
                             globVar.failPrint = ""
@@ -4923,7 +4937,7 @@ Public Class FormDefective
                 MsgBox("This Sub Sub PO dont have Defect Data")
             End If
         Else
-            MessageBox.Show("Sorry, please input Sub Sub PO First.")
+            RJMessageBox.Show("Sorry, please input Sub Sub PO First.")
         End If
     End Sub
 
@@ -4964,7 +4978,7 @@ Public Class FormDefective
                 Next
 
                 If dtCheckStockSA.Rows.Count = countPrint Then
-                    Dim result As DialogResult = MessageBox.Show("All Sub Assy have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                    Dim result As DialogResult = RJMessageBox.Show("All Sub Assy have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
                     If result = DialogResult.Yes Then
                         For i = 0 To dtCheckStockSA.Rows.Count - 1
                             globVar.failPrint = ""
@@ -4993,7 +5007,7 @@ Public Class FormDefective
                 MsgBox("This Sub Sub PO dont have Reject Data")
             End If
         Else
-            MessageBox.Show("Sorry, please input Sub Sub PO First.")
+            RJMessageBox.Show("Sorry, please input Sub Sub PO First.")
         End If
     End Sub
 End Class

@@ -28,7 +28,7 @@ Public Class FGA
 
     Sub tampilDataComboBoxInspector()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='INSPECTOR'")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='PRODUCTION'")
 
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "NAME"
@@ -38,7 +38,7 @@ Public Class FGA
 
     Sub tampilDataComboBoxPacker1()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='PRODUCTION'")
 
         ComboBox2.DataSource = dtMasterDepart
         ComboBox2.DisplayMember = "NAME"
@@ -48,7 +48,7 @@ Public Class FGA
 
     Sub tampilDataComboBoxPacker2()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='PRODUCTION'")
 
         ComboBox3.DataSource = dtMasterDepart
         ComboBox3.DisplayMember = "name"
@@ -58,7 +58,7 @@ Public Class FGA
 
     Sub tampilDataComboBoxPacker3()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='PRODUCTION'")
 
         ComboBox4.DataSource = dtMasterDepart
         ComboBox4.DisplayMember = "NAME"
@@ -68,7 +68,7 @@ Public Class FGA
 
     Sub tampilDataComboBoxPacker4()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='OPERATOR PACKING'")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from users where role='PRODUCTION'")
 
         ComboBox5.DataSource = dtMasterDepart
         ComboBox5.DisplayMember = "NAME"

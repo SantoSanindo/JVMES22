@@ -34,12 +34,12 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
-        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
         Me.ReceiveReturnMaterialBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
+        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
         Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
@@ -193,19 +193,6 @@ Partial Class HOME
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
         '
-        'RibReturnStock
-        '
-        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
-        Me.RibReturnStock.Name = "RibReturnStock"
-        Me.RibReturnStock.Text = "Return to The Stock"
-        '
-        'ReturnStockBtn
-        '
-        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
-        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
-        Me.ReturnStockBtn.Name = "ReturnStockBtn"
-        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
-        '
         'RibProductionRequest
         '
         Me.RibProductionRequest.Items.Add(Me.ProductionRequestBtn)
@@ -231,6 +218,19 @@ Partial Class HOME
         Me.ReceiveReturnMaterialBtn.LargeImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.LargeImage"), System.Drawing.Image)
         Me.ReceiveReturnMaterialBtn.Name = "ReceiveReturnMaterialBtn"
         Me.ReceiveReturnMaterialBtn.SmallImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibReturnStock
+        '
+        Me.RibReturnStock.Items.Add(Me.ReturnStockBtn)
+        Me.RibReturnStock.Name = "RibReturnStock"
+        Me.RibReturnStock.Text = "Return to The Stock"
+        '
+        'ReturnStockBtn
+        '
+        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
+        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
+        Me.ReturnStockBtn.Name = "ReturnStockBtn"
+        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
         '
         'RibStockMinistore
         '

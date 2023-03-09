@@ -510,3 +510,5 @@ D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.exe
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.xml
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan-New.pdb
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.FormMessageBox.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New._Msg_box.resources

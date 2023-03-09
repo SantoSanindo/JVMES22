@@ -107,6 +107,12 @@
     <Compile Include="FormDefective.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormMessageBox.Designer.vb">
+      <DependentUpon>FormMessageBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormMessageBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormReturnStock.Designer.vb">
       <DependentUpon>FormReturnStock.vb</DependentUpon>
     </Compile>
@@ -227,6 +233,7 @@
     <Compile Include="ReceiveReturnMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RJMessageBox.vb" />
     <Compile Include="StockMinistore.Designer.vb">
       <DependentUpon>StockMinistore.vb</DependentUpon>
     </Compile>
@@ -276,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDefective.resx">
       <DependentUpon>FormDefective.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMessageBox.resx">
+      <DependentUpon>FormMessageBox.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormReturnStock.resx">
       <DependentUpon>FormReturnStock.vb</DependentUpon>
@@ -400,6 +410,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\chat.png" />
+    <Content Include="Resources\error.png" />
+    <Content Include="Resources\exclamation.png" />
+    <Content Include="Resources\information.png" />
+    <Content Include="Resources\question.png" />
+    <None Include="Resources\Resources.bmp" />
     <Content Include="sanindo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

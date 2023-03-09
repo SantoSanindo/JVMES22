@@ -1,7 +1,7 @@
 ﻿Imports System.Data.Common
 Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports ZXing
+'Imports ZXing
 
 Public Class AddChangeOperator
 
@@ -140,7 +140,7 @@ Public Class AddChangeOperator
                         DGV_Add_Change_Operator()
                     End If
                 Catch ex As Exception
-                    MessageBox.Show("MainPOSubPO-10 : " & ex.Message)
+                    RJMessageBox.Show("MainPOSubPO-10 : " & ex.Message)
                 End Try
             End If
         End If
@@ -159,7 +159,10 @@ Public Class AddChangeOperator
                 Dim queryCount As String = "select count(*) from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn=" & TextBox13.Text & " and operator_id is null AND DEPARTMENT='" & globVar.department & "'"
                 Dim dtCount As DataTable = Database.GetData(queryCount)
                 If dtCount.Rows(0).Item(0) > 0 Then
-                    MessageBox.Show("Please fill Operator first")
+                    RJMessageBox.Show("Please fill Operator first!",
+                                       "",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Warning)
                     Exit Sub
                 End If
 

@@ -327,4 +327,8 @@ Public Class HOME
         TabControl1.TabPages(FormLogin).Select()
     End Sub
     ' -----------------------End Menu Drop Down-------------------------'
+
+    Public Sub New()
+        InitializeComponent()
+    End Sub
 End Class

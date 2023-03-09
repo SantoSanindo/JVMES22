@@ -82,7 +82,11 @@ Public Class FGA
         Dim sFlowTicket = TextBox1.Text.Split(";")
 
         If dtCheck.Rows.Count > 0 Then
-            MessageBox.Show("Double Scan")
+            'MessageBox.Show("Double Scan")
+            RJMessageBox.Show("Double Scan",
+                                       "Warning",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Warning)
             TextBox1.Clear()
             TextBox2.Clear()
             TextBox3.Clear()
@@ -122,7 +126,7 @@ Public Class FGA
                     DGV_FGA()
                 End If
             Catch ex As Exception
-                MessageBox.Show(ex.Message)
+                RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK <
             End Try
         End If
     End Sub

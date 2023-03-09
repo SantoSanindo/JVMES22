@@ -21,7 +21,11 @@ Public Class FormLogin
                 ComboBox1.Enabled = True
             End If
         Else
-            MessageBox.Show("Login Failed. Please Try Again.")
+            'MessageBox.Show("Login Failed. Please Try Again.")
+            RJMessageBox.Show("Please Try Again !",
+                                       "Login Failed",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Warning)
             txtUname.Clear()
             txtPass.Clear()
             txtUname.Select()
@@ -56,7 +60,11 @@ Public Class FormLogin
                     ComboBox1.Enabled = True
                 End If
             Else
-                MessageBox.Show("Login Failed. Please Try Again.")
+                'MessageBox.Show("Login Failed. Please Try Again.")
+                RJMessageBox.Show("Please Try Again !",
+                                       "Login Failed",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Warning)
                 txtUname.Clear()
                 txtPass.Clear()
                 txtUname.Select()
@@ -68,4 +76,5 @@ Public Class FormLogin
         globVar.department = ComboBox1.Text
         HOME.LoginUser.Text = "Administrator - " & globVar.department
     End Sub
+
 End Class

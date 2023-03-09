@@ -151,8 +151,10 @@ Public Class MasterProcessFlow
         cb_masterprocessflow.DataSource = dtMasterFinishGoods
         cb_masterprocessflow.DisplayMember = "fg_part_number"
         cb_masterprocessflow.ValueMember = "fg_part_number"
-        'cb_masterprocessflow.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'cb_masterprocessflow.AutoCompleteSource = AutoCompleteSource.ListItems
+        cb_masterprocessflow.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        cb_masterprocessflow.AutoCompleteSource = AutoCompleteSource.ListItems
+
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -173,7 +175,17 @@ Public Class MasterProcessFlow
                     End If
                 Next
 
-                cb_masterprocessflow.Text = ""
+                'For r = 0 To ds.Tables(0).Rows.Count - 1
+                '    Dim queryCheckProcessFlow As String = "select * from master_process_flow where MASTER_FINISH_GOODS_PN='" & cb_masterprocessflow.Text & "' and MASTER_PROCESS_NUMBER='" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "'"
+                '    Dim dtCheckProcessFlow As DataTable = Database.GetData(queryCheckProcessFlow)
+                '    If dtCheckProcessFlow.Rows.Count = 0 Then
+                '        Dim sql2 As String = "INSERT INTO MASTER_PROCESS_FLOW(MASTER_FINISH_GOODS_PN,MASTER_PROCESS_NUMBER) VALUES ('" & cb_masterprocessflow.Text & "','" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "')"
+                '        Dim cmd2 = New SqlCommand(sql2, Database.koneksi)
+                '        cmd2.ExecuteNonQuery()
+                '    End If
+                'Next
+
+                'cb_masterprocessflow.Text = ""
 
                 DGV_ProcessFlow()
             Catch ex As Exception
@@ -461,4 +473,12 @@ Public Class MasterProcessFlow
             End If
         Next i
     End Sub
+
+    'Private Sub cb_masterprocessflow_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_masterprocessflow.SelectedIndexChanged
+    '    txt_PN_Finish_Goods.Text = cb_masterprocessflow.Text
+    'End Sub
+
+    'Private Sub txt_PN_Finish_Goods_TextChanged(sender As Object, e As EventArgs) Handles txt_PN_Finish_Goods.TextChanged
+    '    cb_masterprocessflow.SelectedIndex = cb_masterprocessflow.FindStringExact(txt_PN_Finish_Goods.Text)
+    'End Sub
 End Class

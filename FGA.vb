@@ -34,6 +34,9 @@ Public Class FGA
         ComboBox1.DisplayMember = "NAME"
         ComboBox1.ValueMember = "NAME"
         ComboBox1.SelectedIndex = -1
+        ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
+
     End Sub
 
     Sub tampilDataComboBoxPacker1()
@@ -44,6 +47,8 @@ Public Class FGA
         ComboBox2.DisplayMember = "NAME"
         ComboBox2.ValueMember = "NAME"
         ComboBox2.SelectedIndex = -1
+        ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub tampilDataComboBoxPacker2()
@@ -54,6 +59,8 @@ Public Class FGA
         ComboBox3.DisplayMember = "name"
         ComboBox3.ValueMember = "name"
         ComboBox3.SelectedIndex = -1
+        ComboBox3.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox3.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub tampilDataComboBoxPacker3()
@@ -64,6 +71,8 @@ Public Class FGA
         ComboBox4.DisplayMember = "NAME"
         ComboBox4.ValueMember = "NAME"
         ComboBox4.SelectedIndex = -1
+        ComboBox4.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox4.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub tampilDataComboBoxPacker4()
@@ -74,6 +83,8 @@ Public Class FGA
         ComboBox5.DisplayMember = "NAME"
         ComboBox5.ValueMember = "NAME"
         ComboBox5.SelectedIndex = -1
+        ComboBox5.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        ComboBox5.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

@@ -126,7 +126,7 @@ Public Class FGA
                     DGV_FGA()
                 End If
             Catch ex As Exception
-                RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK <
+                RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK)
             End Try
         End If
     End Sub

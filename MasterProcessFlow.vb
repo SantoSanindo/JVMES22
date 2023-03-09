@@ -7,8 +7,9 @@ Imports Microsoft.Office.Interop
 Public Class MasterProcessFlow
     Dim oleCon As OleDbConnection
     Private Sub MasterProcessFlow_Load(sender As Object, e As EventArgs) Handles Me.Load
-        DGV_ProcessFlow()
+        'DGV_ProcessFlow()
         tampilDataComboBox()
+        loadMasterProcessFlowBawah()
     End Sub
 
     Private Sub DGV_ProcessFlow()
@@ -30,7 +31,7 @@ Public Class MasterProcessFlow
                 End If
             Next
 
-            Dim query As String = "SELECT * FROM (SELECT master_finish_goods_pn as FG_Number,master_process_number, master_process FROM dbo.MASTER_PROCESS_FLOW) t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
+            Dim query As String = "SELECT * FROM (SELECT master_finish_goods_pn as FG_Number,master_process_number, master_process FROM dbo.MASTER_PROCESS_FLOW where master_finish_goods_pn='" & cb_masterprocessflow.Text & "') t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
 
             Dim adapterGas As SqlDataAdapter
             Dim datasetGas As New DataSet
@@ -74,6 +75,68 @@ Public Class MasterProcessFlow
                 btn.Width = 100
                 btn.UseColumnTextForButtonValue = True
                 dgv_masterprocessflow.Columns.Insert(0, btn)
+
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Sub loadMasterProcessFlowBawah()
+        Try
+            Dim varProcess As String = ""
+            Call Database.koneksi_database()
+            dgvBawah.Rows.Clear()
+            dgvBawah.Columns.Clear()
+
+            Dim queryCek As String = "select * from MASTER_PROCESS_NUMBER"
+            Dim dsexist = New DataSet
+            Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+            adapterexist.Fill(dsexist)
+            For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
+                If i = 0 Then
+                    varProcess = "[" + dsexist.Tables(0).Rows(i).Item("PROCESS_NAME").ToString + "]"
+                Else
+                    varProcess = varProcess + ",[" + dsexist.Tables(0).Rows(i).Item("PROCESS_NAME").ToString + "]"
+                End If
+            Next
+
+            Dim query As String = "SELECT * FROM (SELECT master_finish_goods_pn as FG_Number,master_process_number, master_process FROM dbo.MASTER_PROCESS_FLOW) t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
+
+            Dim adapterGas As SqlDataAdapter
+            Dim datasetGas As New DataSet
+
+            adapterGas = New SqlDataAdapter(query, Database.koneksi)
+            adapterGas.Fill(datasetGas)
+
+            If datasetGas.Tables(0).Rows.Count > 0 Then
+                dgvBawah.ColumnCount = 1
+                dgvBawah.Columns(0).Name = "Part Number"
+                For r = 0 To datasetGas.Tables(0).Rows.Count - 1
+                    Dim row As String() = New String() {datasetGas.Tables(0).Rows(r).Item(0).ToString}
+                    dgvBawah.Rows.Add(row)
+                Next
+
+                Dim queryProcess As String = "select process_name from master_process order by process_name"
+                Dim dsProcess = New DataSet
+                Dim adapterProcess = New SqlDataAdapter(queryProcess, Database.koneksi)
+                adapterProcess.Fill(dsProcess)
+
+                For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
+                    Dim txcolumn As New DataGridViewTextBoxColumn
+                    txcolumn.HeaderText = dsexist.Tables(0).Rows(i).Item(1).ToString
+                    'For iProcess As Integer = 0 To dsProcess.Tables(0).Rows.Count - 1
+                    '    cbcolumn.Items.Add(dsProcess.Tables(0).Rows(iProcess).Item("process_name").ToString)
+                    'Next
+
+                    dgvBawah.Columns.Add(txcolumn)
+                Next
+
+                For rowDataSet As Integer = 0 To datasetGas.Tables(0).Rows.Count - 1
+                    For colDataSet As Integer = 1 To datasetGas.Tables(0).Columns.Count - 1
+                        dgvBawah.Rows(rowDataSet).Cells(colDataSet).Value = datasetGas.Tables(0).Rows(rowDataSet).Item(colDataSet).ToString
+                    Next
+                Next
 
             End If
         Catch ex As Exception
@@ -357,5 +420,45 @@ Public Class MasterProcessFlow
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+    End Sub
+
+    Private Sub dgvBawah_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgvBawah.DataBindingComplete
+        For i As Integer = 0 To dgvBawah.RowCount - 1
+            If dgvBawah.Rows(i).Index Mod 2 = 0 Then
+                dgvBawah.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgvBawah.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With dgvBawah
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub dgvBawah_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvBawah.CellFormatting
+        For i As Integer = 0 To dgvBawah.RowCount - 1
+            If dgvBawah.Rows(i).Index Mod 2 = 0 Then
+                dgvBawah.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgvBawah.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
     End Sub
 End Class

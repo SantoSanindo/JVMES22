@@ -22,8 +22,10 @@ Partial Class MasterProcessFlow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.dgvBawah = New System.Windows.Forms.DataGridView()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_Finish_Goods = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -36,6 +38,7 @@ Partial Class MasterProcessFlow
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.dgvBawah, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgv_masterprocessflow, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -44,6 +47,7 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.dgvBawah)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_Finish_Goods)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -61,6 +65,33 @@ Partial Class MasterProcessFlow
         Me.GroupBox1.Size = New System.Drawing.Size(1442, 714)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
+        '
+        'dgvBawah
+        '
+        Me.dgvBawah.AllowUserToAddRows = False
+        Me.dgvBawah.AllowUserToDeleteRows = False
+        Me.dgvBawah.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgvBawah.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.dgvBawah.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvBawah.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        Me.dgvBawah.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvBawah.GridColor = System.Drawing.SystemColors.Highlight
+        Me.dgvBawah.Location = New System.Drawing.Point(3, 197)
+        Me.dgvBawah.MultiSelect = False
+        Me.dgvBawah.Name = "dgvBawah"
+        Me.dgvBawah.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
+        Me.dgvBawah.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgvBawah.Size = New System.Drawing.Size(1436, 446)
+        Me.dgvBawah.TabIndex = 20
         '
         'btn_ex_template
         '
@@ -124,7 +155,7 @@ Partial Class MasterProcessFlow
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(135, 42)
         Me.Button1.TabIndex = 7
-        Me.Button1.Text = "Save"
+        Me.Button1.Text = "Check"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'Label1
@@ -149,19 +180,18 @@ Partial Class MasterProcessFlow
         '
         Me.dgv_masterprocessflow.AllowUserToAddRows = False
         Me.dgv_masterprocessflow.AllowUserToDeleteRows = False
-        Me.dgv_masterprocessflow.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.dgv_masterprocessflow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterprocessflow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.dgv_masterprocessflow.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocessflow.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.dgv_masterprocessflow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterprocessflow.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterprocessflow.Location = New System.Drawing.Point(3, 72)
@@ -169,7 +199,7 @@ Partial Class MasterProcessFlow
         Me.dgv_masterprocessflow.Name = "dgv_masterprocessflow"
         Me.dgv_masterprocessflow.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
         Me.dgv_masterprocessflow.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_masterprocessflow.Size = New System.Drawing.Size(1436, 564)
+        Me.dgv_masterprocessflow.Size = New System.Drawing.Size(1436, 119)
         Me.dgv_masterprocessflow.TabIndex = 4
         '
         'OpenFileDialog1
@@ -189,6 +219,7 @@ Partial Class MasterProcessFlow
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.dgvBawah, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgv_masterprocessflow, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -206,4 +237,5 @@ Partial Class MasterProcessFlow
     Friend WithEvents btn_ex_template As Button
     Friend WithEvents btn_export_Finish_Goods As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents dgvBawah As DataGridView
 End Class

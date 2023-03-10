@@ -42,7 +42,7 @@ Public Class MasterMaterial
                 txt_mastermaterial_pn.Select()
             End If
         Else
-            MsgBox("Please input all data")
+            RJMessageBox.Show("Please input all data", "", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -217,9 +217,9 @@ Public Class MasterMaterial
                 rd.Close()
 
                 DGV_MasterMaterial()
-                MsgBox("Import Material Success")
+                RJMessageBox.Show("Import Material Success")
             Catch ex As Exception
-                MsgBox("Import Material Failed " & ex.Message)
+                RJMessageBox.Show("Import Material Failed " & ex.Message)
             End Try
         End Using
     End Sub
@@ -255,7 +255,7 @@ Public Class MasterMaterial
                     Next
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                RJMessageBox.Show(ex.ToString)
             End Try
         End If
     End Sub
@@ -321,7 +321,7 @@ Public Class MasterMaterial
         releaseObject(xlWorkBook)
         releaseObject(xlApp)
 
-        MsgBox("Export to Excel Success !")
+        RJMessageBox.Show("Export to Excel Success !")
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)
@@ -365,6 +365,6 @@ Public Class MasterMaterial
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
-        MsgBox("Export Template Success !")
+        RJMessageBox.Show("Export Template Success !")
     End Sub
 End Class

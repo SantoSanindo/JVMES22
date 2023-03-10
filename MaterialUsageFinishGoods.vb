@@ -223,7 +223,7 @@ Public Class MaterialUsageFinishGoods
                         End If
                     End If
                 Catch ex As Exception
-                    MsgBox(ex.ToString)
+                    RJMessageBox.Show(ex.ToString)
                 End Try
             End If
         End If
@@ -305,9 +305,9 @@ Public Class MaterialUsageFinishGoods
 
                     idP = cb_masterfinishgoods_pn.Text
 
-                    MsgBox("Import Material Usage Finish Goods Success")
+                    RJMessageBox.Show("Import Material Usage Finish Goods Success")
                 Catch ex As Exception
-                    MsgBox("Import Material Usage Finish Goods Failed " & ex.Message)
+                    RJMessageBox.Show("Import Material Usage Finish Goods Failed " & ex.Message)
                 End Try
             End Using
         End If
@@ -340,7 +340,7 @@ Public Class MaterialUsageFinishGoods
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
-        MsgBox("Export Template Success !")
+        RJMessageBox.Show("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Master_Usage_Finish_Goods_Click(sender As Object, e As EventArgs) Handles btn_export_Master_Usage_Finish_Goods.Click
@@ -379,7 +379,7 @@ Public Class MaterialUsageFinishGoods
         releaseObject(xlWorkBook)
         releaseObject(xlApp)
 
-        MsgBox("Export to Excel Success !")
+        RJMessageBox.Show("Export to Excel Success !")
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)

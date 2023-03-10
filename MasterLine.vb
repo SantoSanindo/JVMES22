@@ -7,17 +7,17 @@ Public Class MasterLine
             Dim splitLine() As String = TextBox1.Text.Split(" ")
 
             If splitLine(0) <> "Line" Then
-                MsgBox("Wrong Format")
+                RJMessageBox.Show("Wrong Format")
                 Exit Sub
             End If
 
             If IsNumeric(splitLine(1)) Then
                 If splitLine(1) = 0 Then
-                    MsgBox("Wrong Format")
+                    RJMessageBox.Show("Wrong Format")
                     Exit Sub
                 End If
             Else
-                MsgBox("Wrong Format")
+                RJMessageBox.Show("Wrong Format")
                 Exit Sub
             End If
 

@@ -16,15 +16,15 @@ Public Class _PrintingWIPOnHold
     Private Sub InitializePrintEngine()
         Try
             Dim sdkFilesPath As String = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..\\..\\..\\SDKFiles")
-            'MsgBox(sdkFilesPath)
+            'RJMessageBox.Show(sdkFilesPath)
 
             If My.Computer.FileSystem.DirectoryExists(sdkFilesPath) Then
                 PrintEngineFactory.SDKFilesPath = sdkFilesPath
             End If
             PrintEngineFactory.PrintEngine.Initialize()
-            'MsgBox("test")
+            'RJMessageBox.Show("test")
         Catch ex As Exception
-            MsgBox("Initialization of the SDK failed." + Environment.NewLine + Environment.NewLine + ex.ToString())
+            RJMessageBox.Show("Initialization of the SDK failed." + Environment.NewLine + Environment.NewLine + ex.ToString())
             Me.Close()
         End Try
     End Sub
@@ -36,7 +36,7 @@ Public Class _PrintingWIPOnHold
             label.Print(1)
             globVar.failPrint = "NO"
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
             globVar.failPrint = "Yes"
         End Try
     End Sub

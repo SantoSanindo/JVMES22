@@ -113,7 +113,7 @@ Public Class AddChangeOperator
                 End If
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 
@@ -140,7 +140,7 @@ Public Class AddChangeOperator
                         DGV_Add_Change_Operator()
                     End If
                 Catch ex As Exception
-                    RJMessageBox.Show("MainPOSubPO-10 : " & ex.Message)
+                    RJMessageBox.Show("MainPOSubPO-10 : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
         End If
@@ -199,7 +199,7 @@ Public Class AddChangeOperator
             TabControl1.SelectedIndex = 0
             TabControl1.SelectedIndex = 1
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 
@@ -236,7 +236,7 @@ Public Class AddChangeOperator
                     Next
 
                     If varProcess = "" Then
-                        MsgBox("If you want to change the operator, please use the 'change operator' button.")
+                        RJMessageBox.Show("If you want to change the operator, please use the 'change operator' button.")
                         TabControl1.SelectedIndex = 0
                         Exit Sub
                     End If
@@ -280,7 +280,7 @@ Public Class AddChangeOperator
 
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 
@@ -304,7 +304,7 @@ Public Class AddChangeOperator
             cmd.ExecuteNonQuery()
 
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 

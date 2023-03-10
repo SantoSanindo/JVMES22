@@ -415,7 +415,6 @@
     <Content Include="Resources\exclamation.png" />
     <Content Include="Resources\information.png" />
     <Content Include="Resources\question.png" />
-    <None Include="Resources\Resources.bmp" />
     <Content Include="sanindo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

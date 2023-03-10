@@ -24,7 +24,7 @@ Public Class PrintFlowTicket
                 End If
             Next i
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 
@@ -49,7 +49,7 @@ Public Class PrintFlowTicket
             Next i
 
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 
@@ -268,7 +268,7 @@ Public Class PrintFlowTicket
                 DGV_DOP()
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
     End Sub
 

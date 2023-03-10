@@ -243,7 +243,7 @@ Public Class MasterProcessFlow
                     Next
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                RJMessageBox.Show(ex.ToString)
             End Try
         End If
     End Sub
@@ -318,9 +318,9 @@ Public Class MasterProcessFlow
                     rd.Close()
 
                     DGV_ProcessFlow()
-                    MsgBox("Import Process Flow & Process Flow material usage Success")
+                    RJMessageBox.Show("Import Process Flow & Process Flow material usage Success")
                 Catch ex As Exception
-                    MsgBox("Import Finish Goods Failed " & ex.Message)
+                    RJMessageBox.Show("Import Finish Goods Failed " & ex.Message)
                 End Try
             End Using
         End If
@@ -352,7 +352,7 @@ Public Class MasterProcessFlow
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
-        MsgBox("Export Template Success !")
+        RJMessageBox.Show("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Finish_Goods_Click(sender As Object, e As EventArgs) Handles btn_export_Finish_Goods.Click
@@ -390,7 +390,7 @@ Public Class MasterProcessFlow
         releaseObject(xlWorkBook)
         releaseObject(xlApp)
 
-        MsgBox("Export to Excel Success !")
+        RJMessageBox.Show("Export to Excel Success !")
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)

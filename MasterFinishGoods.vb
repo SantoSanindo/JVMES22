@@ -132,9 +132,9 @@ Public Class MasterFinishGoods
 
                     dgv_finish_goods.DataSource = Nothing
                     DGV_MasterFinishGoods()
-                    MsgBox("Import Finish Goods Success")
+                    RJMessageBox.Show("Import Finish Goods Success")
                 Catch ex As Exception
-                    MsgBox("Import Finish Goods Failed " & ex.Message)
+                    RJMessageBox.Show("Import Finish Goods Failed " & ex.Message)
                 End Try
             End Using
         End If
@@ -217,7 +217,7 @@ Public Class MasterFinishGoods
                     Next
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                RJMessageBox.Show(ex.ToString)
             End Try
         End If
     End Sub
@@ -287,7 +287,7 @@ Public Class MasterFinishGoods
         releaseObject(xlWorkBook)
         releaseObject(xlApp)
 
-        MsgBox("Export to Excel Success !")
+        RJMessageBox.Show("Export to Excel Success !")
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)
@@ -329,6 +329,6 @@ Public Class MasterFinishGoods
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
-        MsgBox("Export Template Success !")
+        RJMessageBox.Show("Export Template Success !")
     End Sub
 End Class

@@ -138,7 +138,7 @@ Public Class FGA
                 End If
             Catch ex As Exception
                 RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK,
-                                       MessageBoxIcon.Warning)
+                                       MessageBoxIcon.Error)
             End Try
         End If
     End Sub

@@ -43,7 +43,7 @@ Public Class ProductionRequest
                 RJMessageBox.Show("Sorry this line not set for Production")
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -134,7 +134,7 @@ Public Class ProductionRequest
                 End If
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -161,7 +161,7 @@ Public Class ProductionRequest
             Next i
 
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -287,7 +287,7 @@ Public Class ProductionRequest
                 End If
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 

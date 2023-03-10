@@ -38,7 +38,7 @@ Public Class StockMinistore
 
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -52,7 +52,7 @@ Public Class StockMinistore
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -134,7 +134,7 @@ Public Class StockMinistore
 
         If saveFileDialog1.FileName <> "" Then
             xlWorkBook.SaveAs(saveFileDialog1.FileName)
-            MsgBox("File saved successfully.")
+            RJMessageBox.Show("File saved successfully.")
         End If
 
         ' membersihkan objek Excel

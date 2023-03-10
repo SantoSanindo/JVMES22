@@ -16,7 +16,7 @@ Public Class HOME
 
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            RJMessageBox.Show(ex.ToString)
         End Try
 
 
@@ -313,10 +313,14 @@ Public Class HOME
     End Sub
 
     Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
-        FormDefective.Close()
-        TabControl1.TabPages.Clear()
-        TabControl1.TabPages.Add(FormDefective)
-        TabControl1.TabPages(FormDefective).Select()
+        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+            FormDefective.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(FormDefective)
+            TabControl1.TabPages(FormDefective).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
     ' -----------------------End Menu FGA-------------------------'
 

@@ -160,7 +160,7 @@ Public Class FormInputStock
                 End If
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -301,7 +301,7 @@ Public Class FormInputStock
                 End If
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 

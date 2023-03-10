@@ -87,7 +87,7 @@ Public Class ReceiveReturnMaterial
                     Next
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                RJMessageBox.Show(ex.ToString)
             End Try
         End If
     End Sub

@@ -144,7 +144,7 @@ Public Class MasterProcess
                     Next
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                RJMessageBox.Show(ex.ToString)
             End Try
         End If
     End Sub
@@ -220,9 +220,9 @@ Public Class MasterProcess
                 rd.Close()
 
                 DGV_MasterProcesss()
-                MsgBox("Import Master Process Success")
+                RJMessageBox.Show("Import Master Process Success")
             Catch ex As Exception
-                MsgBox("Import Master Process Failed " & ex.Message)
+                RJMessageBox.Show("Import Master Process Failed " & ex.Message)
             End Try
         End Using
     End Sub
@@ -251,7 +251,7 @@ Public Class MasterProcess
         'cleanup
         excelApp.Quit()
         Marshal.ReleaseComObject(excelApp)
-        MsgBox("Export Template Success !")
+        RJMessageBox.Show("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Master_Process_Click(sender As Object, e As EventArgs) Handles btn_export_Master_Process.Click
@@ -290,7 +290,7 @@ Public Class MasterProcess
         releaseObject(xlWorkBook)
         releaseObject(xlApp)
 
-        MsgBox("Export to Excel Success !")
+        RJMessageBox.Show("Export to Excel Success !")
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)

@@ -460,7 +460,7 @@ Public Class Summary
                 loadDGVNew()
                 'SummaryFG(txtSummarySubSubPO.Text)
             Else
-                MsgBox("Sorry please fill the sub sub po")
+                RJMessageBox.Show("Sorry please fill the sub sub po")
             End If
         End If
     End Sub
@@ -478,7 +478,7 @@ Public Class Summary
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DGSummaryV2.DataSource = dtInputStockDetail
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -495,7 +495,7 @@ Public Class Summary
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DGTraceability1V2.DataSource = dtInputStockDetail
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -512,7 +512,7 @@ Public Class Summary
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DGTraceability2V2.DataSource = dtInputStockDetail
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -525,7 +525,7 @@ Public Class Summary
                 'summaryTraceabilityOperator(txtTraceability.Text)
                 'summaryTraceability(txtTraceability.Text)
             Else
-                MsgBox("Sorry please fill the sub sub po")
+                RJMessageBox.Show("Sorry please fill the sub sub po")
             End If
         End If
     End Sub
@@ -562,7 +562,7 @@ Public Class Summary
 
         If saveFileDialog1.FileName <> "" Then
             xlWorkBook.SaveAs(saveFileDialog1.FileName)
-            MsgBox("File saved successfully.")
+            RJMessageBox.Show("File saved successfully.")
         End If
 
         ' membersihkan objek Excel

@@ -97,7 +97,7 @@ Public Class Users
                     RJMessageBox.Show("Cannot Search Users couse Users is blank.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                RJMessageBox.Show(ex.ToString)
             End Try
         End If
     End Sub
@@ -184,9 +184,9 @@ Public Class Users
                     rd.Close()
 
                     DGV_Users()
-                    MsgBox("Import Users Success")
+                    RJMessageBox.Show("Import Users Success")
                 Catch ex As Exception
-                    MsgBox("Import Users Failed " & ex.Message)
+                    RJMessageBox.Show("Import Users Failed " & ex.Message)
                 End Try
             End Using
         End If

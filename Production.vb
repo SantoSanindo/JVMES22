@@ -33,7 +33,7 @@ Public Class Production
                     Dim sqlCheckStockCard As String = "select * from stock_card where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and status='Production Request' and actual_qty > 0"
                     Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
                     If dtCheckStockCard.Rows.Count = 0 Then
-                        MsgBox("Sorry, the quantity of this material is = 0")
+                        RJMessageBox.Show("Sorry, the quantity of this material is = 0")
                         Exit Sub
                     End If
 
@@ -85,7 +85,7 @@ Public Class Production
                         TextBox1.Select()
                     End If
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    RJMessageBox.Show(ex.Message)
                 End Try
             Else
                 If InStr(TextBox1.Text, "WIP") > 0 Then
@@ -147,13 +147,13 @@ Public Class Production
                             TextBox1.Text = ""
                             DGV_DOC()
                         Else
-                            MsgBox("WIP not Exist in DB")
+                            RJMessageBox.Show("WIP not Exist in DB")
                             TextBox1.Text = ""
                             DGV_DOC()
                         End If
 
                     Catch ex As Exception
-                        MsgBox(ex.Message)
+                        RJMessageBox.Show(ex.Message)
                     End Try
 
                 ElseIf InStr(TextBox1.Text, "OH") > 0 Then
@@ -215,12 +215,12 @@ Public Class Production
                             TextBox1.Text = ""
                             DGV_DOC()
                         Else
-                            MsgBox("ONHOLD not Exist in DB")
+                            RJMessageBox.Show("ONHOLD not Exist in DB")
                             TextBox1.Text = ""
                             DGV_DOC()
                         End If
                     Catch ex As Exception
-                        MsgBox(ex.Message)
+                        RJMessageBox.Show(ex.Message)
                     End Try
 
                 ElseIf InStr(TextBox1.Text, "OT") > 0 Then
@@ -282,12 +282,12 @@ Public Class Production
                             TextBox1.Text = ""
                             DGV_DOC()
                         Else
-                            MsgBox("OTHERS not Exist in DB")
+                            RJMessageBox.Show("OTHERS not Exist in DB")
                             TextBox1.Text = ""
                             DGV_DOC()
                         End If
                     Catch ex As Exception
-                        MsgBox(ex.Message)
+                        RJMessageBox.Show(ex.Message)
                     End Try
                 ElseIf InStr(TextBox1.Text, "SA") > 0 Then
                     Try
@@ -349,12 +349,12 @@ Public Class Production
                             TextBox1.Text = ""
                             DGV_DOC()
                         Else
-                            MsgBox("Sub Assy not Exist in DB")
+                            RJMessageBox.Show("Sub Assy not Exist in DB")
                             TextBox1.Text = ""
                             DGV_DOC()
                         End If
                     Catch ex As Exception
-                        MsgBox(ex.Message)
+                        RJMessageBox.Show(ex.Message)
                     End Try
                 End If
             End If
@@ -403,7 +403,7 @@ Public Class Production
                 End If
             Next i
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -427,7 +427,7 @@ Public Class Production
                 End If
             Next i
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
@@ -466,7 +466,7 @@ Public Class Production
                     DGV_DOP()
                 End If
             Catch ex As Exception
-                MsgBox(ex.Message)
+                RJMessageBox.Show(ex.Message)
             End Try
         Else
             RJMessageBox.Show("Please select line and fill the Flow Ticket first. ")
@@ -553,7 +553,7 @@ Public Class Production
                 RJMessageBox.Show("Sorry Comp and Lot No cannot be blank")
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 

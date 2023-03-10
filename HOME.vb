@@ -1,6 +1,15 @@
 ﻿Imports System.IO
 Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Try
+            Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
+            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
+        Catch ex As Exception
+            RJMessageBox.Show("Updater Not Found")
+        End Try
+
+
         Try
             Me.Text = "MES Application v " & Application.ProductVersion
             If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then

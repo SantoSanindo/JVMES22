@@ -22,5 +22,30 @@ Jovan-New
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:Jovan_New.My.Resources.Resources._error">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:Jovan_New.My.Resources.Resources.chat">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:Jovan_New.My.Resources.Resources.exclamation">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:Jovan_New.My.Resources.Resources.information">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:Jovan_New.My.Resources.Resources.question">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 </members>
 </doc>

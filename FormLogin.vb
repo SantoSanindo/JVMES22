@@ -77,4 +77,5 @@ Public Class FormLogin
         HOME.LoginUser.Text = "Administrator - " & globVar.department
     End Sub
 
+
 End Class

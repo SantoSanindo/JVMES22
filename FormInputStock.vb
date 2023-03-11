@@ -98,12 +98,13 @@ Public Class FormInputStock
 
     Private Sub txt_forminputstock_qrcode_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_qrcode.PreviewKeyDown
         Try
-            Call Database.koneksi_database()
-
-            Dim adapter As SqlDataAdapter
-            Dim ds As New DataTable
-
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+                Call Database.koneksi_database()
+
+                Dim adapter As SqlDataAdapter
+                Dim ds As New DataTable
+
+                'If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
                 QRCode.Baca(txt_forminputstock_qrcode.Text)
 
                 Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & globVar.QRCode_PN & "'"
@@ -116,7 +117,10 @@ Public Class FormInputStock
                     Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                     If dtCheckInputStockDetail.Rows.Count > 0 Then
-                        RJMessageBox.Show("This QRCode Already Scan")
+                        'RJMessageBox.Show("This QRCode Already Scan")
+                        lbl_Info.Text = "Double Scan!"
+                        Play_Sound.Double_scan()
+
 
                         txt_forminputstock_qrcode.Text = ""
                         txt_forminputstock_qrcode.Select()
@@ -148,13 +152,21 @@ Public Class FormInputStock
                                 dgv_forminputstock.Columns.Clear()
 
                                 treeView_show()
+
+                                lbl_Info.Text = ""
+                                Play_Sound.correct()
                             End If
                         Catch ex As Exception
-                            RJMessageBox.Show("Error Insert" & ex.Message)
+                            'RJMessageBox.Show("Error Insert" & ex.Message)
+                            lbl_Info.Text = "Error Insert"
+                            Play_Sound.Wrong()
                         End Try
                     End If
                 Else
-                    RJMessageBox.Show("Part Number not in DB")
+                    'RJMessageBox.Show("Part Number not in DB")
+                    lbl_Info.Text = "Part Number not in DB"
+                    Play_Sound.not_in_database()
+
                     txt_forminputstock_qrcode.Text = ""
                     txt_forminputstock_qrcode.Select()
                 End If
@@ -492,5 +504,9 @@ Public Class FormInputStock
                 RJMessageBox.Show("failed" & ex.Message)
             End Try
         End If
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        lbl_Info.Visible = Not lbl_Info.Visible
     End Sub
 End Class

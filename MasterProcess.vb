@@ -45,7 +45,7 @@ Public Class MasterProcess
         dgv_masterprocess.Rows.Clear()
         dgv_masterprocess.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select process_name as Name_Process,process_desc as Desc_Process from MASTER_PROCESS")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select process_name as Name_Process,process_desc as Desc_Process, FAMILY, DEPARTMENT from MASTER_PROCESS")
 
         dgv_masterprocess.DataSource = dtMasterMaterial
 
@@ -56,7 +56,7 @@ Public Class MasterProcess
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_masterprocess.Columns.Insert(2, delete)
+        dgv_masterprocess.Columns.Insert(4, delete)
     End Sub
 
     Private Sub dgv_masterprocess_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocess.CellClick

@@ -59,7 +59,7 @@ Public Class MasterMaterial
         dgv_material.Rows.Clear()
         dgv_material.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER,NAME, STANDARD_QTY, FAMILY from MASTER_MATERIAL")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER,NAME, STANDARD_QTY, FAMILY, DEPARTMENT from MASTER_MATERIAL")
 
         dgv_material.DataSource = dtMasterMaterial
 
@@ -81,7 +81,7 @@ Public Class MasterMaterial
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_material.Columns.Insert(5, delete)
+        dgv_material.Columns.Insert(6, delete)
     End Sub
 
     Private Sub dgv_material_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_material.CellClick

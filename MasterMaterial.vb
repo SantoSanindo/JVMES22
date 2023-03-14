@@ -17,7 +17,7 @@ Public Class MasterMaterial
                     RJMessageBox.Show("Material Exist")
                 Else
                     Try
-                        Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & cb_mastermaterial_family.Text & "')"
+                        Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -25,6 +25,7 @@ Public Class MasterMaterial
                             txt_mastermaterial_pn.Text = ""
                             txt_mastermaterial_qty.Text = ""
                             cb_mastermaterial_family.SelectedIndex = -1
+                            cb_mastermaterial_dept.SelectedIndex = -1
                             txt_mastermaterial_pn.Select()
 
                             dgv_material.DataSource = Nothing
@@ -50,7 +51,28 @@ Public Class MasterMaterial
         txt_mastermaterial_pn.Select()
         DGV_MasterMaterial()
         txt_mastermaterial_search.Text = ""
+        tampilDataComboBoxDepartement()
+        tampilDataComboBoxFamily()
         cb_mastermaterial_family.SelectedIndex = -1
+        cb_mastermaterial_dept.SelectedIndex = -1
+    End Sub
+
+    Sub tampilDataComboBoxFamily()
+        Call Database.koneksi_database()
+        Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
+
+        cb_mastermaterial_family.DataSource = dtMasterFamily
+        cb_mastermaterial_family.DisplayMember = "family"
+        cb_mastermaterial_family.ValueMember = "family"
+    End Sub
+
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department")
+
+        cb_mastermaterial_dept.DataSource = dtMasterDepartment
+        cb_mastermaterial_dept.DisplayMember = "department"
+        cb_mastermaterial_dept.ValueMember = "department"
     End Sub
 
     Private Sub DGV_MasterMaterial()
@@ -159,7 +181,7 @@ Public Class MasterMaterial
                 Dim FamMaterial As String = reader.GetString(3)
                 Dim NameMaterial As String = reader.GetString(1)
                 Dim SPQMaterial As Double = reader.GetDouble(2)
-                'Dim PNMaterial As String = reader.GetString(0)
+                Dim DeptMaterial As String = reader.GetString(4)
 
                 Dim PNMaterial As Object = reader.GetValue(0)
                 If IsNumeric(SPQMaterial) Then
@@ -173,8 +195,22 @@ Public Class MasterMaterial
                 Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "'", Database.koneksi)
                 Dim count As Integer = existsCmd.ExecuteScalar()
 
+                Dim existsDept As New SqlCommand("SELECT COUNT(*) FROM dbo.DEPARTMENT WHERE [DEPARTMENT] = '" & DeptMaterial & "'", Database.koneksi)
+                Dim countDept As Integer = existsDept.ExecuteScalar()
+                If countDept = 0 Then
+                    MsgBox("Sorry Department Wrong Format")
+                    Exit Sub
+                End If
+
+                Dim existsFam As New SqlCommand("SELECT COUNT(*) FROM dbo.FAMILY WHERE [FAMILY] = '" & FamMaterial & "'", Database.koneksi)
+                Dim countFam As Integer = existsFam.ExecuteScalar()
+                If countFam = 0 Then
+                    MsgBox("Sorry Family Wrong Format")
+                    Exit Sub
+                End If
+
                 If count = 0 Then
-                    Dim sql As String = "INSERT INTO dbo.MASTER_MATERIAL (part_number,name,standard_qty,family) VALUES ('" & PN & "', '" & NameMaterial & "', " & SPQMaterial & ",'" & FamMaterial & "')"
+                    Dim sql As String = "INSERT INTO dbo.MASTER_MATERIAL (part_number,name,standard_qty,family,department) VALUES ('" & PN & "', '" & NameMaterial & "', " & SPQMaterial & ",'" & FamMaterial & "','" & DeptMaterial & "')"
 
                     Dim insertCmd As New SqlCommand(sql, Database.koneksi)
                     insertCmd.ExecuteNonQuery()
@@ -185,6 +221,7 @@ Public Class MasterMaterial
             RJMessageBox.Show("Import Material Success. Total " & totalInsert & " new Material ")
         Catch ex As Exception
             RJMessageBox.Show("Import Material Failed " & ex.Message)
+            oleCon.Close()
         Finally
             oleCon.Close()
         End Try
@@ -353,6 +390,7 @@ Public Class MasterMaterial
         worksheet.Range("B1").Value = "Name"
         worksheet.Range("C1").Value = "Standard Qty"
         worksheet.Range("D1").Value = "Family"
+        worksheet.Range("E1").Value = "Department"
 
         'save the workbook
         FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

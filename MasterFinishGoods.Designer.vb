@@ -46,6 +46,8 @@ Partial Class MasterFinishGoods
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.cb_family = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_finish_goods, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -55,6 +57,8 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.cb_family)
+        Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.txt_level)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_template)
@@ -87,7 +91,7 @@ Partial Class MasterFinishGoods
         Me.txt_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.txt_level.FormattingEnabled = True
         Me.txt_level.Items.AddRange(New Object() {"FG", "Sub Assy"})
-        Me.txt_level.Location = New System.Drawing.Point(498, 90)
+        Me.txt_level.Location = New System.Drawing.Point(484, 28)
         Me.txt_level.Name = "txt_level"
         Me.txt_level.Size = New System.Drawing.Size(227, 37)
         Me.txt_level.TabIndex = 21
@@ -97,7 +101,7 @@ Partial Class MasterFinishGoods
         Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(1351, 63)
+        Me.btn_ex_template.Location = New System.Drawing.Point(1690, 80)
         Me.btn_ex_template.Name = "btn_ex_template"
         Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_ex_template.TabIndex = 20
@@ -109,9 +113,9 @@ Partial Class MasterFinishGoods
         Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btn_export_template.ForeColor = System.Drawing.Color.White
-        Me.btn_export_template.Location = New System.Drawing.Point(1586, 63)
+        Me.btn_export_template.Location = New System.Drawing.Point(1690, 24)
         Me.btn_export_template.Name = "btn_export_template"
-        Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
+        Me.btn_export_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_export_template.TabIndex = 19
         Me.btn_export_template.Text = "Export to Excel"
         Me.btn_export_template.UseVisualStyleBackColor = False
@@ -120,29 +124,29 @@ Partial Class MasterFinishGoods
         '
         Me.txt_dept.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.txt_dept.FormattingEnabled = True
-        Me.txt_dept.Location = New System.Drawing.Point(167, 28)
+        Me.txt_dept.Location = New System.Drawing.Point(899, 83)
         Me.txt_dept.Name = "txt_dept"
         Me.txt_dept.Size = New System.Drawing.Size(198, 37)
         Me.txt_dept.TabIndex = 18
         '
         'txt_laser
         '
-        Me.txt_laser.Location = New System.Drawing.Point(919, 93)
+        Me.txt_laser.Location = New System.Drawing.Point(899, 28)
         Me.txt_laser.Name = "txt_laser"
-        Me.txt_laser.Size = New System.Drawing.Size(220, 35)
+        Me.txt_laser.Size = New System.Drawing.Size(198, 35)
         Me.txt_laser.TabIndex = 17
         '
         'txt_spq
         '
-        Me.txt_spq.Location = New System.Drawing.Point(919, 28)
+        Me.txt_spq.Location = New System.Drawing.Point(484, 80)
         Me.txt_spq.Name = "txt_spq"
-        Me.txt_spq.Size = New System.Drawing.Size(220, 35)
+        Me.txt_spq.Size = New System.Drawing.Size(227, 35)
         Me.txt_spq.TabIndex = 16
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(775, 96)
+        Me.Label7.Location = New System.Drawing.Point(741, 31)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(138, 29)
         Me.Label7.TabIndex = 15
@@ -151,7 +155,7 @@ Partial Class MasterFinishGoods
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(775, 31)
+        Me.Label6.Location = New System.Drawing.Point(407, 83)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(64, 29)
         Me.Label6.TabIndex = 14
@@ -160,7 +164,7 @@ Partial Class MasterFinishGoods
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(401, 93)
+        Me.Label5.Location = New System.Drawing.Point(407, 31)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(71, 29)
         Me.Label5.TabIndex = 12
@@ -170,7 +174,7 @@ Partial Class MasterFinishGoods
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(1598, 638)
+        Me.Label4.Location = New System.Drawing.Point(1598, 656)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(89, 29)
         Me.Label4.TabIndex = 11
@@ -178,15 +182,15 @@ Partial Class MasterFinishGoods
         '
         'txt_pn
         '
-        Me.txt_pn.Location = New System.Drawing.Point(167, 90)
+        Me.txt_pn.Location = New System.Drawing.Point(165, 28)
         Me.txt_pn.Name = "txt_pn"
-        Me.txt_pn.Size = New System.Drawing.Size(198, 35)
+        Me.txt_pn.Size = New System.Drawing.Size(227, 35)
         Me.txt_pn.TabIndex = 10
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 93)
+        Me.Label3.Location = New System.Drawing.Point(10, 31)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(149, 29)
         Me.Label3.TabIndex = 9
@@ -195,7 +199,7 @@ Partial Class MasterFinishGoods
         'txt_masterfinishgoods_search
         '
         Me.txt_masterfinishgoods_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1690, 635)
+        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1690, 653)
         Me.txt_masterfinishgoods_search.Name = "txt_masterfinishgoods_search"
         Me.txt_masterfinishgoods_search.Size = New System.Drawing.Size(217, 35)
         Me.txt_masterfinishgoods_search.TabIndex = 8
@@ -205,7 +209,7 @@ Partial Class MasterFinishGoods
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Button3.BackColor = System.Drawing.Color.Red
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(6, 631)
+        Me.Button3.Location = New System.Drawing.Point(6, 653)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(242, 42)
         Me.Button3.TabIndex = 7
@@ -218,20 +222,21 @@ Partial Class MasterFinishGoods
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(1801, 64)
+        Me.Button2.Location = New System.Drawing.Point(1478, 80)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(106, 41)
+        Me.Button2.Size = New System.Drawing.Size(134, 41)
         Me.Button2.TabIndex = 6
         Me.Button2.Text = "Import"
         Me.Button2.UseVisualStyleBackColor = False
         '
         'Button1
         '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1212, 64)
+        Me.Button1.Location = New System.Drawing.Point(1478, 25)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(102, 41)
+        Me.Button1.Size = New System.Drawing.Size(134, 41)
         Me.Button1.TabIndex = 5
         Me.Button1.Text = "Add"
         Me.Button1.UseVisualStyleBackColor = False
@@ -255,18 +260,18 @@ Partial Class MasterFinishGoods
         Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_finish_goods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_finish_goods.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 152)
+        Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 128)
         Me.dgv_finish_goods.MultiSelect = False
         Me.dgv_finish_goods.Name = "dgv_finish_goods"
         Me.dgv_finish_goods.ReadOnly = True
         Me.dgv_finish_goods.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.dgv_finish_goods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_finish_goods.Size = New System.Drawing.Size(1901, 473)
+        Me.dgv_finish_goods.Size = New System.Drawing.Size(1901, 519)
         Me.dgv_finish_goods.TabIndex = 4
         '
         'txt_desc
         '
-        Me.txt_desc.Location = New System.Drawing.Point(498, 28)
+        Me.txt_desc.Location = New System.Drawing.Point(165, 80)
         Me.txt_desc.Name = "txt_desc"
         Me.txt_desc.Size = New System.Drawing.Size(227, 35)
         Me.txt_desc.TabIndex = 3
@@ -274,7 +279,7 @@ Partial Class MasterFinishGoods
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(401, 31)
+        Me.Label2.Location = New System.Drawing.Point(12, 83)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(68, 29)
         Me.Label2.TabIndex = 1
@@ -283,7 +288,7 @@ Partial Class MasterFinishGoods
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 31)
+        Me.Label1.Location = New System.Drawing.Point(741, 83)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(138, 29)
         Me.Label1.TabIndex = 0
@@ -292,6 +297,24 @@ Partial Class MasterFinishGoods
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(1131, 31)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(84, 29)
+        Me.Label8.TabIndex = 22
+        Me.Label8.Text = "Family"
+        '
+        'cb_family
+        '
+        Me.cb_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cb_family.FormattingEnabled = True
+        Me.cb_family.Location = New System.Drawing.Point(1221, 28)
+        Me.cb_family.Name = "cb_family"
+        Me.cb_family.Size = New System.Drawing.Size(198, 37)
+        Me.cb_family.TabIndex = 23
         '
         'MasterFinishGoods
         '
@@ -333,4 +356,6 @@ Partial Class MasterFinishGoods
     Friend WithEvents btn_export_template As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents txt_level As ComboBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents cb_family As ComboBox
 End Class

@@ -81,7 +81,7 @@ Partial Class Users
         '
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(962, 89)
+        Me.ComboBox2.Location = New System.Drawing.Point(962, 80)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(415, 37)
         Me.ComboBox2.TabIndex = 17
@@ -99,7 +99,7 @@ Partial Class Users
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(818, 92)
+        Me.Label7.Location = New System.Drawing.Point(818, 83)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(138, 29)
         Me.Label7.TabIndex = 15
@@ -131,7 +131,7 @@ Partial Class Users
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Red
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(6, 603)
+        Me.Button2.Location = New System.Drawing.Point(6, 621)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(246, 43)
         Me.Button2.TabIndex = 12
@@ -141,7 +141,7 @@ Partial Class Users
         'TextBox5
         '
         Me.TextBox5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox5.Location = New System.Drawing.Point(1412, 607)
+        Me.TextBox5.Location = New System.Drawing.Point(1412, 625)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(247, 35)
         Me.TextBox5.TabIndex = 11
@@ -150,7 +150,7 @@ Partial Class Users
         '
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(1317, 610)
+        Me.Label5.Location = New System.Drawing.Point(1317, 628)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(89, 29)
         Me.Label5.TabIndex = 10
@@ -175,12 +175,12 @@ Partial Class Users
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.GridColor = System.Drawing.SystemColors.Highlight
-        Me.DataGridView1.Location = New System.Drawing.Point(6, 144)
+        Me.DataGridView1.Location = New System.Drawing.Point(6, 123)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1653, 453)
+        Me.DataGridView1.Size = New System.Drawing.Size(1653, 492)
         Me.DataGridView1.TabIndex = 9
         '
         'Button1
@@ -197,7 +197,7 @@ Partial Class Users
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(548, 89)
+        Me.TextBox4.Location = New System.Drawing.Point(548, 80)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(243, 35)
         Me.TextBox4.TabIndex = 7
@@ -211,7 +211,7 @@ Partial Class Users
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(138, 89)
+        Me.TextBox2.Location = New System.Drawing.Point(138, 80)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(260, 35)
         Me.TextBox2.TabIndex = 5
@@ -226,7 +226,7 @@ Partial Class Users
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(422, 92)
+        Me.Label4.Location = New System.Drawing.Point(422, 83)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(120, 29)
         Me.Label4.TabIndex = 3
@@ -244,7 +244,7 @@ Partial Class Users
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(22, 92)
+        Me.Label2.Location = New System.Drawing.Point(22, 83)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(88, 29)
         Me.Label2.TabIndex = 1

@@ -7,14 +7,14 @@ Public Class MaterialUsageFinishGoods
     Dim oleCon As OleDbConnection
     Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And cb_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
+        If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
             Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
                 RJMessageBox.Show("FG Part Number and Comp exist")
             Else
                 Try
-                    Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & cb_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
+                    Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
 
@@ -25,7 +25,7 @@ Public Class MaterialUsageFinishGoods
 
                     cb_masterfinishgoods_pn.SelectedIndex = -1
                     txt_masterfinishgoods_desc.Text = ""
-                    cb_masterfinishgoods_family.SelectedIndex = -1
+                    txt_masterfinishgoods_family.Text = ""
                     cb_masterfinishgoods_component.SelectedIndex = -1
                     txt_masterfinishgoods_usage.Text = ""
                 Catch ex As Exception
@@ -39,9 +39,8 @@ Public Class MaterialUsageFinishGoods
         treeView_show()
         idP = ""
         tampilDataComboBox()
-        tampilDataComboBoxMaterial()
         cb_masterfinishgoods_pn.SelectedIndex = -1
-        cb_masterfinishgoods_family.SelectedIndex = -1
+        txt_masterfinishgoods_family.Text = ""
         cb_masterfinishgoods_component.SelectedIndex = -1
     End Sub
 
@@ -58,7 +57,7 @@ Public Class MaterialUsageFinishGoods
 
     Sub tampilDataComboBoxMaterial()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select part_number from master_material where standard_qty>0 order by part_number")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select part_number from master_material where standard_qty>0 and family='" & txt_masterfinishgoods_family.Text & "' order by part_number")
 
         cb_masterfinishgoods_component.DataSource = dtMasterMaterial
         cb_masterfinishgoods_component.DisplayMember = "part_number"
@@ -397,7 +396,9 @@ Public Class MaterialUsageFinishGoods
         If cb_masterfinishgoods_pn.SelectedIndex > 0 Then
             Dim queryMasterFinishGoods As String = "select * from MASTER_FINISH_GOODS where fg_part_number='" & cb_masterfinishgoods_pn.Text & "'"
             Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
-            txt_masterfinishgoods_desc.Text = dtMasterFG.Rows(0).Item("description")
+            txt_masterfinishgoods_desc.Text = Trim(dtMasterFG.Rows(0).Item("description"))
+            txt_masterfinishgoods_family.Text = Trim(dtMasterFG.Rows(0).Item("family"))
+            tampilDataComboBoxMaterial()
         End If
     End Sub
 End Class

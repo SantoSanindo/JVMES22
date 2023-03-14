@@ -49,7 +49,7 @@ Partial Class ProcessFlowMaterialUsage
         'TextBox1
         '
         Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(101, 535)
+        Me.TextBox1.Location = New System.Drawing.Point(102, 587)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(227, 35)
         Me.TextBox1.TabIndex = 7
@@ -58,7 +58,7 @@ Partial Class ProcessFlowMaterialUsage
         '
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 538)
+        Me.Label1.Location = New System.Drawing.Point(7, 590)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(89, 29)
         Me.Label1.TabIndex = 6
@@ -71,7 +71,7 @@ Partial Class ProcessFlowMaterialUsage
         Me.TreeView1.HideSelection = False
         Me.TreeView1.Location = New System.Drawing.Point(6, 15)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(706, 514)
+        Me.TreeView1.Size = New System.Drawing.Size(706, 566)
         Me.TreeView1.TabIndex = 4
         '
         'CheckedListBox1
@@ -83,7 +83,7 @@ Partial Class ProcessFlowMaterialUsage
         Me.CheckedListBox1.FormattingEnabled = True
         Me.CheckedListBox1.Location = New System.Drawing.Point(718, 15)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(707, 514)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(707, 574)
         Me.CheckedListBox1.TabIndex = 2
         '
         'ProcessFlowMaterialUsage

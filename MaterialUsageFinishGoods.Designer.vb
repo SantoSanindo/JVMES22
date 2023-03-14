@@ -24,6 +24,7 @@ Partial Class MaterialUsageFinishGoods
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.cb_masterfinishgoods_component = New System.Windows.Forms.ComboBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_Master_Usage_Finish_Goods = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
@@ -44,8 +45,7 @@ Partial Class MaterialUsageFinishGoods
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.cb_masterfinishgoods_family = New System.Windows.Forms.ComboBox()
-        Me.cb_masterfinishgoods_component = New System.Windows.Forms.ComboBox()
+        Me.txt_masterfinishgoods_family = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterfinishgoods_atas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -55,8 +55,8 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_family)
         Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_component)
-        Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_family)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_Master_Usage_Finish_Goods)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
@@ -82,12 +82,20 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         '
+        'cb_masterfinishgoods_component
+        '
+        Me.cb_masterfinishgoods_component.FormattingEnabled = True
+        Me.cb_masterfinishgoods_component.Location = New System.Drawing.Point(619, 77)
+        Me.cb_masterfinishgoods_component.Name = "cb_masterfinishgoods_component"
+        Me.cb_masterfinishgoods_component.Size = New System.Drawing.Size(232, 37)
+        Me.cb_masterfinishgoods_component.TabIndex = 31
+        '
         'btn_ex_template
         '
         Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(1316, 29)
+        Me.btn_ex_template.Location = New System.Drawing.Point(1507, 24)
         Me.btn_ex_template.Name = "btn_ex_template"
         Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_ex_template.TabIndex = 29
@@ -99,7 +107,7 @@ Partial Class MaterialUsageFinishGoods
         Me.btn_export_Master_Usage_Finish_Goods.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_export_Master_Usage_Finish_Goods.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btn_export_Master_Usage_Finish_Goods.ForeColor = System.Drawing.Color.White
-        Me.btn_export_Master_Usage_Finish_Goods.Location = New System.Drawing.Point(1551, 29)
+        Me.btn_export_Master_Usage_Finish_Goods.Location = New System.Drawing.Point(1723, 24)
         Me.btn_export_Master_Usage_Finish_Goods.Name = "btn_export_Master_Usage_Finish_Goods"
         Me.btn_export_Master_Usage_Finish_Goods.Size = New System.Drawing.Size(193, 42)
         Me.btn_export_Master_Usage_Finish_Goods.TabIndex = 28
@@ -112,7 +120,7 @@ Partial Class MaterialUsageFinishGoods
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(1363, 582)
+        Me.CheckBox1.Location = New System.Drawing.Point(1363, 609)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(240, 33)
         Me.CheckBox1.TabIndex = 27
@@ -129,7 +137,7 @@ Partial Class MaterialUsageFinishGoods
         '
         'txt_masterfinishgoods_usage
         '
-        Me.txt_masterfinishgoods_usage.Location = New System.Drawing.Point(1022, 27)
+        Me.txt_masterfinishgoods_usage.Location = New System.Drawing.Point(972, 24)
         Me.txt_masterfinishgoods_usage.Name = "txt_masterfinishgoods_usage"
         Me.txt_masterfinishgoods_usage.Size = New System.Drawing.Size(222, 35)
         Me.txt_masterfinishgoods_usage.TabIndex = 25
@@ -137,7 +145,7 @@ Partial Class MaterialUsageFinishGoods
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(933, 30)
+        Me.Label6.Location = New System.Drawing.Point(883, 27)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(83, 29)
         Me.Label6.TabIndex = 22
@@ -146,7 +154,7 @@ Partial Class MaterialUsageFinishGoods
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(494, 80)
+        Me.Label5.Location = New System.Drawing.Point(475, 80)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(138, 29)
         Me.Label5.TabIndex = 21
@@ -155,7 +163,7 @@ Partial Class MaterialUsageFinishGoods
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(494, 30)
+        Me.Label4.Location = New System.Drawing.Point(475, 30)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(84, 29)
         Me.Label4.TabIndex = 20
@@ -165,7 +173,7 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(1628, 584)
+        Me.Label3.Location = New System.Drawing.Point(1628, 610)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(89, 29)
         Me.Label3.TabIndex = 19
@@ -177,13 +185,13 @@ Partial Class MaterialUsageFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.TreeView1.Location = New System.Drawing.Point(6, 129)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(385, 442)
+        Me.TreeView1.Size = New System.Drawing.Size(385, 468)
         Me.TreeView1.TabIndex = 18
         '
         'txt_masterfinishgoods_search
         '
         Me.txt_masterfinishgoods_search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1723, 581)
+        Me.txt_masterfinishgoods_search.Location = New System.Drawing.Point(1723, 607)
         Me.txt_masterfinishgoods_search.Name = "txt_masterfinishgoods_search"
         Me.txt_masterfinishgoods_search.Size = New System.Drawing.Size(193, 35)
         Me.txt_masterfinishgoods_search.TabIndex = 17
@@ -193,7 +201,7 @@ Partial Class MaterialUsageFinishGoods
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Red
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(397, 577)
+        Me.Button2.Location = New System.Drawing.Point(397, 603)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(239, 43)
         Me.Button2.TabIndex = 16
@@ -205,7 +213,7 @@ Partial Class MaterialUsageFinishGoods
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button3.BackColor = System.Drawing.Color.Green
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(1782, 25)
+        Me.Button3.Location = New System.Drawing.Point(1363, 20)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(130, 50)
         Me.Button3.TabIndex = 15
@@ -214,9 +222,10 @@ Partial Class MaterialUsageFinishGoods
         '
         'Button1
         '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1111, 70)
+        Me.Button1.Location = New System.Drawing.Point(1215, 20)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(133, 49)
         Me.Button1.TabIndex = 5
@@ -247,7 +256,7 @@ Partial Class MaterialUsageFinishGoods
         Me.dgv_masterfinishgoods_atas.Name = "dgv_masterfinishgoods_atas"
         Me.dgv_masterfinishgoods_atas.ReadOnly = True
         Me.dgv_masterfinishgoods_atas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv_masterfinishgoods_atas.Size = New System.Drawing.Size(1519, 442)
+        Me.dgv_masterfinishgoods_atas.Size = New System.Drawing.Size(1519, 468)
         Me.dgv_masterfinishgoods_atas.TabIndex = 4
         '
         'txt_masterfinishgoods_desc
@@ -280,24 +289,13 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'cb_masterfinishgoods_family
+        'txt_masterfinishgoods_family
         '
-        Me.cb_masterfinishgoods_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cb_masterfinishgoods_family.FormattingEnabled = True
-        Me.cb_masterfinishgoods_family.Items.AddRange(New Object() {"zQSFP", "zSFP", "Ten60"})
-        Me.cb_masterfinishgoods_family.Location = New System.Drawing.Point(638, 22)
-        Me.cb_masterfinishgoods_family.Name = "cb_masterfinishgoods_family"
-        Me.cb_masterfinishgoods_family.Size = New System.Drawing.Size(232, 37)
-        Me.cb_masterfinishgoods_family.TabIndex = 30
-        '
-        'cb_masterfinishgoods_component
-        '
-        Me.cb_masterfinishgoods_component.FormattingEnabled = True
-        Me.cb_masterfinishgoods_component.Items.AddRange(New Object() {"zQSFP", "zSFP", "Ten60"})
-        Me.cb_masterfinishgoods_component.Location = New System.Drawing.Point(638, 75)
-        Me.cb_masterfinishgoods_component.Name = "cb_masterfinishgoods_component"
-        Me.cb_masterfinishgoods_component.Size = New System.Drawing.Size(232, 37)
-        Me.cb_masterfinishgoods_component.TabIndex = 31
+        Me.txt_masterfinishgoods_family.Location = New System.Drawing.Point(619, 27)
+        Me.txt_masterfinishgoods_family.Name = "txt_masterfinishgoods_family"
+        Me.txt_masterfinishgoods_family.ReadOnly = True
+        Me.txt_masterfinishgoods_family.Size = New System.Drawing.Size(232, 35)
+        Me.txt_masterfinishgoods_family.TabIndex = 32
         '
         'MaterialUsageFinishGoods
         '
@@ -336,6 +334,6 @@ Partial Class MaterialUsageFinishGoods
     Friend WithEvents btn_ex_template As Button
     Friend WithEvents btn_export_Master_Usage_Finish_Goods As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
-    Friend WithEvents cb_masterfinishgoods_family As ComboBox
     Friend WithEvents cb_masterfinishgoods_component As ComboBox
+    Friend WithEvents txt_masterfinishgoods_family As TextBox
 End Class

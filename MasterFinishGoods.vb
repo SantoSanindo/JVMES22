@@ -16,7 +16,7 @@ Public Class MasterFinishGoods
                     RJMessageBox.Show("Finish Goods Already Exist")
                 Else
                     Try
-                        Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE) VALUES ('" & txt_pn.Text & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & txt_desc.Text & "'," & txt_spq.Text & ",'" & txt_laser.Text & "')"
+                        Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE,family) VALUES ('" & Trim(txt_pn.Text) & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & Trim(txt_desc.Text) & "'," & txt_spq.Text & ",'" & Trim(txt_laser.Text) & "','" & cb_family.Text & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -56,8 +56,15 @@ Public Class MasterFinishGoods
         txt_dept.DataSource = dtMasterDepart
         txt_dept.DisplayMember = "department"
         txt_dept.ValueMember = "department"
-        'txt_dept.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'txt_dept.AutoCompleteSource = AutoCompleteSource.ListItems
+    End Sub
+
+    Sub tampilDataComboBoxFamily()
+        Call Database.koneksi_database()
+        Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
+
+        cb_family.DataSource = dtMasterFamily
+        cb_family.DisplayMember = "family"
+        cb_family.ValueMember = "family"
     End Sub
 
     Private Sub MasterFinishGoods_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -65,8 +72,10 @@ Public Class MasterFinishGoods
         txt_dept.Select()
         txt_dept.Text = ""
         tampilDataComboBoxDepartement()
+        tampilDataComboBoxFamily()
         txt_dept.SelectedIndex = -1
         txt_level.SelectedIndex = -1
+        cb_family.SelectedIndex = -1
     End Sub
 
     Sub DGV_MasterFinishGoods()
@@ -74,7 +83,7 @@ Public Class MasterFinishGoods
         dgv_finish_goods.Rows.Clear()
         dgv_finish_goods.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT,FG_PART_NUMBER,DESCRIPTION,LEVEL, SPQ, LASER_CODE from MASTER_FINISH_GOODS")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT,FG_PART_NUMBER,DESCRIPTION,LEVEL, SPQ, LASER_CODE,FAMILY from MASTER_FINISH_GOODS")
 
         dgv_finish_goods.DataSource = dtMasterMaterial
 
@@ -87,7 +96,7 @@ Public Class MasterFinishGoods
 
         dgv_finish_goods.Columns(0).Width = 100
         dgv_finish_goods.Columns(3).Width = 800
-        dgv_finish_goods.Columns(6).Width = 200
+        dgv_finish_goods.Columns(7).Width = 200
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -96,7 +105,7 @@ Public Class MasterFinishGoods
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_finish_goods.Columns.Insert(7, delete)
+        dgv_finish_goods.Columns.Insert(8, delete)
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -126,6 +135,7 @@ Public Class MasterFinishGoods
                     bulkCopy.ColumnMappings.Add(3, 3)
                     bulkCopy.ColumnMappings.Add(4, 4)
                     bulkCopy.ColumnMappings.Add(5, 5)
+                    bulkCopy.ColumnMappings.Add(6, 7)
 
                     bulkCopy.WriteToServer(rd)
                     rd.Close()
@@ -146,7 +156,7 @@ Public Class MasterFinishGoods
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & dgv_finish_goods.Rows(e.RowIndex).Cells(2).Value & "'"
+                    Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     dgv_finish_goods.DataSource = Nothing
@@ -174,7 +184,7 @@ Public Class MasterFinishGoods
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_finish_goods.Rows
                 If row.Cells(0).Value = True Then
-                    Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells(2).Value & "'"
+                    Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells("FG_PART_NUMBER").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     hapus = hapus + 1
@@ -317,6 +327,7 @@ Public Class MasterFinishGoods
         worksheet.Range("D1").Value = "Description"
         worksheet.Range("E1").Value = "Standard Pack"
         worksheet.Range("F1").Value = "Laser Code"
+        worksheet.Range("G1").Value = "Family"
 
         'save the workbook
         FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

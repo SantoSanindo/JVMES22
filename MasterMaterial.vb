@@ -11,7 +11,7 @@ Public Class MasterMaterial
         Call Database.koneksi_database()
         If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" And cb_mastermaterial_family.Text <> "" Then
             If IsNumeric(txt_mastermaterial_pn.Text) And IsNumeric(txt_mastermaterial_qty.Text) Then
-                Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "'"
+                Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
                 If dtCheck.Rows.Count > 0 Then
                     RJMessageBox.Show("Material Exist")
@@ -114,7 +114,7 @@ Public Class MasterMaterial
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells("PART_NUMBER").Value & "'"
+                    Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells("PART_NUMBER").Value & "' and family='" & dgv_material.Rows(e.RowIndex).Cells("FAMILY").Value & "' and department='" & dgv_material.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     dgv_material.DataSource = Nothing
@@ -142,7 +142,7 @@ Public Class MasterMaterial
         If result = DialogResult.Yes Then
             For Each row As DataGridViewRow In dgv_material.Rows
                 If row.Cells(0).Value = True Then
-                    Dim sql As String = "delete from master_material where part_number='" & row.Cells("PART_NUMBER").Value & "'"
+                    Dim sql As String = "delete from master_material where part_number='" & row.Cells("PART_NUMBER").Value & "' and family='" & row.Cells("FAMILY").Value & "' and department='" & row.Cells("DEPARTMENT").Value & "'"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     hapus = hapus + 1
@@ -192,20 +192,20 @@ Public Class MasterMaterial
                     PN = PNMaterialString
                 End If
 
-                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "'", Database.koneksi)
+                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "' and upper(department)='" & DeptMaterial.ToUpper & "' and upper(family)='" & FamMaterial.ToUpper & "'", Database.koneksi)
                 Dim count As Integer = existsCmd.ExecuteScalar()
 
                 Dim existsDept As New SqlCommand("SELECT COUNT(*) FROM dbo.DEPARTMENT WHERE [DEPARTMENT] = '" & DeptMaterial & "'", Database.koneksi)
                 Dim countDept As Integer = existsDept.ExecuteScalar()
                 If countDept = 0 Then
-                    MsgBox("Sorry Department Wrong Format")
+                    RJMessageBox.Show("Sorry Department Wrong Format")
                     Exit Sub
                 End If
 
                 Dim existsFam As New SqlCommand("SELECT COUNT(*) FROM dbo.FAMILY WHERE [FAMILY] = '" & FamMaterial & "'", Database.koneksi)
                 Dim countFam As Integer = existsFam.ExecuteScalar()
                 If countFam = 0 Then
-                    MsgBox("Sorry Family Wrong Format")
+                    RJMessageBox.Show("Sorry Family Wrong Format")
                     Exit Sub
                 End If
 

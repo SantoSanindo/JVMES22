@@ -8,7 +8,7 @@ Public Class MasterProcess
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If txt_masterprocess_nama.Text <> "" Then
-            Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "'"
+            Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
                 RJMessageBox.Show("Process Exist")
@@ -16,7 +16,7 @@ Public Class MasterProcess
                 txt_masterprocess_desc.Text = ""
             Else
                 Try
-                    Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "')"
+                    Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "')"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
 
@@ -33,10 +33,32 @@ Public Class MasterProcess
         End If
     End Sub
 
+    Sub tampilDataComboBoxFamily()
+        Call Database.koneksi_database()
+        Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
+
+        cb_mastermaterial_family.DataSource = dtMasterFamily
+        cb_mastermaterial_family.DisplayMember = "family"
+        cb_mastermaterial_family.ValueMember = "family"
+    End Sub
+
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department")
+
+        cb_mastermaterial_dept.DataSource = dtMasterDepartment
+        cb_mastermaterial_dept.DisplayMember = "department"
+        cb_mastermaterial_dept.ValueMember = "department"
+    End Sub
+
     Private Sub MasterMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_masterprocess_nama.Select()
         DGV_MasterProcesss()
         txt_masterprocess_search.Text = ""
+        tampilDataComboBoxFamily()
+        tampilDataComboBoxDepartement()
+        cb_mastermaterial_dept.SelectedIndex = -1
+        cb_mastermaterial_family.SelectedIndex = -1
     End Sub
 
     Private Sub DGV_MasterProcesss()
@@ -65,12 +87,12 @@ Public Class MasterProcess
 
             If result = DialogResult.Yes Then
                 Try
-                    Dim querycheck As String = "select * from MASTER_PROCESS_FLOW where lower(MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells(1).Value.ToLower) & "'"
+                    Dim querycheck As String = "select * from MASTER_PROCESS_FLOW mpf, MASTER_FINISH_GOODS mfg where mpf.MASTER_FINISH_GOODS_PN=mfg.FG_PART_NUMBER and lower(mpf.MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value.ToLower) & "' and lower(mfg.family)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value.ToLower) & "' and lower(mfg.department)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value.ToLower) & "'"
                     Dim dtCheck As DataTable = Database.GetData(querycheck)
                     If dtCheck.Rows.Count > 0 Then
                         RJMessageBox.Show("Cannot Delete this data because refrence to process flow.")
                     Else
-                        Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells(1).Value & "'"
+                        Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value & "' and family='" & dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value & "' and department='" & dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
                         dgv_masterprocess.DataSource = Nothing
@@ -174,12 +196,28 @@ Public Class MasterProcess
             While reader.Read()
                 Dim ProcessName As String = reader.GetString(0)
                 Dim ProcessDesc As String = reader.GetString(1)
+                Dim DeptMaterial As String = reader.GetString(3)
+                Dim FamMaterial As String = reader.GetString(2)
 
-                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_PROCESS WHERE [process_name] = '" & ProcessName & "'", Database.koneksi)
+                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_PROCESS WHERE upper([process_name]) = '" & Trim(ProcessName.ToUpper) & "' and upper(department)='" & Trim(DeptMaterial.ToUpper) & "' and upper(family)='" & Trim(FamMaterial.ToUpper) & "'", Database.koneksi)
                 Dim count As Integer = existsCmd.ExecuteScalar()
 
+                Dim existsDept As New SqlCommand("SELECT COUNT(*) FROM dbo.DEPARTMENT WHERE [DEPARTMENT] = '" & DeptMaterial & "'", Database.koneksi)
+                Dim countDept As Integer = existsDept.ExecuteScalar()
+                If countDept = 0 Then
+                    RJMessageBox.Show("Sorry Department Wrong Format")
+                    Exit Sub
+                End If
+
+                Dim existsFam As New SqlCommand("SELECT COUNT(*) FROM dbo.FAMILY WHERE [FAMILY] = '" & FamMaterial & "'", Database.koneksi)
+                Dim countFam As Integer = existsFam.ExecuteScalar()
+                If countFam = 0 Then
+                    RJMessageBox.Show("Sorry Family Wrong Format")
+                    Exit Sub
+                End If
+
                 If count = 0 Then
-                    Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC) VALUES ('" & Trim(ProcessName) & "','" & Trim(ProcessDesc) & "')"
+                    Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,DEPARTMENT,FAMILY) VALUES ('" & Trim(ProcessName) & "','" & Trim(ProcessDesc) & "','" & Trim(DeptMaterial) & "','" & Trim(FamMaterial) & "')"
 
                     Dim insertCmd As New SqlCommand(sql, Database.koneksi)
                     insertCmd.ExecuteNonQuery()
@@ -239,6 +277,8 @@ Public Class MasterProcess
         'write data to worksheet
         worksheet.Range("A1").Value = "Process Name"
         worksheet.Range("B1").Value = "Process Description"
+        worksheet.Range("C1").Value = "Family"
+        worksheet.Range("D1").Value = "Department"
 
         'save the workbook
         FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

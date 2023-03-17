@@ -22,12 +22,13 @@ Partial Class AddChangeOperator
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.TextBox20 = New System.Windows.Forms.TextBox()
@@ -46,6 +47,9 @@ Partial Class AddChangeOperator
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.cbLot = New System.Windows.Forms.ComboBox()
+        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
+        Me.btn_check = New System.Windows.Forms.Button()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
@@ -53,27 +57,20 @@ Partial Class AddChangeOperator
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.TextBox6 = New System.Windows.Forms.TextBox()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.btn_check = New System.Windows.Forms.Button()
-        Me.btn_execute = New System.Windows.Forms.Button()
-        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage1.SuspendLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -129,6 +126,17 @@ Partial Class AddChangeOperator
         Me.TabPage3.Text = "Add Operator"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(694, 25)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(158, 40)
+        Me.Button2.TabIndex = 24
+        Me.Button2.Text = "Check"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -144,7 +152,7 @@ Partial Class AddChangeOperator
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(1530, -8)
+        Me.CheckBox2.Location = New System.Drawing.Point(1530, 30)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(156, 33)
         Me.CheckBox2.TabIndex = 21
@@ -154,7 +162,7 @@ Partial Class AddChangeOperator
         '
         'TextBox20
         '
-        Me.TextBox20.Location = New System.Drawing.Point(1424, -10)
+        Me.TextBox20.Location = New System.Drawing.Point(1424, 28)
         Me.TextBox20.Name = "TextBox20"
         Me.TextBox20.Size = New System.Drawing.Size(100, 35)
         Me.TextBox20.TabIndex = 15
@@ -162,7 +170,7 @@ Partial Class AddChangeOperator
         '
         'TextBox19
         '
-        Me.TextBox19.Location = New System.Drawing.Point(1318, -10)
+        Me.TextBox19.Location = New System.Drawing.Point(1318, 28)
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(100, 35)
         Me.TextBox19.TabIndex = 14
@@ -176,19 +184,19 @@ Partial Class AddChangeOperator
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView3.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView3.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView3.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView3.Location = New System.Drawing.Point(3, 163)
         Me.DataGridView3.MultiSelect = False
         Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(1722, 382)
+        Me.DataGridView3.Size = New System.Drawing.Size(1722, 408)
         Me.DataGridView3.TabIndex = 12
         '
         'TextBox17
@@ -296,18 +304,15 @@ Partial Class AddChangeOperator
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.cbLot)
         Me.TabPage1.Controls.Add(Me.DataGridView2)
-        Me.TabPage1.Controls.Add(Me.btn_execute)
         Me.TabPage1.Controls.Add(Me.btn_check)
         Me.TabPage1.Controls.Add(Me.TextBox1)
-        Me.TabPage1.Controls.Add(Me.TextBox7)
-        Me.TabPage1.Controls.Add(Me.TextBox6)
         Me.TabPage1.Controls.Add(Me.TextBox2)
         Me.TabPage1.Controls.Add(Me.TextBox3)
         Me.TabPage1.Controls.Add(Me.TextBox4)
         Me.TabPage1.Controls.Add(Me.TextBox5)
         Me.TabPage1.Controls.Add(Me.ComboBox1)
-        Me.TabPage1.Controls.Add(Me.Label9)
         Me.TabPage1.Controls.Add(Me.Label1)
         Me.TabPage1.Controls.Add(Me.Label8)
         Me.TabPage1.Controls.Add(Me.Label2)
@@ -323,9 +328,51 @@ Partial Class AddChangeOperator
         Me.TabPage1.Text = "Change Operator"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'cbLot
+        '
+        Me.cbLot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbLot.FormattingEnabled = True
+        Me.cbLot.Location = New System.Drawing.Point(1435, 68)
+        Me.cbLot.Name = "cbLot"
+        Me.cbLot.Size = New System.Drawing.Size(150, 37)
+        Me.cbLot.TabIndex = 28
+        '
+        'DataGridView2
+        '
+        Me.DataGridView2.AllowUserToAddRows = False
+        Me.DataGridView2.AllowUserToDeleteRows = False
+        Me.DataGridView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView2.Location = New System.Drawing.Point(5, 163)
+        Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.DataGridView2.Size = New System.Drawing.Size(1722, 163)
+        Me.DataGridView2.TabIndex = 27
+        '
+        'btn_check
+        '
+        Me.btn_check.BackColor = System.Drawing.Color.Green
+        Me.btn_check.ForeColor = System.Drawing.Color.White
+        Me.btn_check.Location = New System.Drawing.Point(1593, 65)
+        Me.btn_check.Name = "btn_check"
+        Me.btn_check.Size = New System.Drawing.Size(136, 40)
+        Me.btn_check.TabIndex = 25
+        Me.btn_check.Text = "Check"
+        Me.btn_check.UseVisualStyleBackColor = False
+        '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(1029, 122)
+        Me.TextBox1.Location = New System.Drawing.Point(1029, 119)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(281, 35)
@@ -333,7 +380,7 @@ Partial Class AddChangeOperator
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(1029, 74)
+        Me.TextBox2.Location = New System.Drawing.Point(1029, 68)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
         Me.TextBox2.Size = New System.Drawing.Size(281, 35)
@@ -341,7 +388,7 @@ Partial Class AddChangeOperator
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(1029, 30)
+        Me.TextBox3.Location = New System.Drawing.Point(1029, 13)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(281, 35)
@@ -349,7 +396,7 @@ Partial Class AddChangeOperator
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(223, 122)
+        Me.TextBox4.Location = New System.Drawing.Point(223, 119)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.ReadOnly = True
         Me.TextBox4.Size = New System.Drawing.Size(629, 35)
@@ -357,7 +404,7 @@ Partial Class AddChangeOperator
         '
         'TextBox5
         '
-        Me.TextBox5.Location = New System.Drawing.Point(223, 74)
+        Me.TextBox5.Location = New System.Drawing.Point(223, 68)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.ReadOnly = True
         Me.TextBox5.Size = New System.Drawing.Size(629, 35)
@@ -368,7 +415,7 @@ Partial Class AddChangeOperator
         Me.ComboBox1.Enabled = False
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"Line 1", "Line 2", "Line 3", "Line 4"})
-        Me.ComboBox1.Location = New System.Drawing.Point(223, 28)
+        Me.ComboBox1.Location = New System.Drawing.Point(223, 13)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(629, 37)
         Me.ComboBox1.TabIndex = 18
@@ -376,16 +423,25 @@ Partial Class AddChangeOperator
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(877, 125)
+        Me.Label1.Location = New System.Drawing.Point(877, 122)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(146, 29)
         Me.Label1.TabIndex = 17
         Me.Label1.Text = "Sub Sub PO"
         '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(1328, 71)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(101, 29)
+        Me.Label8.TabIndex = 15
+        Me.Label8.Text = "Start Lot"
+        '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(877, 77)
+        Me.Label2.Location = New System.Drawing.Point(877, 71)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(97, 29)
         Me.Label2.TabIndex = 16
@@ -394,7 +450,7 @@ Partial Class AddChangeOperator
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(877, 31)
+        Me.Label3.Location = New System.Drawing.Point(877, 16)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 29)
         Me.Label3.TabIndex = 15
@@ -403,7 +459,7 @@ Partial Class AddChangeOperator
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(27, 125)
+        Me.Label5.Location = New System.Drawing.Point(27, 122)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(135, 29)
         Me.Label5.TabIndex = 14
@@ -412,7 +468,7 @@ Partial Class AddChangeOperator
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(27, 77)
+        Me.Label6.Location = New System.Drawing.Point(27, 71)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(188, 29)
         Me.Label6.TabIndex = 13
@@ -421,7 +477,7 @@ Partial Class AddChangeOperator
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(27, 31)
+        Me.Label7.Location = New System.Drawing.Point(27, 16)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(59, 29)
         Me.Label7.TabIndex = 12
@@ -435,94 +491,6 @@ Partial Class AddChangeOperator
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 351)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1722, 194)
-        Me.DataGridView1.TabIndex = 0
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(1319, 31)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(101, 29)
-        Me.Label8.TabIndex = 15
-        Me.Label8.Text = "Start Lot"
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(1319, 77)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(95, 29)
-        Me.Label9.TabIndex = 16
-        Me.Label9.Text = "End Lot"
-        '
-        'TextBox6
-        '
-        Me.TextBox6.Location = New System.Drawing.Point(1435, 30)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(56, 35)
-        Me.TextBox6.TabIndex = 21
-        '
-        'TextBox7
-        '
-        Me.TextBox7.Location = New System.Drawing.Point(1435, 74)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(56, 35)
-        Me.TextBox7.TabIndex = 22
-        '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.Color.Green
-        Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(694, 25)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(158, 40)
-        Me.Button2.TabIndex = 24
-        Me.Button2.Text = "Check"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'btn_check
-        '
-        Me.btn_check.BackColor = System.Drawing.Color.Green
-        Me.btn_check.ForeColor = System.Drawing.Color.White
-        Me.btn_check.Location = New System.Drawing.Point(1547, 28)
-        Me.btn_check.Name = "btn_check"
-        Me.btn_check.Size = New System.Drawing.Size(136, 40)
-        Me.btn_check.TabIndex = 25
-        Me.btn_check.Text = "Check"
-        Me.btn_check.UseVisualStyleBackColor = False
-        '
-        'btn_execute
-        '
-        Me.btn_execute.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btn_execute.ForeColor = System.Drawing.Color.White
-        Me.btn_execute.Location = New System.Drawing.Point(1547, 74)
-        Me.btn_execute.Name = "btn_execute"
-        Me.btn_execute.Size = New System.Drawing.Size(136, 40)
-        Me.btn_execute.TabIndex = 26
-        Me.btn_execute.Text = "Execute"
-        Me.btn_execute.UseVisualStyleBackColor = False
-        '
-        'DataGridView2
-        '
-        Me.DataGridView2.AllowUserToAddRows = False
-        Me.DataGridView2.AllowUserToDeleteRows = False
-        Me.DataGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -530,13 +498,13 @@ Partial Class AddChangeOperator
         DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
         DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
-        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView2.Location = New System.Drawing.Point(5, 191)
-        Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DataGridView2.Size = New System.Drawing.Size(1722, 97)
-        Me.DataGridView2.TabIndex = 27
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 332)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.DataGridView1.Size = New System.Drawing.Size(1726, 239)
+        Me.DataGridView1.TabIndex = 0
         '
         'AddChangeOperator
         '
@@ -553,8 +521,8 @@ Partial Class AddChangeOperator
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -594,11 +562,8 @@ Partial Class AddChangeOperator
     Friend WithEvents Label7 As Label
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Button2 As Button
-    Friend WithEvents btn_execute As Button
     Friend WithEvents btn_check As Button
-    Friend WithEvents TextBox7 As TextBox
-    Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents Label9 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents DataGridView2 As DataGridView
+    Friend WithEvents cbLot As ComboBox
 End Class

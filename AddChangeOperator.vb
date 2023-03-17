@@ -241,7 +241,7 @@ Public Class AddChangeOperator
                         Exit Sub
                     End If
 
-                    Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table"
+                    Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table order by cast(lot_flow_ticket as int)"
                     Dim dtDOP As DataTable = Database.GetData(query)
 
                     If dtDOP.Rows.Count > 0 Then
@@ -261,11 +261,11 @@ Public Class AddChangeOperator
                         adapterOperator.Fill(dsOperator)
 
                         For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
-                            Dim cbcolumn As New DataGridViewComboBoxColumn
+                            Dim cbcolumn As New DataGridViewTextBoxColumn
                             cbcolumn.HeaderText = dsexist.Tables(0).Rows(i).Item(0).ToString
-                            For iProcess As Integer = 0 To dsOperator.Tables(0).Rows.Count - 1
-                                cbcolumn.Items.Add(dsOperator.Tables(0).Rows(iProcess).Item("name").ToString)
-                            Next
+                            'For iProcess As Integer = 0 To dsOperator.Tables(0).Rows.Count - 1
+                            '    cbcolumn.Items.Add(dsOperator.Tables(0).Rows(iProcess).Item("name").ToString)
+                            'Next
 
                             DataGridView1.Columns.Add(cbcolumn)
                         Next
@@ -273,6 +273,105 @@ Public Class AddChangeOperator
                         For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
                             For colDataSet As Integer = 1 To dtDOP.Columns.Count - 1
                                 DataGridView1.Rows(rowDataSet).Cells(colDataSet).Value = dtDOP.Rows(rowDataSet).Item(colDataSet).ToString
+                            Next
+                        Next
+                    End If
+
+                    tampilDataComboBox(TextBox1.Text)
+                    cbLot.SelectedIndex = -1
+                End If
+            End If
+        Catch ex As Exception
+            RJMessageBox.Show(ex.ToString)
+        End Try
+    End Sub
+
+    Sub tampilDataComboBox(sub_sub_po As String)
+        Call Database.koneksi_database()
+        Dim dtLot As DataTable = Database.GetData("SELECT lot_flow_ticket
+            FROM (
+              SELECT lot_flow_ticket, ROW_NUMBER() OVER (PARTITION BY lot_flow_ticket ORDER BY lot_flow_ticket) AS row_num
+              FROM prod_dop_details
+              WHERE sub_sub_po = '" & sub_sub_po & "'
+            ) AS subquery
+            WHERE subquery.row_num = 1
+            ORDER BY CAST(subquery.lot_flow_ticket AS INT) ASC")
+
+        cbLot.DataSource = dtLot
+        cbLot.DisplayMember = "lot_flow_ticket"
+        cbLot.ValueMember = "lot_flow_ticket"
+    End Sub
+
+    Sub ChangeOperator()
+        Try
+            If TabControl1.SelectedIndex = 1 Then
+                If CheckBox2.CheckState = CheckState.Unchecked Then
+                    TabControl1.SelectedIndex = 0
+                    Exit Sub
+                End If
+
+                If DataGridView3.Rows.Count > 0 Then
+                    ComboBox1.Text = ComboBox2.Text
+                    TextBox5.Text = TextBox13.Text
+                    TextBox4.Text = TextBox14.Text
+                    TextBox3.Text = TextBox15.Text
+                    TextBox2.Text = TextBox16.Text
+                    TextBox1.Text = TextBox17.Text
+
+                    Dim varProcess As String = ""
+                    DataGridView2.Rows.Clear()
+                    DataGridView2.Columns.Clear()
+
+                    Dim queryCek As String = "select process from prod_dop_details where sub_sub_po='" & TextBox1.Text & "' AND DEPARTMENT='" & globVar.department & "' group by process order by max(datetime_insert)"
+                    Dim dsexist = New DataSet
+                    Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                    adapterexist.Fill(dsexist)
+                    For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
+                        If i = 0 Then
+                            varProcess = "[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
+                        Else
+                            varProcess = varProcess + ",[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
+                        End If
+                    Next
+
+                    If varProcess = "" Then
+                        RJMessageBox.Show("If you want to change the operator, please use the 'change operator' button.")
+                        TabControl1.SelectedIndex = 0
+                        Exit Sub
+                    End If
+
+                    Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "' and lot_flow_ticket='" & cbLot.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table"
+                    Dim dtDOP As DataTable = Database.GetData(query)
+
+                    If dtDOP.Rows.Count > 0 Then
+                        DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
+                        DataGridView2.ColumnCount = 1
+                        DataGridView2.Columns(0).Name = "Lot Flow Ticket"
+                        For r = 0 To dtDOP.Rows.Count - 1
+                            Dim row As String() = New String() {
+                                dtDOP.Rows(r).Item(0).ToString
+                            }
+                            DataGridView2.Rows.Add(row)
+                        Next
+
+                        Dim queryOperator As String = "select name from users where role='PRODUCTION' AND department='" & globVar.department & "' order by name"
+                        Dim dsOperator = New DataSet
+                        Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
+                        adapterOperator.Fill(dsOperator)
+
+                        For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
+                            Dim cbcolumn As New DataGridViewComboBoxColumn
+                            cbcolumn.HeaderText = dsexist.Tables(0).Rows(i).Item(0).ToString
+                            For iProcess As Integer = 0 To dsOperator.Tables(0).Rows.Count - 1
+                                cbcolumn.Items.Add(dsOperator.Tables(0).Rows(iProcess).Item("name").ToString)
+                            Next
+
+                            DataGridView2.Columns.Add(cbcolumn)
+                        Next
+
+                        For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
+                            For colDataSet As Integer = 1 To dtDOP.Columns.Count - 1
+                                DataGridView2.Rows(rowDataSet).Cells(colDataSet).Value = dtDOP.Rows(rowDataSet).Item(colDataSet).ToString
                             Next
                         Next
                     End If
@@ -284,8 +383,8 @@ Public Class AddChangeOperator
         End Try
     End Sub
 
-    Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
-        If DataGridView1.CurrentCell.ColumnIndex > 0 Then
+    Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView2.EditingControlShowing
+        If DataGridView2.CurrentCell.ColumnIndex > 0 Then
             Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
 
             If (combo IsNot Nothing) Then
@@ -299,7 +398,7 @@ Public Class AddChangeOperator
     Private Sub Combo_SelectionChangeCommittedChangeOperator(ByVal sender As Object, ByVal e As EventArgs)
         Try
             Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-            Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and lot_flow_ticket='" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells(0).Value & "' and process='" & DataGridView1.Columns(DataGridView1.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
+            Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and lot_flow_ticket>'" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & "' and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
             Dim cmd = New SqlCommand(Sql, Database.koneksi)
             cmd.ExecuteNonQuery()
 
@@ -314,6 +413,16 @@ Public Class AddChangeOperator
                 DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
             Else
                 DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+    End Sub
+
+    Private Sub DataGridView2_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView2.CellFormatting
+        For i As Integer = 0 To DataGridView2.RowCount - 1
+            If DataGridView2.Rows(i).Index Mod 2 = 0 Then
+                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
     End Sub
@@ -339,6 +448,9 @@ Public Class AddChangeOperator
 
         DataGridView1.Columns.Clear()
         DataGridView1.Rows.Clear()
+
+        DataGridView2.Columns.Clear()
+        DataGridView2.Rows.Clear()
     End Sub
 
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
@@ -383,5 +495,9 @@ Public Class AddChangeOperator
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+    End Sub
+
+    Private Sub btn_check_Click(sender As Object, e As EventArgs) Handles btn_check.Click
+        ChangeOperator()
     End Sub
 End Class

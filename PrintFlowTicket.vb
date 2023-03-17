@@ -231,6 +231,9 @@ Public Class PrintFlowTicket
     Private Sub PrintFlowTicket_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBoxLine()
         ComboBox1.SelectedIndex = -1
+        CheckBox1.Enabled = False
+        cbLot.Enabled = False
+        cbLot.SelectedIndex = -1
     End Sub
 
     Sub tampilDataComboBoxLine()
@@ -260,16 +263,45 @@ Public Class PrintFlowTicket
                 Dim dtFam As DataTable = Database.GetData(queryFam)
                 TextBox3.Text = dtFam.Rows(0).Item("family").ToString
 
+                Dim queryRecordPrinting As String = "select * from record_printing where sub_sub_po='" & TextBox8.Text & "' and line='" & ComboBox1.Text & "'"
+                Dim dtRecordPrinting As DataTable = Database.GetData(queryRecordPrinting)
+                If dtRecordPrinting.Rows.Count > 0 Then
+                    CheckBox1.Enabled = True
+                    tampilDataComboBox(TextBox8.Text)
+                    cbLot.Enabled = True
+                    cbLot.SelectedIndex = -1
+                Else
+                    DGV_DOP()
+                End If
+
                 DGV_DOC()
-                DGV_DOP()
             Else
                 RJMessageBox.Show("This line no have any PO")
                 DGV_DOC()
                 DGV_DOP()
+                CheckBox1.Enabled = False
+                cbLot.Enabled = False
+                cbLot.SelectedIndex = -1
             End If
         Catch ex As Exception
             RJMessageBox.Show(ex.ToString)
         End Try
+    End Sub
+
+    Sub tampilDataComboBox(sub_sub_po As String)
+        Call Database.koneksi_database()
+        Dim dtLot As DataTable = Database.GetData("SELECT lot_flow_ticket
+            FROM (
+              SELECT lot_flow_ticket, ROW_NUMBER() OVER (PARTITION BY lot_flow_ticket ORDER BY lot_flow_ticket) AS row_num
+              FROM prod_dop_details
+              WHERE sub_sub_po = '" & sub_sub_po & "'
+            ) AS subquery
+            WHERE subquery.row_num = 1
+            ORDER BY CAST(subquery.lot_flow_ticket AS INT) ASC")
+
+        cbLot.DataSource = dtLot
+        cbLot.DisplayMember = "lot_flow_ticket"
+        cbLot.ValueMember = "lot_flow_ticket"
     End Sub
 
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
@@ -314,5 +346,34 @@ Public Class PrintFlowTicket
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+    End Sub
+
+    Private Sub cbLot_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLot.SelectedIndexChanged
+        DGV_DOP_Param(cbLot.Text)
+    End Sub
+
+    Sub DGV_DOP_Param(Lot As String)
+        Try
+            DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView2.DataSource = Nothing
+            DataGridView2.Rows.Clear()
+            DataGridView2.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryDOP As String = "select id_card_no [ID Card], pd.operator [Operator Name], pd.Process from prod_dop_details pd, users u where pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator=u.name and pd.lot_flow_ticket='" & Lot & "' order by pd.process_number"
+            Dim dtDOP As DataTable = Database.GetData(queryDOP)
+
+            DataGridView2.DataSource = dtDOP
+
+            For i As Integer = 0 To DataGridView2.RowCount - 1
+                If DataGridView2.Rows(i).Index Mod 2 = 0 Then
+                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
+
+        Catch ex As Exception
+            RJMessageBox.Show(ex.ToString)
+        End Try
     End Sub
 End Class

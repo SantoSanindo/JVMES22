@@ -206,84 +206,88 @@ Public Class AddChangeOperator
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
         Try
             If TabControl1.SelectedIndex = 1 Then
-                If CheckBox2.CheckState = CheckState.Unchecked Then
-                    TabControl1.SelectedIndex = 0
-                    Exit Sub
-                End If
-
-                If DataGridView3.Rows.Count > 0 Then
-                    ComboBox1.Text = ComboBox2.Text
-                    TextBox5.Text = TextBox13.Text
-                    TextBox4.Text = TextBox14.Text
-                    TextBox3.Text = TextBox15.Text
-                    TextBox2.Text = TextBox16.Text
-                    TextBox1.Text = TextBox17.Text
-
-                    Dim varProcess As String = ""
-                    DataGridView1.Rows.Clear()
-                    DataGridView1.Columns.Clear()
-
-                    Dim queryCek As String = "select process from prod_dop_details where sub_sub_po='" & TextBox1.Text & "' AND DEPARTMENT='" & globVar.department & "' group by process order by max(datetime_insert)"
-                    Dim dsexist = New DataSet
-                    Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
-                    adapterexist.Fill(dsexist)
-                    For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
-                        If i = 0 Then
-                            varProcess = "[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
-                        Else
-                            varProcess = varProcess + ",[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
-                        End If
-                    Next
-
-                    If varProcess = "" Then
-                        RJMessageBox.Show("If you want to change the operator, please use the 'change operator' button.")
-                        TabControl1.SelectedIndex = 0
-                        Exit Sub
-                    End If
-
-                    Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table order by cast(lot_flow_ticket as int)"
-                    Dim dtDOP As DataTable = Database.GetData(query)
-
-                    If dtDOP.Rows.Count > 0 Then
-                        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
-                        DataGridView1.ColumnCount = 1
-                        DataGridView1.Columns(0).Name = "Lot Flow Ticket"
-                        For r = 0 To dtDOP.Rows.Count - 1
-                            Dim row As String() = New String() {
-                                dtDOP.Rows(r).Item(0).ToString
-                            }
-                            DataGridView1.Rows.Add(row)
-                        Next
-
-                        Dim queryOperator As String = "select name from users where role='PRODUCTION' AND department='" & globVar.department & "' order by name"
-                        Dim dsOperator = New DataSet
-                        Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
-                        adapterOperator.Fill(dsOperator)
-
-                        For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
-                            Dim cbcolumn As New DataGridViewTextBoxColumn
-                            cbcolumn.HeaderText = dsexist.Tables(0).Rows(i).Item(0).ToString
-                            'For iProcess As Integer = 0 To dsOperator.Tables(0).Rows.Count - 1
-                            '    cbcolumn.Items.Add(dsOperator.Tables(0).Rows(iProcess).Item("name").ToString)
-                            'Next
-
-                            DataGridView1.Columns.Add(cbcolumn)
-                        Next
-
-                        For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
-                            For colDataSet As Integer = 1 To dtDOP.Columns.Count - 1
-                                DataGridView1.Rows(rowDataSet).Cells(colDataSet).Value = dtDOP.Rows(rowDataSet).Item(colDataSet).ToString
-                            Next
-                        Next
-                    End If
-
-                    tampilDataComboBox(TextBox1.Text)
-                    cbLot.SelectedIndex = -1
-                End If
+                DGV_Bawah
             End If
         Catch ex As Exception
             RJMessageBox.Show(ex.ToString)
         End Try
+    End Sub
+
+    Sub DGV_Bawah()
+        If CheckBox2.CheckState = CheckState.Unchecked Then
+            TabControl1.SelectedIndex = 0
+            Exit Sub
+        End If
+
+        If DataGridView3.Rows.Count > 0 Then
+            ComboBox1.Text = ComboBox2.Text
+            TextBox5.Text = TextBox13.Text
+            TextBox4.Text = TextBox14.Text
+            TextBox3.Text = TextBox15.Text
+            TextBox2.Text = TextBox16.Text
+            TextBox1.Text = TextBox17.Text
+
+            Dim varProcess As String = ""
+            DataGridView1.Rows.Clear()
+            DataGridView1.Columns.Clear()
+
+            Dim queryCek As String = "select process from prod_dop_details where sub_sub_po='" & TextBox1.Text & "' AND DEPARTMENT='" & globVar.department & "' group by process order by max(datetime_insert)"
+            Dim dsexist = New DataSet
+            Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+            adapterexist.Fill(dsexist)
+            For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
+                If i = 0 Then
+                    varProcess = "[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
+                Else
+                    varProcess = varProcess + ",[" + dsexist.Tables(0).Rows(i).Item("PROCESS").ToString + "]"
+                End If
+            Next
+
+            If varProcess = "" Then
+                RJMessageBox.Show("If you want to change the operator, please use the 'change operator' button.")
+                TabControl1.SelectedIndex = 0
+                Exit Sub
+            End If
+
+            Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table order by cast(lot_flow_ticket as int)"
+            Dim dtDOP As DataTable = Database.GetData(query)
+
+            If dtDOP.Rows.Count > 0 Then
+                DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
+                DataGridView1.ColumnCount = 1
+                DataGridView1.Columns(0).Name = "Lot Flow Ticket"
+                For r = 0 To dtDOP.Rows.Count - 1
+                    Dim row As String() = New String() {
+                        dtDOP.Rows(r).Item(0).ToString
+                    }
+                    DataGridView1.Rows.Add(row)
+                Next
+
+                Dim queryOperator As String = "select name from users where role='PRODUCTION' AND department='" & globVar.department & "' order by name"
+                Dim dsOperator = New DataSet
+                Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
+                adapterOperator.Fill(dsOperator)
+
+                For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
+                    Dim cbcolumn As New DataGridViewTextBoxColumn
+                    cbcolumn.HeaderText = dsexist.Tables(0).Rows(i).Item(0).ToString
+                    'For iProcess As Integer = 0 To dsOperator.Tables(0).Rows.Count - 1
+                    '    cbcolumn.Items.Add(dsOperator.Tables(0).Rows(iProcess).Item("name").ToString)
+                    'Next
+
+                    DataGridView1.Columns.Add(cbcolumn)
+                Next
+
+                For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
+                    For colDataSet As Integer = 1 To dtDOP.Columns.Count - 1
+                        DataGridView1.Rows(rowDataSet).Cells(colDataSet).Value = dtDOP.Rows(rowDataSet).Item(colDataSet).ToString
+                    Next
+                Next
+            End If
+
+            tampilDataComboBox(TextBox1.Text)
+            cbLot.SelectedIndex = -1
+        End If
     End Sub
 
     Sub tampilDataComboBox(sub_sub_po As String)
@@ -398,10 +402,11 @@ Public Class AddChangeOperator
     Private Sub Combo_SelectionChangeCommittedChangeOperator(ByVal sender As Object, ByVal e As EventArgs)
         Try
             Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-            Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and lot_flow_ticket>'" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & "' and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
+            Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and cast(lot_flow_ticket as int)>=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & " and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
             Dim cmd = New SqlCommand(Sql, Database.koneksi)
-            cmd.ExecuteNonQuery()
-
+            If cmd.ExecuteNonQuery() Then
+                DGV_Bawah()
+            End If
         Catch ex As Exception
             RJMessageBox.Show(ex.ToString)
         End Try

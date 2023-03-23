@@ -88,6 +88,8 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.SplitQty = New System.Windows.Forms.RibbonPanel()
+        Me.SplitQtyBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -173,6 +175,7 @@ Partial Class HOME
         '
         Me.RibbonTab3.Name = "RibbonTab3"
         Me.RibbonTab3.Panels.Add(Me.InputStock)
+        Me.RibbonTab3.Panels.Add(Me.SplitQty)
         Me.RibbonTab3.Panels.Add(Me.RibProductionRequest)
         Me.RibbonTab3.Panels.Add(Me.RibReceiveReturnMaterial)
         Me.RibbonTab3.Panels.Add(Me.RibReturnStock)
@@ -568,6 +571,19 @@ Partial Class HOME
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
         '
+        'SplitQty
+        '
+        Me.SplitQty.Items.Add(Me.SplitQtyBtn)
+        Me.SplitQty.Name = "SplitQty"
+        Me.SplitQty.Text = "Split Qty"
+        '
+        'SplitQtyBtn
+        '
+        Me.SplitQtyBtn.Image = CType(resources.GetObject("SplitQtyBtn.Image"), System.Drawing.Image)
+        Me.SplitQtyBtn.LargeImage = CType(resources.GetObject("SplitQtyBtn.LargeImage"), System.Drawing.Image)
+        Me.SplitQtyBtn.Name = "SplitQtyBtn"
+        Me.SplitQtyBtn.SmallImage = CType(resources.GetObject("SplitQtyBtn.SmallImage"), System.Drawing.Image)
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -659,5 +675,7 @@ Partial Class HOME
     Friend WithEvents RibbonButton_Login As RibbonButton
     Friend WithEvents RibProdSummary As RibbonPanel
     Friend WithEvents SummaryProductionBtn As RibbonButton
+    Friend WithEvents SplitQty As RibbonPanel
+    Friend WithEvents SplitQtyBtn As RibbonButton
     '>>>>>>> Arif
 End Class

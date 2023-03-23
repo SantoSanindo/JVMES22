@@ -13,7 +13,7 @@ Public Class ReceiveReturnMaterial
             Dim dtCheckReturnMaterial As DataTable = Database.GetData(sqlCheckReturnMaterial)
             If dtCheckReturnMaterial.Rows.Count > 0 Then
                 For i = 0 To dtCheckReturnMaterial.Rows.Count - 1
-                    Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE material = '" & dtCheckReturnMaterial.Rows(i).Item("material") & "' and lot_no=" & dtCheckReturnMaterial.Rows(i).Item("lot_no") & " and department='" & globVar.department & "' and status='Receive From Production'"
+                    Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE material = '" & dtCheckReturnMaterial.Rows(i).Item("material") & "' and lot_no='" & dtCheckReturnMaterial.Rows(i).Item("lot_no") & "' and department='" & globVar.department & "' and status='Receive From Production'"
                     Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
                     If dtCheckStockCard.Rows.Count > 0 Then
 

@@ -235,6 +235,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RJMessageBox.vb" />
+    <Compile Include="SplitMaterial.Designer.vb">
+      <DependentUpon>SplitMaterial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SplitMaterial.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StockMinistore.Designer.vb">
       <DependentUpon>StockMinistore.vb</DependentUpon>
     </Compile>
@@ -345,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReceiveReturnMaterial.resx">
       <DependentUpon>ReceiveReturnMaterial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplitMaterial.resx">
+      <DependentUpon>SplitMaterial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockMinistore.resx">
       <DependentUpon>StockMinistore.vb</DependentUpon>

@@ -113,7 +113,7 @@ Public Class FormInputStock
 
                 If ds.Rows.Count > 0 Then
 
-                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no=" & globVar.QRCode_lot & " AND MATERIAL='" & globVar.QRCode_PN & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
                     Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                     If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -141,7 +141,7 @@ Public Class FormInputStock
                             End If
 
                             Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY)
-                                    VALUES ('" & globVar.QRCode_PN & "'," & globVar.QRCode_Qty & "," & globVar.QRCode_Inv & "," & globVar.QRCode_Traceability & "," & globVar.QRCode_lot & ",'" & globVar.QRCode_Batch & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & globVar.QRCode_Qty & ")"
+                                    VALUES ('" & globVar.QRCode_PN & "'," & globVar.QRCode_Qty & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & txt_forminputstock_qrcode.Text.Trim & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & globVar.QRCode_Qty & ")"
                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                 txt_forminputstock_qrcode.Text = ""
@@ -220,22 +220,26 @@ Public Class FormInputStock
     End Sub
 
     Private Sub dgv_forminputstock_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_forminputstock.CellClick
-        If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("ID").Value
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
-                        treeView_show()
-                        RJMessageBox.Show("Success delete.")
-                    End If
-                Catch ex As Exception
-                    RJMessageBox.Show("failed" & ex.Message)
-                End Try
+        Try
+            If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
+                Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("ID").Value
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
+                            treeView_show()
+                            RJMessageBox.Show("Success delete.")
+                        End If
+                    Catch ex As Exception
+                        RJMessageBox.Show("failed" & ex.Message)
+                    End Try
+                End If
             End If
-        End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub treeView_show()
@@ -401,7 +405,7 @@ Public Class FormInputStock
 
             If ds.Rows.Count > 0 Then
 
-                Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no=" & txtmanualLot.Text & " AND MATERIAL='" & txtmanualPN.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text & "' AND MATERIAL='" & txtmanualPN.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
                 Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                 If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -425,7 +429,7 @@ Public Class FormInputStock
                         End If
 
                         Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY)
-                                    VALUES ('" & txtmanualPN.Text & "'," & txtmanualQty.Text & ",'" & txtmanualInv.Text & "','" & txtmanualTraceability.Text & "'," & txtmanualLot.Text & ",'" & txtmanualBatch.Text & "','Manual Input'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & txtmanualQty.Text & ")"
+                                    VALUES ('" & txtmanualPN.Text & "'," & txtmanualQty.Text & ",'" & txtmanualInv.Text & "','" & txtmanualTraceability.Text & "','" & txtmanualLot.Text & "','" & txtmanualBatch.Text & "','Manual Input'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & txtmanualQty.Text & ")"
                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
 
                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then

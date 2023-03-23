@@ -204,6 +204,17 @@ Public Class HOME
         End If
     End Sub
 
+    Private Sub btnSplitQty(sender As Object, e As EventArgs) Handles SplitQtyBtn.Click
+        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+            SplitMaterial.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(SplitMaterial)
+            TabControl1.TabPages(SplitMaterial).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
     ' -----------------------End Menu Mini Store---------------------------'
 
     ' -----------------------Start Menu Production-------------------------'
@@ -344,4 +355,6 @@ Public Class HOME
     Public Sub New()
         InitializeComponent()
     End Sub
+
+
 End Class

@@ -83,6 +83,10 @@ Public Class ProductionRequest
                     Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
                     Dim dtCheckStockMinistore As DataTable = Database.GetData(sqlCheckStockMinistore)
                     If dtCheckStockMinistore.Rows.Count > 0 Then
+                        'If dtCheckStockMinistore.Rows(0).Item("split_material") = 1 Then
+                        '    RJMessageBox.Show("Cannot using this QR Code. Please use QR Code Split Qty.")
+                        '    Exit Sub
+                        'End If
                         Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
                         Dim dtCheckInProdFreshMaterial As DataTable = Database.GetData(sqlCheckInProdFreshMaterial)
                         If dtCheckInProdFreshMaterial.Rows.Count > 0 Then
@@ -132,7 +136,7 @@ Public Class ProductionRequest
                             End If
                         End If
                     Else
-                        RJMessageBox.Show("This QR Code not available in Stock Ministore. Please goto input stock first")
+                        RJMessageBox.Show("This QR Code not available in Stock Ministore. Please goto input stock first or Qty = 0")
                         TextBox1.Text = ""
                     End If
                 End If

@@ -473,7 +473,7 @@ Public Class Summary
             Call Database.koneksi_database()
             Dim queryInputStockDetail As String
 
-            queryInputStockDetail = "SELECT * FROM summary_fg WHERE sub_sub_po='" & txtSummarySubSubPO.Text & "'"
+            queryInputStockDetail = "SELECT [FG], [MATERIAL], [FRESH_IN], [BALANCE_IN], [OTHERS_IN], [WIP_IN], [ONHOLD_IN], [SA_IN], [TOTAL_IN], [RETURN_OUT], [DEFECT_OUT], [OTHERS_OUT], [WIP_OUT], [ONHOLD_OUT], [BALANCE_OUT], [FG_OUT], [TOTAL_OUT] FROM summary_fg WHERE sub_sub_po='" & txtSummarySubSubPO.Text & "'"
 
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DGSummaryV2.DataSource = dtInputStockDetail

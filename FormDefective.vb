@@ -14,53 +14,6 @@ Public Class FormDefective
     Dim materialList As New List(Of String)
     Dim idBalanceMaterial As String
 
-    'Private Sub cbLineNumber_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLineNumber.SelectedIndexChanged
-    '    Try
-    '        Call Database.koneksi_database()
-    '        Dim dtSubPO As DataTable = Database.GetData("select * from SUB_SUB_PO sp,main_po mp,master_finish_goods mfg where LINE='" & cbLineNumber.Text & "' and mp.id=sp.main_po and mfg.fg_part_number=mp.fg_pn")
-
-    '        If dtSubPO.Rows.Count > 0 Then
-
-    '            txtSubSubPODefective.Text = dtSubPO.Rows(0).Item("SUB_SUB_PO")
-
-    '            cbPONumber.Text = dtSubPO.Rows(0).Item("PO")
-
-    '            cbFGPN.Text = dtSubPO.Rows(0).Item("FG_PN")
-
-    '            txtDescDefective.Text = dtSubPO.Rows(0).Item("DESCRIPTION")
-
-    '            txtSPQ.Text = dtSubPO.Rows(0).Item("SPQ")
-
-    '            If cbFGPN.Text <> "" Then
-    '                loadCBDefPartProcess(cbFGPN.Text)
-    '            End If
-
-    '            enableStatusInputInput(True)
-    '            LoaddgWIP("")
-    '            LoaddgOnHold("")
-    '            loaddgBalance("")
-    '            loaddgReject("")
-
-    '            If dtSubPO.Rows(0).Item("level") = "FG" Then
-    '                rbFG.Checked = True
-    '                rbSA.Checked = False
-    '                rbSA.Enabled = False
-    '            Else
-    '                rbSA.Checked = True
-    '                rbFG.Checked = False
-    '                rbFG.Enabled = False
-    '            End If
-
-    '            TableLayoutPanel14.Enabled = False
-    '            TableLayoutPanel7.Enabled = False
-    '        End If
-
-
-    '    Catch ex As Exception
-    '        rjMessageBox.Show("Error Load PO_NO")
-    '    End Try
-    'End Sub
-
     Private Sub txtSubSubPODefective_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSubSubPODefective.PreviewKeyDown
         If (e.KeyData = Keys.Enter) Then
             Try
@@ -161,91 +114,91 @@ Public Class FormDefective
         End If
     End Sub
 
-    Sub showToDGView(dg As DataGridView, strKey As String)
-        Dim i As Integer
+    'Sub showToDGView(dg As DataGridView, strKey As String)
+    '    Dim i As Integer
 
-        Try
-            Call Database.koneksi_database()
-            Dim dtMaterialUsage As DataTable = Database.GetData("select distinct MATERIAL_USAGE from _OLD_MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "' AND MASTER_FINISH_GOODS_PN='" & cbFGPN.Text & "'")
-            'Dim dtMaterialInfo As DataTable = Database.GetData("select distinct MATERIAL_USAGE from MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "'")
+    '    Try
+    '        Call Database.koneksi_database()
+    '        Dim dtMaterialUsage As DataTable = Database.GetData("select distinct MATERIAL_USAGE from _OLD_MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "' AND MASTER_FINISH_GOODS_PN='" & cbFGPN.Text & "'")
+    '        'Dim dtMaterialInfo As DataTable = Database.GetData("select distinct MATERIAL_USAGE from MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "'")
 
-            Dim matUsage As String = dtMaterialUsage.Rows(i)(0).ToString()
-            Dim matList() As String = matUsage.Split(";")
+    '        Dim matUsage As String = dtMaterialUsage.Rows(i)(0).ToString()
+    '        Dim matList() As String = matUsage.Split(";")
 
-            With dg
-                .Rows.Clear()
+    '        With dg
+    '            .Rows.Clear()
 
-                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+    '            .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-                .ColumnCount = 4
-                .Columns(0).Name = "No"
-                .Columns(1).Name = "Part Number"
-                .Columns(2).Name = "Name"
-                .Columns(3).Name = "Check"
+    '            .ColumnCount = 4
+    '            .Columns(0).Name = "No"
+    '            .Columns(1).Name = "Part Number"
+    '            .Columns(2).Name = "Name"
+    '            .Columns(3).Name = "Check"
 
-                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                'For i = 0 To 7
-                '    If ((i = 0) Or (i = 3) Or (i = 7)) Then
-                '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                '    Else
-                '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-                '    End If
+    '            .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '            .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '            .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '            'For i = 0 To 7
+    '            '    If ((i = 0) Or (i = 3) Or (i = 7)) Then
+    '            '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '            '    Else
+    '            '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+    '            '    End If
 
-                '    .Columns(i).SortMode = DataGridViewColumnSortMode.NotSortable
+    '            '    .Columns(i).SortMode = DataGridViewColumnSortMode.NotSortable
 
-                '    .Columns(i).ReadOnly = True
-                '    'If (i <> 1) Then
-                '    '    .Columns(i).ReadOnly = True
-                '    'Else
-                '    '    .Columns(i).ReadOnly = False
-                '    'End If
-                'Next
+    '            '    .Columns(i).ReadOnly = True
+    '            '    'If (i <> 1) Then
+    '            '    '    .Columns(i).ReadOnly = True
+    '            '    'Else
+    '            '    '    .Columns(i).ReadOnly = False
+    '            '    'End If
+    '            'Next
 
-                .Columns(0).Width = Int(.Width * 0.05)
-                .Columns(1).Width = Int(.Width * 0.15)
-                .Columns(2).Width = Int(.Width * 0.68)
-                .Columns(3).Width = Int(.Width * 0.1)
-
-
-                .EnableHeadersVisualStyles = False
-                With .ColumnHeadersDefaultCellStyle
-                    .BackColor = Color.Navy
-                    .ForeColor = Color.White
-                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
-                    .Alignment = HorizontalAlignment.Center
-                    .Alignment = ContentAlignment.MiddleCenter
-                End With
+    '            .Columns(0).Width = Int(.Width * 0.05)
+    '            .Columns(1).Width = Int(.Width * 0.15)
+    '            .Columns(2).Width = Int(.Width * 0.68)
+    '            .Columns(3).Width = Int(.Width * 0.1)
 
 
+    '            .EnableHeadersVisualStyles = False
+    '            With .ColumnHeadersDefaultCellStyle
+    '                .BackColor = Color.Navy
+    '                .ForeColor = Color.White
+    '                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+    '                .Alignment = HorizontalAlignment.Center
+    '                .Alignment = ContentAlignment.MiddleCenter
+    '            End With
 
-                ''''''''''''''''''''''''''''''''''''''''''''
-                For i = 0 To matList.Length - 1
-                    If matList(i) = "" Then
-                        Continue For
-                    End If
 
-                    Dim dtMaterialInfo As DataTable = Database.GetData("select distinct NAME from _OLD_MASTER_MATERIAL where PART_NUMBER='" & matList(i) & "'")
 
-                    If dtMaterialInfo.Rows.Count > 0 Then
-                        .Rows.Add(1)
-                        .Item(0, i).Value = (i + 1).ToString()
-                        .Item(1, i).Value = matList(i)
-                        .Item(2, i).Value = dtMaterialInfo.Rows(0)(0)
-                        .Rows(i).Cells(3) = New DataGridViewCheckBoxCell()
-                        .Rows(i).Cells(3).Value = False
-                    End If
-                Next
+    '            ''''''''''''''''''''''''''''''''''''''''''''
+    '            For i = 0 To matList.Length - 1
+    '                If matList(i) = "" Then
+    '                    Continue For
+    '                End If
 
-                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-            End With
-        Catch ex As Exception
-            'rjMessageBox.Show("Error Load DGV")
-            RJMessageBox.Show("Error Load DGV", "", MessageBoxButtons.OK,
-                                   MessageBoxIcon.Error)
-        End Try
-    End Sub
+    '                Dim dtMaterialInfo As DataTable = Database.GetData("select distinct NAME from _OLD_MASTER_MATERIAL where PART_NUMBER='" & matList(i) & "'")
+
+    '                If dtMaterialInfo.Rows.Count > 0 Then
+    '                    .Rows.Add(1)
+    '                    .Item(0, i).Value = (i + 1).ToString()
+    '                    .Item(1, i).Value = matList(i)
+    '                    .Item(2, i).Value = dtMaterialInfo.Rows(0)(0)
+    '                    .Rows(i).Cells(3) = New DataGridViewCheckBoxCell()
+    '                    .Rows(i).Cells(3).Value = False
+    '                End If
+    '            Next
+
+    '            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+    '        End With
+    '    Catch ex As Exception
+    '        'rjMessageBox.Show("Error Load DGV")
+    '        RJMessageBox.Show("Error Load DGV", "", MessageBoxButtons.OK,
+    '                               MessageBoxIcon.Error)
+    '    End Try
+    'End Sub
 
     Sub ReadonlyFormFG(_bool As Boolean)
         txtFGLabel.ReadOnly = _bool
@@ -363,7 +316,7 @@ Public Class FormDefective
                 sFlow_Ticket = txtWIPTicketNo.Text.Split(";")
                 sFlow_Ticket5 = sFlow_Ticket(5).Split(" of ")
 
-                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no=" & sFlow_Ticket5(0)
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no='" & sFlow_Ticket5(0) & "'"
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count > 0 Then
                     'RJMessageBox.Show("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -409,12 +362,12 @@ Public Class FormDefective
                                         Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
                                         Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
 
-                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                        Dim queryCheckSumUsage As String = "select * from stock_card where id = (select max(id) from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh')"
                                         Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                         sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - WIPGetQtyperPart(Part(i), 0)
 
-                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckSumUsage.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                         Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                         If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                             Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -425,7 +378,7 @@ Public Class FormDefective
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     Else
-                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                         Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -483,12 +436,12 @@ Public Class FormDefective
                             Dim queryCheckWIP As String = "select * from STOCK_PROD_WIP where part_number='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbWIPProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "'"
                             Dim dtCheckWIP As DataTable = Database.GetData(queryCheckWIP)
 
-                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryCheckAdd As String = "select * from stock_card where id = (select max(id) from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh')"
                             Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
 
                             addQty = dtCheckAdd.Rows(0).Item("sum_qty") + WIPGetQtyDB(Part(i), 0)
 
-                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckWIP.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
                             If dtUpdateAdd.ExecuteNonQuery() Then
                                 Dim sql As String = "update STOCK_PROD_WIP set QTY=" & WIPGetQtyperPart(Part(i), 0).ToString.Replace(",", ".") & ",PENGALI=" & txtWIPQuantity.Text & " where PART_NUMBER='" & Part(i) & "' AND PROCESS='" & cbWIPProcess.Text & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "'"
@@ -508,12 +461,12 @@ Public Class FormDefective
                                             Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
                                             Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
 
-                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                             sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - WIPGetQtyperPart(Part(i), 0)
 
-                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
 
                                             If dtUpdateToStockCardqty.ExecuteNonQuery() Then
@@ -525,7 +478,7 @@ Public Class FormDefective
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                         Else
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -608,15 +561,15 @@ Public Class FormDefective
                             Dim queryCheckWIP As String = "select * from STOCK_PROD_WIP where part_number='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbWIPProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "'"
                             Dim dtCheckWIP As DataTable = Database.GetData(queryCheckWIP)
 
-                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckWIP.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
 
                             addQty = dtCheckAdd.Rows(0).Item("sum_qty") + WIPGetQtyDB(Part(i), 0)
 
-                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckWIP.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
                             If dtUpdateAdd.ExecuteNonQuery() Then
-                                Dim queryDelete As String = "delete from STOCK_PROD_WIP where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbWIPProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "' and part_number='" & Part(i) & "' and lot_no=" & dtCheckWIP.Rows(0).Item("lot_no")
+                                Dim queryDelete As String = "delete from STOCK_PROD_WIP where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbWIPProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "' and part_number='" & Part(i) & "' and lot_no='" & dtCheckWIP.Rows(0).Item("lot_no") & "'"
                                 Dim dtqueryDelete = New SqlCommand(queryDelete, Database.koneksi)
                                 If dtqueryDelete.ExecuteNonQuery() Then
                                     Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
@@ -634,12 +587,12 @@ Public Class FormDefective
                                             Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
                                             Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
 
-                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryCheckSumUsage As String = "select * from stock_card where id = (select max(id) from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh')"
                                             Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                             sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty")
 
-                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckSumUsage.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
 
                                             If dtUpdateToStockCardqty.ExecuteNonQuery() Then
@@ -651,7 +604,7 @@ Public Class FormDefective
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                         Else
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -1026,7 +979,7 @@ Public Class FormDefective
                     Exit Sub
                 End If
 
-                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no=" & sFlow_Ticket5(0)
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "' and lot_no='" & sFlow_Ticket5(0) & "'"
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count > 0 Then
                     RJMessageBox.Show("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -1065,12 +1018,12 @@ Public Class FormDefective
                                         Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
                                         Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
 
-                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                         Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                         sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - WIPGetQtyperPart(Part(i), 1)
 
-                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                         Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                         If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                             Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -1081,7 +1034,7 @@ Public Class FormDefective
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     Else
-                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                         Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -1136,12 +1089,12 @@ Public Class FormDefective
                             Dim queryCheckOnhold As String = "select * from STOCK_PROD_ONHOLD where part_number='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbOnHoldProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "'"
                             Dim dtCheckOnhold As DataTable = Database.GetData(queryCheckOnhold)
 
-                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckOnhold.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
 
                             addQty = dtCheckAdd.Rows(0).Item("sum_qty") + WIPGetQtyDB(Part(i), 1)
 
-                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckOnhold.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
                             If dtUpdateAdd.ExecuteNonQuery() Then
                                 Dim sql As String = "update STOCK_PROD_ONHOLD set QTY=" & WIPGetQtyperPart(Part(i), 1).ToString.Replace(",", ".") & ",PENGALI=" & txtOnHoldQty.Text & " where PART_NUMBER='" & Part(i) & "' AND PROCESS='" & cbOnHoldProcess.Text & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "'"
@@ -1161,12 +1114,12 @@ Public Class FormDefective
                                             Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
                                             Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
 
-                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                             sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - WIPGetQtyperPart(Part(i), 1)
 
-                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                             If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                                 Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -1177,7 +1130,7 @@ Public Class FormDefective
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                         Else
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -1257,15 +1210,15 @@ Public Class FormDefective
                             Dim queryCheckOnhold As String = "select * from STOCK_PROD_ONHOLD where part_number='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbOnHoldProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "'"
                             Dim dtCheckOnhold As DataTable = Database.GetData(queryCheckOnhold)
 
-                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckOnhold.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
 
                             addQty = dtCheckAdd.Rows(0).Item("sum_qty") + WIPGetQtyDB(Part(i), 1)
 
-                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckOnhold.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                             Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
                             If dtUpdateAdd.ExecuteNonQuery() Then
-                                Dim queryDelete As String = "delete from STOCK_PROD_ONHOLD where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbOnHoldProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "' and part_number='" & Part(i) & "' and lot_no=" & dtCheckOnhold.Rows(0).Item("lot_no")
+                                Dim queryDelete As String = "delete from STOCK_PROD_ONHOLD where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and process='" & cbOnHoldProcess.Text & "' and flow_ticket_no='" & sFlow_Ticket(5) & "' and part_number='" & Part(i) & "' and lot_no='" & dtCheckOnhold.Rows(0).Item("lot_no") & "'"
                                 Dim dtqueryDelete = New SqlCommand(queryDelete, Database.koneksi)
                                 If dtqueryDelete.ExecuteNonQuery() Then
                                     Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
@@ -1282,12 +1235,12 @@ Public Class FormDefective
                                             Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlow_Ticket(5) & "'"
                                             Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
 
-                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                             sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty")
 
-                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                             Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                             If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                                 Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -1298,7 +1251,7 @@ Public Class FormDefective
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                         Else
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & Part(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & Part(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -1490,14 +1443,14 @@ Public Class FormDefective
             If (CheckBox2.CheckState = CheckState.Checked And txtBalanceBarcode.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Or (CheckBox2.CheckState = CheckState.Unchecked And TextBox1.Text <> "" And TextBox2.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Then
                 Call Database.koneksi_database()
                 Dim codeBalance As String = BalanceMaterialGenerateCode()
-                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no=" & TextBox9.Text & " ORDER BY LOT_NO")
+                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO")
                 If dtCekTable.Rows.Count > 0 Then
 
                     Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                     If result = DialogResult.Yes Then
 
-                        Dim sqlCheckStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no=" & dtCekTable.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                        Dim sqlCheckStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & dtCekTable.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                         Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
 
                         Dim sqlUpdateStockDefault As String = "update STOCK_CARD set ACTUAL_QTY=ACTUAL_QTY+" & Convert.ToDouble(dtCekTable.Rows(0).Item("qty")).ToString.Replace(",", ".") & ",SUM_QTY=SUM_QTY+" & Convert.ToDouble(dtCekTable.Rows(0).Item("qty")).ToString.Replace(",", ".") & " where ID='" & dtCheckStockCard.Rows(0).Item("ID") & "'"
@@ -1588,13 +1541,13 @@ Public Class FormDefective
     Private Sub btnBalanceEdit_Click(sender As Object, e As EventArgs) Handles btnBalanceEdit.Click
         Try
             Dim qtyUpdate As Integer = 0
-            Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no=" & TextBox9.Text & " ORDER BY LOT_NO")
+            Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO")
             If dtCekTable.Rows.Count > 0 Then
                 Dim result = RJMessageBox.Show("Are you sure for edit?.", "Editing", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                 If result = DialogResult.Yes Then
 
-                    Dim sqlCheckStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no=" & dtCekTable.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                    Dim sqlCheckStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & dtCekTable.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                     Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
 
                     If dtCheckStockCard.Rows.Count > 0 Then
@@ -1637,9 +1590,9 @@ Public Class FormDefective
 
             If result = DialogResult.Yes Then
 
-                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox9.Text & " ORDER BY LOT_NO")
+                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO")
                 If dtCekTable.Rows.Count > 0 Then
-                    Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty+" & dtCekTable.Rows(0).Item("actual_qty") & ",SUM_QTY=SUM_QTY+" & dtCekTable.Rows(0).Item("actual_qty") & " where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no=" & dtCekTable.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                    Dim sqlUpdate As String = "update STOCK_CARD set ACTUAL_QTY=actual_qty+" & dtCekTable.Rows(0).Item("actual_qty") & ",SUM_QTY=SUM_QTY+" & dtCekTable.Rows(0).Item("actual_qty") & " where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & dtCekTable.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                     Dim cmdUpdate = New SqlCommand(sqlUpdate, Database.koneksi)
                     If cmdUpdate.ExecuteNonQuery() Then
                         Dim queryDelete As String = "delete from stock_card where id=" & dtCekTable.Rows(0).Item("id")
@@ -1732,7 +1685,15 @@ Public Class FormDefective
             Try
                 If txtSubSubPODefective.Text <> "" Then
 
-                    QRCode.Baca(txtBalanceBarcode.Text)
+                    'QRCode.Baca(txtBalanceBarcode.Text)
+
+                    If Len(txtBalanceBarcode.Text) >= 64 Then
+                        QRCode.Baca(txtBalanceBarcode.Text)
+                    Else
+                        Dim SplitLabel = txtBalanceBarcode.Text.Split("-")
+                        globVar.QRCode_PN = SplitLabel(0)
+                        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                    End If
 
                     txtBalanceMaterialPN.Text = globVar.QRCode_PN
                     TextBox9.Text = globVar.QRCode_lot
@@ -1741,7 +1702,7 @@ Public Class FormDefective
                     Dim dttableProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
 
                     If dttableProductionProcess.Rows.Count = 0 Then
-                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no=" & globVar.QRCode_lot
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & globVar.QRCode_lot & "'"
                         Dim dttable As DataTable = Database.GetData(queryCheck)
                         If dttable.Rows.Count > 0 Then
                             txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
@@ -1751,7 +1712,7 @@ Public Class FormDefective
                             txtBalanceMaterialPN.Clear()
                         End If
                     Else
-                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no=" & globVar.QRCode_lot
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & globVar.QRCode_lot & "'"
                         Dim dttable As DataTable = Database.GetData(queryCheck)
                         If dttable.Rows.Count > 0 Then
                             txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
@@ -2452,7 +2413,7 @@ Public Class FormDefective
                 Dim sFlowTicket = txtFGFlowTicket.Text.Split(";")
                 Dim sFlow_Ticket5 = sFlowTicket(5).Split(" of ")
 
-                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no=" & sFlow_Ticket5(0)
+                Dim queryCheckDoneFG As String = "select * from done_fg where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no='" & sFlow_Ticket5(0) & "'"
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count > 0 Then
                     RJMessageBox.Show("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -2497,6 +2458,16 @@ Public Class FormDefective
                                 If dtCheckDefect.Rows.Count > 0 Then
                                     For d = 0 To dtCheckDefect.Rows.Count - 1
                                         sResult = funcDeleteReject(dtCheckDefect.Rows(d).Item("id"), dtCheckDefect.Rows(d).Item("part_number"), dtCheckDefect.Rows(d).Item("lot_no"), dtCheckDefect.Rows(d).Item("qty"), sFlowTicket(5))
+
+                                        If sResult > 0 Then
+                                            Dim queryUpdateOutDefect As String = "delete from out_prod_defect where id=" & dtCheckDefect.Rows(d).Item("id")
+                                            Dim dtUpdateOutDefect = New SqlCommand(queryUpdateOutDefect, Database.koneksi)
+                                            If dtUpdateOutDefect.ExecuteNonQuery() Then
+                                                Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                                                Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
+                                                dtDeleteStockCardTemporary.ExecuteNonQuery()
+                                            End If
+                                        End If
                                     Next
                                 End If
                             End If
@@ -2559,7 +2530,7 @@ Public Class FormDefective
             If dtCheckDoneFG.Rows.Count = 0 Then
                 Dim sqlInsertRejectPN As String = "INSERT INTO done_fg (po, sub_sub_po, FG ,FLOW_TICKET,DEPARTMENT,laser_code, LOT_NO, qty,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,line)
                 VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & sFlowTicket(5) & "','" & globVar.department & "',
-                '" & TextBox3.Text & "'," & sFlowTicket(5)(0) & "," & txtSPQ.Text & ",'" & txtTampungLabel.Text & "','" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "')"
+                '" & TextBox3.Text & "','" & sFlowTicket(5)(0) & "'," & txtSPQ.Text & ",'" & txtTampungLabel.Text & "','" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "')"
                 Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
                 If cmdInsertRejectPN.ExecuteNonQuery() Then
                     Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
@@ -2573,7 +2544,7 @@ Public Class FormDefective
                                 from stock_card where id=" & dtCheckProductionProcess.Rows(i).Item("id")
                             Dim dtInsertResultProduction = New SqlCommand(queryInsertResultProduction, Database.koneksi)
                             If dtInsertResultProduction.ExecuteNonQuery() Then
-                                Dim queryUpdateStockCardProdReq As String = "update stock_card set sum_qty=sum_qty-" & dtCheckProductionProcess.Rows(i).Item("actual_qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckProductionProcess.Rows(i).Item("lot_no") & " AND ID_LEVEL='" & dtCheckProductionProcess.Rows(i).Item("ID_LEVEL") & "'"
+                                Dim queryUpdateStockCardProdReq As String = "update stock_card set sum_qty=sum_qty-" & dtCheckProductionProcess.Rows(i).Item("actual_qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckProductionProcess.Rows(i).Item("lot_no") & "' AND ID_LEVEL='" & dtCheckProductionProcess.Rows(i).Item("ID_LEVEL") & "'"
                                 Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                 dtUpdateStockCardProdReq.ExecuteNonQuery()
 
@@ -2773,7 +2744,7 @@ Public Class FormDefective
             Dim sFlowTicket = txtSAFlowTicket.Text.Split(";")
             Dim sFlow_Ticket5 = sFlowTicket(5).Split(" of ")
 
-            Dim queryCheckDoneFG As String = "select * from STOCK_PROD_SUB_ASSY where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no=" & sFlow_Ticket5(0)
+            Dim queryCheckDoneFG As String = "select * from STOCK_PROD_SUB_ASSY where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and lot_no='" & sFlow_Ticket5(0) & "'"
             Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
             If dtCheckDoneFG.Rows.Count > 0 Then
                 RJMessageBox.Show("Sorry this Flow Ticket already Done. Cannot Save.")
@@ -2907,7 +2878,7 @@ Public Class FormDefective
             If dtCheckDoneFG.Rows.Count = 0 Then
                 Dim sqlInsertRejectPN As String = "INSERT INTO stock_prod_sub_assy (code_stock_prod_sub_assy, po, sub_sub_po, FG ,FLOW_TICKET,DEPARTMENT,laser_code, LOT_NO, qty,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,line)
                 VALUES ('" & codeSubassy & "','" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & sFlowTicket(5) & "','" & globVar.department & "',
-                '" & TextBox6.Text & "'," & sFlowTicket(5)(0) & "," & txtSPQ.Text & ",'" & cbPONumber.Text & "','" & dateString & "','" & txtSABatchNo.Text & "','" & cbLineNumber.Text & "')"
+                '" & TextBox6.Text & "','" & sFlowTicket(5)(0) & "'," & txtSPQ.Text & ",'" & cbPONumber.Text & "','" & dateString & "','" & txtSABatchNo.Text & "','" & cbLineNumber.Text & "')"
                 Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
                 If cmdInsertRejectPN.ExecuteNonQuery() Then
                     Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
@@ -2921,7 +2892,7 @@ Public Class FormDefective
                                 from stock_card where id=" & dtCheckProductionProcess.Rows(i).Item("id")
                             Dim dtInsertResultProduction = New SqlCommand(queryInsertResultProduction, Database.koneksi)
                             If dtInsertResultProduction.ExecuteNonQuery() Then
-                                Dim queryUpdateStockCardProdReq As String = "update stock_card set sum_qty=sum_qty-" & dtCheckProductionProcess.Rows(i).Item("actual_qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckProductionProcess.Rows(i).Item("lot_no") & " AND ID_LEVEL='" & dtCheckProductionProcess.Rows(i).Item("ID_LEVEL") & "'"
+                                Dim queryUpdateStockCardProdReq As String = "update stock_card set sum_qty=sum_qty-" & dtCheckProductionProcess.Rows(i).Item("actual_qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckProductionProcess.Rows(i).Item("lot_no") & "' AND ID_LEVEL='" & dtCheckProductionProcess.Rows(i).Item("ID_LEVEL") & "'"
                                 Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                 dtUpdateStockCardProdReq.ExecuteNonQuery()
 
@@ -3098,81 +3069,48 @@ Public Class FormDefective
         Return sReturnValue
     End Function
 
-    Function funcDeleteReject(id As Integer, pn As String, lot As Integer, qty As Integer, sFlowTicket As String)
+    Function funcDeleteReject(id As Integer, pn As String, lot As String, qty As Double, sFlowTicket As String)
         Try
             Dim sResult As Integer = 1
             Dim i As Integer = 0
             Dim addQty As Double
 
-            Dim sTampung As String = GetStockCard(pn, qty)
-            If sTampung <> "" And sTampung <> "Kosong" Then
-                RJMessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
-            ElseIf sTampung = "Kosong" Then
-                RJMessageBox.Show("Sorry some material not exist in DB. Please input in menu Production.")
-            Else
-                Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and material='" & pn & "'"
-                Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
-                dtUpdateSame.ExecuteNonQuery()
+            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & lot & "' AND [LEVEL]='Fresh'"
+            Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
+            If dtCheckAdd.Rows.Count > 0 Then
+                addQty = dtCheckAdd.Rows(0).Item("sum_qty") + qty
 
-                Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & lot & " AND [LEVEL]='Fresh'"
-                Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
-                If dtCheckAdd.Rows.Count > 0 Then
-                    addQty = dtCheckAdd.Rows(0).Item("sum_qty") + qty
-
-                    Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & lot & " AND [LEVEL]='Fresh'"
-                    Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
-                    If dtUpdateAdd.ExecuteNonQuery() Then
-
-                        Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE],  
-                            [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
-                            [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
-                            select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
-                            [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
-                            from stock_card where status='Production Process' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
-                        Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
-                        If dtInsertTemp.ExecuteNonQuery() Then
-                            Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
-                            Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
-                            If dtDeleteStockCard.ExecuteNonQuery() Then
-                                Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket & "'"
-                                Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
-
-                                Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & " AND [LEVEL]='Fresh'"
-                                Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
-
-                                Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-                                Dim dtDistintLotNoinTemp As DataTable = Database.GetData(queryDistintLotNoinTemp)
-                                If dtDistintLotNoinTemp.Rows.Count > 0 Then
-                                    For iDistint = 0 To dtDistintLotNoinTemp.Rows.Count - 1
-                                        If dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
-                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckSumUsage.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & pn & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                        Else
-                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
-                                            Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
-                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & pn & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                        End If
-                                    Next
-
-                                    Dim queryUpdateOutDefect As String = "delete from out_prod_defect where id=" & id
-                                    Dim dtUpdateOutDefect = New SqlCommand(queryUpdateOutDefect, Database.koneksi)
-                                    If dtUpdateOutDefect.ExecuteNonQuery() Then
-                                        Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-                                        Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
-                                        If dtDeleteStockCardTemporary.ExecuteNonQuery() Then
-                                            sResult *= 1
-                                        Else
-                                            sResult *= 0
-                                        End If
+                Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & lot & "' AND [LEVEL]='Fresh'"
+                Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
+                If dtUpdateAdd.ExecuteNonQuery() Then
+                    Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'" ' and lot_no='" & lot & "'"
+                    Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
+                    If dtDeleteStockCard.ExecuteNonQuery() Then
+                        Dim queryCheckStockCardRequest As String = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and sum_qty > 0 order by id"
+                        Dim dtCheckStockCardRequest As DataTable = Database.GetData(queryCheckStockCardRequest)
+                        If dtCheckStockCardRequest.Rows.Count > 0 Then
+                            For iDistint = 0 To dtCheckStockCardRequest.Rows.Count - 1
+                                If dtCheckStockCardRequest.Rows(iDistint).Item("lot_no") = lot Then
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & addQty.ToString.Replace(",", ".") & ",@material='" & pn & "',@lot_material='" & dtCheckStockCardRequest.Rows(iDistint).Item("lot_no") & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                Else
+                                    Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckStockCardRequest.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
+                                    Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                                    If dtUpdateactualQty.ExecuteNonQuery() Then
+                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & pn & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckStockCardRequest.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh' and sum_qty > 0 order by id"
+                                        Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
+                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & pn & "',@lot_material='" & dtCheckStockCardRequest.Rows(iDistint).Item("lot_no") & "'"
+                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                     End If
                                 End If
-                            End If
+                            Next
                         End If
                     End If
-                Else
-                    RJMessageBox.Show("Sorry. Material not exist ind Stock Card")
                 End If
+                sResult *= 1
+            Else
+                sResult *= 0
+                RJMessageBox.Show("Sorry. Material not exist ind Stock Card")
             End If
 
             Return sResult
@@ -3201,237 +3139,349 @@ Public Class FormDefective
                 Dim splitFlowTicket() As String = sFlowTicket.Split(";")
 
                 Dim qtyReject As Double
+                Dim qtyRejectLoop As Double
                 Dim sumQty As Double
                 Dim i As Integer = 0
                 Dim addQty As Double
+                Dim fifo As Integer
+                Dim lot As String
 
                 Dim queryGetExistingDB As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=" & input_from_fg
                 Dim dtGetExistingDB As DataTable = Database.GetData(queryGetExistingDB)
 
-
                 If dtGetExistingDB.Rows.Count > 0 Then
-                    For i = 0 To splitPN.Length - 2
+                    If dtGetExistingDB.Rows(0).Item("pengali") <> qty Then
+                        For i = 0 To splitPN.Length - 2
+                            qtyReject = 0
+                            sumQty = 0
+                            qtyRejectLoop = 0
+                            fifo = 1
+                            lot = ""
 
-                        Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh' and material='" & splitPN(i) & "'"
-                        Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
-                        dtUpdateSame.ExecuteNonQuery()
+                            'Get List Material Lot Production Request
+                            Dim queryCheckTotalMaterial As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                            Dim dtCheckTotalMaterial As DataTable = Database.GetData(queryCheckTotalMaterial)
+                            'Get List Material Lot Production Request
 
-                        Dim queryGetDefect As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and input_from_fg=" & input_from_fg
-                        Dim dtGetDefect As DataTable = Database.GetData(queryGetDefect)
+                            For TotalMaterial = 0 To dtCheckTotalMaterial.Rows.Count - 1
 
-                        qtyReject = 0
-                        sumQty = 0
-                        addQty = 0
+                                'Get Qty From Defect
+                                Dim queryGetDefect As String = "select * from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and part_number='" & splitPN(i) & "' and process_reject='" & process & "' and flow_ticket_no='" & splitFlowTicket(5) & "' and department='" & globVar.department & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "' and input_from_fg=" & input_from_fg
+                                Dim dtGetDefect As DataTable = Database.GetData(queryGetDefect)
+                                'Get Qty From Defect
 
-                        Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "'"
-                        'Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "'"
-                        Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
-                        Dim codeReject As String = ""
-                        If dtCheckCodeReject.Rows.Count > 0 Then
-                            codeReject = dtCheckCodeReject.Rows(0).Item(0)
-                        Else
-                            Dim queryCount As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT"
-                            Dim dtCount As DataTable = Database.GetData(queryCount)
-                            codeReject = "D" & dtCount.Rows.Count + 1
-                        End If
+                                'Get Qty From Stock Card
+                                Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'" ' & " AND [LEVEL]='Fresh'"
+                                Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
+                                'Get Qty From Stock Card
 
-                        Dim queryGetUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
-                        Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
+                                If dtGetDefect.Rows.Count > 0 Then
+                                    addQty = dtCheckAdd.Rows(0).Item("sum_qty") + dtGetDefect.Rows(0).Item("qty")
+                                Else
+                                    addQty = dtCheckAdd.Rows(0).Item("sum_qty")
+                                End If
 
-                        If dtGetUsage.Rows.Count > 0 Then
+                                'Update Stock Card
+                                Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'" ' & " AND [LEVEL]='Fresh'"
+                                Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
+                                'Update Stock Card
 
-                            Dim queryCheckAdd As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtGetDefect.Rows(0).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                            Dim dtCheckAdd As DataTable = Database.GetData(queryCheckAdd)
+                                If dtUpdateAdd.ExecuteNonQuery() Then
 
-                            addQty = dtCheckAdd.Rows(0).Item("sum_qty") + dtGetDefect.Rows(0).Item("qty")
+                                    'Get Code Untuk Insert di Defect
+                                    Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "'"
+                                    Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
+                                    Dim codeReject As String = ""
+                                    If dtCheckCodeReject.Rows.Count > 0 Then
+                                        codeReject = dtCheckCodeReject.Rows(0).Item(0)
+                                    Else
+                                        Dim queryCount As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT"
+                                        Dim dtCount As DataTable = Database.GetData(queryCount)
+                                        codeReject = "D" & dtCount.Rows.Count + 1
+                                    End If
+                                    'Get Code Untuk Insert di Defect
 
-                            Dim queryUpdateAdd As String = "update stock_card set actual_qty=" & addQty.ToString.Replace(",", ".") & ",sum_qty=" & addQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtGetDefect.Rows(0).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                            Dim dtUpdateAdd = New SqlCommand(queryUpdateAdd, Database.koneksi)
-                            If dtUpdateAdd.ExecuteNonQuery() Then
-                                qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+                                    'Get Usage Per Material
+                                    Dim queryGetUsage As String = "select [usage] from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
+                                    Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
+                                    'Get Usage Per Material
 
-                                Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE],  
-                                [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
-                                [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
-                                select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
-                                [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
-                                from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'" ' AND [LEVEL]='Fresh'"
-                                Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
-                                If dtInsertTemp.ExecuteNonQuery() Then
-                                    Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'" 'AND [LEVEL]='Fresh'"
-                                    Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
-                                    If dtDeleteStockCard.ExecuteNonQuery() Then
-                                        Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "'"
-                                        Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
+                                    If dtGetUsage.Rows.Count > 0 Then
 
-                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                        Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
+                                        'Hitung Reject
+                                        qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+                                        'Hitung Reject
 
-                                        sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - qtyReject
+                                        'Delete Defect
+                                        If dtGetDefect.Rows.Count > 0 Then
+                                            Dim queryDeleteDefect As String = "delete from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=1 and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
+                                            Dim dtDeleteDefect = New SqlCommand(queryDeleteDefect, Database.koneksi)
+                                            dtDeleteDefect.ExecuteNonQuery()
+                                        End If
+                                        'Delete Defect
 
-                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                        Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
-                                        If dtUpdateToStockCardqty.ExecuteNonQuery() Then
-                                            Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no),level,id_level,po,sub_po from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-                                            Dim dtDistintLotNoinTemp As DataTable = Database.GetData(queryDistintLotNoinTemp)
-                                            If dtDistintLotNoinTemp.Rows.Count > 0 Then
-                                                For iDistint = 0 To dtDistintLotNoinTemp.Rows.Count - 1
-                                                    If dtDistintLotNoinTemp.Rows(iDistint).Item("level") = "SA" Then
-                                                        If dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
-                                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "',@codeSubAssy='" & dtDistintLotNoinTemp.Rows(iDistint).Item("id_level") & "',@po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("po") & "',@sub_po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("sub_po") & "'"
-                                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                        Else
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                                            Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
+                                        'Get Qty di Table Defect
+                                        Dim queryCheckDefectQty As String = "select isnull(sum(qty),0) from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=1 and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
+                                        Dim dtCheckSumDefectQty As DataTable = Database.GetData(queryCheckDefectQty)
+                                        'Get Qty di Table Defect
 
-                                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "',@codeSubAssy='" & dtDistintLotNoinTemp.Rows(iDistint).Item("id_level") & "',@po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("po") & "',@sub_po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("sub_po") & "'"
-                                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                        'Insert ke temporary untuk production Process
+                                        Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
+                                            [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
+                                            [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
+                                            select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
+                                            [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
+                                            from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                        Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
+                                        'Insert ke temporary untuk production Process
 
-                                                            'Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                                            'Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                        End If
+                                        If dtInsertTemp.ExecuteNonQuery() Then
+
+                                            'Delete stock card
+                                            Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                            Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
+                                            'Delete stock card
+
+                                            If dtDeleteStockCard.ExecuteNonQuery() Then
+
+                                                'Get Stock Card Temporary berdasarkan input flow ticket
+                                                Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "'"
+                                                Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
+                                                'Get Stock Card Temporary berdasarkan input flow ticket
+
+                                                'Perhitungan qty reject per lot dari setiap material
+                                                If dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") <= qtyReject Then
+                                                    sumQty = 0
+                                                    qtyRejectLoop = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty")
+                                                Else
+                                                    qtyReject = qtyReject - dtCheckSumDefectQty.Rows(0).Item(0)
+                                                    qtyRejectLoop = qtyReject
+                                                    sumQty = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") - qtyReject
+                                                End If
+                                                'Perhitungan qty reject per lot dari setiap material
+
+                                                'Update perhitungan Qty Reject dari stock card production request 
+                                                Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
+                                                'Update perhitungan Qty Reject dari stock card production request 
+
+                                                If dtUpdateToStockCardqty.ExecuteNonQuery() Then
+
+                                                    'Generate Production Process
+                                                    If dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
+                                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     Else
-                                                        If dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
-                                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                        Else
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                                            Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
-                                                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                        End If
+                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                        Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
+                                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     End If
-                                                Next
+                                                    'Generate Production Process
 
-                                                Dim queryUpdateOutDefect As String = "update out_prod_defect set qty=" & qtyReject.ToString.Replace(",", ".") & ",actual_qty=" & qtyReject.ToString.Replace(",", ".") & ",pengali=" & qty.ToString.Replace(",", ".") & " where id=" & dtGetDefect.Rows(0).Item("id")
-                                                Dim dtUpdateOutDefect = New SqlCommand(queryUpdateOutDefect, Database.koneksi)
-                                                If dtUpdateOutDefect.ExecuteNonQuery() Then
-                                                    Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-                                                    Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
-                                                    If dtDeleteStockCardTemporary.ExecuteNonQuery() Then
-                                                        sResult *= 1
-                                                    Else
-                                                        sResult *= 0
+                                                    'insert ke Defect
+                                                    If dtGetDefect.Rows.Count > 0 Then
+
+                                                        'insert ke Defect
+                                                        Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_defect (CODE_OUT_PROD_DEFECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG,ACTUAL_QTY)
+                                                            VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "',
+                                                            '" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("TRACEABILITY") & "','" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("INV_CTRL_DATE") & "','" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("BATCH_NO") & "',
+                                                            " & qtyRejectLoop.ToString.Replace(",", ".") & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",'" & input_from_fg & "'," & qtyRejectLoop.ToString.Replace(",", ".") & ")"
+                                                        Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                                                        cmdInsertRejectPN.ExecuteNonQuery()
+                                                        'insert ke Defect
                                                     End If
+                                                    'insert ke Defect
                                                 End If
                                             End If
                                         End If
                                     End If
                                 End If
+                            Next
+
+                            'Update Fifo
+                            Dim queryCheckProductionProcess As String = "select * from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' order by id"
+                            Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
+                            For production_proc = 0 To dtCheckProductionProcess.Rows.Count - 1
+                                If lot <> dtCheckProductionProcess.Rows(production_proc).Item("lot_no").ToString Then
+                                    Dim queryUpdateFifo As String = "update stock_card set fifo=" & fifo & " where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckProductionProcess.Rows(production_proc).Item("lot_no") & "'"
+                                    Dim dtUpdateFifo = New SqlCommand(queryUpdateFifo, Database.koneksi)
+
+                                    If dtUpdateFifo.ExecuteNonQuery() Then
+                                        lot = dtCheckProductionProcess.Rows(production_proc).Item("lot_no")
+                                        fifo = fifo + 1
+                                    End If
+                                End If
+                            Next
+                            'Update Fifo
+
+                            'delete temporary data
+                            Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                            Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
+                            If dtDeleteStockCardTemporary.ExecuteNonQuery() Then
+                                sResult *= 1
+                            Else
+                                sResult *= 0
                             End If
-                        End If
+                            'delete temporary data
 
-                        Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & splitPN(i) & "'")
+                            'Kebutuhan traceabiity
+                            Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & splitPN(i) & "'")
 
-                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
-                        Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                        dtUpdateStockCardProdReq.ExecuteNonQuery()
-                    Next
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
+                            Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                            dtUpdateStockCardProdReq.ExecuteNonQuery()
+                            'Kebutuhan traceabiity
+                        Next
+                    End If
                 Else
                     For i = 0 To splitPN.Length - 2
                         qtyReject = 0
                         sumQty = 0
+                        qtyRejectLoop = 0
+                        fifo = 1
+                        lot = ""
 
-                        Dim queryUpdateSame As String = "update stock_card set actual_qty=sum_qty where actual_qty=0 and sum_qty>0 and status='Production Request' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and material='" & splitPN(i) & "'" ' AND [LEVEL]='Fresh'"
-                        Dim dtUpdateSame = New SqlCommand(queryUpdateSame, Database.koneksi)
-                        dtUpdateSame.ExecuteNonQuery()
+                        'Get List Material Lot Production Request
+                        Dim queryCheckTotalMaterial As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                        Dim dtCheckTotalMaterial As DataTable = Database.GetData(queryCheckTotalMaterial)
+                        'Get List Material Lot Production Request
 
-                        Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "'"
-                        'Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket_no='" & splitFlowTicket(5) & "'"
-                        Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
-                        Dim codeReject As String = ""
-                        If dtCheckCodeReject.Rows.Count > 0 Then
-                            codeReject = dtCheckCodeReject.Rows(0).Item(0)
-                        Else
-                            Dim queryCount As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT"
-                            Dim dtCount As DataTable = Database.GetData(queryCount)
-                            codeReject = "D" & dtCount.Rows.Count + 1
-                        End If
+                        For TotalMaterial = 0 To dtCheckTotalMaterial.Rows.Count - 1
 
-                        Dim queryGetUsage As String = "select * from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
-                        Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
+                            'Get Code Untuk Insert di Defect
+                            Dim queryCheckCodeReject As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "'"
+                            Dim dtCheckCodeReject As DataTable = Database.GetData(queryCheckCodeReject)
+                            Dim codeReject As String = ""
+                            If dtCheckCodeReject.Rows.Count > 0 Then
+                                codeReject = dtCheckCodeReject.Rows(0).Item(0)
+                            Else
+                                Dim queryCount As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) from OUT_PROD_DEFECT"
+                                Dim dtCount As DataTable = Database.GetData(queryCount)
+                                codeReject = "D" & dtCount.Rows.Count + 1
+                            End If
+                            'Get Code Untuk Insert di Defect
 
-                        If dtGetUsage.Rows.Count > 0 Then
-                            qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+                            'Get Usage Per Material
+                            Dim queryGetUsage As String = "select [usage] from material_usage_finish_goods where fg_part_number='" & cbFGPN.Text & "' and component='" & splitPN(i) & "'"
+                            Dim dtGetUsage As DataTable = Database.GetData(queryGetUsage)
+                            'Get Usage Per Material
 
-                            Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
-                            [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
-                            [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
-                            select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
-                            [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
-                            from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'" ' AND [LEVEL]='Fresh'"
-                            Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
-                            If dtInsertTemp.ExecuteNonQuery() Then
-                                Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'" ' AND [LEVEL]='Fresh'"
-                                Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
-                                If dtDeleteStockCard.ExecuteNonQuery() Then
-                                    Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "'"
-                                    Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
+                            If dtGetUsage.Rows.Count > 0 Then
 
-                                    Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                    Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
+                                'Hitung Reject
+                                qtyReject = qty * dtGetUsage.Rows(0).Item("USAGE")
+                                'Hitung Reject
 
-                                    sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - qtyReject
+                                'Get Qty di Table Defect
+                                Dim queryCheckDefectQty As String = "select isnull(sum(qty),0) from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=1 and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
+                                Dim dtCheckSumDefectQty As DataTable = Database.GetData(queryCheckDefectQty)
+                                'Get Qty di Table Defect
 
-                                    Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                    Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
-                                    If dtUpdateToStockCardqty.ExecuteNonQuery() Then
-                                        Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no),level,id_level,po,sub_po from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-                                        Dim dtDistintLotNoinTemp As DataTable = Database.GetData(queryDistintLotNoinTemp)
-                                        If dtDistintLotNoinTemp.Rows.Count > 0 Then
-                                            For iDistint = 0 To dtDistintLotNoinTemp.Rows.Count - 1
-                                                If dtDistintLotNoinTemp.Rows(iDistint).Item("level") = "SA" Then
-                                                    If dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
-                                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "',@codeSubAssy='" & dtDistintLotNoinTemp.Rows(iDistint).Item("id_level") & "',@po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("po") & "',@sub_po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("sub_po") & "'"
-                                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                    Else
-                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                                        Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
+                                'Insert ke temporary untuk production Process
+                                Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
+                                    [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
+                                    [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
+                                    select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
+                                    [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
+                                    from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
+                                'Insert ke temporary untuk production Process
 
-                                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "',@codeSubAssy='" & dtDistintLotNoinTemp.Rows(iDistint).Item("id_level") & "',@po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("po") & "',@sub_po='" & dtDistintLotNoinTemp.Rows(iDistint).Item("sub_po") & "'"
-                                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                If dtInsertTemp.ExecuteNonQuery() Then
 
-                                                        'Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                                        'Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                    End If
-                                                Else
-                                                    If dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
-                                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                    Else
-                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") ' & " AND [LEVEL]='Fresh'"
-                                                        Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
-                                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
-                                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                                    End If
-                                                End If
-                                            Next
+                                    'Delete stock card
+                                    Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                    Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
+                                    'Delete stock card
 
-                                            Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_defect (CODE_OUT_PROD_DEFECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG,ACTUAL_QTY)
-                                            VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") & "',
-                                            '" & dtCheckFlowTicketinTemp.Rows(0).Item("TRACEABILITY") & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckFlowTicketinTemp.Rows(0).Item("BATCH_NO") & "',
-                                            " & qtyReject.ToString.Replace(",", ".") & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",'" & input_from_fg & "'," & qtyReject.ToString.Replace(",", ".") & ")"
-                                            Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
-                                            If cmdInsertRejectPN.ExecuteNonQuery() Then
-                                                Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
-                                                Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
-                                                If dtDeleteStockCardTemporary.ExecuteNonQuery() Then
-                                                    sResult *= 1
-                                                Else
-                                                    sResult *= 0
-                                                End If
+                                    If dtDeleteStockCard.ExecuteNonQuery() Then
+
+                                        'Get Stock Card Temporary berdasarkan input flow ticket
+                                        Dim queryCheckFlowTicketinTemp As String = "select * from stock_card_temporary where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and flow_ticket='" & splitFlowTicket(5) & "'"
+                                        Dim dtCheckFlowTicketinTemp As DataTable = Database.GetData(queryCheckFlowTicketinTemp)
+                                        'Get Stock Card Temporary berdasarkan input flow ticket
+
+                                        'Perhitungan qty reject per lot dari setiap material
+                                        If dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") <= qtyReject Then
+                                            sumQty = 0
+                                            qtyRejectLoop = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty")
+                                        Else
+                                            qtyReject = qtyReject - dtCheckSumDefectQty.Rows(0).Item(0)
+                                            qtyRejectLoop = qtyReject
+                                            sumQty = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") - qtyReject
+                                        End If
+                                        'Perhitungan qty reject per lot dari setiap material
+
+                                        'Update perhitungan Qty Reject dari stock card production request 
+                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                        Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
+                                        'Update perhitungan Qty Reject dari stock card production request 
+
+                                        If dtUpdateToStockCardqty.ExecuteNonQuery() Then
+
+                                            'Generate Production Process
+                                            If dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") = dtCheckFlowTicketinTemp.Rows(0).Item("lot_no") Then
+                                                Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                            Else
+                                                Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
+                                                Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & splitPN(i) & "',@lot_material='" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "'"
+                                                Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                            End If
+                                            'Generate Production Process
+
+                                            If dtCheckSumDefectQty.Rows(0).Item(0) < qtyReject Then
+
+                                                'insert ke Defect
+                                                Dim sqlInsertRejectPN As String = "INSERT INTO out_prod_defect (CODE_OUT_PROD_DEFECT, sub_sub_po, FG_PN, PART_NUMBER, LOT_NO, TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,PROCESS_REJECT,LINE,FLOW_TICKET_NO,DEPARTMENT,PENGALI,INPUT_FROM_FG,ACTUAL_QTY)
+                                                    VALUES ('" & codeReject & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & splitPN(i) & "','" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("lot_no") & "',
+                                                    '" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("TRACEABILITY") & "','" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("INV_CTRL_DATE") & "','" & dtCheckTotalMaterial.Rows(TotalMaterial).Item("BATCH_NO") & "',
+                                                    " & qtyRejectLoop.ToString.Replace(",", ".") & ",'" & cbPONumber.Text & "','" & process & "','" & cbLineNumber.Text & "','" & splitFlowTicket(5) & "','" & dept & "'," & qty & ",'" & input_from_fg & "'," & qtyRejectLoop.ToString.Replace(",", ".") & ")"
+                                                Dim cmdInsertRejectPN = New SqlCommand(sqlInsertRejectPN, Database.koneksi)
+                                                cmdInsertRejectPN.ExecuteNonQuery()
+                                                'insert ke Defect
                                             End If
                                         End If
                                     End If
                                 End If
                             End If
-                        End If
+                        Next
 
+                        'Update Fifo
+                        Dim queryCheckProductionProcess As String = "select * from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' order by id"
+                        Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
+                        For production_proc = 0 To dtCheckProductionProcess.Rows.Count - 1
+                            If lot <> dtCheckProductionProcess.Rows(production_proc).Item("lot_no").ToString Then
+                                Dim queryUpdateFifo As String = "update stock_card set fifo=" & fifo & " where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtCheckProductionProcess.Rows(production_proc).Item("lot_no") & "'"
+                                Dim dtUpdateFifo = New SqlCommand(queryUpdateFifo, Database.koneksi)
+
+                                If dtUpdateFifo.ExecuteNonQuery() Then
+                                    lot = dtCheckProductionProcess.Rows(production_proc).Item("lot_no")
+                                    fifo = fifo + 1
+                                End If
+                            End If
+                        Next
+                        'Update Fifo
+
+                        'delete temporary data
+                        Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                        Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
+                        If dtDeleteStockCardTemporary.ExecuteNonQuery() Then
+                            sResult *= 1
+                        Else
+                            sResult *= 0
+                        End If
+                        'delete temporary data
+
+                        'Kebutuhan traceabiity
                         Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & splitPN(i) & "'")
 
                         Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
                         Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                         dtUpdateStockCardProdReq.ExecuteNonQuery()
+                        'Kebutuhan traceabiity
                     Next
                 End If
             End If
@@ -3657,7 +3707,7 @@ Public Class FormDefective
                                         End If
                                     Else
                                         Dim sqlInsertOther As String = "INSERT INTO stock_prod_others (CODE_STOCK_PROD_OTHERS, PART_NUMBER, QTY,CODE_OUT_PROD_DEFECT,DEPARTMENT,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO)
-                                        values ('" & codeOther & "','" & DataGridView2.Rows(i).Cells(4).Value & "','" & DataGridView2.Rows(i).Cells(10).Value.ToString().Replace(",", ".") & "','" & txtLabelOtherPart.Text & "','" & globVar.department & "'," & DataGridView2.Rows(i).Cells(5).Value & ",'" & DataGridView2.Rows(i).Cells(6).Value & "','" & DataGridView2.Rows(i).Cells(8).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "')"
+                                        values ('" & codeOther & "','" & DataGridView2.Rows(i).Cells(4).Value & "','" & DataGridView2.Rows(i).Cells(10).Value.ToString().Replace(",", ".") & "','" & txtLabelOtherPart.Text & "','" & globVar.department & "','" & DataGridView2.Rows(i).Cells(5).Value & "','" & DataGridView2.Rows(i).Cells(6).Value & "','" & DataGridView2.Rows(i).Cells(8).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "')"
                                         Dim cmdInsertOther = New SqlCommand(sqlInsertOther, Database.koneksi)
                                         If cmdInsertOther.ExecuteNonQuery() Then
                                             statusSimpan *= 1
@@ -3697,7 +3747,7 @@ Public Class FormDefective
                                             End If
                                         Else
                                             Dim sqlinsertother As String = "insert into out_prod_reject (code_out_prod_reject, sub_sub_po, fg_pn,part_number,lot_no,traceability,inv_ctrl_date,batch_no,qty,po,line,department,code_out_prod_defect)
-                                            values('" & rCode & "','" & DataGridView2.Rows(i).Cells(1).Value & "','" & DataGridView2.Rows(i).Cells(2).Value & "','" & DataGridView2.Rows(i).Cells(4).Value & "'," & DataGridView2.Rows(i).Cells(5).Value & ",'" & DataGridView2.Rows(i).Cells(6).Value & "','" & DataGridView2.Rows(i).Cells(8).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "'," & qtyReject.ToString().Replace(",", ".") & ",'" & DataGridView2.Rows(i).Cells(1).Value.ToString().Split("-")(0) & "','" & DataGridView2.Rows(i).Cells(3).Value & "','" & globVar.department & "','" & txtLabelOtherPart.Text & "')"
+                                            values('" & rCode & "','" & DataGridView2.Rows(i).Cells(1).Value & "','" & DataGridView2.Rows(i).Cells(2).Value & "','" & DataGridView2.Rows(i).Cells(4).Value & "','" & DataGridView2.Rows(i).Cells(5).Value & "','" & DataGridView2.Rows(i).Cells(6).Value & "','" & DataGridView2.Rows(i).Cells(8).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "'," & qtyReject.ToString().Replace(",", ".") & ",'" & DataGridView2.Rows(i).Cells(1).Value.ToString().Split("-")(0) & "','" & DataGridView2.Rows(i).Cells(3).Value & "','" & globVar.department & "','" & txtLabelOtherPart.Text & "')"
                                             Dim cmdinsertother = New SqlCommand(sqlinsertother, Database.koneksi)
                                             If cmdinsertother.ExecuteNonQuery() Then
                                                 statusSimpan *= 1
@@ -3742,7 +3792,7 @@ Public Class FormDefective
                                     End If
                                 Else
                                     Dim sqlinsertother As String = "insert into out_prod_reject (code_out_prod_reject, sub_sub_po, fg_pn,part_number,lot_no,traceability,inv_ctrl_date,batch_no,qty,po,line,department,code_out_prod_defect)
-                                        values('" & rCode & "','" & DataGridView2.Rows(i).Cells(1).Value & "','" & DataGridView2.Rows(i).Cells(2).Value & "','" & DataGridView2.Rows(i).Cells(4).Value & "'," & DataGridView2.Rows(i).Cells(5).Value & ",'" & DataGridView2.Rows(i).Cells(6).Value & "','" & DataGridView2.Rows(i).Cells(8).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "'," & DataGridView2.Rows(i).Cells(9).Value.ToString().Replace(",", ".") & ",'" & DataGridView2.Rows(i).Cells(1).Value.ToString().Split("-")(0) & "','" & DataGridView2.Rows(i).Cells(3).Value & "','" & globVar.department & "','" & txtLabelOtherPart.Text & "')"
+                                        values('" & rCode & "','" & DataGridView2.Rows(i).Cells(1).Value & "','" & DataGridView2.Rows(i).Cells(2).Value & "','" & DataGridView2.Rows(i).Cells(4).Value & "','" & DataGridView2.Rows(i).Cells(5).Value & "','" & DataGridView2.Rows(i).Cells(6).Value & "','" & DataGridView2.Rows(i).Cells(8).Value & "','" & DataGridView2.Rows(i).Cells(7).Value & "'," & DataGridView2.Rows(i).Cells(9).Value.ToString().Replace(",", ".") & ",'" & DataGridView2.Rows(i).Cells(1).Value.ToString().Split("-")(0) & "','" & DataGridView2.Rows(i).Cells(3).Value & "','" & globVar.department & "','" & txtLabelOtherPart.Text & "')"
                                     Dim cmdinsertother = New SqlCommand(sqlinsertother, Database.koneksi)
                                     If cmdinsertother.ExecuteNonQuery() Then
                                         statusSimpan *= 1
@@ -4279,7 +4329,7 @@ Public Class FormDefective
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Try
             If txtSubSubPODefective.Text <> "" Then
-                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox7.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no=" & TextBox8.Text
+                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox7.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox8.Text & "'"
                 Dim dttable As DataTable = Database.GetData(queryCheck)
                 If dttable.Rows.Count > 0 Then
                     loaddgReject(TextBox7.Text)
@@ -4290,7 +4340,6 @@ Public Class FormDefective
                     TextBox8.Clear()
                     txtRejectQty.Clear()
                 End If
-
             Else
                 RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                 TextBox7.Clear()
@@ -4338,18 +4387,18 @@ Public Class FormDefective
                     Dim sumQty As Double = 0
                     Dim rCode As String = RejectGenerateCode()
 
-                    Dim queryCheckReject As String = "select * from out_prod_reject where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                    Dim queryCheckReject As String = "select * from out_prod_reject where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                     Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
 
                     If dtCheckReject.Rows.Count > 0 Then
                         Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                         If result = DialogResult.Yes Then
-                            Dim queryUpdateStocktoDefault As String = "update stock_card set sum_qty=sum_qty+" & dtCheckReject.Rows(0).Item("qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                            Dim queryUpdateStocktoDefault As String = "update stock_card set sum_qty=sum_qty+" & dtCheckReject.Rows(0).Item("qty").ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                             Dim dtUpdateStockDefault = New SqlCommand(queryUpdateStocktoDefault, Database.koneksi)
                             dtUpdateStockDefault.ExecuteNonQuery()
 
-                            Dim queryUpdateQtyReject As String = "update out_prod_reject set qty=" & _dQtyReject.ToString.Replace(",", ".") & " where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                            Dim queryUpdateQtyReject As String = "update out_prod_reject set qty=" & _dQtyReject.ToString.Replace(",", ".") & " where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                             Dim dtUpdateQtyReject = New SqlCommand(queryUpdateQtyReject, Database.koneksi)
                             If dtUpdateQtyReject.ExecuteNonQuery() Then
                                 Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
@@ -4363,12 +4412,12 @@ Public Class FormDefective
                                     Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                     Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
                                     If dtDeleteStockCard.ExecuteNonQuery() Then
-                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                         Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                         sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - Convert.ToDouble(_dQtyReject)
 
-                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                         Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                         If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                             Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -4379,10 +4428,10 @@ Public Class FormDefective
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     Else
-                                                        Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                        Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                         Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
                                                         If dtUpdateactualQty.ExecuteNonQuery() Then
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -4409,26 +4458,26 @@ Public Class FormDefective
                         Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
                         If result = DialogResult.Yes Then
-                            Dim sql As String = "INSERT INTO out_prod_reject(CODE_OUT_PROD_REJECT,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,DEPARTMENT,LINE) select '" & rCode & "',SUB_SUB_PO,FINISH_GOODS_PN,MATERIAL,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO," & txtRejectQty.Text & ",PO,DEPARTMENT,LINE from stock_card where status='Production Request' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and material='" & _sPNReject & "' and lot_no=" & TextBox4.Text
+                            Dim sql As String = "INSERT INTO out_prod_reject(CODE_OUT_PROD_REJECT,SUB_SUB_PO,FG_PN,PART_NUMBER,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,QTY,PO,DEPARTMENT,LINE) select '" & rCode & "',SUB_SUB_PO,FINISH_GOODS_PN,MATERIAL,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO," & txtRejectQty.Text & ",PO,DEPARTMENT,LINE from stock_card where status='Production Request' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and material='" & _sPNReject & "' and lot_no='" & TextBox4.Text & "'"
                             Dim cmd = New SqlCommand(sql, Database.koneksi)
                             If cmd.ExecuteNonQuery() Then
                                 Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
-                            [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
-                            [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
-                            select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
-                            [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
-                            from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
+                                    [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
+                                    [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
+                                    select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
+                                    [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
+                                    from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                 Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
                                 If dtInsertTemp.ExecuteNonQuery() Then
                                     Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                     Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
                                     If dtDeleteStockCard.ExecuteNonQuery() Then
-                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                         Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                         sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") - Convert.ToDouble(_dQtyReject)
 
-                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                         Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                         If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                             Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -4439,10 +4488,10 @@ Public Class FormDefective
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     Else
-                                                        Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                        Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                         Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
                                                         If dtUpdateactualQty.ExecuteNonQuery() Then
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -4481,6 +4530,7 @@ Public Class FormDefective
                         txtRejectQty.Clear()
                         TextBox7.Clear()
                         TextBox8.Clear()
+                        TextBox4.Clear()
                     Else
                         RJMessageBox.Show("Fail Save data!!!")
                         loaddgReject("")
@@ -4489,6 +4539,7 @@ Public Class FormDefective
                         txtRejectQty.Clear()
                         TextBox7.Clear()
                         TextBox8.Clear()
+                        TextBox4.Clear()
                     End If
 
                 End If
@@ -4550,30 +4601,30 @@ Public Class FormDefective
                         Dim sumQty As Double = 0
                         Dim rCode As String = RejectGenerateCode()
 
-                        Dim queryCheckReject As String = "select * from out_prod_reject where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                        Dim queryCheckReject As String = "select * from out_prod_reject where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                         Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
 
                         If dtCheckReject.Rows.Count > 0 Then
-                            Dim queryUpdateQtyReject As String = "update out_prod_reject set qty=qty-" & _dQtyReject.ToString.Replace(",", ".") & " where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                            Dim queryUpdateQtyReject As String = "update out_prod_reject set qty=qty-" & _dQtyReject.ToString.Replace(",", ".") & " where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                             Dim dtUpdateQtyReject = New SqlCommand(queryUpdateQtyReject, Database.koneksi)
                             If dtUpdateQtyReject.ExecuteNonQuery() Then
                                 Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
-                            [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
-                            [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
-                            select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
-                            [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
-                            from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
+                                    [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
+                                    [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
+                                    select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
+                                    [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
+                                    from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                 Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
                                 If dtInsertTemp.ExecuteNonQuery() Then
                                     Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                     Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
                                     If dtDeleteStockCard.ExecuteNonQuery() Then
-                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                        Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                         Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                         sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") + Convert.ToDouble(_dQtyReject)
 
-                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                        Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                         Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                         If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                             Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -4584,10 +4635,10 @@ Public Class FormDefective
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                     Else
-                                                        Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                        Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                         Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
                                                         If dtUpdateactualQty.ExecuteNonQuery() Then
-                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -4668,7 +4719,7 @@ Public Class FormDefective
                     Dim statusSimpan As Integer = 1
                     Dim sumQty As Double = 0
 
-                    Dim queryCheckReject As String = "select * from out_prod_reject where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                    Dim queryCheckReject As String = "select * from out_prod_reject where part_number='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                     Dim dtCheckReject As DataTable = Database.GetData(queryCheckReject)
 
                     If dtCheckReject.Rows.Count > 0 Then
@@ -4676,22 +4727,22 @@ Public Class FormDefective
                         Dim dtUpdateQtyReject = New SqlCommand(queryUpdateQtyReject, Database.koneksi)
                         If dtUpdateQtyReject.ExecuteNonQuery() Then
                             Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
-                            [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
-                            [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
-                            select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
-                            [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
-                            from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
+                                [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], 
+                                [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET]) 
+                                select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
+                                [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
+                                from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                             Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
                             If dtInsertTemp.ExecuteNonQuery() Then
                                 Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                 Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
                                 If dtDeleteStockCard.ExecuteNonQuery() Then
-                                    Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                    Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                     Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                                     sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") + dtCheckReject.Rows(0).Item("qty")
 
-                                    Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text & " AND [LEVEL]='Fresh'"
+                                    Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "' AND [LEVEL]='Fresh'"
                                     Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                                     If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                         Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -4702,10 +4753,10 @@ Public Class FormDefective
                                                     Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                     Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                                 Else
-                                                    Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                    Dim queryUpdateactualQty As String = "update stock_card set actual_qty=sum_qty where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                     Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
                                                     If dtUpdateactualQty.ExecuteNonQuery() Then
-                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & " AND [LEVEL]='Fresh'"
+                                                        Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "' AND [LEVEL]='Fresh'"
                                                         Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                                         Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & _sPNReject & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                                         Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -4733,6 +4784,7 @@ Public Class FormDefective
                         TextBox7.Clear()
                         TextBox8.Clear()
                         txtRejectQty.Clear()
+                        TextBox4.Clear()
                         Exit Sub
                     End If
 
@@ -4748,6 +4800,7 @@ Public Class FormDefective
                         txtRejectQty.Clear()
                         TextBox7.Clear()
                         TextBox8.Clear()
+                        TextBox4.Clear()
                     Else
                         RJMessageBox.Show("Fail Delete data!!!")
                         loaddgReject("")
@@ -4756,6 +4809,7 @@ Public Class FormDefective
                         txtRejectQty.Clear()
                         TextBox7.Clear()
                         TextBox8.Clear()
+                        TextBox4.Clear()
                     End If
 
                 End If
@@ -4773,11 +4827,19 @@ Public Class FormDefective
             Try
                 If txtSubSubPODefective.Text <> "" Then
 
-                    QRCode.Baca(txtRejectBarcode.Text)
+                    'QRCode.Baca(txtRejectBarcode.Text)
 
-                    txtRejectMaterialPN.Text = globVar.QRCode_PN
+                    If Len(txtRejectBarcode.Text) >= 64 Then
+                        QRCode.Baca(txtRejectBarcode.Text)
+                        txtRejectMaterialPN.Text = globVar.QRCode_PN
+                    Else
+                        Dim SplitLabel = txtRejectBarcode.Text.Split("-")
+                        globVar.QRCode_PN = SplitLabel(0)
+                        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                        txtRejectMaterialPN.Text = globVar.QRCode_PN
+                    End If
 
-                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no=" & globVar.QRCode_lot
+                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & globVar.QRCode_lot & "'"
                     Dim dttable As DataTable = Database.GetData(queryCheck)
                     If dttable.Rows.Count > 0 Then
                         loaddgReject(TextBox7.Text)
@@ -4816,7 +4878,7 @@ Public Class FormDefective
             Dim sumQty As Double = 0
 
             If Convert.ToDouble(TextBox5.Text) > Convert.ToDouble(dgReject.Rows(e.RowIndex).Cells(6).Value) Then
-                Dim queryUpdateQtyReject As String = "update out_prod_reject set qty=" & Convert.ToDouble(dgReject.Rows(e.RowIndex).Cells(6).Value) & " where part_number='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                Dim queryUpdateQtyReject As String = "update out_prod_reject set qty=" & Convert.ToDouble(dgReject.Rows(e.RowIndex).Cells(6).Value) & " where part_number='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg_pn='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                 Dim dtUpdateQtyReject = New SqlCommand(queryUpdateQtyReject, Database.koneksi)
                 If dtUpdateQtyReject.ExecuteNonQuery() Then
                     Dim queryInsertToTemp As String = "insert into stock_card_temporary([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], 
@@ -4830,12 +4892,12 @@ Public Class FormDefective
                         Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
                         Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
                         If dtDeleteStockCard.ExecuteNonQuery() Then
-                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                            Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                             Dim dtCheckSumUsage As DataTable = Database.GetData(queryCheckSumUsage)
 
                             sumQty = dtCheckSumUsage.Rows(0).Item("sum_qty") + (Convert.ToDouble(TextBox5.Text) - Convert.ToDouble(dgReject.Rows(e.RowIndex).Cells(6).Value))
 
-                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & TextBox4.Text
+                            Dim queryUpdateToStockCardqty As String = "update stock_card set actual_qty=" & sumQty.ToString.Replace(",", ".") & ",sum_qty=" & sumQty.ToString.Replace(",", ".") & " where status='Production Request' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & TextBox4.Text & "'"
                             Dim dtUpdateToStockCardqty = New SqlCommand(queryUpdateToStockCardqty, Database.koneksi)
                             If dtUpdateToStockCardqty.ExecuteNonQuery() Then
                                 Dim queryDistintLotNoinTemp As String = "select DISTINCT(lot_no) from stock_card_temporary where status='Production Process' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
@@ -4846,7 +4908,7 @@ Public Class FormDefective
                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & sumQty.ToString.Replace(",", ".") & ",@material='" & txtRejectMaterialPN.Text & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
                                         Else
-                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no=" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no")
+                                            Dim sqlQtyLot = "select * from stock_card where status='Production Request' and material='" & txtRejectMaterialPN.Text & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                             Dim dtQtyLot As DataTable = Database.GetData(sqlQtyLot)
                                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & txtSubSubPODefective.Text & "', @fg='" & cbFGPN.Text & "',@line='" & cbLineNumber.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtQtyLot.Rows(0).Item("sum_qty").ToString.Replace(",", ".") & ",@material='" & txtRejectMaterialPN.Text & "',@lot_material='" & dtDistintLotNoinTemp.Rows(iDistint).Item("lot_no") & "'"
                                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)

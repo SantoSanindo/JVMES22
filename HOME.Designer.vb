@@ -34,6 +34,8 @@ Partial Class HOME
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
         Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
+        Me.SplitQty = New System.Windows.Forms.RibbonPanel()
+        Me.SplitQtyBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
         Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
@@ -88,8 +90,6 @@ Partial Class HOME
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.SplitQty = New System.Windows.Forms.RibbonPanel()
-        Me.SplitQtyBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -195,6 +195,19 @@ Partial Class HOME
         Me.InputStockBtn.MinimumSize = New System.Drawing.Size(70, 0)
         Me.InputStockBtn.Name = "InputStockBtn"
         Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
+        '
+        'SplitQty
+        '
+        Me.SplitQty.Items.Add(Me.SplitQtyBtn)
+        Me.SplitQty.Name = "SplitQty"
+        Me.SplitQty.Text = "Split Qty"
+        '
+        'SplitQtyBtn
+        '
+        Me.SplitQtyBtn.Image = CType(resources.GetObject("SplitQtyBtn.Image"), System.Drawing.Image)
+        Me.SplitQtyBtn.LargeImage = CType(resources.GetObject("SplitQtyBtn.LargeImage"), System.Drawing.Image)
+        Me.SplitQtyBtn.Name = "SplitQtyBtn"
+        Me.SplitQtyBtn.SmallImage = CType(resources.GetObject("SplitQtyBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProductionRequest
         '
@@ -570,19 +583,6 @@ Partial Class HOME
         Me.LoginUser.Name = "LoginUser"
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
-        '
-        'SplitQty
-        '
-        Me.SplitQty.Items.Add(Me.SplitQtyBtn)
-        Me.SplitQty.Name = "SplitQty"
-        Me.SplitQty.Text = "Split Qty"
-        '
-        'SplitQtyBtn
-        '
-        Me.SplitQtyBtn.Image = CType(resources.GetObject("SplitQtyBtn.Image"), System.Drawing.Image)
-        Me.SplitQtyBtn.LargeImage = CType(resources.GetObject("SplitQtyBtn.LargeImage"), System.Drawing.Image)
-        Me.SplitQtyBtn.Name = "SplitQtyBtn"
-        Me.SplitQtyBtn.SmallImage = CType(resources.GetObject("SplitQtyBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '

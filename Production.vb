@@ -37,25 +37,6 @@ Public Class Production
                         Exit Sub
                     End If
 
-                    Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                    Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                    Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and [level]='Fresh'")
-
-                    If dtCheckSummaryFG.Rows.Count > 0 Then
-                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                        Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                        dtUpdateStockCardProdReq.ExecuteNonQuery()
-                    Else
-                        Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & globVar.QRCode_PN & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                        cmdInsertSummaryFG.ExecuteNonQuery()
-                    End If
-
-                    Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                    Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                    dtUpdateTotal.ExecuteNonQuery()
-
                     Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & globVar.QRCode_PN & "' and in_material.lot_no='" & globVar.QRCode_lot & "' and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
                     Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
                     If dtCheckInStock.Rows.Count > 0 Then
@@ -77,6 +58,26 @@ Public Class Production
                                     DataGridView1.Rows(i).Cells(3).Selected = True
                                 End If
                             Next
+
+                            Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                            Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                            Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and [level]='Fresh'")
+
+                            If dtCheckSummaryFG.Rows.Count > 0 Then
+                                Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                dtUpdateStockCardProdReq.ExecuteNonQuery()
+                            Else
+                                Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & globVar.QRCode_PN & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                cmdInsertSummaryFG.ExecuteNonQuery()
+                            End If
+
+                            Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                            Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                            dtUpdateTotal.ExecuteNonQuery()
+
                         End If
 
                     Else

@@ -457,12 +457,28 @@ Public Class Summary
     Private Sub txtSummarySubSubPO_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSummarySubSubPO.PreviewKeyDown
         If (e.KeyData = Keys.Enter) Then
             If txtSummarySubSubPO.Text <> "" Then
+                UpdateTotalQty()
                 loadDGVNew()
-                'SummaryFG(txtSummarySubSubPO.Text)
             Else
                 RJMessageBox.Show("Sorry please fill the sub sub po")
             End If
         End If
+    End Sub
+
+    Sub UpdateTotalQty()
+
+        Dim queryInputStockDetail As String = "SELECT * FROM summary_fg WHERE sub_sub_po='" & txtSummarySubSubPO.Text & "'"
+        Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+        For i = 0 To dtInputStockDetail.Rows.Count - 1
+
+            Dim totalQty = dtInputStockDetail.Rows(i).Item("return_out") + dtInputStockDetail.Rows(i).Item("defect_out") + dtInputStockDetail.Rows(i).Item("others_out") + dtInputStockDetail.Rows(i).Item("wip_out") + dtInputStockDetail.Rows(i).Item("onhold_out") + dtInputStockDetail.Rows(i).Item("balance_out") + dtInputStockDetail.Rows(i).Item("fg_out")
+
+            Dim queryUpdateSummary As String = "update summary_fg set total_out=" & totalQty.ToString.Replace(",", ".") & " where sub_sub_po='" & txtSummarySubSubPO.Text & "' and material='" & dtInputStockDetail.Rows(i).Item("material") & "'"
+            Dim dtUpdateSummary = New SqlCommand(queryUpdateSummary, Database.koneksi)
+            dtUpdateSummary.ExecuteNonQuery()
+
+        Next
+
     End Sub
 
     Sub loadDGVNew()
@@ -473,7 +489,7 @@ Public Class Summary
             Call Database.koneksi_database()
             Dim queryInputStockDetail As String
 
-            queryInputStockDetail = "SELECT [FG], [MATERIAL], [FRESH_IN], [BALANCE_IN], [OTHERS_IN], [WIP_IN], [ONHOLD_IN], [SA_IN], [TOTAL_IN], [RETURN_OUT], [DEFECT_OUT], [OTHERS_OUT], [WIP_OUT], [ONHOLD_OUT], [BALANCE_OUT], [FG_OUT], [TOTAL_OUT] FROM summary_fg WHERE sub_sub_po='" & txtSummarySubSubPO.Text & "'"
+            queryInputStockDetail = "SELECT [FG], [MATERIAL], [FRESH_IN] [FRESH], [BALANCE_IN] [BALANCE], [OTHERS_IN] [OTHERS], [WIP_IN] [WIP], [ONHOLD_IN] [ONHOLD], [SA_IN] [SA], [TOTAL_IN], [RETURN_OUT] [RETURN], [DEFECT_OUT] [DEFECT], [OTHERS_OUT] [OTHERS], [WIP_OUT] [WIP], [ONHOLD_OUT] [ONHOLD], [BALANCE_OUT] [BALANCE], [FG_OUT] [FG], [TOTAL_OUT] FROM summary_fg WHERE sub_sub_po='" & txtSummarySubSubPO.Text & "'"
 
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DGSummaryV2.DataSource = dtInputStockDetail

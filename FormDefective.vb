@@ -400,7 +400,7 @@ Public Class FormDefective
 
                             Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & Part(i) & "'")
 
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_out=" & dtOutWIP.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutWIP.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_out=" & dtOutWIP.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
                             Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
                         Next
@@ -486,6 +486,12 @@ Public Class FormDefective
                             Else
                                 statusSimpan *= 0
                             End If
+
+                            Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & Part(i) & "'")
+
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_out=" & dtOutWIP.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
+                            Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                            dtUpdateStockCardProdReq.ExecuteNonQuery()
                         Next
 
                         If statusSimpan > 0 Then
@@ -582,9 +588,7 @@ Public Class FormDefective
                                 End If
                             End If
 
-                            Dim dtOutWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & Part(i) & "'")
-
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_out=" & dtOutWIP.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutWIP.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_out=0 where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
                             Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
                         Next
@@ -1088,7 +1092,7 @@ Public Class FormDefective
 
                             Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & Part(i) & "'")
 
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_out=" & dtOutOnHold.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutOnHold.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+return_out+wip_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_out=" & dtOutOnHold.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
                             Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
                         Next
@@ -1269,6 +1273,12 @@ Public Class FormDefective
                             Else
                                 statusSimpan *= 0
                             End If
+
+                            Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & Part(i) & "'")
+
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_out=" & dtOutOnHold.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
+                            Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                            dtUpdateStockCardProdReq.ExecuteNonQuery()
                         Next
 
                         If statusSimpan > 0 Then
@@ -1386,9 +1396,7 @@ Public Class FormDefective
 
                             Next
 
-                            Dim dtOutOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_onhold where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & Part(i) & "'")
-
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_out=" & dtOutOnHold.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutOnHold.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+return_out+wip_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_out=0 where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & Part(i) & "'"
                             Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
                         Next
@@ -1588,7 +1596,7 @@ Public Class FormDefective
                                 If cmdUpdate.ExecuteNonQuery() Then
                                     Dim dtOutBalance As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Return To Mini Store'")
 
-                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set balance_out=" & dtOutBalance.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutBalance.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+WIP_out+ONHOLD_out+return_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "'"
+                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set balance_out=" & dtOutBalance.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "'"
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
@@ -1626,7 +1634,7 @@ Public Class FormDefective
                                 If cmdInsert.ExecuteNonQuery() Then
                                     Dim dtOutBalance As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "' and status='Return To Mini Store'")
 
-                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set balance_out=" & dtOutBalance.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutBalance.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+WIP_out+ONHOLD_out+return_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "'"
+                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set balance_out=" & dtOutBalance.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "'"
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
@@ -1729,7 +1737,7 @@ Public Class FormDefective
                             txtBalanceQty.Clear()
                             TextBox9.Clear()
 
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set balance_out=0,total_out=(SELECT isnull(SUM(defect_out+others_out+WIP_out+ONHOLD_out+return_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "'"
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set balance_out=0 where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtBalanceMaterialPN.Text & "'"
                             Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
 
@@ -2623,27 +2631,6 @@ Public Class FormDefective
         Dim result = RJMessageBox.Show("Are you sure for save Finish Goods. Cannot Change after Save?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
         If result = DialogResult.Yes Then
-            'Dim queryMaterialUsage As String = "select * from MATERIAL_USAGE_FINISH_GOODS where fg_part_number='" & cbFGPN.Text & "'"
-            'Dim dtCheckMaterialUsage As DataTable = Database.GetData(queryMaterialUsage)
-            'If dtCheckMaterialUsage.Rows.Count > 0 Then
-            '    For mu = 0 To dtCheckMaterialUsage.Rows.Count - 1
-            '        Dim queryStockCard As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and status='Production Process' and material='" & dtCheckMaterialUsage.Rows(mu).Item("component") & "'"
-            '        Dim dtCheckStockCard As DataTable = Database.GetData(queryStockCard)
-            '        If dtCheckStockCard.Rows.Count > 0 Then
-            '            If dtCheckMaterialUsage.Rows(mu).Item("usage") * dtCheckStockCard.Rows(0).Item("actual_qty") < sFlowTicket(2) Then
-            '                materialKurang = "kurang"
-            '            End If
-            '        End If
-            '    Next
-            'Else
-            '    RJMessageBox.Show("Sorry. FG not exist in DB. Please input first.")
-            '    Exit Sub
-            'End If
-
-            'If materialKurang = "kurang" Then
-            '    RJMessageBox.Show("Sorry, one or more materials are not sufficient to become a " & sFlowTicket(2) & " pcs of Sub Assy. Please add them to the production menu.")
-            '    Exit Sub
-            'End If
 
             Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "'"
             Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
@@ -2682,7 +2669,8 @@ Public Class FormDefective
                             End If
 
                             Dim dtOutFG As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "' and status='Production Result'")
-                            Dim queryUpdatSummaryFG As String = "update summary_fg set fg_out=" & dtOutFG.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutFG.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+others_out+return_out+ONHOLD_out+balance_out+defect_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "'"
+
+                            Dim queryUpdatSummaryFG As String = "update summary_fg set fg_out=" & dtOutFG.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & dtCheckProductionProcess.Rows(i).Item("material") & "'"
                             Dim dtUpdateSummaryFG = New SqlCommand(queryUpdatSummaryFG, Database.koneksi)
                             dtUpdateSummaryFG.ExecuteNonQuery()
 
@@ -3233,6 +3221,10 @@ Public Class FormDefective
                 RJMessageBox.Show("Sorry. Material not exist ind Stock Card")
             End If
 
+            Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=0 where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & pn & "'"
+            Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+            dtUpdateStockCardProdReq.ExecuteNonQuery()
+
             Return sResult
         Catch ex As Exception
             RJMessageBox.Show(ex.Message)
@@ -3258,6 +3250,7 @@ Public Class FormDefective
                 Dim splitPN() As String = pn.Split(";")
                 Dim splitFlowTicket() As String = sFlowTicket.Split(";")
 
+                Dim qtyUpdate As Double
                 Dim qtyReject As Double
                 Dim qtyRejectLoop As Double
                 Dim sumQty As Double
@@ -3272,6 +3265,7 @@ Public Class FormDefective
                 If dtGetExistingDB.Rows.Count > 0 Then
                     If dtGetExistingDB.Rows(0).Item("pengali") <> qty Then
                         For i = 0 To splitPN.Length - 2
+                            qtyUpdate = 0
                             qtyReject = 0
                             sumQty = 0
                             qtyRejectLoop = 0
@@ -3374,9 +3368,9 @@ Public Class FormDefective
                                                     sumQty = 0
                                                     qtyRejectLoop = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty")
                                                 Else
-                                                    qtyReject = qtyReject - dtCheckSumDefectQty.Rows(0).Item(0)
-                                                    qtyRejectLoop = qtyReject
-                                                    sumQty = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") - qtyReject
+                                                    qtyUpdate = qtyReject - dtCheckSumDefectQty.Rows(0).Item(0)
+                                                    qtyRejectLoop = qtyUpdate
+                                                    sumQty = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") - qtyUpdate
                                                 End If
                                                 'Perhitungan qty reject per lot dari setiap material
 
@@ -3448,7 +3442,7 @@ Public Class FormDefective
                             'Kebutuhan traceabiity
                             Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & splitPN(i) & "'")
 
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
+                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
                             Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                             dtUpdateStockCardProdReq.ExecuteNonQuery()
                             'Kebutuhan traceabiity
@@ -3456,6 +3450,7 @@ Public Class FormDefective
                     End If
                 Else
                     For i = 0 To splitPN.Length - 2
+                        qtyUpdate = 0
                         qtyReject = 0
                         sumQty = 0
                         qtyRejectLoop = 0
@@ -3527,9 +3522,9 @@ Public Class FormDefective
                                             sumQty = 0
                                             qtyRejectLoop = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty")
                                         Else
-                                            qtyReject = qtyReject - dtCheckSumDefectQty.Rows(0).Item(0)
-                                            qtyRejectLoop = qtyReject
-                                            sumQty = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") - qtyReject
+                                            qtyUpdate = qtyReject - dtCheckSumDefectQty.Rows(0).Item(0)
+                                            qtyRejectLoop = qtyUpdate
+                                            sumQty = dtCheckTotalMaterial.Rows(TotalMaterial).Item("sum_qty") - qtyUpdate
                                         End If
                                         'Perhitungan qty reject per lot dari setiap material
 
@@ -3598,7 +3593,7 @@ Public Class FormDefective
                         'Kebutuhan traceabiity
                         Dim dtOutDefect As DataTable = Database.GetData("select isnull(sum(actual_qty),0) from out_prod_defect where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & splitPN(i) & "'")
 
-                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+others_out+return_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
+                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set defect_out=" & dtOutDefect.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & splitPN(i) & "'"
                         Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                         dtUpdateStockCardProdReq.ExecuteNonQuery()
                         'Kebutuhan traceabiity
@@ -3608,7 +3603,7 @@ Public Class FormDefective
 
             Return sResult
         Catch ex As Exception
-            RJMessageBox.Show("asd" & ex.Message)
+            RJMessageBox.Show(ex.Message)
         End Try
 
     End Function
@@ -3946,7 +3941,7 @@ Public Class FormDefective
 
                             Dim dtOutOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_prod_others where code_out_prod_defect in (select DISTINCT(code_out_prod_defect) from out_prod_defect where sub_sub_po='" & DataGridView2.Rows(i).Cells(1).Value & "') and part_number='" & DataGridView2.Rows(i).Cells(4).Value & "'")
 
-                            Dim queryUpdatSummaryFG As String = "update summary_fg set others_out=" & dtOutOthers.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutOthers.Rows(0)(0).ToString.Replace(",", ".") & "+wip_out+fg_out+return_out+ONHOLD_out+balance_out+defect_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & DataGridView2.Rows(i).Cells(1).Value & "' and material='" & DataGridView2.Rows(i).Cells(4).Value & "') where sub_sub_po='" & DataGridView2.Rows(i).Cells(1).Value & "' and material='" & DataGridView2.Rows(i).Cells(4).Value & "'"
+                            Dim queryUpdatSummaryFG As String = "update summary_fg set others_out=" & dtOutOthers.Rows(0)(0).ToString.Replace(",", ".") & " FROM SUMMARY_FG WHERE sub_sub_po = '" & DataGridView2.Rows(i).Cells(1).Value & "' and material='" & DataGridView2.Rows(i).Cells(4).Value & "') where sub_sub_po='" & DataGridView2.Rows(i).Cells(1).Value & "' and material='" & DataGridView2.Rows(i).Cells(4).Value & "'"
                             Dim dtUpdateSummaryFG = New SqlCommand(queryUpdatSummaryFG, Database.koneksi)
                             dtUpdateSummaryFG.ExecuteNonQuery()
                         Else
@@ -4654,7 +4649,7 @@ Public Class FormDefective
 
                     Dim dtOutReturn As DataTable = Database.GetData("select isnull(sum(qty),0) from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & _sPNReject & "'")
 
-                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set return_out=" & dtOutReturn.Rows(0)(0).ToString.Replace(",", ".") & ",total_out=(select isnull(sum(" & dtOutReturn.Rows(0)(0).ToString.Replace(",", ".") & "+defect_out+others_out+WIP_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "'"
+                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set return_out=" & dtOutReturn.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "'"
                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 
@@ -4924,7 +4919,7 @@ Public Class FormDefective
                         Exit Sub
                     End If
 
-                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set return_out=0,total_out=(SELECT isnull(SUM(defect_out+others_out+WIP_out+ONHOLD_out+balance_out+fg_out),0) FROM SUMMARY_FG WHERE sub_sub_po = '" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "') where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "'"
+                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set return_out=0 where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "'"
                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                     dtUpdateStockCardProdReq.ExecuteNonQuery()
 

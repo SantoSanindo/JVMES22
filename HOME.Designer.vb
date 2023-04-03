@@ -200,7 +200,7 @@ Partial Class HOME
         '
         Me.SplitQty.Items.Add(Me.SplitQtyBtn)
         Me.SplitQty.Name = "SplitQty"
-        Me.SplitQty.Text = "Split Qty"
+        Me.SplitQty.Text = "Split Label"
         '
         'SplitQtyBtn
         '

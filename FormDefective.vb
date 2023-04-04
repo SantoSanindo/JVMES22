@@ -1572,8 +1572,28 @@ Public Class FormDefective
         Try
             If (CheckBox2.CheckState = CheckState.Checked And txtBalanceBarcode.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Or (CheckBox2.CheckState = CheckState.Unchecked And TextBox1.Text <> "" And TextBox2.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Then
                 Call Database.koneksi_database()
+
+                Dim adapter As SqlDataAdapter
+                Dim ds As New DataTable
+                Dim dsCheck As New DataTable
+                Dim StandartPack As String
+
                 Dim codeBalance As String = BalanceMaterialGenerateCode()
                 Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO")
+
+                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtBalanceMaterialPN.Text & "'"
+                adapter = New SqlDataAdapter(sql, Database.koneksi)
+                adapter.Fill(ds)
+
+                Dim sqlCheckStockCardCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & dtCekTable.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
+                Dim dtCheckStockCardCheck As DataTable = Database.GetData(sqlCheckStockCardCheck)
+
+                If ds.Rows(0).Item("STANDARD_QTY") = dtCheckStockCardCheck.Rows(0).Item("actual_qty") Then
+                    StandartPack = "YES"
+                Else
+                    StandartPack = "NO"
+                End If
+
                 If dtCekTable.Rows.Count > 0 Then
 
                     Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -1618,6 +1638,7 @@ Public Class FormDefective
 
                     If result = DialogResult.Yes Then
                         Dim idData As String = ""
+
                         Dim querySelectStockCard As String = "select id,MATERIAL,lot_no,inv_ctrl_date,traceability,batch_no,qty,actual_qty from STOCK_CARD where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and actual_qty > 0 and department='" & globVar.department & "' AND [LEVEL]='Fresh' ORDER BY LOT_NO"
                         Dim dtTable As DataTable = Database.GetData(querySelectStockCard)
                         If dtTable.Rows.Count > 0 Then
@@ -1628,7 +1649,7 @@ Public Class FormDefective
                             If cmdUpdate.ExecuteNonQuery() Then
 
                                 Dim sqlInsert As String = "insert into STOCK_CARD(MTS_NO,DEPARTMENT,MATERIAL,STATUS,STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,QRCODE,QTY,ACTUAL_QTY,ID_LEVEL,LEVEL)" &
-                                                        "select MTS_NO,DEPARTMENT,MATERIAL,'Return to Mini Store',STANDARD_PACK,INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "'," & txtBalanceQty.Text.Replace(",", ".") & "," & txtBalanceQty.Text.Replace(",", ".") & ",'" & codeBalance & "','B' from STOCK_CARD where ID='" & idData & "'"
+                                                        "select MTS_NO,DEPARTMENT,MATERIAL,'Return to Mini Store','" & StandartPack & "',INV_CTRL_DATE,TRACEABILITY,BATCH_NO,LOT_NO,FINISH_GOODS_PN,PO,SUB_PO,SUB_SUB_PO,LINE,'" & txtBalanceBarcode.Text & "'," & txtBalanceQty.Text.Replace(",", ".") & "," & txtBalanceQty.Text.Replace(",", ".") & ",'" & codeBalance & "','B' from STOCK_CARD where ID='" & idData & "'"
                                 Dim cmdInsert = New SqlCommand(sqlInsert, Database.koneksi)
 
                                 If cmdInsert.ExecuteNonQuery() Then

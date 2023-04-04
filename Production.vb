@@ -357,7 +357,8 @@ Public Class Production
                     Catch ex As Exception
                         RJMessageBox.Show(ex.Message)
                     End Try
-                Else 'Material Split Qty
+                Else
+                    'Material Split Qty
                     Try
                         Dim ds As New DataSet
                         Dim yieldlose As Integer = 0

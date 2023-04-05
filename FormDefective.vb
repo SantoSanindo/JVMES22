@@ -1589,13 +1589,15 @@ Public Class FormDefective
                 Dim StandartPack As String
 
                 Dim codeBalance As String = BalanceMaterialGenerateCode()
-                Dim dtCekTable As DataTable = Database.GetData("select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO")
+
+                Dim sqlCheckTable As String = "select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO"
+                Dim dtCekTable As DataTable = Database.GetData(sqlCheckTable)
 
                 Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtBalanceMaterialPN.Text & "'"
                 adapter = New SqlDataAdapter(sql, Database.koneksi)
                 adapter.Fill(ds)
 
-                Dim sqlCheckStockCardCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & dtCekTable.Rows(0).Item("lot_no") & "' AND [LEVEL]='Fresh'"
+                Dim sqlCheckStockCardCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & globVar.QRCode_lot & "' AND [LEVEL]='Fresh'"
                 Dim dtCheckStockCardCheck As DataTable = Database.GetData(sqlCheckStockCardCheck)
 
                 If ds.Rows(0).Item("STANDARD_QTY") = dtCheckStockCardCheck.Rows(0).Item("actual_qty") Then
@@ -2929,6 +2931,16 @@ Public Class FormDefective
                                 If dtCheckDefect.Rows.Count > 0 Then
                                     For d = 0 To dtCheckDefect.Rows.Count - 1
                                         sResult = funcDeleteReject(dtCheckDefect.Rows(d).Item("id"), dtCheckDefect.Rows(d).Item("part_number"), dtCheckDefect.Rows(d).Item("lot_no"), dtCheckDefect.Rows(d).Item("qty"), sFlowTicket(5))
+
+                                        If sResult > 0 Then
+                                            Dim queryUpdateOutDefect As String = "delete from out_prod_defect where id=" & dtCheckDefect.Rows(d).Item("id")
+                                            Dim dtUpdateOutDefect = New SqlCommand(queryUpdateOutDefect, Database.koneksi)
+                                            If dtUpdateOutDefect.ExecuteNonQuery() Then
+                                                Dim queryDeleteStockCardTemporary As String = "delete from stock_card_temporary where status='Production Process' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "'"
+                                                Dim dtDeleteStockCardTemporary = New SqlCommand(queryDeleteStockCardTemporary, Database.koneksi)
+                                                dtDeleteStockCardTemporary.ExecuteNonQuery()
+                                            End If
+                                        End If
                                     Next
                                 End If
                             End If
@@ -3374,14 +3386,14 @@ Public Class FormDefective
 
                                         'Delete Defect
                                         If dtGetDefect.Rows.Count > 0 Then
-                                            Dim queryDeleteDefect As String = "delete from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=1 and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
+                                            Dim queryDeleteDefect As String = "delete from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=" & input_from_fg & " and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
                                             Dim dtDeleteDefect = New SqlCommand(queryDeleteDefect, Database.koneksi)
                                             dtDeleteDefect.ExecuteNonQuery()
                                         End If
                                         'Delete Defect
 
                                         'Get Qty di Table Defect
-                                        Dim queryCheckDefectQty As String = "select isnull(sum(qty),0) from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=1 and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
+                                        Dim queryCheckDefectQty As String = "select isnull(sum(qty),0) from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=" & input_from_fg & " and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
                                         Dim dtCheckSumDefectQty As DataTable = Database.GetData(queryCheckDefectQty)
                                         'Get Qty di Table Defect
 
@@ -3535,7 +3547,7 @@ Public Class FormDefective
                                 'Hitung Reject
 
                                 'Get Qty di Table Defect
-                                Dim queryCheckDefectQty As String = "select isnull(sum(qty),0) from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=1 and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
+                                Dim queryCheckDefectQty As String = "select isnull(sum(qty),0) from out_prod_defect where part_number='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FG_PN='" & cbFGPN.Text & "' and input_from_fg=" & input_from_fg & " and flow_ticket_no='" & splitFlowTicket(5) & "' and process_reject='" & process & "'"
                                 Dim dtCheckSumDefectQty As DataTable = Database.GetData(queryCheckDefectQty)
                                 'Get Qty di Table Defect
 

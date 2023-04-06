@@ -89,9 +89,16 @@ Public Class SplitMaterial
     Sub DGV_Split_Qty(pOuterLabel As String)
         Try
             DataGridView1.DataSource = Nothing
-            Dim queryCheckSplitQty As String = "SELECT ID, outer_pn [OUTER PN], OUTER_ICD [OUTER ICD],OUTER_BATCH [OUTER BATCH], OUTER_TRACEABILITY [OUTER TRACE], OUTER_LOT [OUTER LOT], OUTER_QTY [OUTER QTY], INNER_QTY [INNER QTY] FROM split_label where outer_label='" & pOuterLabel & "'"
+            Dim queryCheckSplitQty As String = "SELECT ID, outer_pn [OUTER PN], OUTER_ICD [OUTER ICD],OUTER_BATCH [OUTER BATCH], OUTER_TRACEABILITY [OUTER TRACE], OUTER_LOT [OUTER LOT], OUTER_QTY [OUTER QTY], INNER_QTY [INNER QTY], [print] [PRINT] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView1.DataSource = dtCheckSplitQty
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
 
             For i As Integer = 0 To DataGridView1.RowCount - 1
                 If DataGridView1.Rows(i).Index Mod 2 = 0 Then
@@ -107,6 +114,7 @@ Public Class SplitMaterial
 
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
         With DataGridView1
+
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
             For i As Integer = 0 To .ColumnCount - 1
@@ -137,28 +145,55 @@ Public Class SplitMaterial
         txtMatLot.Clear()
         txtMatQty.Clear()
         DataGridView1.DataSource = Nothing
+        DataGridView1.Columns.Clear()
         txtOuterLabel.ReadOnly = False
         txtOuterLabel.Select()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
+            Dim nocheck As Integer = 0
             If DataGridView1.Rows.Count > 0 Then
                 For i = 0 To DataGridView1.Rows.Count - 1
-                    Dim queryCheckSplitLabel As String = "SELECT * FROM SPLIT_LABEL where ID=" & DataGridView1.Rows(i).Cells("ID").Value
-                    Dim dtCheckSplitLabel As DataTable = Database.GetData(queryCheckSplitLabel)
-                    If dtCheckSplitLabel.Rows.Count > 0 Then
-                        Dim queryCheckStockCard As String = "SELECT * FROM STOCK_CARD where lot_no='" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "' AND MATERIAL='" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "' AND DEPARTMENT='" & globVar.department & "'"
-                        Dim dtCheckStockCard As DataTable = Database.GetData(queryCheckStockCard)
-                        If dtCheckStockCard.Rows.Count = 0 Then
-                            Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY,ID_FROM_SPLIT,[SAVE])
-                                    VALUES ('" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",'" & dtCheckSplitLabel.Rows(0).Item("OUTER_ICD") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "',(SELECT MTS_NO FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),'" & globVar.department & "','NO','Receive From Main Store'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",(SELECT ID FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),1)"
-                            Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                            cmdInsertInputStockDetail.ExecuteNonQuery()
+                    If DataGridView1.Rows(i).Cells("check").Value = True Then
+                        Dim queryCheckSplitLabel As String = "SELECT * FROM SPLIT_LABEL where ID=" & DataGridView1.Rows(i).Cells("ID").Value
+                        Dim dtCheckSplitLabel As DataTable = Database.GetData(queryCheckSplitLabel)
+                        If dtCheckSplitLabel.Rows.Count > 0 Then
+                            Dim queryCheckStockCard As String = "SELECT * FROM STOCK_CARD where lot_no='" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "' AND MATERIAL='" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
+                            Dim dtCheckStockCard As DataTable = Database.GetData(queryCheckStockCard)
+                            If dtCheckStockCard.Rows.Count = 0 Then
+                                Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY,ID_FROM_SPLIT,[SAVE])
+                                        VALUES ('" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",'" & dtCheckSplitLabel.Rows(0).Item("OUTER_ICD") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "',(SELECT MTS_NO FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),'" & globVar.department & "','NO','Receive From Main Store'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",(SELECT ID FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),1)"
+                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+                                    _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Split Material"
+                                    _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL")
+                                    _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & Environment.NewLine
+                                    _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                                    If globVar.failPrint = "No" Then
+                                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (remark,department,code_print)
+                                            VALUES ('Split Material Print','" & globVar.department & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "')"
+                                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                        cmdInsertPrintingRecord.ExecuteNonQuery()
+
+                                        Dim Sql As String = "update split_label set [print]=1 where ID=" & DataGridView1.Rows(i).Cells("ID").Value
+                                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                                        cmd.ExecuteNonQuery()
+
+                                        DGV_Split_Qty(txtOuterLabel.Text)
+                                    End If
+                                End If
+                            End If
                         End If
+                    Else
+                        nocheck += 1
                     End If
-                    RJMessageBox.Show("Print List No " & i)
                 Next
+
+                If nocheck >= DataGridView1.Rows.Count Then
+                    RJMessageBox.Show("Please check first, if you want print")
+                End If
             Else
                 RJMessageBox.Show("No Data")
             End If
@@ -188,6 +223,16 @@ Public Class SplitMaterial
                 RJMessageBox.Show("Failed" & ex.Message)
             End Try
 
+        End If
+    End Sub
+
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
+            If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
+                DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
+            Else
+                DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
+            End If
         End If
     End Sub
 End Class

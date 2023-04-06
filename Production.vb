@@ -77,7 +77,6 @@ Public Class Production
                             Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
                             Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
                             dtUpdateTotal.ExecuteNonQuery()
-
                         End If
 
                     Else
@@ -302,7 +301,6 @@ Public Class Production
                                     If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockSubAssy.Rows(i).Item("fg") Then
                                         Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
                                         Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                                        'If (Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text)) + Math.Round(Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text) * Convert.ToDouble(TextBox8.Text) / 100) <= dtCheckSum.Rows(0).Item(0) Then
                                         If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
                                             CompExist += dtCheckStockSubAssy.Rows(i).Item("fg") & ","
                                         End If
@@ -343,8 +341,21 @@ Public Class Production
                             Next
 
                             For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
-                                Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "',@lot_material='" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "',@codeSubAssy='" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                                Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                Dim sqlCheckMaterialUsage As String = "select usage from material_usage_finish_goods where fg_part_number='" & TextBox2.Text & "' and component='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'"
+                                Dim dtCheckMaterialUsage As DataTable = Database.GetData(sqlCheckMaterialUsage)
+
+                                Dim sqlCheckFlowTicket As String = "select qty_per_lot from flow_ticket where sub_sub_po='" & TextBox11.Text & "'"
+                                Dim dtCheckFlowTicket As DataTable = Database.GetData(sqlCheckFlowTicket)
+
+                                Dim sqlCheckActualQty As String = "select isnull(sum(actual_qty),0) from stock_card where status='Production Process' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'"
+                                Dim dtCheckActualQty As DataTable = Database.GetData(sqlCheckActualQty)
+
+                                Dim total = dtCheckMaterialUsage.Rows(0).Item(0) * dtCheckFlowTicket.Rows(0).Item(0)
+
+                                If dtCheckActualQty.Rows(0).Item(0) < total Then
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "',@lot_material='" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "',@codeSubAssy='" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                End If
                             Next
 
                             TextBox1.Text = ""
@@ -357,8 +368,7 @@ Public Class Production
                     Catch ex As Exception
                         RJMessageBox.Show(ex.Message)
                     End Try
-                Else
-                    'Material Split Qty
+                Else 'Material Split Qty
                     Try
                         Dim ds As New DataSet
                         Dim yieldlose As Integer = 0

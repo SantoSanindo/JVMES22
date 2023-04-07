@@ -203,7 +203,6 @@ Public Class Users
                     cmd.ExecuteNonQuery()
 
                     DGV_Users()
-                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
                     RJMessageBox.Show("failed" & ex.Message)
                 End Try

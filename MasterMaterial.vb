@@ -119,7 +119,6 @@ Public Class MasterMaterial
                     cmd.ExecuteNonQuery()
                     dgv_material.DataSource = Nothing
                     DGV_MasterMaterial()
-                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
                     RJMessageBox.Show("failed" & ex.Message)
                 End Try

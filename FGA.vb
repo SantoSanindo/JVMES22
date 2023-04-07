@@ -90,14 +90,9 @@ Public Class FGA
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim queryCheck As String = "select * from fga where FLOW_TICKET='" & TextBox1.Text & "'"
         Dim dtCheck As DataTable = Database.GetData(queryCheck)
-        Dim sFlowTicket = TextBox1.Text.Split(";")
 
         If dtCheck.Rows.Count > 0 Then
-            'MessageBox.Show("Double Scan")
-            RJMessageBox.Show("Double Scan",
-                                       "Warning",
-                                       MessageBoxButtons.OK,
-                                       MessageBoxIcon.Warning)
+            RJMessageBox.Show("Double Scan", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             TextBox1.Clear()
             TextBox2.Clear()
             TextBox3.Clear()
@@ -125,22 +120,36 @@ Public Class FGA
                                     VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "','" & sub_sub_po & "','" & pn_fg & "','" & line & "','" & noflowticket & "','" & globVar.department & "')"
                 Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                 If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                    Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" & sFlowTicket(5)(0) & "'"
+                    Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" & aFlowTicket.Text & "'"
                     Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                     cmdUpdate.ExecuteNonQuery()
 
-                    ComboBox1.SelectedIndex = -1
-                    ComboBox2.SelectedIndex = -1
-                    ComboBox3.SelectedIndex = -1
-                    ComboBox4.SelectedIndex = -1
-                    ComboBox5.SelectedIndex = -1
-                    DGV_FGA()
+                    ResetAfterSave()
                 End If
             Catch ex As Exception
-                RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK,
-                                       MessageBoxIcon.Error)
+                RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
+    End Sub
+
+    Sub ResetAfterSave()
+        ComboBox1.SelectedIndex = -1
+        ComboBox2.SelectedIndex = -1
+        ComboBox3.SelectedIndex = -1
+        ComboBox4.SelectedIndex = -1
+        ComboBox5.SelectedIndex = -1
+        aFlowTicket.Clear()
+        aQty.Clear()
+        aPO.Clear()
+        bFlowTicket.Clear()
+        bQty.Clear()
+        bPO.Clear()
+        DGV_FGA()
+        TextBox1.Clear()
+        TextBox2.Clear()
+        TextBox3.Clear()
+        TextBox4.Clear()
+        Button1.Enabled = False
     End Sub
 
     Sub DGV_FGA()
@@ -165,28 +174,70 @@ Public Class FGA
 
                 Dim splitFlowTicket = TextBox1.Text.Split(New String() {";"}, StringSplitOptions.None)
 
-                sub_sub_po = splitFlowTicket(0)
-                pn_fg = splitFlowTicket(1)
-                qty_po = splitFlowTicket(2)
-                qtyperlot = splitFlowTicket(3)
-                line = splitFlowTicket(4)
-                noflowticket = splitFlowTicket(5)
+                aFlowTicket.Text = splitFlowTicket(5).Split(" of ")(0)
+                aQty.Text = splitFlowTicket(3)
+                aPO.Text = splitFlowTicket(0).Split("-")(0)
 
-                Dim queryMasterFinishGoods As String = "select * from master_finish_goods where fg_part_number=" & pn_fg
-                Dim dtMasterFinishGoods As DataTable = Database.GetData(queryMasterFinishGoods)
+                If bFlowTicket.Text <> "" And bQty.Text <> "" And bPO.Text <> "" Then
+                    If aFlowTicket.Text <> "" And aQty.Text <> "" And aPO.Text <> "" Then
+                        If bFlowTicket.Text = aFlowTicket.Text And bQty.Text = aQty.Text And bPO.Text = aPO.Text Then
+                            Dim queryMasterFinishGoods As String = "select * from master_finish_goods where fg_part_number=" & globVar.QRCode_PN
+                            Dim dtMasterFinishGoods As DataTable = Database.GetData(queryMasterFinishGoods)
 
-                If dtMasterFinishGoods.Rows.Count > 0 Then
-                    TextBox2.Text = dtMasterFinishGoods.Rows(0).Item("fg_part_number").ToString
-                    TextBox3.Text = dtMasterFinishGoods.Rows(0).Item("description").ToString
-                    DGV_FGA()
+                            If dtMasterFinishGoods.Rows.Count > 0 Then
+                                TextBox2.Text = dtMasterFinishGoods.Rows(0).Item("fg_part_number").ToString
+                                TextBox3.Text = dtMasterFinishGoods.Rows(0).Item("description").ToString
+                                DGV_FGA()
+                            End If
+
+                            ComboBox1.Enabled = True
+                            ComboBox2.Enabled = True
+                            ComboBox3.Enabled = True
+                            ComboBox4.Enabled = True
+                            ComboBox5.Enabled = True
+                            Button1.Enabled = True
+                        Else
+                            RJMessageBox.Show("Sorry 2 Label is not same.")
+                        End If
+                    End If
                 End If
+            End If
+        End If
+    End Sub
 
-                ComboBox1.Enabled = True
-                ComboBox2.Enabled = True
-                ComboBox3.Enabled = True
-                ComboBox4.Enabled = True
-                ComboBox5.Enabled = True
-                Button1.Enabled = True
+    Private Sub TextBox4_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox4.PreviewKeyDown
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And TextBox4.Text <> "" Then
+            If TextBox4.Text <> "" And TextBox4.Text.Length > 64 Then
+
+                QRCode.Baca(TextBox4.Text)
+
+                bFlowTicket.Text = globVar.QRCode_lot
+                bQty.Text = globVar.QRCode_Qty
+                bPO.Text = globVar.QRCode_Traceability
+
+                If aFlowTicket.Text <> "" And aQty.Text <> "" And aPO.Text <> "" Then
+                    If bFlowTicket.Text <> "" And bQty.Text <> "" And bPO.Text <> "" Then
+                        If bFlowTicket.Text = aFlowTicket.Text And bQty.Text = aQty.Text And bPO.Text = aPO.Text Then
+                            Dim queryMasterFinishGoods As String = "select * from master_finish_goods where fg_part_number=" & globVar.QRCode_PN
+                            Dim dtMasterFinishGoods As DataTable = Database.GetData(queryMasterFinishGoods)
+
+                            If dtMasterFinishGoods.Rows.Count > 0 Then
+                                TextBox2.Text = dtMasterFinishGoods.Rows(0).Item("fg_part_number").ToString
+                                TextBox3.Text = dtMasterFinishGoods.Rows(0).Item("description").ToString
+                                DGV_FGA()
+                            End If
+
+                            ComboBox1.Enabled = True
+                            ComboBox2.Enabled = True
+                            ComboBox3.Enabled = True
+                            ComboBox4.Enabled = True
+                            ComboBox5.Enabled = True
+                            Button1.Enabled = True
+                        Else
+                            RJMessageBox.Show("Sorry 2 Label is not same.")
+                        End If
+                    End If
+                End If
             End If
         End If
     End Sub

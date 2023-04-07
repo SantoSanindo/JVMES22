@@ -161,7 +161,6 @@ Public Class MasterFinishGoods
                     cmd.ExecuteNonQuery()
                     dgv_finish_goods.DataSource = Nothing
                     DGV_MasterFinishGoods()
-                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
                     RJMessageBox.Show("failed" & ex.Message)
                 End Try

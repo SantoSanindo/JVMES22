@@ -97,7 +97,6 @@ Public Class MasterProcess
                         cmd.ExecuteNonQuery()
                         dgv_masterprocess.DataSource = Nothing
                         DGV_MasterProcesss()
-                        RJMessageBox.Show("Delete Success.")
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show("Delete failed" & ex.Message)

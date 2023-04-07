@@ -42,3 +42,4 @@ D:\MES Jovan\Jovan\JVMES22\obj\Release\Jovan-New.xml
 D:\MES Jovan\Jovan\JVMES22\obj\Release\Jovan-New.pdb
 D:\MES Jovan\Jovan\JVMES22\obj\Release\Jovan_New.FormMessageBox.resources
 D:\MES Jovan\Jovan\JVMES22\obj\Release\Interop.WMPLib.dll
+D:\MES Jovan\Jovan\JVMES22\obj\Release\Jovan_New.SplitMaterial.resources

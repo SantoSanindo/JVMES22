@@ -14,6 +14,13 @@ Public Class MaterialUsageFinishGoods
                 RJMessageBox.Show("FG Part Number and Comp exist")
             Else
                 Try
+                    Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
+                    Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+                    If dtMasterFG.Rows.Count = 0 Then
+                        RJMessageBox.Show("Sorry. The material not exist in master material. Please input first.")
+                        Exit Sub
+                    End If
+
                     Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
@@ -23,9 +30,7 @@ Public Class MaterialUsageFinishGoods
 
                     idP = cb_masterfinishgoods_pn.Text
 
-                    cb_masterfinishgoods_pn.SelectedIndex = -1
                     txt_masterfinishgoods_desc.Text = ""
-                    txt_masterfinishgoods_family.Text = ""
                     cb_masterfinishgoods_component.SelectedIndex = -1
                     txt_masterfinishgoods_usage.Text = ""
                 Catch ex As Exception
@@ -91,7 +96,6 @@ Public Class MaterialUsageFinishGoods
                     cmd.ExecuteNonQuery()
                     DGV_Masterfinishgoods_atass(idP)
                     treeView_show()
-                    RJMessageBox.Show("Delete Success.")
                 Catch ex As Exception
                     RJMessageBox.Show("Delete Failed" & ex.Message)
                 End Try
@@ -166,7 +170,6 @@ Public Class MaterialUsageFinishGoods
 
         treeView_show()
         DGV_Masterfinishgoods_atass(idP)
-        RJMessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
@@ -396,9 +399,16 @@ Public Class MaterialUsageFinishGoods
         If cb_masterfinishgoods_pn.SelectedIndex > 0 Then
             Dim queryMasterFinishGoods As String = "select * from MASTER_FINISH_GOODS where fg_part_number='" & cb_masterfinishgoods_pn.Text & "'"
             Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
-            txt_masterfinishgoods_desc.Text = Trim(dtMasterFG.Rows(0).Item("description"))
             txt_masterfinishgoods_family.Text = Trim(dtMasterFG.Rows(0).Item("family"))
             tampilDataComboBoxMaterial()
+        End If
+    End Sub
+
+    Private Sub cb_masterfinishgoods_component_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_masterfinishgoods_component.SelectedIndexChanged
+        If cb_masterfinishgoods_component.SelectedIndex > 0 Then
+            Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
+            Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+            txt_masterfinishgoods_desc.Text = Trim(dtMasterFG.Rows(0).Item("name"))
         End If
     End Sub
 End Class

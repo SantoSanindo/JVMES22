@@ -204,7 +204,6 @@ Public Class MasterProcessFlow
                     Dim cmd = New SqlCommand(sql, Database.koneksi)
                     cmd.ExecuteNonQuery()
                     DGV_ProcessFlow()
-                    RJMessageBox.Show("Success delete.")
                 Catch ex As Exception
                     RJMessageBox.Show("Failed delete" & ex.Message)
                 End Try

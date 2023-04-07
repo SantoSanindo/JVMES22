@@ -93,6 +93,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessControll.Designer.vb">
+      <DependentUpon>AccessControll.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AccessControll.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Baca_QRCode.vb" />
     <Compile Include="Database.vb" />
     <Compile Include="FGA.Designer.vb">
@@ -285,6 +291,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AccessControll.resx">
+      <DependentUpon>AccessControll.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FGA.resx">
       <DependentUpon>FGA.vb</DependentUpon>
     </EmbeddedResource>

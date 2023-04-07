@@ -142,6 +142,17 @@ Public Class HOME
         End If
     End Sub
 
+    Private Sub BtnAC(sender As Object, e As EventArgs) Handles ACBtn.Click
+        If globVar.hakAkses = "ADMIN" Then
+            AccessControll.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(AccessControll)
+            TabControl1.TabPages(AccessControll).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
     ' -----------------------End Menu Master Data--------------------------'
 
     ' -----------------------Start Menu Mini Store-------------------------'
@@ -355,6 +366,4 @@ Public Class HOME
     Public Sub New()
         InitializeComponent()
     End Sub
-
-
 End Class

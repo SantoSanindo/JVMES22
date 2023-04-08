@@ -2,6 +2,8 @@
 Imports Microsoft.Office.Interop
 
 Public Class StockMinistore
+    Public Shared menu As String = "Stock Card Mini Store"
+
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_StockMiniststore("")
         ComboBox1.SelectedIndex = 0

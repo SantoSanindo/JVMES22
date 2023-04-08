@@ -4,6 +4,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 Imports MdiTabControl
 
 Public Class PrintFlowTicket
+    Public Shared menu As String = "Print Flow Ticket"
     Sub DGV_DOC()
         Try
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill

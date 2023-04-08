@@ -4,6 +4,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MdiTabControl
 
 Public Class Production
+    Public Shared menu As String = "Production1"
+
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
         Dim dtMasterLine As DataTable = Database.GetData("select NAME from MASTER_LINE where DEPARTMENT='" & globVar.department & "'")

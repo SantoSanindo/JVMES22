@@ -5,6 +5,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
 
 Public Class MasterProcessFlow
+    Public Shared menu As String = "Master Process Flow"
+
     Dim oleCon As OleDbConnection
     Private Sub MasterProcessFlow_Load(sender As Object, e As EventArgs) Handles Me.Load
         'DGV_ProcessFlow()

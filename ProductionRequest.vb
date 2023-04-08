@@ -2,6 +2,8 @@
 Imports System.Data.SqlClient
 
 Public Class ProductionRequest
+    Public Shared menu As String = "Production Request"
+
     Sub DGV_MaterialNeed()
         Try
             DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill

@@ -2,6 +2,8 @@
 Imports System.Data.SqlClient
 
 Public Class FormInputStock
+    Public Shared menu As String = "Input Stock"
+
     Private Sub FormInputStock_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_forminputstock_qrcode.ReadOnly = True
         txtmanualPN.ReadOnly = True

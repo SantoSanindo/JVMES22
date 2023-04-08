@@ -2,6 +2,8 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class SplitMaterial
+    Public Shared menu As String = "Split Label"
+
     Private Sub txtOuterLabel_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtOuterLabel.PreviewKeyDown
         If (e.KeyData = Keys.Enter Or e.KeyData = Keys.Tab) Then
             Try

@@ -2,6 +2,8 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class FGA
+    Public Shared menu As String = "FGA"
+
     Dim sub_sub_po As String
     Dim pn_fg As String
     Dim qty_po As String

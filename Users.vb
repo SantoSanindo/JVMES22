@@ -2,13 +2,24 @@
 Imports System.Data.SqlClient
 
 Public Class Users
+    Public Shared menu As String = "Master Users"
+
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If TextBox1.Text <> "" And TextBox2.Text <> "" Then
             Dim querycheck As String = "select * from users where id_card_no='" & TextBox1.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
-                RJMessageBox.Show("Users Exist")
+                Dim query As String = "update users set role='" & ComboBox1.Text & "',department='" & ComboBox2.Text & "',username='" & TextBox3.Text & "',password='" & TextBox4.Text & "' where id_card_no = '" & TextBox1.Text & "'"
+                Dim dtUpdate = New SqlCommand(query, Database.koneksi)
+                If dtUpdate.ExecuteNonQuery() Then
+                    DGV_Users()
+
+                    TextBox1.ReadOnly = False
+                    TextBox2.ReadOnly = False
+                    ComboBox1.SelectedIndex = -1
+                    ComboBox2.SelectedIndex = -1
+                End If
             Else
                 Try
                     Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox2.Text & "','" & ComboBox1.Text & "')"
@@ -22,6 +33,11 @@ Public Class Users
                         TextBox1.Select()
 
                         DGV_Users()
+
+                        TextBox1.ReadOnly = False
+                        TextBox2.ReadOnly = False
+                        ComboBox1.SelectedIndex = -1
+                        ComboBox2.SelectedIndex = -1
                     End If
 
                 Catch ex As Exception
@@ -38,13 +54,25 @@ Public Class Users
         ComboBox2.DataSource = dtMasterDepart
         ComboBox2.DisplayMember = "department"
         ComboBox2.ValueMember = "department"
-        'ComboBox2.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'ComboBox2.AutoCompleteSource = AutoCompleteSource.ListItems
+    End Sub
+
+    Sub tampilDataComboBoxAccess()
+        Call Database.koneksi_database()
+        Dim dtMasterAccess As DataTable = Database.GetData("select * from master_access")
+
+        ComboBox1.DataSource = dtMasterAccess
+        ComboBox1.DisplayMember = "name"
+        ComboBox1.ValueMember = "name"
     End Sub
 
     Private Sub Users_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_Users()
+
         tampilDataComboBoxDepartement()
+        tampilDataComboBoxAccess()
+
+        ComboBox1.SelectedIndex = -1
+        ComboBox2.SelectedIndex = -1
     End Sub
 
     Sub DGV_Users()
@@ -52,7 +80,7 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,role Role, department Department from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department from USERS order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 
@@ -63,6 +91,15 @@ Public Class Users
         check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         DataGridView1.Columns.Insert(0, check)
 
+        Dim edit As DataGridViewButtonColumn = New DataGridViewButtonColumn
+        edit.Name = "edit"
+        edit.HeaderText = "Edit"
+        edit.Width = 100
+        edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+        edit.Text = "Edit"
+        edit.UseColumnTextForButtonValue = True
+        DataGridView1.Columns.Insert(6, edit)
+
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
         delete.HeaderText = "Delete"
@@ -70,7 +107,7 @@ Public Class Users
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(5, delete)
+        DataGridView1.Columns.Insert(7, delete)
     End Sub
 
     Private Sub TextBox5_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox5.PreviewKeyDown
@@ -194,18 +231,52 @@ Public Class Users
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            If globVar.delete > 0 Then
+                Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from users where id_card_no='" & DataGridView1.Rows(e.RowIndex).Cells("ID Card").Value & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim sql As String = "delete from users where id_card_no='" & DataGridView1.Rows(e.RowIndex).Cells("ID Card").Value & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
 
-                    DGV_Users()
-                Catch ex As Exception
-                    RJMessageBox.Show("failed" & ex.Message)
-                End Try
+                        DGV_Users()
+                    Catch ex As Exception
+                        RJMessageBox.Show("failed" & ex.Message)
+                    End Try
+                End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
+            End If
+        End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "edit" Then
+            If globVar.update > 0 Then
+                TextBox1.Text = DataGridView1.Rows(e.RowIndex).Cells("ID Card").Value
+                TextBox2.Text = DataGridView1.Rows(e.RowIndex).Cells("Name").Value
+
+                If IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("Role").Value) Then
+                    ComboBox1.SelectedIndex = -1
+                Else
+                    ComboBox1.SelectedValue = DataGridView1.Rows(e.RowIndex).Cells("Role").Value
+                End If
+
+                If IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("Department").Value) Then
+                    ComboBox2.SelectedIndex = -1
+                Else
+                    ComboBox2.SelectedValue = DataGridView1.Rows(e.RowIndex).Cells("Department").Value
+                End If
+
+                If IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("Username").Value) Then
+                    TextBox3.Text = ""
+                Else
+                    TextBox3.Text = DataGridView1.Rows(e.RowIndex).Cells("Username").Value
+                End If
+
+                TextBox1.ReadOnly = True
+                TextBox2.ReadOnly = True
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
 

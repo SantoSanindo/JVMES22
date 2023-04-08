@@ -1,4 +1,5 @@
-﻿Public Class globVar
+﻿Imports System.Data.SqlClient
+Public Class globVar
     Public Shared hakAkses As String
     Public Shared department As String
     Public Shared failPrint As String
@@ -12,6 +13,11 @@
     Public Shared QRCode_lot As String
     Public Shared QRCode_Country As String
 
+    Public Shared view As Integer
+    Public Shared add As Integer
+    Public Shared update As Integer
+    Public Shared delete As Integer
+
     Public Shared shift As String
 
     Public Shared shift1Awal As New TimeSpan(7, 0, 1)
@@ -22,6 +28,28 @@
 
     Public Shared shift3Awal As New TimeSpan(23, 0, 1)
     Public Shared shift3Akhir As New TimeSpan(7, 0, 0)
+
+    Public Shared Function CanAccess(menu As String)
+        Dim result As Integer
+        If username = "" Then
+            result = 0
+        Else
+            Dim sql As String = "select * from master_access where name=(select role from users where username='" & globVar.username & "') and menu like '%" & menu & ";%'"
+            Dim dt As DataTable = Database.GetData(sql)
+            If dt.Rows.Count > 0 Then
+                result = 1
+                globVar.view = dt.Rows(0).Item("view")
+                globVar.add = dt.Rows(0).Item("add")
+                globVar.update = dt.Rows(0).Item("update")
+                globVar.delete = dt.Rows(0).Item("delete")
+            Else
+                result = 0
+            End If
+        End If
+
+        Return result
+
+    End Function
 
 End Class
 

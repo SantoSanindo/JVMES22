@@ -4,7 +4,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 'Imports ZXing
 
 Public Class AddChangeOperator
-
+    Public Shared menu As String = "Add / Change Operator"
     Private Sub AddChangeOperator_Load(sender As Object, e As EventArgs) Handles Me.Load
         Button1.Enabled = False
         tampilDataComboBoxLine()

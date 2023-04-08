@@ -9,6 +9,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.VisualBasic.Logging
 
 Public Class FormDefective
+    Public Shared menu As String = "Production Result"
+
     'Dim dept As String = "zQSFP"
     Dim dept As String = globVar.department
     Dim idLine As New List(Of Integer)

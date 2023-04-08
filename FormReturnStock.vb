@@ -3,6 +3,8 @@ Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar
 
 Public Class FormReturnStock
+    Public Shared menu As String = "Return To Main Store"
+
     Private Sub FormInputStock_Load(sender As Object, e As EventArgs) Handles Me.Load
         txt_forminputstock_qrcode.ReadOnly = True
         txtmanualPN.ReadOnly = True

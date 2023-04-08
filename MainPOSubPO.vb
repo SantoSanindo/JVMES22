@@ -4,6 +4,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 'Imports ZXing
 
 Public Class MainPOSubPO
+    Public Shared menu As String = "Create Main PO / Sub PO / Sub Sub PO"
 
     Private Sub MainPOSubPO_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBox()

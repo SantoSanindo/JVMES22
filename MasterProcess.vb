@@ -5,6 +5,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
 
 Public Class MasterProcess
+    Public Shared menu As String = "Master Process"
+
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If txt_masterprocess_nama.Text <> "" Then

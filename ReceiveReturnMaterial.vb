@@ -2,6 +2,8 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class ReceiveReturnMaterial
+    Public Shared menu As String = "Receive Material Production"
+
     Private Sub ReceiveReturnMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
         DGV_ReceiveFromProduction()
     End Sub

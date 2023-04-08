@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 
 Public Class AccessControll
+    Public Shared menu As String = "Access Control"
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim TotalCheckMenu As Integer = 0
         Dim TotalCheckAccess As Integer = 0

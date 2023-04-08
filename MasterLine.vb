@@ -2,6 +2,8 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class MasterLine
+    Public Shared menu As String = "Master Line"
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
             Dim splitLine() As String = TextBox1.Text.Split(" ")

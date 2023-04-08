@@ -2,6 +2,7 @@
 'Imports ZXing
 
 Public Class ProcessFlowMaterialUsage
+    Public Shared menu As String = "Process Flow Material Usage"
 
     Dim lastSelectedLevel1 As Integer
     Dim lastSelectedLevel2 As Integer

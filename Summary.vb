@@ -4,6 +4,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
 
 Public Class Summary
+    Public Shared menu As String = "Traceability"
+
     Sub loadDGV()
         With DGSummaryV2
             .DefaultCellStyle.Font = New Font("Tahoma", 14)

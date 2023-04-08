@@ -4,6 +4,8 @@ Imports Microsoft.Office.Interop
 Imports System.Runtime.InteropServices
 
 Public Class MaterialUsageFinishGoods
+    Public Shared menu As String = "Material Usage & Finish Goods"
+
     Dim oleCon As OleDbConnection
     Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

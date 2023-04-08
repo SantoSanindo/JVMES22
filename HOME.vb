@@ -52,7 +52,7 @@ Public Class HOME
 
     ' -----------------------Start Menu Master Data-------------------------'
     Private Sub BtnUsers(sender As Object, e As EventArgs) Handles UsersBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(Users.menu) Then
             Users.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(Users)
@@ -63,7 +63,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnMasterMaterial(sender As Object, e As EventArgs) Handles MasterMaterialBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(MasterMaterial.menu) Then
             MasterMaterial.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MasterMaterial)
@@ -74,7 +74,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnMasterProcess(sender As Object, e As EventArgs) Handles MasterProcessBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(MasterProcess.menu) Then
             MasterProcess.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MasterProcess)
@@ -85,7 +85,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnMasterProcessFlow(sender As Object, e As EventArgs) Handles MasterProcessFlowBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(MasterProcessFlow.menu) Then
             MasterProcessFlow.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MasterProcessFlow)
@@ -96,7 +96,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnMasterFinishGoods(sender As Object, e As EventArgs) Handles MasterFinishGoodsBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(MasterFinishGoods.menu) Then
             MasterFinishGoods.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MasterFinishGoods)
@@ -108,7 +108,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnMaterialUsageFinishGoods(sender As Object, e As EventArgs) Handles MaterialUsageFinishGoodsBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(MaterialUsageFinishGoods.menu) Then
             MaterialUsageFinishGoods.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MaterialUsageFinishGoods)
@@ -120,7 +120,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnProcessFlowMaterialUsage(sender As Object, e As EventArgs) Handles ProcessFlowMaterialUsageBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(ProcessFlowMaterialUsage.menu) Then
             ProcessFlowMaterialUsage.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(ProcessFlowMaterialUsage)
@@ -132,7 +132,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnMasterLine(sender As Object, e As EventArgs) Handles MasterLineBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(MasterLine.menu) Then
             MasterLine.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MasterLine)
@@ -143,7 +143,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnAC(sender As Object, e As EventArgs) Handles ACBtn.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.CanAccess(AccessControll.menu) Then
             AccessControll.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(AccessControll)
@@ -157,7 +157,7 @@ Public Class HOME
 
     ' -----------------------Start Menu Mini Store-------------------------'
     Private Sub btnInputStock(sender As Object, e As EventArgs) Handles InputStockBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+        If globVar.CanAccess(FormInputStock.menu) Then
             FormInputStock.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FormInputStock)
@@ -169,7 +169,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnReturnStock(sender As Object, e As EventArgs) Handles ReturnStockBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+        If globVar.CanAccess(FormReturnStock.menu) Then
             FormReturnStock.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FormReturnStock)
@@ -180,7 +180,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnProductionRequest(sender As Object, e As EventArgs) Handles ProductionRequestBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+        If globVar.CanAccess(ProductionRequest.menu) Then
             ProductionRequest.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(ProductionRequest)
@@ -192,11 +192,9 @@ Public Class HOME
     End Sub
 
     Private Sub BtnStockMinistore(sender As Object, e As EventArgs) Handles StockMinistoreBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+        If globVar.CanAccess(StockMinistore.menu) Then
             StockMinistore.Close()
             TabControl1.TabPages.Clear()
-            'TabControl1.TabPages.Add(StockMinistore)
-            'TabControl1.TabPages(StockMinistore).Select()
             TabControl1.TabPages.Add(StockMinistore)
             TabControl1.TabPages(StockMinistore).Select()
         Else
@@ -205,7 +203,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnReceiveReturnMaterial(sender As Object, e As EventArgs) Handles ReceiveReturnMaterialBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+        If globVar.CanAccess(ReceiveReturnMaterial.menu) Then
             ReceiveReturnMaterial.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(ReceiveReturnMaterial)
@@ -216,7 +214,7 @@ Public Class HOME
     End Sub
 
     Private Sub btnSplitQty(sender As Object, e As EventArgs) Handles SplitQtyBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "MINISTORE" Then
+        If globVar.CanAccess(SplitMaterial.menu) Then
             SplitMaterial.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(SplitMaterial)
@@ -231,7 +229,7 @@ Public Class HOME
     ' -----------------------Start Menu Production-------------------------'
 
     Private Sub btnMainPoSubPO(sender As Object, e As EventArgs) Handles MainPOSubPOBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(MainPOSubPO.menu) Then
             MainPOSubPO.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MainPOSubPO)
@@ -243,7 +241,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(Production.menu) Then
             Production.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(Production)
@@ -254,7 +252,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(StockMinistore.menu) Then
             StockMinistore.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(StockMinistore)
@@ -265,7 +263,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnAddChangeOperator(sender As Object, e As EventArgs) Handles AddChangeOperatorBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(AddChangeOperator.menu) Then
             AddChangeOperator.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(AddChangeOperator)
@@ -275,7 +273,7 @@ Public Class HOME
         End If
     End Sub
     Private Sub BtnPrintFlowTicket(sender As Object, e As EventArgs) Handles PrintFlowTicketBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(PrintFlowTicket.menu) Then
             PrintFlowTicket.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(PrintFlowTicket)
@@ -286,7 +284,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnSummaryProduction(sender As Object, e As EventArgs) Handles SummaryProductionBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(Summary.menu) Then
             Summary.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(Summary)
@@ -301,7 +299,7 @@ Public Class HOME
     ' -----------------------Start Menu Setting-------------------------'
 
     Private Sub RibbonLabelsSettings(sender As Object, e As EventArgs) Handles RibbonButtonPrinterSettings.Click
-        If globVar.hakAkses = "ADMIN" Then
+        If globVar.username = "admin" Then
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(_PrintingFlowTicket)
             TabControl1.TabPages.Add(_PrintingDefect)
@@ -333,7 +331,7 @@ Public Class HOME
 
     ' -----------------------Start Menu FGA-------------------------'
     Private Sub BtnFGA(sender As Object, e As EventArgs) Handles FGABtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "FGA" Then
+        If globVar.CanAccess(FGA.menu) Then
             FGA.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FGA)
@@ -344,7 +342,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
-        If globVar.hakAkses = "ADMIN" Or globVar.hakAkses = "PRODUCTION" Then
+        If globVar.CanAccess(FormDefective.menu) Then
             FormDefective.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FormDefective)

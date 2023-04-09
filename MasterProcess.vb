@@ -9,29 +9,34 @@ Public Class MasterProcess
 
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If txt_masterprocess_nama.Text <> "" Then
-            Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
-            Dim dtCheck As DataTable = Database.GetData(querycheck)
-            If dtCheck.Rows.Count > 0 Then
-                RJMessageBox.Show("Process Exist")
-                txt_masterprocess_nama.Text = ""
-                txt_masterprocess_desc.Text = ""
-            Else
-                Try
-                    Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "')"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
+        If globVar.add > 0 Then
 
+            If txt_masterprocess_nama.Text <> "" Then
+                Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
+                Dim dtCheck As DataTable = Database.GetData(querycheck)
+                If dtCheck.Rows.Count > 0 Then
+                    RJMessageBox.Show("Process Exist")
                     txt_masterprocess_nama.Text = ""
                     txt_masterprocess_desc.Text = ""
-                    txt_masterprocess_nama.Select()
+                Else
+                    Try
+                        Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "')"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
 
-                    dgv_masterprocess.DataSource = Nothing
-                    DGV_MasterProcesss()
-                Catch ex As Exception
-                    RJMessageBox.Show("Error Insert" & ex.Message)
-                End Try
+                        txt_masterprocess_nama.Text = ""
+                        txt_masterprocess_desc.Text = ""
+                        txt_masterprocess_nama.Select()
+
+                        dgv_masterprocess.DataSource = Nothing
+                        DGV_MasterProcesss()
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Insert" & ex.Message)
+                    End Try
+                End If
             End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
@@ -54,13 +59,16 @@ Public Class MasterProcess
     End Sub
 
     Private Sub MasterMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
-        txt_masterprocess_nama.Select()
-        DGV_MasterProcesss()
-        txt_masterprocess_search.Text = ""
-        tampilDataComboBoxFamily()
-        tampilDataComboBoxDepartement()
-        cb_mastermaterial_dept.SelectedIndex = -1
-        cb_mastermaterial_family.SelectedIndex = -1
+        If globVar.view > 0 Then
+
+            txt_masterprocess_nama.Select()
+            DGV_MasterProcesss()
+            txt_masterprocess_search.Text = ""
+            tampilDataComboBoxFamily()
+            tampilDataComboBoxDepartement()
+            cb_mastermaterial_dept.SelectedIndex = -1
+            cb_mastermaterial_family.SelectedIndex = -1
+        End If
     End Sub
 
     Private Sub DGV_MasterProcesss()
@@ -85,24 +93,29 @@ Public Class MasterProcess
 
     Private Sub dgv_masterprocess_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocess.CellClick
         If dgv_masterprocess.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            If globVar.delete > 0 Then
 
-            If result = DialogResult.Yes Then
-                Try
-                    Dim querycheck As String = "select * from MASTER_PROCESS_FLOW mpf, MASTER_FINISH_GOODS mfg where mpf.MASTER_FINISH_GOODS_PN=mfg.FG_PART_NUMBER and lower(mpf.MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value.ToLower) & "' and lower(mfg.family)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value.ToLower) & "' and lower(mfg.department)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value.ToLower) & "'"
-                    Dim dtCheck As DataTable = Database.GetData(querycheck)
-                    If dtCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Cannot Delete this data because refrence to process flow.")
-                    Else
-                        Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value & "' and family='" & dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value & "' and department='" & dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "'"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
-                        dgv_masterprocess.DataSource = Nothing
-                        DGV_MasterProcesss()
-                    End If
-                Catch ex As Exception
-                    RJMessageBox.Show("Delete failed" & ex.Message)
-                End Try
+                Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim querycheck As String = "select * from MASTER_PROCESS_FLOW mpf, MASTER_FINISH_GOODS mfg where mpf.MASTER_FINISH_GOODS_PN=mfg.FG_PART_NUMBER and lower(mpf.MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value.ToLower) & "' and lower(mfg.family)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value.ToLower) & "' and lower(mfg.department)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value.ToLower) & "'"
+                        Dim dtCheck As DataTable = Database.GetData(querycheck)
+                        If dtCheck.Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot Delete this data because refrence to process flow.")
+                        Else
+                            Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value & "' and family='" & dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value & "' and department='" & dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "'"
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            cmd.ExecuteNonQuery()
+                            dgv_masterprocess.DataSource = Nothing
+                            DGV_MasterProcesss()
+                        End If
+                    Catch ex As Exception
+                        RJMessageBox.Show("Delete failed" & ex.Message)
+                    End Try
+                End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
     End Sub
@@ -173,11 +186,16 @@ Public Class MasterProcess
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-        OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
-        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Dim filePath As String = OpenFileDialog1.FileName
-            importOneByOne(filePath)
+        If globVar.add > 0 Then
+
+            OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
+            If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+                Dim filePath As String = OpenFileDialog1.FileName
+                importOneByOne(filePath)
+            End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
@@ -234,65 +252,36 @@ Public Class MasterProcess
         End Try
     End Sub
 
-    Sub ImportBulk(filePath As String)
-        Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(filePath)
-        Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-        Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-        oleCon = New OleDbConnection(koneksiExcel)
-        oleCon.Open()
-
-        Dim queryExcel As String = "select * from [" & SheetName & "$]"
-        Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-        Dim rd As OleDbDataReader
-
-        Call Database.koneksi_database()
-        Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-            bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS"
-            Try
-                rd = cmd.ExecuteReader
-
-                bulkCopy.ColumnMappings.Add(0, 1)
-                bulkCopy.ColumnMappings.Add(1, 2)
-
-                bulkCopy.WriteToServer(rd)
-                rd.Close()
-
-                DGV_MasterProcesss()
-                RJMessageBox.Show("Import Master Process Success")
-            Catch ex As Exception
-                RJMessageBox.Show("Import Master Process Failed " & ex.Message)
-            End Try
-        End Using
-    End Sub
-
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
-        Dim excelApp As Excel.Application = New Excel.Application()
+        If globVar.view > 0 Then
 
-        'create new workbook
-        Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
+            Dim excelApp As Excel.Application = New Excel.Application()
 
-        'create new worksheet
-        Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
+            'create new workbook
+            Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
 
-        'write data to worksheet
-        worksheet.Range("A1").Value = "Process Name"
-        worksheet.Range("B1").Value = "Process Description"
-        worksheet.Range("C1").Value = "Family"
-        worksheet.Range("D1").Value = "Department"
+            'create new worksheet
+            Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
-        'save the workbook
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            'write data to worksheet
+            worksheet.Range("A1").Value = "Process Name"
+            worksheet.Range("B1").Value = "Process Description"
+            worksheet.Range("C1").Value = "Family"
+            worksheet.Range("D1").Value = "Department"
 
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            workbook.SaveAs(directoryPath & "\Master Process Template.xlsx")
+            'save the workbook
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                workbook.SaveAs(directoryPath & "\Master Process Template.xlsx")
+            End If
+
+            'cleanup
+            excelApp.Quit()
+            Marshal.ReleaseComObject(excelApp)
+            RJMessageBox.Show("Export Template Success !")
         End If
-
-        'cleanup
-        excelApp.Quit()
-        Marshal.ReleaseComObject(excelApp)
-        RJMessageBox.Show("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Master_Process_Click(sender As Object, e As EventArgs) Handles btn_export_Master_Process.Click
@@ -300,38 +289,41 @@ Public Class MasterProcess
     End Sub
 
     Private Sub ExportToExcel()
-        Dim xlApp As New Excel.Application
-        Dim xlWorkBook As Excel.Workbook
-        Dim xlWorkSheet As Excel.Worksheet
-        Dim misValue As Object = System.Reflection.Missing.Value
-        Dim i As Integer
-        Dim j As Integer
-        xlWorkBook = xlApp.Workbooks.Add(misValue)
-        xlWorkSheet = xlWorkBook.Sheets("sheet1")
+        If globVar.view > 0 Then
 
-        For i = 1 To dgv_masterprocess.RowCount - 2
-            For j = 1 To dgv_masterprocess.ColumnCount - 2
-                For k As Integer = 1 To dgv_masterprocess.Columns.Count
-                    xlWorkSheet.Cells(1, k) = dgv_masterprocess.Columns(k - 1).HeaderText
-                    xlWorkSheet.Cells(i + 2, j + 1) = dgv_masterprocess(j, i).Value.ToString()
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            Dim misValue As Object = System.Reflection.Missing.Value
+            Dim i As Integer
+            Dim j As Integer
+            xlWorkBook = xlApp.Workbooks.Add(misValue)
+            xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+            For i = 1 To dgv_masterprocess.RowCount - 2
+                For j = 1 To dgv_masterprocess.ColumnCount - 2
+                    For k As Integer = 1 To dgv_masterprocess.Columns.Count
+                        xlWorkSheet.Cells(1, k) = dgv_masterprocess.Columns(k - 1).HeaderText
+                        xlWorkSheet.Cells(i + 2, j + 1) = dgv_masterprocess(j, i).Value.ToString()
+                    Next
                 Next
             Next
-        Next
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            xlWorkSheet.SaveAs(directoryPath & "\Master Process.xlsx")
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                xlWorkSheet.SaveAs(directoryPath & "\Master Process.xlsx")
+            End If
+
+            xlWorkBook.Close()
+            xlApp.Quit()
+
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
+
+            RJMessageBox.Show("Export to Excel Success !")
         End If
-
-        xlWorkBook.Close()
-        xlApp.Quit()
-
-        releaseObject(xlWorkSheet)
-        releaseObject(xlWorkBook)
-        releaseObject(xlApp)
-
-        RJMessageBox.Show("Export to Excel Success !")
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)

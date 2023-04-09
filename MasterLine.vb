@@ -5,41 +5,50 @@ Public Class MasterLine
     Public Shared menu As String = "Master Line"
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
-            Dim splitLine() As String = TextBox1.Text.Split(" ")
+        If globVar.add > 0 Then
+            If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
+                Dim splitLine() As String = TextBox1.Text.Split(" ")
 
-            If splitLine(0) <> "Line" Then
-                RJMessageBox.Show("Wrong Format")
-                Exit Sub
-            End If
-
-            If IsNumeric(splitLine(1)) Then
-                If splitLine(1) = 0 Then
+                If splitLine(0) <> "Line" Then
                     RJMessageBox.Show("Wrong Format")
                     Exit Sub
                 End If
-            Else
-                RJMessageBox.Show("Wrong Format")
-                Exit Sub
-            End If
 
-            Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, department) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
-            Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
-            If cmdInsertMasterLine.ExecuteNonQuery() Then
-                TextBox1.Text = ""
-                ComboBox1.SelectedIndex = -1
-                DGV_MasterLine()
+                If IsNumeric(splitLine(1)) Then
+                    If splitLine(1) = 0 Then
+                        RJMessageBox.Show("Wrong Format")
+                        Exit Sub
+                    End If
+                Else
+                    RJMessageBox.Show("Wrong Format")
+                    Exit Sub
+                End If
+                Try
+                    Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, department) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
+                    Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
+                    If cmdInsertMasterLine.ExecuteNonQuery() Then
+                        TextBox1.Text = ""
+                        ComboBox1.SelectedIndex = -1
+                        DGV_MasterLine()
+                    End If
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Master Line - 1 =>" & ex.Message)
+                End Try
+            Else
+                RJMessageBox.Show("Line Name or Department cannot be blank")
             End If
         Else
-            RJMessageBox.Show("Line Name or Department cannot be blank")
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub MasterLine_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Call Database.koneksi_database()
-        DGV_MasterLine()
-        tampilDataComboBoxDepartement()
-        ComboBox1.SelectedIndex = -1
+        If globVar.view > 0 Then
+            Call Database.koneksi_database()
+            DGV_MasterLine()
+            tampilDataComboBoxDepartement()
+            ComboBox1.SelectedIndex = -1
+        End If
     End Sub
 
     Sub tampilDataComboBoxDepartement()
@@ -49,8 +58,6 @@ Public Class MasterLine
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "department"
         ComboBox1.ValueMember = "department"
-        'ComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'ComboBox1.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub DGV_MasterLine()
@@ -74,17 +81,21 @@ Public Class MasterLine
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from master_line where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        DGV_MasterLine()
-                    End If
-                Catch ex As Exception
-                    RJMessageBox.Show("MasterLine-01 : " & ex.Message)
-                End Try
+            If globVar.delete > 0 Then
+                Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim sql As String = "delete from master_line where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            DGV_MasterLine()
+                        End If
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Master Line - 2 =>" & ex.Message)
+                    End Try
+                End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
     End Sub

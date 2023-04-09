@@ -9,45 +9,50 @@ Public Class MasterFinishGoods
 
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Call Database.koneksi_database()
-        If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" Then
-            If IsNumeric(txt_spq.Text) Then
-                Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_pn.Text & "'"
-                Dim dtCheck As DataTable = Database.GetData(querycheck)
-                If dtCheck.Rows.Count > 0 Then
-                    RJMessageBox.Show("Finish Goods Already Exist")
+        If globVar.add > 0 Then
+
+            Call Database.koneksi_database()
+            If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" Then
+                If IsNumeric(txt_spq.Text) Then
+                    Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_pn.Text & "'"
+                    Dim dtCheck As DataTable = Database.GetData(querycheck)
+                    If dtCheck.Rows.Count > 0 Then
+                        RJMessageBox.Show("Finish Goods Already Exist")
+                    Else
+                        Try
+                            Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE,family) VALUES ('" & Trim(txt_pn.Text) & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & Trim(txt_desc.Text) & "'," & txt_spq.Text & ",'" & Trim(txt_laser.Text) & "','" & cb_family.Text & "')"
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+
+                            If cmd.ExecuteNonQuery() Then
+                                txt_dept.Text = ""
+                                txt_pn.Text = ""
+                                txt_desc.Text = ""
+                                txt_level.Text = ""
+                                txt_spq.Text = ""
+                                txt_laser.Text = ""
+                                txt_dept.Select()
+
+                                dgv_finish_goods.DataSource = Nothing
+                                DGV_MasterFinishGoods()
+                            End If
+
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Insert" & ex.Message)
+                        End Try
+                    End If
                 Else
-                    Try
-                        Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE,family) VALUES ('" & Trim(txt_pn.Text) & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & Trim(txt_desc.Text) & "'," & txt_spq.Text & ",'" & Trim(txt_laser.Text) & "','" & cb_family.Text & "')"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-
-                        If cmd.ExecuteNonQuery() Then
-                            txt_dept.Text = ""
-                            txt_pn.Text = ""
-                            txt_desc.Text = ""
-                            txt_level.Text = ""
-                            txt_spq.Text = ""
-                            txt_laser.Text = ""
-                            txt_dept.Select()
-
-                            dgv_finish_goods.DataSource = Nothing
-                            DGV_MasterFinishGoods()
-                        End If
-
-                    Catch ex As Exception
-                        RJMessageBox.Show("Error Insert" & ex.Message)
-                    End Try
+                    RJMessageBox.Show("SPQ must be number.")
+                    txt_dept.Text = ""
+                    txt_pn.Text = ""
+                    txt_desc.Text = ""
+                    txt_level.Text = ""
+                    txt_spq.Text = ""
+                    txt_laser.Text = ""
+                    txt_dept.Select()
                 End If
-            Else
-                RJMessageBox.Show("SPQ must be number.")
-                txt_dept.Text = ""
-                txt_pn.Text = ""
-                txt_desc.Text = ""
-                txt_level.Text = ""
-                txt_spq.Text = ""
-                txt_laser.Text = ""
-                txt_dept.Select()
             End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
@@ -70,14 +75,17 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub MasterFinishGoods_Load(sender As Object, e As EventArgs) Handles Me.Load
-        DGV_MasterFinishGoods()
-        txt_dept.Select()
-        txt_dept.Text = ""
-        tampilDataComboBoxDepartement()
-        tampilDataComboBoxFamily()
-        txt_dept.SelectedIndex = -1
-        txt_level.SelectedIndex = -1
-        cb_family.SelectedIndex = -1
+        If globVar.view > 0 Then
+
+            DGV_MasterFinishGoods()
+            txt_dept.Select()
+            txt_dept.Text = ""
+            tampilDataComboBoxDepartement()
+            tampilDataComboBoxFamily()
+            txt_dept.SelectedIndex = -1
+            txt_level.SelectedIndex = -1
+            cb_family.SelectedIndex = -1
+        End If
     End Sub
 
     Sub DGV_MasterFinishGoods()
@@ -111,61 +119,71 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
-            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-            Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-            oleCon = New OleDbConnection(koneksiExcel)
-            oleCon.Open()
+        If globVar.add > 0 Then
 
-            Dim queryExcel As String = "select * from [" & SheetName & "$]"
-            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-            Dim rd As OleDbDataReader
+            OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+                Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+                Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+                Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+                Dim excelpath As String = OpenFileDialog1.FileName
+                Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+                oleCon = New OleDbConnection(koneksiExcel)
+                oleCon.Open()
 
-            Call Database.koneksi_database()
-            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-                bulkCopy.DestinationTableName = "dbo.MASTER_FINISH_GOODS"
-                Try
-                    rd = cmd.ExecuteReader
+                Dim queryExcel As String = "select * from [" & SheetName & "$]"
+                Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+                Dim rd As OleDbDataReader
 
-                    bulkCopy.ColumnMappings.Add(0, 0)
-                    bulkCopy.ColumnMappings.Add(1, 1)
-                    bulkCopy.ColumnMappings.Add(2, 2)
-                    bulkCopy.ColumnMappings.Add(3, 3)
-                    bulkCopy.ColumnMappings.Add(4, 4)
-                    bulkCopy.ColumnMappings.Add(5, 5)
-                    bulkCopy.ColumnMappings.Add(6, 7)
+                Call Database.koneksi_database()
+                Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                    bulkCopy.DestinationTableName = "dbo.MASTER_FINISH_GOODS"
+                    Try
+                        rd = cmd.ExecuteReader
 
-                    bulkCopy.WriteToServer(rd)
-                    rd.Close()
+                        bulkCopy.ColumnMappings.Add(0, 0)
+                        bulkCopy.ColumnMappings.Add(1, 1)
+                        bulkCopy.ColumnMappings.Add(2, 2)
+                        bulkCopy.ColumnMappings.Add(3, 3)
+                        bulkCopy.ColumnMappings.Add(4, 4)
+                        bulkCopy.ColumnMappings.Add(5, 5)
+                        bulkCopy.ColumnMappings.Add(6, 7)
 
-                    dgv_finish_goods.DataSource = Nothing
-                    DGV_MasterFinishGoods()
-                    RJMessageBox.Show("Import Finish Goods Success")
-                Catch ex As Exception
-                    RJMessageBox.Show("Import Finish Goods Failed " & ex.Message)
-                End Try
-            End Using
+                        bulkCopy.WriteToServer(rd)
+                        rd.Close()
+
+                        dgv_finish_goods.DataSource = Nothing
+                        DGV_MasterFinishGoods()
+                        RJMessageBox.Show("Import Finish Goods Success")
+                    Catch ex As Exception
+                        RJMessageBox.Show("Import Finish Goods Failed " & ex.Message)
+                    End Try
+                End Using
+            End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub dgv_finish_goods_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_finish_goods.CellClick
         If dgv_finish_goods.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            If globVar.delete > 0 Then
 
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
-                    dgv_finish_goods.DataSource = Nothing
-                    DGV_MasterFinishGoods()
-                Catch ex As Exception
-                    RJMessageBox.Show("failed" & ex.Message)
-                End Try
+                Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
+                        dgv_finish_goods.DataSource = Nothing
+                        DGV_MasterFinishGoods()
+                    Catch ex As Exception
+                        RJMessageBox.Show("failed" & ex.Message)
+                    End Try
+                End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
 
@@ -179,23 +197,28 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Dim hapus As Integer = 0
-        Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+        If globVar.delete > 0 Then
 
-        If result = DialogResult.Yes Then
-            For Each row As DataGridViewRow In dgv_finish_goods.Rows
-                If row.Cells(0).Value = True Then
-                    Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells("FG_PART_NUMBER").Value & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
-                    hapus = hapus + 1
-                End If
-            Next
+            Dim hapus As Integer = 0
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+
+            If result = DialogResult.Yes Then
+                For Each row As DataGridViewRow In dgv_finish_goods.Rows
+                    If row.Cells(0).Value = True Then
+                        Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells("FG_PART_NUMBER").Value & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
+                        hapus = hapus + 1
+                    End If
+                Next
+            End If
+
+            dgv_finish_goods.DataSource = Nothing
+            DGV_MasterFinishGoods()
+            RJMessageBox.Show("Delete Success " & hapus & " Data.")
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
-
-        dgv_finish_goods.DataSource = Nothing
-        DGV_MasterFinishGoods()
-        RJMessageBox.Show("Delete Success " & hapus & " Data.")
     End Sub
 
     Private Sub txt_masterfinishgoods_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
@@ -264,7 +287,10 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub btn_export_template_Click(sender As Object, e As EventArgs) Handles btn_export_template.Click
-        ExportToExcel()
+        If globVar.view > 0 Then
+
+            ExportToExcel()
+        End If
     End Sub
     Private Sub ExportToExcel()
         Dim xlApp As New Excel.Application
@@ -313,34 +339,37 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
-        Dim excelApp As Excel.Application = New Excel.Application()
+        If globVar.view > 0 Then
 
-        'create new workbook
-        Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
+            Dim excelApp As Excel.Application = New Excel.Application()
 
-        'create new worksheet
-        Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
+            'create new workbook
+            Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
 
-        'write data to worksheet
-        worksheet.Range("A1").Value = "Finish Goods Part Number"
-        worksheet.Range("B1").Value = "Department"
-        worksheet.Range("C1").Value = "Level"
-        worksheet.Range("D1").Value = "Description"
-        worksheet.Range("E1").Value = "Standard Pack"
-        worksheet.Range("F1").Value = "Laser Code"
-        worksheet.Range("G1").Value = "Family"
+            'create new worksheet
+            Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
-        'save the workbook
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            'write data to worksheet
+            worksheet.Range("A1").Value = "Finish Goods Part Number"
+            worksheet.Range("B1").Value = "Department"
+            worksheet.Range("C1").Value = "Level"
+            worksheet.Range("D1").Value = "Description"
+            worksheet.Range("E1").Value = "Standard Pack"
+            worksheet.Range("F1").Value = "Laser Code"
+            worksheet.Range("G1").Value = "Family"
 
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            workbook.SaveAs(directoryPath & "\Master Finish Goods Template.xlsx")
+            'save the workbook
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                workbook.SaveAs(directoryPath & "\Master Finish Goods Template.xlsx")
+            End If
+
+            'cleanup
+            excelApp.Quit()
+            Marshal.ReleaseComObject(excelApp)
+            RJMessageBox.Show("Export Template Success !")
         End If
-
-        'cleanup
-        excelApp.Quit()
-        Marshal.ReleaseComObject(excelApp)
-        RJMessageBox.Show("Export Template Success !")
     End Sub
 End Class

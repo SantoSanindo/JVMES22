@@ -9,46 +9,53 @@ Public Class MaterialUsageFinishGoods
     Dim oleCon As OleDbConnection
     Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
-            Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
-            Dim dtCheck As DataTable = Database.GetData(querycheck)
-            If dtCheck.Rows.Count > 0 Then
-                RJMessageBox.Show("FG Part Number and Comp exist")
-            Else
-                Try
-                    Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
-                    Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
-                    If dtMasterFG.Rows.Count = 0 Then
-                        RJMessageBox.Show("Sorry. The material not exist in master material. Please input first.")
-                        Exit Sub
-                    End If
+        If globVar.add > 0 Then
+            If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
+                Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
+                Dim dtCheck As DataTable = Database.GetData(querycheck)
+                If dtCheck.Rows.Count > 0 Then
+                    RJMessageBox.Show("FG Part Number and Comp exist")
+                Else
+                    Try
+                        Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
+                        Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+                        If dtMasterFG.Rows.Count = 0 Then
+                            RJMessageBox.Show("Sorry. The material not exist in master material. Please input first.")
+                            Exit Sub
+                        End If
 
-                    Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
+                        Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
 
-                    DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
-                    treeView_show()
+                        DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
+                        treeView_show()
 
-                    idP = cb_masterfinishgoods_pn.Text
+                        idP = cb_masterfinishgoods_pn.Text
 
-                    txt_masterfinishgoods_desc.Text = ""
-                    cb_masterfinishgoods_component.SelectedIndex = -1
-                    txt_masterfinishgoods_usage.Text = ""
-                Catch ex As Exception
-                    RJMessageBox.Show("Error Insert" & ex.Message)
-                End Try
+                        txt_masterfinishgoods_desc.Text = ""
+                        cb_masterfinishgoods_component.SelectedIndex = -1
+                        txt_masterfinishgoods_usage.Text = ""
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Insert" & ex.Message)
+                    End Try
+                End If
             End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub MasterFinishGoods_Load(sender As Object, e As EventArgs) Handles Me.Load
-        treeView_show()
-        idP = ""
-        tampilDataComboBox()
-        cb_masterfinishgoods_pn.SelectedIndex = -1
-        txt_masterfinishgoods_family.Text = ""
-        cb_masterfinishgoods_component.SelectedIndex = -1
+        If globVar.view > 0 Then
+
+            treeView_show()
+            idP = ""
+            tampilDataComboBox()
+            cb_masterfinishgoods_pn.SelectedIndex = -1
+            txt_masterfinishgoods_family.Text = ""
+            cb_masterfinishgoods_component.SelectedIndex = -1
+        End If
     End Sub
 
     Sub tampilDataComboBox()
@@ -88,19 +95,22 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub dgv_masterfinishgoods_atas_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterfinishgoods_atas.CellClick
         If dgv_masterfinishgoods_atas.Columns(e.ColumnIndex).Name = "delete" Then
+            If globVar.delete > 0 Then
+                Dim result = RJMessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
 
-            Dim result = RJMessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
-
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where ID=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(1).Value
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
-                    DGV_Masterfinishgoods_atass(idP)
-                    treeView_show()
-                Catch ex As Exception
-                    RJMessageBox.Show("Delete Failed" & ex.Message)
-                End Try
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where ID=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(1).Value
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
+                        DGV_Masterfinishgoods_atass(idP)
+                        treeView_show()
+                    Catch ex As Exception
+                        RJMessageBox.Show("Delete Failed" & ex.Message)
+                    End Try
+                End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
 
@@ -156,22 +166,26 @@ Public Class MaterialUsageFinishGoods
     End Sub
 
     Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim hapus As Integer = 0
-        Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+        If globVar.delete > 0 Then
+            Dim hapus As Integer = 0
+            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
-        If result = DialogResult.Yes Then
-            For Each row As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
-                If row.Cells(0).Value = True Then
-                    Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where id=" & row.Cells(1).Value
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
-                    hapus = hapus + 1
-                End If
-            Next
+            If result = DialogResult.Yes Then
+                For Each row As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
+                    If row.Cells(0).Value = True Then
+                        Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where id=" & row.Cells(1).Value
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
+                        hapus = hapus + 1
+                    End If
+                Next
+            End If
+
+            treeView_show()
+            DGV_Masterfinishgoods_atass(idP)
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
-
-        treeView_show()
-        DGV_Masterfinishgoods_atass(idP)
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
@@ -275,80 +289,91 @@ Public Class MaterialUsageFinishGoods
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
-            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-            Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-            oleCon = New OleDbConnection(koneksiExcel)
-            oleCon.Open()
+        If globVar.add > 0 Then
 
-            Dim queryExcel As String = "select * from [" & SheetName & "$]"
-            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-            Dim rd As OleDbDataReader
+            OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+                Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+                Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+                Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+                Dim excelpath As String = OpenFileDialog1.FileName
+                Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+                oleCon = New OleDbConnection(koneksiExcel)
+                oleCon.Open()
 
-            Call Database.koneksi_database()
-            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-                bulkCopy.DestinationTableName = "dbo.MATERIAL_USAGE_FINISH_GOODS"
-                Try
-                    rd = cmd.ExecuteReader
+                Dim queryExcel As String = "select * from [" & SheetName & "$]"
+                Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+                Dim rd As OleDbDataReader
 
-                    bulkCopy.ColumnMappings.Add(0, 1)
-                    bulkCopy.ColumnMappings.Add(1, 2)
-                    bulkCopy.ColumnMappings.Add(2, 3)
-                    bulkCopy.ColumnMappings.Add(3, 4)
-                    bulkCopy.ColumnMappings.Add(4, 5)
+                Call Database.koneksi_database()
+                Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                    bulkCopy.DestinationTableName = "dbo.MATERIAL_USAGE_FINISH_GOODS"
+                    Try
+                        rd = cmd.ExecuteReader
 
-                    bulkCopy.WriteToServer(rd)
-                    rd.Close()
+                        bulkCopy.ColumnMappings.Add(0, 1)
+                        bulkCopy.ColumnMappings.Add(1, 2)
+                        bulkCopy.ColumnMappings.Add(2, 3)
+                        bulkCopy.ColumnMappings.Add(3, 4)
+                        bulkCopy.ColumnMappings.Add(4, 5)
 
-                    DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
-                    treeView_show()
+                        bulkCopy.WriteToServer(rd)
+                        rd.Close()
 
-                    idP = cb_masterfinishgoods_pn.Text
+                        DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
+                        treeView_show()
 
-                    RJMessageBox.Show("Import Material Usage Finish Goods Success")
-                Catch ex As Exception
-                    RJMessageBox.Show("Import Material Usage Finish Goods Failed " & ex.Message)
-                End Try
-            End Using
+                        idP = cb_masterfinishgoods_pn.Text
+
+                        RJMessageBox.Show("Import Material Usage Finish Goods Success")
+                    Catch ex As Exception
+                        RJMessageBox.Show("Import Material Usage Finish Goods Failed " & ex.Message)
+                    End Try
+                End Using
+            End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
-        Dim excelApp As Excel.Application = New Excel.Application()
+        If globVar.view > 0 Then
 
-        'create new workbook
-        Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
+            Dim excelApp As Excel.Application = New Excel.Application()
 
-        'create new worksheet
-        Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
+            'create new workbook
+            Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
 
-        'write data to worksheet
-        worksheet.Range("A1").Value = "Finish Goods Part Number"
-        worksheet.Range("B1").Value = "Family"
-        worksheet.Range("C1").Value = "Component"
-        worksheet.Range("D1").Value = "Description"
-        worksheet.Range("E1").Value = "Usage"
+            'create new worksheet
+            Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
-        'save the workbook
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            'write data to worksheet
+            worksheet.Range("A1").Value = "Finish Goods Part Number"
+            worksheet.Range("B1").Value = "Family"
+            worksheet.Range("C1").Value = "Component"
+            worksheet.Range("D1").Value = "Description"
+            worksheet.Range("E1").Value = "Usage"
 
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            workbook.SaveAs(directoryPath & "\Master Material Usage Finish Goods Template.xlsx")
+            'save the workbook
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                workbook.SaveAs(directoryPath & "\Master Material Usage Finish Goods Template.xlsx")
+            End If
+
+            'cleanup
+            excelApp.Quit()
+            Marshal.ReleaseComObject(excelApp)
+            RJMessageBox.Show("Export Template Success !")
         End If
-
-        'cleanup
-        excelApp.Quit()
-        Marshal.ReleaseComObject(excelApp)
-        RJMessageBox.Show("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Master_Usage_Finish_Goods_Click(sender As Object, e As EventArgs) Handles btn_export_Master_Usage_Finish_Goods.Click
-        ExportToExcel()
+        If globVar.view > 0 Then
+
+            ExportToExcel()
+        End If
     End Sub
 
     Private Sub ExportToExcel()

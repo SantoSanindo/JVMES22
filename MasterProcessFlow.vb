@@ -9,9 +9,11 @@ Public Class MasterProcessFlow
 
     Dim oleCon As OleDbConnection
     Private Sub MasterProcessFlow_Load(sender As Object, e As EventArgs) Handles Me.Load
-        'DGV_ProcessFlow()
-        tampilDataComboBox()
-        loadMasterProcessFlowBawah()
+        If globVar.view > 0 Then
+            'DGV_ProcessFlow()
+            tampilDataComboBox()
+            loadMasterProcessFlowBawah()
+        End If
     End Sub
 
     Private Sub DGV_ProcessFlow()
@@ -80,7 +82,7 @@ Public Class MasterProcessFlow
 
             End If
         Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
+            RJMessageBox.Show("Error Process Flow - 1 =>" & ex.Message)
         End Try
     End Sub
 
@@ -142,7 +144,7 @@ Public Class MasterProcessFlow
 
             End If
         Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
+            RJMessageBox.Show("Error Process Flow - 2 =>" & ex.Message)
         End Try
     End Sub
 
@@ -158,57 +160,52 @@ Public Class MasterProcessFlow
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If cb_masterprocessflow.Text <> "" Then
-            Try
-                Dim sql As String = "select * from master_process_number"
-                Dim ds As New DataSet
-                Dim adapter As SqlDataAdapter
-                adapter = New SqlDataAdapter(sql, Database.koneksi)
-                adapter.Fill(ds)
-                For r = 0 To ds.Tables(0).Rows.Count - 1
-                    Dim queryCheckProcessFlow As String = "select * from master_process_flow where MASTER_FINISH_GOODS_PN='" & cb_masterprocessflow.Text & "' and MASTER_PROCESS_NUMBER='" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "'"
-                    Dim dtCheckProcessFlow As DataTable = Database.GetData(queryCheckProcessFlow)
-                    If dtCheckProcessFlow.Rows.Count = 0 Then
-                        Dim sql2 As String = "INSERT INTO MASTER_PROCESS_FLOW(MASTER_FINISH_GOODS_PN,MASTER_PROCESS_NUMBER) VALUES ('" & cb_masterprocessflow.Text & "','" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "')"
-                        Dim cmd2 = New SqlCommand(sql2, Database.koneksi)
-                        cmd2.ExecuteNonQuery()
-                    End If
-                Next
+        If globVar.add > 0 Then
+            If cb_masterprocessflow.Text <> "" Then
+                Try
+                    Dim sql As String = "select * from master_process_number"
+                    Dim ds As New DataSet
+                    Dim adapter As SqlDataAdapter
+                    adapter = New SqlDataAdapter(sql, Database.koneksi)
+                    adapter.Fill(ds)
+                    For r = 0 To ds.Tables(0).Rows.Count - 1
+                        Dim queryCheckProcessFlow As String = "select * from master_process_flow where MASTER_FINISH_GOODS_PN='" & cb_masterprocessflow.Text & "' and MASTER_PROCESS_NUMBER='" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "'"
+                        Dim dtCheckProcessFlow As DataTable = Database.GetData(queryCheckProcessFlow)
+                        If dtCheckProcessFlow.Rows.Count = 0 Then
+                            Dim sql2 As String = "INSERT INTO MASTER_PROCESS_FLOW(MASTER_FINISH_GOODS_PN,MASTER_PROCESS_NUMBER) VALUES ('" & cb_masterprocessflow.Text & "','" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "')"
+                            Dim cmd2 = New SqlCommand(sql2, Database.koneksi)
+                            cmd2.ExecuteNonQuery()
+                        End If
+                    Next
 
-                'For r = 0 To ds.Tables(0).Rows.Count - 1
-                '    Dim queryCheckProcessFlow As String = "select * from master_process_flow where MASTER_FINISH_GOODS_PN='" & cb_masterprocessflow.Text & "' and MASTER_PROCESS_NUMBER='" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "'"
-                '    Dim dtCheckProcessFlow As DataTable = Database.GetData(queryCheckProcessFlow)
-                '    If dtCheckProcessFlow.Rows.Count = 0 Then
-                '        Dim sql2 As String = "INSERT INTO MASTER_PROCESS_FLOW(MASTER_FINISH_GOODS_PN,MASTER_PROCESS_NUMBER) VALUES ('" & cb_masterprocessflow.Text & "','" & ds.Tables(0).Rows(r).Item("PROCESS_NAME").ToString() & "')"
-                '        Dim cmd2 = New SqlCommand(sql2, Database.koneksi)
-                '        cmd2.ExecuteNonQuery()
-                '    End If
-                'Next
-
-                'cb_masterprocessflow.Text = ""
-
-                DGV_ProcessFlow()
-            Catch ex As Exception
-                RJMessageBox.Show("Error Insert" & ex.Message)
-            End Try
+                    DGV_ProcessFlow()
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Process Flow - 3 =>" & ex.Message)
+                End Try
+            End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub dgv_masterprocessflow_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocessflow.CellClick
         Call Database.koneksi_database()
-        'rjMessageBox.Show(e.ColumnIndex)
         If dgv_masterprocessflow.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
+            If globVar.delete > 0 Then
+                Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
-            If result = DialogResult.Yes Then
-                Try
-                    Dim sql As String = "delete from master_process_flow where master_finish_goods_pn='" & dgv_masterprocessflow.Rows(e.RowIndex).Cells(1).Value & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
-                    DGV_ProcessFlow()
-                Catch ex As Exception
-                    RJMessageBox.Show("Failed delete" & ex.Message)
-                End Try
+                If result = DialogResult.Yes Then
+                    Try
+                        Dim sql As String = "delete from master_process_flow where master_finish_goods_pn='" & dgv_masterprocessflow.Rows(e.RowIndex).Cells(1).Value & "'"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
+                        DGV_ProcessFlow()
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Process Flow - 4 =>" & ex.Message)
+                    End Try
+                End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
     End Sub
@@ -242,21 +239,10 @@ Public Class MasterProcessFlow
                     Next
                 End If
             Catch ex As Exception
-                RJMessageBox.Show(ex.ToString)
+                RJMessageBox.Show("Error Process Flow - 5 =>" & ex.Message)
             End Try
         End If
     End Sub
-
-    'Private Sub dgv_material_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles dgv_masterprocessflow.DataBindingComplete
-    '    For i As Integer = 0 To dgv_masterprocessflow.RowCount - 1
-    '        If dgv_masterprocessflow.Rows(i).Index Mod 2 = 0 Then
-    '            dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-    '        Else
-    '            dgv_masterprocessflow.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-    '        End If
-    '    Next i
-    'End Sub
-
 
     Private Sub dgv_masterprocessflow1_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgv_masterprocessflow.CellFormatting
         For i As Integer = 0 To dgv_masterprocessflow.RowCount - 1
@@ -281,81 +267,93 @@ Public Class MasterProcessFlow
     End Sub
 
     Private Sub Combo_SelectionChangeCommitted(ByVal sender As Object, ByVal e As EventArgs)
-        Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-        Dim Sql As String = "update master_process_flow set master_process='" & combo.SelectedItem & "' where master_finish_goods_pn='" & dgv_masterprocessflow.Rows(dgv_masterprocessflow.CurrentCell.RowIndex).Cells(1).Value & "' and master_process_number='" & dgv_masterprocessflow.Columns(dgv_masterprocessflow.CurrentCell.ColumnIndex).HeaderCell.Value & "'"
-        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-        cmd.ExecuteNonQuery()
+        If globVar.update > 0 Then
+            Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
+            Dim Sql As String = "update master_process_flow set master_process='" & combo.SelectedItem & "' where master_finish_goods_pn='" & dgv_masterprocessflow.Rows(dgv_masterprocessflow.CurrentCell.RowIndex).Cells(1).Value & "' and master_process_number='" & dgv_masterprocessflow.Columns(dgv_masterprocessflow.CurrentCell.ColumnIndex).HeaderCell.Value & "'"
+            Dim cmd = New SqlCommand(Sql, Database.koneksi)
+            cmd.ExecuteNonQuery()
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
+        End If
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-        If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-            Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
-            Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-            Dim excelpath As String = OpenFileDialog1.FileName
-            Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-            oleCon = New OleDbConnection(koneksiExcel)
-            oleCon.Open()
+        If globVar.add > 0 Then
+            OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+                Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+                Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+                Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+                Dim excelpath As String = OpenFileDialog1.FileName
+                Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+                oleCon = New OleDbConnection(koneksiExcel)
+                oleCon.Open()
 
-            Dim queryExcel As String = "select * from [" & SheetName & "$]"
-            Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
-            Dim rd As OleDbDataReader
+                Dim queryExcel As String = "select * from [" & SheetName & "$]"
+                Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+                Dim rd As OleDbDataReader
 
-            Call Database.koneksi_database()
-            Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
-                bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS_FLOW"
-                Try
-                    rd = cmd.ExecuteReader
+                Call Database.koneksi_database()
+                Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
+                    bulkCopy.DestinationTableName = "dbo.MASTER_PROCESS_FLOW"
+                    Try
+                        rd = cmd.ExecuteReader
 
-                    bulkCopy.ColumnMappings.Add(0, 1)
-                    bulkCopy.ColumnMappings.Add(1, 2)
-                    bulkCopy.ColumnMappings.Add(2, 3)
-                    bulkCopy.ColumnMappings.Add(3, 4)
+                        bulkCopy.ColumnMappings.Add(0, 1)
+                        bulkCopy.ColumnMappings.Add(1, 2)
+                        bulkCopy.ColumnMappings.Add(2, 3)
+                        bulkCopy.ColumnMappings.Add(3, 4)
 
-                    bulkCopy.WriteToServer(rd)
-                    rd.Close()
+                        bulkCopy.WriteToServer(rd)
+                        rd.Close()
 
-                    DGV_ProcessFlow()
-                    RJMessageBox.Show("Import Process Flow & Process Flow material usage Success")
-                Catch ex As Exception
-                    RJMessageBox.Show("Import Finish Goods Failed " & ex.Message)
-                End Try
-            End Using
+                        DGV_ProcessFlow()
+                        RJMessageBox.Show("Import Process Flow & Process Flow material usage Success")
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Process Flow - 6 =>" & ex.Message)
+                    End Try
+                End Using
+            End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
-        Dim excelApp As Excel.Application = New Excel.Application()
+        If globVar.view > 0 Then
+            Dim excelApp As Excel.Application = New Excel.Application()
 
-        'create new workbook
-        Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
+            'create new workbook
+            Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
 
-        'create new worksheet
-        Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
+            'create new worksheet
+            Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
-        'write data to worksheet
-        worksheet.Range("A1").Value = "Finish Goods Part Number"
-        worksheet.Range("B1").Value = "Process Number "
-        worksheet.Range("C1").Value = "Process Name"
-        worksheet.Range("D1").Value = "Material Usage"
+            'write data to worksheet
+            worksheet.Range("A1").Value = "Finish Goods Part Number"
+            worksheet.Range("B1").Value = "Process Number "
+            worksheet.Range("C1").Value = "Process Name"
+            worksheet.Range("D1").Value = "Material Usage"
 
-        'save the workbook
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            'save the workbook
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            workbook.SaveAs(directoryPath & "\Master Process Flow Template.xlsx")
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                workbook.SaveAs(directoryPath & "\Master Process Flow Template.xlsx")
+            End If
+
+            'cleanup
+            excelApp.Quit()
+            Marshal.ReleaseComObject(excelApp)
+            RJMessageBox.Show("Export Template Success !")
         End If
-
-        'cleanup
-        excelApp.Quit()
-        Marshal.ReleaseComObject(excelApp)
-        RJMessageBox.Show("Export Template Success !")
     End Sub
 
     Private Sub btn_export_Finish_Goods_Click(sender As Object, e As EventArgs) Handles btn_export_Finish_Goods.Click
-        ExportToExcel()
+        If globVar.view > 0 Then
+            ExportToExcel()
+        End If
     End Sub
     Private Sub ExportToExcel()
         Dim xlApp As New Excel.Application
@@ -472,12 +470,4 @@ Public Class MasterProcessFlow
             End If
         Next i
     End Sub
-
-    'Private Sub cb_masterprocessflow_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_masterprocessflow.SelectedIndexChanged
-    '    txt_PN_Finish_Goods.Text = cb_masterprocessflow.Text
-    'End Sub
-
-    'Private Sub txt_PN_Finish_Goods_TextChanged(sender As Object, e As EventArgs) Handles txt_PN_Finish_Goods.TextChanged
-    '    cb_masterprocessflow.SelectedIndex = cb_masterprocessflow.FindStringExact(txt_PN_Finish_Goods.Text)
-    'End Sub
 End Class

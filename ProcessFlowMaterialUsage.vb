@@ -7,7 +7,10 @@ Public Class ProcessFlowMaterialUsage
     Dim lastSelectedLevel1 As Integer
     Dim lastSelectedLevel2 As Integer
     Private Sub ProcessFlowMaterialUsage_Load(sender As Object, e As EventArgs) Handles Me.Load
-        treeView_show()
+        If globVar.view > 0 Then
+
+            treeView_show()
+        End If
     End Sub
 
     Private Sub treeView_show()
@@ -78,45 +81,50 @@ Public Class ProcessFlowMaterialUsage
 
     Private Sub CheckedListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedIndexChanged
         If CheckedListBox1.Items.Count > 0 Then
-            Dim cheq As New System.Text.StringBuilder
-            Dim gas As Integer = 0
+            If globVar.update > 0 Then
 
-            For i = 0 To CheckedListBox1.Items.Count - 1
-                If (CheckedListBox1.GetItemChecked(i)) = True Then
-                    Dim resultCompSplit() As String = CheckedListBox1.Items(i).ToString.Split("-")
-                    cheq.Append(resultCompSplit(0).ToString.Trim)
-                    cheq.Append(";")
+                Dim cheq As New System.Text.StringBuilder
+                Dim gas As Integer = 0
+
+                For i = 0 To CheckedListBox1.Items.Count - 1
+                    If (CheckedListBox1.GetItemChecked(i)) = True Then
+                        Dim resultCompSplit() As String = CheckedListBox1.Items(i).ToString.Split("-")
+                        cheq.Append(resultCompSplit(0).ToString.Trim)
+                        cheq.Append(";")
+                    Else
+                        gas = gas + 1
+                    End If
+                Next
+
+                If gas = CheckedListBox1.Items.Count Then
+                    Dim Sql As String = "update master_process_flow set material_usage=null where id='" & TreeView1.SelectedNode.Name & "'"
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        refreshAll()
+                    End If
                 Else
-                    gas = gas + 1
-                End If
-            Next
+                    If cheq.ToString <> "" Then
+                        If TreeView1.SelectedNode.Name Is Nothing Then
+                            RJMessageBox.Show("Please Select process First")
+                            Exit Sub
+                        End If
 
-            If gas = CheckedListBox1.Items.Count Then
-                Dim Sql As String = "update master_process_flow set material_usage=null where id='" & TreeView1.SelectedNode.Name & "'"
-                Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                If cmd.ExecuteNonQuery() Then
-                    refreshAll()
-                End If
-            Else
-                If cheq.ToString <> "" Then
-                    If TreeView1.SelectedNode.Name Is Nothing Then
-                        RJMessageBox.Show("Please Select process First")
-                        Exit Sub
-                    End If
+                        If TreeView1.SelectedNode.Name = "" Then
+                            RJMessageBox.Show("Please Select process First")
+                            Exit Sub
+                        End If
 
-                    If TreeView1.SelectedNode.Name = "" Then
-                        RJMessageBox.Show("Please Select process First")
-                        Exit Sub
-                    End If
-
-                    If IsNumeric(TreeView1.SelectedNode.Name) Then
-                        Dim Sql As String = "update master_process_flow set material_usage='" & cheq.ToString.Trim & "' where id='" & TreeView1.SelectedNode.Name & "'"
-                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            refreshAll()
+                        If IsNumeric(TreeView1.SelectedNode.Name) Then
+                            Dim Sql As String = "update master_process_flow set material_usage='" & cheq.ToString.Trim & "' where id='" & TreeView1.SelectedNode.Name & "'"
+                            Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                refreshAll()
+                            End If
                         End If
                     End If
                 End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
     End Sub

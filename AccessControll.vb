@@ -97,6 +97,8 @@ Public Class AccessControll
                     Catch ex As Exception
                         RJMessageBox.Show("Error Access Control - 1 =>" & ex.Message)
                     End Try
+                Else
+                    RJMessageBox.Show("Your Access cannot execute this action")
                 End If
             Else
                 If globVar.add > 0 Then
@@ -115,6 +117,8 @@ Public Class AccessControll
                     Catch ex As Exception
                         RJMessageBox.Show("Error Access Control - 2 =>" & ex.Message)
                     End Try
+                Else
+                    RJMessageBox.Show("Your Access cannot execute this action")
                 End If
             End If
         End If
@@ -213,6 +217,8 @@ Public Class AccessControll
                         RJMessageBox.Show("MasterAccess-01 : " & ex.Message)
                     End Try
                 End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
 
@@ -277,9 +283,9 @@ Public Class AccessControll
                         Next
                     Next
                 End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
-        Else
-            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 

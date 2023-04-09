@@ -130,6 +130,8 @@ Public Class MasterMaterial
                         RJMessageBox.Show("Error Master Material - 2 =>" & ex.Message)
                     End Try
                 End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
 
@@ -160,7 +162,8 @@ Public Class MasterMaterial
 
             DGV_MasterMaterial()
             RJMessageBox.Show("Delete Success " & hapus & " Data.")
-
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 

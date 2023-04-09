@@ -252,11 +252,11 @@ Public Class HOME
     End Sub
 
     Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
-        If globVar.CanAccess(StockMinistore.menu) Then
-            StockMinistore.Close()
+        If globVar.CanAccess(StockProduction.menu) Then
+            StockProduction.Close()
             TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(StockMinistore)
-            TabControl1.TabPages(StockMinistore).Select()
+            TabControl1.TabPages.Add(StockProduction)
+            TabControl1.TabPages(StockProduction).Select()
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

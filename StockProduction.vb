@@ -1,8 +1,8 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar
 Imports Microsoft.Office.Interop
 
-Public Class StockMinistore
-    Public Shared menu As String = "Stock Card Mini Store"
+Public Class StockProduction
+    Public Shared menu As String = "Stock Card Production"
 
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
         If globVar.view > 0 Then

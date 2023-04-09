@@ -247,6 +247,12 @@
     <Compile Include="SplitMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="StockProduction.Designer.vb">
+      <DependentUpon>StockProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StockProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StockMinistore.Designer.vb">
       <DependentUpon>StockMinistore.vb</DependentUpon>
     </Compile>
@@ -363,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SplitMaterial.resx">
       <DependentUpon>SplitMaterial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockProduction.resx">
+      <DependentUpon>StockProduction.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockMinistore.resx">
       <DependentUpon>StockMinistore.vb</DependentUpon>

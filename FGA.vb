@@ -12,20 +12,23 @@ Public Class FGA
     Dim noflowticket As String
 
     Private Sub FGA_Load(sender As Object, e As EventArgs) Handles Me.Load
-        tampilDataComboBoxInspector()
-        tampilDataComboBoxPacker1()
-        tampilDataComboBoxPacker2()
-        tampilDataComboBoxPacker3()
-        tampilDataComboBoxPacker4()
+        If globVar.view > 0 Then
 
-        ComboBox1.Enabled = False
-        ComboBox2.Enabled = False
-        ComboBox3.Enabled = False
-        ComboBox4.Enabled = False
-        ComboBox5.Enabled = False
-        Button1.Enabled = False
+            tampilDataComboBoxInspector()
+            tampilDataComboBoxPacker1()
+            tampilDataComboBoxPacker2()
+            tampilDataComboBoxPacker3()
+            tampilDataComboBoxPacker4()
 
-        TextBox1.Select()
+            ComboBox1.Enabled = False
+            ComboBox2.Enabled = False
+            ComboBox3.Enabled = False
+            ComboBox4.Enabled = False
+            ComboBox5.Enabled = False
+            Button1.Enabled = False
+
+            TextBox1.Select()
+        End If
     End Sub
 
     Sub tampilDataComboBoxInspector()
@@ -117,20 +120,24 @@ Public Class FGA
         End If
 
         If ComboBox1.Text <> "" And ComboBox2.Text <> "" And TextBox1.Text <> "" Then
-            Try
-                Dim sqlInsertPrintingRecord As String = "INSERT INTO fga (flow_ticket, inspector, packer1, packer2, packer3, packer4,sub_sub_po,fg_pn,line,no_flowticket,department)
+            If globVar.add > 0 Then
+                Try
+                    Dim sqlInsertPrintingRecord As String = "INSERT INTO fga (flow_ticket, inspector, packer1, packer2, packer3, packer4,sub_sub_po,fg_pn,line,no_flowticket,department)
                                     VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "','" & sub_sub_po & "','" & pn_fg & "','" & line & "','" & noflowticket & "','" & globVar.department & "')"
-                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                    Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" & aFlowTicket.Text & "'"
-                    Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                    cmdUpdate.ExecuteNonQuery()
+                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                    If cmdInsertPrintingRecord.ExecuteNonQuery() Then
+                        Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" & aFlowTicket.Text & "'"
+                        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                        cmdUpdate.ExecuteNonQuery()
 
-                    ResetAfterSave()
-                End If
-            Catch ex As Exception
-                RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+                        ResetAfterSave()
+                    End If
+                Catch ex As Exception
+                    RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
+            End If
         End If
     End Sub
 

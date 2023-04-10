@@ -17,369 +17,21 @@ Public Class Production
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
-            If DataGridView2.Rows.Count = 0 Then
-                RJMessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
-                TextBox1.Clear()
-                Exit Sub
-            End If
+            If globVar.add > 0 Then
+                If DataGridView2.Rows.Count = 0 Then
+                    RJMessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
+                    TextBox1.Clear()
+                    Exit Sub
+                End If
 
-            If Len(Me.TextBox1.Text) >= 64 Then
-                Try
-                    Dim ds As New DataSet
-                    Dim yieldlose As Integer = 0
-                    Dim usage As Integer = 0
-                    Dim targetQty As Integer = 0
-
-                    QRCode.Baca(TextBox1.Text)
-
-                    Dim sqlCheckStockCard As String = "select * from stock_card where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and status='Production Request' and actual_qty > 0"
-                    Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
-                    If dtCheckStockCard.Rows.Count = 0 Then
-                        RJMessageBox.Show("Sorry, the quantity of this material is = 0")
-                        Exit Sub
-                    End If
-
-                    Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & globVar.QRCode_PN & "' and in_material.lot_no='" & globVar.QRCode_lot & "' and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
-                    Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
-                    If dtCheckInStock.Rows.Count > 0 Then
-                        Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
-                        Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
-                        If dtCheckInStockNewRecord.Rows.Count > 0 Then
-                            RJMessageBox.Show("Double Scan")
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        Else
-                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty").ToString.Replace(",", ".") & ",@material='" & globVar.QRCode_PN & "',@lot_material='" & globVar.QRCode_lot & "'"
-                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-
-                            TextBox1.Text = ""
-                            DGV_DOC()
-
-                            For i = 0 To DataGridView1.Rows.Count - 1
-                                If DataGridView1.Rows(i).Cells(1).Value = globVar.QRCode_PN Then
-                                    DataGridView1.Rows(i).Cells(3).Selected = True
-                                End If
-                            Next
-
-                            Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                            Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                            Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and [level]='Fresh'")
-
-                            If dtCheckSummaryFG.Rows.Count > 0 Then
-                                Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                                Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                                dtUpdateStockCardProdReq.ExecuteNonQuery()
-                            Else
-                                Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & globVar.QRCode_PN & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                                Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                                cmdInsertSummaryFG.ExecuteNonQuery()
-                            End If
-
-                            Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                            Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                            dtUpdateTotal.ExecuteNonQuery()
-                        End If
-
-                    Else
-                        RJMessageBox.Show("Sorry this material not for this line.")
-                        TextBox1.Text = ""
-                        TextBox1.Select()
-                    End If
-                Catch ex As Exception
-                    RJMessageBox.Show(ex.Message)
-                End Try
-            Else
-                If InStr(TextBox1.Text, "WIP") > 0 Then
-                    Try
-                        Dim CompExist As String = ""
-
-                        Dim sqlCheckStockWIP As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
-                        Dim dtCheckStockWIP As DataTable = Database.GetData(sqlCheckStockWIP)
-                        If dtCheckStockWIP.Rows.Count > 0 Then
-                            For i = 0 To dtCheckStockWIP.Rows.Count - 1
-                                For j = 0 To DataGridView1.Rows.Count - 1
-                                    If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockWIP.Rows(i).Item("part_number") Then
-                                        Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
-                                        Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                                        If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
-                                            CompExist += dtCheckStockWIP.Rows(j).Item("part_number") & ","
-                                        End If
-                                    End If
-                                Next
-                            Next
-
-                            If CompExist <> "" Then
-                                RJMessageBox.Show("Cannot add WIP. Because (" & CompExist & ") Material Qty more than Qty Need")
-                                TextBox1.Clear()
-                                Exit Sub
-                            End If
-
-                            For i = 0 To dtCheckStockWIP.Rows.Count - 1
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
-                                    VALUES ('" & dtCheckStockWIP.Rows(i).Item("part_number") & "'," & dtCheckStockWIP.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockWIP.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockWIP.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockWIP.Rows(i).Item("lot_no") & "','" & dtCheckStockWIP.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockWIP.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'WIP','" & dtCheckStockWIP.Rows(i).Item("CODE_STOCK_PROD_WIP") & "')"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                cmdInsertInputStockDetail.ExecuteNonQuery()
-
-                                Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                                Dim dtInWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and status='Production Request' and [level]='WIP'")
-
-                                If dtCheckSummaryFG.Rows.Count > 0 Then
-                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_in=wip_in+" & dtInWIP.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                                    Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                                    dtUpdateStockCardProdReq.ExecuteNonQuery()
-                                Else
-                                    Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,wip_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtInWIP.Rows(i).Item("part_number") & "'," & dtInWIP.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                                    cmdInsertSummaryFG.ExecuteNonQuery()
-                                End If
-
-                                Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                                dtUpdateTotal.ExecuteNonQuery()
-                            Next
-
-                            For i = 0 To dtCheckStockWIP.Rows.Count - 1
-                                Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessWIP @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockWIP.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockWIP.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockWIP.Rows(i).Item("lot_no") & "',@codeWIP='" & dtCheckStockWIP.Rows(i).Item("code_stock_prod_wip") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                                Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                            Next
-
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        Else
-                            RJMessageBox.Show("WIP not Exist in DB")
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        End If
-
-                    Catch ex As Exception
-                        RJMessageBox.Show(ex.Message)
-                    End Try
-
-                ElseIf InStr(TextBox1.Text, "OH") > 0 Then
-                    Try
-                        Dim CompExist As String = ""
-
-                        Dim sqlCheckStockONHOLD As String = "select * from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
-                        Dim dtCheckStockONHOLD As DataTable = Database.GetData(sqlCheckStockONHOLD)
-                        If dtCheckStockONHOLD.Rows.Count > 0 Then
-                            For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
-                                For j = 0 To DataGridView1.Rows.Count - 1
-                                    If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockONHOLD.Rows(i).Item("part_number") Then
-                                        Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
-                                        Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                                        If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
-                                            CompExist += dtCheckStockONHOLD.Rows(j).Item("part_number") & ","
-                                        End If
-                                    End If
-                                Next
-                            Next
-
-                            If CompExist <> "" Then
-                                RJMessageBox.Show("Cannot add ONHOLD. Because (" & CompExist & ") Material Qty more than Qty Need")
-                                TextBox1.Clear()
-                                Exit Sub
-                            End If
-
-                            For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
-                                    VALUES ('" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "'," & dtCheckStockONHOLD.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockONHOLD.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockONHOLD.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockONHOLD.Rows(i).Item("lot_no") & "','" & dtCheckStockONHOLD.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockONHOLD.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'OH','" & dtCheckStockONHOLD.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "')"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                cmdInsertInputStockDetail.ExecuteNonQuery()
-
-                                Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                                Dim dtInOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and status='Production Request' and [level]='OH'")
-
-                                If dtCheckSummaryFG.Rows.Count > 0 Then
-                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_in=onhold_in+" & dtInOnHold.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                                    Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                                    dtUpdateStockCardProdReq.ExecuteNonQuery()
-                                Else
-                                    Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,onhold_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "'," & dtInOnHold.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                                    cmdInsertSummaryFG.ExecuteNonQuery()
-                                End If
-
-                                Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                                dtUpdateTotal.ExecuteNonQuery()
-                            Next
-
-                            For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
-                                Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessONHOLD @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockONHOLD.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockONHOLD.Rows(i).Item("lot_no") & "',@codeONHOLD='" & dtCheckStockONHOLD.Rows(i).Item("code_stock_prod_onhold") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                                Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                            Next
-
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        Else
-                            RJMessageBox.Show("ONHOLD not Exist in DB")
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        End If
-                    Catch ex As Exception
-                        RJMessageBox.Show(ex.Message)
-                    End Try
-
-                ElseIf InStr(TextBox1.Text, "OT") > 0 Then
-                    Try
-                        Dim CompExist As String = ""
-
-                        Dim sqlCheckStockOTHERS As String = "select * from STOCK_PROD_OTHERS where CODE_STOCK_PROD_OTHERS='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
-                        Dim dtCheckStockOTHERS As DataTable = Database.GetData(sqlCheckStockOTHERS)
-                        If dtCheckStockOTHERS.Rows.Count > 0 Then
-                            For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
-                                For j = 0 To DataGridView1.Rows.Count - 1
-                                    If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockOTHERS.Rows(i).Item("part_number") Then
-                                        Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
-                                        Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                                        If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
-                                            CompExist += dtCheckStockOTHERS.Rows(i).Item("part_number") & ","
-                                        End If
-                                    End If
-                                Next
-                            Next
-
-                            If CompExist <> "" Then
-                                RJMessageBox.Show("Cannot add OTHERS. Because (" & CompExist & ") Material Qty more than Qty Need")
-                                TextBox1.Clear()
-                                Exit Sub
-                            End If
-
-                            For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
-                                    VALUES ('" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "'," & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockOTHERS.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockOTHERS.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockOTHERS.Rows(i).Item("lot_no") & "','" & dtCheckStockOTHERS.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'OT','" & dtCheckStockOTHERS.Rows(i).Item("CODE_STOCK_PROD_OTHERS") & "')"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                cmdInsertInputStockDetail.ExecuteNonQuery()
-
-                                Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                                Dim dtInOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and status='Production Request' and [level]='OT'")
-
-                                If dtCheckSummaryFG.Rows.Count > 0 Then
-                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set others_in=others_in+" & dtInOthers.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                                    Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                                    dtUpdateStockCardProdReq.ExecuteNonQuery()
-                                Else
-                                    Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,others_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "'," & dtInOthers.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                                    cmdInsertSummaryFG.ExecuteNonQuery()
-                                End If
-
-                                Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                                dtUpdateTotal.ExecuteNonQuery()
-                            Next
-
-                            For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
-                                Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessOTHERS @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockOTHERS.Rows(i).Item("lot_no") & "',@codeOTHERS='" & dtCheckStockOTHERS.Rows(i).Item("CODE_STOCK_PROD_OTHERS") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                                Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                            Next
-
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        Else
-                            RJMessageBox.Show("OTHERS not Exist in DB")
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        End If
-                    Catch ex As Exception
-                        RJMessageBox.Show(ex.Message)
-                    End Try
-                ElseIf InStr(TextBox1.Text, "SA") > 0 Then
-                    Try
-                        Dim CompExist As String = ""
-
-                        Dim sqlCheckStockSubAssy As String = "select * from STOCK_PROD_SUB_ASSY where CODE_STOCK_PROD_SUB_ASSY='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
-                        Dim dtCheckStockSubAssy As DataTable = Database.GetData(sqlCheckStockSubAssy)
-                        If dtCheckStockSubAssy.Rows.Count > 0 Then
-                            For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
-                                For j = 0 To DataGridView1.Rows.Count - 1
-                                    If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockSubAssy.Rows(i).Item("fg") Then
-                                        Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
-                                        Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                                        If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
-                                            CompExist += dtCheckStockSubAssy.Rows(i).Item("fg") & ","
-                                        End If
-                                    End If
-                                Next
-                            Next
-
-                            If CompExist <> "" Then
-                                RJMessageBox.Show("Cannot add Sub Assy. Because (" & CompExist & ") Material Qty more than Qty Need")
-                                TextBox1.Clear()
-                                Exit Sub
-                            End If
-
-                            For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
-                                    VALUES ('" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockSubAssy.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockSubAssy.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "','" & dtCheckStockSubAssy.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','YES'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'SA','" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                cmdInsertInputStockDetail.ExecuteNonQuery()
-
-                                Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                                Dim dtInSA As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and status='Production Request' and [level]='SA'")
-
-                                If dtCheckSummaryFG.Rows.Count > 0 Then
-                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set sa_in=sa_in+" & dtInSA.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                                    Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                                    dtUpdateStockCardProdReq.ExecuteNonQuery()
-                                Else
-                                    Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,sa_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'," & dtInSA.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                                    cmdInsertSummaryFG.ExecuteNonQuery()
-                                End If
-
-                                Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                                Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                                dtUpdateTotal.ExecuteNonQuery()
-                            Next
-
-                            For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
-                                Dim sqlCheckMaterialUsage As String = "select usage from material_usage_finish_goods where fg_part_number='" & TextBox2.Text & "' and component='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'"
-                                Dim dtCheckMaterialUsage As DataTable = Database.GetData(sqlCheckMaterialUsage)
-
-                                Dim sqlCheckFlowTicket As String = "select qty_per_lot from flow_ticket where sub_sub_po='" & TextBox11.Text & "'"
-                                Dim dtCheckFlowTicket As DataTable = Database.GetData(sqlCheckFlowTicket)
-
-                                Dim sqlCheckActualQty As String = "select isnull(sum(actual_qty),0) from stock_card where status='Production Process' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'"
-                                Dim dtCheckActualQty As DataTable = Database.GetData(sqlCheckActualQty)
-
-                                Dim total = dtCheckMaterialUsage.Rows(0).Item(0) * dtCheckFlowTicket.Rows(0).Item(0)
-
-                                If dtCheckActualQty.Rows(0).Item(0) < total Then
-                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "',@lot_material='" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "',@codeSubAssy='" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                End If
-                            Next
-
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        Else
-                            RJMessageBox.Show("Sub Assy not Exist in DB")
-                            TextBox1.Text = ""
-                            DGV_DOC()
-                        End If
-                    Catch ex As Exception
-                        RJMessageBox.Show(ex.Message)
-                    End Try
-                Else 'Material Split Qty
+                If Len(Me.TextBox1.Text) >= 64 Then
                     Try
                         Dim ds As New DataSet
                         Dim yieldlose As Integer = 0
                         Dim usage As Integer = 0
                         Dim targetQty As Integer = 0
 
-                        Dim SplitLabel = TextBox1.Text.Split("-")
-                        globVar.QRCode_PN = SplitLabel(0)
-                        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                        QRCode.Baca(TextBox1.Text)
 
                         Dim sqlCheckStockCard As String = "select * from stock_card where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and status='Production Request' and actual_qty > 0"
                         Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
@@ -387,25 +39,6 @@ Public Class Production
                             RJMessageBox.Show("Sorry, the quantity of this material is = 0")
                             Exit Sub
                         End If
-
-                        Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                        Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                        Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and [level]='Fresh'")
-
-                        If dtCheckSummaryFG.Rows.Count > 0 Then
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                            Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                            dtUpdateStockCardProdReq.ExecuteNonQuery()
-                        Else
-                            Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & globVar.QRCode_PN & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                            Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                            cmdInsertSummaryFG.ExecuteNonQuery()
-                        End If
-
-                        Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                        Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                        dtUpdateTotal.ExecuteNonQuery()
 
                         Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & globVar.QRCode_PN & "' and in_material.lot_no='" & globVar.QRCode_lot & "' and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
                         Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
@@ -428,6 +61,25 @@ Public Class Production
                                         DataGridView1.Rows(i).Cells(3).Selected = True
                                     End If
                                 Next
+
+                                Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                                Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and [level]='Fresh'")
+
+                                If dtCheckSummaryFG.Rows.Count > 0 Then
+                                    Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                    Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                    dtUpdateStockCardProdReq.ExecuteNonQuery()
+                                Else
+                                    Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & globVar.QRCode_PN & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                    cmdInsertSummaryFG.ExecuteNonQuery()
+                                End If
+
+                                Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                                dtUpdateTotal.ExecuteNonQuery()
                             End If
 
                         Else
@@ -436,9 +88,361 @@ Public Class Production
                             TextBox1.Select()
                         End If
                     Catch ex As Exception
-                        RJMessageBox.Show(ex.Message)
+                        RJMessageBox.Show("Error Production - 1 =>" & ex.Message)
                     End Try
+                Else
+                    If InStr(TextBox1.Text, "WIP") > 0 Then
+                        Try
+                            Dim CompExist As String = ""
+
+                            Dim sqlCheckStockWIP As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
+                            Dim dtCheckStockWIP As DataTable = Database.GetData(sqlCheckStockWIP)
+                            If dtCheckStockWIP.Rows.Count > 0 Then
+                                For i = 0 To dtCheckStockWIP.Rows.Count - 1
+                                    For j = 0 To DataGridView1.Rows.Count - 1
+                                        If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockWIP.Rows(i).Item("part_number") Then
+                                            Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
+                                            Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
+                                            If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
+                                                CompExist += dtCheckStockWIP.Rows(j).Item("part_number") & ","
+                                            End If
+                                        End If
+                                    Next
+                                Next
+
+                                If CompExist <> "" Then
+                                    RJMessageBox.Show("Cannot add WIP. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                    TextBox1.Clear()
+                                    Exit Sub
+                                End If
+
+                                For i = 0 To dtCheckStockWIP.Rows.Count - 1
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
+                                    VALUES ('" & dtCheckStockWIP.Rows(i).Item("part_number") & "'," & dtCheckStockWIP.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockWIP.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockWIP.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockWIP.Rows(i).Item("lot_no") & "','" & dtCheckStockWIP.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockWIP.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'WIP','" & dtCheckStockWIP.Rows(i).Item("CODE_STOCK_PROD_WIP") & "')"
+                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+
+                                    Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                                    Dim dtInWIP As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and status='Production Request' and [level]='WIP'")
+
+                                    If dtCheckSummaryFG.Rows.Count > 0 Then
+                                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set wip_in=wip_in+" & dtInWIP.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                        Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                        dtUpdateStockCardProdReq.ExecuteNonQuery()
+                                    Else
+                                        Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,wip_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtInWIP.Rows(i).Item("part_number") & "'," & dtInWIP.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                        cmdInsertSummaryFG.ExecuteNonQuery()
+                                    End If
+
+                                    Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & dtCheckStockWIP.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                                    dtUpdateTotal.ExecuteNonQuery()
+                                Next
+
+                                For i = 0 To dtCheckStockWIP.Rows.Count - 1
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessWIP @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockWIP.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockWIP.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockWIP.Rows(i).Item("lot_no") & "',@codeWIP='" & dtCheckStockWIP.Rows(i).Item("code_stock_prod_wip") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                Next
+
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            Else
+                                RJMessageBox.Show("WIP not Exist in DB")
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            End If
+
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Production - 2 =>" & ex.Message)
+                        End Try
+
+                    ElseIf InStr(TextBox1.Text, "OH") > 0 Then
+                        Try
+                            Dim CompExist As String = ""
+
+                            Dim sqlCheckStockONHOLD As String = "select * from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
+                            Dim dtCheckStockONHOLD As DataTable = Database.GetData(sqlCheckStockONHOLD)
+                            If dtCheckStockONHOLD.Rows.Count > 0 Then
+                                For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
+                                    For j = 0 To DataGridView1.Rows.Count - 1
+                                        If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockONHOLD.Rows(i).Item("part_number") Then
+                                            Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
+                                            Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
+                                            If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
+                                                CompExist += dtCheckStockONHOLD.Rows(j).Item("part_number") & ","
+                                            End If
+                                        End If
+                                    Next
+                                Next
+
+                                If CompExist <> "" Then
+                                    RJMessageBox.Show("Cannot add ONHOLD. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                    TextBox1.Clear()
+                                    Exit Sub
+                                End If
+
+                                For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
+                                    VALUES ('" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "'," & dtCheckStockONHOLD.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockONHOLD.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockONHOLD.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockONHOLD.Rows(i).Item("lot_no") & "','" & dtCheckStockONHOLD.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockONHOLD.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'OH','" & dtCheckStockONHOLD.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "')"
+                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+
+                                    Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                                    Dim dtInOnHold As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and status='Production Request' and [level]='OH'")
+
+                                    If dtCheckSummaryFG.Rows.Count > 0 Then
+                                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set onhold_in=onhold_in+" & dtInOnHold.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                        Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                        dtUpdateStockCardProdReq.ExecuteNonQuery()
+                                    Else
+                                        Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,onhold_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "'," & dtInOnHold.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                        cmdInsertSummaryFG.ExecuteNonQuery()
+                                    End If
+
+                                    Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                                    dtUpdateTotal.ExecuteNonQuery()
+                                Next
+
+                                For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessONHOLD @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockONHOLD.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockONHOLD.Rows(i).Item("lot_no") & "',@codeONHOLD='" & dtCheckStockONHOLD.Rows(i).Item("code_stock_prod_onhold") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                Next
+
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            Else
+                                RJMessageBox.Show("ONHOLD not Exist in DB")
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            End If
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Production - 3 =>" & ex.Message)
+                        End Try
+
+                    ElseIf InStr(TextBox1.Text, "OT") > 0 Then
+                        Try
+                            Dim CompExist As String = ""
+
+                            Dim sqlCheckStockOTHERS As String = "select * from STOCK_PROD_OTHERS where CODE_STOCK_PROD_OTHERS='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
+                            Dim dtCheckStockOTHERS As DataTable = Database.GetData(sqlCheckStockOTHERS)
+                            If dtCheckStockOTHERS.Rows.Count > 0 Then
+                                For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
+                                    For j = 0 To DataGridView1.Rows.Count - 1
+                                        If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockOTHERS.Rows(i).Item("part_number") Then
+                                            Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
+                                            Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
+                                            If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
+                                                CompExist += dtCheckStockOTHERS.Rows(i).Item("part_number") & ","
+                                            End If
+                                        End If
+                                    Next
+                                Next
+
+                                If CompExist <> "" Then
+                                    RJMessageBox.Show("Cannot add OTHERS. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                    TextBox1.Clear()
+                                    Exit Sub
+                                End If
+
+                                For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
+                                    VALUES ('" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "'," & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockOTHERS.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockOTHERS.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockOTHERS.Rows(i).Item("lot_no") & "','" & dtCheckStockOTHERS.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'OT','" & dtCheckStockOTHERS.Rows(i).Item("CODE_STOCK_PROD_OTHERS") & "')"
+                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+
+                                    Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                                    Dim dtInOthers As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and status='Production Request' and [level]='OT'")
+
+                                    If dtCheckSummaryFG.Rows.Count > 0 Then
+                                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set others_in=others_in+" & dtInOthers.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                        Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                        dtUpdateStockCardProdReq.ExecuteNonQuery()
+                                    Else
+                                        Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,others_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "'," & dtInOthers.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                        cmdInsertSummaryFG.ExecuteNonQuery()
+                                    End If
+
+                                    Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                                    dtUpdateTotal.ExecuteNonQuery()
+                                Next
+
+                                For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessOTHERS @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockOTHERS.Rows(i).Item("lot_no") & "',@codeOTHERS='" & dtCheckStockOTHERS.Rows(i).Item("CODE_STOCK_PROD_OTHERS") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                Next
+
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            Else
+                                RJMessageBox.Show("OTHERS not Exist in DB")
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            End If
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Production - 4 =>" & ex.Message)
+                        End Try
+                    ElseIf InStr(TextBox1.Text, "SA") > 0 Then
+                        Try
+                            Dim CompExist As String = ""
+
+                            Dim sqlCheckStockSubAssy As String = "select * from STOCK_PROD_SUB_ASSY where CODE_STOCK_PROD_SUB_ASSY='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
+                            Dim dtCheckStockSubAssy As DataTable = Database.GetData(sqlCheckStockSubAssy)
+                            If dtCheckStockSubAssy.Rows.Count > 0 Then
+                                For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
+                                    For j = 0 To DataGridView1.Rows.Count - 1
+                                        If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockSubAssy.Rows(i).Item("fg") Then
+                                            Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
+                                            Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
+                                            If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
+                                                CompExist += dtCheckStockSubAssy.Rows(i).Item("fg") & ","
+                                            End If
+                                        End If
+                                    Next
+                                Next
+
+                                If CompExist <> "" Then
+                                    RJMessageBox.Show("Cannot add Sub Assy. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                    TextBox1.Clear()
+                                    Exit Sub
+                                End If
+
+                                For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
+                                    VALUES ('" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockSubAssy.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockSubAssy.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "','" & dtCheckStockSubAssy.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','YES'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'SA','" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
+                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+
+                                    Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                                    Dim dtInSA As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and status='Production Request' and [level]='SA'")
+
+                                    If dtCheckSummaryFG.Rows.Count > 0 Then
+                                        Dim queryUpdateStockCardProdReq As String = "update summary_fg set sa_in=sa_in+" & dtInSA.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                        Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                        dtUpdateStockCardProdReq.ExecuteNonQuery()
+                                    Else
+                                        Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,sa_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'," & dtInSA.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                        cmdInsertSummaryFG.ExecuteNonQuery()
+                                    End If
+
+                                    Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                                    Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                                    dtUpdateTotal.ExecuteNonQuery()
+                                Next
+
+                                For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
+                                    Dim sqlCheckMaterialUsage As String = "select usage from material_usage_finish_goods where fg_part_number='" & TextBox2.Text & "' and component='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'"
+                                    Dim dtCheckMaterialUsage As DataTable = Database.GetData(sqlCheckMaterialUsage)
+
+                                    Dim sqlCheckFlowTicket As String = "select qty_per_lot from flow_ticket where sub_sub_po='" & TextBox11.Text & "'"
+                                    Dim dtCheckFlowTicket As DataTable = Database.GetData(sqlCheckFlowTicket)
+
+                                    Dim sqlCheckActualQty As String = "select isnull(sum(actual_qty),0) from stock_card where status='Production Process' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'"
+                                    Dim dtCheckActualQty As DataTable = Database.GetData(sqlCheckActualQty)
+
+                                    Dim total = dtCheckMaterialUsage.Rows(0).Item(0) * dtCheckFlowTicket.Rows(0).Item(0)
+
+                                    If dtCheckActualQty.Rows(0).Item(0) < total Then
+                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "',@lot_material='" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "',@codeSubAssy='" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
+                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                    End If
+                                Next
+
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            Else
+                                RJMessageBox.Show("Sub Assy not Exist in DB")
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                            End If
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Production - 5 =>" & ex.Message)
+                        End Try
+                    Else 'Material Split Qty
+                        Try
+                            Dim ds As New DataSet
+                            Dim yieldlose As Integer = 0
+                            Dim usage As Integer = 0
+                            Dim targetQty As Integer = 0
+
+                            Dim SplitLabel = TextBox1.Text.Split("-")
+                            globVar.QRCode_PN = SplitLabel(0)
+                            globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+
+                            Dim sqlCheckStockCard As String = "select * from stock_card where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and status='Production Request' and actual_qty > 0"
+                            Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
+                            If dtCheckStockCard.Rows.Count = 0 Then
+                                RJMessageBox.Show("Sorry, the quantity of this material is = 0")
+                                Exit Sub
+                            End If
+
+                            Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                            Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                            Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and [level]='Fresh'")
+
+                            If dtCheckSummaryFG.Rows.Count > 0 Then
+                                Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                dtUpdateStockCardProdReq.ExecuteNonQuery()
+                            Else
+                                Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & globVar.QRCode_PN & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                cmdInsertSummaryFG.ExecuteNonQuery()
+                            End If
+
+                            Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & globVar.QRCode_PN & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                            Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                            dtUpdateTotal.ExecuteNonQuery()
+
+                            Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & globVar.QRCode_PN & "' and in_material.lot_no='" & globVar.QRCode_lot & "' and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
+                            Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
+                            If dtCheckInStock.Rows.Count > 0 Then
+                                Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
+                                Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
+                                If dtCheckInStockNewRecord.Rows.Count > 0 Then
+                                    RJMessageBox.Show("Double Scan")
+                                    TextBox1.Text = ""
+                                    DGV_DOC()
+                                Else
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty").ToString.Replace(",", ".") & ",@material='" & globVar.QRCode_PN & "',@lot_material='" & globVar.QRCode_lot & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+
+                                    TextBox1.Text = ""
+                                    DGV_DOC()
+
+                                    For i = 0 To DataGridView1.Rows.Count - 1
+                                        If DataGridView1.Rows(i).Cells(1).Value = globVar.QRCode_PN Then
+                                            DataGridView1.Rows(i).Cells(3).Selected = True
+                                        End If
+                                    Next
+                                End If
+
+                            Else
+                                RJMessageBox.Show("Sorry this material not for this line.")
+                                TextBox1.Text = ""
+                                TextBox1.Select()
+                            End If
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Production - 6 =>" & ex.Message)
+                        End Try
+                    End If
                 End If
+            Else
+                RJMessageBox.Show("Your Access cannot execute this action")
             End If
         End If
     End Sub
@@ -485,7 +489,7 @@ Public Class Production
                 End If
             Next i
         Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
+            RJMessageBox.Show("Error Production - 7 =>" & ex.Message)
         End Try
     End Sub
 
@@ -509,7 +513,7 @@ Public Class Production
                 End If
             Next i
         Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
+            RJMessageBox.Show("Error Production - 8 =>" & ex.Message)
         End Try
     End Sub
 
@@ -519,39 +523,41 @@ Public Class Production
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        If ComboBox1.Text <> "" Then
-            TextBox1.ReadOnly = False
-            Try
-                Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq,ssp.yield_lose
-            from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
-            where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
-                Dim dt As DataTable = Database.GetData(query)
-                If dt.Rows.Count > 0 Then
-                    TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
-                    TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
-                    TextBox5.Text = dt.Rows(0).Item("PO").ToString
-                    TextBox6.Text = dt.Rows(0).Item("SUB_SUB_PO_QTY").ToString
-                    TextBox7.Text = dt.Rows(0).Item("SPQ").ToString
-                    TextBox11.Text = dt.Rows(0).Item("SUB_SUB_PO").ToString
-                    TextBox10.Text = dt.Rows(0).Item("SUB_PO").ToString
-                    TextBox8.Text = dt.Rows(0).Item("YIELD_LOSE").ToString
+        If globVar.view > 0 Then
+            If ComboBox1.Text <> "" Then
+                TextBox1.ReadOnly = False
+                Try
+                    Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq,ssp.yield_lose
+                        from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
+                        where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
+                    Dim dt As DataTable = Database.GetData(query)
+                    If dt.Rows.Count > 0 Then
+                        TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
+                        TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
+                        TextBox5.Text = dt.Rows(0).Item("PO").ToString
+                        TextBox6.Text = dt.Rows(0).Item("SUB_SUB_PO_QTY").ToString
+                        TextBox7.Text = dt.Rows(0).Item("SPQ").ToString
+                        TextBox11.Text = dt.Rows(0).Item("SUB_SUB_PO").ToString
+                        TextBox10.Text = dt.Rows(0).Item("SUB_PO").ToString
+                        TextBox8.Text = dt.Rows(0).Item("YIELD_LOSE").ToString
 
-                    Dim queryFam As String = "SELECT DISTINCT(FAMILY) FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER='" & dt.Rows(0).Item("FG_PN").ToString & "'"
-                    Dim dtFam As DataTable = Database.GetData(queryFam)
-                    TextBox3.Text = dtFam.Rows(0).Item("family").ToString
+                        Dim queryFam As String = "SELECT DISTINCT(FAMILY) FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER='" & dt.Rows(0).Item("FG_PN").ToString & "'"
+                        Dim dtFam As DataTable = Database.GetData(queryFam)
+                        TextBox3.Text = dtFam.Rows(0).Item("family").ToString
 
-                    DGV_DOC()
-                    DGV_DOP()
-                Else
-                    RJMessageBox.Show("This line no have any PO")
-                    DGV_DOC()
-                    DGV_DOP()
-                End If
-            Catch ex As Exception
-                RJMessageBox.Show(ex.Message)
-            End Try
-        Else
-            RJMessageBox.Show("Please select line and fill the Flow Ticket first. ")
+                        DGV_DOC()
+                        DGV_DOP()
+                    Else
+                        RJMessageBox.Show("This line no have any PO")
+                        DGV_DOC()
+                        DGV_DOP()
+                    End If
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Production - 9 =>" & ex.Message)
+                End Try
+            Else
+                RJMessageBox.Show("Please select line and fill the Flow Ticket first. ")
+            End If
         End If
     End Sub
 
@@ -570,73 +576,77 @@ Public Class Production
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Try
-            If DataGridView2.Rows.Count = 0 Then
-                RJMessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
-                TextBox9.Clear()
-                TextBox12.Clear()
-                Exit Sub
-            End If
+        If globVar.add > 0 Then
+            Try
+                If DataGridView2.Rows.Count = 0 Then
+                    RJMessageBox.Show("Cannot process When Detail Of Process blank. Please set Operator First.")
+                    TextBox9.Clear()
+                    TextBox12.Clear()
+                    Exit Sub
+                End If
 
-            If TextBox9.Text <> "" And TextBox12.Text <> "" Then
-                Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & TextBox9.Text & "' and in_material.lot_no='" & TextBox12.Text & "' and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
-                Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
-                If dtCheckInStock.Rows.Count > 0 Then
-                    Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & TextBox9.Text & "' and lot_no='" & TextBox12.Text & "' and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
-                    Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
-                    If dtCheckInStockNewRecord.Rows.Count > 0 Then
-                        RJMessageBox.Show("Double Scan")
-                        TextBox1.Text = ""
-                        DGV_DOC()
-                    Else
-                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty") & ",@material='" & TextBox9.Text & "',@lot_material='" & TextBox12.Text & "'"
-                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-
-                        Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & TextBox9.Text & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                        Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
-
-                        Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & TextBox9.Text & "' and status='Production Request' and [level]='Fresh'")
-
-                        If dtCheckSummaryFG.Rows.Count > 0 Then
-                            Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
-                            Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                            dtUpdateStockCardProdReq.ExecuteNonQuery()
+                If TextBox9.Text <> "" And TextBox12.Text <> "" Then
+                    Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po and sp.status='Open' and in_material.line='" & ComboBox1.Text & "' and in_material.material = '" & TextBox9.Text & "' and in_material.lot_no='" & TextBox12.Text & "' and sp.sub_sub_po='" & TextBox11.Text & "' and in_material.status='Production Request' and department='" & globVar.department & "'"
+                    Dim dtCheckInStock As DataTable = Database.GetData(sqlCheckInStock)
+                    If dtCheckInStock.Rows.Count > 0 Then
+                        Dim sqlCheckInStockNewRecord As String = "select * from stock_card where line='" & ComboBox1.Text & "' and material = '" & TextBox9.Text & "' and lot_no='" & TextBox12.Text & "' and sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "'"
+                        Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
+                        If dtCheckInStockNewRecord.Rows.Count > 0 Then
+                            RJMessageBox.Show("Double Scan")
+                            TextBox1.Text = ""
+                            DGV_DOC()
                         Else
-                            Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & TextBox9.Text & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
-                            Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                            cmdInsertSummaryFG.ExecuteNonQuery()
+                            Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty") & ",@material='" & TextBox9.Text & "',@lot_material='" & TextBox12.Text & "'"
+                            Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+
+                            Dim sqlCheckSummaryFG As String = "select * from summary_fg where material = '" & TextBox9.Text & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                            Dim dtCheckSummaryFG As DataTable = Database.GetData(sqlCheckSummaryFG)
+
+                            Dim dtInFresh As DataTable = Database.GetData("select isnull(sum(qty),0) from stock_card where sub_sub_po='" & TextBox11.Text & "' and material='" & TextBox9.Text & "' and status='Production Request' and [level]='Fresh'")
+
+                            If dtCheckSummaryFG.Rows.Count > 0 Then
+                                Dim queryUpdateStockCardProdReq As String = "update summary_fg set fresh_in=fresh_in+" & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & " where id=" & dtCheckSummaryFG.Rows(0).Item("id")
+                                Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
+                                dtUpdateStockCardProdReq.ExecuteNonQuery()
+                            Else
+                                Dim sqlInsertSummaryFG As String = "INSERT INTO summary_fg (sub_sub_po, FG ,material,fresh_in) VALUES ('" & TextBox11.Text & "','" & TextBox2.Text & "','" & TextBox9.Text & "'," & dtInFresh.Rows(0)(0).ToString.Replace(",", ".") & ")"
+                                Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                                cmdInsertSummaryFG.ExecuteNonQuery()
+                            End If
+
+                            Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & TextBox9.Text & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & TextBox9.Text & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
+                            Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
+                            dtUpdateTotal.ExecuteNonQuery()
+
+                            TextBox9.Text = ""
+                            TextBox12.Clear()
+                            DGV_DOC()
+
+                            For i = 0 To DataGridView1.Rows.Count - 1
+                                If DataGridView1.Rows(i).Cells(1).Value = TextBox9.Text Then
+                                    DataGridView1.Rows(i).Cells(3).Selected = True
+                                End If
+                            Next
                         End If
 
-                        Dim queryUpdateTotal As String = "update summary_fg set total_in=(select sum(fresh_in+balance_in+others_in+wip_in+onhold_in+sa_in) from summary_fg where material = '" & TextBox9.Text & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "') where material = '" & TextBox9.Text & "' and sub_sub_po='" & TextBox11.Text & "' and fg='" & TextBox2.Text & "'"
-                        Dim dtUpdateTotal = New SqlCommand(queryUpdateTotal, Database.koneksi)
-                        dtUpdateTotal.ExecuteNonQuery()
-
+                    Else
+                        RJMessageBox.Show("Sorry this material not for this line.")
                         TextBox9.Text = ""
                         TextBox12.Clear()
-                        DGV_DOC()
-
-                        For i = 0 To DataGridView1.Rows.Count - 1
-                            If DataGridView1.Rows(i).Cells(1).Value = TextBox9.Text Then
-                                DataGridView1.Rows(i).Cells(3).Selected = True
-                            End If
-                        Next
+                        TextBox9.Select()
                     End If
-
                 Else
-                    RJMessageBox.Show("Sorry this material not for this line.")
-                    TextBox9.Text = ""
+                    TextBox9.Clear()
                     TextBox12.Clear()
                     TextBox9.Select()
+                    RJMessageBox.Show("Sorry Comp and Lot No cannot be blank")
                 End If
-            Else
-                TextBox9.Clear()
-                TextBox12.Clear()
-                TextBox9.Select()
-                RJMessageBox.Show("Sorry Comp and Lot No cannot be blank")
-            End If
-        Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
-        End Try
+            Catch ex As Exception
+                RJMessageBox.Show("Error Production - 10 =>" & ex.Message)
+            End Try
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
+        End If
     End Sub
 
     Sub reset()

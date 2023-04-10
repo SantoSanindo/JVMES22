@@ -6,9 +6,11 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class AddChangeOperator
     Public Shared menu As String = "Add / Change Operator"
     Private Sub AddChangeOperator_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Button1.Enabled = False
-        tampilDataComboBoxLine()
-        ComboBox2.SelectedIndex = -1
+        If globVar.view > 0 Then
+            Button1.Enabled = False
+            tampilDataComboBoxLine()
+            ComboBox2.SelectedIndex = -1
+        End If
     End Sub
 
     Sub tampilDataComboBoxLine()
@@ -113,7 +115,7 @@ Public Class AddChangeOperator
                 End If
             End If
         Catch ex As Exception
-            RJMessageBox.Show(ex.ToString)
+            RJMessageBox.Show("Error Add Change Operator - 1 =>" & ex.Message)
         End Try
     End Sub
 
@@ -130,77 +132,85 @@ Public Class AddChangeOperator
     End Sub
 
     Private Sub Combo_SelectionChangeCommitted(ByVal sender As Object, ByVal e As EventArgs)
-        Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-        If combo.SelectedValue IsNot Nothing Then
-            If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value IsNot Nothing Then
-                Try
-                    Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
-                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        DGV_Add_Change_Operator()
-                    End If
-                Catch ex As Exception
-                    RJMessageBox.Show("MainPOSubPO-10 : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
+        If globVar.update > 0 Then
+            Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
+            If combo.SelectedValue IsNot Nothing Then
+                If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value IsNot Nothing Then
+                    Try
+                        Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            DGV_Add_Change_Operator()
+                        End If
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Add Change Operator - 2 =>" & ex.Message)
+                    End Try
+                End If
             End If
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Try
-            Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' AND DEPARTMENT='" & globVar.department & "'"
-            Dim dtDOP As DataTable = Database.GetData(queryDOP)
+        If globVar.update > 0 Then
+            Try
+                Dim queryDOP As String = "select * from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
-            Dim queryProdDOP As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mpf.master_process,mpn.[order],pd.operator_id
+                Dim queryProdDOP As String = "select mp.po,sp.Sub_Sub_PO,mp.fg_pn,mpf.master_process,mpn.[order],pd.operator_id
                 from sub_sub_po sp,main_po mp,MASTER_PROCESS_FLOW MPF, master_process_number mpn,prod_dop pd 
                 where sp.main_po = mp.id AND mpf.MASTER_FINISH_GOODS_PN = mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox2.Text & "' and mp.fg_pn = '" & TextBox13.Text & "' and sp.sub_sub_po='" & TextBox17.Text & "' and mpn.process_name=mpf.master_process_number and master_process is not null and pd.line=sp.line and pd.fg_pn=mp.fg_pn and pd.sub_sub_po=sp.sub_sub_po and pd.process=mpf.master_process AND MP.DEPARTMENT='" & globVar.department & "' order by sp.sub_sub_po"
-            Dim dtProdDOP As DataTable = Database.GetData(queryProdDOP)
-            If dtProdDOP.Rows.Count > 0 Then
-                Dim queryCount As String = "select count(*) from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn=" & TextBox13.Text & " and operator_id is null AND DEPARTMENT='" & globVar.department & "'"
-                Dim dtCount As DataTable = Database.GetData(queryCount)
-                If dtCount.Rows(0).Item(0) > 0 Then
-                    RJMessageBox.Show("Please fill Operator first!",
+                Dim dtProdDOP As DataTable = Database.GetData(queryProdDOP)
+                If dtProdDOP.Rows.Count > 0 Then
+                    Dim queryCount As String = "select count(*) from prod_dop where line='" & ComboBox2.Text & "' and sub_sub_po='" & TextBox17.Text & "' and fg_pn=" & TextBox13.Text & " and operator_id is null AND DEPARTMENT='" & globVar.department & "'"
+                    Dim dtCount As DataTable = Database.GetData(queryCount)
+                    If dtCount.Rows(0).Item(0) > 0 Then
+                        RJMessageBox.Show("Please fill Operator first!",
                                        "",
                                        MessageBoxButtons.OK,
                                        MessageBoxIcon.Warning)
-                    Exit Sub
-                End If
-
-                Dim totalLot As Integer = 0
-
-                If Val(TextBox19.Text) <= Val(TextBox20.Text) Then
-                    totalLot = 1
-                Else
-                    If Val(TextBox19.Text) Mod Val(TextBox20.Text) = 0 Then
-                        totalLot = Val(TextBox19.Text) / Val(TextBox20.Text)
-                    Else
-                        totalLot = Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1
+                        Exit Sub
                     End If
-                End If
 
-                Dim queryDOPDetailCount As String = "select count(*) from prod_dop_details where sub_sub_po='" & TextBox17.Text & "' AND DEPARTMENT='" & globVar.department & "'"
-                Dim dtDOPDetailCount As DataTable = Database.GetData(queryDOPDetailCount)
-                If dtDOPDetailCount.Rows(0).Item(0) = 0 Then
-                    For i As Integer = 0 To dtProdDOP.Rows.Count - 1
-                        For j As Integer = 0 To totalLot - 1
-                            Dim sqlInsertDOPDetails As String = "INSERT INTO prod_dop_details (sub_sub_po, process, operator, lot_flow_ticket, DEPARTMENT, PROCESS_NUMBER)
+                    Dim totalLot As Integer = 0
+
+                    If Val(TextBox19.Text) <= Val(TextBox20.Text) Then
+                        totalLot = 1
+                    Else
+                        If Val(TextBox19.Text) Mod Val(TextBox20.Text) = 0 Then
+                            totalLot = Val(TextBox19.Text) / Val(TextBox20.Text)
+                        Else
+                            totalLot = Math.Floor(Val(TextBox19.Text) / Val(TextBox20.Text)) + 1
+                        End If
+                    End If
+
+                    Dim queryDOPDetailCount As String = "select count(*) from prod_dop_details where sub_sub_po='" & TextBox17.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                    Dim dtDOPDetailCount As DataTable = Database.GetData(queryDOPDetailCount)
+                    If dtDOPDetailCount.Rows(0).Item(0) = 0 Then
+                        For i As Integer = 0 To dtProdDOP.Rows.Count - 1
+                            For j As Integer = 0 To totalLot - 1
+                                Dim sqlInsertDOPDetails As String = "INSERT INTO prod_dop_details (sub_sub_po, process, operator, lot_flow_ticket, DEPARTMENT, PROCESS_NUMBER)
                     VALUES ('" & TextBox17.Text & "','" & dtProdDOP.Rows(i).Item("master_process") & "','" & dtProdDOP.Rows(i).Item("operator_id") & "'," & j + 1 & ",'" & globVar.department & "'," & dtProdDOP.Rows(i).Item("order") & ")"
-                            Dim cmdInsertDOPDetails = New SqlCommand(sqlInsertDOPDetails, Database.koneksi)
-                            If cmdInsertDOPDetails.ExecuteNonQuery() Then
-                                TabControl1.SelectedTab = TabPage1
-                            End If
+                                Dim cmdInsertDOPDetails = New SqlCommand(sqlInsertDOPDetails, Database.koneksi)
+                                If cmdInsertDOPDetails.ExecuteNonQuery() Then
+                                    TabControl1.SelectedTab = TabPage1
+                                End If
+                            Next
                         Next
-                    Next
-                Else
-                    TabControl1.SelectedTab = TabPage1
-                End If
+                    Else
+                        TabControl1.SelectedTab = TabPage1
+                    End If
 
-            End If
-            TabControl1.SelectedIndex = 0
-            TabControl1.SelectedIndex = 1
-        Catch ex As Exception
-            RJMessageBox.Show(ex.ToString)
-        End Try
+                End If
+                TabControl1.SelectedIndex = 0
+                TabControl1.SelectedIndex = 1
+            Catch ex As Exception
+                RJMessageBox.Show("Error Add Change Operator - 3 =>" & ex.Message)
+            End Try
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
+        End If
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
@@ -209,7 +219,7 @@ Public Class AddChangeOperator
                 DGV_Bawah
             End If
         Catch ex As Exception
-            RJMessageBox.Show(ex.ToString)
+            RJMessageBox.Show("Error Add Change Operator - 4 =>" & ex.Message)
         End Try
     End Sub
 
@@ -383,7 +393,7 @@ Public Class AddChangeOperator
 
             End If
         Catch ex As Exception
-            RJMessageBox.Show(ex.ToString)
+            RJMessageBox.Show("Error Add Change Operator - 5 =>" & ex.Message)
         End Try
     End Sub
 
@@ -400,16 +410,20 @@ Public Class AddChangeOperator
     End Sub
 
     Private Sub Combo_SelectionChangeCommittedChangeOperator(ByVal sender As Object, ByVal e As EventArgs)
-        Try
-            Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
-            Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and cast(lot_flow_ticket as int)>=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & " and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
-            Dim cmd = New SqlCommand(Sql, Database.koneksi)
-            If cmd.ExecuteNonQuery() Then
-                DGV_Bawah()
-            End If
-        Catch ex As Exception
-            RJMessageBox.Show(ex.ToString)
-        End Try
+        If globVar.update > 0 Then
+            Try
+                Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
+                Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and cast(lot_flow_ticket as int)>=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & " and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
+                Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                If cmd.ExecuteNonQuery() Then
+                    DGV_Bawah()
+                End If
+            Catch ex As Exception
+                RJMessageBox.Show("Error Add Change Operator - 6 =>" & ex.Message)
+            End Try
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
+        End If
     End Sub
 
     Private Sub DataGridView1_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView1.CellFormatting
@@ -433,8 +447,10 @@ Public Class AddChangeOperator
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        ClearAll()
-        DGV_Add_Change_Operator()
+        If globVar.view > 0 Then
+            ClearAll()
+            DGV_Add_Change_Operator()
+        End If
     End Sub
 
     Sub ClearAll()

@@ -29,68 +29,68 @@ Partial Class HOME
         Me.Ribbon1 = New System.Windows.Forms.Ribbon()
         Me.RibbonSeparator1 = New System.Windows.Forms.RibbonSeparator()
         Me.RibbonSeparator2 = New System.Windows.Forms.RibbonSeparator()
+        Me.Login_DropDown = New System.Windows.Forms.RibbonButton()
+        Me.RibbonButton_Login = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab3 = New System.Windows.Forms.RibbonTab()
         Me.InputStock = New System.Windows.Forms.RibbonPanel()
+        Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
         Me.SplitQty = New System.Windows.Forms.RibbonPanel()
+        Me.SplitQtyBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProductionRequest = New System.Windows.Forms.RibbonPanel()
+        Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
         Me.RibReceiveReturnMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.ReceiveReturnMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibReturnStock = New System.Windows.Forms.RibbonPanel()
+        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
         Me.RibStockMinistore = New System.Windows.Forms.RibbonPanel()
+        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab4 = New System.Windows.Forms.RibbonTab()
         Me.RibStockProd = New System.Windows.Forms.RibbonPanel()
+        Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPO = New System.Windows.Forms.RibbonPanel()
+        Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
         Me.RibOperator = New System.Windows.Forms.RibbonPanel()
+        Me.AddChangeOperatorBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPrintFlowTicket = New System.Windows.Forms.RibbonPanel()
+        Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
+        Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibResultProduction = New System.Windows.Forms.RibbonPanel()
+        Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProdSummary = New System.Windows.Forms.RibbonPanel()
+        Me.SummaryProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
         Me.RibFGA = New System.Windows.Forms.RibbonPanel()
+        Me.FGABtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab5 = New System.Windows.Forms.RibbonTab()
         Me.RibMasterLine = New System.Windows.Forms.RibbonPanel()
+        Me.MasterLineBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterMaterial = New System.Windows.Forms.RibbonPanel()
+        Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcess = New System.Windows.Forms.RibbonPanel()
+        Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterFinishGoods = New System.Windows.Forms.RibbonPanel()
+        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMaterialUsageFinishGoods = New System.Windows.Forms.RibbonPanel()
+        Me.MaterialUsageFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
         Me.RibMasterProcessFlow = New System.Windows.Forms.RibbonPanel()
+        Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProcessFlowMaterialUsage = New System.Windows.Forms.RibbonPanel()
+        Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
         Me.RibUsers = New System.Windows.Forms.RibbonPanel()
+        Me.UsersBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibAC = New System.Windows.Forms.RibbonPanel()
+        Me.ACBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab6 = New System.Windows.Forms.RibbonTab()
         Me.RibbonPanel4 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonButtonPrinterSettings = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel5 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.RibAC = New System.Windows.Forms.RibbonPanel()
-        Me.Login_DropDown = New System.Windows.Forms.RibbonButton()
-        Me.RibbonButton_Login = New System.Windows.Forms.RibbonButton()
-        Me.InputStockBtn = New System.Windows.Forms.RibbonButton()
-        Me.SplitQtyBtn = New System.Windows.Forms.RibbonButton()
-        Me.ProductionRequestBtn = New System.Windows.Forms.RibbonButton()
-        Me.ReceiveReturnMaterialBtn = New System.Windows.Forms.RibbonButton()
-        Me.ReturnStockBtn = New System.Windows.Forms.RibbonButton()
-        Me.StockMinistoreBtn = New System.Windows.Forms.RibbonButton()
-        Me.StockProdBtn = New System.Windows.Forms.RibbonButton()
-        Me.MainPOSubPOBtn = New System.Windows.Forms.RibbonButton()
-        Me.AddChangeOperatorBtn = New System.Windows.Forms.RibbonButton()
-        Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
-        Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
-        Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
-        Me.SummaryProductionBtn = New System.Windows.Forms.RibbonButton()
-        Me.FGABtn = New System.Windows.Forms.RibbonButton()
-        Me.MasterLineBtn = New System.Windows.Forms.RibbonButton()
-        Me.MasterMaterialBtn = New System.Windows.Forms.RibbonButton()
-        Me.MasterProcessBtn = New System.Windows.Forms.RibbonButton()
-        Me.MasterFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
-        Me.MaterialUsageFinishGoodsBtn = New System.Windows.Forms.RibbonButton()
-        Me.MasterProcessFlowBtn = New System.Windows.Forms.RibbonButton()
-        Me.ProcessFlowMaterialUsageBtn = New System.Windows.Forms.RibbonButton()
-        Me.UsersBtn = New System.Windows.Forms.RibbonButton()
-        Me.ACBtn = New System.Windows.Forms.RibbonButton()
-        Me.RibbonButtonPrinterSettings = New System.Windows.Forms.RibbonButton()
-        Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -153,6 +153,26 @@ Partial Class HOME
         '
         Me.RibbonSeparator2.Name = "RibbonSeparator2"
         '
+        'Login_DropDown
+        '
+        Me.Login_DropDown.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
+        Me.Login_DropDown.DropDownItems.Add(Me.RibbonButton_Login)
+        Me.Login_DropDown.Image = CType(resources.GetObject("Login_DropDown.Image"), System.Drawing.Image)
+        Me.Login_DropDown.LargeImage = CType(resources.GetObject("Login_DropDown.LargeImage"), System.Drawing.Image)
+        Me.Login_DropDown.Name = "Login_DropDown"
+        Me.Login_DropDown.SmallImage = CType(resources.GetObject("Login_DropDown.SmallImage"), System.Drawing.Image)
+        Me.Login_DropDown.Text = "Login"
+        '
+        'RibbonButton_Login
+        '
+        Me.RibbonButton_Login.CheckOnClick = True
+        Me.RibbonButton_Login.Image = CType(resources.GetObject("RibbonButton_Login.Image"), System.Drawing.Image)
+        Me.RibbonButton_Login.LargeImage = CType(resources.GetObject("RibbonButton_Login.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton_Login.Name = "RibbonButton_Login"
+        Me.RibbonButton_Login.SmallImage = CType(resources.GetObject("RibbonButton_Login.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton_Login.Text = "Login"
+        Me.RibbonButton_Login.Value = ""
+        '
         'RibbonTab3
         '
         Me.RibbonTab3.Name = "RibbonTab3"
@@ -170,11 +190,26 @@ Partial Class HOME
         Me.InputStock.Name = "InputStock"
         Me.InputStock.Text = "Input Stock  "
         '
+        'InputStockBtn
+        '
+        Me.InputStockBtn.Image = CType(resources.GetObject("InputStockBtn.Image"), System.Drawing.Image)
+        Me.InputStockBtn.LargeImage = CType(resources.GetObject("InputStockBtn.LargeImage"), System.Drawing.Image)
+        Me.InputStockBtn.MinimumSize = New System.Drawing.Size(70, 0)
+        Me.InputStockBtn.Name = "InputStockBtn"
+        Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
+        '
         'SplitQty
         '
         Me.SplitQty.Items.Add(Me.SplitQtyBtn)
         Me.SplitQty.Name = "SplitQty"
         Me.SplitQty.Text = "Split Label"
+        '
+        'SplitQtyBtn
+        '
+        Me.SplitQtyBtn.Image = CType(resources.GetObject("SplitQtyBtn.Image"), System.Drawing.Image)
+        Me.SplitQtyBtn.LargeImage = CType(resources.GetObject("SplitQtyBtn.LargeImage"), System.Drawing.Image)
+        Me.SplitQtyBtn.Name = "SplitQtyBtn"
+        Me.SplitQtyBtn.SmallImage = CType(resources.GetObject("SplitQtyBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProductionRequest
         '
@@ -182,11 +217,25 @@ Partial Class HOME
         Me.RibProductionRequest.Name = "RibProductionRequest"
         Me.RibProductionRequest.Text = "Production Request"
         '
+        'ProductionRequestBtn
+        '
+        Me.ProductionRequestBtn.Image = CType(resources.GetObject("ProductionRequestBtn.Image"), System.Drawing.Image)
+        Me.ProductionRequestBtn.LargeImage = CType(resources.GetObject("ProductionRequestBtn.LargeImage"), System.Drawing.Image)
+        Me.ProductionRequestBtn.Name = "ProductionRequestBtn"
+        Me.ProductionRequestBtn.SmallImage = CType(resources.GetObject("ProductionRequestBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibReceiveReturnMaterial
         '
         Me.RibReceiveReturnMaterial.Items.Add(Me.ReceiveReturnMaterialBtn)
         Me.RibReceiveReturnMaterial.Name = "RibReceiveReturnMaterial"
         Me.RibReceiveReturnMaterial.Text = "Receive Material Production"
+        '
+        'ReceiveReturnMaterialBtn
+        '
+        Me.ReceiveReturnMaterialBtn.Image = CType(resources.GetObject("ReceiveReturnMaterialBtn.Image"), System.Drawing.Image)
+        Me.ReceiveReturnMaterialBtn.LargeImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.LargeImage"), System.Drawing.Image)
+        Me.ReceiveReturnMaterialBtn.Name = "ReceiveReturnMaterialBtn"
+        Me.ReceiveReturnMaterialBtn.SmallImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.SmallImage"), System.Drawing.Image)
         '
         'RibReturnStock
         '
@@ -194,11 +243,25 @@ Partial Class HOME
         Me.RibReturnStock.Name = "RibReturnStock"
         Me.RibReturnStock.Text = "Return to Main Store"
         '
+        'ReturnStockBtn
+        '
+        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
+        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
+        Me.ReturnStockBtn.Name = "ReturnStockBtn"
+        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibStockMinistore
         '
         Me.RibStockMinistore.Items.Add(Me.StockMinistoreBtn)
         Me.RibStockMinistore.Name = "RibStockMinistore"
         Me.RibStockMinistore.Text = "Stock Card Mini Store"
+        '
+        'StockMinistoreBtn
+        '
+        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
+        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
+        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
+        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab4
         '
@@ -218,11 +281,25 @@ Partial Class HOME
         Me.RibStockProd.Name = "RibStockProd"
         Me.RibStockProd.Text = "Stock Card Production"
         '
+        'StockProdBtn
+        '
+        Me.StockProdBtn.Image = CType(resources.GetObject("StockProdBtn.Image"), System.Drawing.Image)
+        Me.StockProdBtn.LargeImage = CType(resources.GetObject("StockProdBtn.LargeImage"), System.Drawing.Image)
+        Me.StockProdBtn.Name = "StockProdBtn"
+        Me.StockProdBtn.SmallImage = CType(resources.GetObject("StockProdBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibPO
         '
         Me.RibPO.Items.Add(Me.MainPOSubPOBtn)
         Me.RibPO.Name = "RibPO"
         Me.RibPO.Text = "Main PO / Sub PO / Sub-sub PO"
+        '
+        'MainPOSubPOBtn
+        '
+        Me.MainPOSubPOBtn.Image = CType(resources.GetObject("MainPOSubPOBtn.Image"), System.Drawing.Image)
+        Me.MainPOSubPOBtn.LargeImage = CType(resources.GetObject("MainPOSubPOBtn.LargeImage"), System.Drawing.Image)
+        Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
+        Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
         '
         'RibOperator
         '
@@ -230,11 +307,25 @@ Partial Class HOME
         Me.RibOperator.Name = "RibOperator"
         Me.RibOperator.Text = "Add / Change Operator"
         '
+        'AddChangeOperatorBtn
+        '
+        Me.AddChangeOperatorBtn.Image = CType(resources.GetObject("AddChangeOperatorBtn.Image"), System.Drawing.Image)
+        Me.AddChangeOperatorBtn.LargeImage = CType(resources.GetObject("AddChangeOperatorBtn.LargeImage"), System.Drawing.Image)
+        Me.AddChangeOperatorBtn.Name = "AddChangeOperatorBtn"
+        Me.AddChangeOperatorBtn.SmallImage = CType(resources.GetObject("AddChangeOperatorBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibPrintFlowTicket
         '
         Me.RibPrintFlowTicket.Items.Add(Me.PrintFlowTicketBtn)
         Me.RibPrintFlowTicket.Name = "RibPrintFlowTicket"
         Me.RibPrintFlowTicket.Text = "Print Flow Ticket"
+        '
+        'PrintFlowTicketBtn
+        '
+        Me.PrintFlowTicketBtn.Image = CType(resources.GetObject("PrintFlowTicketBtn.Image"), System.Drawing.Image)
+        Me.PrintFlowTicketBtn.LargeImage = CType(resources.GetObject("PrintFlowTicketBtn.LargeImage"), System.Drawing.Image)
+        Me.PrintFlowTicketBtn.Name = "PrintFlowTicketBtn"
+        Me.PrintFlowTicketBtn.SmallImage = CType(resources.GetObject("PrintFlowTicketBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProduction
         '
@@ -242,17 +333,38 @@ Partial Class HOME
         Me.RibProduction.Name = "RibProduction"
         Me.RibProduction.Text = "Production"
         '
+        'ProductionBtn
+        '
+        Me.ProductionBtn.Image = CType(resources.GetObject("ProductionBtn.Image"), System.Drawing.Image)
+        Me.ProductionBtn.LargeImage = CType(resources.GetObject("ProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.ProductionBtn.Name = "ProductionBtn"
+        Me.ProductionBtn.SmallImage = CType(resources.GetObject("ProductionBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibResultProduction
         '
         Me.RibResultProduction.Items.Add(Me.ResultProductionBtn)
         Me.RibResultProduction.Name = "RibResultProduction"
         Me.RibResultProduction.Text = "Production Result"
         '
+        'ResultProductionBtn
+        '
+        Me.ResultProductionBtn.Image = CType(resources.GetObject("ResultProductionBtn.Image"), System.Drawing.Image)
+        Me.ResultProductionBtn.LargeImage = CType(resources.GetObject("ResultProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.ResultProductionBtn.Name = "ResultProductionBtn"
+        Me.ResultProductionBtn.SmallImage = CType(resources.GetObject("ResultProductionBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibProdSummary
         '
         Me.RibProdSummary.Items.Add(Me.SummaryProductionBtn)
         Me.RibProdSummary.Name = "RibProdSummary"
         Me.RibProdSummary.Text = "Production Summary"
+        '
+        'SummaryProductionBtn
+        '
+        Me.SummaryProductionBtn.Image = CType(resources.GetObject("SummaryProductionBtn.Image"), System.Drawing.Image)
+        Me.SummaryProductionBtn.LargeImage = CType(resources.GetObject("SummaryProductionBtn.LargeImage"), System.Drawing.Image)
+        Me.SummaryProductionBtn.Name = "SummaryProductionBtn"
+        Me.SummaryProductionBtn.SmallImage = CType(resources.GetObject("SummaryProductionBtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab7
         '
@@ -265,6 +377,13 @@ Partial Class HOME
         Me.RibFGA.Items.Add(Me.FGABtn)
         Me.RibFGA.Name = "RibFGA"
         Me.RibFGA.Text = "FGA     "
+        '
+        'FGABtn
+        '
+        Me.FGABtn.Image = CType(resources.GetObject("FGABtn.Image"), System.Drawing.Image)
+        Me.FGABtn.LargeImage = CType(resources.GetObject("FGABtn.LargeImage"), System.Drawing.Image)
+        Me.FGABtn.Name = "FGABtn"
+        Me.FGABtn.SmallImage = CType(resources.GetObject("FGABtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab5
         '
@@ -286,11 +405,25 @@ Partial Class HOME
         Me.RibMasterLine.Name = "RibMasterLine"
         Me.RibMasterLine.Text = "Master Line"
         '
+        'MasterLineBtn
+        '
+        Me.MasterLineBtn.Image = CType(resources.GetObject("MasterLineBtn.Image"), System.Drawing.Image)
+        Me.MasterLineBtn.LargeImage = CType(resources.GetObject("MasterLineBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterLineBtn.Name = "MasterLineBtn"
+        Me.MasterLineBtn.SmallImage = CType(resources.GetObject("MasterLineBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibMasterMaterial
         '
         Me.RibMasterMaterial.Items.Add(Me.MasterMaterialBtn)
         Me.RibMasterMaterial.Name = "RibMasterMaterial"
         Me.RibMasterMaterial.Text = "Master Material"
+        '
+        'MasterMaterialBtn
+        '
+        Me.MasterMaterialBtn.Image = CType(resources.GetObject("MasterMaterialBtn.Image"), System.Drawing.Image)
+        Me.MasterMaterialBtn.LargeImage = CType(resources.GetObject("MasterMaterialBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterMaterialBtn.Name = "MasterMaterialBtn"
+        Me.MasterMaterialBtn.SmallImage = CType(resources.GetObject("MasterMaterialBtn.SmallImage"), System.Drawing.Image)
         '
         'RibMasterProcess
         '
@@ -298,11 +431,25 @@ Partial Class HOME
         Me.RibMasterProcess.Name = "RibMasterProcess"
         Me.RibMasterProcess.Text = "Master Process"
         '
+        'MasterProcessBtn
+        '
+        Me.MasterProcessBtn.Image = CType(resources.GetObject("MasterProcessBtn.Image"), System.Drawing.Image)
+        Me.MasterProcessBtn.LargeImage = CType(resources.GetObject("MasterProcessBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterProcessBtn.Name = "MasterProcessBtn"
+        Me.MasterProcessBtn.SmallImage = CType(resources.GetObject("MasterProcessBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibMasterFinishGoods
         '
         Me.RibMasterFinishGoods.Items.Add(Me.MasterFinishGoodsBtn)
         Me.RibMasterFinishGoods.Name = "RibMasterFinishGoods"
         Me.RibMasterFinishGoods.Text = "Master Finish Goods"
+        '
+        'MasterFinishGoodsBtn
+        '
+        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
+        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
         '
         'RibMaterialUsageFinishGoods
         '
@@ -310,11 +457,25 @@ Partial Class HOME
         Me.RibMaterialUsageFinishGoods.Name = "RibMaterialUsageFinishGoods"
         Me.RibMaterialUsageFinishGoods.Text = "Material Usage & Finish Goods"
         '
+        'MaterialUsageFinishGoodsBtn
+        '
+        Me.MaterialUsageFinishGoodsBtn.Image = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.Image"), System.Drawing.Image)
+        Me.MaterialUsageFinishGoodsBtn.LargeImage = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.LargeImage"), System.Drawing.Image)
+        Me.MaterialUsageFinishGoodsBtn.Name = "MaterialUsageFinishGoodsBtn"
+        Me.MaterialUsageFinishGoodsBtn.SmallImage = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibMasterProcessFlow
         '
         Me.RibMasterProcessFlow.Items.Add(Me.MasterProcessFlowBtn)
         Me.RibMasterProcessFlow.Name = "RibMasterProcessFlow"
         Me.RibMasterProcessFlow.Text = "Master Process Flow"
+        '
+        'MasterProcessFlowBtn
+        '
+        Me.MasterProcessFlowBtn.Image = CType(resources.GetObject("MasterProcessFlowBtn.Image"), System.Drawing.Image)
+        Me.MasterProcessFlowBtn.LargeImage = CType(resources.GetObject("MasterProcessFlowBtn.LargeImage"), System.Drawing.Image)
+        Me.MasterProcessFlowBtn.Name = "MasterProcessFlowBtn"
+        Me.MasterProcessFlowBtn.SmallImage = CType(resources.GetObject("MasterProcessFlowBtn.SmallImage"), System.Drawing.Image)
         '
         'RibProcessFlowMaterialUsage
         '
@@ -322,11 +483,38 @@ Partial Class HOME
         Me.RibProcessFlowMaterialUsage.Name = "RibProcessFlowMaterialUsage"
         Me.RibProcessFlowMaterialUsage.Text = "Process Flow Material Usage"
         '
+        'ProcessFlowMaterialUsageBtn
+        '
+        Me.ProcessFlowMaterialUsageBtn.Image = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.Image"), System.Drawing.Image)
+        Me.ProcessFlowMaterialUsageBtn.LargeImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.LargeImage"), System.Drawing.Image)
+        Me.ProcessFlowMaterialUsageBtn.Name = "ProcessFlowMaterialUsageBtn"
+        Me.ProcessFlowMaterialUsageBtn.SmallImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibUsers
         '
         Me.RibUsers.Items.Add(Me.UsersBtn)
         Me.RibUsers.Name = "RibUsers"
         Me.RibUsers.Text = "Master Users"
+        '
+        'UsersBtn
+        '
+        Me.UsersBtn.Image = CType(resources.GetObject("UsersBtn.Image"), System.Drawing.Image)
+        Me.UsersBtn.LargeImage = CType(resources.GetObject("UsersBtn.LargeImage"), System.Drawing.Image)
+        Me.UsersBtn.Name = "UsersBtn"
+        Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibAC
+        '
+        Me.RibAC.Items.Add(Me.ACBtn)
+        Me.RibAC.Name = "RibAC"
+        Me.RibAC.Text = "Access Control"
+        '
+        'ACBtn
+        '
+        Me.ACBtn.Image = CType(resources.GetObject("ACBtn.Image"), System.Drawing.Image)
+        Me.ACBtn.LargeImage = CType(resources.GetObject("ACBtn.LargeImage"), System.Drawing.Image)
+        Me.ACBtn.Name = "ACBtn"
+        Me.ACBtn.SmallImage = CType(resources.GetObject("ACBtn.SmallImage"), System.Drawing.Image)
         '
         'RibbonTab6
         '
@@ -341,11 +529,25 @@ Partial Class HOME
         Me.RibbonPanel4.Name = "RibbonPanel4"
         Me.RibbonPanel4.Text = "Labels"
         '
+        'RibbonButtonPrinterSettings
+        '
+        Me.RibbonButtonPrinterSettings.Image = CType(resources.GetObject("RibbonButtonPrinterSettings.Image"), System.Drawing.Image)
+        Me.RibbonButtonPrinterSettings.LargeImage = CType(resources.GetObject("RibbonButtonPrinterSettings.LargeImage"), System.Drawing.Image)
+        Me.RibbonButtonPrinterSettings.Name = "RibbonButtonPrinterSettings"
+        Me.RibbonButtonPrinterSettings.SmallImage = CType(resources.GetObject("RibbonButtonPrinterSettings.SmallImage"), System.Drawing.Image)
+        '
         'RibbonPanel5
         '
         Me.RibbonPanel5.Items.Add(Me.RibbonButtonLogin)
         Me.RibbonPanel5.Name = "RibbonPanel5"
         Me.RibbonPanel5.Text = "Login"
+        '
+        'RibbonButtonLogin
+        '
+        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
+        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
+        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
+        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
         '
         'RibbonPanel3
         '
@@ -390,208 +592,6 @@ Partial Class HOME
         Me.LoginUser.Name = "LoginUser"
         Me.LoginUser.Size = New System.Drawing.Size(36, 17)
         Me.LoginUser.Text = "None"
-        '
-        'RibAC
-        '
-        Me.RibAC.Items.Add(Me.ACBtn)
-        Me.RibAC.Name = "RibAC"
-        Me.RibAC.Text = "Access Control"
-        '
-        'Login_DropDown
-        '
-        Me.Login_DropDown.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
-        Me.Login_DropDown.DropDownItems.Add(Me.RibbonButton_Login)
-        Me.Login_DropDown.Image = CType(resources.GetObject("Login_DropDown.Image"), System.Drawing.Image)
-        Me.Login_DropDown.LargeImage = CType(resources.GetObject("Login_DropDown.LargeImage"), System.Drawing.Image)
-        Me.Login_DropDown.Name = "Login_DropDown"
-        Me.Login_DropDown.SmallImage = CType(resources.GetObject("Login_DropDown.SmallImage"), System.Drawing.Image)
-        Me.Login_DropDown.Text = "Login"
-        '
-        'RibbonButton_Login
-        '
-        Me.RibbonButton_Login.CheckOnClick = True
-        Me.RibbonButton_Login.Image = CType(resources.GetObject("RibbonButton_Login.Image"), System.Drawing.Image)
-        Me.RibbonButton_Login.LargeImage = CType(resources.GetObject("RibbonButton_Login.LargeImage"), System.Drawing.Image)
-        Me.RibbonButton_Login.Name = "RibbonButton_Login"
-        Me.RibbonButton_Login.SmallImage = CType(resources.GetObject("RibbonButton_Login.SmallImage"), System.Drawing.Image)
-        Me.RibbonButton_Login.Text = "Login"
-        Me.RibbonButton_Login.Value = ""
-        '
-        'InputStockBtn
-        '
-        Me.InputStockBtn.Image = CType(resources.GetObject("InputStockBtn.Image"), System.Drawing.Image)
-        Me.InputStockBtn.LargeImage = CType(resources.GetObject("InputStockBtn.LargeImage"), System.Drawing.Image)
-        Me.InputStockBtn.MinimumSize = New System.Drawing.Size(70, 0)
-        Me.InputStockBtn.Name = "InputStockBtn"
-        Me.InputStockBtn.SmallImage = CType(resources.GetObject("InputStockBtn.SmallImage"), System.Drawing.Image)
-        '
-        'SplitQtyBtn
-        '
-        Me.SplitQtyBtn.Image = CType(resources.GetObject("SplitQtyBtn.Image"), System.Drawing.Image)
-        Me.SplitQtyBtn.LargeImage = CType(resources.GetObject("SplitQtyBtn.LargeImage"), System.Drawing.Image)
-        Me.SplitQtyBtn.Name = "SplitQtyBtn"
-        Me.SplitQtyBtn.SmallImage = CType(resources.GetObject("SplitQtyBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ProductionRequestBtn
-        '
-        Me.ProductionRequestBtn.Image = CType(resources.GetObject("ProductionRequestBtn.Image"), System.Drawing.Image)
-        Me.ProductionRequestBtn.LargeImage = CType(resources.GetObject("ProductionRequestBtn.LargeImage"), System.Drawing.Image)
-        Me.ProductionRequestBtn.Name = "ProductionRequestBtn"
-        Me.ProductionRequestBtn.SmallImage = CType(resources.GetObject("ProductionRequestBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ReceiveReturnMaterialBtn
-        '
-        Me.ReceiveReturnMaterialBtn.Image = CType(resources.GetObject("ReceiveReturnMaterialBtn.Image"), System.Drawing.Image)
-        Me.ReceiveReturnMaterialBtn.LargeImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.LargeImage"), System.Drawing.Image)
-        Me.ReceiveReturnMaterialBtn.Name = "ReceiveReturnMaterialBtn"
-        Me.ReceiveReturnMaterialBtn.SmallImage = CType(resources.GetObject("ReceiveReturnMaterialBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ReturnStockBtn
-        '
-        Me.ReturnStockBtn.Image = CType(resources.GetObject("ReturnStockBtn.Image"), System.Drawing.Image)
-        Me.ReturnStockBtn.LargeImage = CType(resources.GetObject("ReturnStockBtn.LargeImage"), System.Drawing.Image)
-        Me.ReturnStockBtn.Name = "ReturnStockBtn"
-        Me.ReturnStockBtn.SmallImage = CType(resources.GetObject("ReturnStockBtn.SmallImage"), System.Drawing.Image)
-        '
-        'StockMinistoreBtn
-        '
-        Me.StockMinistoreBtn.Image = CType(resources.GetObject("StockMinistoreBtn.Image"), System.Drawing.Image)
-        Me.StockMinistoreBtn.LargeImage = CType(resources.GetObject("StockMinistoreBtn.LargeImage"), System.Drawing.Image)
-        Me.StockMinistoreBtn.Name = "StockMinistoreBtn"
-        Me.StockMinistoreBtn.SmallImage = CType(resources.GetObject("StockMinistoreBtn.SmallImage"), System.Drawing.Image)
-        '
-        'StockProdBtn
-        '
-        Me.StockProdBtn.Image = CType(resources.GetObject("StockProdBtn.Image"), System.Drawing.Image)
-        Me.StockProdBtn.LargeImage = CType(resources.GetObject("StockProdBtn.LargeImage"), System.Drawing.Image)
-        Me.StockProdBtn.Name = "StockProdBtn"
-        Me.StockProdBtn.SmallImage = CType(resources.GetObject("StockProdBtn.SmallImage"), System.Drawing.Image)
-        '
-        'MainPOSubPOBtn
-        '
-        Me.MainPOSubPOBtn.Image = CType(resources.GetObject("MainPOSubPOBtn.Image"), System.Drawing.Image)
-        Me.MainPOSubPOBtn.LargeImage = CType(resources.GetObject("MainPOSubPOBtn.LargeImage"), System.Drawing.Image)
-        Me.MainPOSubPOBtn.Name = "MainPOSubPOBtn"
-        Me.MainPOSubPOBtn.SmallImage = CType(resources.GetObject("MainPOSubPOBtn.SmallImage"), System.Drawing.Image)
-        '
-        'AddChangeOperatorBtn
-        '
-        Me.AddChangeOperatorBtn.Image = CType(resources.GetObject("AddChangeOperatorBtn.Image"), System.Drawing.Image)
-        Me.AddChangeOperatorBtn.LargeImage = CType(resources.GetObject("AddChangeOperatorBtn.LargeImage"), System.Drawing.Image)
-        Me.AddChangeOperatorBtn.Name = "AddChangeOperatorBtn"
-        Me.AddChangeOperatorBtn.SmallImage = CType(resources.GetObject("AddChangeOperatorBtn.SmallImage"), System.Drawing.Image)
-        '
-        'PrintFlowTicketBtn
-        '
-        Me.PrintFlowTicketBtn.Image = CType(resources.GetObject("PrintFlowTicketBtn.Image"), System.Drawing.Image)
-        Me.PrintFlowTicketBtn.LargeImage = CType(resources.GetObject("PrintFlowTicketBtn.LargeImage"), System.Drawing.Image)
-        Me.PrintFlowTicketBtn.Name = "PrintFlowTicketBtn"
-        Me.PrintFlowTicketBtn.SmallImage = CType(resources.GetObject("PrintFlowTicketBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ProductionBtn
-        '
-        Me.ProductionBtn.Image = CType(resources.GetObject("ProductionBtn.Image"), System.Drawing.Image)
-        Me.ProductionBtn.LargeImage = CType(resources.GetObject("ProductionBtn.LargeImage"), System.Drawing.Image)
-        Me.ProductionBtn.Name = "ProductionBtn"
-        Me.ProductionBtn.SmallImage = CType(resources.GetObject("ProductionBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ResultProductionBtn
-        '
-        Me.ResultProductionBtn.Image = CType(resources.GetObject("ResultProductionBtn.Image"), System.Drawing.Image)
-        Me.ResultProductionBtn.LargeImage = CType(resources.GetObject("ResultProductionBtn.LargeImage"), System.Drawing.Image)
-        Me.ResultProductionBtn.Name = "ResultProductionBtn"
-        Me.ResultProductionBtn.SmallImage = CType(resources.GetObject("ResultProductionBtn.SmallImage"), System.Drawing.Image)
-        '
-        'SummaryProductionBtn
-        '
-        Me.SummaryProductionBtn.Image = CType(resources.GetObject("SummaryProductionBtn.Image"), System.Drawing.Image)
-        Me.SummaryProductionBtn.LargeImage = CType(resources.GetObject("SummaryProductionBtn.LargeImage"), System.Drawing.Image)
-        Me.SummaryProductionBtn.Name = "SummaryProductionBtn"
-        Me.SummaryProductionBtn.SmallImage = CType(resources.GetObject("SummaryProductionBtn.SmallImage"), System.Drawing.Image)
-        '
-        'FGABtn
-        '
-        Me.FGABtn.Image = CType(resources.GetObject("FGABtn.Image"), System.Drawing.Image)
-        Me.FGABtn.LargeImage = CType(resources.GetObject("FGABtn.LargeImage"), System.Drawing.Image)
-        Me.FGABtn.Name = "FGABtn"
-        Me.FGABtn.SmallImage = CType(resources.GetObject("FGABtn.SmallImage"), System.Drawing.Image)
-        '
-        'MasterLineBtn
-        '
-        Me.MasterLineBtn.Image = CType(resources.GetObject("MasterLineBtn.Image"), System.Drawing.Image)
-        Me.MasterLineBtn.LargeImage = CType(resources.GetObject("MasterLineBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterLineBtn.Name = "MasterLineBtn"
-        Me.MasterLineBtn.SmallImage = CType(resources.GetObject("MasterLineBtn.SmallImage"), System.Drawing.Image)
-        '
-        'MasterMaterialBtn
-        '
-        Me.MasterMaterialBtn.Image = CType(resources.GetObject("MasterMaterialBtn.Image"), System.Drawing.Image)
-        Me.MasterMaterialBtn.LargeImage = CType(resources.GetObject("MasterMaterialBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterMaterialBtn.Name = "MasterMaterialBtn"
-        Me.MasterMaterialBtn.SmallImage = CType(resources.GetObject("MasterMaterialBtn.SmallImage"), System.Drawing.Image)
-        '
-        'MasterProcessBtn
-        '
-        Me.MasterProcessBtn.Image = CType(resources.GetObject("MasterProcessBtn.Image"), System.Drawing.Image)
-        Me.MasterProcessBtn.LargeImage = CType(resources.GetObject("MasterProcessBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterProcessBtn.Name = "MasterProcessBtn"
-        Me.MasterProcessBtn.SmallImage = CType(resources.GetObject("MasterProcessBtn.SmallImage"), System.Drawing.Image)
-        '
-        'MasterFinishGoodsBtn
-        '
-        Me.MasterFinishGoodsBtn.Image = CType(resources.GetObject("MasterFinishGoodsBtn.Image"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.LargeImage = CType(resources.GetObject("MasterFinishGoodsBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterFinishGoodsBtn.Name = "MasterFinishGoodsBtn"
-        Me.MasterFinishGoodsBtn.SmallImage = CType(resources.GetObject("MasterFinishGoodsBtn.SmallImage"), System.Drawing.Image)
-        '
-        'MaterialUsageFinishGoodsBtn
-        '
-        Me.MaterialUsageFinishGoodsBtn.Image = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.Image"), System.Drawing.Image)
-        Me.MaterialUsageFinishGoodsBtn.LargeImage = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.LargeImage"), System.Drawing.Image)
-        Me.MaterialUsageFinishGoodsBtn.Name = "MaterialUsageFinishGoodsBtn"
-        Me.MaterialUsageFinishGoodsBtn.SmallImage = CType(resources.GetObject("MaterialUsageFinishGoodsBtn.SmallImage"), System.Drawing.Image)
-        '
-        'MasterProcessFlowBtn
-        '
-        Me.MasterProcessFlowBtn.Image = CType(resources.GetObject("MasterProcessFlowBtn.Image"), System.Drawing.Image)
-        Me.MasterProcessFlowBtn.LargeImage = CType(resources.GetObject("MasterProcessFlowBtn.LargeImage"), System.Drawing.Image)
-        Me.MasterProcessFlowBtn.Name = "MasterProcessFlowBtn"
-        Me.MasterProcessFlowBtn.SmallImage = CType(resources.GetObject("MasterProcessFlowBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ProcessFlowMaterialUsageBtn
-        '
-        Me.ProcessFlowMaterialUsageBtn.Image = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.Image"), System.Drawing.Image)
-        Me.ProcessFlowMaterialUsageBtn.LargeImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.LargeImage"), System.Drawing.Image)
-        Me.ProcessFlowMaterialUsageBtn.Name = "ProcessFlowMaterialUsageBtn"
-        Me.ProcessFlowMaterialUsageBtn.SmallImage = CType(resources.GetObject("ProcessFlowMaterialUsageBtn.SmallImage"), System.Drawing.Image)
-        '
-        'UsersBtn
-        '
-        Me.UsersBtn.Image = CType(resources.GetObject("UsersBtn.Image"), System.Drawing.Image)
-        Me.UsersBtn.LargeImage = CType(resources.GetObject("UsersBtn.LargeImage"), System.Drawing.Image)
-        Me.UsersBtn.Name = "UsersBtn"
-        Me.UsersBtn.SmallImage = CType(resources.GetObject("UsersBtn.SmallImage"), System.Drawing.Image)
-        '
-        'ACBtn
-        '
-        Me.ACBtn.Image = CType(resources.GetObject("ACBtn.Image"), System.Drawing.Image)
-        Me.ACBtn.LargeImage = CType(resources.GetObject("ACBtn.LargeImage"), System.Drawing.Image)
-        Me.ACBtn.Name = "ACBtn"
-        Me.ACBtn.SmallImage = CType(resources.GetObject("ACBtn.SmallImage"), System.Drawing.Image)
-        '
-        'RibbonButtonPrinterSettings
-        '
-        Me.RibbonButtonPrinterSettings.Image = CType(resources.GetObject("RibbonButtonPrinterSettings.Image"), System.Drawing.Image)
-        Me.RibbonButtonPrinterSettings.LargeImage = CType(resources.GetObject("RibbonButtonPrinterSettings.LargeImage"), System.Drawing.Image)
-        Me.RibbonButtonPrinterSettings.Name = "RibbonButtonPrinterSettings"
-        Me.RibbonButtonPrinterSettings.SmallImage = CType(resources.GetObject("RibbonButtonPrinterSettings.SmallImage"), System.Drawing.Image)
-        '
-        'RibbonButtonLogin
-        '
-        Me.RibbonButtonLogin.Image = CType(resources.GetObject("RibbonButtonLogin.Image"), System.Drawing.Image)
-        Me.RibbonButtonLogin.LargeImage = CType(resources.GetObject("RibbonButtonLogin.LargeImage"), System.Drawing.Image)
-        Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
-        Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
         '
         'RibbonButton1
         '

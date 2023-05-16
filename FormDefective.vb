@@ -1764,7 +1764,6 @@ Public Class FormDefective
         Catch ex As Exception
             RJMessageBox.Show(ex.Message)
         End Try
-        el
     End Sub
 
     Private Sub btnBalanceDelete_Click(sender As Object, e As EventArgs) Handles btnBalanceDelete.Click

@@ -23,6 +23,7 @@ Public Class MasterLine
                     RJMessageBox.Show("Wrong Format")
                     Exit Sub
                 End If
+
                 Try
                     Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, department) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
                     Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
@@ -34,6 +35,7 @@ Public Class MasterLine
                 Catch ex As Exception
                     RJMessageBox.Show("Error Master Line - 1 =>" & ex.Message)
                 End Try
+
             Else
                 RJMessageBox.Show("Line Name or Department cannot be blank")
             End If

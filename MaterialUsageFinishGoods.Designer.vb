@@ -22,7 +22,7 @@ Partial Class MaterialUsageFinishGoods
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txt_masterfinishgoods_family = New System.Windows.Forms.TextBox()
         Me.cb_masterfinishgoods_component = New System.Windows.Forms.ComboBox()
@@ -103,7 +103,7 @@ Partial Class MaterialUsageFinishGoods
         Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(1507, 24)
+        Me.btn_ex_template.Location = New System.Drawing.Point(1549, 20)
         Me.btn_ex_template.Name = "btn_ex_template"
         Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_ex_template.TabIndex = 29
@@ -115,7 +115,7 @@ Partial Class MaterialUsageFinishGoods
         Me.btn_export_Master_Usage_Finish_Goods.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_export_Master_Usage_Finish_Goods.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btn_export_Master_Usage_Finish_Goods.ForeColor = System.Drawing.Color.White
-        Me.btn_export_Master_Usage_Finish_Goods.Location = New System.Drawing.Point(1723, 24)
+        Me.btn_export_Master_Usage_Finish_Goods.Location = New System.Drawing.Point(1723, 71)
         Me.btn_export_Master_Usage_Finish_Goods.Name = "btn_export_Master_Usage_Finish_Goods"
         Me.btn_export_Master_Usage_Finish_Goods.Size = New System.Drawing.Size(193, 42)
         Me.btn_export_Master_Usage_Finish_Goods.TabIndex = 28
@@ -221,7 +221,7 @@ Partial Class MaterialUsageFinishGoods
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button3.BackColor = System.Drawing.Color.Green
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(1363, 20)
+        Me.Button3.Location = New System.Drawing.Point(1786, 16)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(130, 50)
         Me.Button3.TabIndex = 15
@@ -233,11 +233,11 @@ Partial Class MaterialUsageFinishGoods
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1215, 20)
+        Me.Button1.Location = New System.Drawing.Point(1220, 17)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(133, 49)
         Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Add"
+        Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'dgv_masterfinishgoods_atas
@@ -249,14 +249,14 @@ Partial Class MaterialUsageFinishGoods
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_masterfinishgoods_atas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterfinishgoods_atas.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgv_masterfinishgoods_atas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_masterfinishgoods_atas.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_masterfinishgoods_atas.Location = New System.Drawing.Point(397, 129)

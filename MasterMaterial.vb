@@ -11,7 +11,7 @@ Public Class MasterMaterial
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.add > 0 Then
             Call Database.koneksi_database()
-            If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" And cb_mastermaterial_family.Text <> "" Then
+            If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" And cb_mastermaterial_family.Text <> "" And cb_mastermaterial_dept.Text <> "" Then
                 If IsNumeric(txt_mastermaterial_pn.Text) And IsNumeric(txt_mastermaterial_qty.Text) Then
                     Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
                     Dim dtCheck As DataTable = Database.GetData(querycheck)
@@ -274,7 +274,7 @@ Public Class MasterMaterial
                     Next
                 End If
             Catch ex As Exception
-                RJMessageBox.Show("Error Master Material - 5 =>" & ex.Message)
+                RJMessageBox.Show("Error Master Material - 4 =>" & ex.Message)
             End Try
         End If
     End Sub

@@ -24,6 +24,8 @@ Partial Class MasterMaterial
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.cb_mastermaterial_dept = New System.Windows.Forms.ComboBox()
         Me.cb_mastermaterial_family = New System.Windows.Forms.ComboBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_template = New System.Windows.Forms.Button()
@@ -42,8 +44,6 @@ Partial Class MasterMaterial
         Me.Label1 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.cb_mastermaterial_dept = New System.Windows.Forms.ComboBox()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_material, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -78,21 +78,40 @@ Partial Class MasterMaterial
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(738, 31)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(138, 29)
+        Me.Label6.TabIndex = 18
+        Me.Label6.Text = "Department"
+        '
+        'cb_mastermaterial_dept
+        '
+        Me.cb_mastermaterial_dept.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cb_mastermaterial_dept.FormattingEnabled = True
+        Me.cb_mastermaterial_dept.Items.AddRange(New Object() {"zSFP", "zQSFP", "Ten60"})
+        Me.cb_mastermaterial_dept.Location = New System.Drawing.Point(882, 28)
+        Me.cb_mastermaterial_dept.Name = "cb_mastermaterial_dept"
+        Me.cb_mastermaterial_dept.Size = New System.Drawing.Size(157, 37)
+        Me.cb_mastermaterial_dept.TabIndex = 17
+        '
         'cb_mastermaterial_family
         '
         Me.cb_mastermaterial_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cb_mastermaterial_family.FormattingEnabled = True
-        Me.cb_mastermaterial_family.Location = New System.Drawing.Point(722, 81)
+        Me.cb_mastermaterial_family.Location = New System.Drawing.Point(546, 81)
         Me.cb_mastermaterial_family.Name = "cb_mastermaterial_family"
-        Me.cb_mastermaterial_family.Size = New System.Drawing.Size(340, 37)
+        Me.cb_mastermaterial_family.Size = New System.Drawing.Size(151, 37)
         Me.cb_mastermaterial_family.TabIndex = 16
         '
         'btn_ex_template
         '
-        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(1145, 660)
+        Me.btn_ex_template.Location = New System.Drawing.Point(1557, 24)
         Me.btn_ex_template.Name = "btn_ex_template"
         Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_ex_template.TabIndex = 15
@@ -101,10 +120,10 @@ Partial Class MasterMaterial
         '
         'btn_export_template
         '
-        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_export_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_export_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btn_export_template.ForeColor = System.Drawing.Color.White
-        Me.btn_export_template.Location = New System.Drawing.Point(1380, 660)
+        Me.btn_export_template.Location = New System.Drawing.Point(1726, 77)
         Me.btn_export_template.Name = "btn_export_template"
         Me.btn_export_template.Size = New System.Drawing.Size(193, 42)
         Me.btn_export_template.TabIndex = 14
@@ -114,7 +133,7 @@ Partial Class MasterMaterial
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(564, 84)
+        Me.Label5.Location = New System.Drawing.Point(388, 84)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(84, 29)
         Me.Label5.TabIndex = 12
@@ -134,7 +153,7 @@ Partial Class MasterMaterial
         '
         Me.txt_pn_name.Location = New System.Drawing.Point(164, 81)
         Me.txt_pn_name.Name = "txt_pn_name"
-        Me.txt_pn_name.Size = New System.Drawing.Size(334, 35)
+        Me.txt_pn_name.Size = New System.Drawing.Size(196, 35)
         Me.txt_pn_name.TabIndex = 10
         '
         'Label3
@@ -184,11 +203,11 @@ Partial Class MasterMaterial
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1657, 25)
+        Me.Button1.Location = New System.Drawing.Point(1124, 25)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(133, 41)
         Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Add"
+        Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'dgv_material
@@ -221,22 +240,22 @@ Partial Class MasterMaterial
         '
         'txt_mastermaterial_qty
         '
-        Me.txt_mastermaterial_qty.Location = New System.Drawing.Point(722, 28)
+        Me.txt_mastermaterial_qty.Location = New System.Drawing.Point(546, 28)
         Me.txt_mastermaterial_qty.Name = "txt_mastermaterial_qty"
-        Me.txt_mastermaterial_qty.Size = New System.Drawing.Size(340, 35)
+        Me.txt_mastermaterial_qty.Size = New System.Drawing.Size(151, 35)
         Me.txt_mastermaterial_qty.TabIndex = 3
         '
         'txt_mastermaterial_pn
         '
         Me.txt_mastermaterial_pn.Location = New System.Drawing.Point(164, 28)
         Me.txt_mastermaterial_pn.Name = "txt_mastermaterial_pn"
-        Me.txt_mastermaterial_pn.Size = New System.Drawing.Size(334, 35)
+        Me.txt_mastermaterial_pn.Size = New System.Drawing.Size(196, 35)
         Me.txt_mastermaterial_pn.TabIndex = 2
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(564, 31)
+        Me.Label2.Location = New System.Drawing.Point(388, 31)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(152, 29)
         Me.Label2.TabIndex = 1
@@ -254,25 +273,6 @@ Partial Class MasterMaterial
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'cb_mastermaterial_dept
-        '
-        Me.cb_mastermaterial_dept.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cb_mastermaterial_dept.FormattingEnabled = True
-        Me.cb_mastermaterial_dept.Items.AddRange(New Object() {"zSFP", "zQSFP", "Ten60"})
-        Me.cb_mastermaterial_dept.Location = New System.Drawing.Point(1274, 28)
-        Me.cb_mastermaterial_dept.Name = "cb_mastermaterial_dept"
-        Me.cb_mastermaterial_dept.Size = New System.Drawing.Size(340, 37)
-        Me.cb_mastermaterial_dept.TabIndex = 17
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(1130, 31)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(138, 29)
-        Me.Label6.TabIndex = 18
-        Me.Label6.Text = "Department"
         '
         'MasterMaterial
         '

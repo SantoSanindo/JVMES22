@@ -201,26 +201,26 @@ Partial Class AddChangeOperator
         '
         'TextBox17
         '
-        Me.TextBox17.Location = New System.Drawing.Point(1021, 122)
+        Me.TextBox17.Location = New System.Drawing.Point(1054, 122)
         Me.TextBox17.Name = "TextBox17"
         Me.TextBox17.ReadOnly = True
-        Me.TextBox17.Size = New System.Drawing.Size(281, 35)
+        Me.TextBox17.Size = New System.Drawing.Size(248, 35)
         Me.TextBox17.TabIndex = 11
         '
         'TextBox16
         '
-        Me.TextBox16.Location = New System.Drawing.Point(1021, 74)
+        Me.TextBox16.Location = New System.Drawing.Point(1054, 74)
         Me.TextBox16.Name = "TextBox16"
         Me.TextBox16.ReadOnly = True
-        Me.TextBox16.Size = New System.Drawing.Size(281, 35)
+        Me.TextBox16.Size = New System.Drawing.Size(248, 35)
         Me.TextBox16.TabIndex = 10
         '
         'TextBox15
         '
-        Me.TextBox15.Location = New System.Drawing.Point(1021, 28)
+        Me.TextBox15.Location = New System.Drawing.Point(1054, 28)
         Me.TextBox15.Name = "TextBox15"
         Me.TextBox15.ReadOnly = True
-        Me.TextBox15.Size = New System.Drawing.Size(281, 35)
+        Me.TextBox15.Size = New System.Drawing.Size(248, 35)
         Me.TextBox15.TabIndex = 9
         '
         'TextBox14
@@ -271,9 +271,9 @@ Partial Class AddChangeOperator
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(869, 31)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(141, 29)
+        Me.Label17.Size = New System.Drawing.Size(179, 29)
         Me.Label17.TabIndex = 3
-        Me.Label17.Text = "PO Number"
+        Me.Label17.Text = "PO/SA Number"
         '
         'Label16
         '

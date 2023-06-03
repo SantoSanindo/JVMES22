@@ -37,7 +37,7 @@ Public Class MaterialUsageFinishGoods
                         cb_masterfinishgoods_component.SelectedIndex = -1
                         txt_masterfinishgoods_usage.Text = ""
                     Catch ex As Exception
-                        RJMessageBox.Show("Error Insert" & ex.Message)
+                        RJMessageBox.Show("Error Master Material Usage Finish Goods - 1 => " & ex.Message)
                     End Try
                 End If
             End If
@@ -106,7 +106,7 @@ Public Class MaterialUsageFinishGoods
                         DGV_Masterfinishgoods_atass(idP)
                         treeView_show()
                     Catch ex As Exception
-                        RJMessageBox.Show("Delete Failed" & ex.Message)
+                        RJMessageBox.Show("Error Master Material Usage Finish Goods - 2 => " & ex.Message)
                     End Try
                 End If
             Else
@@ -220,6 +220,7 @@ Public Class MaterialUsageFinishGoods
                     Else
                         CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index + 1
                     End If
+
                     If CurrentRowIndex > dgv_masterfinishgoods_atas.Rows.Count Then
                         CurrentRowIndex = dgv_masterfinishgoods_atas.Rows.Count - 1
                     End If
@@ -241,7 +242,7 @@ Public Class MaterialUsageFinishGoods
                         End If
                     End If
                 Catch ex As Exception
-                    RJMessageBox.Show(ex.ToString)
+                    RJMessageBox.Show("Error Master Material Usage Finish Goods - 3 => " & ex.Message)
                 End Try
             End If
         End If
@@ -327,7 +328,7 @@ Public Class MaterialUsageFinishGoods
 
                         RJMessageBox.Show("Import Material Usage Finish Goods Success")
                     Catch ex As Exception
-                        RJMessageBox.Show("Import Material Usage Finish Goods Failed " & ex.Message)
+                        RJMessageBox.Show("Error Master Material Usage Finish Goods - 4 => " & ex.Message)
                     End Try
                 End Using
             End If

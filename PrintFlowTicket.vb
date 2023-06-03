@@ -58,7 +58,7 @@ Public Class PrintFlowTicket
         If globVar.view > 0 Then
 
             If DataGridView2.Rows.Count = 0 Then
-                RJMessageBox.Show("Cannot Print When Detail Of Process blank. Please set Operator First.")
+                RJMessageBox.Show("Cannot Print When Detail Of Process / Detail Of Component blank. Please set First.")
                 Exit Sub
             End If
 
@@ -250,6 +250,7 @@ Public Class PrintFlowTicket
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.view > 0 Then
+            clear()
 
             Try
                 Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq
@@ -356,6 +357,15 @@ Public Class PrintFlowTicket
 
     Private Sub cbLot_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLot.SelectedIndexChanged
         DGV_DOP_Param(cbLot.Text)
+    End Sub
+
+    Sub clear()
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        DataGridView2.DataSource = Nothing
+        DataGridView2.Rows.Clear()
+        DataGridView2.Columns.Clear()
     End Sub
 
     Sub DGV_DOP_Param(Lot As String)

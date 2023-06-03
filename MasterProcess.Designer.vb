@@ -24,6 +24,10 @@ Partial Class MasterProcess
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.cb_masterprocess_dept = New System.Windows.Forms.ComboBox()
+        Me.cb_masterprocess_family = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_Master_Process = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -39,10 +43,6 @@ Partial Class MasterProcess
         Me.process_desc = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.cb_mastermaterial_family = New System.Windows.Forms.ComboBox()
-        Me.cb_mastermaterial_dept = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgv_masterprocess, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -52,8 +52,8 @@ Partial Class MasterProcess
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.cb_mastermaterial_dept)
-        Me.GroupBox1.Controls.Add(Me.cb_mastermaterial_family)
+        Me.GroupBox1.Controls.Add(Me.cb_masterprocess_dept)
+        Me.GroupBox1.Controls.Add(Me.cb_masterprocess_family)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
@@ -74,12 +74,48 @@ Partial Class MasterProcess
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
+        'cb_masterprocess_dept
+        '
+        Me.cb_masterprocess_dept.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cb_masterprocess_dept.FormattingEnabled = True
+        Me.cb_masterprocess_dept.Location = New System.Drawing.Point(732, 78)
+        Me.cb_masterprocess_dept.Name = "cb_masterprocess_dept"
+        Me.cb_masterprocess_dept.Size = New System.Drawing.Size(301, 37)
+        Me.cb_masterprocess_dept.TabIndex = 21
+        '
+        'cb_masterprocess_family
+        '
+        Me.cb_masterprocess_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cb_masterprocess_family.FormattingEnabled = True
+        Me.cb_masterprocess_family.Location = New System.Drawing.Point(732, 28)
+        Me.cb_masterprocess_family.Name = "cb_masterprocess_family"
+        Me.cb_masterprocess_family.Size = New System.Drawing.Size(301, 37)
+        Me.cb_masterprocess_family.TabIndex = 20
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(588, 81)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(138, 29)
+        Me.Label5.TabIndex = 19
+        Me.Label5.Text = "Department"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(588, 31)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(84, 29)
+        Me.Label4.TabIndex = 18
+        Me.Label4.Text = "Family"
+        '
         'btn_ex_template
         '
         Me.btn_ex_template.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ex_template.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btn_ex_template.ForeColor = System.Drawing.Color.White
-        Me.btn_ex_template.Location = New System.Drawing.Point(1424, 24)
+        Me.btn_ex_template.Location = New System.Drawing.Point(1432, 24)
         Me.btn_ex_template.Name = "btn_ex_template"
         Me.btn_ex_template.Size = New System.Drawing.Size(210, 42)
         Me.btn_ex_template.TabIndex = 17
@@ -91,7 +127,7 @@ Partial Class MasterProcess
         Me.btn_export_Master_Process.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_export_Master_Process.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btn_export_Master_Process.ForeColor = System.Drawing.Color.White
-        Me.btn_export_Master_Process.Location = New System.Drawing.Point(1656, 24)
+        Me.btn_export_Master_Process.Location = New System.Drawing.Point(1656, 74)
         Me.btn_export_Master_Process.Name = "btn_export_Master_Process"
         Me.btn_export_Master_Process.Size = New System.Drawing.Size(193, 42)
         Me.btn_export_Master_Process.TabIndex = 16
@@ -103,7 +139,7 @@ Partial Class MasterProcess
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(1246, 26)
+        Me.Button2.Location = New System.Drawing.Point(1696, 26)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(153, 38)
         Me.Button2.TabIndex = 8
@@ -137,7 +173,7 @@ Partial Class MasterProcess
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(153, 38)
         Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Add"
+        Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'dgv_masterprocess
@@ -216,42 +252,6 @@ Partial Class MasterProcess
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(588, 31)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(84, 29)
-        Me.Label4.TabIndex = 18
-        Me.Label4.Text = "Family"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(588, 81)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(138, 29)
-        Me.Label5.TabIndex = 19
-        Me.Label5.Text = "Department"
-        '
-        'cb_mastermaterial_family
-        '
-        Me.cb_mastermaterial_family.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cb_mastermaterial_family.FormattingEnabled = True
-        Me.cb_mastermaterial_family.Location = New System.Drawing.Point(732, 28)
-        Me.cb_mastermaterial_family.Name = "cb_mastermaterial_family"
-        Me.cb_mastermaterial_family.Size = New System.Drawing.Size(301, 37)
-        Me.cb_mastermaterial_family.TabIndex = 20
-        '
-        'cb_mastermaterial_dept
-        '
-        Me.cb_mastermaterial_dept.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cb_mastermaterial_dept.FormattingEnabled = True
-        Me.cb_mastermaterial_dept.Location = New System.Drawing.Point(732, 78)
-        Me.cb_mastermaterial_dept.Name = "cb_mastermaterial_dept"
-        Me.cb_mastermaterial_dept.Size = New System.Drawing.Size(301, 37)
-        Me.cb_mastermaterial_dept.TabIndex = 21
-        '
         'MasterProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -284,8 +284,8 @@ Partial Class MasterProcess
     Friend WithEvents btn_ex_template As Button
     Friend WithEvents btn_export_Master_Process As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
-    Friend WithEvents cb_mastermaterial_dept As ComboBox
-    Friend WithEvents cb_mastermaterial_family As ComboBox
+    Friend WithEvents cb_masterprocess_dept As ComboBox
+    Friend WithEvents cb_masterprocess_family As ComboBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Label4 As Label
 End Class

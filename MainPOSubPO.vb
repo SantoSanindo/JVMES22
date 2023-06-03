@@ -18,7 +18,7 @@ Public Class MainPOSubPO
 
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
-        Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW where MASTER_PROCESS IS NOT NULL order by MASTER_FINISH_GOODS_PN")
+        Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW mpf, MATERIAL_USAGE_FINISH_GOODS mufg where MASTER_PROCESS IS NOT NULL and mpf.MASTER_FINISH_GOODS_PN = mufg.fg_part_number order by MASTER_FINISH_GOODS_PN")
 
         ComboBox1.DataSource = dtMasterProcessFlow
         ComboBox1.DisplayMember = "MASTER_FINISH_GOODS_PN"
@@ -27,7 +27,7 @@ Public Class MainPOSubPO
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select NAME from MASTER_LINE where DEPARTMENT='" & globVar.department & "'")
+        Dim dtMasterLine As DataTable = Database.GetData("select [name] from master_line where department='" & globVar.department & "' and [name] not in (select line from sub_sub_po where status='Open') order by [name]")
 
         ComboBox3.DataSource = dtMasterLine
         ComboBox3.DisplayMember = "NAME"
@@ -52,7 +52,7 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_Spesific()
         Try
-            Dim sql As String = "select ID, PO, SUB_PO, SUB_PO_QTY, FG_PN,STATUS,BALANCE,ACTUAL_QTY from main_po where po='" & TextBox1.Text & "' and fg_pn='" & ComboBox1.Text & "' and department='" & globVar.department & "'"
+            Dim sql As String = "select ID, PO, SUB_PO, SUB_PO_QTY, FG_PN,STATUS,BALANCE,ACTUAL_QTY from main_po where po='" & TextBox1.Text & "' and fg_pn='" & ComboBox1.Text & "' and department='" & globVar.department & "' order by status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.DataSource = Nothing
@@ -97,7 +97,7 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_All()
         Try
-            Dim sql As String = "select ID,PO,SUB_PO,SUB_PO_QTY,FG_PN,STATUS,BALANCE,ACTUAL_QTY from main_po where department='" & globVar.department & "'"
+            Dim sql As String = "SELECT mp.ID,mp.PO,mp.SUB_PO,mp.SUB_PO_QTY,mp.FG_PN,mp.STATUS,mp.BALANCE,mp.ACTUAL_QTY,STUFF(( SELECT ', ' + sub.line FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS LINE FROM main_po mp where department='" & globVar.department & "' order by mp.status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.DataSource = Nothing
@@ -141,7 +141,7 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_JustPO()
         Try
-            Dim sql As String = "select ID, PO, SUB_PO,SUB_PO_QTY,FG_PN,STATUS,BALANCE,ACTUAL_QTY from main_po where po='" & TextBox1.Text & "' and department='" & globVar.department & "'"
+            Dim sql As String = "select ID, PO, SUB_PO,SUB_PO_QTY,FG_PN,STATUS,BALANCE,ACTUAL_QTY from main_po where po='" & TextBox1.Text & "' and department='" & globVar.department & "' order by status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.Columns.Clear()
@@ -783,7 +783,7 @@ Public Class MainPOSubPO
             End If
 
             Try
-                Dim result = RJMessageBox.Show(" Are you sure for close this PO?", "Are you sure?", MessageBoxButtons.YesNo)
+                Dim result = RJMessageBox.Show(" Are you sure for close this Sub PO?", "Are you sure?", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
                     Dim Sql As String = "update sub_sub_po set status='" & combo.SelectedValue & "' where id=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("ID").Value
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
@@ -802,6 +802,8 @@ Public Class MainPOSubPO
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
         If TabControl1.SelectedTab.Name = "TabPage2" Then
+            tampilDataComboBox()
+
             If TextBox8.Text = "" Then
                 ComboBox3.Enabled = False
                 TextBox10.ReadOnly = True

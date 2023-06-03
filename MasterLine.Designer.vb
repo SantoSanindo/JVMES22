@@ -83,23 +83,25 @@ Partial Class MasterLine
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(641, 28)
+        Me.ComboBox1.Location = New System.Drawing.Point(772, 28)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(256, 37)
         Me.ComboBox1.TabIndex = 5
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(990, 22)
+        Me.Button1.BackColor = System.Drawing.Color.Green
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(1090, 22)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(123, 46)
         Me.Button1.TabIndex = 4
         Me.Button1.Text = "Save"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(142, 28)
+        Me.TextBox1.Location = New System.Drawing.Point(266, 28)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(244, 35)
         Me.TextBox1.TabIndex = 2
@@ -107,7 +109,7 @@ Partial Class MasterLine
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(483, 31)
+        Me.Label2.Location = New System.Drawing.Point(628, 31)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(138, 29)
         Me.Label2.TabIndex = 1
@@ -118,9 +120,9 @@ Partial Class MasterLine
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 31)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(130, 29)
+        Me.Label1.Size = New System.Drawing.Size(256, 29)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Name Line"
+        Me.Label1.Text = "Name Line (Ex. Line 1)"
         '
         'MasterLine
         '

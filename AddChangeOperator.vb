@@ -71,7 +71,7 @@ Public Class AddChangeOperator
                     Dim name As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
                     name.Name = "name"
                     name.HeaderText = "Operator Name"
-                    Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users where department='" & globVar.department & "'order by name"
+                    Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users where department='" & globVar.department & "' order by name"
                     Dim dtUsers As DataTable = Database.GetData(queryUsers)
                     name.DataSource = dtUsers
                     name.DisplayMember = "id_name"
@@ -139,9 +139,11 @@ Public Class AddChangeOperator
                     Try
                         Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            DGV_Add_Change_Operator()
-                        End If
+                        'If cmd.ExecuteNonQuery() Then
+                        '    DGV_Add_Change_Operator()
+                        'End If
+
+                        cmd.ExecuteNonQuery()
                     Catch ex As Exception
                         RJMessageBox.Show("Error Add Change Operator - 2 =>" & ex.Message)
                     End Try
@@ -415,9 +417,11 @@ Public Class AddChangeOperator
                 Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
                 Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and cast(lot_flow_ticket as int)>=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & " and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
                 Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                If cmd.ExecuteNonQuery() Then
-                    DGV_Bawah()
-                End If
+                cmd.ExecuteNonQuery()
+
+                'If cmd.ExecuteNonQuery() Then
+                '    DGV_Bawah()
+                'End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Add Change Operator - 6 =>" & ex.Message)
             End Try

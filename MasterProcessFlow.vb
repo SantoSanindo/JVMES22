@@ -150,7 +150,7 @@ Public Class MasterProcessFlow
 
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
-        Dim dtMasterFinishGoods As DataTable = Database.GetData("select distinct fg_part_number from material_usage_finish_goods order by fg_part_number")
+        Dim dtMasterFinishGoods As DataTable = Database.GetData("select distinct fg_part_number from master_finish_goods order by fg_part_number")
 
         cb_masterprocessflow.DataSource = dtMasterFinishGoods
         cb_masterprocessflow.DisplayMember = "fg_part_number"

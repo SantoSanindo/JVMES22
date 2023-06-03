@@ -12,7 +12,7 @@ Public Class MasterFinishGoods
         If globVar.add > 0 Then
 
             Call Database.koneksi_database()
-            If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" Then
+            If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" And cb_family.Text <> "" Then
                 If IsNumeric(txt_spq.Text) Then
                     Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_pn.Text & "'"
                     Dim dtCheck As DataTable = Database.GetData(querycheck)
@@ -37,7 +37,7 @@ Public Class MasterFinishGoods
                             End If
 
                         Catch ex As Exception
-                            RJMessageBox.Show("Error Insert" & ex.Message)
+                            RJMessageBox.Show("Error Master Finish Goods - 1 => " & ex.Message)
                         End Try
                     End If
                 Else
@@ -156,7 +156,7 @@ Public Class MasterFinishGoods
                         DGV_MasterFinishGoods()
                         RJMessageBox.Show("Import Finish Goods Success")
                     Catch ex As Exception
-                        RJMessageBox.Show("Import Finish Goods Failed " & ex.Message)
+                        RJMessageBox.Show("Error Master Finish Goods - 2 => " & ex.Message)
                     End Try
                 End Using
             End If
@@ -179,7 +179,7 @@ Public Class MasterFinishGoods
                         dgv_finish_goods.DataSource = Nothing
                         DGV_MasterFinishGoods()
                     Catch ex As Exception
-                        RJMessageBox.Show("failed" & ex.Message)
+                        RJMessageBox.Show("Error Master Finish Goods - 3 => " & ex.Message)
                     End Try
                 End If
             Else

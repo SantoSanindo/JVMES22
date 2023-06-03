@@ -10,9 +10,8 @@ Public Class MasterProcess
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.add > 0 Then
-
-            If txt_masterprocess_nama.Text <> "" Then
-                Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
+            If txt_masterprocess_nama.Text <> "" And txt_masterprocess_desc.Text <> "" And cb_masterprocess_family.Text <> "" And cb_masterprocess_dept.Text <> "" Then
+                Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' and upper(department)='" & cb_masterprocess_dept.Text.ToUpper & "' and upper(family)='" & cb_masterprocess_family.Text.ToUpper & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
                 If dtCheck.Rows.Count > 0 Then
                     RJMessageBox.Show("Process Exist")
@@ -20,7 +19,7 @@ Public Class MasterProcess
                     txt_masterprocess_desc.Text = ""
                 Else
                     Try
-                        Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "')"
+                        Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_masterprocess_family.Text & "','" & cb_masterprocess_dept.Text & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
 
@@ -31,7 +30,7 @@ Public Class MasterProcess
                         dgv_masterprocess.DataSource = Nothing
                         DGV_MasterProcesss()
                     Catch ex As Exception
-                        RJMessageBox.Show("Error Insert" & ex.Message)
+                        RJMessageBox.Show("Error Master Process - 1 =>" & ex.Message)
                     End Try
                 End If
             End If
@@ -44,18 +43,18 @@ Public Class MasterProcess
         Call Database.koneksi_database()
         Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
 
-        cb_mastermaterial_family.DataSource = dtMasterFamily
-        cb_mastermaterial_family.DisplayMember = "family"
-        cb_mastermaterial_family.ValueMember = "family"
+        cb_masterprocess_family.DataSource = dtMasterFamily
+        cb_masterprocess_family.DisplayMember = "family"
+        cb_masterprocess_family.ValueMember = "family"
     End Sub
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
         Dim dtMasterDepartment As DataTable = Database.GetData("select * from department")
 
-        cb_mastermaterial_dept.DataSource = dtMasterDepartment
-        cb_mastermaterial_dept.DisplayMember = "department"
-        cb_mastermaterial_dept.ValueMember = "department"
+        cb_masterprocess_dept.DataSource = dtMasterDepartment
+        cb_masterprocess_dept.DisplayMember = "department"
+        cb_masterprocess_dept.ValueMember = "department"
     End Sub
 
     Private Sub MasterMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -66,8 +65,8 @@ Public Class MasterProcess
             txt_masterprocess_search.Text = ""
             tampilDataComboBoxFamily()
             tampilDataComboBoxDepartement()
-            cb_mastermaterial_dept.SelectedIndex = -1
-            cb_mastermaterial_family.SelectedIndex = -1
+            cb_masterprocess_dept.SelectedIndex = -1
+            cb_masterprocess_family.SelectedIndex = -1
         End If
     End Sub
 
@@ -111,7 +110,7 @@ Public Class MasterProcess
                             DGV_MasterProcesss()
                         End If
                     Catch ex As Exception
-                        RJMessageBox.Show("Delete failed" & ex.Message)
+                        RJMessageBox.Show("Error Master Process - 2 =>" & ex.Message)
                     End Try
                 End If
             Else
@@ -180,7 +179,7 @@ Public Class MasterProcess
                     Next
                 End If
             Catch ex As Exception
-                RJMessageBox.Show(ex.ToString)
+                RJMessageBox.Show("Error Master Process - 3 =>" & ex.Message)
             End Try
         End If
     End Sub
@@ -246,7 +245,7 @@ Public Class MasterProcess
             DGV_MasterProcesss()
             RJMessageBox.Show("Import Master Process Success. Total " & totalInsert & " new Material ")
         Catch ex As Exception
-            RJMessageBox.Show("Import Master Process Failed " & ex.Message)
+            RJMessageBox.Show("Error Master Process - 4 =>" & ex.Message)
         Finally
             oleCon.Close()
         End Try

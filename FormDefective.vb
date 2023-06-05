@@ -22,6 +22,11 @@ Public Class FormDefective
             If globVar.view > 0 Then
                 Try
 
+                    If txtSubSubPODefective.Text.Contains(";") Then
+                        Dim SplitSubSubPO() As String = txtSubSubPODefective.Text.Split(";"c)
+                        txtSubSubPODefective.Text = SplitSubSubPO(0)
+                    End If
+
                     If InStr(txtSubSubPODefective.Text, ";") Then
                         Dim sSubSubPO As String() = txtSubSubPODefective.Text.Split(";")
                         txtSubSubPODefective.Text = sSubSubPO(0)
@@ -31,6 +36,8 @@ Public Class FormDefective
                     Dim dtSubPO As DataTable = Database.GetData("select sp.line,mp.po,mp.fg_pn,mfg.spq,mfg.description,mfg.[level],sp.status from SUB_SUB_PO sp,main_po mp,master_finish_goods mfg where mp.id=sp.main_po and mfg.fg_part_number=mp.fg_pn and sp.sub_sub_po='" & txtSubSubPODefective.Text & "'")
 
                     If dtSubPO.Rows.Count > 0 Then
+
+                        GroupBox2.Enabled = True
 
                         cbLineNumber.Text = dtSubPO.Rows(0).Item("line")
 
@@ -124,92 +131,6 @@ Public Class FormDefective
         End If
     End Sub
 
-    'Sub showToDGView(dg As DataGridView, strKey As String)
-    '    Dim i As Integer
-
-    '    Try
-    '        Call Database.koneksi_database()
-    '        Dim dtMaterialUsage As DataTable = Database.GetData("select distinct MATERIAL_USAGE from _OLD_MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "' AND MASTER_FINISH_GOODS_PN='" & cbFGPN.Text & "'")
-    '        'Dim dtMaterialInfo As DataTable = Database.GetData("select distinct MATERIAL_USAGE from MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "'")
-
-    '        Dim matUsage As String = dtMaterialUsage.Rows(i)(0).ToString()
-    '        Dim matList() As String = matUsage.Split(";")
-
-    '        With dg
-    '            .Rows.Clear()
-
-    '            .DefaultCellStyle.Font = New Font("Tahoma", 14)
-
-    '            .ColumnCount = 4
-    '            .Columns(0).Name = "No"
-    '            .Columns(1).Name = "Part Number"
-    '            .Columns(2).Name = "Name"
-    '            .Columns(3).Name = "Check"
-
-    '            .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            'For i = 0 To 7
-    '            '    If ((i = 0) Or (i = 3) Or (i = 7)) Then
-    '            '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            '    Else
-    '            '        .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-    '            '    End If
-
-    '            '    .Columns(i).SortMode = DataGridViewColumnSortMode.NotSortable
-
-    '            '    .Columns(i).ReadOnly = True
-    '            '    'If (i <> 1) Then
-    '            '    '    .Columns(i).ReadOnly = True
-    '            '    'Else
-    '            '    '    .Columns(i).ReadOnly = False
-    '            '    'End If
-    '            'Next
-
-    '            .Columns(0).Width = Int(.Width * 0.05)
-    '            .Columns(1).Width = Int(.Width * 0.15)
-    '            .Columns(2).Width = Int(.Width * 0.68)
-    '            .Columns(3).Width = Int(.Width * 0.1)
-
-
-    '            .EnableHeadersVisualStyles = False
-    '            With .ColumnHeadersDefaultCellStyle
-    '                .BackColor = Color.Navy
-    '                .ForeColor = Color.White
-    '                .Font = New Font("Tahoma", 13, FontStyle.Bold)
-    '                .Alignment = HorizontalAlignment.Center
-    '                .Alignment = ContentAlignment.MiddleCenter
-    '            End With
-
-
-
-    '            ''''''''''''''''''''''''''''''''''''''''''''
-    '            For i = 0 To matList.Length - 1
-    '                If matList(i) = "" Then
-    '                    Continue For
-    '                End If
-
-    '                Dim dtMaterialInfo As DataTable = Database.GetData("select distinct NAME from _OLD_MASTER_MATERIAL where PART_NUMBER='" & matList(i) & "'")
-
-    '                If dtMaterialInfo.Rows.Count > 0 Then
-    '                    .Rows.Add(1)
-    '                    .Item(0, i).Value = (i + 1).ToString()
-    '                    .Item(1, i).Value = matList(i)
-    '                    .Item(2, i).Value = dtMaterialInfo.Rows(0)(0)
-    '                    .Rows(i).Cells(3) = New DataGridViewCheckBoxCell()
-    '                    .Rows(i).Cells(3).Value = False
-    '                End If
-    '            Next
-
-    '            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-    '        End With
-    '    Catch ex As Exception
-    '        'rjMessageBox.Show("Error Load DGV")
-    '        RJMessageBox.Show("Error Load DGV", "", MessageBoxButtons.OK,
-    '                               MessageBoxIcon.Error)
-    '    End Try
-    'End Sub
-
     Sub ReadonlyFormFG(_bool As Boolean)
         txtFGLabel.ReadOnly = _bool
         txtFGFlowTicket.ReadOnly = _bool
@@ -236,12 +157,7 @@ Public Class FormDefective
 
         txtSubSubPODefective.Select()
 
-        'enableStatusInputInput(False)
-
-        'TableLayoutPanel8.Enabled = False
-        'TableLayoutPanel10.Enabled = False
-        'DataGridView1.Enabled = False
-        'DataGridView3.Enabled = False
+        GroupBox2.Enabled = False
     End Sub
 
     Sub enableStatusInputInput(statusEnable As Boolean)
@@ -290,6 +206,7 @@ Public Class FormDefective
 
     Private Sub cbWIPProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbWIPProcess.SelectedIndexChanged
         LoaddgWIP(cbWIPProcess.Text)
+        txtWIPTicketNo.Select()
     End Sub
 
     Private Sub btnWIPAdd_Click(sender As Object, e As EventArgs) Handles btnWIPAdd.Click
@@ -1549,6 +1466,7 @@ Public Class FormDefective
 
     Private Sub cbOnHoldProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbOnHoldProcess.SelectedIndexChanged
         LoaddgOnHold(cbOnHoldProcess.Text)
+        txtOnHoldTicketNo.Select()
     End Sub
 
     Function ONHOLDGenerateCode() As String
@@ -1910,7 +1828,7 @@ Public Class FormDefective
                         End If
                     End If
 
-                    SendKeys.Send("{TAB}")
+                    txtBalanceQty.Select()
                 Else
                     RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                     txtBalanceBarcode.Clear()
@@ -2542,6 +2460,7 @@ Public Class FormDefective
                             txtFGLabel.ReadOnly = True
                             txtFGFlowTicket.ReadOnly = True
                             btnResetFG.Enabled = True
+                            TextBox3.Select()
                         End If
                     Else
                         RJMessageBox.Show("Sorry. QR Code SAP and QR Code Flow Ticket are different. Please double check.")
@@ -2575,6 +2494,7 @@ Public Class FormDefective
                             txtFGLabel.ReadOnly = True
                             txtFGFlowTicket.ReadOnly = True
                             btnResetFG.Enabled = True
+                            txtFGFlowTicket.Select()
                         End If
                     Else
                         RJMessageBox.Show("Sorry. QR Code SAP and QR Code Flow Ticket are different. Please double check.")
@@ -3722,6 +3642,8 @@ Public Class FormDefective
                 Dim batchFormat = "JV" & digitTerakhir & Now.ToString("MMdd") & sLine(1) & globVar.shift
 
                 txtSABatchNo.Text = batchFormat
+                txtSABatchNo.ReadOnly = True
+                TextBox6.Select()
 
                 loadSA(cbFGPN.Text, txtSAFlowTicket.Text)
                 btnSaveSADefect.Enabled = True
@@ -5108,6 +5030,7 @@ Public Class FormDefective
                         txtRejectMaterialPN.Clear()
                         txtRejectQty.Clear()
                     End If
+                    txtRejectQty.Select()
                 Else
                     RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                     txtRejectBarcode.Clear()
@@ -5413,5 +5336,17 @@ Public Class FormDefective
                 DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+    End Sub
+
+    Private Sub txtWIPTicketNo_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtWIPTicketNo.PreviewKeyDown
+        If (e.KeyData = Keys.Enter) Then
+            txtWIPQuantity.Select()
+        End If
+    End Sub
+
+    Private Sub txtOnHoldTicketNo_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtOnHoldTicketNo.PreviewKeyDown
+        If (e.KeyData = Keys.Enter) Then
+            txtOnHoldQty.Select()
+        End If
     End Sub
 End Class

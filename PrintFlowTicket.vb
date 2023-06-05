@@ -237,6 +237,9 @@ Public Class PrintFlowTicket
         CheckBox1.Enabled = False
         cbLot.Enabled = False
         cbLot.SelectedIndex = -1
+        Button2.Enabled = False
+        CheckBox2.Enabled = False
+        TextBox1.Enabled = False
     End Sub
 
     Sub tampilDataComboBoxLine()
@@ -258,6 +261,9 @@ Public Class PrintFlowTicket
                     where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
                 Dim dt As DataTable = Database.GetData(query)
                 If dt.Rows.Count > 0 Then
+                    Button2.Enabled = True
+                    CheckBox2.Enabled = True
+                    TextBox1.Enabled = True
                     TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
                     TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
                     TextBox5.Text = dt.Rows(0).Item("PO").ToString
@@ -272,10 +278,17 @@ Public Class PrintFlowTicket
                     Dim queryRecordPrinting As String = "select * from record_printing where sub_sub_po='" & TextBox8.Text & "' and line='" & ComboBox1.Text & "'"
                     Dim dtRecordPrinting As DataTable = Database.GetData(queryRecordPrinting)
                     If dtRecordPrinting.Rows.Count > 0 Then
-                        CheckBox1.Enabled = True
-                        tampilDataComboBox(TextBox8.Text)
-                        cbLot.Enabled = True
-                        cbLot.SelectedIndex = -1
+                        Dim queryCheckOperatorChange As String = "select * from prod_dop_details where sub_sub_po='" & TextBox8.Text & "'"
+                        Dim dtRecordOperatorChange As DataTable = Database.GetData(queryCheckOperatorChange)
+                        If dtRecordOperatorChange.Rows.Count > 0 Then
+                            CheckBox1.Enabled = True
+                            tampilDataComboBox(TextBox8.Text)
+                            cbLot.Enabled = True
+                            cbLot.SelectedIndex = -1
+                        Else
+                            CheckBox1.Enabled = True
+                            DGV_DOP()
+                        End If
                     Else
                         DGV_DOP()
                     End If
@@ -297,15 +310,16 @@ Public Class PrintFlowTicket
 
     Sub tampilDataComboBox(sub_sub_po As String)
         Call Database.koneksi_database()
-        Dim dtLot As DataTable = Database.GetData("SELECT lot_flow_ticket
+        Dim sql As String = "SELECT lot_flow_ticket
             FROM (
               SELECT lot_flow_ticket, ROW_NUMBER() OVER (PARTITION BY lot_flow_ticket ORDER BY lot_flow_ticket) AS row_num
               FROM prod_dop_details
               WHERE sub_sub_po = '" & sub_sub_po & "'
             ) AS subquery
             WHERE subquery.row_num = 1
-            ORDER BY CAST(subquery.lot_flow_ticket AS INT) ASC")
+            ORDER BY CAST(subquery.lot_flow_ticket AS INT) ASC"
 
+        Dim dtLot As DataTable = Database.GetData(sql)
         cbLot.DataSource = dtLot
         cbLot.DisplayMember = "lot_flow_ticket"
         cbLot.ValueMember = "lot_flow_ticket"
@@ -391,5 +405,12 @@ Public Class PrintFlowTicket
         Catch ex As Exception
             RJMessageBox.Show("Error Flow Ticket - 9 =>" & ex.Message)
         End Try
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        Button2.Enabled = False
+        CheckBox2.Enabled = False
+        TextBox1.Enabled = False
+        CheckBox1.Enabled = False
     End Sub
 End Class

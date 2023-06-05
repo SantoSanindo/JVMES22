@@ -17,6 +17,8 @@ Public Class ProductionRequest
             Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)
 
             If dtMaterialNeed.Rows.Count > 0 Then
+                TextBox1.Enabled = True
+                TextBox1.Select()
                 DataGridView3.DataSource = dtMaterialNeed
 
                 DataGridView3.Columns(0).Width = 150
@@ -154,13 +156,16 @@ Public Class ProductionRequest
             DataGridView4.DataSource = Nothing
             DataGridView4.Rows.Clear()
             DataGridView4.Columns.Clear()
+
             Call Database.koneksi_database()
             Dim queryInProdMaterial As String = "select in_mat.MATERIAL,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY,in_mat.SUM_QTY [Actual Qty]
             from stock_card in_mat, sub_sub_po sp 
             where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTMENT='" & globVar.department & "' and in_mat.[status]='Production Request' ORDER BY in_mat.DATETIME_INSERT"
             Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
 
-            DataGridView4.DataSource = dtInProdMaterial
+            If dtInProdMaterial.Rows.Count > 0 Then
+                DataGridView4.DataSource = dtInProdMaterial
+            End If
 
             For i As Integer = 0 To DataGridView4.RowCount - 1
                 If DataGridView4.Rows(i).Index Mod 2 = 0 Then
@@ -196,6 +201,7 @@ Public Class ProductionRequest
         Button1.Enabled = False
         ComboBox1.SelectedIndex = -1
         tampilDataComboBoxLine()
+        TextBox1.Enabled = False
     End Sub
 
     Sub tampilDataComboBoxLine()
@@ -352,5 +358,9 @@ Public Class ProductionRequest
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        TextBox1.Enabled = False
     End Sub
 End Class

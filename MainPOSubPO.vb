@@ -13,6 +13,7 @@ Public Class MainPOSubPO
             tampilDataComboBoxLine()
             ComboBox1.SelectedIndex = -1
             ComboBox3.SelectedIndex = -1
+            TabPage2.Enabled = False
         End If
     End Sub
 
@@ -294,6 +295,7 @@ Public Class MainPOSubPO
                         TextBox18.Text = dtGetName.Rows(0).Item("description").ToString
                         ComboBox3.SelectedIndex = -1
                         TabControl1.SelectedTab = TabPage2
+                        TabPage2.Enabled = True
                         DGV_SubSubPO()
                     Else
                         RJMessageBox.Show("Cannot create Sub Sub PO because status PO is close.")
@@ -820,5 +822,23 @@ Public Class MainPOSubPO
             TextBox10.ReadOnly = False
             Button4.Enabled = True
         End If
+    End Sub
+
+    Private Sub ClearTabPage2()
+        DataGridView2.DataSource = Nothing
+        DataGridView2.Columns.Clear()
+        DataGridView2.Rows.Clear()
+        TextBox8.Clear()
+        TextBox9.Clear()
+        TextBox2.Clear()
+        TextBox4.Clear()
+        TextBox10.Clear()
+        TextBox11.Clear()
+        TextBox18.Clear()
+        ComboBox3.SelectedIndex = -1
+    End Sub
+
+    Private Sub TabPage1_Enter(sender As Object, e As EventArgs) Handles TabPage1.Enter
+        ClearTabPage2()
     End Sub
 End Class

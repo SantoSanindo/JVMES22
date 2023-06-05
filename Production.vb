@@ -525,13 +525,15 @@ Public Class Production
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If globVar.view > 0 Then
             If ComboBox1.Text <> "" Then
-                TextBox1.ReadOnly = False
                 Try
                     Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq,ssp.yield_lose
                         from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
                         where ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and ssp.line='" & ComboBox1.Text & "' and mp.department='" & globVar.department & "'"
                     Dim dt As DataTable = Database.GetData(query)
                     If dt.Rows.Count > 0 Then
+                        CheckBox1.Enabled = True
+                        TextBox1.ReadOnly = False
+                        TextBox1.Select()
                         TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
                         TextBox4.Text = dt.Rows(0).Item("DESCRIPTION").ToString
                         TextBox5.Text = dt.Rows(0).Item("PO").ToString
@@ -720,5 +722,11 @@ Public Class Production
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        TextBox1.ReadOnly = True
+        CheckBox1.Enabled = False
+        Button1.Enabled = False
     End Sub
 End Class

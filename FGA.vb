@@ -130,7 +130,7 @@ Public Class FGA
                         Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                         cmdUpdate.ExecuteNonQuery()
 
-                        ResetAfterSave()
+                        'ResetAfterSave()
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -205,6 +205,7 @@ Public Class FGA
                             ComboBox4.Enabled = True
                             ComboBox5.Enabled = True
                             Button1.Enabled = True
+                            TextBox4.Select()
                         Else
                             RJMessageBox.Show("Sorry 2 Label is not same.")
                         End If

@@ -91,8 +91,26 @@ Public Class MasterProcess
     End Sub
 
     Private Sub dgv_masterprocess_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocess.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If dgv_masterprocess.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
+
+                Dim queryCek As String = "SELECT * FROM dbo.master_process_flow where master_process='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value & "'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this process used in Master Process Flow")
+                    Exit Sub
+                End If
 
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 

@@ -203,7 +203,25 @@ Public Class AccessControll
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete2" Then
+            Dim queryCek As String = "select * from dbo.users where role like '%" & DataGridView1.Rows(e.RowIndex).Cells("NAME").Value & "%'"
+            Dim dsexist = New DataSet
+            Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+            adapterexist.Fill(dsexist)
+
+            If dsexist.Tables(0).Rows.Count > 0 Then
+                RJMessageBox.Show("Cannot delete. Because this access still used in Master Users")
+                Exit Sub
+            End If
+
             If globVar.delete > 0 Then
                 Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then

@@ -114,9 +114,26 @@ Public Class MasterMaterial
     End Sub
 
     Private Sub dgv_material_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_material.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
 
         If dgv_material.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
+                Dim queryCek As String = "SELECT * FROM dbo.material_usage_finish_goods where component='" & dgv_material.Rows(e.RowIndex).Cells("PART_NUMBER").Value & "'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this material still used in Material Usage Finish Goods")
+                    Exit Sub
+                End If
+
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
                 If result = DialogResult.Yes Then

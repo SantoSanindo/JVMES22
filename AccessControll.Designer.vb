@@ -22,7 +22,7 @@ Partial Class AccessControll
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
         Me.txtName = New System.Windows.Forms.TextBox()
@@ -71,7 +71,7 @@ Partial Class AccessControll
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.00356!))
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.01423!))
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.94662!))
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248.0!))
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 249.0!))
         Me.TableLayoutPanel3.Controls.Add(Me.txtName, 1, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.Button1, 5, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.TableLayoutPanel2, 2, 0)
@@ -89,9 +89,9 @@ Partial Class AccessControll
         'txtName
         '
         Me.txtName.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtName.Location = New System.Drawing.Point(197, 164)
+        Me.txtName.Location = New System.Drawing.Point(196, 164)
         Me.txtName.Name = "txtName"
-        Me.txtName.Size = New System.Drawing.Size(250, 35)
+        Me.txtName.Size = New System.Drawing.Size(249, 35)
         Me.txtName.TabIndex = 1
         '
         'Button1
@@ -99,9 +99,9 @@ Partial Class AccessControll
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1126, 161)
+        Me.Button1.Location = New System.Drawing.Point(1122, 161)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(243, 41)
+        Me.Button1.Size = New System.Drawing.Size(247, 41)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
@@ -113,12 +113,12 @@ Partial Class AccessControll
         Me.TableLayoutPanel2.Controls.Add(Me.CheckedListBox1, 0, 1)
         Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 0)
         Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel2.Location = New System.Drawing.Point(453, 3)
+        Me.TableLayoutPanel2.Location = New System.Drawing.Point(451, 3)
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 2
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(320, 358)
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(319, 358)
         Me.TableLayoutPanel2.TabIndex = 4
         '
         'CheckedListBox1
@@ -129,7 +129,7 @@ Partial Class AccessControll
         Me.CheckedListBox1.FormattingEnabled = True
         Me.CheckedListBox1.Location = New System.Drawing.Point(3, 38)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(314, 317)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(313, 317)
         Me.CheckedListBox1.TabIndex = 1
         '
         'Label1
@@ -149,7 +149,7 @@ Partial Class AccessControll
         Me.TableLayoutPanel4.Controls.Add(Me.CheckedListBox2, 0, 1)
         Me.TableLayoutPanel4.Controls.Add(Me.Label2, 0, 0)
         Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(779, 3)
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(776, 3)
         Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
         Me.TableLayoutPanel4.RowCount = 2
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
@@ -184,12 +184,12 @@ Partial Class AccessControll
         Me.TableLayoutPanel5.Controls.Add(Me.CheckedListBox3, 0, 1)
         Me.TableLayoutPanel5.Controls.Add(Me.Label3, 0, 0)
         Me.TableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel5.Location = New System.Drawing.Point(958, 3)
+        Me.TableLayoutPanel5.Location = New System.Drawing.Point(955, 3)
         Me.TableLayoutPanel5.Name = "TableLayoutPanel5"
         Me.TableLayoutPanel5.RowCount = 2
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.0!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(162, 358)
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(161, 358)
         Me.TableLayoutPanel5.TabIndex = 6
         '
         'CheckedListBox3
@@ -199,14 +199,14 @@ Partial Class AccessControll
         Me.CheckedListBox3.FormattingEnabled = True
         Me.CheckedListBox3.Location = New System.Drawing.Point(3, 38)
         Me.CheckedListBox3.Name = "CheckedListBox3"
-        Me.CheckedListBox3.Size = New System.Drawing.Size(156, 317)
+        Me.CheckedListBox3.Size = New System.Drawing.Size(155, 317)
         Me.CheckedListBox3.TabIndex = 3
         '
         'Label3
         '
         Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 3)
+        Me.Label3.Location = New System.Drawing.Point(11, 3)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(138, 29)
         Me.Label3.TabIndex = 4
@@ -216,7 +216,7 @@ Partial Class AccessControll
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(10, 153)
+        Me.Label4.Location = New System.Drawing.Point(9, 153)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(174, 58)
         Me.Label4.TabIndex = 7
@@ -228,14 +228,14 @@ Partial Class AccessControll
         Me.DataGridView1.AllowUserToAddRows = False
         Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.GridColor = System.Drawing.SystemColors.Highlight
@@ -243,7 +243,7 @@ Partial Class AccessControll
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1372, 425)
         Me.DataGridView1.TabIndex = 0
         '

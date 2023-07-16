@@ -82,7 +82,26 @@ Public Class MasterLine
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+            Dim queryCek As String = "SELECT * FROM dbo.main_po mp, dbo.sub_sub_po ssp where mp.department='" & DataGridView1.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "' and mp.status='Open' and ssp.line='" & DataGridView1.Rows(e.RowIndex).Cells("NAME").Value & "' and mp.id=ssp.main_po"
+            Dim dsexist = New DataSet
+            Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+            adapterexist.Fill(dsexist)
+
+            If dsexist.Tables(0).Rows.Count > 0 Then
+                RJMessageBox.Show("Cannot delete. Because this line still used in Main PO / Sub Sub PO")
+                Exit Sub
+            End If
+
+            'MsgBox(DataGridView1.Rows(e.RowIndex).Cells("NAME").Value)
             If globVar.delete > 0 Then
                 Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then

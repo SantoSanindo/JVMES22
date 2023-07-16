@@ -214,7 +214,6 @@ Partial Class MasterMaterial
         '
         Me.dgv_material.AllowUserToAddRows = False
         Me.dgv_material.AllowUserToDeleteRows = False
-        Me.dgv_material.AllowUserToOrderColumns = True
         Me.dgv_material.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)

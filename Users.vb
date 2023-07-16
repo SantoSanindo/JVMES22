@@ -279,6 +279,14 @@ Public Class Users
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
@@ -339,7 +347,7 @@ Public Class Users
             End If
         End If
 
-        If e.ColumnIndex = 0 Then
+        If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
             If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
                 DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
             Else

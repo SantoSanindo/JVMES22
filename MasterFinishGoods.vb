@@ -166,8 +166,46 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub dgv_finish_goods_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_finish_goods.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If dgv_finish_goods.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
+
+                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "' and status='Open'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this FG still have Open PO")
+                    Exit Sub
+                End If
+
+                Dim queryCek2 As String = "select * from dbo.master_process_flow where master_finish_goods_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
+                Dim dsexist2 = New DataSet
+                Dim adapterexist2 = New SqlDataAdapter(queryCek2, Database.koneksi)
+                adapterexist2.Fill(dsexist2)
+
+                If dsexist2.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this FG still used in master process flow")
+                    Exit Sub
+                End If
+
+                Dim queryCek3 As String = "select * from dbo.material_usage_finish_goods where fg_part_number='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
+                Dim dsexist3 = New DataSet
+                Dim adapterexist3 = New SqlDataAdapter(queryCek3, Database.koneksi)
+                adapterexist3.Fill(dsexist3)
+
+                If dsexist3.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this FG still used in material usage finish goods")
+                    Exit Sub
+                End If
 
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 

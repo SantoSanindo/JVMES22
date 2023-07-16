@@ -10,6 +10,10 @@ Public Class MaterialUsageFinishGoods
     Public idP As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.add > 0 Then
+            If txt_masterfinishgoods_usage.Text = "" Then
+                RJMessageBox.Show("Usage still blank. Please input first.")
+            End If
+
             If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
                 Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
                 Dim dtCheck As DataTable = Database.GetData(querycheck)
@@ -51,10 +55,13 @@ Public Class MaterialUsageFinishGoods
 
             treeView_show()
             idP = ""
-            tampilDataComboBox()
-            cb_masterfinishgoods_pn.SelectedIndex = -1
             txt_masterfinishgoods_family.Text = ""
-            cb_masterfinishgoods_component.SelectedIndex = -1
+            tampilDataComboBox()
+
+            If cb_masterfinishgoods_pn.Items.Count > 0 Then
+                cb_masterfinishgoods_pn.SelectedIndex = -1
+            End If
+
         End If
     End Sub
 
@@ -65,8 +72,8 @@ Public Class MaterialUsageFinishGoods
         cb_masterfinishgoods_pn.DataSource = dtMasterFinishGoods
         cb_masterfinishgoods_pn.DisplayMember = "fg_part_number"
         cb_masterfinishgoods_pn.ValueMember = "fg_part_number"
-        cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
+        'cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub tampilDataComboBoxMaterial()
@@ -76,8 +83,8 @@ Public Class MaterialUsageFinishGoods
         cb_masterfinishgoods_component.DataSource = dtMasterMaterial
         cb_masterfinishgoods_component.DisplayMember = "part_number"
         cb_masterfinishgoods_component.ValueMember = "part_number"
-        cb_masterfinishgoods_component.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cb_masterfinishgoods_component.AutoCompleteSource = AutoCompleteSource.ListItems
+        'cb_masterfinishgoods_component.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+        'cb_masterfinishgoods_component.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub treeView_show()
@@ -94,6 +101,14 @@ Public Class MaterialUsageFinishGoods
     End Sub
 
     Private Sub dgv_masterfinishgoods_atas_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterfinishgoods_atas.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If dgv_masterfinishgoods_atas.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
@@ -424,19 +439,31 @@ Public Class MaterialUsageFinishGoods
     End Sub
 
     Private Sub cb_masterfinishgoods_pn_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_masterfinishgoods_pn.SelectedIndexChanged
-        If cb_masterfinishgoods_pn.SelectedIndex > 0 Then
-            Dim queryMasterFinishGoods As String = "select * from MASTER_FINISH_GOODS where fg_part_number='" & cb_masterfinishgoods_pn.Text & "'"
-            Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
-            txt_masterfinishgoods_family.Text = Trim(dtMasterFG.Rows(0).Item("family"))
-            tampilDataComboBoxMaterial()
+        If cb_masterfinishgoods_pn.Items.Count > 0 Then
+            If cb_masterfinishgoods_pn.Text <> "System.Data.DataRowView" And cb_masterfinishgoods_pn.Text <> "" Then
+                Dim queryMasterFinishGoods As String = "select * from MASTER_FINISH_GOODS where fg_part_number='" & cb_masterfinishgoods_pn.Text & "'"
+                Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+                txt_masterfinishgoods_family.Text = Trim(dtMasterFG.Rows(0).Item("family"))
+                tampilDataComboBoxMaterial()
+                If cb_masterfinishgoods_component.Items.Count > 0 Then
+                    cb_masterfinishgoods_component.SelectedIndex = -1
+                End If
+            Else
+                txt_masterfinishgoods_family.Text = ""
+                txt_masterfinishgoods_desc.Text = ""
+            End If
         End If
     End Sub
 
     Private Sub cb_masterfinishgoods_component_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_masterfinishgoods_component.SelectedIndexChanged
-        If cb_masterfinishgoods_component.SelectedIndex > 0 Then
-            Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
-            Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
-            txt_masterfinishgoods_desc.Text = Trim(dtMasterFG.Rows(0).Item("name"))
+        If cb_masterfinishgoods_component.Items.Count > 0 Then
+            If cb_masterfinishgoods_component.Text <> "System.Data.DataRowView" And cb_masterfinishgoods_component.Text <> "" Then
+                Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
+                Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+                txt_masterfinishgoods_desc.Text = Trim(dtMasterFG.Rows(0).Item("name"))
+            Else
+                txt_masterfinishgoods_desc.Text = ""
+            End If
         End If
     End Sub
 End Class

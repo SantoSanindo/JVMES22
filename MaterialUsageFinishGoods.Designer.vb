@@ -92,6 +92,7 @@ Partial Class MaterialUsageFinishGoods
         '
         'cb_masterfinishgoods_component
         '
+        Me.cb_masterfinishgoods_component.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cb_masterfinishgoods_component.FormattingEnabled = True
         Me.cb_masterfinishgoods_component.Location = New System.Drawing.Point(200, 75)
         Me.cb_masterfinishgoods_component.Name = "cb_masterfinishgoods_component"
@@ -137,6 +138,7 @@ Partial Class MaterialUsageFinishGoods
         '
         'cb_masterfinishgoods_pn
         '
+        Me.cb_masterfinishgoods_pn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cb_masterfinishgoods_pn.FormattingEnabled = True
         Me.cb_masterfinishgoods_pn.Location = New System.Drawing.Point(200, 27)
         Me.cb_masterfinishgoods_pn.Name = "cb_masterfinishgoods_pn"
@@ -244,7 +246,6 @@ Partial Class MaterialUsageFinishGoods
         '
         Me.dgv_masterfinishgoods_atas.AllowUserToAddRows = False
         Me.dgv_masterfinishgoods_atas.AllowUserToDeleteRows = False
-        Me.dgv_masterfinishgoods_atas.AllowUserToOrderColumns = True
         Me.dgv_masterfinishgoods_atas.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -263,7 +264,7 @@ Partial Class MaterialUsageFinishGoods
         Me.dgv_masterfinishgoods_atas.MultiSelect = False
         Me.dgv_masterfinishgoods_atas.Name = "dgv_masterfinishgoods_atas"
         Me.dgv_masterfinishgoods_atas.ReadOnly = True
-        Me.dgv_masterfinishgoods_atas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgv_masterfinishgoods_atas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.dgv_masterfinishgoods_atas.Size = New System.Drawing.Size(1519, 468)
         Me.dgv_masterfinishgoods_atas.TabIndex = 4
         '

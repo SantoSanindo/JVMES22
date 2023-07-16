@@ -189,6 +189,14 @@ Public Class MasterProcessFlow
     End Sub
 
     Private Sub dgv_masterprocessflow_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocessflow.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         Call Database.koneksi_database()
         If dgv_masterprocessflow.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then

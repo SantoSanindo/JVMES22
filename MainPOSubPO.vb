@@ -252,61 +252,64 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        'rjMessageBox.Show(DataGridView1.Columns(e.ColumnIndex).Index)
-        Try
+        'RJMessageBox.Show(DataGridView1.Columns(e.ColumnIndex).Name)
+        If e.ColumnIndex >= 0 Then
 
-            If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-                If globVar.delete > 0 Then
-                    Dim sqlcheck As String = "select * from sub_sub_po where main_po='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
-                    Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
-                    If dtMainPOCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Cannot delete this data because Sub Sub PO already create")
-                        Exit Sub
-                    End If
+            Try
 
-                    Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-                    If result = DialogResult.Yes Then
-                        Try
-                            Dim sql As String = "delete from main_po where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
-                            Dim cmd = New SqlCommand(sql, Database.koneksi)
-                            If cmd.ExecuteNonQuery() Then
-                                DGV_MainPO_All()
-                            End If
-                        Catch ex As Exception
-                            RJMessageBox.Show("Error Create Main PO - 5 =>" & ex.Message)
-                        End Try
-                    End If
-                Else
-                    RJMessageBox.Show("Your Access cannot execute this action")
-                End If
-            End If
+                If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+                    If globVar.delete > 0 Then
+                        Dim sqlcheck As String = "select * from sub_sub_po where main_po='" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value & "'"
+                        Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
+                        If dtMainPOCheck.Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete this data because Sub Sub PO already create")
+                            Exit Sub
+                        End If
 
-            If DataGridView1.Columns(e.ColumnIndex).Name = "subsubpo" Then
-                If globVar.add > 0 Then
-                    If DataGridView1.Rows(e.RowIndex).Cells("STATUS").Value = "Open" Then
-                        Dim sqlGetName As String = "select * from master_finish_goods where fg_part_number='" & DataGridView1.Rows(e.RowIndex).Cells("FG_PN").Value & "'"
-                        Dim dtGetName As DataTable = Database.GetData(sqlGetName)
-
-                        TextBox2.Text = DataGridView1.Rows(e.RowIndex).Cells("SUB_PO").Value
-                        TextBox4.Text = DataGridView1.Rows(e.RowIndex).Cells("SUB_PO_QTY").Value
-                        TextBox8.Text = DataGridView1.Rows(e.RowIndex).Cells("PO").Value
-                        TextBox9.Text = DataGridView1.Rows(e.RowIndex).Cells("FG_PN").Value
-                        TextBox12.Text = DataGridView1.Rows(e.RowIndex).Cells("ID").Value
-                        TextBox18.Text = dtGetName.Rows(0).Item("description").ToString
-                        ComboBox3.SelectedIndex = -1
-                        TabControl1.SelectedTab = TabPage2
-                        TabPage2.Enabled = True
-                        DGV_SubSubPO()
+                        Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+                        If result = DialogResult.Yes Then
+                            Try
+                                Dim sql As String = "delete from main_po where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
+                                Dim cmd = New SqlCommand(sql, Database.koneksi)
+                                If cmd.ExecuteNonQuery() Then
+                                    DGV_MainPO_All()
+                                End If
+                            Catch ex As Exception
+                                RJMessageBox.Show("Error Create Main PO - 5 =>" & ex.Message)
+                            End Try
+                        End If
                     Else
-                        RJMessageBox.Show("Cannot create Sub Sub PO because status PO is close.")
+                        RJMessageBox.Show("Your Access cannot execute this action")
                     End If
-                Else
-                    RJMessageBox.Show("Your Access cannot execute this action")
                 End If
-            End If
-        Catch ex As Exception
-            RJMessageBox.Show("Error Create Main PO - 6 =>" & ex.Message)
-        End Try
+
+                If DataGridView1.Columns(e.ColumnIndex).Name = "subsubpo" Then
+                    If globVar.add > 0 Then
+                        If DataGridView1.Rows(e.RowIndex).Cells("STATUS").Value = "Open" Then
+                            Dim sqlGetName As String = "select * from master_finish_goods where fg_part_number='" & DataGridView1.Rows(e.RowIndex).Cells("FG_PN").Value & "'"
+                            Dim dtGetName As DataTable = Database.GetData(sqlGetName)
+
+                            TextBox2.Text = DataGridView1.Rows(e.RowIndex).Cells("SUB_PO").Value
+                            TextBox4.Text = DataGridView1.Rows(e.RowIndex).Cells("SUB_PO_QTY").Value
+                            TextBox8.Text = DataGridView1.Rows(e.RowIndex).Cells("PO").Value
+                            TextBox9.Text = DataGridView1.Rows(e.RowIndex).Cells("FG_PN").Value
+                            TextBox12.Text = DataGridView1.Rows(e.RowIndex).Cells("ID").Value
+                            TextBox18.Text = dtGetName.Rows(0).Item("description").ToString
+                            ComboBox3.SelectedIndex = -1
+                            TabControl1.SelectedTab = TabPage2
+                            TabPage2.Enabled = True
+                            DGV_SubSubPO()
+                        Else
+                            RJMessageBox.Show("Cannot create Sub Sub PO because status PO is close.")
+                        End If
+                    Else
+                        RJMessageBox.Show("Your Access cannot execute this action")
+                    End If
+                End If
+            Catch ex As Exception
+                RJMessageBox.Show("Error Create Main PO - 6 =>" & ex.Message)
+            End Try
+        End If
 
     End Sub
 

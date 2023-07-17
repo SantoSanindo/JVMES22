@@ -364,4 +364,10 @@ Public Class HOME
     Public Sub New()
         InitializeComponent()
     End Sub
+
+    Private Sub RibbonButton2_Click(sender As Object, e As EventArgs) Handles RibbonButton2.Click
+        Dim filePath As String = Application.StartupPath & "\Help\Help.pdf"
+
+        Process.Start(filePath)
+    End Sub
 End Class

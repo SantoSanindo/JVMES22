@@ -92,6 +92,9 @@ Partial Class HOME
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
+        Me.RibbonTab8 = New System.Windows.Forms.RibbonTab()
+        Me.RibbonPanel6 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonButton2 = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -142,6 +145,7 @@ Partial Class HOME
         Me.Ribbon1.Tabs.Add(Me.RibbonTab7)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab5)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab6)
+        Me.Ribbon1.Tabs.Add(Me.RibbonTab8)
         Me.Ribbon1.TabSpacing = 3
         Me.Ribbon1.Text = "Ribbon1"
         '
@@ -600,6 +604,26 @@ Partial Class HOME
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
+        'RibbonTab8
+        '
+        Me.RibbonTab8.Name = "RibbonTab8"
+        Me.RibbonTab8.Panels.Add(Me.RibbonPanel6)
+        Me.RibbonTab8.Text = "Help"
+        '
+        'RibbonPanel6
+        '
+        Me.RibbonPanel6.Items.Add(Me.RibbonButton2)
+        Me.RibbonPanel6.Name = "RibbonPanel6"
+        Me.RibbonPanel6.Text = "Documentation"
+        '
+        'RibbonButton2
+        '
+        Me.RibbonButton2.Image = CType(resources.GetObject("RibbonButton2.Image"), System.Drawing.Image)
+        Me.RibbonButton2.LargeImage = CType(resources.GetObject("RibbonButton2.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton2.Name = "RibbonButton2"
+        Me.RibbonButton2.SmallImage = CType(resources.GetObject("RibbonButton2.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton2.Text = ""
+        '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -695,5 +719,8 @@ Partial Class HOME
     Friend WithEvents SplitQtyBtn As RibbonButton
     Friend WithEvents RibAC As RibbonPanel
     Friend WithEvents ACBtn As RibbonButton
+    Friend WithEvents RibbonTab8 As RibbonTab
+    Friend WithEvents RibbonPanel6 As RibbonPanel
+    Friend WithEvents RibbonButton2 As RibbonButton
     '>>>>>>> Arif
 End Class

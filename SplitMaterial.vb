@@ -95,7 +95,7 @@ Public Class SplitMaterial
     Sub DGV_Split_Qty(pOuterLabel As String)
         Try
             DataGridView1.DataSource = Nothing
-            Dim queryCheckSplitQty As String = "SELECT ID, outer_pn [OUTER PN], OUTER_ICD [OUTER ICD],OUTER_BATCH [OUTER BATCH], OUTER_TRACEABILITY [OUTER TRACE], OUTER_LOT [OUTER LOT], OUTER_QTY [OUTER QTY], INNER_QTY [INNER QTY], [print] [PRINT] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
+            Dim queryCheckSplitQty As String = "SELECT ID, outer_pn [OUTER PN], OUTER_ICD [OUTER ICD],OUTER_BATCH [OUTER BATCH], OUTER_TRACEABILITY [OUTER TRACE], OUTER_LOT [OUTER LOT], OUTER_QTY [OUTER QTY], INNER_LABEL [INNER LABEL], INNER_QTY [INNER QTY], [print] [PRINT] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView1.DataSource = dtCheckSplitQty
 
@@ -240,6 +240,14 @@ Public Class SplitMaterial
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
             If DataGridView1.Rows(e.RowIndex).Cells(0).Value = True Then
                 DataGridView1.Rows(e.RowIndex).Cells(0).Value = False

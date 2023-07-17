@@ -64,6 +64,8 @@ Public Class ReceiveReturnMaterial
         Next i
     End Sub
 
+
+
     Private Sub TextBox2_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox2.PreviewKeyDown
         If e.KeyData = Keys.Enter And TextBox2.Text <> "" Then
             Dim Found As Boolean = False
@@ -119,5 +121,13 @@ Public Class ReceiveReturnMaterial
             .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
+
+        For i As Integer = 0 To DataGridView1.RowCount - 1
+            If DataGridView1.Rows(i).Index Mod 2 = 0 Then
+                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
     End Sub
 End Class

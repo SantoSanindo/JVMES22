@@ -549,6 +549,8 @@ Public Class Production
 
                         DGV_DOC()
                         DGV_DOP()
+
+                        Button1.Enabled = True
                     Else
                         RJMessageBox.Show("This line no have any PO")
                         DGV_DOC()

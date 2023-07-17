@@ -79,6 +79,14 @@ Public Class FormDefective
 
                         TableLayoutPanel14.Enabled = False
                         TableLayoutPanel7.Enabled = False
+
+                        DataGridView1.Rows.Clear()
+                        DataGridView1.Columns.Clear()
+                        DataGridView1.DataSource = Nothing
+
+                        DataGridView3.Rows.Clear()
+                        DataGridView3.Columns.Clear()
+                        DataGridView3.DataSource = Nothing
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show("Error Load PO_NO", "", MessageBoxButtons.OK, MessageBoxIcon.Error)

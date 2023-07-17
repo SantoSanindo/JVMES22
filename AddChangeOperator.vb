@@ -370,7 +370,7 @@ Public Class AddChangeOperator
                             DataGridView2.Rows.Add(row)
                         Next
 
-                        Dim queryOperator As String = "select name from users where role='PRODUCTION' AND department='" & globVar.department & "' order by name"
+                        Dim queryOperator As String = "select name from users where department='" & globVar.department & "' order by name"
                         Dim dsOperator = New DataSet
                         Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
                         adapterOperator.Fill(dsOperator)

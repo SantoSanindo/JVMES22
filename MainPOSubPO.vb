@@ -252,6 +252,14 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         'RJMessageBox.Show(DataGridView1.Columns(e.ColumnIndex).Name)
         If e.ColumnIndex >= 0 Then
 

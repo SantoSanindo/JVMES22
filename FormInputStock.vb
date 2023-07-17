@@ -238,6 +238,14 @@ Public Class FormInputStock
 
     Private Sub dgv_forminputstock_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_forminputstock.CellClick
         Try
+            If e.RowIndex = -1 Then
+                Exit Sub
+            End If
+
+            If e.ColumnIndex = -1 Then
+                Exit Sub
+            End If
+
             If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
                 If globVar.delete > 0 Then
 

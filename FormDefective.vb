@@ -2949,7 +2949,7 @@ Public Class FormDefective
 
             For iGas = 0 To dtMasterProcessFlow.Rows.Count - 1
 
-                Dim sTampung As String = GetStockCard(dtMasterProcessFlow.Rows(iGas).Item("material_usage"))
+                Dim sTampung As String = GetStockCard2(dtMasterProcessFlow.Rows(iGas).Item("material_usage"), sFlowTicket(5))
 
                 If sTampung <> "" Then
 
@@ -2992,6 +2992,7 @@ Public Class FormDefective
                             Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
                             Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
                             If dtCheckProductionProcess.Rows.Count > 0 Then
+
                                 For i = 0 To dtCheckProductionProcess.Rows.Count - 1
 
                                     'Insert SA Done
@@ -3128,7 +3129,7 @@ Public Class FormDefective
             Next
 
             If CheckBox5.CheckState = CheckState.Checked Then
-                Dim query As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY),[print] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
+                Dim query As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY),[print],traceability,inv_ctrl_date,batch_no,lot_no,qty from STOCK_PROD_SUB_ASSY where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
                 Dim dtCheckStockSA As DataTable = Database.GetData(query)
                 If dtCheckStockSA.Rows.Count > 0 Then
                     For sa = 0 To dtCheckStockSA.Rows.Count - 1
@@ -3136,7 +3137,14 @@ Public Class FormDefective
                             globVar.failPrint = ""
                             _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Sub Assy"
                             _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockSA.Rows(sa).Item("CODE_STOCK_PROD_SUB_ASSY")
-                            _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockSA.Rows(sa).Item("CODE_STOCK_PROD_SUB_ASSY") & Environment.NewLine
+                            _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockSA.Rows(sa).Item("CODE_STOCK_PROD_SUB_ASSY")
+                            _PrintingSubAssyRawMaterial.txt_part_number.Text = cbFGPN.Text
+                            _PrintingSubAssyRawMaterial.txt_Part_Description.Text = txtDescDefective.Text
+                            _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockSA.Rows(sa).Item("QTY")
+                            _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockSA.Rows(sa).Item("TRACEABILITY")
+                            _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockSA.Rows(sa).Item("INV_CTRL_DATE")
+                            _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockSA.Rows(sa).Item("BATCH_NO")
+                            _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockSA.Rows(sa).Item("LOT_NO")
                             _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
                             If globVar.failPrint = "No" Then
@@ -3203,6 +3211,25 @@ Public Class FormDefective
             'Else
             '    sReturnValue = "Kosong"
             'End If
+        Next
+        Return sReturnValue
+    End Function
+
+    Public Function GetStockCard2(pn As String, lot_flow_ticket As String) As String
+        Dim splitPN() As String = pn.Split(";")
+        Dim i As Integer
+        Dim sReturnValue As String = ""
+        For i = 0 To splitPN.Length - 2
+
+            Dim querySelectSumFlowTicket As String = "select isnull(sum(ft.qty_per_lot*mufg.[usage]),0) qty from material_usage_finish_goods mufg, flow_ticket ft where mufg.fg_part_number='" & cbFGPN.Text & "' and mufg.component='" & splitPN(i) & "' and ft.fg=mufg.fg_part_number and ft.sub_sub_po='" & txtSubSubPODefective.Text & "' and ft.done=0 and ft.flow_ticket='" & lot_flow_ticket & "'"
+            Dim dtSelectSumFlowTicket As DataTable = Database.GetData(querySelectSumFlowTicket)
+
+            Dim querySelectSumMaterial As String = "select isnull(sum(sum_qty),0) qty from stock_card where status='Production Request' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' and lot_no in (select DISTINCT(lot_no) from stock_card where status='Production Process' and material='" & splitPN(i) & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "')"
+            Dim dtSelectSumMaterial As DataTable = Database.GetData(querySelectSumMaterial)
+
+            If dtSelectSumMaterial.Rows(0).Item("qty") < dtSelectSumFlowTicket.Rows(0).Item("qty") Then
+                sReturnValue += splitPN(i) & ","
+            End If
         Next
         Return sReturnValue
     End Function

@@ -609,37 +609,47 @@ Public Class MainPOSubPO
 
     Private Sub DataGridView2_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellClick
         'rjMessageBox.Show(DataGridView1.Columns(e.ColumnIndex).Index)
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         Try
-            If DataGridView2.Columns(e.ColumnIndex).Name = "delete" Then
-                If globVar.delete > 0 Then
-                    Dim sqlcheck As String = "select * from SUB_SUB_PO where id='" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value & "' and actual_qty > 0 "
-                    Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
-                    If dtMainPOCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Cannot delete this data because actual qty more than zero")
-                        Exit Sub
-                    End If
+            If globVar.delete > 0 Then
+                If DataGridView2.Columns(e.ColumnIndex).Name = "delete" Then
+                    If globVar.delete > 0 Then
+                        Dim sqlcheck As String = "select * from SUB_SUB_PO where id='" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value & "' and actual_qty > 0 "
+                        Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
+                        If dtMainPOCheck.Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete this data because actual qty more than zero")
+                            Exit Sub
+                        End If
 
-                    Dim sqlcheckInputMiniStore As String = "select * from stock_card where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and LINE = '" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "' and status='Production Request'"
-                    Dim dtInputMiniStore As DataTable = Database.GetData(sqlcheckInputMiniStore)
-                    If dtInputMiniStore.Rows.Count > 0 Then
-                        RJMessageBox.Show("Cannot delete this data because Ministore already provides raw material")
-                        Exit Sub
-                    End If
+                        Dim sqlcheckInputMiniStore As String = "select * from stock_card where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and LINE = '" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "' and status='Production Request'"
+                        Dim dtInputMiniStore As DataTable = Database.GetData(sqlcheckInputMiniStore)
+                        If dtInputMiniStore.Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete this data because Ministore already provides raw material")
+                            Exit Sub
+                        End If
 
-                    Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-                    If result = DialogResult.Yes Then
-                        Dim sqlDeleteDOP As String = "delete from prod_dop where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and line='" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
-                        Dim cmdDeleteDOP = New SqlCommand(sqlDeleteDOP, Database.koneksi)
-                        cmdDeleteDOP.ExecuteNonQuery()
+                        Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+                        If result = DialogResult.Yes Then
+                            Dim sqlDeleteDOP As String = "delete from prod_dop where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and line='" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
+                            Dim cmdDeleteDOP = New SqlCommand(sqlDeleteDOP, Database.koneksi)
+                            cmdDeleteDOP.ExecuteNonQuery()
 
-                        Dim sqlDeleteDOC As String = "delete from prod_doc where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and line='" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
-                        Dim cmdDeleteDOC = New SqlCommand(sqlDeleteDOC, Database.koneksi)
-                        cmdDeleteDOC.ExecuteNonQuery()
+                            Dim sqlDeleteDOC As String = "delete from prod_doc where sub_sub_po='" & DataGridView2.Rows(e.RowIndex).Cells("SUB_SUB_PO").Value & "' and line='" & DataGridView2.Rows(e.RowIndex).Cells("LINE").Value & "'"
+                            Dim cmdDeleteDOC = New SqlCommand(sqlDeleteDOC, Database.koneksi)
+                            cmdDeleteDOC.ExecuteNonQuery()
 
-                        Dim sql As String = "delete from SUB_SUB_PO where id=" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            DGV_SubSubPO()
+                            Dim sql As String = "delete from SUB_SUB_PO where id=" & DataGridView2.Rows(e.RowIndex).Cells("ID").Value
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                DGV_SubSubPO()
+                            End If
                         End If
                     End If
                 End If
@@ -652,6 +662,14 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
         Call Database.koneksi_database()
         If DataGridView2.Columns(e.ColumnIndex).Name = "SUB_SUB_PO_QTY" Then
             If globVar.update > 0 Then

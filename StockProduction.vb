@@ -5,45 +5,7 @@ Public Class StockProduction
     Public Shared menu As String = "Stock Card Production"
 
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If globVar.view > 0 Then
-            DGV_StockMiniststore("")
-            ComboBox1.SelectedIndex = 0
-        End If
-    End Sub
-
-    Private Sub DGV_StockMiniststore(status As String)
-        Try
-            If status = "All" Then
-                DGV_StockMiniststore("")
-            Else
-                DataGridView1.DataSource = Nothing
-                DataGridView1.Rows.Clear()
-                DataGridView1.Columns.Clear()
-                Call Database.koneksi_database()
-                Dim queryInputStockDetail As String
-                Dim queryCB As String
-                If status = "" Then
-                    queryInputStockDetail = "SELECT [MTS_NO], [STATUS],[MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result') order by datetime_insert"
-                    queryCB = "SELECT DISTINCT [SUB_SUB_PO] FROM STOCK_CARD where [SUB_SUB_PO] is not null"
-                Else
-                    queryInputStockDetail = "SELECT [MTS_NO],[STATUS],[MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD  WHERE STATUS='" & status & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result') order by datetime_insert"
-                    queryCB = "SELECT DISTINCT [SUB_SUB_PO] FROM STOCK_CARD  WHERE STATUS='" & status & "' and [SUB_SUB_PO] is not null"
-                End If
-
-                Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
-                DataGridView1.DataSource = dtInputStockDetail
-
-                Dim dtMasterDepart As DataTable = Database.GetData(queryCB)
-
-                For i As Integer = 0 To dtMasterDepart.Rows.Count - 1
-                    ComboBox2.Items.Add(dtMasterDepart.Rows(i).Item(0))
-                Next
-
-
-            End If
-        Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
-        End Try
+        DateTimePicker1.MaxDate = DateTime.Now
     End Sub
 
     Private Sub DGV_StockMiniststore()
@@ -52,7 +14,7 @@ Public Class StockProduction
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [MTS_NO],[STATUS],[MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where sub_sub_po='" & ComboBox2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result') order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where datetime_insert >= '" & DateTimePicker1.Text & "' and datetime_insert <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception
@@ -90,17 +52,7 @@ Public Class StockProduction
         End With
     End Sub
 
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
-        If globVar.view > 0 Then
-            If ComboBox1.SelectedIndex = 0 Then
-                DGV_StockMiniststore("")
-            Else
-                DGV_StockMiniststore(ComboBox1.Text)
-            End If
-        End If
-    End Sub
-
-    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
+    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs)
         If globVar.view > 0 Then
             DGV_StockMiniststore()
         End If
@@ -165,5 +117,16 @@ Public Class StockProduction
         Finally
             GC.Collect()
         End Try
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If globVar.view > 0 Then
+            DGV_StockMiniststore()
+        End If
+    End Sub
+
+    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
+        DateTimePicker2.MinDate = DateTimePicker1.Value
+        DateTimePicker2.MaxDate = DateTime.Now.AddDays(1)
     End Sub
 End Class

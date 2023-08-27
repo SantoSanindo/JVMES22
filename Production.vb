@@ -299,23 +299,23 @@ Public Class Production
                             Dim sqlCheckStockSubAssy As String = "select * from STOCK_PROD_SUB_ASSY where CODE_STOCK_PROD_SUB_ASSY='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
                             Dim dtCheckStockSubAssy As DataTable = Database.GetData(sqlCheckStockSubAssy)
                             If dtCheckStockSubAssy.Rows.Count > 0 Then
-                                For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
-                                    For j = 0 To DataGridView1.Rows.Count - 1
-                                        If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockSubAssy.Rows(i).Item("fg") Then
-                                            Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
-                                            Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                                            If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
-                                                CompExist += dtCheckStockSubAssy.Rows(i).Item("fg") & ","
-                                            End If
-                                        End If
-                                    Next
-                                Next
+                                'For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
+                                '    For j = 0 To DataGridView1.Rows.Count - 1
+                                '        If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockSubAssy.Rows(i).Item("fg") Then
+                                '            Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
+                                '            Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
+                                '            If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToDouble(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
+                                '                CompExist += dtCheckStockSubAssy.Rows(i).Item("fg") & ","
+                                '            End If
+                                '        End If
+                                '    Next
+                                'Next
 
-                                If CompExist <> "" Then
-                                    RJMessageBox.Show("Cannot add Sub Assy. Because (" & CompExist & ") Material Qty more than Qty Need")
-                                    TextBox1.Clear()
-                                    Exit Sub
-                                End If
+                                'If CompExist <> "" Then
+                                '    RJMessageBox.Show("Cannot add Sub Assy. Because (" & CompExist & ") Material Qty more than Qty Need")
+                                '    TextBox1.Clear()
+                                '    Exit Sub
+                                'End If
 
                                 For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
                                     Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)

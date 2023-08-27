@@ -98,7 +98,7 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_All()
         Try
-            Dim sql As String = "SELECT mp.ID,mp.PO,mp.SUB_PO,mp.SUB_PO_QTY,mp.FG_PN,mp.STATUS,mp.BALANCE,mp.ACTUAL_QTY,STUFF(( SELECT ', ' + sub.line FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS LINE FROM main_po mp where department='" & globVar.department & "' order by mp.status desc"
+            Dim sql As String = "SELECT mp.ID,mp.PO,mp.SUB_PO,mp.SUB_PO_QTY,mp.FG_PN,mp.STATUS,mp.BALANCE,mp.ACTUAL_QTY,STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS LINE FROM main_po mp where department='" & globVar.department & "' order by mp.status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.DataSource = Nothing
@@ -186,12 +186,17 @@ Public Class MainPOSubPO
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.add > 0 Then
+            If TextBox1.Text = "" Or ComboBox1.Text = "" Or TextBox3.Text = "" Then
+                RJMessageBox.Show("SA number/FG Part Number/Plan Qty cannot be blank")
+                Exit Sub
+            End If
+
             Try
-                Dim sql As String = "select count(*) from main_po where po='" & TextBox1.Text & "' and department='" & globVar.department & "'"
+                Dim sql As String = "select count(*) from main_po where po='" & TextBox1.Text.Trim & "' and department='" & globVar.department & "'"
                 Dim dtMainPOCount As DataTable = Database.GetData(sql)
                 Dim sub_po = TextBox1.Text & "-" & dtMainPOCount.Rows(0).Item(0) + 1
 
-                Dim sqlCheck As String = "select * from main_po where po='" & TextBox1.Text & "' and fg_pn='" & ComboBox1.Text & "' and department='" & globVar.department & "'"
+                Dim sqlCheck As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and fg_pn='" & ComboBox1.Text.Trim & "' and department='" & globVar.department & "'"
                 Dim dtMainPOCheck As DataTable = Database.GetData(sqlCheck)
 
                 If dtMainPOCheck.Rows.Count > 0 Then
@@ -200,7 +205,7 @@ Public Class MainPOSubPO
                 Else
                     Try
                         Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty,department)
-                                    VALUES ('" & TextBox1.Text & "','" & sub_po & "'," & TextBox3.Text & ",'" & ComboBox1.Text & "','Open',0,0,'" & globVar.department & "')"
+                                    VALUES ('" & TextBox1.Text.Trim & "','" & sub_po & "'," & TextBox3.Text.Trim & ",'" & ComboBox1.Text.Trim & "','Open',0,0,'" & globVar.department & "')"
                         Dim cmdInsertMainPOSubPO = New SqlCommand(sqlInsertMainPOSubPO, Database.koneksi)
                         If cmdInsertMainPOSubPO.ExecuteNonQuery() Then
                             DGV_MainPO_Spesific()
@@ -386,6 +391,11 @@ Public Class MainPOSubPO
                 Next
 
                 If isOpen = False Then
+                    If TextBox10.Text = "" Or ComboBox3.Text = "" Then
+                        RJMessageBox.Show("The Line / Qty Sub Sub PO cannot be blank")
+                        Exit Sub
+                    End If
+
                     If Convert.ToInt32(TextBox10.Text) + Convert.ToInt32(TextBox11.Text) > Convert.ToInt32(TextBox4.Text) Then
                         RJMessageBox.Show("Sorry Plan Qty Sub Sub PO + Actual Qty more than Qty Sub PO")
                         TextBox10.Text = ""
@@ -425,6 +435,12 @@ Public Class MainPOSubPO
                             Insert_Prod_DOP(TextBox9.Text, sub_sub_po, TextBox8.Text)
                             TextBox10.Text = ""
                             ComboBox3.Text = ""
+                            If TextBox1.Text <> "" Then
+                                DGV_MainPO_Spesific()
+                            Else
+                                DGV_MainPO_All()
+                            End If
+                            tampilDataComboBoxLine()
                         End If
 
                     End If
@@ -649,7 +665,10 @@ Public Class MainPOSubPO
                             Dim cmd = New SqlCommand(sql, Database.koneksi)
                             If cmd.ExecuteNonQuery() Then
                                 DGV_SubSubPO()
+                                tampilDataComboBoxLine()
                             End If
+
+                            DGV_MainPO_All()
                         End If
                     End If
                 End If
@@ -755,7 +774,7 @@ Public Class MainPOSubPO
                 End If
             End If
         Else
-            If DataGridView1.CurrentCell.ColumnIndex = 10 Then
+            If DataGridView1.CurrentCell.ColumnIndex = 11 Then
                 Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
 
                 If (combo IsNot Nothing) Then
@@ -775,7 +794,7 @@ Public Class MainPOSubPO
             End If
 
             Try
-                Dim result = RJMessageBox.Show(" Are you sure for close this PO?", "Are you sure?", MessageBoxButtons.YesNo)
+                Dim result = RJMessageBox.Show("Are you sure for close this PO?", "Are you sure?", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
                     Dim Sql As String = "update main_po set status='" & combo.SelectedValue & "' where id=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("ID").Value & ";update sub_sub_po set status='" & combo.SelectedValue & "' where main_po=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("ID").Value
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
@@ -869,5 +888,11 @@ Public Class MainPOSubPO
 
     Private Sub TabPage1_Enter(sender As Object, e As EventArgs) Handles TabPage1.Enter
         ClearTabPage2()
+    End Sub
+
+    Private Sub TabControl1_Leave(sender As Object, e As EventArgs) Handles TabControl1.Leave
+        If TabControl1.SelectedTab Is TabPage1 Then
+            DGV_MainPO_All()
+        End If
     End Sub
 End Class

@@ -1505,14 +1505,16 @@ Public Class FormDefective
     Function BalanceMaterialGenerateCode() As String
         Dim balanceCode As String = ""
         Try
-            Dim queryCheckCodeBalanceMaterial As String = "select DISTINCT(ID_LEVEL) from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Return To Mini Store' and id_level like 'B%'"
+            Dim queryCheckCodeBalanceMaterial As String = "select top 1 ID_LEVEL from stock_card where status='Return To Mini Store' and id_level like 'B%' ORDER BY ID_LEVEL DESC"
             Dim dtCheckCodeBalanceMAterial As DataTable = Database.GetData(queryCheckCodeBalanceMaterial)
             If dtCheckCodeBalanceMAterial.Rows.Count > 0 Then
-                balanceCode = dtCheckCodeBalanceMAterial.Rows(0).Item("ID_LEVEL")
-            Else
-                Dim queryCheckCount As String = "select DISTINCT(ID_LEVEL) from stock_card where status='Return To Mini Store'"
-                Dim dtCheckCount As DataTable = Database.GetData(queryCheckCount)
-                balanceCode = "B" & dtCheckCount.Rows.Count + 1
+                Dim match As Match = Regex.Match(dtCheckCodeBalanceMAterial.Rows(0).Item("ID_LEVEL").ToString(), "^([A-Z]+)(\d+)$")
+                If match.Success Then
+                    Dim prefix As String = match.Groups(1).Value
+                    Dim number As Integer = Integer.Parse(match.Groups(2).Value)
+                    Dim nextNumber As Integer = number + 1
+                    balanceCode = prefix & nextNumber.ToString()
+                End If
             End If
         Catch ex As Exception
             RJMessageBox.Show("Error Insert Balance Material : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)

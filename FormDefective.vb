@@ -5160,69 +5160,73 @@ Public Class FormDefective
     Private Sub btnPrintSA_Click(sender As Object, e As EventArgs) Handles btnPrintSA.Click
         If globVar.view > 0 Then
             If txtSubSubPODefective.Text <> "" Then
-                Dim countPrint = 0
-                Dim query As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY),[print],flow_ticket,qty,traceability,inv_ctrl_date,batch_no,lot_no from STOCK_PROD_SUB_ASSY where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
-                Dim dtCheckStockSA As DataTable = Database.GetData(query)
-                If dtCheckStockSA.Rows.Count > 0 Then
-                    For i = 0 To dtCheckStockSA.Rows.Count - 1
-                        If dtCheckStockSA.Rows(i).Item("print") = 0 Then
-                            globVar.failPrint = ""
-                            _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Sub Assy"
-                            _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY")
-                            _PrintingSubAssyRawMaterial.txt_part_number.Text = cbFGPN.Text
-                            _PrintingSubAssyRawMaterial.txt_Part_Description.Text = txtDescDefective.Text
-                            _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockSA.Rows(i).Item("qty")
-                            _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockSA.Rows(i).Item("traceability")
-                            _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockSA.Rows(i).Item("inv_ctrl_date")
-                            _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockSA.Rows(i).Item("batch_no")
-                            _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockSA.Rows(i).Item("lot_no")
-                            _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & Environment.NewLine
-                            _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
-                            If globVar.failPrint = "No" Then
-                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                    VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Sub Assy','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockSA.Rows(i).Item("flow_ticket") & "','" & dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
-                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                Dim _formListPrint As New ListPrint("Print Sub Assy", "Sub Assy", txtSubSubPODefective.Text, cbLineNumber.Text, txtDescDefective.Text, txtINV.Text)
+                _formListPrint.ShowDialog()
 
-                                Dim sqlupdateDefect As String = "update STOCK_PROD_SUB_ASSY set [print]=1 where CODE_STOCK_PROD_SUB_ASSY='" & dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "'"
-                                Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
-                                cmdupdateDefect.ExecuteNonQuery()
-                            End If
-                        Else
-                            countPrint += 1
-                        End If
-                    Next
+                'Dim countPrint = 0
+                'Dim query As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY),[print],flow_ticket,qty,traceability,inv_ctrl_date,batch_no,lot_no from STOCK_PROD_SUB_ASSY where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
+                'Dim dtCheckStockSA As DataTable = Database.GetData(query)
+                'If dtCheckStockSA.Rows.Count > 0 Then
+                '    For i = 0 To dtCheckStockSA.Rows.Count - 1
+                '        If dtCheckStockSA.Rows(i).Item("print") = 0 Then
+                '            globVar.failPrint = ""
+                '            _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Sub Assy"
+                '            _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY")
+                '            _PrintingSubAssyRawMaterial.txt_part_number.Text = cbFGPN.Text
+                '            _PrintingSubAssyRawMaterial.txt_Part_Description.Text = txtDescDefective.Text
+                '            _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockSA.Rows(i).Item("qty")
+                '            _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockSA.Rows(i).Item("traceability")
+                '            _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockSA.Rows(i).Item("inv_ctrl_date")
+                '            _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockSA.Rows(i).Item("batch_no")
+                '            _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockSA.Rows(i).Item("lot_no")
+                '            _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & Environment.NewLine
+                '            _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
-                    If dtCheckStockSA.Rows.Count = countPrint Then
-                        Dim result As DialogResult = RJMessageBox.Show("All Sub Assy have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
-                        If result = DialogResult.Yes Then
-                            For i = 0 To dtCheckStockSA.Rows.Count - 1
-                                globVar.failPrint = ""
-                                _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Sub Assy"
-                                _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY")
-                                _PrintingSubAssyRawMaterial.txt_part_number.Text = cbFGPN.Text
-                                _PrintingSubAssyRawMaterial.txt_Part_Description.Text = txtDescDefective.Text
-                                _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockSA.Rows(i).Item("qty")
-                                _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockSA.Rows(i).Item("traceability")
-                                _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockSA.Rows(i).Item("inv_ctrl_date")
-                                _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockSA.Rows(i).Item("batch_no")
-                                _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockSA.Rows(i).Item("lot_no")
-                                _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & Environment.NewLine
-                                _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+                '            If globVar.failPrint = "No" Then
+                '                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                '                    VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Sub Assy','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockSA.Rows(i).Item("flow_ticket") & "','" & dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
+                '                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                '                cmdInsertPrintingRecord.ExecuteNonQuery()
 
-                                If globVar.failPrint = "No" Then
-                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                        VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Sub Assy (Again)','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockSA.Rows(i).Item("flow_ticket") & "','" & dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
-                                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                                    cmdInsertPrintingRecord.ExecuteNonQuery()
-                                End If
-                            Next
-                        End If
-                    End If
-                Else
-                    RJMessageBox.Show("This Sub Sub PO dont have Reject Data")
-                End If
+                '                Dim sqlupdateDefect As String = "update STOCK_PROD_SUB_ASSY set [print]=1 where CODE_STOCK_PROD_SUB_ASSY='" & dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "'"
+                '                Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
+                '                cmdupdateDefect.ExecuteNonQuery()
+                '            End If
+                '        Else
+                '            countPrint += 1
+                '        End If
+                '    Next
+
+                '    If dtCheckStockSA.Rows.Count = countPrint Then
+                '        Dim result As DialogResult = RJMessageBox.Show("All Sub Assy have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
+                '        If result = DialogResult.Yes Then
+                '            For i = 0 To dtCheckStockSA.Rows.Count - 1
+                '                globVar.failPrint = ""
+                '                _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Sub Assy"
+                '                _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY")
+                '                _PrintingSubAssyRawMaterial.txt_part_number.Text = cbFGPN.Text
+                '                _PrintingSubAssyRawMaterial.txt_Part_Description.Text = txtDescDefective.Text
+                '                _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckStockSA.Rows(i).Item("qty")
+                '                _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckStockSA.Rows(i).Item("traceability")
+                '                _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckStockSA.Rows(i).Item("inv_ctrl_date")
+                '                _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckStockSA.Rows(i).Item("batch_no")
+                '                _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckStockSA.Rows(i).Item("lot_no")
+                '                _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & Environment.NewLine
+                '                _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                '                If globVar.failPrint = "No" Then
+                '                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                '                        VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Sub Assy (Again)','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockSA.Rows(i).Item("flow_ticket") & "','" & dtCheckStockSA.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
+                '                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                '                    cmdInsertPrintingRecord.ExecuteNonQuery()
+                '                End If
+                '            Next
+                '        End If
+                '    End If
+                'Else
+                '    RJMessageBox.Show("This Sub Sub PO dont have Reject Data")
+                'End If
             Else
                 RJMessageBox.Show("Sorry, please input Sub Sub PO First.")
             End If

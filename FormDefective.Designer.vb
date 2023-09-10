@@ -475,7 +475,6 @@ Partial Class FormDefective
         Me.txtINV.Name = "txtINV"
         Me.txtINV.Size = New System.Drawing.Size(100, 20)
         Me.txtINV.TabIndex = 13
-        Me.txtINV.Visible = False
         '
         'txtBatchno
         '

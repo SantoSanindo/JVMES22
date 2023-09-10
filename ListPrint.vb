@@ -6,8 +6,9 @@ Public Class ListPrint
     Public Shared GSubSubPO As String = ""
     Public Shared GLine As String = ""
     Public Shared GDesc As String = ""
+    Public Shared GInv As String = ""
 
-    Public Sub New(ByVal nama_form As String, ByVal form As String, ByVal subsubpo As String, Optional ByVal line As String = Nothing, Optional ByVal desc As String = Nothing)
+    Public Sub New(ByVal nama_form As String, ByVal form As String, ByVal subsubpo As String, Optional ByVal line As String = Nothing, Optional ByVal desc As String = Nothing, Optional ByVal Inv As String = Nothing)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -19,6 +20,7 @@ Public Class ListPrint
         GSubSubPO = subsubpo
         GLine = line
         GDesc = desc
+        GInv = Inv
 
         If GForm = "Flow Ticket" Then
             load_data_print_flow_ticket(subsubpo, line)
@@ -26,6 +28,14 @@ Public Class ListPrint
             load_data_print_wip(subsubpo, line)
         ElseIf GForm = "ONHOLD" Then
             load_data_print_onhold(subsubpo, line)
+        ElseIf GForm = "Defect" Then
+            load_data_print_defect(subsubpo, line)
+        ElseIf GForm = "Sub Assy" Then
+            load_data_print_sa(subsubpo, line)
+        ElseIf GForm = "Return" Then
+            load_data_print_return(subsubpo, line)
+        ElseIf GForm = "Others" Then
+            load_data_print_others(subsubpo, line)
         End If
 
     End Sub
@@ -66,6 +76,78 @@ Public Class ListPrint
     End Sub
 
     Sub load_data_print_onhold(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
+        Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
+        If dtCheckONHOLD.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckONHOLD
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check All"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
+        End If
+    End Sub
+
+    Sub load_data_print_defect(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Dim queryCheckdefect As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) [Code],flow_ticket_no [Flow Ticket],fg_pn [Finish Goods], Line from out_prod_DEFECT where sub_sub_po='" & GSubSubPO & "' and line='" & GLine & "'"
+        Dim dtCheckDEFECT As DataTable = Database.GetData(queryCheckdefect)
+        If dtCheckDEFECT.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckDEFECT
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check All"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
+        End If
+    End Sub
+
+    Sub load_data_print_sa(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
+        Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
+        If dtCheckONHOLD.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckONHOLD
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check All"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
+        End If
+    End Sub
+
+    Sub load_data_print_return(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
+        Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
+        If dtCheckONHOLD.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckONHOLD
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check All"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
+        End If
+    End Sub
+
+    Sub load_data_print_others(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
@@ -212,7 +294,7 @@ Public Class ListPrint
                     _PrintingWIPOnHold.txt_Process.Text = DataGridView1.Rows(i).Cells("Process").Value
                     _PrintingWIPOnHold.txt_Qty.Text = DataGridView1.Rows(i).Cells("Qty").Value
                     _PrintingWIPOnHold.txt_Traceability.Text = parts(0)
-                    _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                    _PrintingWIPOnHold.txt_Inv_crtl_date.Text = GInv
                     _PrintingWIPOnHold.txt_Unique_id.Text = DataGridView1.Rows(i).Cells("Code").Value
                     _PrintingWIPOnHold.txt_Status.Text = "ONHOLD"
                     _PrintingWIPOnHold.btn_Print_Click(sender, e)
@@ -225,8 +307,34 @@ Public Class ListPrint
                     End If
                 End If
             Next i
-        End If
+        ElseIf GForm = "Defect" Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                If DataGridView1.Rows(i).Cells("check").Value = True Then
+                    globVar.failPrint = ""
+                    Dim parts As String() = GSubSubPO.Split("-"c)
 
+                    _PrintingDefect.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingDefect.Label2.Text = "Defect Ticket"
+                    _PrintingDefect.txt_Unique_id.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingDefect.txt_part_number.Text = DataGridView1.Rows(i).Cells("Finish Goods").Value
+                    _PrintingDefect.txt_Part_Description.Text = GDesc
+                    _PrintingDefect.txt_Traceability.Text = parts(0)
+                    _PrintingDefect.txt_Inv_crtl_date.Text = GInv
+                    _PrintingDefect.btn_Print_Click(sender, e)
+
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                    VALUES ('" & parts(0) & "','" & DataGridView1.Rows(i).Cells("Finish Goods").Value & "','" & DataGridView1.Rows(i).Cells("Line").Value & "','Defect Material','" & GSubSubPO & "','" & globVar.department & "','" & DataGridView1.Rows(i).Cells("Flow Ticket").Value & "','" & DataGridView1.Rows(i).Cells("Code").Value & "')"
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
+
+                        Dim sqlupdateDefect As String = "update out_prod_defect set [print]=1 where CODE_OUT_PROD_DEFECT='" & DataGridView1.Rows(i).Cells("Code").Value & "'"
+                        Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
+                        cmdupdateDefect.ExecuteNonQuery()
+                    End If
+                End If
+            Next i
+        End If
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click

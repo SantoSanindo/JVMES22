@@ -4180,7 +4180,7 @@ Public Class FormDefective
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles btnListPrintWIP.Click
         If txtSubSubPODefective.Text <> "" Then
-            Dim _formListPrint As New ListPrint("Print WIP", "WIP", txtSubSubPODefective.Text, cbLineNumber.Text, txtDescDefective.Text)
+            Dim _formListPrint As New ListPrint("Print WIP", "WIP", txtSubSubPODefective.Text, cbLineNumber.Text, txtDescDefective.Text, txtINV.Text)
             _formListPrint.ShowDialog()
         Else
             RJMessageBox.Show("Sorry, please input Sub Sub PO First.")
@@ -5147,63 +5147,10 @@ Public Class FormDefective
     Private Sub PrintDefect_Click(sender As Object, e As EventArgs) Handles PrintDefect.Click
         If globVar.view > 0 Then
             If txtSubSubPODefective.Text <> "" Then
-                Dim countPrint = 0
-                Dim query As String = "select DISTINCT(CODE_OUT_PROD_DEFECT),[print],flow_ticket_no from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
-                Dim dtCheckStockReject As DataTable = Database.GetData(query)
-                If dtCheckStockReject.Rows.Count > 0 Then
-                    For i = 0 To dtCheckStockReject.Rows.Count - 1
-                        If dtCheckStockReject.Rows(i).Item("print") = 0 Then
-                            globVar.failPrint = ""
-                            _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
-                            _PrintingDefect.Label2.Text = "Defect Ticket"
-                            _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
-                            _PrintingDefect.txt_part_number.Text = cbFGPN.Text
-                            _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
-                            _PrintingDefect.txt_Traceability.Text = txtTampungLabel.Text
-                            _PrintingDefect.txt_Inv_crtl_date.Text = txtINV.Text
-                            _PrintingDefect.btn_Print_Click(sender, e)
 
-                            If globVar.failPrint = "No" Then
-                                Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                    VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Defect Material','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockReject.Rows(i).Item("flow_ticket_no") & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
-                                Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                                cmdInsertPrintingRecord.ExecuteNonQuery()
+                Dim _formListPrint As New ListPrint("Print Defect", "Defect", txtSubSubPODefective.Text, cbLineNumber.Text, txtDescDefective.Text, txtINV.Text)
+                _formListPrint.ShowDialog()
 
-                                Dim sqlupdateDefect As String = "update out_prod_defect set [print]=1 where CODE_OUT_PROD_DEFECT='" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "'"
-                                Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
-                                cmdupdateDefect.ExecuteNonQuery()
-                            End If
-                        Else
-                            countPrint += 1
-                        End If
-                    Next
-
-                    If dtCheckStockReject.Rows.Count = countPrint Then
-                        Dim result As DialogResult = RJMessageBox.Show("All defects have been printed. Are you sure you want to print again?", "Attention", MessageBoxButtons.YesNo)
-                        If result = DialogResult.Yes Then
-                            For i = 0 To dtCheckStockReject.Rows.Count - 1
-                                globVar.failPrint = ""
-                                _PrintingDefect.txt_QR_Code.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & Environment.NewLine
-                                _PrintingDefect.Label2.Text = "Defect Ticket"
-                                _PrintingDefect.txt_Unique_id.Text = dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT")
-                                _PrintingDefect.txt_part_number.Text = cbFGPN.Text
-                                _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
-                                _PrintingDefect.txt_Traceability.Text = txtTampungLabel.Text
-                                _PrintingDefect.txt_Inv_crtl_date.Text = txtINV.Text
-                                _PrintingDefect.btn_Print_Click(sender, e)
-
-                                If globVar.failPrint = "No" Then
-                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
-                                        VALUES ('" & cbPONumber.Text & "','" & cbFGPN.Text & "','" & cbLineNumber.Text & "','Defect Material (Again)','" & txtSubSubPODefective.Text & "','" & dept & "','" & dtCheckStockReject.Rows(i).Item("flow_ticket_no") & "','" & dtCheckStockReject.Rows(i).Item("CODE_OUT_PROD_DEFECT") & "')"
-                                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                                    cmdInsertPrintingRecord.ExecuteNonQuery()
-                                End If
-                            Next
-                        End If
-                    End If
-                Else
-                    RJMessageBox.Show("This Sub Sub PO dont have Defect Data")
-                End If
             Else
                 RJMessageBox.Show("Sorry, please input Sub Sub PO First.")
             End If
@@ -5400,7 +5347,7 @@ Public Class FormDefective
 
     Private Sub btnListPrintOnHold_Click(sender As Object, e As EventArgs) Handles btnListPrintOnHold.Click
         If txtSubSubPODefective.Text <> "" Then
-            Dim _formListPrint As New ListPrint("Print On Hold", "ONHOLD", txtSubSubPODefective.Text, cbLineNumber.Text, txtDescDefective.Text)
+            Dim _formListPrint As New ListPrint("Print On Hold", "ONHOLD", txtSubSubPODefective.Text, cbLineNumber.Text, txtDescDefective.Text, txtINV.Text)
             _formListPrint.ShowDialog()
         Else
             RJMessageBox.Show("Sorry, please input Sub Sub PO First.")

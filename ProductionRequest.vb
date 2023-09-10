@@ -158,7 +158,7 @@ Public Class ProductionRequest
             DataGridView4.Columns.Clear()
 
             Call Database.koneksi_database()
-            Dim queryInProdMaterial As String = "select in_mat.MATERIAL,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY,in_mat.SUM_QTY [Actual Qty]
+            Dim queryInProdMaterial As String = "select in_mat.MATERIAL,in_mat.LOT_NO,in_mat.TRACEABILITY,in_mat.INV_CTRL_DATE,in_mat.BATCH_NO,in_mat.QTY,in_mat.SUM_QTY [Actual Qty], in_mat.[level]
             from stock_card in_mat, sub_sub_po sp 
             where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTMENT='" & globVar.department & "' and in_mat.[status]='Production Request' ORDER BY in_mat.DATETIME_INSERT"
             Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)

@@ -6,6 +6,11 @@ Public Class StockMinistore
 
     Private Sub StockMinistore_Load(sender As Object, e As EventArgs) Handles Me.Load
         DateTimePicker1.MaxDate = DateTime.Now
+        DateTimePicker1.Format = DateTimePickerFormat.Custom
+        DateTimePicker1.CustomFormat = "yyyy-MM-dd"
+
+        DateTimePicker2.Format = DateTimePickerFormat.Custom
+        DateTimePicker2.CustomFormat = "yyyy-MM-dd"
     End Sub
 
     Private Sub DGV_StockMiniststore()
@@ -122,5 +127,13 @@ Public Class StockMinistore
     Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
         DateTimePicker2.MinDate = DateTimePicker1.Value
         DateTimePicker2.MaxDate = DateTime.Now.AddDays(1)
+    End Sub
+
+    Private Sub DateTimePicker1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker1.KeyPress
+        e.Handled = True
+    End Sub
+
+    Private Sub DateTimePicker2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker2.KeyPress
+        e.Handled = True
     End Sub
 End Class

@@ -355,10 +355,10 @@ Public Class Production
 
                                     Dim total = dtCheckMaterialUsage.Rows(0).Item(0) * dtCheckFlowTicket.Rows(0).Item(0)
 
-                                    If dtCheckActualQty.Rows(0).Item(0) < total Then
-                                        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "',@lot_material='" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "',@codeSubAssy='" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                                        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                                    End If
+                                    'If dtCheckActualQty.Rows(0).Item(0) < total Then
+                                    Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessSubAssy @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockSubAssy.Rows(i).Item("fg") & "',@lot_material='" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "',@codeSubAssy='" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
+                                    Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
+                                    'End If
                                 Next
 
                                 TextBox1.Text = ""

@@ -4276,6 +4276,8 @@ Public Class FormDefective
         btnSaveSA.Enabled = False
         btnSaveSADefect.Enabled = False
         btnResetSA.Enabled = False
+        ckLossQty.CheckState = CheckState.Unchecked
+        txtLossQty.Clear()
         If rbSA.Checked = True Then
             txtSAFlowTicket.Select()
         End If

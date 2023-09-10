@@ -24,13 +24,13 @@ Partial Class StockMinistore
     Private Sub InitializeComponent()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.btn_ExportTrace1 = New System.Windows.Forms.Button()
         Me.DataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -69,6 +69,54 @@ Partial Class StockMinistore
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(10, 31)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(63, 29)
+        Me.Label4.TabIndex = 14
+        Me.Label4.Text = "Date"
+        '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(565, 26)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(115, 38)
+        Me.Button2.TabIndex = 13
+        Me.Button2.Text = "Filter"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(298, 31)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(21, 29)
+        Me.Label1.TabIndex = 12
+        Me.Label1.Text = "-"
+        '
+        'DateTimePicker2
+        '
+        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker2.Location = New System.Drawing.Point(335, 26)
+        Me.DateTimePicker2.MinDate = New Date(2020, 1, 1, 0, 0, 0, 0)
+        Me.DateTimePicker2.Name = "DateTimePicker2"
+        Me.DateTimePicker2.Size = New System.Drawing.Size(200, 35)
+        Me.DateTimePicker2.TabIndex = 11
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker1.Location = New System.Drawing.Point(83, 26)
+        Me.DateTimePicker1.MinDate = New Date(2020, 1, 1, 0, 0, 0, 0)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(200, 35)
+        Me.DateTimePicker1.TabIndex = 10
+        '
         'btn_ExportTrace1
         '
         Me.btn_ExportTrace1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -101,50 +149,6 @@ Partial Class StockMinistore
         Me.DataGridView1.Size = New System.Drawing.Size(1281, 464)
         Me.DataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DataGridView1.TabIndex = 8
-        '
-        'DateTimePicker1
-        '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(83, 26)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(200, 35)
-        Me.DateTimePicker1.TabIndex = 10
-        '
-        'DateTimePicker2
-        '
-        Me.DateTimePicker2.Location = New System.Drawing.Point(335, 26)
-        Me.DateTimePicker2.Name = "DateTimePicker2"
-        Me.DateTimePicker2.Size = New System.Drawing.Size(200, 35)
-        Me.DateTimePicker2.TabIndex = 11
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(298, 31)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(21, 29)
-        Me.Label1.TabIndex = 12
-        Me.Label1.Text = "-"
-        '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.Color.Green
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(565, 26)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(115, 38)
-        Me.Button2.TabIndex = 13
-        Me.Button2.Text = "Filter"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(10, 31)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(63, 29)
-        Me.Label4.TabIndex = 14
-        Me.Label4.Text = "Date"
         '
         'StockMinistore
         '

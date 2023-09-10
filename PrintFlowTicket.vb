@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Windows
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 Imports MdiTabControl
@@ -56,6 +57,22 @@ Public Class PrintFlowTicket
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If globVar.view > 0 Then
+            Dim data As Integer
+            If Val(TextBox6.Text) <= Val(TextBox7.Text) Then
+                data = 1
+            Else
+                If Val(TextBox6.Text) Mod Val(TextBox7.Text) = 0 Then
+                    data = Val(TextBox6.Text) / Val(TextBox7.Text)
+                Else
+                    data = Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
+                End If
+            End If
+
+            Dim _formListPrint As New ListPrint("Print Flow Ticket", "Flow Ticket", data)
+
+            _formListPrint.ShowDialog()
+
+            Exit Sub
 
             If DataGridView2.Rows.Count = 0 Then
                 RJMessageBox.Show("Cannot Print When Detail Of Process / Detail Of Component blank. Please set First.")
@@ -78,8 +95,14 @@ Public Class PrintFlowTicket
                 _PrintingFlowTicket.DataGridView1.Rows(i).Cells(2).Value = DataGridView1.Rows(i).Cells(1).Value
             Next
 
+            Dim stringSub As String
             For i As Integer = 0 To DataGridView2.Rows.Count - 1
-                Dim row As String() = New String() {i + 1.ToString, DataGridView2.Rows(i).Cells(1).Value.ToString.Substring(0, 4), DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
+                If DataGridView2.Rows(i).Cells(1).Value.ToString().Length > 4 Then
+                    stringSub = DataGridView2.Rows(i).Cells(1).Value.ToString.Substring(0, 4)
+                Else
+                    stringSub = DataGridView2.Rows(i).Cells(1).Value.ToString
+                End If
+                Dim row As String() = New String() {i + 1.ToString, stringSub, DataGridView2.Rows(i).Cells(0).Value, DataGridView2.Rows(i).Cells(2).Value}
                 _PrintingFlowTicket.DataGridView2.Rows.Add(row)
             Next
 
@@ -182,7 +205,7 @@ Public Class PrintFlowTicket
 
                             Try
                                 If globVar.failPrint = "No" Then
-                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow)
+                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow_ticket)
                                         VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
                                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                                     If cmdInsertPrintingRecord.ExecuteNonQuery() Then
@@ -254,6 +277,7 @@ Public Class PrintFlowTicket
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.view > 0 Then
             clear()
+            _PrintingFlowTicket._refresh()
 
             Try
                 Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq
@@ -380,6 +404,8 @@ Public Class PrintFlowTicket
         DataGridView2.DataSource = Nothing
         DataGridView2.Rows.Clear()
         DataGridView2.Columns.Clear()
+        '_PrintingFlowTicket.DataGridView1.Rows.Clear()
+        '_PrintingFlowTicket.DataGridView1.Columns.Clear()
     End Sub
 
     Sub DGV_DOP_Param(Lot As String)

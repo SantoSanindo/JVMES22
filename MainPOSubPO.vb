@@ -890,9 +890,9 @@ Public Class MainPOSubPO
         ClearTabPage2()
     End Sub
 
-    Private Sub TabControl1_Leave(sender As Object, e As EventArgs) Handles TabControl1.Leave
-        If TabControl1.SelectedTab Is TabPage1 Then
-            DGV_MainPO_All()
-        End If
-    End Sub
+    'Private Sub TabControl1_Leave(sender As Object, e As EventArgs) Handles TabControl1.Leave
+    '    If TabControl1.SelectedTab Is TabPage1 Then
+    '        DGV_MainPO_All()
+    '    End If
+    'End Sub
 End Class

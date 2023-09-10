@@ -515,3 +515,4 @@ D:\MES Jovan\Jovan\JVMES22\obj\Debug\Interop.WMPLib.dll
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.SplitMaterial.resources
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.AccessControll.resources
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.StockProduction.resources
+D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.ListPrint.resources

@@ -55,6 +55,21 @@ Public Class _PrintingFlowTicket
         End Try
     End Sub
 
+    Sub clear()
+        txt_fg_part_number.Clear()
+        txt_part_description.Clear()
+        txt_Line_No.Clear()
+        txt_date_code.Clear()
+        txt_PO_Number.Clear()
+        txt_Quantity_PO.Clear()
+        txt_Qty_per_Lot.Clear()
+        txt_Lot_No.Clear()
+        txt_QR_Code.Clear()
+        txt_compress.Clear()
+        DataGridView1.Rows.Clear()
+        DataGridView2.Rows.Clear()
+    End Sub
+
     Private Sub isi_data()
         Application.DoEvents()
 
@@ -163,6 +178,23 @@ Public Class _PrintingFlowTicket
     Private Sub btn_Refresh_Click(sender As Object, e As EventArgs) Handles btn_Refresh.Click
         Dim appPath As String = Application.StartupPath()
         label = PrintEngineFactory.PrintEngine.OpenLabel(appPath & "\Label\" & "FlowTicket.nlbl")
+
+        clear()
+        For i As Integer = 1 To 10
+            Dim row As String() = New String() {i.ToString, " ", " "}
+            DataGridView1.Rows.Add(row)
+        Next
+    End Sub
+
+    Public Sub _refresh()
+        'Dim appPath As String = Application.StartupPath()
+        'label = PrintEngineFactory.PrintEngine.OpenLabel(appPath & "\Label\" & "FlowTicket.nlbl")
+
+        DataGridView1.Rows.Clear()
+        For i As Integer = 1 To 10
+            Dim row As String() = New String() {i.ToString, " ", " "}
+            DataGridView1.Rows.Add(row)
+        Next
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click

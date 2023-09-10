@@ -24,6 +24,8 @@ Public Class SplitMaterial
 
                         If dtCheckSplitQty.Rows.Count > 0 Then
                             DGV_Split_Qty(txtOuterLabel.Text)
+                            Button1.Enabled = True
+                            Button2.Enabled = True
                         Else
                             Dim q = InputBox("How many packages do you want to split", "Split Outer Label")
                             If q = "" Or q Is Nothing Then
@@ -78,6 +80,9 @@ Public Class SplitMaterial
                                 cmdUpdateSplitMaterialStockCard.ExecuteNonQuery()
                             End If
 
+                            Button1.Enabled = True
+                            Button2.Enabled = True
+
                             DGV_Split_Qty(txtOuterLabel.Text)
                         End If
                     Else
@@ -95,13 +100,16 @@ Public Class SplitMaterial
     Sub DGV_Split_Qty(pOuterLabel As String)
         Try
             DataGridView1.DataSource = Nothing
+            DataGridView1.Rows.Clear()
+            DataGridView1.Columns.Clear()
+
             Dim queryCheckSplitQty As String = "SELECT ID, outer_pn [OUTER PN], OUTER_ICD [OUTER ICD],OUTER_BATCH [OUTER BATCH], OUTER_TRACEABILITY [OUTER TRACE], OUTER_LOT [OUTER LOT], OUTER_QTY [OUTER QTY], INNER_LABEL [INNER LABEL], INNER_QTY [INNER QTY], [print] [PRINT] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView1.DataSource = dtCheckSplitQty
 
             Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
             check.Name = "check"
-            check.HeaderText = "Check"
+            check.HeaderText = "Check For Print"
             check.Width = 100
             check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
             DataGridView1.Columns.Insert(0, check)
@@ -190,6 +198,20 @@ Public Class SplitMaterial
 
                                             DGV_Split_Qty(txtOuterLabel.Text)
                                         End If
+                                    End If
+                                Else
+                                    _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Split Material"
+                                    _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL")
+                                    _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & Environment.NewLine
+                                    _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                                    If globVar.failPrint = "No" Then
+                                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (remark,department,code_print)
+                                            VALUES ('Split Material Reprint','" & globVar.department & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "')"
+                                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                        cmdInsertPrintingRecord.ExecuteNonQuery()
+
+                                        DGV_Split_Qty(txtOuterLabel.Text)
                                     End If
                                 End If
                             End If

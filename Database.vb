@@ -1,4 +1,5 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Configuration
+Imports System.Data.SqlClient
 
 Public Class Database
 
@@ -9,14 +10,8 @@ Public Class Database
 
     Public Shared Sub koneksi_database()
         Try
-            database = "Data Source=192.168.0.254;
-            initial catalog=JOVAN;
-            Persist Security Info=True;
-            User ID=sa;
-            Password=jovan123;
-            Max Pool Size=5000;
-            Pooling=True"
-            koneksi = New SqlConnection(database)
+            Dim connectionString As String = ConfigurationManager.ConnectionStrings("Jovan_New.My.MySettings.Development").ConnectionString
+            koneksi = New SqlConnection(connectionString)
             If koneksi.State = ConnectionState.Closed Then koneksi.Open() Else koneksi.Close()
         Catch ex As Exception
             RJMessageBox.Show("Please Contact IT Team. This is Database connection Problem -> " + ex.Message)

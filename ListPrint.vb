@@ -2,7 +2,12 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class ListPrint
-    Public Sub New(ByVal nama_form As String, ByVal form As String, ByVal data As Integer, ByVal subsubpo As String)
+    Public Shared GForm As String = ""
+    Public Shared GSubSubPO As String = ""
+    Public Shared GLine As String = ""
+    Public Shared GDesc As String = ""
+
+    Public Sub New(ByVal nama_form As String, ByVal form As String, ByVal subsubpo As String, Optional ByVal line As String = Nothing, Optional ByVal desc As String = Nothing)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -10,20 +15,64 @@ Public Class ListPrint
         ' Add any initialization after the InitializeComponent() call.
 
         Label1.Text = nama_form
+        GForm = form
+        GSubSubPO = subsubpo
+        GLine = line
+        GDesc = desc
 
-        If form = "Flow Ticket" Then
-            load_data_print_flow_ticket(data, subsubpo)
+        If GForm = "Flow Ticket" Then
+            load_data_print_flow_ticket(subsubpo, line)
+        ElseIf GForm = "WIP" Then
+            load_data_print_wip(subsubpo, line)
+        ElseIf GForm = "ONHOLD" Then
+            load_data_print_onhold(subsubpo, line)
         End If
 
     End Sub
-    Sub load_data_print_flow_ticket(ByVal data As Integer, ByVal subsubpo As String)
+    Sub load_data_print_flow_ticket(ByVal subsubpo As String, ByVal line As String)
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckFlowTicket As String = "select flow_ticket [Flow Ticket], sub_sub_po [Sub Sub PO],fg [Finish Goods], line Line, qty_per_lot [Qty Per Lot], qty_sub_sub_po [Qty Sub Sub PO] from flow_ticket where sub_sub_po='" & subsubpo & "' and department='" & globVar.department & "'"
+        Dim queryCheckFlowTicket As String = "select flow_ticket [Flow Ticket], sub_sub_po [Sub Sub PO],fg [Finish Goods], line Line, qty_per_lot [Qty Per Lot], qty_sub_sub_po [Qty Sub Sub PO] from flow_ticket where sub_sub_po='" & subsubpo & "' and department='" & globVar.department & "' and line='" & line & "'"
         Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
         If dtCheckFlowTicket.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckFlowTicket
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check All"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
+        End If
+    End Sub
+
+    Sub load_data_print_wip(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Dim queryCheckwip As String = "select code_stock_prod_wip [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_wip where sub_sub_po='" & subsubpo & "' group by code_stock_prod_wip,fg_pn,flow_ticket_no,process,pengali"
+        Dim dtCheckWIP As DataTable = Database.GetData(queryCheckwip)
+        If dtCheckWIP.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckWIP
+
+            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+            check.Name = "check"
+            check.HeaderText = "Check All"
+            check.Width = 100
+            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            DataGridView1.Columns.Insert(0, check)
+        End If
+    End Sub
+
+    Sub load_data_print_onhold(ByVal subsubpo As String, Optional ByVal line As String = Nothing)
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
+        Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
+        If dtCheckONHOLD.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckONHOLD
 
             Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
             check.Name = "check"
@@ -105,24 +154,79 @@ Public Class ListPrint
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        For i = 0 To DataGridView1.Rows.Count - 1
-            If DataGridView1.Rows(i).Cells("check").Value = True Then
-                globVar.failPrint = ""
-                _PrintingFlowTicket.txt_Lot_No.Text = DataGridView1.Rows(i).Cells("Flow Ticket").Value
-                _PrintingFlowTicket.txt_Quantity_PO.Text = DataGridView1.Rows(i).Cells("Qty Sub Sub PO").Value
-                _PrintingFlowTicket.txt_Qty_per_Lot.Text = DataGridView1.Rows(i).Cells("Qty Per Lot").Value
-                'Subsubpo, fg, qtypo, qtyperlot, line, noflowticket
-                _PrintingFlowTicket.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Sub Sub PO").Value & ";" & DataGridView1.Rows(i).Cells("Finish Goods").Value & ";" & DataGridView1.Rows(i).Cells("Qty Sub Sub PO").Value & ";" & DataGridView1.Rows(i).Cells("Qty Per Lot").Value & ";" & DataGridView1.Rows(i).Cells("Line").Value & ";" & DataGridView1.Rows(i).Cells("Flow Ticket").Value
-                _PrintingFlowTicket.btn_Print_Click(sender, e)
-                Dim parts As String() = DataGridView1.Rows(i).Cells("Sub Sub PO").Value.Split("-"c)
-                If globVar.failPrint = "No" Then
-                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow_ticket)
+        If GForm = "Flow Ticket" Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                If DataGridView1.Rows(i).Cells("check").Value = True Then
+                    globVar.failPrint = ""
+                    _PrintingFlowTicket.txt_Lot_No.Text = DataGridView1.Rows(i).Cells("Flow Ticket").Value
+                    _PrintingFlowTicket.txt_Quantity_PO.Text = DataGridView1.Rows(i).Cells("Qty Sub Sub PO").Value
+                    _PrintingFlowTicket.txt_Qty_per_Lot.Text = DataGridView1.Rows(i).Cells("Qty Per Lot").Value
+                    'Subsubpo, fg, qtypo, qtyperlot, line, noflowticket
+                    _PrintingFlowTicket.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Sub Sub PO").Value & ";" & DataGridView1.Rows(i).Cells("Finish Goods").Value & ";" & DataGridView1.Rows(i).Cells("Qty Sub Sub PO").Value & ";" & DataGridView1.Rows(i).Cells("Qty Per Lot").Value & ";" & DataGridView1.Rows(i).Cells("Line").Value & ";" & DataGridView1.Rows(i).Cells("Flow Ticket").Value
+                    _PrintingFlowTicket.btn_Print_Click(sender, e)
+                    Dim parts As String() = DataGridView1.Rows(i).Cells("Sub Sub PO").Value.Split("-"c)
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow_ticket)
                             VALUES ('" & parts(0) & "','" & DataGridView1.Rows(i).Cells("Finish Goods").Value & "','" & DataGridView1.Rows(i).Cells("Line").Value & "','" & DataGridView1.Rows(i).Cells("Sub Sub PO").Value & "','" & globVar.department & "','" & DataGridView1.Rows(i).Cells("Flow Ticket").Value & "')"
-                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                    cmdInsertPrintingRecord.ExecuteNonQuery()
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
+                    End If
                 End If
-            End If
-        Next i
+            Next i
+        ElseIf GForm = "WIP" Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                If DataGridView1.Rows(i).Cells("check").Value = True Then
+                    globVar.failPrint = ""
+                    Dim parts As String() = GSubSubPO.Split("-"c)
+
+                    _PrintingWIPOnHold.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingWIPOnHold.txt_jenis_ticket.Text = "WIP"
+                    _PrintingWIPOnHold.txt_part_number.Text = DataGridView1.Rows(i).Cells("Finish Goods").Value
+                    _PrintingWIPOnHold.txt_Part_Description.Text = GDesc
+                    _PrintingWIPOnHold.txt_Process.Text = DataGridView1.Rows(i).Cells("Process").Value
+                    _PrintingWIPOnHold.txt_Qty.Text = DataGridView1.Rows(i).Cells("Qty").Value
+                    _PrintingWIPOnHold.txt_Traceability.Text = parts(0)
+                    _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                    _PrintingWIPOnHold.txt_Unique_id.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingWIPOnHold.txt_Status.Text = "WIP"
+                    _PrintingWIPOnHold.btn_Print_Click(sender, e)
+
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                VALUES ('" & parts(0) & "','" & DataGridView1.Rows(i).Cells("Finish Goods").Value & "','" & GLine & "','WIP','" & GSubSubPO & "','" & globVar.department & "','" & DataGridView1.Rows(i).Cells("Flow Ticket").Value & "','" & DataGridView1.Rows(i).Cells("Code").Value & "')"
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
+                    End If
+                End If
+            Next i
+        ElseIf GForm = "ONHOLD" Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                If DataGridView1.Rows(i).Cells("check").Value = True Then
+                    globVar.failPrint = ""
+                    Dim parts As String() = GSubSubPO.Split("-"c)
+
+                    _PrintingWIPOnHold.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingWIPOnHold.txt_jenis_ticket.Text = "ONHOLD"
+                    _PrintingWIPOnHold.txt_part_number.Text = DataGridView1.Rows(i).Cells("Finish Goods").Value
+                    _PrintingWIPOnHold.txt_Part_Description.Text = GDesc
+                    _PrintingWIPOnHold.txt_Process.Text = DataGridView1.Rows(i).Cells("Process").Value
+                    _PrintingWIPOnHold.txt_Qty.Text = DataGridView1.Rows(i).Cells("Qty").Value
+                    _PrintingWIPOnHold.txt_Traceability.Text = parts(0)
+                    _PrintingWIPOnHold.txt_Inv_crtl_date.Text = ""
+                    _PrintingWIPOnHold.txt_Unique_id.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingWIPOnHold.txt_Status.Text = "ONHOLD"
+                    _PrintingWIPOnHold.btn_Print_Click(sender, e)
+
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                        VALUES ('" & parts(0) & "','" & DataGridView1.Rows(i).Cells("Finish Goods").Value & "','" & GLine & "','OnHold','" & GSubSubPO & "','" & globVar.department & "','" & DataGridView1.Rows(i).Cells("Flow Ticket").Value & "','" & DataGridView1.Rows(i).Cells("Code").Value & "')"
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
+                    End If
+                End If
+            Next i
+        End If
+
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click

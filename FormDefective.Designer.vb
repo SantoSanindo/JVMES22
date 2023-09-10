@@ -23,9 +23,12 @@ Partial Class FormDefective
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnListPrintOthers = New System.Windows.Forms.Button()
+        Me.btnListPrintReturn = New System.Windows.Forms.Button()
+        Me.btnListPrintOnHold = New System.Windows.Forms.Button()
         Me.PrintDefect = New System.Windows.Forms.Button()
         Me.btnPrintSA = New System.Windows.Forms.Button()
-        Me.btnPrintSADefect = New System.Windows.Forms.Button()
+        Me.btnListPrintWIP = New System.Windows.Forms.Button()
         Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.txtStatusSubSubPO = New System.Windows.Forms.TextBox()
         Me.txtSPQ = New System.Windows.Forms.TextBox()
@@ -215,9 +218,12 @@ Partial Class FormDefective
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.btnListPrintOthers)
+        Me.GroupBox1.Controls.Add(Me.btnListPrintReturn)
+        Me.GroupBox1.Controls.Add(Me.btnListPrintOnHold)
         Me.GroupBox1.Controls.Add(Me.PrintDefect)
         Me.GroupBox1.Controls.Add(Me.btnPrintSA)
-        Me.GroupBox1.Controls.Add(Me.btnPrintSADefect)
+        Me.GroupBox1.Controls.Add(Me.btnListPrintWIP)
         Me.GroupBox1.Controls.Add(Me.CheckBox5)
         Me.GroupBox1.Controls.Add(Me.txtStatusSubSubPO)
         Me.GroupBox1.Controls.Add(Me.txtSPQ)
@@ -244,9 +250,48 @@ Partial Class FormDefective
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1658, 169)
+        Me.GroupBox1.Size = New System.Drawing.Size(2024, 169)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'btnListPrintOthers
+        '
+        Me.btnListPrintOthers.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnListPrintOthers.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnListPrintOthers.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnListPrintOthers.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnListPrintOthers.Location = New System.Drawing.Point(1529, 112)
+        Me.btnListPrintOthers.Name = "btnListPrintOthers"
+        Me.btnListPrintOthers.Size = New System.Drawing.Size(199, 41)
+        Me.btnListPrintOthers.TabIndex = 32
+        Me.btnListPrintOthers.Text = "Print Others Part"
+        Me.btnListPrintOthers.UseVisualStyleBackColor = False
+        '
+        'btnListPrintReturn
+        '
+        Me.btnListPrintReturn.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnListPrintReturn.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnListPrintReturn.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnListPrintReturn.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnListPrintReturn.Location = New System.Drawing.Point(1274, 112)
+        Me.btnListPrintReturn.Name = "btnListPrintReturn"
+        Me.btnListPrintReturn.Size = New System.Drawing.Size(240, 41)
+        Me.btnListPrintReturn.TabIndex = 31
+        Me.btnListPrintReturn.Text = "Print Return Material"
+        Me.btnListPrintReturn.UseVisualStyleBackColor = False
+        '
+        'btnListPrintOnHold
+        '
+        Me.btnListPrintOnHold.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnListPrintOnHold.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnListPrintOnHold.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnListPrintOnHold.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnListPrintOnHold.Location = New System.Drawing.Point(865, 112)
+        Me.btnListPrintOnHold.Name = "btnListPrintOnHold"
+        Me.btnListPrintOnHold.Size = New System.Drawing.Size(172, 41)
+        Me.btnListPrintOnHold.TabIndex = 30
+        Me.btnListPrintOnHold.Text = "Print On Hold"
+        Me.btnListPrintOnHold.UseVisualStyleBackColor = False
         '
         'PrintDefect
         '
@@ -255,40 +300,38 @@ Partial Class FormDefective
         Me.PrintDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.PrintDefect.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PrintDefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.PrintDefect.Location = New System.Drawing.Point(1199, 114)
+        Me.PrintDefect.Location = New System.Drawing.Point(1345, 16)
         Me.PrintDefect.Name = "PrintDefect"
-        Me.PrintDefect.Size = New System.Drawing.Size(199, 39)
+        Me.PrintDefect.Size = New System.Drawing.Size(199, 41)
         Me.PrintDefect.TabIndex = 29
         Me.PrintDefect.Text = "Print Defect"
         Me.PrintDefect.UseVisualStyleBackColor = False
         '
         'btnPrintSA
         '
-        Me.btnPrintSA.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.btnPrintSA.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintSA.Enabled = False
         Me.btnPrintSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnPrintSA.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintSA.Location = New System.Drawing.Point(943, 114)
+        Me.btnPrintSA.Location = New System.Drawing.Point(1057, 112)
         Me.btnPrintSA.Name = "btnPrintSA"
-        Me.btnPrintSA.Size = New System.Drawing.Size(199, 39)
+        Me.btnPrintSA.Size = New System.Drawing.Size(199, 41)
         Me.btnPrintSA.TabIndex = 8
         Me.btnPrintSA.Text = "Print Sub Assy"
         Me.btnPrintSA.UseVisualStyleBackColor = False
-        Me.btnPrintSA.Visible = False
         '
-        'btnPrintSADefect
+        'btnListPrintWIP
         '
-        Me.btnPrintSADefect.BackColor = System.Drawing.Color.SkyBlue
-        Me.btnPrintSADefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintSADefect.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintSADefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintSADefect.Location = New System.Drawing.Point(1330, 16)
-        Me.btnPrintSADefect.Name = "btnPrintSADefect"
-        Me.btnPrintSADefect.Size = New System.Drawing.Size(199, 41)
-        Me.btnPrintSADefect.TabIndex = 6
-        Me.btnPrintSADefect.Text = "Print Defect"
-        Me.btnPrintSADefect.UseVisualStyleBackColor = False
-        Me.btnPrintSADefect.Visible = False
+        Me.btnListPrintWIP.BackColor = System.Drawing.Color.SkyBlue
+        Me.btnListPrintWIP.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnListPrintWIP.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnListPrintWIP.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.btnListPrintWIP.Location = New System.Drawing.Point(696, 112)
+        Me.btnListPrintWIP.Name = "btnListPrintWIP"
+        Me.btnListPrintWIP.Size = New System.Drawing.Size(151, 41)
+        Me.btnListPrintWIP.TabIndex = 6
+        Me.btnListPrintWIP.Text = "Print WIP"
+        Me.btnListPrintWIP.UseVisualStyleBackColor = False
         '
         'CheckBox5
         '
@@ -297,7 +340,7 @@ Partial Class FormDefective
         Me.CheckBox5.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox5.Enabled = False
         Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox5.Location = New System.Drawing.Point(696, 118)
+        Me.CheckBox5.Location = New System.Drawing.Point(1680, 21)
         Me.CheckBox5.Name = "CheckBox5"
         Me.CheckBox5.Size = New System.Drawing.Size(240, 33)
         Me.CheckBox5.TabIndex = 28
@@ -355,7 +398,7 @@ Partial Class FormDefective
         Me.btnPrintFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnPrintFGDefect.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnPrintFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintFGDefect.Location = New System.Drawing.Point(1330, 65)
+        Me.btnPrintFGDefect.Location = New System.Drawing.Point(1680, 61)
         Me.btnPrintFGDefect.Name = "btnPrintFGDefect"
         Me.btnPrintFGDefect.Size = New System.Drawing.Size(199, 39)
         Me.btnPrintFGDefect.TabIndex = 5
@@ -518,7 +561,7 @@ Partial Class FormDefective
         Me.btnWIPAdd.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnWIPAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnWIPAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnWIPAdd.Location = New System.Drawing.Point(713, 5)
+        Me.btnWIPAdd.Location = New System.Drawing.Point(850, 5)
         Me.btnWIPAdd.Name = "btnWIPAdd"
         Me.btnWIPAdd.Size = New System.Drawing.Size(162, 49)
         Me.btnWIPAdd.TabIndex = 7
@@ -587,7 +630,7 @@ Partial Class FormDefective
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox2.Location = New System.Drawing.Point(0, 169)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(1658, 642)
+        Me.GroupBox2.Size = New System.Drawing.Size(2024, 642)
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
         '
@@ -604,7 +647,7 @@ Partial Class FormDefective
         Me.TabControl1.Location = New System.Drawing.Point(3, 16)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1652, 623)
+        Me.TabControl1.Size = New System.Drawing.Size(2018, 623)
         Me.TabControl1.TabIndex = 0
         '
         'tpRejectMaterial
@@ -612,7 +655,7 @@ Partial Class FormDefective
         Me.tpRejectMaterial.Controls.Add(Me.TableLayoutPanel16)
         Me.tpRejectMaterial.Location = New System.Drawing.Point(4, 38)
         Me.tpRejectMaterial.Name = "tpRejectMaterial"
-        Me.tpRejectMaterial.Size = New System.Drawing.Size(1644, 581)
+        Me.tpRejectMaterial.Size = New System.Drawing.Size(2010, 581)
         Me.tpRejectMaterial.TabIndex = 5
         Me.tpRejectMaterial.Text = "Reject Material"
         Me.tpRejectMaterial.UseVisualStyleBackColor = True
@@ -629,7 +672,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel16.RowCount = 2
         Me.TableLayoutPanel16.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.97824!))
         Me.TableLayoutPanel16.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.02176!))
-        Me.TableLayoutPanel16.Size = New System.Drawing.Size(1644, 581)
+        Me.TableLayoutPanel16.Size = New System.Drawing.Size(2010, 581)
         Me.TableLayoutPanel16.TabIndex = 0
         '
         'TableLayoutPanel17
@@ -660,14 +703,14 @@ Partial Class FormDefective
         Me.TableLayoutPanel17.RowCount = 2
         Me.TableLayoutPanel17.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel17.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel17.Size = New System.Drawing.Size(1638, 121)
+        Me.TableLayoutPanel17.Size = New System.Drawing.Size(2004, 121)
         Me.TableLayoutPanel17.TabIndex = 0
         '
         'Label23
         '
         Me.Label23.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(35, 15)
+        Me.Label23.Location = New System.Drawing.Point(42, 15)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(165, 29)
         Me.Label23.TabIndex = 0
@@ -677,7 +720,7 @@ Partial Class FormDefective
         '
         Me.Label27.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(35, 76)
+        Me.Label27.Location = New System.Drawing.Point(42, 76)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(175, 29)
         Me.Label27.TabIndex = 1
@@ -691,11 +734,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel18.Controls.Add(Me.CheckBox3, 1, 0)
         Me.TableLayoutPanel18.Controls.Add(Me.txtRejectBarcode, 0, 0)
         Me.TableLayoutPanel18.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel18.Location = New System.Drawing.Point(224, 3)
+        Me.TableLayoutPanel18.Location = New System.Drawing.Point(273, 3)
         Me.TableLayoutPanel18.Name = "TableLayoutPanel18"
         Me.TableLayoutPanel18.RowCount = 1
         Me.TableLayoutPanel18.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel18.Size = New System.Drawing.Size(327, 54)
+        Me.TableLayoutPanel18.Size = New System.Drawing.Size(401, 54)
         Me.TableLayoutPanel18.TabIndex = 2
         '
         'CheckBox3
@@ -704,7 +747,7 @@ Partial Class FormDefective
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Checked = True
         Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox3.Location = New System.Drawing.Point(166, 10)
+        Me.CheckBox3.Location = New System.Drawing.Point(203, 10)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(133, 33)
         Me.CheckBox3.TabIndex = 0
@@ -727,11 +770,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel19.Controls.Add(Me.Label28, 0, 0)
         Me.TableLayoutPanel19.Controls.Add(Me.TextBox7, 1, 0)
         Me.TableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel19.Location = New System.Drawing.Point(592, 3)
+        Me.TableLayoutPanel19.Location = New System.Drawing.Point(723, 3)
         Me.TableLayoutPanel19.Name = "TableLayoutPanel19"
         Me.TableLayoutPanel19.RowCount = 1
         Me.TableLayoutPanel19.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel19.Size = New System.Drawing.Size(293, 54)
+        Me.TableLayoutPanel19.Size = New System.Drawing.Size(359, 54)
         Me.TableLayoutPanel19.TabIndex = 3
         '
         'Label28
@@ -747,7 +790,7 @@ Partial Class FormDefective
         'TextBox7
         '
         Me.TextBox7.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox7.Location = New System.Drawing.Point(90, 9)
+        Me.TextBox7.Location = New System.Drawing.Point(110, 9)
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.Size = New System.Drawing.Size(196, 35)
         Me.TextBox7.TabIndex = 1
@@ -762,11 +805,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel20.Controls.Add(Me.TextBox8, 1, 0)
         Me.TableLayoutPanel20.Controls.Add(Me.Button3, 2, 0)
         Me.TableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel20.Location = New System.Drawing.Point(891, 3)
+        Me.TableLayoutPanel20.Location = New System.Drawing.Point(1088, 3)
         Me.TableLayoutPanel20.Name = "TableLayoutPanel20"
         Me.TableLayoutPanel20.RowCount = 1
         Me.TableLayoutPanel20.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel20.Size = New System.Drawing.Size(485, 54)
+        Me.TableLayoutPanel20.Size = New System.Drawing.Size(595, 54)
         Me.TableLayoutPanel20.TabIndex = 4
         '
         'Label29
@@ -782,14 +825,14 @@ Partial Class FormDefective
         'TextBox8
         '
         Me.TextBox8.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox8.Location = New System.Drawing.Point(99, 9)
+        Me.TextBox8.Location = New System.Drawing.Point(121, 9)
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.Size = New System.Drawing.Size(236, 35)
         Me.TextBox8.TabIndex = 1
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(341, 3)
+        Me.Button3.Location = New System.Drawing.Point(418, 3)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(140, 48)
         Me.Button3.TabIndex = 2
@@ -799,7 +842,7 @@ Partial Class FormDefective
         'txtRejectQty
         '
         Me.txtRejectQty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtRejectQty.Location = New System.Drawing.Point(224, 73)
+        Me.txtRejectQty.Location = New System.Drawing.Point(273, 73)
         Me.txtRejectQty.Name = "txtRejectQty"
         Me.txtRejectQty.Size = New System.Drawing.Size(321, 35)
         Me.txtRejectQty.TabIndex = 5
@@ -808,7 +851,7 @@ Partial Class FormDefective
         '
         Me.btnRejectSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnRejectSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnRejectSave.Location = New System.Drawing.Point(592, 63)
+        Me.btnRejectSave.Location = New System.Drawing.Point(723, 63)
         Me.btnRejectSave.Name = "btnRejectSave"
         Me.btnRejectSave.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.btnRejectSave.Size = New System.Drawing.Size(162, 49)
@@ -835,7 +878,7 @@ Partial Class FormDefective
         '
         'TextBox5
         '
-        Me.TextBox5.Location = New System.Drawing.Point(557, 3)
+        Me.TextBox5.Location = New System.Drawing.Point(680, 3)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(26, 35)
         Me.TextBox5.TabIndex = 10
@@ -848,7 +891,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel21.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.2268!))
         Me.TableLayoutPanel21.Controls.Add(Me.btnRejectDelete, 0, 0)
         Me.TableLayoutPanel21.Controls.Add(Me.btnRejectEdit, 1, 0)
-        Me.TableLayoutPanel21.Location = New System.Drawing.Point(891, 63)
+        Me.TableLayoutPanel21.Location = New System.Drawing.Point(1088, 63)
         Me.TableLayoutPanel21.Name = "TableLayoutPanel21"
         Me.TableLayoutPanel21.RowCount = 1
         Me.TableLayoutPanel21.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -888,7 +931,7 @@ Partial Class FormDefective
         Me.dgReject.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgReject.Location = New System.Drawing.Point(3, 130)
         Me.dgReject.Name = "dgReject"
-        Me.dgReject.Size = New System.Drawing.Size(1638, 448)
+        Me.dgReject.Size = New System.Drawing.Size(2004, 448)
         Me.dgReject.TabIndex = 1
         '
         'tpWIP
@@ -898,7 +941,7 @@ Partial Class FormDefective
         Me.tpWIP.ForeColor = System.Drawing.SystemColors.ControlText
         Me.tpWIP.Location = New System.Drawing.Point(4, 38)
         Me.tpWIP.Name = "tpWIP"
-        Me.tpWIP.Size = New System.Drawing.Size(1644, 581)
+        Me.tpWIP.Size = New System.Drawing.Size(2010, 581)
         Me.tpWIP.TabIndex = 3
         Me.tpWIP.Text = "WIP"
         '
@@ -915,7 +958,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.84291!))
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.15709!))
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(1644, 581)
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(2010, 581)
         Me.TableLayoutPanel5.TabIndex = 0
         '
         'dgWIP
@@ -926,7 +969,7 @@ Partial Class FormDefective
         Me.dgWIP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgWIP.Location = New System.Drawing.Point(3, 182)
         Me.dgWIP.Name = "dgWIP"
-        Me.dgWIP.Size = New System.Drawing.Size(1638, 396)
+        Me.dgWIP.Size = New System.Drawing.Size(2004, 396)
         Me.dgWIP.TabIndex = 1
         '
         'TableLayoutPanel6
@@ -955,7 +998,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.68208!))
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.10405!))
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.63584!))
-        Me.TableLayoutPanel6.Size = New System.Drawing.Size(1638, 173)
+        Me.TableLayoutPanel6.Size = New System.Drawing.Size(2004, 173)
         Me.TableLayoutPanel6.TabIndex = 4
         '
         'btnPrintWIP
@@ -963,7 +1006,7 @@ Partial Class FormDefective
         Me.btnPrintWIP.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.btnPrintWIP.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintWIP.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintWIP.Location = New System.Drawing.Point(1473, 122)
+        Me.btnPrintWIP.Location = New System.Drawing.Point(1839, 122)
         Me.btnPrintWIP.Name = "btnPrintWIP"
         Me.btnPrintWIP.Size = New System.Drawing.Size(162, 48)
         Me.btnPrintWIP.TabIndex = 9
@@ -972,7 +1015,7 @@ Partial Class FormDefective
         '
         'TextBox11
         '
-        Me.TextBox11.Location = New System.Drawing.Point(678, 3)
+        Me.TextBox11.Location = New System.Drawing.Point(807, 3)
         Me.TextBox11.Name = "TextBox11"
         Me.TextBox11.Size = New System.Drawing.Size(29, 35)
         Me.TextBox11.TabIndex = 11
@@ -983,7 +1026,7 @@ Partial Class FormDefective
         Me.btnWIPDelete.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnWIPDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnWIPDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnWIPDelete.Location = New System.Drawing.Point(1015, 5)
+        Me.btnWIPDelete.Location = New System.Drawing.Point(1226, 5)
         Me.btnWIPDelete.Name = "btnWIPDelete"
         Me.btnWIPDelete.Size = New System.Drawing.Size(162, 49)
         Me.btnWIPDelete.TabIndex = 10
@@ -996,7 +1039,7 @@ Partial Class FormDefective
         Me.tpOnHold.Controls.Add(Me.TableLayoutPanel13)
         Me.tpOnHold.Location = New System.Drawing.Point(4, 38)
         Me.tpOnHold.Name = "tpOnHold"
-        Me.tpOnHold.Size = New System.Drawing.Size(1644, 581)
+        Me.tpOnHold.Size = New System.Drawing.Size(2010, 581)
         Me.tpOnHold.TabIndex = 4
         Me.tpOnHold.Text = "On Hold"
         '
@@ -1013,7 +1056,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel13.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.84291!))
         Me.TableLayoutPanel13.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.15709!))
         Me.TableLayoutPanel13.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel13.Size = New System.Drawing.Size(1644, 581)
+        Me.TableLayoutPanel13.Size = New System.Drawing.Size(2010, 581)
         Me.TableLayoutPanel13.TabIndex = 1
         '
         'dgOnHold
@@ -1024,7 +1067,7 @@ Partial Class FormDefective
         Me.dgOnHold.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgOnHold.Location = New System.Drawing.Point(3, 182)
         Me.dgOnHold.Name = "dgOnHold"
-        Me.dgOnHold.Size = New System.Drawing.Size(1638, 396)
+        Me.dgOnHold.Size = New System.Drawing.Size(2004, 396)
         Me.dgOnHold.TabIndex = 1
         '
         'TableLayoutPanel15
@@ -1053,7 +1096,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.10405!))
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.94798!))
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.36994!))
-        Me.TableLayoutPanel15.Size = New System.Drawing.Size(1638, 173)
+        Me.TableLayoutPanel15.Size = New System.Drawing.Size(2004, 173)
         Me.TableLayoutPanel15.TabIndex = 4
         '
         'Label9
@@ -1117,7 +1160,7 @@ Partial Class FormDefective
         Me.btnPrintOnhold.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.btnPrintOnhold.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintOnhold.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintOnhold.Location = New System.Drawing.Point(1473, 120)
+        Me.btnPrintOnhold.Location = New System.Drawing.Point(1839, 120)
         Me.btnPrintOnhold.Name = "btnPrintOnhold"
         Me.btnPrintOnhold.Size = New System.Drawing.Size(162, 49)
         Me.btnPrintOnhold.TabIndex = 9
@@ -1129,7 +1172,7 @@ Partial Class FormDefective
         Me.btnOnHoldSave.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnOnHoldSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnOnHoldSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOnHoldSave.Location = New System.Drawing.Point(711, 5)
+        Me.btnOnHoldSave.Location = New System.Drawing.Point(848, 5)
         Me.btnOnHoldSave.Name = "btnOnHoldSave"
         Me.btnOnHoldSave.Size = New System.Drawing.Size(162, 49)
         Me.btnOnHoldSave.TabIndex = 7
@@ -1138,7 +1181,7 @@ Partial Class FormDefective
         '
         'TextBox12
         '
-        Me.TextBox12.Location = New System.Drawing.Point(677, 3)
+        Me.TextBox12.Location = New System.Drawing.Point(805, 3)
         Me.TextBox12.Name = "TextBox12"
         Me.TextBox12.Size = New System.Drawing.Size(28, 35)
         Me.TextBox12.TabIndex = 11
@@ -1149,7 +1192,7 @@ Partial Class FormDefective
         Me.btnOnHoldDelete.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnOnHoldDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnOnHoldDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOnHoldDelete.Location = New System.Drawing.Point(1015, 5)
+        Me.btnOnHoldDelete.Location = New System.Drawing.Point(1227, 5)
         Me.btnOnHoldDelete.Name = "btnOnHoldDelete"
         Me.btnOnHoldDelete.Size = New System.Drawing.Size(162, 49)
         Me.btnOnHoldDelete.TabIndex = 10
@@ -1163,7 +1206,7 @@ Partial Class FormDefective
         Me.tpFinishGoods.Location = New System.Drawing.Point(4, 38)
         Me.tpFinishGoods.Name = "tpFinishGoods"
         Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpFinishGoods.Size = New System.Drawing.Size(1644, 581)
+        Me.tpFinishGoods.Size = New System.Drawing.Size(2010, 581)
         Me.tpFinishGoods.TabIndex = 1
         Me.tpFinishGoods.Text = "Finish Goods"
         '
@@ -1188,7 +1231,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
         Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.0!))
         Me.TableLayoutPanel12.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.0!))
-        Me.TableLayoutPanel12.Size = New System.Drawing.Size(1638, 575)
+        Me.TableLayoutPanel12.Size = New System.Drawing.Size(2004, 575)
         Me.TableLayoutPanel12.TabIndex = 0
         '
         'DataGridView1
@@ -1199,7 +1242,7 @@ Partial Class FormDefective
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(3, 232)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(813, 293)
+        Me.DataGridView1.Size = New System.Drawing.Size(996, 293)
         Me.DataGridView1.TabIndex = 1
         '
         'DataGridView3
@@ -1208,9 +1251,9 @@ Partial Class FormDefective
         Me.DataGridView3.AllowUserToDeleteRows = False
         Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView3.Location = New System.Drawing.Point(822, 232)
+        Me.DataGridView3.Location = New System.Drawing.Point(1005, 232)
         Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(813, 293)
+        Me.DataGridView3.Size = New System.Drawing.Size(996, 293)
         Me.DataGridView3.TabIndex = 2
         '
         'TableLayoutPanel8
@@ -1235,7 +1278,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel8.Size = New System.Drawing.Size(813, 166)
+        Me.TableLayoutPanel8.Size = New System.Drawing.Size(996, 166)
         Me.TableLayoutPanel8.TabIndex = 6
         '
         'btnResetFG
@@ -1243,9 +1286,9 @@ Partial Class FormDefective
         Me.btnResetFG.BackColor = System.Drawing.SystemColors.Info
         Me.btnResetFG.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnResetFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnResetFG.Location = New System.Drawing.Point(611, 3)
+        Me.btnResetFG.Location = New System.Drawing.Point(748, 3)
         Me.btnResetFG.Name = "btnResetFG"
-        Me.btnResetFG.Size = New System.Drawing.Size(199, 49)
+        Me.btnResetFG.Size = New System.Drawing.Size(245, 49)
         Me.btnResetFG.TabIndex = 6
         Me.btnResetFG.Text = "Reset"
         Me.btnResetFG.UseVisualStyleBackColor = False
@@ -1254,7 +1297,7 @@ Partial Class FormDefective
         '
         Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(43, 68)
+        Me.Label20.Location = New System.Drawing.Point(52, 68)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(216, 29)
         Me.Label20.TabIndex = 0
@@ -1264,7 +1307,7 @@ Partial Class FormDefective
         '
         Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(43, 13)
+        Me.Label21.Location = New System.Drawing.Point(52, 13)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(151, 29)
         Me.Label21.TabIndex = 1
@@ -1273,7 +1316,7 @@ Partial Class FormDefective
         'txtFGLabel
         '
         Me.txtFGLabel.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtFGLabel.Location = New System.Drawing.Point(286, 10)
+        Me.txtFGLabel.Location = New System.Drawing.Point(350, 10)
         Me.txtFGLabel.Name = "txtFGLabel"
         Me.txtFGLabel.Size = New System.Drawing.Size(271, 35)
         Me.txtFGLabel.TabIndex = 2
@@ -1281,7 +1324,7 @@ Partial Class FormDefective
         'txtFGFlowTicket
         '
         Me.txtFGFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtFGFlowTicket.Location = New System.Drawing.Point(286, 65)
+        Me.txtFGFlowTicket.Location = New System.Drawing.Point(350, 65)
         Me.txtFGFlowTicket.Name = "txtFGFlowTicket"
         Me.txtFGFlowTicket.Size = New System.Drawing.Size(271, 35)
         Me.txtFGFlowTicket.TabIndex = 3
@@ -1289,7 +1332,7 @@ Partial Class FormDefective
         'TextBox3
         '
         Me.TextBox3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox3.Location = New System.Drawing.Point(286, 120)
+        Me.TextBox3.Location = New System.Drawing.Point(350, 120)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(271, 35)
         Me.TextBox3.TabIndex = 4
@@ -1298,7 +1341,7 @@ Partial Class FormDefective
         '
         Me.Label30.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(43, 123)
+        Me.Label30.Location = New System.Drawing.Point(52, 123)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(156, 29)
         Me.Label30.TabIndex = 7
@@ -1321,14 +1364,14 @@ Partial Class FormDefective
         Me.TableLayoutPanel9.Controls.Add(Me.ckLossQty, 1, 3)
         Me.TableLayoutPanel9.Controls.Add(Me.txtLossQty, 2, 3)
         Me.TableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel9.Location = New System.Drawing.Point(822, 60)
+        Me.TableLayoutPanel9.Location = New System.Drawing.Point(1005, 60)
         Me.TableLayoutPanel9.Name = "TableLayoutPanel9"
         Me.TableLayoutPanel9.RowCount = 4
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.TableLayoutPanel9.Size = New System.Drawing.Size(813, 166)
+        Me.TableLayoutPanel9.Size = New System.Drawing.Size(996, 166)
         Me.TableLayoutPanel9.TabIndex = 7
         '
         'btnResetSA
@@ -1336,9 +1379,9 @@ Partial Class FormDefective
         Me.btnResetSA.BackColor = System.Drawing.SystemColors.Info
         Me.btnResetSA.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnResetSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnResetSA.Location = New System.Drawing.Point(611, 3)
+        Me.btnResetSA.Location = New System.Drawing.Point(748, 3)
         Me.btnResetSA.Name = "btnResetSA"
-        Me.btnResetSA.Size = New System.Drawing.Size(199, 35)
+        Me.btnResetSA.Size = New System.Drawing.Size(245, 35)
         Me.btnResetSA.TabIndex = 7
         Me.btnResetSA.Text = "Reset"
         Me.btnResetSA.UseVisualStyleBackColor = False
@@ -1347,7 +1390,7 @@ Partial Class FormDefective
         '
         Me.Label31.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(43, 88)
+        Me.Label31.Location = New System.Drawing.Point(52, 88)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(156, 29)
         Me.Label31.TabIndex = 1
@@ -1357,7 +1400,7 @@ Partial Class FormDefective
         '
         Me.Label22.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(43, 6)
+        Me.Label22.Location = New System.Drawing.Point(52, 6)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(216, 29)
         Me.Label22.TabIndex = 5
@@ -1366,7 +1409,7 @@ Partial Class FormDefective
         'TextBox6
         '
         Me.TextBox6.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox6.Location = New System.Drawing.Point(286, 85)
+        Me.TextBox6.Location = New System.Drawing.Point(350, 85)
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.Size = New System.Drawing.Size(271, 35)
         Me.TextBox6.TabIndex = 7
@@ -1375,7 +1418,7 @@ Partial Class FormDefective
         '
         Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(43, 47)
+        Me.Label8.Location = New System.Drawing.Point(52, 47)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(129, 29)
         Me.Label8.TabIndex = 8
@@ -1384,7 +1427,7 @@ Partial Class FormDefective
         'txtSAFlowTicket
         '
         Me.txtSAFlowTicket.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtSAFlowTicket.Location = New System.Drawing.Point(286, 3)
+        Me.txtSAFlowTicket.Location = New System.Drawing.Point(350, 3)
         Me.txtSAFlowTicket.Name = "txtSAFlowTicket"
         Me.txtSAFlowTicket.Size = New System.Drawing.Size(271, 35)
         Me.txtSAFlowTicket.TabIndex = 5
@@ -1392,7 +1435,7 @@ Partial Class FormDefective
         'txtSABatchNo
         '
         Me.txtSABatchNo.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtSABatchNo.Location = New System.Drawing.Point(286, 44)
+        Me.txtSABatchNo.Location = New System.Drawing.Point(350, 44)
         Me.txtSABatchNo.Name = "txtSABatchNo"
         Me.txtSABatchNo.Size = New System.Drawing.Size(271, 35)
         Me.txtSABatchNo.TabIndex = 9
@@ -1400,7 +1443,7 @@ Partial Class FormDefective
         'ckLossQty
         '
         Me.ckLossQty.AutoSize = True
-        Me.ckLossQty.Location = New System.Drawing.Point(43, 126)
+        Me.ckLossQty.Location = New System.Drawing.Point(52, 126)
         Me.ckLossQty.Name = "ckLossQty"
         Me.ckLossQty.Size = New System.Drawing.Size(125, 33)
         Me.ckLossQty.TabIndex = 10
@@ -1409,7 +1452,7 @@ Partial Class FormDefective
         '
         'txtLossQty
         '
-        Me.txtLossQty.Location = New System.Drawing.Point(286, 126)
+        Me.txtLossQty.Location = New System.Drawing.Point(350, 126)
         Me.txtLossQty.Name = "txtLossQty"
         Me.txtLossQty.Size = New System.Drawing.Size(271, 35)
         Me.txtLossQty.TabIndex = 11
@@ -1427,7 +1470,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
         Me.TableLayoutPanel10.RowCount = 1
         Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel10.Size = New System.Drawing.Size(813, 41)
+        Me.TableLayoutPanel10.Size = New System.Drawing.Size(996, 41)
         Me.TableLayoutPanel10.TabIndex = 8
         '
         'btnSaveFGDefect
@@ -1438,7 +1481,7 @@ Partial Class FormDefective
         Me.btnSaveFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
         Me.btnSaveFGDefect.Location = New System.Drawing.Point(3, 3)
         Me.btnSaveFGDefect.Name = "btnSaveFGDefect"
-        Me.btnSaveFGDefect.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveFGDefect.Size = New System.Drawing.Size(326, 35)
         Me.btnSaveFGDefect.TabIndex = 4
         Me.btnSaveFGDefect.Text = "Save Defect"
         Me.btnSaveFGDefect.UseVisualStyleBackColor = False
@@ -1449,9 +1492,9 @@ Partial Class FormDefective
         Me.btnSaveFG.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnSaveFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnSaveFG.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveFG.Location = New System.Drawing.Point(545, 3)
+        Me.btnSaveFG.Location = New System.Drawing.Point(667, 3)
         Me.btnSaveFG.Name = "btnSaveFG"
-        Me.btnSaveFG.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveFG.Size = New System.Drawing.Size(326, 35)
         Me.btnSaveFG.TabIndex = 5
         Me.btnSaveFG.Text = "Save Finish Goods"
         Me.btnSaveFG.UseVisualStyleBackColor = False
@@ -1465,11 +1508,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSADefect, 0, 0)
         Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 2, 0)
         Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel11.Location = New System.Drawing.Point(822, 531)
+        Me.TableLayoutPanel11.Location = New System.Drawing.Point(1005, 531)
         Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
         Me.TableLayoutPanel11.RowCount = 1
         Me.TableLayoutPanel11.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel11.Size = New System.Drawing.Size(813, 41)
+        Me.TableLayoutPanel11.Size = New System.Drawing.Size(996, 41)
         Me.TableLayoutPanel11.TabIndex = 9
         '
         'btnSaveSADefect
@@ -1480,7 +1523,7 @@ Partial Class FormDefective
         Me.btnSaveSADefect.ForeColor = System.Drawing.SystemColors.ControlText
         Me.btnSaveSADefect.Location = New System.Drawing.Point(3, 3)
         Me.btnSaveSADefect.Name = "btnSaveSADefect"
-        Me.btnSaveSADefect.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveSADefect.Size = New System.Drawing.Size(326, 35)
         Me.btnSaveSADefect.TabIndex = 5
         Me.btnSaveSADefect.Text = "Save Defect"
         Me.btnSaveSADefect.UseVisualStyleBackColor = False
@@ -1491,9 +1534,9 @@ Partial Class FormDefective
         Me.btnSaveSA.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnSaveSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnSaveSA.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveSA.Location = New System.Drawing.Point(545, 3)
+        Me.btnSaveSA.Location = New System.Drawing.Point(667, 3)
         Me.btnSaveSA.Name = "btnSaveSA"
-        Me.btnSaveSA.Size = New System.Drawing.Size(265, 35)
+        Me.btnSaveSA.Size = New System.Drawing.Size(326, 35)
         Me.btnSaveSA.TabIndex = 6
         Me.btnSaveSA.Text = "Save Sub Assy"
         Me.btnSaveSA.UseVisualStyleBackColor = False
@@ -1509,7 +1552,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel23.Name = "TableLayoutPanel23"
         Me.TableLayoutPanel23.RowCount = 1
         Me.TableLayoutPanel23.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel23.Size = New System.Drawing.Size(813, 51)
+        Me.TableLayoutPanel23.Size = New System.Drawing.Size(996, 51)
         Me.TableLayoutPanel23.TabIndex = 7
         '
         'rbFG
@@ -1531,12 +1574,12 @@ Partial Class FormDefective
         Me.TableLayoutPanel24.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel24.Controls.Add(Me.rbSA, 0, 0)
         Me.TableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel24.Location = New System.Drawing.Point(822, 3)
+        Me.TableLayoutPanel24.Location = New System.Drawing.Point(1005, 3)
         Me.TableLayoutPanel24.Name = "TableLayoutPanel24"
         Me.TableLayoutPanel24.RowCount = 1
         Me.TableLayoutPanel24.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel24.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51.0!))
-        Me.TableLayoutPanel24.Size = New System.Drawing.Size(813, 51)
+        Me.TableLayoutPanel24.Size = New System.Drawing.Size(996, 51)
         Me.TableLayoutPanel24.TabIndex = 10
         '
         'rbSA
@@ -1557,7 +1600,7 @@ Partial Class FormDefective
         Me.tpBalance.Controls.Add(Me.TableLayoutPanel2)
         Me.tpBalance.Location = New System.Drawing.Point(4, 38)
         Me.tpBalance.Name = "tpBalance"
-        Me.tpBalance.Size = New System.Drawing.Size(1644, 581)
+        Me.tpBalance.Size = New System.Drawing.Size(2010, 581)
         Me.tpBalance.TabIndex = 2
         Me.tpBalance.Text = "Return Material"
         '
@@ -1574,7 +1617,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.22222!))
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.77778!))
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1644, 581)
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(2010, 581)
         Me.TableLayoutPanel2.TabIndex = 0
         '
         'TableLayoutPanel3
@@ -1605,7 +1648,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel3.RowCount = 2
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1638, 123)
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(2004, 123)
         Me.TableLayoutPanel3.TabIndex = 0
         '
         'TextBox10
@@ -1620,7 +1663,7 @@ Partial Class FormDefective
         '
         Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(35, 77)
+        Me.Label11.Location = New System.Drawing.Point(42, 77)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(177, 29)
         Me.Label11.TabIndex = 0
@@ -1630,7 +1673,7 @@ Partial Class FormDefective
         '
         Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(35, 16)
+        Me.Label16.Location = New System.Drawing.Point(42, 16)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(165, 29)
         Me.Label16.TabIndex = 3
@@ -1640,7 +1683,7 @@ Partial Class FormDefective
         '
         Me.btnBalanceAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnBalanceAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnBalanceAdd.Location = New System.Drawing.Point(581, 64)
+        Me.btnBalanceAdd.Location = New System.Drawing.Point(711, 64)
         Me.btnBalanceAdd.Name = "btnBalanceAdd"
         Me.btnBalanceAdd.Size = New System.Drawing.Size(162, 49)
         Me.btnBalanceAdd.TabIndex = 9
@@ -1650,7 +1693,7 @@ Partial Class FormDefective
         'txtBalanceQty
         '
         Me.txtBalanceQty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceQty.Location = New System.Drawing.Point(218, 74)
+        Me.txtBalanceQty.Location = New System.Drawing.Point(266, 74)
         Me.txtBalanceQty.Name = "txtBalanceQty"
         Me.txtBalanceQty.Size = New System.Drawing.Size(321, 35)
         Me.txtBalanceQty.TabIndex = 12
@@ -1663,11 +1706,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel4.Controls.Add(Me.txtBalanceBarcode, 0, 0)
         Me.TableLayoutPanel4.Controls.Add(Me.CheckBox2, 1, 0)
         Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(218, 3)
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(266, 3)
         Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
         Me.TableLayoutPanel4.RowCount = 1
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel4.Size = New System.Drawing.Size(325, 55)
+        Me.TableLayoutPanel4.Size = New System.Drawing.Size(399, 55)
         Me.TableLayoutPanel4.TabIndex = 13
         '
         'txtBalanceBarcode
@@ -1684,7 +1727,7 @@ Partial Class FormDefective
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Checked = True
         Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox2.Location = New System.Drawing.Point(185, 11)
+        Me.CheckBox2.Location = New System.Drawing.Point(226, 11)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(133, 33)
         Me.CheckBox2.TabIndex = 5
@@ -1701,11 +1744,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel7.Controls.Add(Me.TextBox2, 1, 0)
         Me.TableLayoutPanel7.Controls.Add(Me.Button1, 2, 0)
         Me.TableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel7.Location = New System.Drawing.Point(879, 3)
+        Me.TableLayoutPanel7.Location = New System.Drawing.Point(1075, 3)
         Me.TableLayoutPanel7.Name = "TableLayoutPanel7"
         Me.TableLayoutPanel7.RowCount = 1
         Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel7.Size = New System.Drawing.Size(467, 55)
+        Me.TableLayoutPanel7.Size = New System.Drawing.Size(573, 55)
         Me.TableLayoutPanel7.TabIndex = 14
         '
         'Label19
@@ -1721,7 +1764,7 @@ Partial Class FormDefective
         'TextBox2
         '
         Me.TextBox2.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox2.Location = New System.Drawing.Point(106, 10)
+        Me.TextBox2.Location = New System.Drawing.Point(130, 10)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(179, 35)
         Me.TextBox2.TabIndex = 3
@@ -1729,7 +1772,7 @@ Partial Class FormDefective
         'Button1
         '
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Button1.Location = New System.Drawing.Point(329, 3)
+        Me.Button1.Location = New System.Drawing.Point(404, 3)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(135, 49)
         Me.Button1.TabIndex = 16
@@ -1744,11 +1787,11 @@ Partial Class FormDefective
         Me.TableLayoutPanel14.Controls.Add(Me.Label18, 0, 0)
         Me.TableLayoutPanel14.Controls.Add(Me.TextBox1, 1, 0)
         Me.TableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel14.Location = New System.Drawing.Point(581, 3)
+        Me.TableLayoutPanel14.Location = New System.Drawing.Point(711, 3)
         Me.TableLayoutPanel14.Name = "TableLayoutPanel14"
         Me.TableLayoutPanel14.RowCount = 1
         Me.TableLayoutPanel14.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel14.Size = New System.Drawing.Size(292, 55)
+        Me.TableLayoutPanel14.Size = New System.Drawing.Size(358, 55)
         Me.TableLayoutPanel14.TabIndex = 15
         '
         'Label18
@@ -1764,7 +1807,7 @@ Partial Class FormDefective
         'TextBox1
         '
         Me.TextBox1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox1.Location = New System.Drawing.Point(90, 10)
+        Me.TextBox1.Location = New System.Drawing.Point(110, 10)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(196, 35)
         Me.TextBox1.TabIndex = 2
@@ -1772,7 +1815,7 @@ Partial Class FormDefective
         'txtBalanceMaterialPN
         '
         Me.txtBalanceMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtBalanceMaterialPN.Location = New System.Drawing.Point(549, 13)
+        Me.txtBalanceMaterialPN.Location = New System.Drawing.Point(671, 13)
         Me.txtBalanceMaterialPN.Name = "txtBalanceMaterialPN"
         Me.txtBalanceMaterialPN.Size = New System.Drawing.Size(26, 35)
         Me.txtBalanceMaterialPN.TabIndex = 6
@@ -1793,7 +1836,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel22.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.76231!))
         Me.TableLayoutPanel22.Controls.Add(Me.btnBalanceEdit, 1, 0)
         Me.TableLayoutPanel22.Controls.Add(Me.btnBalanceDelete, 0, 0)
-        Me.TableLayoutPanel22.Location = New System.Drawing.Point(879, 64)
+        Me.TableLayoutPanel22.Location = New System.Drawing.Point(1075, 64)
         Me.TableLayoutPanel22.Name = "TableLayoutPanel22"
         Me.TableLayoutPanel22.RowCount = 1
         Me.TableLayoutPanel22.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -1829,7 +1872,7 @@ Partial Class FormDefective
         Me.btnPrintBalance.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.btnPrintBalance.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintBalance.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintBalance.Location = New System.Drawing.Point(1473, 6)
+        Me.btnPrintBalance.Location = New System.Drawing.Point(1839, 6)
         Me.btnPrintBalance.Name = "btnPrintBalance"
         Me.btnPrintBalance.Size = New System.Drawing.Size(162, 49)
         Me.btnPrintBalance.TabIndex = 11
@@ -1844,7 +1887,7 @@ Partial Class FormDefective
         Me.dgBalance.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgBalance.Location = New System.Drawing.Point(3, 132)
         Me.dgBalance.Name = "dgBalance"
-        Me.dgBalance.Size = New System.Drawing.Size(1638, 446)
+        Me.dgBalance.Size = New System.Drawing.Size(2004, 446)
         Me.dgBalance.TabIndex = 1
         '
         'tpDefective
@@ -1854,7 +1897,7 @@ Partial Class FormDefective
         Me.tpDefective.Location = New System.Drawing.Point(4, 38)
         Me.tpDefective.Name = "tpDefective"
         Me.tpDefective.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpDefective.Size = New System.Drawing.Size(1644, 581)
+        Me.tpDefective.Size = New System.Drawing.Size(2010, 581)
         Me.tpDefective.TabIndex = 0
         Me.tpDefective.Text = "Others Part"
         '
@@ -1874,7 +1917,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.04348!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.869565!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.17391!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1638, 575)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(2004, 575)
         Me.TableLayoutPanel1.TabIndex = 20
         '
         'DataGridView2
@@ -1885,7 +1928,7 @@ Partial Class FormDefective
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.Location = New System.Drawing.Point(3, 61)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(1632, 229)
+        Me.DataGridView2.Size = New System.Drawing.Size(1998, 229)
         Me.DataGridView2.TabIndex = 2
         '
         'pDefective1
@@ -1896,7 +1939,7 @@ Partial Class FormDefective
         Me.pDefective1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pDefective1.Location = New System.Drawing.Point(3, 3)
         Me.pDefective1.Name = "pDefective1"
-        Me.pDefective1.Size = New System.Drawing.Size(1632, 52)
+        Me.pDefective1.Size = New System.Drawing.Size(1998, 52)
         Me.pDefective1.TabIndex = 18
         '
         'txtLabelOtherPart
@@ -1921,7 +1964,7 @@ Partial Class FormDefective
         Me.btnPrintOthersPart.Dock = System.Windows.Forms.DockStyle.Right
         Me.btnPrintOthersPart.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnPrintOthersPart.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintOthersPart.Location = New System.Drawing.Point(1470, 0)
+        Me.btnPrintOthersPart.Location = New System.Drawing.Point(1836, 0)
         Me.btnPrintOthersPart.Name = "btnPrintOthersPart"
         Me.btnPrintOthersPart.Size = New System.Drawing.Size(162, 52)
         Me.btnPrintOthersPart.TabIndex = 20
@@ -1933,7 +1976,7 @@ Partial Class FormDefective
         Me.btnOtherSave.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnOtherSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnOtherSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOtherSave.Location = New System.Drawing.Point(738, 296)
+        Me.btnOtherSave.Location = New System.Drawing.Point(921, 296)
         Me.btnOtherSave.Name = "btnOtherSave"
         Me.btnOtherSave.Size = New System.Drawing.Size(162, 44)
         Me.btnOtherSave.TabIndex = 1
@@ -1949,14 +1992,14 @@ Partial Class FormDefective
         Me.DataGridView4.Location = New System.Drawing.Point(3, 346)
         Me.DataGridView4.Name = "DataGridView4"
         Me.DataGridView4.ReadOnly = True
-        Me.DataGridView4.Size = New System.Drawing.Size(1632, 226)
+        Me.DataGridView4.Size = New System.Drawing.Size(1998, 226)
         Me.DataGridView4.TabIndex = 19
         '
         'FormDefective
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1658, 811)
+        Me.ClientSize = New System.Drawing.Size(2024, 811)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FormDefective"
@@ -2111,7 +2154,7 @@ Partial Class FormDefective
     Friend WithEvents TableLayoutPanel10 As TableLayoutPanel
     Friend WithEvents btnPrintFGDefect As Button
     Friend WithEvents TableLayoutPanel11 As TableLayoutPanel
-    Friend WithEvents btnPrintSADefect As Button
+    Friend WithEvents btnListPrintWIP As Button
     Friend WithEvents btnResetFG As Button
     Friend WithEvents btnResetSA As Button
     Friend WithEvents btnPrintWIP As Button
@@ -2171,4 +2214,7 @@ Partial Class FormDefective
     Friend WithEvents Label31 As Label
     Friend WithEvents ckLossQty As CheckBox
     Friend WithEvents txtLossQty As TextBox
+    Friend WithEvents btnListPrintOthers As Button
+    Friend WithEvents btnListPrintReturn As Button
+    Friend WithEvents btnListPrintOnHold As Button
 End Class

@@ -1549,7 +1549,7 @@ Public Class FormDefective
 
                     Dim codeBalance As String = BalanceMaterialGenerateCode()
 
-                    Dim sqlCheckTable As String = "select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "' ORDER BY LOT_NO"
+                    Dim sqlCheckTable As String = "select * from STOCK_CARD where STATUS='Return to Mini Store' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and department='" & globVar.department & "' and lot_no='" & TextBox9.Text & "'"
                     Dim dtCekTable As DataTable = Database.GetData(sqlCheckTable)
 
                     Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtBalanceMaterialPN.Text & "'"
@@ -1604,13 +1604,12 @@ Public Class FormDefective
                             End If
                         End If
                     Else
-
                         Dim result = RJMessageBox.Show("Are you sure for save?.", "Are You Sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                         If result = DialogResult.Yes Then
                             Dim idData As String = ""
 
-                            Dim querySelectStockCard As String = "select id,MATERIAL,lot_no,inv_ctrl_date,traceability,batch_no,qty,actual_qty from STOCK_CARD where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and actual_qty > 0 and department='" & globVar.department & "' AND [LEVEL]='Fresh' ORDER BY LOT_NO"
+                            Dim querySelectStockCard As String = "select id,MATERIAL,lot_no,inv_ctrl_date,traceability,batch_no,qty,actual_qty from STOCK_CARD where STATUS='Production Request' AND MATERIAL='" & txtBalanceMaterialPN.Text & "' AND SUB_SUB_PO='" & txtSubSubPODefective.Text & "' AND LINE='" & cbLineNumber.Text & "' and actual_qty > 0 and department='" & globVar.department & "' AND [LEVEL]='Fresh' and lot_no='" & TextBox9.Text & "'"
                             Dim dtTable As DataTable = Database.GetData(querySelectStockCard)
                             If dtTable.Rows.Count > 0 Then
                                 idData = dtTable.Rows(0)(0)

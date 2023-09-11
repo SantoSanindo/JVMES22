@@ -97,7 +97,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckdefect As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) [Code],flow_ticket_no [Flow Ticket],fg_pn [Finish Goods], Line from out_prod_DEFECT where sub_sub_po='" & GSubSubPO & "' and line='" & GLine & "'"
+        Dim queryCheckdefect As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) [Code],flow_ticket_no [Flow Ticket],fg_pn [Finish Goods], Line from out_prod_DEFECT where sub_sub_po='" & subsubpo & "' and line='" & line & "'"
         Dim dtCheckDEFECT As DataTable = Database.GetData(queryCheckdefect)
         If dtCheckDEFECT.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckDEFECT
@@ -115,7 +115,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryChecksa As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY) [Code],flow_ticket [Flow Ticket],FG [Finish Goods],Qty,Traceability,inv_ctrl_date [Inv Ctrl],batch_no [Batch],lot_no [Lot No] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & GSubSubPO & "' and line='" & GLine & "'"
+        Dim queryChecksa As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY) [Code],flow_ticket [Flow Ticket],FG [Finish Goods],Qty,Traceability,inv_ctrl_date [Inv Ctrl],batch_no [Batch],lot_no [Lot No] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & subsubpo & "' and line='" & line & "'"
         Dim dtCheckSA As DataTable = Database.GetData(queryChecksa)
         If dtCheckSA.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckSA
@@ -133,10 +133,10 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
-        Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
-        If dtCheckONHOLD.Rows.Count > 0 Then
-            DataGridView1.DataSource = dtCheckONHOLD
+        Dim queryCheckreturn As String = "select sc.id_level [Code],sc.material [Material],m.name [Name],sc.traceability [Traceability],sc.inv_ctrl_date [Inv Ctrl],sc.batch_no [Batch],sc.lot_no [Lot No],sc.actual_qty [Qty], sc.finish_goods_pn [Finish Goods] from stock_card sc, master_material m where sc.status='Return To Mini Store' and sc.sub_sub_po='" & subsubpo & "' and line='" & line & "' and sc.material=m.part_number"
+        Dim dtCheckReturn As DataTable = Database.GetData(queryCheckreturn)
+        If dtCheckReturn.Rows.Count > 0 Then
+            DataGridView1.DataSource = dtCheckReturn
 
             Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
             check.Name = "check"
@@ -349,7 +349,7 @@ Public Class ListPrint
                     _PrintingSubAssyRawMaterial.txt_Traceability.Text = DataGridView1.Rows(i).Cells("Traceability").Value
                     _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = DataGridView1.Rows(i).Cells("Inv Ctrl").Value
                     _PrintingSubAssyRawMaterial.txt_Batch_no.Text = DataGridView1.Rows(i).Cells("Batch").Value
-                    _PrintingSubAssyRawMaterial.txt_Lot_no.Text = DataGridView1.Rows(i).Cells("Lot No").Value
+                    _PrintingSubAssyRawMaterial.txt_Lot_no.Text = DataGridView1.Rows(i).Cells("Flow Ticket").Value
                     _PrintingSubAssyRawMaterial.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Code").Value
                     _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
@@ -362,6 +362,60 @@ Public Class ListPrint
                         Dim sqlupdateDefect As String = "update STOCK_PROD_SUB_ASSY set [print]=1 where CODE_STOCK_PROD_SUB_ASSY='" & DataGridView1.Rows(i).Cells("Code").Value & "'"
                         Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
                         cmdupdateDefect.ExecuteNonQuery()
+                    End If
+                End If
+            Next i
+        ElseIf GForm = "Return" Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                If DataGridView1.Rows(i).Cells("check").Value = True Then
+                    globVar.failPrint = ""
+                    Dim parts As String() = GSubSubPO.Split("-"c)
+
+                    globVar.failPrint = ""
+                    _PrintingSubAssyRawMaterial.txt_Unique_id.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingSubAssyRawMaterial.txt_part_number.Text = DataGridView1.Rows(i).Cells("Material").Value
+                    _PrintingSubAssyRawMaterial.txt_Part_Description.Text = DataGridView1.Rows(i).Cells("Name").Value
+                    _PrintingSubAssyRawMaterial.txt_Qty.Text = DataGridView1.Rows(i).Cells("Qty").Value
+                    _PrintingSubAssyRawMaterial.txt_Traceability.Text = DataGridView1.Rows(i).Cells("Traceability").Value
+                    _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = DataGridView1.Rows(i).Cells("Inv Ctrl").Value
+                    _PrintingSubAssyRawMaterial.txt_Batch_no.Text = DataGridView1.Rows(i).Cells("Batch").Value
+                    _PrintingSubAssyRawMaterial.txt_Lot_no.Text = DataGridView1.Rows(i).Cells("Lot No").Value
+                    _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Balance Material"
+                    _PrintingSubAssyRawMaterial.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,code_print)
+                                VALUES ('" & parts(0) & "','" & DataGridView1.Rows(i).Cells("Finish Goods").Value & "','" & GLine & "','Balance Material','" & GSubSubPO & "','" & globVar.department & "','" & DataGridView1.Rows(i).Cells("Code").Value & "')"
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
+                    End If
+                End If
+            Next i
+        ElseIf GForm = "Others" Then
+            For i = 0 To DataGridView1.Rows.Count - 1
+                If DataGridView1.Rows(i).Cells("check").Value = True Then
+                    globVar.failPrint = ""
+                    Dim parts As String() = GSubSubPO.Split("-"c)
+
+                    globVar.failPrint = ""
+                    _PrintingSubAssyRawMaterial.txt_Unique_id.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingSubAssyRawMaterial.txt_part_number.Text = DataGridView1.Rows(i).Cells("Material").Value
+                    _PrintingSubAssyRawMaterial.txt_Part_Description.Text = DataGridView1.Rows(i).Cells("Name").Value
+                    _PrintingSubAssyRawMaterial.txt_Qty.Text = DataGridView1.Rows(i).Cells("Qty").Value
+                    _PrintingSubAssyRawMaterial.txt_Traceability.Text = DataGridView1.Rows(i).Cells("Traceability").Value
+                    _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = DataGridView1.Rows(i).Cells("Inv Ctrl").Value
+                    _PrintingSubAssyRawMaterial.txt_Batch_no.Text = DataGridView1.Rows(i).Cells("Batch").Value
+                    _PrintingSubAssyRawMaterial.txt_Lot_no.Text = DataGridView1.Rows(i).Cells("Lot No").Value
+                    _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Balance Material"
+                    _PrintingSubAssyRawMaterial.txt_QR_Code.Text = DataGridView1.Rows(i).Cells("Code").Value
+                    _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
+
+                    If globVar.failPrint = "No" Then
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,code_print)
+                                VALUES ('" & parts(0) & "','" & DataGridView1.Rows(i).Cells("Finish Goods").Value & "','" & GLine & "','Balance Material','" & GSubSubPO & "','" & globVar.department & "','" & DataGridView1.Rows(i).Cells("Code").Value & "')"
+                        Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                        cmdInsertPrintingRecord.ExecuteNonQuery()
                     End If
                 End If
             Next i

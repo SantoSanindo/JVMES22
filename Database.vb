@@ -19,16 +19,20 @@ Public Class Database
     End Sub
 
     Public Shared Function GetData(ByVal query As String) As DataTable
+        Dim dt As New DataTable
         Try
             koneksi_database()
             Using cmd As SqlCommand = New SqlCommand(query, koneksi)
                 Using sda As SqlDataAdapter = New SqlDataAdapter(cmd)
-                    Using dt As DataTable = New DataTable
-                        sda.Fill(dt)
-                        Return dt
-                    End Using
+                    sda.Fill(dt)
                 End Using
             End Using
+
+            If koneksi.State = ConnectionState.Open Then
+                koneksi.Close()
+            End If
+
+            Return dt
         Catch ex As Exception
             RJMessageBox.Show("Error Query ->" + ex.Message)
         End Try

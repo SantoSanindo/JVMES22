@@ -254,6 +254,12 @@
     <Compile Include="SplitMaterial.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="StatusFlowTicket.Designer.vb">
+      <DependentUpon>StatusFlowTicket.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StatusFlowTicket.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StockProduction.Designer.vb">
       <DependentUpon>StockProduction.vb</DependentUpon>
     </Compile>
@@ -379,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SplitMaterial.resx">
       <DependentUpon>SplitMaterial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusFlowTicket.resx">
+      <DependentUpon>StatusFlowTicket.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockProduction.resx">
       <DependentUpon>StockProduction.vb</DependentUpon>

@@ -86,15 +86,17 @@ Partial Class HOME
         Me.RibbonButtonPrinterSettings = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel5 = New System.Windows.Forms.RibbonPanel()
         Me.RibbonButtonLogin = New System.Windows.Forms.RibbonButton()
+        Me.RibbonTab8 = New System.Windows.Forms.RibbonTab()
+        Me.RibbonPanel6 = New System.Windows.Forms.RibbonPanel()
+        Me.RibbonButton2 = New System.Windows.Forms.RibbonButton()
         Me.RibbonPanel3 = New System.Windows.Forms.RibbonPanel()
         Me.TabControl1 = New MdiTabControl.TabControl()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
-        Me.RibbonTab8 = New System.Windows.Forms.RibbonTab()
-        Me.RibbonPanel6 = New System.Windows.Forms.RibbonPanel()
-        Me.RibbonButton2 = New System.Windows.Forms.RibbonButton()
+        Me.RibStatusFlowTicket = New System.Windows.Forms.RibbonPanel()
+        Me.StatusFlowTicket = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -274,6 +276,7 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibPO)
         Me.RibbonTab4.Panels.Add(Me.RibOperator)
         Me.RibbonTab4.Panels.Add(Me.RibPrintFlowTicket)
+        Me.RibbonTab4.Panels.Add(Me.RibStatusFlowTicket)
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Panels.Add(Me.RibResultProduction)
         Me.RibbonTab4.Panels.Add(Me.RibProdSummary)
@@ -553,6 +556,26 @@ Partial Class HOME
         Me.RibbonButtonLogin.Name = "RibbonButtonLogin"
         Me.RibbonButtonLogin.SmallImage = CType(resources.GetObject("RibbonButtonLogin.SmallImage"), System.Drawing.Image)
         '
+        'RibbonTab8
+        '
+        Me.RibbonTab8.Name = "RibbonTab8"
+        Me.RibbonTab8.Panels.Add(Me.RibbonPanel6)
+        Me.RibbonTab8.Text = "Help"
+        '
+        'RibbonPanel6
+        '
+        Me.RibbonPanel6.Items.Add(Me.RibbonButton2)
+        Me.RibbonPanel6.Name = "RibbonPanel6"
+        Me.RibbonPanel6.Text = "Documentation"
+        '
+        'RibbonButton2
+        '
+        Me.RibbonButton2.Image = CType(resources.GetObject("RibbonButton2.Image"), System.Drawing.Image)
+        Me.RibbonButton2.LargeImage = CType(resources.GetObject("RibbonButton2.LargeImage"), System.Drawing.Image)
+        Me.RibbonButton2.Name = "RibbonButton2"
+        Me.RibbonButton2.SmallImage = CType(resources.GetObject("RibbonButton2.SmallImage"), System.Drawing.Image)
+        Me.RibbonButton2.Text = ""
+        '
         'RibbonPanel3
         '
         Me.RibbonPanel3.Name = "RibbonPanel3"
@@ -604,25 +627,18 @@ Partial Class HOME
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
-        'RibbonTab8
+        'RibStatusFlowTicket
         '
-        Me.RibbonTab8.Name = "RibbonTab8"
-        Me.RibbonTab8.Panels.Add(Me.RibbonPanel6)
-        Me.RibbonTab8.Text = "Help"
+        Me.RibStatusFlowTicket.Items.Add(Me.StatusFlowTicket)
+        Me.RibStatusFlowTicket.Name = "RibStatusFlowTicket"
+        Me.RibStatusFlowTicket.Text = "Status Flow Ticket"
         '
-        'RibbonPanel6
+        'StatusFlowTicket
         '
-        Me.RibbonPanel6.Items.Add(Me.RibbonButton2)
-        Me.RibbonPanel6.Name = "RibbonPanel6"
-        Me.RibbonPanel6.Text = "Documentation"
-        '
-        'RibbonButton2
-        '
-        Me.RibbonButton2.Image = CType(resources.GetObject("RibbonButton2.Image"), System.Drawing.Image)
-        Me.RibbonButton2.LargeImage = CType(resources.GetObject("RibbonButton2.LargeImage"), System.Drawing.Image)
-        Me.RibbonButton2.Name = "RibbonButton2"
-        Me.RibbonButton2.SmallImage = CType(resources.GetObject("RibbonButton2.SmallImage"), System.Drawing.Image)
-        Me.RibbonButton2.Text = ""
+        Me.StatusFlowTicket.Image = CType(resources.GetObject("StatusFlowTicket.Image"), System.Drawing.Image)
+        Me.StatusFlowTicket.LargeImage = CType(resources.GetObject("StatusFlowTicket.LargeImage"), System.Drawing.Image)
+        Me.StatusFlowTicket.Name = "StatusFlowTicket"
+        Me.StatusFlowTicket.SmallImage = CType(resources.GetObject("StatusFlowTicket.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
@@ -722,5 +738,7 @@ Partial Class HOME
     Friend WithEvents RibbonTab8 As RibbonTab
     Friend WithEvents RibbonPanel6 As RibbonPanel
     Friend WithEvents RibbonButton2 As RibbonButton
+    Friend WithEvents RibStatusFlowTicket As RibbonPanel
+    Friend WithEvents StatusFlowTicket As RibbonButton
     '>>>>>>> Arif
 End Class

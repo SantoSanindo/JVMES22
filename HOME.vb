@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+
 Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -369,5 +371,10 @@ Public Class HOME
         Dim filePath As String = Application.StartupPath & "\Help\Help.pdf"
 
         Process.Start(filePath)
+    End Sub
+
+    Private Sub BtnStatusFlowTicket(sender As Object, e As EventArgs) Handles StatusFlowTicket.Click
+        Dim _formStatusFlowTicket As New StatusFlowTicket()
+        _formStatusFlowTicket.ShowDialog()
     End Sub
 End Class

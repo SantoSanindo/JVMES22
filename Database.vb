@@ -28,9 +28,9 @@ Public Class Database
                 End Using
             End Using
 
-            If koneksi.State = ConnectionState.Open Then
-                koneksi.Close()
-            End If
+            'If koneksi.State = ConnectionState.Open Then
+            '    koneksi.Close()
+            'End If
 
             Return dt
         Catch ex As Exception

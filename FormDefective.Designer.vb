@@ -29,7 +29,6 @@ Partial Class FormDefective
         Me.PrintDefect = New System.Windows.Forms.Button()
         Me.btnPrintSA = New System.Windows.Forms.Button()
         Me.btnListPrintWIP = New System.Windows.Forms.Button()
-        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.txtStatusSubSubPO = New System.Windows.Forms.TextBox()
         Me.txtSPQ = New System.Windows.Forms.TextBox()
         Me.cbFGPN = New System.Windows.Forms.TextBox()
@@ -52,6 +51,7 @@ Partial Class FormDefective
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.btnWIPAdd = New System.Windows.Forms.Button()
         Me.txtWIPQuantity = New System.Windows.Forms.TextBox()
         Me.txtWIPTicketNo = New System.Windows.Forms.TextBox()
@@ -333,21 +333,6 @@ Partial Class FormDefective
         Me.btnListPrintWIP.Text = "Print WIP"
         Me.btnListPrintWIP.UseVisualStyleBackColor = False
         '
-        'CheckBox5
-        '
-        Me.CheckBox5.AutoSize = True
-        Me.CheckBox5.Checked = True
-        Me.CheckBox5.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CheckBox5.Enabled = False
-        Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox5.Location = New System.Drawing.Point(678, 126)
-        Me.CheckBox5.Name = "CheckBox5"
-        Me.CheckBox5.Size = New System.Drawing.Size(265, 37)
-        Me.CheckBox5.TabIndex = 28
-        Me.CheckBox5.Text = "Auto Print Sub Assy"
-        Me.CheckBox5.UseVisualStyleBackColor = True
-        '
         'txtStatusSubSubPO
         '
         Me.txtStatusSubSubPO.Location = New System.Drawing.Point(14, 147)
@@ -475,6 +460,7 @@ Partial Class FormDefective
         Me.txtINV.Name = "txtINV"
         Me.txtINV.Size = New System.Drawing.Size(100, 20)
         Me.txtINV.TabIndex = 13
+        Me.txtINV.Visible = False
         '
         'txtBatchno
         '
@@ -555,12 +541,27 @@ Partial Class FormDefective
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Line Number"
         '
+        'CheckBox5
+        '
+        Me.CheckBox5.AutoSize = True
+        Me.CheckBox5.Checked = True
+        Me.CheckBox5.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CheckBox5.Enabled = False
+        Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox5.Location = New System.Drawing.Point(678, 126)
+        Me.CheckBox5.Name = "CheckBox5"
+        Me.CheckBox5.Size = New System.Drawing.Size(265, 37)
+        Me.CheckBox5.TabIndex = 28
+        Me.CheckBox5.Text = "Auto Print Sub Assy"
+        Me.CheckBox5.UseVisualStyleBackColor = True
+        '
         'btnWIPAdd
         '
         Me.btnWIPAdd.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnWIPAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnWIPAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnWIPAdd.Location = New System.Drawing.Point(850, 5)
+        Me.btnWIPAdd.Location = New System.Drawing.Point(813, 5)
         Me.btnWIPAdd.Name = "btnWIPAdd"
         Me.btnWIPAdd.Size = New System.Drawing.Size(162, 49)
         Me.btnWIPAdd.TabIndex = 7
@@ -588,7 +589,7 @@ Partial Class FormDefective
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -940,7 +941,7 @@ Partial Class FormDefective
         Me.tpWIP.ForeColor = System.Drawing.SystemColors.ControlText
         Me.tpWIP.Location = New System.Drawing.Point(4, 38)
         Me.tpWIP.Name = "tpWIP"
-        Me.tpWIP.Size = New System.Drawing.Size(2010, 581)
+        Me.tpWIP.Size = New System.Drawing.Size(1910, 581)
         Me.tpWIP.TabIndex = 3
         Me.tpWIP.Text = "WIP"
         '
@@ -957,7 +958,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.84291!))
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.15709!))
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(2010, 581)
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(1910, 581)
         Me.TableLayoutPanel5.TabIndex = 0
         '
         'dgWIP
@@ -968,7 +969,7 @@ Partial Class FormDefective
         Me.dgWIP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgWIP.Location = New System.Drawing.Point(3, 182)
         Me.dgWIP.Name = "dgWIP"
-        Me.dgWIP.Size = New System.Drawing.Size(2004, 396)
+        Me.dgWIP.Size = New System.Drawing.Size(1904, 396)
         Me.dgWIP.TabIndex = 1
         '
         'TableLayoutPanel6
@@ -997,7 +998,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.68208!))
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.10405!))
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.63584!))
-        Me.TableLayoutPanel6.Size = New System.Drawing.Size(2004, 173)
+        Me.TableLayoutPanel6.Size = New System.Drawing.Size(1904, 173)
         Me.TableLayoutPanel6.TabIndex = 4
         '
         'btnPrintWIP
@@ -1005,7 +1006,7 @@ Partial Class FormDefective
         Me.btnPrintWIP.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.btnPrintWIP.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintWIP.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintWIP.Location = New System.Drawing.Point(1839, 122)
+        Me.btnPrintWIP.Location = New System.Drawing.Point(1739, 122)
         Me.btnPrintWIP.Name = "btnPrintWIP"
         Me.btnPrintWIP.Size = New System.Drawing.Size(162, 48)
         Me.btnPrintWIP.TabIndex = 9
@@ -1014,7 +1015,7 @@ Partial Class FormDefective
         '
         'TextBox11
         '
-        Me.TextBox11.Location = New System.Drawing.Point(807, 3)
+        Me.TextBox11.Location = New System.Drawing.Point(772, 3)
         Me.TextBox11.Name = "TextBox11"
         Me.TextBox11.Size = New System.Drawing.Size(29, 35)
         Me.TextBox11.TabIndex = 11
@@ -1025,7 +1026,7 @@ Partial Class FormDefective
         Me.btnWIPDelete.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnWIPDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnWIPDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnWIPDelete.Location = New System.Drawing.Point(1226, 5)
+        Me.btnWIPDelete.Location = New System.Drawing.Point(1169, 5)
         Me.btnWIPDelete.Name = "btnWIPDelete"
         Me.btnWIPDelete.Size = New System.Drawing.Size(162, 49)
         Me.btnWIPDelete.TabIndex = 10
@@ -1038,7 +1039,7 @@ Partial Class FormDefective
         Me.tpOnHold.Controls.Add(Me.TableLayoutPanel13)
         Me.tpOnHold.Location = New System.Drawing.Point(4, 38)
         Me.tpOnHold.Name = "tpOnHold"
-        Me.tpOnHold.Size = New System.Drawing.Size(2010, 581)
+        Me.tpOnHold.Size = New System.Drawing.Size(1910, 581)
         Me.tpOnHold.TabIndex = 4
         Me.tpOnHold.Text = "On Hold"
         '
@@ -1055,7 +1056,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel13.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.84291!))
         Me.TableLayoutPanel13.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.15709!))
         Me.TableLayoutPanel13.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel13.Size = New System.Drawing.Size(2010, 581)
+        Me.TableLayoutPanel13.Size = New System.Drawing.Size(1910, 581)
         Me.TableLayoutPanel13.TabIndex = 1
         '
         'dgOnHold
@@ -1066,7 +1067,7 @@ Partial Class FormDefective
         Me.dgOnHold.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgOnHold.Location = New System.Drawing.Point(3, 182)
         Me.dgOnHold.Name = "dgOnHold"
-        Me.dgOnHold.Size = New System.Drawing.Size(2004, 396)
+        Me.dgOnHold.Size = New System.Drawing.Size(1904, 396)
         Me.dgOnHold.TabIndex = 1
         '
         'TableLayoutPanel15
@@ -1095,7 +1096,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.10405!))
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.94798!))
         Me.TableLayoutPanel15.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.36994!))
-        Me.TableLayoutPanel15.Size = New System.Drawing.Size(2004, 173)
+        Me.TableLayoutPanel15.Size = New System.Drawing.Size(1904, 173)
         Me.TableLayoutPanel15.TabIndex = 4
         '
         'Label9
@@ -1149,7 +1150,7 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1159,7 +1160,7 @@ Partial Class FormDefective
         Me.btnPrintOnhold.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.btnPrintOnhold.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintOnhold.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintOnhold.Location = New System.Drawing.Point(1839, 120)
+        Me.btnPrintOnhold.Location = New System.Drawing.Point(1739, 120)
         Me.btnPrintOnhold.Name = "btnPrintOnhold"
         Me.btnPrintOnhold.Size = New System.Drawing.Size(162, 49)
         Me.btnPrintOnhold.TabIndex = 9
@@ -1171,7 +1172,7 @@ Partial Class FormDefective
         Me.btnOnHoldSave.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnOnHoldSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnOnHoldSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOnHoldSave.Location = New System.Drawing.Point(848, 5)
+        Me.btnOnHoldSave.Location = New System.Drawing.Point(811, 5)
         Me.btnOnHoldSave.Name = "btnOnHoldSave"
         Me.btnOnHoldSave.Size = New System.Drawing.Size(162, 49)
         Me.btnOnHoldSave.TabIndex = 7
@@ -1180,7 +1181,7 @@ Partial Class FormDefective
         '
         'TextBox12
         '
-        Me.TextBox12.Location = New System.Drawing.Point(805, 3)
+        Me.TextBox12.Location = New System.Drawing.Point(770, 3)
         Me.TextBox12.Name = "TextBox12"
         Me.TextBox12.Size = New System.Drawing.Size(28, 35)
         Me.TextBox12.TabIndex = 11
@@ -1191,7 +1192,7 @@ Partial Class FormDefective
         Me.btnOnHoldDelete.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnOnHoldDelete.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.btnOnHoldDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOnHoldDelete.Location = New System.Drawing.Point(1227, 5)
+        Me.btnOnHoldDelete.Location = New System.Drawing.Point(1169, 5)
         Me.btnOnHoldDelete.Name = "btnOnHoldDelete"
         Me.btnOnHoldDelete.Size = New System.Drawing.Size(162, 49)
         Me.btnOnHoldDelete.TabIndex = 10

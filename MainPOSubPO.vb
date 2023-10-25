@@ -441,6 +441,7 @@ Public Class MainPOSubPO
                                 DGV_MainPO_All()
                             End If
                             tampilDataComboBoxLine()
+                            ComboBox3.SelectedIndex = -1
                         End If
 
                     End If
@@ -552,46 +553,46 @@ Public Class MainPOSubPO
         End Try
     End Sub
 
-    Sub DGV_SubSubPO_FILTERlINE()
-        Try
-            Dim sql As String = "select ID, SUB_SUB_PO, SUB_SUB_PO_QTY,LINE,STATUS,ACTUAL_QTY,YIELD_LOSE from SUB_SUB_PO where line='" & ComboBox3.Text & "' and status='Open'"
-            Dim dtSubSubPO As DataTable = Database.GetData(sql)
-            DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            DataGridView2.DataSource = Nothing
-            DataGridView2.Rows.Clear()
-            DataGridView2.Columns.Clear()
-            Call Database.koneksi_database()
-            DataGridView2.DataSource = dtSubSubPO
+    'Sub DGV_SubSubPO_FILTERlINE()
+    '    Try
+    '        Dim sql As String = "select ID, SUB_SUB_PO, SUB_SUB_PO_QTY,LINE,STATUS,ACTUAL_QTY,YIELD_LOSE from SUB_SUB_PO where line='" & ComboBox3.Text & "' and status='Open'"
+    '        Dim dtSubSubPO As DataTable = Database.GetData(sql)
+    '        DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+    '        DataGridView2.DataSource = Nothing
+    '        DataGridView2.Rows.Clear()
+    '        DataGridView2.Columns.Clear()
+    '        Call Database.koneksi_database()
+    '        DataGridView2.DataSource = dtSubSubPO
 
-            Dim queryStatus As String = "select status from master_status"
-            Dim dtStatus As DataTable = Database.GetData(queryStatus)
-            Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            statusDGV.Name = "statuspo"
-            statusDGV.HeaderText = "Status PO"
-            statusDGV.DataSource = dtStatus
-            statusDGV.DisplayMember = "status"
-            statusDGV.ValueMember = "status"
-            statusDGV.DataPropertyName = "status"
-            DataGridView2.Columns.Add(statusDGV)
+    '        Dim queryStatus As String = "select status from master_status"
+    '        Dim dtStatus As DataTable = Database.GetData(queryStatus)
+    '        Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
+    '        statusDGV.Name = "statuspo"
+    '        statusDGV.HeaderText = "Status PO"
+    '        statusDGV.DataSource = dtStatus
+    '        statusDGV.DisplayMember = "status"
+    '        statusDGV.ValueMember = "status"
+    '        statusDGV.DataPropertyName = "status"
+    '        DataGridView2.Columns.Add(statusDGV)
 
-            Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
-            delete.Name = "delete"
-            delete.HeaderText = "Delete"
-            delete.Width = 50
-            delete.Text = "Delete"
-            delete.UseColumnTextForButtonValue = True
-            DataGridView2.Columns.Add(delete)
+    '        Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
+    '        delete.Name = "delete"
+    '        delete.HeaderText = "Delete"
+    '        delete.Width = 50
+    '        delete.Text = "Delete"
+    '        delete.UseColumnTextForButtonValue = True
+    '        DataGridView2.Columns.Add(delete)
 
-            Dim sqlSum As String = "select isnull(sum(actual_qty),0) from sub_sub_po where main_po=" & TextBox12.Text
-            Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
-            TextBox11.Text = dtSubSubPOSum.Rows(0).Item(0).ToString
+    '        Dim sqlSum As String = "select isnull(sum(actual_qty),0) from sub_sub_po where main_po=" & TextBox12.Text
+    '        Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
+    '        TextBox11.Text = dtSubSubPOSum.Rows(0).Item(0).ToString
 
-            DataGridView2.Columns("status").Visible = False
+    '        DataGridView2.Columns("status").Visible = False
 
-        Catch ex As Exception
-            RJMessageBox.Show("Error Create Main PO - 13 =>" & ex.Message)
-        End Try
-    End Sub
+    '    Catch ex As Exception
+    '        RJMessageBox.Show("Error Create Main PO - 13 =>" & ex.Message)
+    '    End Try
+    'End Sub
 
     Private Sub DataGridView2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView2.DataBindingComplete
         For i As Integer = 0 To DataGridView2.RowCount - 1
@@ -757,11 +758,11 @@ Public Class MainPOSubPO
         DGV_MainPO_All()
     End Sub
 
-    Private Sub ComboBox3_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedValueChanged
-        If TabControl1.SelectedIndex = 1 Then
-            DGV_SubSubPO_FILTERlINE()
-        End If
-    End Sub
+    'Private Sub ComboBox3_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedValueChanged
+    '    If TabControl1.SelectedIndex = 1 Then
+    '        DGV_SubSubPO_FILTERlINE()
+    '    End If
+    'End Sub
 
     Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
         If TextBox1.Text <> "" Then

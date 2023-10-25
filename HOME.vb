@@ -377,4 +377,9 @@ Public Class HOME
         Dim _formStatusFlowTicket As New StatusFlowTicket()
         _formStatusFlowTicket.ShowDialog()
     End Sub
+
+    Private Sub BtnTraceability(sender As Object, e As EventArgs) Handles TraceabilityBtn.Click
+        TabControl1.TabPages.Add(TraceabilityV2)
+        TabControl1.TabPages(TraceabilityV2).Select()
+    End Sub
 End Class

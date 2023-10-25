@@ -17,7 +17,7 @@ Public Class FormLogin
 
             HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
 
-            If globVar.username = "admin" Then
+            If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
                 ComboBox1.Enabled = True
             End If
         Else
@@ -56,7 +56,7 @@ Public Class FormLogin
                 txtPass.Clear()
 
                 HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
-                If globVar.username = "admin" Then
+                If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
                     ComboBox1.Enabled = True
                 End If
             Else

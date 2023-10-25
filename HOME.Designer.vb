@@ -53,12 +53,15 @@ Partial Class HOME
         Me.AddChangeOperatorBtn = New System.Windows.Forms.RibbonButton()
         Me.RibPrintFlowTicket = New System.Windows.Forms.RibbonPanel()
         Me.PrintFlowTicketBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibStatusFlowTicket = New System.Windows.Forms.RibbonPanel()
+        Me.StatusFlowTicket = New System.Windows.Forms.RibbonButton()
         Me.RibProduction = New System.Windows.Forms.RibbonPanel()
         Me.ProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibResultProduction = New System.Windows.Forms.RibbonPanel()
         Me.ResultProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibProdSummary = New System.Windows.Forms.RibbonPanel()
         Me.SummaryProductionBtn = New System.Windows.Forms.RibbonButton()
+        Me.RibTraceability = New System.Windows.Forms.RibbonPanel()
         Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
         Me.RibFGA = New System.Windows.Forms.RibbonPanel()
         Me.FGABtn = New System.Windows.Forms.RibbonButton()
@@ -95,8 +98,7 @@ Partial Class HOME
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
-        Me.RibStatusFlowTicket = New System.Windows.Forms.RibbonPanel()
-        Me.StatusFlowTicket = New System.Windows.Forms.RibbonButton()
+        Me.TraceabilityBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -140,7 +142,7 @@ Partial Class HOME
         '
         Me.Ribbon1.QuickAccessToolbar.DropDownButtonItems.Add(Me.Login_DropDown)
         Me.Ribbon1.RibbonTabFont = New System.Drawing.Font("Trebuchet MS", 9.0!)
-        Me.Ribbon1.Size = New System.Drawing.Size(1236, 137)
+        Me.Ribbon1.Size = New System.Drawing.Size(1360, 137)
         Me.Ribbon1.TabIndex = 0
         Me.Ribbon1.Tabs.Add(Me.RibbonTab3)
         Me.Ribbon1.Tabs.Add(Me.RibbonTab4)
@@ -280,6 +282,7 @@ Partial Class HOME
         Me.RibbonTab4.Panels.Add(Me.RibProduction)
         Me.RibbonTab4.Panels.Add(Me.RibResultProduction)
         Me.RibbonTab4.Panels.Add(Me.RibProdSummary)
+        Me.RibbonTab4.Panels.Add(Me.RibTraceability)
         Me.RibbonTab4.Text = "Line Process"
         '
         'RibStockProd
@@ -334,6 +337,19 @@ Partial Class HOME
         Me.PrintFlowTicketBtn.Name = "PrintFlowTicketBtn"
         Me.PrintFlowTicketBtn.SmallImage = CType(resources.GetObject("PrintFlowTicketBtn.SmallImage"), System.Drawing.Image)
         '
+        'RibStatusFlowTicket
+        '
+        Me.RibStatusFlowTicket.Items.Add(Me.StatusFlowTicket)
+        Me.RibStatusFlowTicket.Name = "RibStatusFlowTicket"
+        Me.RibStatusFlowTicket.Text = "Status Flow Ticket"
+        '
+        'StatusFlowTicket
+        '
+        Me.StatusFlowTicket.Image = CType(resources.GetObject("StatusFlowTicket.Image"), System.Drawing.Image)
+        Me.StatusFlowTicket.LargeImage = CType(resources.GetObject("StatusFlowTicket.LargeImage"), System.Drawing.Image)
+        Me.StatusFlowTicket.Name = "StatusFlowTicket"
+        Me.StatusFlowTicket.SmallImage = CType(resources.GetObject("StatusFlowTicket.SmallImage"), System.Drawing.Image)
+        '
         'RibProduction
         '
         Me.RibProduction.Items.Add(Me.ProductionBtn)
@@ -372,6 +388,12 @@ Partial Class HOME
         Me.SummaryProductionBtn.LargeImage = CType(resources.GetObject("SummaryProductionBtn.LargeImage"), System.Drawing.Image)
         Me.SummaryProductionBtn.Name = "SummaryProductionBtn"
         Me.SummaryProductionBtn.SmallImage = CType(resources.GetObject("SummaryProductionBtn.SmallImage"), System.Drawing.Image)
+        '
+        'RibTraceability
+        '
+        Me.RibTraceability.Items.Add(Me.TraceabilityBtn)
+        Me.RibTraceability.Name = "RibTraceability"
+        Me.RibTraceability.Text = "Traceability"
         '
         'RibbonTab7
         '
@@ -589,7 +611,7 @@ Partial Class HOME
         Me.TabControl1.Location = New System.Drawing.Point(0, 137)
         Me.TabControl1.MenuRenderer = Nothing
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Size = New System.Drawing.Size(1236, 414)
+        Me.TabControl1.Size = New System.Drawing.Size(1360, 435)
         Me.TabControl1.TabCloseButtonImage = Nothing
         Me.TabControl1.TabCloseButtonImageDisabled = Nothing
         Me.TabControl1.TabCloseButtonImageHot = Nothing
@@ -601,7 +623,7 @@ Partial Class HOME
         Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.LoginUser})
-        Me.StatusStrip1.Location = New System.Drawing.Point(1114, 112)
+        Me.StatusStrip1.Location = New System.Drawing.Point(1238, 112)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         Me.StatusStrip1.Size = New System.Drawing.Size(122, 22)
@@ -627,24 +649,18 @@ Partial Class HOME
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
         '
-        'RibStatusFlowTicket
+        'TraceabilityBtn
         '
-        Me.RibStatusFlowTicket.Items.Add(Me.StatusFlowTicket)
-        Me.RibStatusFlowTicket.Name = "RibStatusFlowTicket"
-        Me.RibStatusFlowTicket.Text = "Status Flow Ticket"
-        '
-        'StatusFlowTicket
-        '
-        Me.StatusFlowTicket.Image = CType(resources.GetObject("StatusFlowTicket.Image"), System.Drawing.Image)
-        Me.StatusFlowTicket.LargeImage = CType(resources.GetObject("StatusFlowTicket.LargeImage"), System.Drawing.Image)
-        Me.StatusFlowTicket.Name = "StatusFlowTicket"
-        Me.StatusFlowTicket.SmallImage = CType(resources.GetObject("StatusFlowTicket.SmallImage"), System.Drawing.Image)
+        Me.TraceabilityBtn.Image = CType(resources.GetObject("TraceabilityBtn.Image"), System.Drawing.Image)
+        Me.TraceabilityBtn.LargeImage = CType(resources.GetObject("TraceabilityBtn.LargeImage"), System.Drawing.Image)
+        Me.TraceabilityBtn.Name = "TraceabilityBtn"
+        Me.TraceabilityBtn.SmallImage = CType(resources.GetObject("TraceabilityBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1236, 552)
+        Me.ClientSize = New System.Drawing.Size(1360, 573)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Ribbon1)
@@ -740,5 +756,7 @@ Partial Class HOME
     Friend WithEvents RibbonButton2 As RibbonButton
     Friend WithEvents RibStatusFlowTicket As RibbonPanel
     Friend WithEvents StatusFlowTicket As RibbonButton
+    Friend WithEvents RibTraceability As RibbonPanel
+    Friend WithEvents TraceabilityBtn As RibbonButton
     '>>>>>>> Arif
 End Class

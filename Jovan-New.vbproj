@@ -278,6 +278,12 @@
     <Compile Include="Summary.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TraceabilityV2.Designer.vb">
+      <DependentUpon>TraceabilityV2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TraceabilityV2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Users.Designer.vb">
       <DependentUpon>Users.vb</DependentUpon>
     </Compile>
@@ -397,6 +403,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Summary.resx">
       <DependentUpon>Summary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraceabilityV2.resx">
+      <DependentUpon>TraceabilityV2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users.resx">
       <DependentUpon>Users.vb</DependentUpon>

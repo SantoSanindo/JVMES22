@@ -72,7 +72,7 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 63.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1924, 1181)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1924, 1061)
         Me.TableLayoutPanel1.TabIndex = 0
         '
         'TableLayoutPanel2
@@ -80,7 +80,7 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel2.ColumnCount = 3
         Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.12014!))
         Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.87986!))
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1112.0!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1113.0!))
         Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel5, 1, 0)
         Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel6, 0, 0)
         Me.TableLayoutPanel2.Controls.Add(Me.TableLayoutPanel7, 2, 0)
@@ -90,7 +90,7 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1910, 80)
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1910, 70)
         Me.TableLayoutPanel2.TabIndex = 0
         '
         'TableLayoutPanel5
@@ -105,16 +105,16 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel5.RowCount = 2
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.0!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(368, 66)
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(367, 56)
         Me.TableLayoutPanel5.TabIndex = 1
         '
         'txtInputFG
         '
         Me.txtInputFG.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtInputFG.Location = New System.Drawing.Point(7, 17)
+        Me.txtInputFG.Location = New System.Drawing.Point(7, 11)
         Me.txtInputFG.Margin = New System.Windows.Forms.Padding(7)
         Me.txtInputFG.Name = "txtInputFG"
-        Me.txtInputFG.Size = New System.Drawing.Size(354, 35)
+        Me.txtInputFG.Size = New System.Drawing.Size(353, 35)
         Me.txtInputFG.TabIndex = 0
         '
         'TableLayoutPanel6
@@ -129,14 +129,14 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel6.RowCount = 2
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.0!))
-        Me.TableLayoutPanel6.Size = New System.Drawing.Size(401, 66)
+        Me.TableLayoutPanel6.Size = New System.Drawing.Size(401, 56)
         Me.TableLayoutPanel6.TabIndex = 2
         '
         'Label1
         '
         Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(96, 20)
+        Me.Label1.Location = New System.Drawing.Point(96, 14)
         Me.Label1.Margin = New System.Windows.Forms.Padding(7, 0, 7, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(298, 29)
@@ -151,12 +151,12 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel7.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 361.0!))
         Me.TableLayoutPanel7.Controls.Add(Me.Button1, 1, 1)
         Me.TableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel7.Location = New System.Drawing.Point(800, 3)
+        Me.TableLayoutPanel7.Location = New System.Drawing.Point(799, 3)
         Me.TableLayoutPanel7.Name = "TableLayoutPanel7"
         Me.TableLayoutPanel7.RowCount = 2
         Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
         Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.0!))
-        Me.TableLayoutPanel7.Size = New System.Drawing.Size(1107, 74)
+        Me.TableLayoutPanel7.Size = New System.Drawing.Size(1108, 64)
         Me.TableLayoutPanel7.TabIndex = 3
         '
         'Button1
@@ -164,7 +164,7 @@ Partial Class TraceabilityV2
         Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Button1.BackColor = System.Drawing.Color.Blue
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(340, 15)
+        Me.Button1.Location = New System.Drawing.Point(341, 10)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(321, 46)
         Me.Button1.TabIndex = 0
@@ -179,12 +179,12 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel3.Controls.Add(Me.TreeView1, 0, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.DataGridViewBawah, 1, 0)
         Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel3.Location = New System.Drawing.Point(7, 360)
+        Me.TableLayoutPanel3.Location = New System.Drawing.Point(7, 324)
         Me.TableLayoutPanel3.Margin = New System.Windows.Forms.Padding(7)
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
         Me.TableLayoutPanel3.RowCount = 1
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1910, 730)
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1910, 654)
         Me.TableLayoutPanel3.TabIndex = 1
         '
         'TreeView1
@@ -193,7 +193,7 @@ Partial Class TraceabilityV2
         Me.TreeView1.Location = New System.Drawing.Point(7, 7)
         Me.TreeView1.Margin = New System.Windows.Forms.Padding(7)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(464, 716)
+        Me.TreeView1.Size = New System.Drawing.Size(464, 640)
         Me.TreeView1.TabIndex = 1
         '
         'DataGridViewBawah
@@ -208,7 +208,7 @@ Partial Class TraceabilityV2
         Me.DataGridViewBawah.Name = "DataGridViewBawah"
         Me.DataGridViewBawah.ReadOnly = True
         Me.DataGridViewBawah.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.DataGridViewBawah.Size = New System.Drawing.Size(1426, 724)
+        Me.DataGridViewBawah.Size = New System.Drawing.Size(1426, 648)
         Me.DataGridViewBawah.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DataGridViewBawah.TabIndex = 2
         '
@@ -218,17 +218,17 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.77901!))
         Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.22099!))
         Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 519.0!))
-        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 851.0!))
+        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 852.0!))
         Me.TableLayoutPanel4.Controls.Add(Me.TableLayoutPanel10, 3, 0)
         Me.TableLayoutPanel4.Controls.Add(Me.TableLayoutPanel8, 1, 0)
         Me.TableLayoutPanel4.Controls.Add(Me.TableLayoutPanel9, 2, 0)
         Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(7, 1104)
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(7, 992)
         Me.TableLayoutPanel4.Margin = New System.Windows.Forms.Padding(7)
         Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
         Me.TableLayoutPanel4.RowCount = 1
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1910, 70)
+        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1910, 62)
         Me.TableLayoutPanel4.TabIndex = 2
         '
         'TableLayoutPanel10
@@ -237,12 +237,12 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel10.Controls.Add(Me.Button3, 0, 1)
         Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel10.Location = New System.Drawing.Point(1061, 3)
+        Me.TableLayoutPanel10.Location = New System.Drawing.Point(1060, 3)
         Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
         Me.TableLayoutPanel10.RowCount = 2
         Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
         Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.0!))
-        Me.TableLayoutPanel10.Size = New System.Drawing.Size(846, 64)
+        Me.TableLayoutPanel10.Size = New System.Drawing.Size(847, 56)
         Me.TableLayoutPanel10.TabIndex = 2
         '
         'Button3
@@ -250,7 +250,7 @@ Partial Class TraceabilityV2
         Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Button3.BackColor = System.Drawing.Color.Blue
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(3, 10)
+        Me.Button3.Location = New System.Drawing.Point(3, 5)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(267, 47)
         Me.Button3.TabIndex = 1
@@ -268,15 +268,15 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel8.RowCount = 2
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
         Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.0!))
-        Me.TableLayoutPanel8.Size = New System.Drawing.Size(319, 64)
+        Me.TableLayoutPanel8.Size = New System.Drawing.Size(318, 56)
         Me.TableLayoutPanel8.TabIndex = 0
         '
         'TextBox2
         '
         Me.TextBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox2.Location = New System.Drawing.Point(3, 6)
+        Me.TextBox2.Location = New System.Drawing.Point(3, 5)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(313, 35)
+        Me.TextBox2.Size = New System.Drawing.Size(312, 35)
         Me.TextBox2.TabIndex = 0
         '
         'TableLayoutPanel9
@@ -285,12 +285,12 @@ Partial Class TraceabilityV2
         Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel9.Controls.Add(Me.Button2, 0, 1)
         Me.TableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel9.Location = New System.Drawing.Point(542, 3)
+        Me.TableLayoutPanel9.Location = New System.Drawing.Point(541, 3)
         Me.TableLayoutPanel9.Name = "TableLayoutPanel9"
         Me.TableLayoutPanel9.RowCount = 2
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.0!))
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95.0!))
-        Me.TableLayoutPanel9.Size = New System.Drawing.Size(513, 64)
+        Me.TableLayoutPanel9.Size = New System.Drawing.Size(513, 56)
         Me.TableLayoutPanel9.TabIndex = 1
         '
         'Button2
@@ -298,9 +298,9 @@ Partial Class TraceabilityV2
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Blue
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(124, 6)
+        Me.Button2.Location = New System.Drawing.Point(124, 5)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(265, 55)
+        Me.Button2.Size = New System.Drawing.Size(265, 48)
         Me.Button2.TabIndex = 0
         Me.Button2.Text = "Search From Right"
         Me.Button2.UseVisualStyleBackColor = False
@@ -313,11 +313,11 @@ Partial Class TraceabilityV2
         Me.DataGridViewAtas.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridViewAtas.FilterAndSortEnabled = True
         Me.DataGridViewAtas.FilterStringChangedInvokeBeforeDatasourceUpdate = True
-        Me.DataGridViewAtas.Location = New System.Drawing.Point(3, 97)
+        Me.DataGridViewAtas.Location = New System.Drawing.Point(3, 87)
         Me.DataGridViewAtas.Name = "DataGridViewAtas"
         Me.DataGridViewAtas.ReadOnly = True
         Me.DataGridViewAtas.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.DataGridViewAtas.Size = New System.Drawing.Size(1918, 253)
+        Me.DataGridViewAtas.Size = New System.Drawing.Size(1918, 227)
         Me.DataGridViewAtas.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DataGridViewAtas.TabIndex = 3
         '
@@ -325,7 +325,7 @@ Partial Class TraceabilityV2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(14.0!, 29.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1924, 1181)
+        Me.ClientSize = New System.Drawing.Size(1924, 1061)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(7)

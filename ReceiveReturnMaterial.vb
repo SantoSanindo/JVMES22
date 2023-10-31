@@ -17,15 +17,15 @@ Public Class ReceiveReturnMaterial
                 Dim dtCheckReturnMaterial As DataTable = Database.GetData(sqlCheckReturnMaterial)
                 If dtCheckReturnMaterial.Rows.Count > 0 Then
                     For i = 0 To dtCheckReturnMaterial.Rows.Count - 1
-                        Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE material = '" & dtCheckReturnMaterial.Rows(i).Item("material") & "' and lot_no='" & dtCheckReturnMaterial.Rows(i).Item("lot_no") & "' and department='" & globVar.department & "' and status='Receive From Production'"
+                        Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE id_level = '" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production'"
                         Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
                         If dtCheckStockCard.Rows.Count > 0 Then
-
+                            RJMessageBox.Show("Double Scan")
                         Else
                             Dim sql = "insert into stock_card([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], 
-                        [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
-                        [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY],1,[QRCODE] from stock_card 
-                        where id=" & dtCheckReturnMaterial.Rows(i).Item("id")
+                                [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE],[id_level],[level]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
+                                [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [QTY], [ACTUAL_QTY],1,[id_level],[id_level],[level] from stock_card 
+                                where id=" & dtCheckReturnMaterial.Rows(i).Item("id")
 
                             Dim cmdInsertReceiveFromProduction = New SqlCommand(sql, Database.koneksi)
                             If cmdInsertReceiveFromProduction.ExecuteNonQuery() Then
@@ -50,7 +50,7 @@ Public Class ReceiveReturnMaterial
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryDGV As String = "select MATERIAL,lot_no [LOT NO],INV_CTRL_DATE ICD,TRACEABILITY,batch_no [BATCH NO],qty [QTY LOT],actual_qty [ACTUAL QTY] from stock_card where status='Receive From Production'"
+        Dim queryDGV As String = "select [id_level] [LABEL], MATERIAL,lot_no [LOT NO],INV_CTRL_DATE ICD,TRACEABILITY,batch_no [BATCH NO],qty [QTY],actual_qty [ACTUAL QTY] from stock_card where status='Receive From Production' order by datetime_insert desc"
         Dim dtDGV As DataTable = Database.GetData(queryDGV)
 
         DataGridView1.DataSource = dtDGV

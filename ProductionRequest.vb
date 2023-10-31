@@ -57,15 +57,25 @@ Public Class ProductionRequest
             Dim Found As Boolean = False
             Dim StringToSearch As String = ""
             Dim CurrentRowIndex As Integer = 0
+            Dim sqlCheckStockMinistore As String
 
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And TextBox1.Text <> "" And ComboBox1.Text <> "" Then
                 If globVar.add > 0 Then
                     If Len(TextBox1.Text) >= 64 Then
                         QRCode.Baca(TextBox1.Text)
                     Else
-                        Dim SplitLabel = TextBox1.Text.Split("-")
-                        globVar.QRCode_PN = SplitLabel(0)
-                        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                        If InStr(TextBox1.Text, "-") > 0 Then
+                            Dim SplitLabel = TextBox1.Text.Split("-")
+                            globVar.QRCode_PN = SplitLabel(0)
+                            globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                        Else
+                            Dim queryCheck As String = "select * from stock_card where id_level='" & TextBox1.Text & "' and status='Receive From Production' and actual_qty > 0 and department='" & globVar.department & "'"
+                            Dim dttable As DataTable = Database.GetData(queryCheck)
+                            If dttable.Rows.Count > 0 Then
+                                globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                                globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
+                            End If
+                        End If
                     End If
 
                     If DataGridView3.Rows.Count > 0 Then
@@ -85,7 +95,12 @@ Public Class ProductionRequest
                         RJMessageBox.Show("Production no need for this Part Number.")
                         TextBox1.Text = ""
                     Else
-                        Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
+                        If InStr(TextBox1.Text, "B") > 0 And Len(TextBox1.Text) < 10 Then
+                            sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE id_level='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production' and actual_qty>0"
+                        Else
+                            sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
+                        End If
+
                         Dim dtCheckStockMinistore As DataTable = Database.GetData(sqlCheckStockMinistore)
                         If dtCheckStockMinistore.Rows.Count > 0 Then
                             Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
@@ -120,7 +135,7 @@ Public Class ProductionRequest
                                     Else
                                         Try
                                             Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,QRCODE,MTS_NO,SUM_QTY,LEVEL,ID_LEVEL)
-                                    VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("inv_ctrl_date") & "','" & dtCheckStockMinistore.Rows(0).Item("traceability") & "','" & globVar.QRCode_lot & "','" & dtCheckStockMinistore.Rows(0).Item("batch_no") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','" & dtCheckStockMinistore.Rows(0).Item("qrcode") & "','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & globVar.QRCode_PN & "')"
+                                                VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("inv_ctrl_date") & "','" & dtCheckStockMinistore.Rows(0).Item("traceability") & "','" & globVar.QRCode_lot & "','" & dtCheckStockMinistore.Rows(0).Item("batch_no") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG_Part_Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','" & dtCheckStockMinistore.Rows(0).Item("qrcode") & "','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & globVar.QRCode_PN & "')"
                                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                                 DGV_InProductionMaterial()

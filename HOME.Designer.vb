@@ -62,6 +62,7 @@ Partial Class HOME
         Me.RibProdSummary = New System.Windows.Forms.RibbonPanel()
         Me.SummaryProductionBtn = New System.Windows.Forms.RibbonButton()
         Me.RibTraceability = New System.Windows.Forms.RibbonPanel()
+        Me.TraceabilityBtn = New System.Windows.Forms.RibbonButton()
         Me.RibbonTab7 = New System.Windows.Forms.RibbonTab()
         Me.RibFGA = New System.Windows.Forms.RibbonPanel()
         Me.FGABtn = New System.Windows.Forms.RibbonButton()
@@ -98,7 +99,6 @@ Partial Class HOME
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoginUser = New System.Windows.Forms.ToolStripStatusLabel()
         Me.RibbonButton1 = New System.Windows.Forms.RibbonButton()
-        Me.TraceabilityBtn = New System.Windows.Forms.RibbonButton()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -395,6 +395,13 @@ Partial Class HOME
         Me.RibTraceability.Name = "RibTraceability"
         Me.RibTraceability.Text = "Traceability"
         '
+        'TraceabilityBtn
+        '
+        Me.TraceabilityBtn.Image = CType(resources.GetObject("TraceabilityBtn.Image"), System.Drawing.Image)
+        Me.TraceabilityBtn.LargeImage = CType(resources.GetObject("TraceabilityBtn.LargeImage"), System.Drawing.Image)
+        Me.TraceabilityBtn.Name = "TraceabilityBtn"
+        Me.TraceabilityBtn.SmallImage = CType(resources.GetObject("TraceabilityBtn.SmallImage"), System.Drawing.Image)
+        '
         'RibbonTab7
         '
         Me.RibbonTab7.Name = "RibbonTab7"
@@ -648,13 +655,6 @@ Partial Class HOME
         Me.RibbonButton1.LargeImage = CType(resources.GetObject("RibbonButton1.LargeImage"), System.Drawing.Image)
         Me.RibbonButton1.Name = "RibbonButton1"
         Me.RibbonButton1.SmallImage = CType(resources.GetObject("RibbonButton1.SmallImage"), System.Drawing.Image)
-        '
-        'TraceabilityBtn
-        '
-        Me.TraceabilityBtn.Image = CType(resources.GetObject("TraceabilityBtn.Image"), System.Drawing.Image)
-        Me.TraceabilityBtn.LargeImage = CType(resources.GetObject("TraceabilityBtn.LargeImage"), System.Drawing.Image)
-        Me.TraceabilityBtn.Name = "TraceabilityBtn"
-        Me.TraceabilityBtn.SmallImage = CType(resources.GetObject("TraceabilityBtn.SmallImage"), System.Drawing.Image)
         '
         'HOME
         '

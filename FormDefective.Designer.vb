@@ -589,7 +589,7 @@ Partial Class FormDefective
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -870,7 +870,8 @@ Partial Class FormDefective
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(3, 63)
+        Me.TextBox4.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox4.Location = New System.Drawing.Point(3, 73)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(26, 35)
         Me.TextBox4.TabIndex = 9
@@ -878,7 +879,8 @@ Partial Class FormDefective
         '
         'TextBox5
         '
-        Me.TextBox5.Location = New System.Drawing.Point(647, 3)
+        Me.TextBox5.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox5.Location = New System.Drawing.Point(647, 12)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(26, 35)
         Me.TextBox5.TabIndex = 10
@@ -1150,7 +1152,7 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1654,7 +1656,8 @@ Partial Class FormDefective
         '
         'TextBox10
         '
-        Me.TextBox10.Location = New System.Drawing.Point(3, 64)
+        Me.TextBox10.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox10.Location = New System.Drawing.Point(3, 74)
         Me.TextBox10.Name = "TextBox10"
         Me.TextBox10.Size = New System.Drawing.Size(26, 35)
         Me.TextBox10.TabIndex = 25
@@ -1824,7 +1827,8 @@ Partial Class FormDefective
         '
         'TextBox9
         '
-        Me.TextBox9.Location = New System.Drawing.Point(3, 3)
+        Me.TextBox9.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.TextBox9.Location = New System.Drawing.Point(3, 13)
         Me.TextBox9.Name = "TextBox9"
         Me.TextBox9.Size = New System.Drawing.Size(26, 35)
         Me.TextBox9.TabIndex = 16
@@ -1879,6 +1883,7 @@ Partial Class FormDefective
         Me.btnPrintBalance.TabIndex = 11
         Me.btnPrintBalance.Text = "Print"
         Me.btnPrintBalance.UseVisualStyleBackColor = False
+        Me.btnPrintBalance.Visible = False
         '
         'dgBalance
         '

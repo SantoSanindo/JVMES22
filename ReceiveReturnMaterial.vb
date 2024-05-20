@@ -38,6 +38,9 @@ Public Class ReceiveReturnMaterial
                             End If
                         End If
                     Next
+                Else
+                    RJMessageBox.Show("QRCode not exist in DB.")
+                    TextBox1.Clear()
                 End If
             Else
                 RJMessageBox.Show("Your Access cannot execute this action")

@@ -98,12 +98,12 @@ Public Class ProductionRequest
                         If InStr(TextBox1.Text, "B") > 0 And Len(TextBox1.Text) < 10 Then
                             sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE id_level='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production' and actual_qty>0"
                         Else
-                            sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
+                            sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and batch_no='" & globVar.QRCode_Batch & "' and traceability='" & globVar.QRCode_Traceability & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
                         End If
 
                         Dim dtCheckStockMinistore As DataTable = Database.GetData(sqlCheckStockMinistore)
                         If dtCheckStockMinistore.Rows.Count > 0 Then
-                            Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
+                            Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE batch_no='" & globVar.QRCode_Batch & "' and material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
                             Dim dtCheckInProdFreshMaterial As DataTable = Database.GetData(sqlCheckInProdFreshMaterial)
                             If dtCheckInProdFreshMaterial.Rows.Count > 0 Then
                                 RJMessageBox.Show("Sorry QR Code already in database production")
@@ -124,7 +124,7 @@ Public Class ProductionRequest
                                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                                 DGV_InProductionMaterial()
 
-                                                Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
+                                                Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE batch_no='" & globVar.QRCode_Batch & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
                                                 Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                                 cmdUpdate.ExecuteNonQuery()
                                                 TextBox1.Clear()
@@ -140,7 +140,7 @@ Public Class ProductionRequest
                                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                                 DGV_InProductionMaterial()
 
-                                                Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
+                                                Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE batch_no='" & globVar.QRCode_Batch & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
                                                 Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                                 cmdUpdate.ExecuteNonQuery()
                                                 TextBox1.Clear()

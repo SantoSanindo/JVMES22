@@ -115,7 +115,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryChecksa As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY) [Code],flow_ticket [Flow Ticket],FG [Finish Goods],Qty,Traceability,inv_ctrl_date [Inv Ctrl],batch_no [Batch],lot_no [Lot No] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & subsubpo & "' and line='" & line & "'"
+        Dim queryChecksa As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY) [Code],flow_ticket [Flow Ticket],FG [Finish Goods],Qty,Traceability,inv_ctrl_date [Inv Ctrl],batch_no [Batch],lot_no [Lot No] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & subsubpo & "'"
         Dim dtCheckSA As DataTable = Database.GetData(queryChecksa)
         If dtCheckSA.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckSA

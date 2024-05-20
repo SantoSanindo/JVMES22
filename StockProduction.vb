@@ -20,7 +20,7 @@ Public Class StockProduction
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS], [MATERIAL], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [QTY], [ACTUAL_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where datetime_insert >= '" & DateTimePicker1.Text & "' and datetime_insert <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result') order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date], [STATUS], [QRCODE], [MATERIAL], [INV_CTRL_DATE] [ICD], [TRACEABILITY], [BATCH_NO] [BATCH], [LOT_NO] [LOT], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE], [QTY], [ACTUAL_QTY] [ACT_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where datetime_insert >= '" & DateTimePicker1.Text & "' and datetime_insert <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result','Return to Mini Store') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception

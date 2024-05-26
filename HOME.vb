@@ -33,23 +33,21 @@ Public Class HOME
         '    RJMessageBox.Show(ex.ToString)
         'End Try
 
-
         'buka_printer()
 
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
-        ' Mendapatkan nama host lokal
         Dim hostName As String = Dns.GetHostName()
-        ' Mendapatkan alamat IP dari host lokal
         Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
 
         Dim ipAdd As String
 
         For Each ip As IPAddress In ipAddresses
             If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
-                ' Hanya menampilkan alamat IPv4
-                ipAdd = ip.ToString()
+                If ip.ToString().Contains("192.168.0") Then
+                    ipAdd = ip.ToString()
+                End If
             End If
         Next
 

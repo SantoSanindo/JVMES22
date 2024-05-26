@@ -22,7 +22,7 @@ Partial Class SplitMaterial
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
@@ -37,6 +37,7 @@ Partial Class SplitMaterial
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Cancel = New System.Windows.Forms.Button()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.TableLayoutPanel3.SuspendLayout()
@@ -92,8 +93,9 @@ Partial Class SplitMaterial
         Me.TableLayoutPanel3.Controls.Add(Me.Label2, 2, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.txtOuterLabel, 1, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.Label1, 0, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.Button1, 7, 1)
-        Me.TableLayoutPanel3.Controls.Add(Me.Button2, 6, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.Cancel, 3, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.Button1, 0, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.Button2, 7, 1)
         Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
@@ -184,7 +186,7 @@ Partial Class SplitMaterial
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.Enabled = False
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1317, 86)
+        Me.Button1.Location = New System.Drawing.Point(3, 86)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(140, 53)
         Me.Button1.TabIndex = 6
@@ -197,7 +199,7 @@ Partial Class SplitMaterial
         Me.Button2.BackColor = System.Drawing.Color.MediumSeaGreen
         Me.Button2.Enabled = False
         Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button2.Location = New System.Drawing.Point(1164, 86)
+        Me.Button2.Location = New System.Drawing.Point(1317, 86)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(140, 53)
         Me.Button2.TabIndex = 7
@@ -210,14 +212,14 @@ Partial Class SplitMaterial
         Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.AllowUserToOrderColumns = True
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.GridColor = System.Drawing.SystemColors.Highlight
@@ -228,6 +230,18 @@ Partial Class SplitMaterial
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1526, 648)
         Me.DataGridView1.TabIndex = 1
+        '
+        'Cancel
+        '
+        Me.Cancel.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.Cancel.BackColor = System.Drawing.Color.RoyalBlue
+        Me.Cancel.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.Cancel.Location = New System.Drawing.Point(599, 78)
+        Me.Cancel.Name = "Cancel"
+        Me.Cancel.Size = New System.Drawing.Size(202, 70)
+        Me.Cancel.TabIndex = 8
+        Me.Cancel.Text = "Cancel This Split"
+        Me.Cancel.UseVisualStyleBackColor = False
         '
         'SplitMaterial
         '
@@ -260,4 +274,5 @@ Partial Class SplitMaterial
     Friend WithEvents Label4 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
+    Friend WithEvents Cancel As Button
 End Class

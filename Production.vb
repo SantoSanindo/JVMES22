@@ -8,7 +8,7 @@ Public Class Production
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select NAME from MASTER_LINE where DEPARTMENT='" & globVar.department & "'")
+        Dim dtMasterLine As DataTable = Database.GetData("select NAME from MASTER_LINE where DEPARTMENT='" & globVar.department & "' order by name")
 
         ComboBox1.DataSource = dtMasterLine
         ComboBox1.DisplayMember = "NAME"
@@ -477,19 +477,45 @@ Public Class Production
             scan.HeaderText = "Lot Scan"
             DataGridView1.Columns.Insert(3, scan)
 
+            Dim scan2 As DataGridViewTextBoxColumn = New DataGridViewTextBoxColumn
+            scan2.Name = "Lot Scan Done"
+            scan2.HeaderText = "Lot Scan Done"
+            DataGridView1.Columns.Insert(4, scan2)
+
             DataGridView1.Columns(0).Width = 200
-            DataGridView1.Columns(1).Width = 70
-            DataGridView1.Columns(2).Width = 50
-            DataGridView1.Columns(3).Width = 1100
+            DataGridView1.Columns(1).Width = 100
+            DataGridView1.Columns(2).Width = 70
+            DataGridView1.Columns(3).Width = 650
+            DataGridView1.Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DataGridView1.Columns(4).Width = 650
+            DataGridView1.Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
                 Dim queryCheck As String = "select DISTINCT(lot_no),id_level,level from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Process'"
                 Dim dtCHECK As DataTable = Database.GetData(queryCheck)
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
                     If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
-                        DataGridView1.Rows(rowDataSet).Cells(3).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ","
+                        DataGridView1.Rows(rowDataSet).Cells(3).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
                     Else
-                        DataGridView1.Rows(rowDataSet).Cells(3).Value += dtCHECK.Rows(i).Item("lot_no").ToString & "(" & dtCHECK.Rows(i).Item("id_level").ToString & "),"
+                        If i Mod 4 = 0 Then
+                            DataGridView1.Rows(rowDataSet).Cells(3).Value += Environment.NewLine
+                        End If
+                        DataGridView1.Rows(rowDataSet).Cells(3).Value += dtCHECK.Rows(i).Item("lot_no").ToString & "(" & dtCHECK.Rows(i).Item("id_level").ToString & "), "
+                    End If
+                Next
+            Next
+
+            For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
+                Dim queryCheck As String = "select DISTINCT(lot_no),id_level,level from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Result'"
+                Dim dtCHECK As DataTable = Database.GetData(queryCheck)
+                For i As Integer = 0 To dtCHECK.Rows.Count - 1
+                    If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
+                        DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
+                    Else
+                        If i Mod 4 = 0 Then
+                            DataGridView1.Rows(rowDataSet).Cells(4).Value += Environment.NewLine
+                        End If
+                        DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("level").ToString & "(" & dtCHECK.Rows(i).Item("id_level").ToString & "), "
                     End If
                 Next
             Next

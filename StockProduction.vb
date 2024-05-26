@@ -20,7 +20,7 @@ Public Class StockProduction
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date], [STATUS], [QRCODE], [MATERIAL], [INV_CTRL_DATE] [ICD], [TRACEABILITY], [BATCH_NO] [BATCH], [LOT_NO] [LOT], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE], [QTY], [ACTUAL_QTY] [ACT_QTY], [FIFO], [LEVEL], [FLOW_TICKET] FROM STOCK_CARD where datetime_insert >= '" & DateTimePicker1.Text & "' and datetime_insert <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result','Return to Mini Store') order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS] [Status], [MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE] [Line], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [FIFO], [LEVEL], [FLOW_TICKET], [QRCODE] [QR Code], PRODUCTION_PROCESS_DATETIME [Date Time Production Process], PRODUCTION_PROCESS_WHO [Scan Production Process] FROM STOCK_CARD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result','Return to Mini Store') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception
@@ -69,7 +69,6 @@ Public Class StockProduction
             exportToExcel(DataGridView1)
         End If
     End Sub
-
 
     Private Sub exportToExcel(ByVal dgv As DataGridView)
 

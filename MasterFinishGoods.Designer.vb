@@ -192,11 +192,11 @@ Partial Class MasterFinishGoods
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(1598, 656)
+        Me.Label4.Location = New System.Drawing.Point(1414, 656)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(89, 29)
+        Me.Label4.Size = New System.Drawing.Size(270, 29)
         Me.Label4.TabIndex = 11
-        Me.Label4.Text = "Search"
+        Me.Label4.Text = "Search FG Part Number"
         '
         'txt_pn
         '

@@ -1,41 +1,95 @@
-﻿Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports System.IO
+Imports System.Net
+Imports System.Net.NetworkInformation
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Try
-            Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
-            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
-        Catch ex As Exception
-            RJMessageBox.Show("Updater Not Found")
-        End Try
+        'Try
+        '    Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
+        '    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
+        'Catch ex As Exception
+        '    RJMessageBox.Show("Updater Not Found")
+        'End Try
 
 
-        Try
-            Me.Text = "MES Application v " & Application.ProductVersion
-            If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
+        'Try
+        '    Me.Text = "MES Application v " & Application.ProductVersion
+        '    If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
 
-                Dim result As DialogResult = RJMessageBox.Show(
-                              "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
-                              MessageBoxButtons.YesNo)
+        '        Dim result As DialogResult = RJMessageBox.Show(
+        '                      "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
+        '                      MessageBoxButtons.YesNo)
 
-                If result = DialogResult.Yes Then
-                    Process.Start("Updater.exe")
-                    Me.Close()
-                End If
+        '        If result = DialogResult.Yes Then
+        '            Process.Start("Updater.exe")
+        '            Me.Close()
+        '        End If
 
-            End If
-        Catch ex As Exception
-            RJMessageBox.Show(ex.ToString)
-        End Try
+        '    End If
+        'Catch ex As Exception
+        '    RJMessageBox.Show(ex.ToString)
+        'End Try
 
 
-        buka_printer()
+        'buka_printer()
 
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()
 
+        ' Mendapatkan nama host lokal
+        Dim hostName As String = Dns.GetHostName()
+        ' Mendapatkan alamat IP dari host lokal
+        Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
+
+        Dim ipAdd As String
+
+        For Each ip As IPAddress In ipAddresses
+            If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
+                ' Hanya menampilkan alamat IPv4
+                ipAdd = ip.ToString()
+            End If
+        Next
+
+        Try
+            Dim sqlInsertMasterLine As String = "
+            IF NOT EXISTS (SELECT 1 FROM LIST_CONNECTION WHERE COMPUTER_NAME = '" & hostName & "' AND IP_ADDRESS = '" & ipAdd & "')
+                BEGIN
+                    INSERT INTO LIST_CONNECTION (COMPUTER_NAME, IP_ADDRESS, STATUS)
+                    VALUES ('" & hostName & "', '" & ipAdd & "','1')
+                END
+            ELSE
+                BEGIN
+                    RAISERROR('Data already exists', 16, 1)
+                END"
+
+            Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
+            cmdInsertMasterLine.ExecuteNonQuery()
+        Catch ex As Exception
+
+        End Try
+
+        Dim sql As String = "select ip_address from LIST_CONNECTION where server=1"
+        Dim dtServer As DataTable = Database.GetData(sql)
+
+        Dim pingSender As New Ping()
+        Try
+            Dim reply As PingReply = pingSender.Send(dtServer.Rows(0).Item("ip_address").ToString)
+
+            If reply.Status = IPStatus.Success Then
+                Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=1, ping='" & reply.RoundtripTime & "',LAST_UPDATE=getdate() FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
+                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                cmdUpdate.ExecuteNonQuery()
+            Else
+                Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=0, ping is null,LAST_UPDATE=getdate() FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
+                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                cmdUpdate.ExecuteNonQuery()
+            End If
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 
@@ -379,7 +433,7 @@ Public Class HOME
     End Sub
 
     Private Sub BtnTraceability(sender As Object, e As EventArgs) Handles TraceabilityBtn.Click
-        TabControl1.TabPages.Add(TraceabilityV2)
-        TabControl1.TabPages(TraceabilityV2).Select()
+        TabControl1.TabPages.Add(TraceabilityV3)
+        TabControl1.TabPages(TraceabilityV3).Select()
     End Sub
 End Class

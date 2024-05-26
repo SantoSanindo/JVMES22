@@ -15,35 +15,40 @@ Public Class MaterialUsageFinishGoods
             End If
 
             If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
-                Dim querycheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cb_masterfinishgoods_pn.Text & "' and COMPONENT='" & cb_masterfinishgoods_component.Text & "'"
-                Dim dtCheck As DataTable = Database.GetData(querycheck)
-                If dtCheck.Rows.Count > 0 Then
-                    RJMessageBox.Show("FG Part Number and Comp exist")
-                Else
-                    Try
-                        Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
-                        Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
-                        If dtMasterFG.Rows.Count = 0 Then
-                            RJMessageBox.Show("Sorry. The material not exist in master material. Please input first.")
-                            Exit Sub
-                        End If
 
-                        Dim sql As String = "INSERT INTO MATERIAL_USAGE_FINISH_GOODS(FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "'," & txt_masterfinishgoods_usage.Text.Replace(",", ".") & ")"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
-
-                        DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
-                        treeView_show()
-
-                        idP = cb_masterfinishgoods_pn.Text
-
-                        txt_masterfinishgoods_desc.Text = ""
-                        cb_masterfinishgoods_component.SelectedIndex = -1
-                        txt_masterfinishgoods_usage.Text = ""
-                    Catch ex As Exception
-                        RJMessageBox.Show("Error Master Material Usage Finish Goods - 1 => " & ex.Message)
-                    End Try
+                Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
+                Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
+                If dtMasterFG.Rows.Count = 0 Then
+                    RJMessageBox.Show("Sorry. The material not exist in master material. Please input first.")
+                    Exit Sub
                 End If
+
+                Try
+                    Dim sql As String = "
+                        IF NOT EXISTS (SELECT 1 FROM MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER = '" & cb_masterfinishgoods_pn.Text & "' AND COMPONENT = '" & cb_masterfinishgoods_component.Text & "')
+                            BEGIN
+                                INSERT INTO MATERIAL_USAGE_FINISH_GOODS (FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE, BY_WHO) VALUES ('" & cb_masterfinishgoods_pn.Text & "','" & txt_masterfinishgoods_desc.Text & "','" & txt_masterfinishgoods_family.Text & "','" & cb_masterfinishgoods_component.Text & "','" & txt_masterfinishgoods_usage.Text & "','" & globVar.username & "')
+                            END
+                        ELSE
+                            BEGIN
+                                RAISERROR('Data already exists', 16, 1)
+                            END"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    cmd.ExecuteNonQuery()
+
+                    DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
+                    treeView_show()
+
+                    idP = cb_masterfinishgoods_pn.Text
+
+                    txt_masterfinishgoods_desc.Clear()
+                    cb_masterfinishgoods_component.SelectedIndex = -1
+                    txt_masterfinishgoods_usage.Clear()
+                    txt_masterfinishgoods_family.Clear()
+
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Master Material Usage Finish Goods - 1 => " & ex.Message)
+                End Try
             End If
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
@@ -72,8 +77,6 @@ Public Class MaterialUsageFinishGoods
         cb_masterfinishgoods_pn.DataSource = dtMasterFinishGoods
         cb_masterfinishgoods_pn.DisplayMember = "fg_part_number"
         cb_masterfinishgoods_pn.ValueMember = "fg_part_number"
-        'cb_masterfinishgoods_pn.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'cb_masterfinishgoods_pn.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Sub tampilDataComboBoxMaterial()
@@ -83,8 +86,6 @@ Public Class MaterialUsageFinishGoods
         cb_masterfinishgoods_component.DataSource = dtMasterMaterial
         cb_masterfinishgoods_component.DisplayMember = "part_number"
         cb_masterfinishgoods_component.ValueMember = "part_number"
-        'cb_masterfinishgoods_component.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'cb_masterfinishgoods_component.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub treeView_show()
@@ -117,7 +118,9 @@ Public Class MaterialUsageFinishGoods
                     Try
                         Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where ID=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(1).Value
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+                        If cmd.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Delete Success")
+                        End If
                         DGV_Masterfinishgoods_atass(idP)
                         treeView_show()
                     Catch ex As Exception
@@ -144,16 +147,25 @@ Public Class MaterialUsageFinishGoods
         dgv_masterfinishgoods_atas.Rows.Clear()
         dgv_masterfinishgoods_atas.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryMasterFinishGoods As String = "select ID,FG_PART_NUMBER,DESCRIPTION,FAMILY,COMPONENT,USAGE from MATERIAL_USAGE_FINISH_GOODS where fg_part_number='" & id & "'"
+        Dim queryMasterFinishGoods As String = "select ID [#],FG_PART_NUMBER [FG Part Number],DESCRIPTION [Desc],FAMILY [Family],COMPONENT [Comp],USAGE [Usage], datetime_insert [Date Time], by_who [Created By] from MATERIAL_USAGE_FINISH_GOODS where fg_part_number='" & id & "' order by COMPONENT"
         Dim dtMasterMaterial As DataTable = Database.GetData(queryMasterFinishGoods)
 
         dgv_masterfinishgoods_atas.DataSource = dtMasterMaterial
 
+        Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+        check.Name = "check"
+        check.HeaderText = "Check For Delete"
+        check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+        dgv_masterfinishgoods_atas.Columns.Insert(0, check)
+
         dgv_masterfinishgoods_atas.Columns(0).Width = 100
-        dgv_masterfinishgoods_atas.Columns(1).Width = 300
-        dgv_masterfinishgoods_atas.Columns(2).Width = 500
-        dgv_masterfinishgoods_atas.Columns(3).Width = 150
-        dgv_masterfinishgoods_atas.Columns(5).Width = 150
+        dgv_masterfinishgoods_atas.Columns(1).Width = 100
+        dgv_masterfinishgoods_atas.Columns(2).Width = 200
+        dgv_masterfinishgoods_atas.Columns(3).Width = 300
+        dgv_masterfinishgoods_atas.Columns(4).Width = 150
+        dgv_masterfinishgoods_atas.Columns(5).Width = 200
+        dgv_masterfinishgoods_atas.Columns(6).Width = 100
+        dgv_masterfinishgoods_atas.Columns(7).Width = 200
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -162,14 +174,7 @@ Public Class MaterialUsageFinishGoods
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_masterfinishgoods_atas.Columns.Insert(6, delete)
-
-        Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
-        check.Name = "check"
-        check.HeaderText = "Check"
-        check.Width = 100
-        check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-        dgv_masterfinishgoods_atas.Columns.Insert(0, check)
+        dgv_masterfinishgoods_atas.Columns.Insert(9, delete)
 
         For i As Integer = 0 To dgv_masterfinishgoods_atas.RowCount - 1
             If dgv_masterfinishgoods_atas.Rows(i).Index Mod 2 = 0 Then
@@ -198,6 +203,7 @@ Public Class MaterialUsageFinishGoods
 
             treeView_show()
             DGV_Masterfinishgoods_atass(idP)
+            RJMessageBox.Show("Delete Success " & hapus & " Data.")
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
         End If
@@ -205,7 +211,7 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_masterfinishgoods_search.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-            If CheckBox1.CheckState = CheckState.Unchecked Then
+            If RadioButton1.Checked Then
                 Dim FoundTreeview As Boolean = False
                 For Each nd As TreeNode In TreeView1.Nodes
                     If nd.Nodes.Count > 0 Then
@@ -222,7 +228,9 @@ Public Class MaterialUsageFinishGoods
                 If FoundTreeview = False Then
                     RJMessageBox.Show("Data not Found")
                 End If
-            Else
+            End If
+
+            If RadioButton2.Checked Then
                 Dim Found As Boolean = False
                 Dim StringToSearch As String = ""
                 Dim ValueToSearchFor As String = Me.txt_masterfinishgoods_search.Text.Trim.ToLower
@@ -241,9 +249,9 @@ Public Class MaterialUsageFinishGoods
                     End If
                     If dgv_masterfinishgoods_atas.Rows.Count > 0 Then
                         For Each gRow As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
-                            StringToSearch = gRow.Cells("Component").Value.ToString.Trim.ToLower
+                            StringToSearch = gRow.Cells("Comp").Value.ToString.Trim.ToLower
                             If InStr(1, StringToSearch, LCase(Trim(txt_masterfinishgoods_search.Text)), vbTextCompare) = 1 Then
-                                Dim myCurrentCell As DataGridViewCell = gRow.Cells("Component")
+                                Dim myCurrentCell As DataGridViewCell = gRow.Cells("Comp")
                                 Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                                 dgv_masterfinishgoods_atas.CurrentCell = myCurrentCell
                                 CurrentRowIndex = dgv_masterfinishgoods_atas.CurrentRow.Index
@@ -466,4 +474,11 @@ Public Class MaterialUsageFinishGoods
             End If
         End If
     End Sub
+
+    Private Sub txt_masterfinishgoods_usage_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_masterfinishgoods_usage.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
 End Class

@@ -11,28 +11,29 @@ Public Class MasterProcess
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.add > 0 Then
             If txt_masterprocess_nama.Text <> "" And txt_masterprocess_desc.Text <> "" And cb_masterprocess_family.Text <> "" And cb_masterprocess_dept.Text <> "" Then
-                Dim querycheck As String = "select * from MASTER_PROCESS where upper(PROCESS_NAME)='" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' and upper(department)='" & cb_masterprocess_dept.Text.ToUpper & "' and upper(family)='" & cb_masterprocess_family.Text.ToUpper & "'"
-                Dim dtCheck As DataTable = Database.GetData(querycheck)
-                If dtCheck.Rows.Count > 0 Then
-                    RJMessageBox.Show("Process Exist")
+                Try
+                    Dim sql As String = "
+                        IF NOT EXISTS (SELECT 1 FROM MASTER_PROCESS WHERE upper(PROCESS_NAME) = '" & Trim(txt_masterprocess_nama.Text.ToUpper) & "' AND department = '" & cb_masterprocess_dept.Text & "' and family = '" & cb_masterprocess_family.Text & "')
+                            BEGIN
+                                INSERT INTO MASTER_PROCESS (PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT, BY_WHO) VALUES ('" & Trim(txt_masterprocess_nama.Text.ToUpper) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_masterprocess_family.Text & "','" & cb_masterprocess_dept.Text & "','" & globVar.username & "')
+                            END
+                        ELSE
+                            BEGIN
+                                RAISERROR('Data already exists', 16, 1)
+                            END"
+
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    cmd.ExecuteNonQuery()
+
                     txt_masterprocess_nama.Text = ""
                     txt_masterprocess_desc.Text = ""
-                Else
-                    Try
-                        Dim sql As String = "INSERT INTO MASTER_PROCESS(PROCESS_NAME,PROCESS_DESC,FAMILY,DEPARTMENT) VALUES ('" & Trim(txt_masterprocess_nama.Text) & "','" & Trim(txt_masterprocess_desc.Text) & "','" & cb_masterprocess_family.Text & "','" & cb_masterprocess_dept.Text & "')"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+                    txt_masterprocess_nama.Select()
 
-                        txt_masterprocess_nama.Text = ""
-                        txt_masterprocess_desc.Text = ""
-                        txt_masterprocess_nama.Select()
-
-                        dgv_masterprocess.DataSource = Nothing
-                        DGV_MasterProcesss()
-                    Catch ex As Exception
-                        RJMessageBox.Show("Error Master Process - 1 =>" & ex.Message)
-                    End Try
-                End If
+                    dgv_masterprocess.DataSource = Nothing
+                    DGV_MasterProcesss()
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Master Process - 1 =>" & ex.Message)
+                End Try
             End If
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
@@ -41,7 +42,7 @@ Public Class MasterProcess
 
     Sub tampilDataComboBoxFamily()
         Call Database.koneksi_database()
-        Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
+        Dim dtMasterFamily As DataTable = Database.GetData("select * from family order by family")
 
         cb_masterprocess_family.DataSource = dtMasterFamily
         cb_masterprocess_family.DisplayMember = "family"
@@ -50,7 +51,7 @@ Public Class MasterProcess
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department")
+        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department order by department")
 
         cb_masterprocess_dept.DataSource = dtMasterDepartment
         cb_masterprocess_dept.DisplayMember = "department"
@@ -76,9 +77,14 @@ Public Class MasterProcess
         dgv_masterprocess.Rows.Clear()
         dgv_masterprocess.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select process_name as Name_Process,process_desc as Desc_Process, FAMILY, DEPARTMENT from MASTER_PROCESS")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select process_name as [Name Process],process_desc as [Desc Process], FAMILY [Family], DEPARTMENT [Department], insert_date [Date Time], by_who [Created By] from MASTER_PROCESS order by process_name")
 
         dgv_masterprocess.DataSource = dtMasterMaterial
+
+        dgv_masterprocess.Columns(0).Width = 500
+        dgv_masterprocess.Columns(1).Width = 500
+        dgv_masterprocess.Columns(2).Width = 200
+        dgv_masterprocess.Columns(3).Width = 200
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -87,7 +93,7 @@ Public Class MasterProcess
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_masterprocess.Columns.Insert(4, delete)
+        dgv_masterprocess.Columns.Insert(6, delete)
     End Sub
 
     Private Sub dgv_masterprocess_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_masterprocess.CellClick
@@ -102,7 +108,7 @@ Public Class MasterProcess
         If dgv_masterprocess.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
 
-                Dim queryCek As String = "SELECT * FROM dbo.master_process_flow where master_process='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value & "'"
+                Dim queryCek As String = "SELECT * FROM dbo.master_process_flow where master_process='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name Process").Value & "'"
                 Dim dsexist = New DataSet
                 Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
                 adapterexist.Fill(dsexist)
@@ -116,14 +122,16 @@ Public Class MasterProcess
 
                 If result = DialogResult.Yes Then
                     Try
-                        Dim querycheck As String = "select * from MASTER_PROCESS_FLOW mpf, MASTER_FINISH_GOODS mfg where mpf.MASTER_FINISH_GOODS_PN=mfg.FG_PART_NUMBER and lower(mpf.MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value.ToLower) & "' and lower(mfg.family)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value.ToLower) & "' and lower(mfg.department)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value.ToLower) & "'"
+                        Dim querycheck As String = "select * from MASTER_PROCESS_FLOW mpf, MASTER_FINISH_GOODS mfg where mpf.MASTER_FINISH_GOODS_PN=mfg.FG_PART_NUMBER and lower(mpf.MASTER_PROCESS)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Name Process").Value.ToLower) & "' and lower(mfg.family)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Family").Value.ToLower) & "' and lower(mfg.department)='" & Trim(dgv_masterprocess.Rows(e.RowIndex).Cells("Department").Value.ToLower) & "'"
                         Dim dtCheck As DataTable = Database.GetData(querycheck)
                         If dtCheck.Rows.Count > 0 Then
                             RJMessageBox.Show("Cannot Delete this data because refrence to process flow.")
                         Else
-                            Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name_Process").Value & "' and family='" & dgv_masterprocess.Rows(e.RowIndex).Cells("FAMILY").Value & "' and department='" & dgv_masterprocess.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "'"
+                            Dim sql As String = "delete from master_process where process_name='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Name Process").Value & "' and family='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Family").Value & "' and department='" & dgv_masterprocess.Rows(e.RowIndex).Cells("Department").Value & "'"
                             Dim cmd = New SqlCommand(sql, Database.koneksi)
-                            cmd.ExecuteNonQuery()
+                            If cmd.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Delete Success")
+                            End If
                             dgv_masterprocess.DataSource = Nothing
                             DGV_MasterProcesss()
                         End If
@@ -184,9 +192,9 @@ Public Class MasterProcess
                 End If
                 If dgv_masterprocess.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In dgv_masterprocess.Rows
-                        StringToSearch = gRow.Cells("Name_Process").Value.ToString.Trim.ToLower
-                        If InStr(1, StringToSearch, LCase(Trim(txt_masterprocess_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Name_Process")
+                        StringToSearch = gRow.Cells("Name Process").Value.ToString.Trim.ToLower
+                        If StringToSearch.IndexOf(txt_masterprocess_search.Text, StringComparison.OrdinalIgnoreCase) >= 0 Then
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Name Process")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                             dgv_masterprocess.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_masterprocess.CurrentRow.Index
@@ -195,6 +203,11 @@ Public Class MasterProcess
                         End If
                         If Found Then Exit For
                     Next
+
+                    If Found = False Then
+                        RJMessageBox.Show("Data Doesn't exist")
+                        txt_masterprocess_search.Clear()
+                    End If
                 End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Master Process - 3 =>" & ex.Message)

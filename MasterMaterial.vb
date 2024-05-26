@@ -13,31 +13,32 @@ Public Class MasterMaterial
             Call Database.koneksi_database()
             If txt_mastermaterial_pn.Text <> "" And txt_mastermaterial_qty.Text <> "" And txt_pn_name.Text <> "" And cb_mastermaterial_family.Text <> "" And cb_mastermaterial_dept.Text <> "" Then
                 If IsNumeric(txt_mastermaterial_pn.Text) And IsNumeric(txt_mastermaterial_qty.Text) Then
-                    Dim querycheck As String = "select * from MASTER_MATERIAL where part_number='" & txt_mastermaterial_pn.Text & "' and upper(department)='" & cb_mastermaterial_dept.Text.ToUpper & "' and upper(family)='" & cb_mastermaterial_family.Text.ToUpper & "'"
-                    Dim dtCheck As DataTable = Database.GetData(querycheck)
-                    If dtCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Material Exist")
-                    Else
-                        Try
-                            Dim sql As String = "INSERT INTO MASTER_MATERIAL VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "')"
-                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    Try
+                        Dim sql As String = "
+                        IF NOT EXISTS (SELECT 1 FROM MASTER_MATERIAL WHERE part_number = '" & txt_mastermaterial_pn.Text & "' AND department = '" & cb_mastermaterial_dept.Text & "' and family = '" & cb_mastermaterial_family.Text & "')
+                            BEGIN
+                                INSERT INTO MASTER_MATERIAL (part_number,name,STANDARD_QTY, FAMILY, DEPARTMENT, BY_WHO) VALUES ('" & txt_mastermaterial_pn.Text & "','" & txt_pn_name.Text & "'," & txt_mastermaterial_qty.Text & ",'" & cb_mastermaterial_family.Text & "','" & cb_mastermaterial_dept.Text & "','" & globVar.username & "')
+                            END
+                        ELSE
+                            BEGIN
+                                RAISERROR('Data already exists', 16, 1)
+                            END"
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
 
-                            If cmd.ExecuteNonQuery() Then
-                                txt_pn_name.Text = ""
-                                txt_mastermaterial_pn.Text = ""
-                                txt_mastermaterial_qty.Text = ""
-                                cb_mastermaterial_family.SelectedIndex = -1
-                                cb_mastermaterial_dept.SelectedIndex = -1
-                                txt_mastermaterial_pn.Select()
+                        If cmd.ExecuteNonQuery() Then
+                            txt_pn_name.Text = ""
+                            txt_mastermaterial_pn.Text = ""
+                            txt_mastermaterial_qty.Text = ""
+                            cb_mastermaterial_family.SelectedIndex = -1
+                            cb_mastermaterial_dept.SelectedIndex = -1
+                            txt_mastermaterial_pn.Select()
 
-                                dgv_material.DataSource = Nothing
-                                DGV_MasterMaterial()
-                            End If
-
-                        Catch ex As Exception
-                            RJMessageBox.Show("Error Master Material - 1 =>" & ex.Message)
-                        End Try
-                    End If
+                            dgv_material.DataSource = Nothing
+                            DGV_MasterMaterial()
+                        End If
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Master Material - 1 =>" & ex.Message)
+                    End Try
                 Else
                     RJMessageBox.Show("Part Number / Qty must be number.")
                     txt_mastermaterial_pn.Text = ""
@@ -66,7 +67,7 @@ Public Class MasterMaterial
 
     Sub tampilDataComboBoxFamily()
         Call Database.koneksi_database()
-        Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
+        Dim dtMasterFamily As DataTable = Database.GetData("select * from family order by family")
 
         cb_mastermaterial_family.DataSource = dtMasterFamily
         cb_mastermaterial_family.DisplayMember = "family"
@@ -75,7 +76,7 @@ Public Class MasterMaterial
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department")
+        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department order by department")
 
         cb_mastermaterial_dept.DataSource = dtMasterDepartment
         cb_mastermaterial_dept.DisplayMember = "department"
@@ -88,29 +89,28 @@ Public Class MasterMaterial
         dgv_material.Rows.Clear()
         dgv_material.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER,NAME, STANDARD_QTY, FAMILY, DEPARTMENT from MASTER_MATERIAL")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER [Part Number],NAME [Name], STANDARD_QTY [Std Qty], FAMILY [Family], DEPARTMENT [Department], insert_date [Date Time], by_who [Created By] from MASTER_MATERIAL order by part_number")
 
         dgv_material.DataSource = dtMasterMaterial
 
         Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
         check.Name = "check"
-        check.HeaderText = "Check"
-        check.Width = 100
+        check.HeaderText = "Check For Delete"
         check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         dgv_material.Columns.Insert(0, check)
 
-        dgv_material.Columns(0).Width = 100
-        dgv_material.Columns(1).Width = 250
-        dgv_material.Columns(2).Width = 800
+        dgv_material.Columns(0).Width = 200
+        dgv_material.Columns(1).Width = 200
+        dgv_material.Columns(2).Width = 500
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
         delete.HeaderText = "Delete"
-        delete.Width = 100
+        delete.Width = 200
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_material.Columns.Insert(6, delete)
+        dgv_material.Columns.Insert(8, delete)
     End Sub
 
     Private Sub dgv_material_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_material.CellClick
@@ -124,7 +124,7 @@ Public Class MasterMaterial
 
         If dgv_material.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
-                Dim queryCek As String = "SELECT * FROM dbo.material_usage_finish_goods where component='" & dgv_material.Rows(e.RowIndex).Cells("PART_NUMBER").Value & "'"
+                Dim queryCek As String = "SELECT * FROM dbo.material_usage_finish_goods where component='" & dgv_material.Rows(e.RowIndex).Cells("Part Number").Value & "'"
                 Dim dsexist = New DataSet
                 Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
                 adapterexist.Fill(dsexist)
@@ -138,9 +138,11 @@ Public Class MasterMaterial
 
                 If result = DialogResult.Yes Then
                     Try
-                        Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells("PART_NUMBER").Value & "' and family='" & dgv_material.Rows(e.RowIndex).Cells("FAMILY").Value & "' and department='" & dgv_material.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "'"
+                        Dim sql As String = "delete from master_material where part_number='" & dgv_material.Rows(e.RowIndex).Cells("Part Number").Value & "' and family='" & dgv_material.Rows(e.RowIndex).Cells("Family").Value & "' and department='" & dgv_material.Rows(e.RowIndex).Cells("Department").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+                        If cmd.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Delete Success")
+                        End If
                         dgv_material.DataSource = Nothing
                         DGV_MasterMaterial()
                     Catch ex As Exception
@@ -169,7 +171,7 @@ Public Class MasterMaterial
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In dgv_material.Rows
                     If row.Cells(0).Value = True Then
-                        Dim sql As String = "delete from master_material where part_number='" & row.Cells("PART_NUMBER").Value & "' and family='" & row.Cells("FAMILY").Value & "' and department='" & row.Cells("DEPARTMENT").Value & "'"
+                        Dim sql As String = "delete from master_material where part_number='" & row.Cells("Part Number").Value & "' and family='" & row.Cells("Family").Value & "' and department='" & row.Cells("Department").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
                         hapus = hapus + 1
@@ -278,9 +280,9 @@ Public Class MasterMaterial
                 End If
                 If dgv_material.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In dgv_material.Rows
-                        StringToSearch = gRow.Cells("PART_NUMBER").Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("Part Number").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(txt_mastermaterial_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("PART_NUMBER")
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Part Number")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                             dgv_material.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_material.CurrentRow.Index
@@ -289,6 +291,11 @@ Public Class MasterMaterial
                         End If
                         If Found Then Exit For
                     Next
+
+                    If Found = False Then
+                        RJMessageBox.Show("Data Doesn't exist")
+                        txt_mastermaterial_search.Clear()
+                    End If
                 End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Master Material - 4 =>" & ex.Message)
@@ -406,6 +413,18 @@ Public Class MasterMaterial
             excelApp.Quit()
             Marshal.ReleaseComObject(excelApp)
             RJMessageBox.Show("Export Template Success !")
+        End If
+    End Sub
+
+    Private Sub txt_mastermaterial_pn_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_mastermaterial_pn.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso (e.KeyChar < "1"c OrElse e.KeyChar > "9"c) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txt_mastermaterial_qty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_mastermaterial_qty.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
         End If
     End Sub
 End Class

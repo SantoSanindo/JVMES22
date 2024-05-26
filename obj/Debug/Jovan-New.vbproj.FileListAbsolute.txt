@@ -562,7 +562,6 @@ C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan-New.exe
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan-New.pdb
-C:\Users\Arif\source\repos\JVMES22\bin\Debug\SDK.NET.Interface.dll
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.StatusFlowTicket.resources
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.StatusFlowTicket.resources
 D:\MES Jovan\Jovan\JVMES22\obj\Debug\Jovan_New.TraceabilityV2.resources
@@ -664,3 +663,6 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan-New.vbproj.CopyComplete
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan-New.exe
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan-New.xml
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan-New.pdb
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.TraceabilityV2.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.loading.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.TraceabilityV3.resources

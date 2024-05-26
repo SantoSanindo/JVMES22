@@ -14,32 +14,35 @@ Public Class MasterFinishGoods
             Call Database.koneksi_database()
             If txt_dept.Text <> "" And txt_pn.Text <> "" And txt_desc.Text <> "" And txt_level.Text <> "" And txt_spq.Text <> "" And cb_family.Text <> "" Then
                 If IsNumeric(txt_spq.Text) Then
-                    Dim querycheck As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & txt_pn.Text & "'"
-                    Dim dtCheck As DataTable = Database.GetData(querycheck)
-                    If dtCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Finish Goods Already Exist")
-                    Else
-                        Try
-                            Dim sql As String = "INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE,family) VALUES ('" & Trim(txt_pn.Text) & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & Trim(txt_desc.Text) & "'," & txt_spq.Text & ",'" & Trim(txt_laser.Text) & "','" & cb_family.Text & "')"
-                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    Try
+                        Dim sql As String = "
+                            IF NOT EXISTS (SELECT 1 FROM MASTER_FINISH_GOODS WHERE FG_PART_NUMBER = '" & txt_pn.Text & "')
+                                BEGIN
+                                    INSERT INTO MASTER_FINISH_GOODS (FG_PART_NUMBER,DEPARTMENT,LEVEL,DESCRIPTION,SPQ,LASER_CODE,family, BY_WHO) VALUES ('" & txt_pn.Text & "','" & txt_dept.Text & "','" & txt_level.Text & "','" & txt_desc.Text & "','" & txt_spq.Text & "','" & txt_laser.Text & "','" & cb_family.Text & "','" & globVar.username & "')
+                                END
+                            ELSE
+                                BEGIN
+                                    RAISERROR('Data already exists', 16, 1)
+                                END"
 
-                            If cmd.ExecuteNonQuery() Then
-                                txt_dept.Text = ""
-                                txt_pn.Text = ""
-                                txt_desc.Text = ""
-                                txt_level.Text = ""
-                                txt_spq.Text = ""
-                                txt_laser.Text = ""
-                                txt_dept.Select()
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
 
-                                dgv_finish_goods.DataSource = Nothing
-                                DGV_MasterFinishGoods()
-                            End If
+                        If cmd.ExecuteNonQuery() Then
+                            txt_dept.Text = ""
+                            txt_pn.Text = ""
+                            txt_desc.Text = ""
+                            txt_level.Text = ""
+                            txt_spq.Text = ""
+                            txt_laser.Text = ""
+                            txt_dept.Select()
 
-                        Catch ex As Exception
-                            RJMessageBox.Show("Error Master Finish Goods - 1 => " & ex.Message)
-                        End Try
-                    End If
+                            dgv_finish_goods.DataSource = Nothing
+                            DGV_MasterFinishGoods()
+                        End If
+
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Master Finish Goods - 1 => " & ex.Message)
+                    End Try
                 Else
                     RJMessageBox.Show("SPQ must be number.")
                     txt_dept.Text = ""
@@ -58,7 +61,7 @@ Public Class MasterFinishGoods
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from department")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from department order by department")
 
         txt_dept.DataSource = dtMasterDepart
         txt_dept.DisplayMember = "department"
@@ -67,7 +70,7 @@ Public Class MasterFinishGoods
 
     Sub tampilDataComboBoxFamily()
         Call Database.koneksi_database()
-        Dim dtMasterFamily As DataTable = Database.GetData("select * from family")
+        Dim dtMasterFamily As DataTable = Database.GetData("select * from family order by family")
 
         cb_family.DataSource = dtMasterFamily
         cb_family.DisplayMember = "family"
@@ -93,20 +96,26 @@ Public Class MasterFinishGoods
         dgv_finish_goods.Rows.Clear()
         dgv_finish_goods.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT,FG_PART_NUMBER,DESCRIPTION,LEVEL, SPQ, LASER_CODE,FAMILY from MASTER_FINISH_GOODS")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT [Department],FG_PART_NUMBER [FG Part Number],DESCRIPTION [Desc],LEVEL [Level], SPQ [Spq], LASER_CODE [Laser Code],FAMILY [Family], insert_date [Date Time], by_who [Created By] from MASTER_FINISH_GOODS order by FG_PART_NUMBER")
 
         dgv_finish_goods.DataSource = dtMasterMaterial
 
         Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
         check.Name = "check"
-        check.HeaderText = "Check"
-        check.Width = 100
+        check.HeaderText = "Check For Delete"
         check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         dgv_finish_goods.Columns.Insert(0, check)
 
-        dgv_finish_goods.Columns(0).Width = 100
-        dgv_finish_goods.Columns(3).Width = 800
-        dgv_finish_goods.Columns(7).Width = 200
+        dgv_finish_goods.Columns(0).Width = 200
+        dgv_finish_goods.Columns(1).Width = 150
+        dgv_finish_goods.Columns(2).Width = 300
+        dgv_finish_goods.Columns(3).Width = 500
+        dgv_finish_goods.Columns(4).Width = 150
+        dgv_finish_goods.Columns(5).Width = 100
+        dgv_finish_goods.Columns(6).Width = 200
+        dgv_finish_goods.Columns(7).Width = 100
+        dgv_finish_goods.Columns(8).Width = 250
+        dgv_finish_goods.Columns(9).Width = 150
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -115,7 +124,7 @@ Public Class MasterFinishGoods
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        dgv_finish_goods.Columns.Insert(8, delete)
+        dgv_finish_goods.Columns.Insert(10, delete)
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -177,7 +186,7 @@ Public Class MasterFinishGoods
         If dgv_finish_goods.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
 
-                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "' and status='Open'"
+                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG Part Number").Value & "' and status='Open'"
                 Dim dsexist = New DataSet
                 Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
                 adapterexist.Fill(dsexist)
@@ -187,7 +196,7 @@ Public Class MasterFinishGoods
                     Exit Sub
                 End If
 
-                Dim queryCek2 As String = "select * from dbo.master_process_flow where master_finish_goods_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
+                Dim queryCek2 As String = "select * from dbo.master_process_flow where master_finish_goods_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG Part Number").Value & "'"
                 Dim dsexist2 = New DataSet
                 Dim adapterexist2 = New SqlDataAdapter(queryCek2, Database.koneksi)
                 adapterexist2.Fill(dsexist2)
@@ -197,7 +206,7 @@ Public Class MasterFinishGoods
                     Exit Sub
                 End If
 
-                Dim queryCek3 As String = "select * from dbo.material_usage_finish_goods where fg_part_number='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
+                Dim queryCek3 As String = "select * from dbo.material_usage_finish_goods where fg_part_number='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG Part Number").Value & "'"
                 Dim dsexist3 = New DataSet
                 Dim adapterexist3 = New SqlDataAdapter(queryCek3, Database.koneksi)
                 adapterexist3.Fill(dsexist3)
@@ -211,9 +220,11 @@ Public Class MasterFinishGoods
 
                 If result = DialogResult.Yes Then
                     Try
-                        Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG_PART_NUMBER").Value & "'"
+                        Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG Part Number").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+                        If cmd.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Delete Success")
+                        End If
                         dgv_finish_goods.DataSource = Nothing
                         DGV_MasterFinishGoods()
                     Catch ex As Exception
@@ -243,7 +254,7 @@ Public Class MasterFinishGoods
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In dgv_finish_goods.Rows
                     If row.Cells(0).Value = True Then
-                        Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells("FG_PART_NUMBER").Value & "'"
+                        Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells("FG Part Number").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
                         hapus = hapus + 1
@@ -276,10 +287,10 @@ Public Class MasterFinishGoods
                 End If
                 If dgv_finish_goods.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In dgv_finish_goods.Rows
-                        StringToSearch = gRow.Cells("FG_PART_NUMBER").Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("FG Part Number").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(txt_masterfinishgoods_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("FG_PART_NUMBER")
-                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells("FG_PART_NUMBER")
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("FG Part Number")
+                            Dim myCurrentPosition As DataGridViewCell = gRow.Cells("FG Part Number")
                             dgv_finish_goods.CurrentCell = myCurrentCell
                             CurrentRowIndex = dgv_finish_goods.CurrentRow.Index
                             Found = True
@@ -287,6 +298,11 @@ Public Class MasterFinishGoods
                         End If
                         If Found Then Exit For
                     Next
+
+                    If Found = False Then
+                        RJMessageBox.Show("Data Doesn't exist")
+                        txt_masterfinishgoods_search.Clear()
+                    End If
                 End If
             Catch ex As Exception
                 RJMessageBox.Show(ex.ToString)
@@ -408,6 +424,18 @@ Public Class MasterFinishGoods
             excelApp.Quit()
             Marshal.ReleaseComObject(excelApp)
             RJMessageBox.Show("Export Template Success !")
+        End If
+    End Sub
+
+    Private Sub txt_pn_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_pn.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso (e.KeyChar < "1"c OrElse e.KeyChar > "9"c) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txt_spq_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_spq.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
         End If
     End Sub
 End Class

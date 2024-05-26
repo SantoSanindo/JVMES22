@@ -13,7 +13,7 @@ Public Class PrintFlowTicket
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryDOC As String = "select component Component,desc_comp Description,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and department='" & globVar.department & "'"
+            Dim queryDOC As String = "select component [Comp],desc_comp [Desc],Usage [Usage] from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and department='" & globVar.department & "'"
             Dim dtDOC As DataTable = Database.GetData(queryDOC)
 
             DataGridView1.DataSource = dtDOC
@@ -37,7 +37,7 @@ Public Class PrintFlowTicket
             DataGridView2.Rows.Clear()
             DataGridView2.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryDOP As String = "select id_card_no [ID Card], pd.operator_id [Operator Name], pd.Process from prod_dop pd, users u where pd.line='" & ComboBox1.Text & "' and pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator_id=u.name and pd.department='" & globVar.department & "' order by pd.process_number"
+            Dim queryDOP As String = "select id_card_no [ID Card], pd.operator_id [Operator Name], pd.Process [Process] from prod_dop pd, users u where pd.line='" & ComboBox1.Text & "' and pd.sub_sub_po='" & TextBox8.Text & "' and pd.operator_id=u.name and pd.department='" & globVar.department & "' order by pd.process_number"
             Dim dtDOP As DataTable = Database.GetData(queryDOP)
 
             DataGridView2.DataSource = dtDOP
@@ -168,18 +168,14 @@ Public Class PrintFlowTicket
     Private Sub PrintFlowTicket_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBoxLine()
         ComboBox1.SelectedIndex = -1
-        CheckBox1.Enabled = False
-        cbLot.Enabled = False
-        cbLot.SelectedIndex = -1
         Button2.Enabled = False
-        CheckBox2.Enabled = False
         TextBox1.Enabled = False
         Button3.Enabled = False
     End Sub
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select * from master_line where department='" & globVar.department & "'")
+        Dim dtMasterLine As DataTable = Database.GetData("select * from master_line where department='" & globVar.department & "' order by name")
 
         ComboBox1.DataSource = dtMasterLine
         ComboBox1.DisplayMember = "name"
@@ -190,7 +186,6 @@ Public Class PrintFlowTicket
         If globVar.view > 0 Then
             clear()
             _PrintingFlowTicket._refresh()
-
             Try
                 Dim query As String = "select mp.po,mp.sub_po,mp.fg_pn,ssp.sub_sub_po,mfg.description,ssp.sub_sub_po_qty,mfg.spq
                     from sub_sub_po ssp,main_po mp,master_finish_goods mfg 
@@ -198,7 +193,6 @@ Public Class PrintFlowTicket
                 Dim dt As DataTable = Database.GetData(query)
                 If dt.Rows.Count > 0 Then
                     Button2.Enabled = True
-                    CheckBox2.Enabled = True
                     TextBox1.Enabled = True
                     Button3.Enabled = True
                     TextBox2.Text = dt.Rows(0).Item("FG_PN").ToString
@@ -212,54 +206,17 @@ Public Class PrintFlowTicket
                     Dim dtFam As DataTable = Database.GetData(queryFam)
                     TextBox3.Text = dtFam.Rows(0).Item("family").ToString
 
-                    Dim queryRecordPrinting As String = "select * from record_printing where sub_sub_po='" & TextBox8.Text & "' and line='" & ComboBox1.Text & "'"
-                    Dim dtRecordPrinting As DataTable = Database.GetData(queryRecordPrinting)
-                    If dtRecordPrinting.Rows.Count > 0 Then
-                        Dim queryCheckOperatorChange As String = "select * from prod_dop_details where sub_sub_po='" & TextBox8.Text & "'"
-                        Dim dtRecordOperatorChange As DataTable = Database.GetData(queryCheckOperatorChange)
-                        If dtRecordOperatorChange.Rows.Count > 0 Then
-                            CheckBox1.Enabled = True
-                            tampilDataComboBox(TextBox8.Text)
-                            cbLot.Enabled = True
-                            cbLot.SelectedIndex = -1
-                        Else
-                            CheckBox1.Enabled = True
-                            DGV_DOP()
-                        End If
-                    Else
-                        DGV_DOP()
-                    End If
-
+                    DGV_DOP()
                     DGV_DOC()
                 Else
                     RJMessageBox.Show("This line no have any PO")
                     DGV_DOC()
                     DGV_DOP()
-                    CheckBox1.Enabled = False
-                    cbLot.Enabled = False
-                    cbLot.SelectedIndex = -1
                 End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Flow Ticket - 8 =>" & ex.Message)
             End Try
         End If
-    End Sub
-
-    Sub tampilDataComboBox(sub_sub_po As String)
-        Call Database.koneksi_database()
-        Dim sql As String = "SELECT lot_flow_ticket
-            FROM (
-              SELECT lot_flow_ticket, ROW_NUMBER() OVER (PARTITION BY lot_flow_ticket ORDER BY lot_flow_ticket) AS row_num
-              FROM prod_dop_details
-              WHERE sub_sub_po = '" & sub_sub_po & "'
-            ) AS subquery
-            WHERE subquery.row_num = 1
-            ORDER BY CAST(subquery.lot_flow_ticket AS INT) ASC"
-
-        Dim dtLot As DataTable = Database.GetData(sql)
-        cbLot.DataSource = dtLot
-        cbLot.DisplayMember = "lot_flow_ticket"
-        cbLot.ValueMember = "lot_flow_ticket"
     End Sub
 
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
@@ -306,10 +263,6 @@ Public Class PrintFlowTicket
         End With
     End Sub
 
-    Private Sub cbLot_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLot.SelectedIndexChanged
-        DGV_DOP_Param(cbLot.Text)
-    End Sub
-
     Sub clear()
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
@@ -317,8 +270,6 @@ Public Class PrintFlowTicket
         DataGridView2.DataSource = Nothing
         DataGridView2.Rows.Clear()
         DataGridView2.Columns.Clear()
-        '_PrintingFlowTicket.DataGridView1.Rows.Clear()
-        '_PrintingFlowTicket.DataGridView1.Columns.Clear()
     End Sub
 
     Sub DGV_DOP_Param(Lot As String)
@@ -348,9 +299,7 @@ Public Class PrintFlowTicket
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         Button2.Enabled = False
-        CheckBox2.Enabled = False
         TextBox1.Enabled = False
-        CheckBox1.Enabled = False
         Button3.Enabled = False
     End Sub
 

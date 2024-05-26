@@ -150,11 +150,11 @@ Partial Class Users
         '
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(1317, 628)
+        Me.Label5.Location = New System.Drawing.Point(1246, 628)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(89, 29)
+        Me.Label5.Size = New System.Drawing.Size(160, 29)
         Me.Label5.TabIndex = 10
-        Me.Label5.Text = "Search"
+        Me.Label5.Text = "Search Name"
         '
         'DataGridView1
         '

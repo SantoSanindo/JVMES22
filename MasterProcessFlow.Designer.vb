@@ -120,11 +120,11 @@ Partial Class MasterProcessFlow
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(1199, 669)
+        Me.Label2.Location = New System.Drawing.Point(1022, 669)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(89, 29)
+        Me.Label2.Size = New System.Drawing.Size(266, 29)
         Me.Label2.TabIndex = 11
-        Me.Label2.Text = "Search"
+        Me.Label2.Text = "Search PN Finish Good"
         '
         'masterprocessflow_search
         '

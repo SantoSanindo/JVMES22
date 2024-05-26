@@ -24,11 +24,12 @@ Partial Class MaterialUsageFinishGoods
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.txt_masterfinishgoods_family = New System.Windows.Forms.TextBox()
         Me.cb_masterfinishgoods_component = New System.Windows.Forms.ComboBox()
         Me.btn_ex_template = New System.Windows.Forms.Button()
         Me.btn_export_Master_Usage_Finish_Goods = New System.Windows.Forms.Button()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.cb_masterfinishgoods_pn = New System.Windows.Forms.ComboBox()
         Me.txt_masterfinishgoods_usage = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -55,11 +56,12 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.RadioButton2)
+        Me.GroupBox1.Controls.Add(Me.RadioButton1)
         Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_family)
         Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_component)
         Me.GroupBox1.Controls.Add(Me.btn_ex_template)
         Me.GroupBox1.Controls.Add(Me.btn_export_Master_Usage_Finish_Goods)
-        Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.cb_masterfinishgoods_pn)
         Me.GroupBox1.Controls.Add(Me.txt_masterfinishgoods_usage)
         Me.GroupBox1.Controls.Add(Me.Label6)
@@ -81,6 +83,30 @@ Partial Class MaterialUsageFinishGoods
         Me.GroupBox1.Size = New System.Drawing.Size(1922, 648)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
+        '
+        'RadioButton2
+        '
+        Me.RadioButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Location = New System.Drawing.Point(1190, 608)
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.Size = New System.Drawing.Size(370, 33)
+        Me.RadioButton2.TabIndex = 35
+        Me.RadioButton2.TabStop = True
+        Me.RadioButton2.Text = "Search Component From Table"
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
+        'RadioButton1
+        '
+        Me.RadioButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.Location = New System.Drawing.Point(843, 608)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(252, 33)
+        Me.RadioButton1.TabIndex = 34
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.Text = "Search FG From List"
+        Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'txt_masterfinishgoods_family
         '
@@ -122,19 +148,6 @@ Partial Class MaterialUsageFinishGoods
         Me.btn_export_Master_Usage_Finish_Goods.TabIndex = 28
         Me.btn_export_Master_Usage_Finish_Goods.Text = "Export to Excel"
         Me.btn_export_Master_Usage_Finish_Goods.UseVisualStyleBackColor = False
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(1363, 609)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(240, 33)
-        Me.CheckBox1.TabIndex = 27
-        Me.CheckBox1.Text = "Search From Table"
-        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'cb_masterfinishgoods_pn
         '
@@ -205,6 +218,7 @@ Partial Class MaterialUsageFinishGoods
         Me.txt_masterfinishgoods_search.Name = "txt_masterfinishgoods_search"
         Me.txt_masterfinishgoods_search.Size = New System.Drawing.Size(193, 35)
         Me.txt_masterfinishgoods_search.TabIndex = 17
+        Me.txt_masterfinishgoods_search.Tag = "asd"
         '
         'Button2
         '
@@ -330,11 +344,12 @@ Partial Class MaterialUsageFinishGoods
     Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents cb_masterfinishgoods_pn As ComboBox
-    Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents btn_ex_template As Button
     Friend WithEvents btn_export_Master_Usage_Finish_Goods As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents cb_masterfinishgoods_component As ComboBox
     Friend WithEvents txt_masterfinishgoods_family As TextBox
+    Friend WithEvents RadioButton2 As RadioButton
+    Friend WithEvents RadioButton1 As RadioButton
 End Class

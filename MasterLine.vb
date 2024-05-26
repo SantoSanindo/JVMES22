@@ -6,36 +6,29 @@ Public Class MasterLine
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.add > 0 Then
-            If TextBox1.Text <> "" And ComboBox1.Text <> "" Then
-                Dim splitLine() As String = TextBox1.Text.Split(" ")
-
-                If splitLine(0) <> "Line" Then
-                    RJMessageBox.Show("Wrong Format")
-                    Exit Sub
-                End If
-
-                If IsNumeric(splitLine(1)) Then
-                    If splitLine(1) = 0 Then
-                        RJMessageBox.Show("Wrong Format")
-                        Exit Sub
-                    End If
-                Else
-                    RJMessageBox.Show("Wrong Format")
-                    Exit Sub
-                End If
-
+            If ComboBox1.Text <> "" And ComboBox2.Text <> "" Then
                 Try
-                    Dim sqlInsertMasterLine As String = "INSERT INTO master_line (name, department) VALUES ('" & TextBox1.Text & "','" & ComboBox1.Text & "')"
+                    Dim sqlInsertMasterLine As String = "
+                        IF NOT EXISTS (SELECT 1 FROM master_line WHERE name = '" & ComboBox2.Text & "' AND department = '" & ComboBox1.Text & "')
+                            BEGIN
+                                INSERT INTO master_line (name, department, by_who)
+                                VALUES ('" & ComboBox2.Text & "', '" & ComboBox1.Text & "','" & globVar.username & "')
+                            END
+                        ELSE
+                            BEGIN
+                                RAISERROR('Data already exists', 16, 1)
+                            END"
+
                     Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
                     If cmdInsertMasterLine.ExecuteNonQuery() Then
-                        TextBox1.Text = ""
                         ComboBox1.SelectedIndex = -1
+                        ComboBox2.SelectedIndex = -1
                         DGV_MasterLine()
                     End If
+
                 Catch ex As Exception
                     RJMessageBox.Show("Error Master Line - 1 =>" & ex.Message)
                 End Try
-
             Else
                 RJMessageBox.Show("Line Name or Department cannot be blank")
             End If
@@ -49,22 +42,33 @@ Public Class MasterLine
             Call Database.koneksi_database()
             DGV_MasterLine()
             tampilDataComboBoxDepartement()
+            tampilDataComboBoxListLine()
             ComboBox1.SelectedIndex = -1
+            ComboBox2.SelectedIndex = -1
         End If
     End Sub
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from department")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from department order by department")
 
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "department"
         ComboBox1.ValueMember = "department"
     End Sub
 
+    Sub tampilDataComboBoxListLine()
+        Call Database.koneksi_database()
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from list_line order by line")
+
+        ComboBox2.DataSource = dtMasterDepart
+        ComboBox2.DisplayMember = "line"
+        ComboBox2.ValueMember = "line"
+    End Sub
+
     Sub DGV_MasterLine()
         Call Database.koneksi_database()
-        Dim sql As String = "select * from master_line"
+        Dim sql As String = "select ID [#],name [Name Line], department [Department], insert_date [Date Time], by_who [Created By] from master_line order by name"
         Dim dtMainPO As DataTable = Database.GetData(sql)
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.DataSource = Nothing
@@ -78,7 +82,7 @@ Public Class MasterLine
         delete.Width = 50
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(4, delete)
+        DataGridView1.Columns.Insert(5, delete)
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -91,7 +95,7 @@ Public Class MasterLine
         End If
 
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim queryCek As String = "SELECT * FROM dbo.main_po mp, dbo.sub_sub_po ssp where mp.department='" & DataGridView1.Rows(e.RowIndex).Cells("DEPARTMENT").Value & "' and mp.status='Open' and ssp.line='" & DataGridView1.Rows(e.RowIndex).Cells("NAME").Value & "' and mp.id=ssp.main_po"
+            Dim queryCek As String = "SELECT * FROM dbo.main_po mp, dbo.sub_sub_po ssp where mp.department='" & DataGridView1.Rows(e.RowIndex).Cells("Department").Value & "' and ssp.status='Open' and ssp.line='" & DataGridView1.Rows(e.RowIndex).Cells("Name Line").Value & "' and mp.id=ssp.main_po"
             Dim dsexist = New DataSet
             Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
             adapterexist.Fill(dsexist)
@@ -106,11 +110,12 @@ Public Class MasterLine
                 Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
                     Try
-                        Dim sql As String = "delete from master_line where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
+                        Dim sql As String = "delete from master_line where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
-                            DGV_MasterLine()
+                            RJMessageBox.Show("Delete Success")
                         End If
+                        DGV_MasterLine()
                     Catch ex As Exception
                         RJMessageBox.Show("Error Master Line - 2 =>" & ex.Message)
                     End Try

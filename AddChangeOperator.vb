@@ -15,7 +15,7 @@ Public Class AddChangeOperator
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select * from master_line where department='" & globVar.department & "'")
+        Dim dtMasterLine As DataTable = Database.GetData("select * from master_line where department='" & globVar.department & "' order by name")
 
         ComboBox2.DataSource = dtMasterLine
         ComboBox2.DisplayMember = "name"
@@ -37,7 +37,7 @@ Public Class AddChangeOperator
 
     Sub DGV_Add_Change_Operator()
         Try
-            Dim queryDOP As String = "select mp.po,mp.sub_po,mp.fg_pn,mfg.description,ssp.sub_sub_po,dp.process_number Number,dp.process Process,dp.operator_id,ssp.sub_sub_po_qty,mfg.spq from prod_dop dp, sub_sub_po ssp,main_po mp,master_finish_goods mfg where dp.line='" & ComboBox2.Text & "' and ssp.line=dp.line and ssp.sub_sub_po=dp.sub_sub_po and ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and mp.department='" & globVar.department & "' order by dp.process_number"
+            Dim queryDOP As String = "select mp.po [PO],mp.sub_po [Sub PO],mp.fg_pn [FG],mfg.description [Desc],ssp.sub_sub_po [SSP],dp.process_number [Process Number],dp.process Process,dp.operator_id [Operator ID],ssp.sub_sub_po_qty [SSP Qty],mfg.spq [SPQ] from prod_dop dp, sub_sub_po ssp,main_po mp,master_finish_goods mfg where dp.line='" & ComboBox2.Text & "' and ssp.line=dp.line and ssp.sub_sub_po=dp.sub_sub_po and ssp.status='Open' and mp.id=ssp.main_po and mfg.fg_part_number=mp.fg_pn and mp.department='" & globVar.department & "' order by dp.process_number"
             Dim dtDOP As DataTable = Database.GetData(queryDOP)
             DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView3.DataSource = Nothing
@@ -45,14 +45,14 @@ Public Class AddChangeOperator
             DataGridView3.Columns.Clear()
             If dtDOP.Rows.Count > 0 Then
 
-                TextBox19.Text = dtDOP.Rows(0).Item("sub_sub_po_qty")
-                TextBox20.Text = dtDOP.Rows(0).Item("spq")
+                TextBox19.Text = dtDOP.Rows(0).Item("SSP Qty")
+                TextBox20.Text = dtDOP.Rows(0).Item("SPQ")
 
-                TextBox13.Text = dtDOP.Rows(0).Item("fg_pn")  'FG PN
-                TextBox14.Text = dtDOP.Rows(0).Item("description") 'Description
+                TextBox13.Text = dtDOP.Rows(0).Item("FG")  'FG PN
+                TextBox14.Text = dtDOP.Rows(0).Item("Desc") 'Description
                 TextBox15.Text = dtDOP.Rows(0).Item("PO")  'PO
-                TextBox16.Text = dtDOP.Rows(0).Item("SUB_PO")  'Sub PO
-                TextBox17.Text = dtDOP.Rows(0).Item("SUB_SUB_PO") 'Sub Sub PO
+                TextBox16.Text = dtDOP.Rows(0).Item("Sub PO")  'Sub PO
+                TextBox17.Text = dtDOP.Rows(0).Item("SSP") 'Sub Sub PO
 
                 sudahPrint()
 
@@ -71,7 +71,7 @@ Public Class AddChangeOperator
                     Dim name As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
                     name.Name = "name"
                     name.HeaderText = "Operator Name"
-                    Dim queryUsers As String = "select id_card_no +' - '+ name id_name,name from users where department='" & globVar.department & "' order by name"
+                    Dim queryUsers As String = "select name +' - '+ id_card_no id_name,name from users where department='" & globVar.department & "' order by name"
                     Dim dtUsers As DataTable = Database.GetData(queryUsers)
                     name.DataSource = dtUsers
                     name.DisplayMember = "id_name"
@@ -79,7 +79,7 @@ Public Class AddChangeOperator
                     DataGridView3.Columns.Insert(7, name)
 
                     For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
-                        DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("operator_id").ToString
+                        DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("Operator ID").ToString
                     Next
 
                     For i As Integer = 0 To DataGridView3.RowCount - 1
@@ -102,7 +102,7 @@ Public Class AddChangeOperator
                     DataGridView3.Columns(9).Visible = False
 
                     For rowDataSet As Integer = 0 To dtDOP.Rows.Count - 1
-                        DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("operator_id").ToString
+                        DataGridView3.Rows(rowDataSet).Cells(7).Value = dtDOP.Rows(rowDataSet).Item("Operator ID").ToString
                     Next
 
                     For i As Integer = 0 To DataGridView3.RowCount - 1
@@ -139,10 +139,6 @@ Public Class AddChangeOperator
                     Try
                         Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        'If cmd.ExecuteNonQuery() Then
-                        '    DGV_Add_Change_Operator()
-                        'End If
-
                         cmd.ExecuteNonQuery()
                     Catch ex As Exception
                         RJMessageBox.Show("Error Add Change Operator - 2 =>" & ex.Message)
@@ -283,10 +279,6 @@ Public Class AddChangeOperator
                 For i As Integer = 0 To dsexist.Tables(0).Rows.Count - 1
                     Dim cbcolumn As New DataGridViewTextBoxColumn
                     cbcolumn.HeaderText = dsexist.Tables(0).Rows(i).Item(0).ToString
-                    'For iProcess As Integer = 0 To dsOperator.Tables(0).Rows.Count - 1
-                    '    cbcolumn.Items.Add(dsOperator.Tables(0).Rows(iProcess).Item("name").ToString)
-                    'Next
-
                     DataGridView1.Columns.Add(cbcolumn)
                 Next
 
@@ -418,10 +410,6 @@ Public Class AddChangeOperator
                 Dim Sql As String = "update prod_dop_details set operator='" & combo.SelectedItem & "' where sub_sub_po='" & TextBox1.Text & "' and cast(lot_flow_ticket as int)>=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells(0).Value & " and process='" & DataGridView2.Columns(DataGridView2.CurrentCell.ColumnIndex).HeaderCell.Value & "' and department='" & globVar.department & "'"
                 Dim cmd = New SqlCommand(Sql, Database.koneksi)
                 cmd.ExecuteNonQuery()
-
-                'If cmd.ExecuteNonQuery() Then
-                '    DGV_Bawah()
-                'End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Add Change Operator - 6 =>" & ex.Message)
             End Try

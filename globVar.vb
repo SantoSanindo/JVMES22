@@ -34,22 +34,19 @@ Public Class globVar
         If username = "" Then
             result = 0
         Else
-            Dim sql As String = "select * from master_access where menu like '%" & menu & ";%'"
+            Dim sql As String = "select * from master_access where menu like '%" & menu & ";%' and name = (select REPLACE(role, ';', '') AS role from users where username='" & globVar.username & "')"
             Dim dt As DataTable = Database.GetData(sql)
             If dt.Rows.Count > 0 Then
-                For i = 0 To dt.Rows.Count - 1
-                    Dim sqlUsers As String = "select role from users where username='" & globVar.username & "' and role like '%" & dt.Rows(i).Item("name") & ";%'"
-                    Dim dtUsers As DataTable = Database.GetData(sqlUsers)
-                    If dtUsers.Rows.Count > 0 Then
-                        result = 1
-                        globVar.view = dt.Rows(i).Item("view")
-                        globVar.add = dt.Rows(i).Item("add")
-                        globVar.update = dt.Rows(i).Item("update")
-                        globVar.delete = dt.Rows(i).Item("delete")
-                        Exit For
-                    End If
-                Next
+                globVar.view = dt.Rows(0).Item("view")
+                globVar.add = dt.Rows(0).Item("add")
+                globVar.update = dt.Rows(0).Item("update")
+                globVar.delete = dt.Rows(0).Item("delete")
+                result = 1
             Else
+                globVar.view = 0
+                globVar.add = 0
+                globVar.update = 0
+                globVar.delete = 0
                 result = 0
             End If
         End If

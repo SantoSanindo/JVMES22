@@ -168,13 +168,22 @@ Public Class AccessControll
     End Sub
 
     Sub DGV_Access_Control()
-        Dim sql As String = "select [id] ID,[name] Name,[menu] Menu, [department] Department, [view] [View],[add] [Add],[update] [Update],[delete] [Delete],[user_add] [User Add] from master_access"
+        Dim sql As String = "select [id] #,[name] Name,[menu] Menu, [department] Department, [view] [View],[add] [Add],[update] [Update],[delete] [Delete],[user_add] [Created By] from master_access"
         Dim dtMainPO As DataTable = Database.GetData(sql)
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
         DataGridView1.DataSource = dtMainPO
+
+        DataGridView1.Columns(0).Width = 50
+        DataGridView1.Columns(1).Width = 200
+        DataGridView1.Columns(2).Width = 500
+        DataGridView1.Columns(3).Width = 200
+        DataGridView1.Columns(4).Width = 50
+        DataGridView1.Columns(5).Width = 50
+        DataGridView1.Columns(6).Width = 50
+        DataGridView1.Columns(7).Width = 50
 
         Dim edit As DataGridViewButtonColumn = New DataGridViewButtonColumn
         edit.Name = "edit"
@@ -191,15 +200,6 @@ Public Class AccessControll
         delete2.Text = "Delete"
         delete2.UseColumnTextForButtonValue = True
         DataGridView1.Columns.Insert(10, delete2)
-
-        DataGridView1.Columns(0).Width = 50
-        DataGridView1.Columns(1).Width = 200
-        DataGridView1.Columns(2).Width = 500
-        DataGridView1.Columns(3).Width = 200
-        DataGridView1.Columns(4).Width = 50
-        DataGridView1.Columns(5).Width = 50
-        DataGridView1.Columns(6).Width = 50
-        DataGridView1.Columns(7).Width = 50
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -226,7 +226,7 @@ Public Class AccessControll
                 Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
                     Try
-                        Dim sql As String = "delete from master_access where id=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
+                        Dim sql As String = "delete from master_access where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
                             DGV_Access_Control()

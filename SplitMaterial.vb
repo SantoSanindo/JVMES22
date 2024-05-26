@@ -43,8 +43,8 @@ Public Class SplitMaterial
                                         Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and outer_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                         Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                         If dtCheckForInsert.Rows.Count = 0 Then
-                                            Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "')"
+                                            Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
                                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                             cmdInsertInputStockDetail.ExecuteNonQuery()
                                         End If
@@ -56,8 +56,8 @@ Public Class SplitMaterial
                                             Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and outer_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                             Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                             If dtCheckForInsert.Rows.Count = 0 Then
-                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "')"
+                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
                                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                                 cmdInsertInputStockDetail.ExecuteNonQuery()
                                             End If
@@ -66,8 +66,8 @@ Public Class SplitMaterial
                                             Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and outer_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                             Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                             If dtCheckForInsert.Rows.Count = 0 Then
-                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "')"
+                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
                                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                                 cmdInsertInputStockDetail.ExecuteNonQuery()
                                             End If
@@ -103,14 +103,14 @@ Public Class SplitMaterial
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
 
-            Dim queryCheckSplitQty As String = "SELECT ID, outer_pn [OUTER PN], OUTER_ICD [OUTER ICD],OUTER_BATCH [OUTER BATCH], OUTER_TRACEABILITY [OUTER TRACE], OUTER_LOT [OUTER LOT], OUTER_QTY [OUTER QTY], INNER_LABEL [INNER LABEL], INNER_QTY [INNER QTY], [print] [PRINT] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
+            Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_LOT [Outer LOT], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], [print] [Print] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView1.DataSource = dtCheckSplitQty
 
             Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
             check.Name = "check"
             check.HeaderText = "Check For Print"
-            check.Width = 100
+            check.Width = 200
             check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
             DataGridView1.Columns.Insert(0, check)
 
@@ -236,6 +236,12 @@ Public Class SplitMaterial
         If globVar.view > 0 Then
             txtOuterLabel.Select()
         End If
+
+        If globVar.hakAkses.Contains("Administrator") Then
+            Cancel.Visible = True
+        Else
+            Cancel.Visible = False
+        End If
     End Sub
 
     Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
@@ -275,6 +281,48 @@ Public Class SplitMaterial
                 DataGridView1.Rows(e.RowIndex).Cells(0).Value = False
             Else
                 DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
+            End If
+        End If
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Cancel.Click
+        If txtOuterLabel.Text <> "" Then
+            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+            If result = DialogResult.Yes Then
+                Try
+                    Dim sql As String = "delete from split_label where outer_label='" & txtOuterLabel.Text & "'"
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        Dim SqlUpdate As String = "UPDATE STOCK_CARD SET split_material=0, actual_qty=qty FROM STOCK_CARD WHERE qrcode='" & txtOuterLabel.Text & "'"
+                        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                        cmdUpdate.ExecuteNonQuery()
+
+                        ResetSplitQty()
+                        RJMessageBox.Show("Success Cancel Split Label.")
+                    End If
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Split Material - 5 =>" & ex.Message)
+                End Try
+            End If
+        Else
+            RJMessageBox.Show("Outer label blank")
+        End If
+    End Sub
+
+    Private Sub DataGridView1_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView1.ColumnHeaderMouseClick
+        If e.ColumnIndex = 0 Then
+            If DataGridView1.Rows(0).Cells(0).Value = True Then
+                For i As Integer = 0 To DataGridView1.RowCount - 1
+                    DataGridView1.Rows(i).Cells(0).Value = False
+                Next
+            ElseIf DataGridView1.Rows(0).Cells(0).Value = False Then
+                For i As Integer = 0 To DataGridView1.RowCount - 1
+                    DataGridView1.Rows(i).Cells(0).Value = True
+                Next
+            Else
+                For i As Integer = 0 To DataGridView1.RowCount - 1
+                    DataGridView1.Rows(i).Cells(0).Value = True
+                Next
             End If
         End If
     End Sub

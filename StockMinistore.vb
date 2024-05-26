@@ -19,7 +19,7 @@ Public Class StockMinistore
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date], [MTS_NO] [MTS],[STATUS],[MATERIAL], [INV_CTRL_DATE] [ICD], [TRACEABILITY], [BATCH_NO] [BATCH], [LOT_NO] [LOT], [QTY], [ACTUAL_QTY] [ACT_QTY], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE],[QRCODE], [SPLIT_MATERIAL] [SPLIT] FROM STOCK_CARD where department='" & globVar.department & "' and datetime_insert >= '" & DateTimePicker1.Text & "' and datetime_insert <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production','Production Request','Return To Main Store') order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE] [Line],[QRCODE] [QR Code], [SPLIT_MATERIAL] [Split Material],INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By], PRODUCTION_REQUEST_DATETIME [Date Time Production Request], PRODUCTION_REQUEST_WHO [Scan Production Request] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production','Production Request','Return To Main Store') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception
@@ -63,7 +63,6 @@ Public Class StockMinistore
         End If
     End Sub
 
-
     Private Sub exportToExcel(ByVal dgv As DataGridView)
 
         ' membuat objek Excel dan workbook baru
@@ -106,7 +105,6 @@ Public Class StockMinistore
         releaseObject(xlWorkSheet)
 
     End Sub
-
     Private Sub releaseObject(ByVal obj As Object)
         Try
             System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)

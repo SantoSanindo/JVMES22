@@ -155,8 +155,6 @@ Public Class MasterProcessFlow
         cb_masterprocessflow.DataSource = dtMasterFinishGoods
         cb_masterprocessflow.DisplayMember = "fg_part_number"
         cb_masterprocessflow.ValueMember = "fg_part_number"
-        'cb_masterprocessflow.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        'cb_masterprocessflow.AutoCompleteSource = AutoCompleteSource.ListItems
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -225,26 +223,32 @@ Public Class MasterProcessFlow
             Dim ValueToSearchFor As String = Me.masterprocessflow_search.Text.Trim.ToLower
             Dim CurrentRowIndex As Integer = 0
             Try
-                If dgv_masterprocessflow.Rows.Count = 0 Then
+                If dgvBawah.Rows.Count = 0 Then
                     CurrentRowIndex = 0
                 Else
-                    CurrentRowIndex = dgv_masterprocessflow.CurrentRow.Index + 1
+                    CurrentRowIndex = dgvBawah.CurrentRow.Index + 1
                 End If
-                If CurrentRowIndex > dgv_masterprocessflow.Rows.Count Then
-                    CurrentRowIndex = dgv_masterprocessflow.Rows.Count - 1
+                If CurrentRowIndex > dgvBawah.Rows.Count Then
+                    CurrentRowIndex = dgvBawah.Rows.Count - 1
                 End If
-                If dgv_masterprocessflow.Rows.Count > 0 Then
-                    For Each gRow As DataGridViewRow In dgv_masterprocessflow.Rows
-                        StringToSearch = gRow.Cells(1).Value.ToString.Trim.ToLower
+                If dgvBawah.Rows.Count > 0 Then
+                    For Each gRow As DataGridViewRow In dgvBawah.Rows
+                        StringToSearch = gRow.Cells("Part Number").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(masterprocessflow_search.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells(1)
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Part Number")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
-                            dgv_masterprocessflow.CurrentCell = myCurrentCell
-                            CurrentRowIndex = dgv_masterprocessflow.CurrentRow.Index
+                            dgvBawah.CurrentCell = myCurrentCell
+                            CurrentRowIndex = dgvBawah.CurrentRow.Index
                             Found = True
+                            masterprocessflow_search.Clear()
                         End If
                         If Found Then Exit For
                     Next
+
+                    If Found = False Then
+                        RJMessageBox.Show("Data Doesn't exist")
+                        masterprocessflow_search.Clear()
+                    End If
                 End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Process Flow - 5 =>" & ex.Message)

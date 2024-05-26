@@ -77,5 +77,8 @@ Public Class FormLogin
         HOME.LoginUser.Text = "Administrator - " & globVar.department
     End Sub
 
-
+    Private Sub txtUname_TextChanged(sender As Object, e As EventArgs) Handles txtUname.TextChanged
+        ComboBox1.Enabled = False
+        ComboBox1.SelectedIndex = -1
+    End Sub
 End Class

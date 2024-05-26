@@ -23,8 +23,8 @@ Public Class ReceiveReturnMaterial
                             RJMessageBox.Show("Double Scan")
                         Else
                             Dim sql = "insert into stock_card([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], 
-                                [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE],[id_level],[level]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
-                                [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [QTY], [ACTUAL_QTY],1,[id_level],[id_level],[level] from stock_card 
+                                [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE],[id_level],[level],[RETURN_MATERIAL_WHO],[RETURN_MATERIAL_DATETIME]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
+                                [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [QTY], [ACTUAL_QTY],1,[id_level],[id_level],[level],getdate(),'" & globVar.username & "' from stock_card 
                                 where id=" & dtCheckReturnMaterial.Rows(i).Item("id")
 
                             Dim cmdInsertReceiveFromProduction = New SqlCommand(sql, Database.koneksi)
@@ -53,7 +53,7 @@ Public Class ReceiveReturnMaterial
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryDGV As String = "select [id_level] [LABEL], MATERIAL,lot_no [LOT NO],INV_CTRL_DATE ICD,TRACEABILITY,batch_no [BATCH NO],qty [QTY],actual_qty [ACTUAL QTY] from stock_card where status='Receive From Production' order by datetime_insert desc"
+        Dim queryDGV As String = "select [id_level] [Label], MATERIAL [Material],lot_no [Lot],INV_CTRL_DATE [ICD],TRACEABILITY [Trace],batch_no [Batch],qty [Qty],actual_qty [Actual Qty], return_material_datetime [Date Time], return_material_who [Return By] from stock_card where status='Receive From Production' order by datetime_insert desc"
         Dim dtDGV As DataTable = Database.GetData(queryDGV)
 
         DataGridView1.DataSource = dtDGV
@@ -66,8 +66,6 @@ Public Class ReceiveReturnMaterial
             End If
         Next i
     End Sub
-
-
 
     Private Sub TextBox2_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox2.PreviewKeyDown
         If e.KeyData = Keys.Enter And TextBox2.Text <> "" Then
@@ -86,9 +84,9 @@ Public Class ReceiveReturnMaterial
                 End If
                 If DataGridView1.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In DataGridView1.Rows
-                        StringToSearch = gRow.Cells("MATERIAL").Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("Material").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(TextBox2.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("MATERIAL")
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Material")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                             DataGridView1.CurrentCell = myCurrentCell
                             CurrentRowIndex = DataGridView1.CurrentRow.Index

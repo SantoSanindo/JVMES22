@@ -98,7 +98,7 @@ Public Class Users
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from department")
+        Dim dtMasterDepart As DataTable = Database.GetData("select * from department order by department")
 
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "department"
@@ -121,16 +121,24 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department, DATETIME_INSERT [Date Time], by_who [Created By] from USERS order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 
         Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
         check.Name = "check"
-        check.HeaderText = "Check"
-        check.Width = 100
+        check.HeaderText = "Check For Delete"
+        check.Width = 200
         check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         DataGridView1.Columns.Insert(0, check)
+
+        DataGridView1.Columns(1).Width = 100
+        DataGridView1.Columns(2).Width = 200
+        DataGridView1.Columns(3).Width = 150
+        DataGridView1.Columns(4).Width = 500
+        DataGridView1.Columns(5).Width = 150
+        DataGridView1.Columns(6).Width = 200
+        DataGridView1.Columns(7).Width = 200
 
         Dim edit As DataGridViewButtonColumn = New DataGridViewButtonColumn
         edit.Name = "edit"
@@ -139,7 +147,7 @@ Public Class Users
         edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         edit.Text = "Edit"
         edit.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(6, edit)
+        DataGridView1.Columns.Insert(8, edit)
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -148,7 +156,7 @@ Public Class Users
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(7, delete)
+        DataGridView1.Columns.Insert(9, delete)
     End Sub
 
     Private Sub TextBox5_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox5.PreviewKeyDown
@@ -161,7 +169,7 @@ Public Class Users
                 If DataGridView1.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In DataGridView1.Rows
                         StringToSearch = gRow.Cells("NAME").Value.ToString.Trim.ToLower
-                        If InStr(1, StringToSearch, LCase(Trim(TextBox5.Text)), vbTextCompare) = 1 Then
+                        If StringToSearch.IndexOf(TextBox5.Text, StringComparison.OrdinalIgnoreCase) >= 0 Then
                             Dim myCurrentCell As DataGridViewCell = gRow.Cells("NAME")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells("NAME")
                             DataGridView1.CurrentCell = myCurrentCell
@@ -171,6 +179,11 @@ Public Class Users
                         End If
                         If Found Then Exit For
                     Next
+
+                    If Found = False Then
+                        RJMessageBox.Show("Data Doesn't exist")
+                        TextBox5.Clear()
+                    End If
                 Else
                     RJMessageBox.Show("Cannot Search Users couse Users is blank.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
@@ -188,7 +201,7 @@ Public Class Users
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In DataGridView1.Rows
                     If row.Cells(0).Value = True Then
-                        Dim sql As String = "delete from users where id='" & row.Cells("ID").Value & "'"
+                        Dim sql As String = "delete from users where id='" & row.Cells("ID Card").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
                         hapus = hapus + 1

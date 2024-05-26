@@ -3707,9 +3707,7 @@ Public Class FormDefective
 
                 Dim tahun As Integer = DateTime.Now.Year
                 Dim digitTerakhir As Integer = tahun Mod 10
-                If sLine(1) < 9 Then
-                    sLine(1) = "0" & sLine(1)
-                End If
+
                 Dim batchFormat = "JV" & digitTerakhir & Now.ToString("MMdd") & sLine(1) & globVar.shift
 
                 txtSABatchNo.Text = batchFormat

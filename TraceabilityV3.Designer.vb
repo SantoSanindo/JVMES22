@@ -28,15 +28,16 @@ Partial Class TraceabilityV3
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.txtFGTraceability = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel2.SuspendLayout()
@@ -68,6 +69,7 @@ Partial Class TraceabilityV3
         '
         Me.DataGridView1.AllowUserToAddRows = False
         Me.DataGridView1.AllowUserToDeleteRows = False
+        Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(3, 48)
@@ -88,13 +90,14 @@ Partial Class TraceabilityV3
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 401.0!))
         Me.TableLayoutPanel2.Size = New System.Drawing.Size(1419, 401)
         Me.TableLayoutPanel2.TabIndex = 1
         '
         'TreeView1
         '
         Me.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TreeView1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TreeView1.Location = New System.Drawing.Point(3, 3)
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Size = New System.Drawing.Size(348, 395)
@@ -104,6 +107,7 @@ Partial Class TraceabilityV3
         '
         Me.DataGridView2.AllowUserToAddRows = False
         Me.DataGridView2.AllowUserToDeleteRows = False
+        Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.Location = New System.Drawing.Point(357, 3)
@@ -120,10 +124,11 @@ Partial Class TraceabilityV3
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.0!))
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.0!))
-        Me.TableLayoutPanel3.Controls.Add(Me.TextBox1, 1, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.txtFGTraceability, 1, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.Label1, 0, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.Button1, 4, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.Button2, 2, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.TextBox1, 3, 0)
         Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
@@ -132,14 +137,14 @@ Partial Class TraceabilityV3
         Me.TableLayoutPanel3.Size = New System.Drawing.Size(1419, 39)
         Me.TableLayoutPanel3.TabIndex = 2
         '
-        'TextBox1
+        'txtFGTraceability
         '
-        Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(357, 3)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(348, 35)
-        Me.TextBox1.TabIndex = 0
+        Me.txtFGTraceability.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtFGTraceability.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFGTraceability.Location = New System.Drawing.Point(357, 3)
+        Me.txtFGTraceability.Name = "txtFGTraceability"
+        Me.txtFGTraceability.Size = New System.Drawing.Size(348, 35)
+        Me.txtFGTraceability.TabIndex = 0
         '
         'Label1
         '
@@ -168,6 +173,27 @@ Partial Class TraceabilityV3
         Me.Button1.Text = "Export To Excel"
         Me.Button1.UseVisualStyleBackColor = False
         '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.ForeColor = System.Drawing.SystemColors.Control
+        Me.Button2.Location = New System.Drawing.Point(711, 3)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(206, 33)
+        Me.Button2.TabIndex = 3
+        Me.Button2.Text = "Check"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(923, 3)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox1.TabIndex = 4
+        Me.TextBox1.Visible = False
+        '
         'TableLayoutPanel4
         '
         Me.TableLayoutPanel4.ColumnCount = 4
@@ -187,6 +213,15 @@ Partial Class TraceabilityV3
         Me.TableLayoutPanel4.Size = New System.Drawing.Size(1419, 35)
         Me.TableLayoutPanel4.TabIndex = 3
         '
+        'TextBox2
+        '
+        Me.TextBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox2.Location = New System.Drawing.Point(1065, 3)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(351, 35)
+        Me.TextBox2.TabIndex = 1
+        '
         'Label2
         '
         Me.Label2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -199,15 +234,6 @@ Partial Class TraceabilityV3
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Search"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(1065, 3)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(351, 35)
-        Me.TextBox2.TabIndex = 1
         '
         'RadioButton1
         '
@@ -237,19 +263,6 @@ Partial Class TraceabilityV3
         Me.RadioButton2.Text = "Search Part Number Material"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.Color.Green
-        Me.Button2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.ForeColor = System.Drawing.SystemColors.Control
-        Me.Button2.Location = New System.Drawing.Point(711, 3)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(206, 33)
-        Me.Button2.TabIndex = 3
-        Me.Button2.Text = "Check"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
         'TraceabilityV3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -278,7 +291,7 @@ Partial Class TraceabilityV3
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents DataGridView2 As DataGridView
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents txtFGTraceability As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
@@ -287,4 +300,5 @@ Partial Class TraceabilityV3
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents RadioButton2 As RadioButton
     Friend WithEvents Button2 As Button
+    Friend WithEvents TextBox1 As TextBox
 End Class

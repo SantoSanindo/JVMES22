@@ -295,7 +295,7 @@ Public Class Production
                                 If dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan") > dtCheckKecukupanQty.Rows(0).Item("total_input") Then
                                     For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
                                         Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE)
-                                            VALUES ('" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockSubAssy.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockSubAssy.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "','" & dtCheckStockSubAssy.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','YES'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'Fresh','" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "','" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
+                                            VALUES ('" & dtCheckStockSubAssy.Rows(i).Item("fg") & "'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockSubAssy.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockSubAssy.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockSubAssy.Rows(i).Item("lot_no") & "','" & dtCheckStockSubAssy.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','YES'," & dtCheckStockSubAssy.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'SA','" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "','" & dtCheckStockSubAssy.Rows(i).Item("CODE_STOCK_PROD_SUB_ASSY") & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         cmdInsertInputStockDetail.ExecuteNonQuery()
 
@@ -479,7 +479,7 @@ Public Class Production
 
             Dim scan2 As DataGridViewTextBoxColumn = New DataGridViewTextBoxColumn
             scan2.Name = "Lot Scan Done"
-            scan2.HeaderText = "Lot Scan Done"
+            scan2.HeaderText = "Lot Already Scan"
             DataGridView1.Columns.Insert(4, scan2)
 
             DataGridView1.Columns(0).Width = 200
@@ -509,7 +509,7 @@ Public Class Production
             Next
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
-                Dim queryCheck As String = "select DISTINCT lot_no, inv_ctrl_date, traceability, batch_no, id_level, level from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Result' ORDER BY lot_no, inv_ctrl_date, traceability, batch_no, id_level, level"
+                Dim queryCheck As String = "select lot_no, inv_ctrl_date, traceability, batch_no, id_level, level from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Request' and qty > actual_qty ORDER BY datetime_insert"
                 Dim dtCHECK As DataTable = Database.GetData(queryCheck)
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
                     If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then

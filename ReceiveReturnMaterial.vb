@@ -23,7 +23,7 @@ Public Class ReceiveReturnMaterial
                             RJMessageBox.Show("Double Scan")
                         Else
                             Dim sql = "insert into stock_card([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], 
-                                [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE],[id_level],[level],[RETURN_MATERIAL_WHO],[RETURN_MATERIAL_DATETIME]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
+                                [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE],[id_level],[level],[RETURN_MATERIAL_DATETIME],[RETURN_MATERIAL_WHO]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
                                 [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [QTY], [ACTUAL_QTY],1,[id_level],[id_level],[level],getdate(),'" & globVar.username & "' from stock_card 
                                 where id=" & dtCheckReturnMaterial.Rows(i).Item("id")
 

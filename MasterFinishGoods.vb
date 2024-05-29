@@ -428,7 +428,7 @@ Public Class MasterFinishGoods
     End Sub
 
     Private Sub txt_pn_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_pn.KeyPress
-        If Not Char.IsControl(e.KeyChar) AndAlso (e.KeyChar < "1"c OrElse e.KeyChar > "9"c) Then
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If
     End Sub
@@ -436,6 +436,13 @@ Public Class MasterFinishGoods
     Private Sub txt_spq_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_spq.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txt_pn_TextChanged(sender As Object, e As EventArgs) Handles txt_pn.TextChanged
+        If txt_pn.Text.StartsWith("0") AndAlso txt_pn.Text.Length > 1 Then
+            txt_pn.Text = txt_pn.Text.TrimStart("0"c)
+            txt_pn.SelectionStart = txt_pn.Text.Length
         End If
     End Sub
 End Class

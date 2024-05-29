@@ -417,7 +417,7 @@ Public Class MasterMaterial
     End Sub
 
     Private Sub txt_mastermaterial_pn_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_mastermaterial_pn.KeyPress
-        If Not Char.IsControl(e.KeyChar) AndAlso (e.KeyChar < "1"c OrElse e.KeyChar > "9"c) Then
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If
     End Sub
@@ -425,6 +425,13 @@ Public Class MasterMaterial
     Private Sub txt_mastermaterial_qty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_mastermaterial_qty.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txt_mastermaterial_pn_TextChanged(sender As Object, e As EventArgs) Handles txt_mastermaterial_pn.TextChanged
+        If txt_mastermaterial_pn.Text.StartsWith("0") AndAlso txt_mastermaterial_pn.Text.Length > 1 Then
+            txt_mastermaterial_pn.Text = txt_mastermaterial_pn.Text.TrimStart("0"c)
+            txt_mastermaterial_pn.SelectionStart = txt_mastermaterial_pn.Text.Length
         End If
     End Sub
 End Class

@@ -135,9 +135,9 @@ Public Class AddChangeOperator
         If globVar.update > 0 Then
             Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
             If combo.SelectedValue IsNot Nothing Then
-                If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value IsNot Nothing Then
+                If DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Process Number").Value IsNot Nothing Then
                     Try
-                        Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
+                        Dim Sql As String = "update prod_dop set operator_id='" & combo.SelectedValue & "' where po='" & TextBox15.Text & "' and sub_sub_po='" & TextBox17.Text & "' and line='" & ComboBox2.Text & "' and process_number=" & DataGridView3.Rows(DataGridView3.CurrentRow.Index).Cells("Process Number").Value & " AND DEPARTMENT='" & globVar.department & "'"
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
                     Catch ex As Exception

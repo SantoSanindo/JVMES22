@@ -98,3 +98,5 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan-New.vbproj.CopyComplete
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan-New.exe
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan-New.xml
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan-New.pdb
+C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.loading.resources
+C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.TraceabilityV3.resources

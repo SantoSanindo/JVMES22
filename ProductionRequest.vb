@@ -133,6 +133,8 @@ Public Class ProductionRequest
                                     End Try
                                 End If
                             End If
+
+                            DGV_MaterialNeed()
                         Else
                             RJMessageBox.Show("This QR Code not available in Stock Ministore. Please goto input stock first or Qty = 0")
                             TextBox1.Text = ""

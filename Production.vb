@@ -292,6 +292,12 @@ Public Class Production
                                 Dim sqlCheckKecukupanQty As String = "SELECT ( select sum(mufg.usage * ssp.sub_sub_po_qty) from sub_sub_po ssp, MATERIAL_USAGE_FINISH_GOODS mufg, main_po mp where ssp.sub_sub_po='" & TextBox11.Text & "' and ssp.main_po=mp.id and mufg.fg_part_number=mp.fg_pn and mufg.COMPONENT='" & dtCheckStockSubAssy.Rows(0).Item("fg") & "' ) total_kebutuhan, isnull( SUM ( sum_qty ), 0 ) total_input FROM stock_card WHERE sub_sub_po= '" & TextBox11.Text & "' AND status= 'Production Request' AND material= '" & dtCheckStockSubAssy.Rows(0).Item("fg") & "'"
                                 Dim dtCheckKecukupanQty As DataTable = Database.GetData(sqlCheckKecukupanQty)
 
+                                If IsDBNull(dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan")) Then
+                                    RJMessageBox.Show("Material Doesn't Exists in this Finish Goods")
+                                    TextBox1.Text = ""
+                                    Exit Sub
+                                End If
+
                                 If dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan") > dtCheckKecukupanQty.Rows(0).Item("total_input") Then
                                     For i = 0 To dtCheckStockSubAssy.Rows.Count - 1
                                         Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE)
@@ -328,7 +334,7 @@ Public Class Production
                         Catch ex As Exception
                             RJMessageBox.Show("Error Production - 5 =>" & ex.Message)
                         End Try
-                    ElseIf InStr(TextBox1.Text, "B") > 0 And Len(TextBox1.text) < 10 Then
+                    ElseIf InStr(TextBox1.Text, "B") > 0 And Len(TextBox1.Text) < 10 Then
                         Try
                             Dim ds As New DataSet
                             Dim yieldlose As Integer = 0

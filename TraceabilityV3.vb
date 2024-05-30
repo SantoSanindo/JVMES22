@@ -1,6 +1,8 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class TraceabilityV3
+    Public Shared menu As String = "Traceability"
+
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
 
     End Sub

@@ -669,3 +669,4 @@ C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.TraceabilityV3.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.loading.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.TraceabilityV3.resources
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.SummaryV2.resources
+C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.SummaryV2.resources

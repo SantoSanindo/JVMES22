@@ -1564,11 +1564,11 @@ Public Class FormDefective
                     adapter = New SqlDataAdapter(sql, Database.koneksi)
                     adapter.Fill(ds)
 
-                    'If InStr(txtBalanceBarcode.Text, "SA") > 0 Then
-                    '    sqlCheckStockCardCheck = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & globVar.QRCode_lot & "' AND [LEVEL]='SA'"
-                    'Else
-                    sqlCheckStockCardCheck = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & globVar.QRCode_lot & "' AND [LEVEL]='Fresh'"
-                    'End If
+                    If InStr(txtBalanceBarcode.Text, "SA") > 0 Then
+                        sqlCheckStockCardCheck = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & globVar.QRCode_lot & "' AND [LEVEL]='SA'"
+                    Else
+                        sqlCheckStockCardCheck = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & globVar.QRCode_lot & "' AND [LEVEL]='Fresh'"
+                    End If
 
                     Dim dtCheckStockCardCheck As DataTable = Database.GetData(sqlCheckStockCardCheck)
 
@@ -2013,7 +2013,7 @@ Public Class FormDefective
                 Dim sqlStr As String = ""
 
                 If material = "" Then
-                    sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.part_number + '(' + sc.sub_assy + ')' Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Reject Qty] from out_prod_reject sc where sc.DEPARTMENT='" & dept & "' AND sc.sub_sub_po='" & txtSubSubPODefective.Text & "' and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
+                    sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.part_number Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Reject Qty] from out_prod_reject sc where sc.DEPARTMENT='" & dept & "' AND sc.sub_sub_po='" & txtSubSubPODefective.Text & "' and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
                 Else
                     sqlStr = "select row_number() OVER (ORDER BY sc.id) No,sc.part_number + '(' + sc.sub_assy + ')' Material,sc.inv_ctrl_date [Inv. Ctrl Date],sc.traceability Traceability,sc.batch_no [Batch No.],sc.lot_no [Lot No.],sc.qty [Reject Qty] from out_prod_reject sc where sc.part_number='" & material & "' AND sc.DEPARTMENT='" & dept & "' AND sc.sub_sub_po='" & txtSubSubPODefective.Text & "' and sc.line='" & cbLineNumber.Text & "' ORDER BY sc.ID"
                 End If
@@ -3009,7 +3009,8 @@ Public Class FormDefective
     Private Sub btnSaveSA_Click(sender As Object, e As EventArgs) Handles btnSaveSA.Click
         If globVar.add > 0 Then
             Dim sResult As Integer = 1
-            Dim sFlowTicket = txtSAFlowTicket.Text.Split(";")
+            Dim spasiFlowTicket = txtSAFlowTicket.Text.Replace(ChrW(160), " ")
+            Dim sFlowTicket = spasiFlowTicket.Split(";")
             Dim sFlowTicketSplitOf = sFlowTicket(5).Split(" of ")
             Dim IlostQty As Integer = 0
             Dim queryInsertResultProduction As String
@@ -3076,7 +3077,7 @@ Public Class FormDefective
                         Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                         If dtCheckDoneFG.Rows.Count = 0 Then
 
-                            Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
+                            Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
                             Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
                             If dtCheckProductionProcess.Rows.Count > 0 Then
 

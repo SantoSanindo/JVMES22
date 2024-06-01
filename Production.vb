@@ -305,9 +305,9 @@ Public Class Production
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         cmdInsertInputStockDetail.ExecuteNonQuery()
 
-                                        Dim queryUpdateLineSA As String = "update STOCK_PROD_SUB_ASSY set line='" & ComboBox1.Text & "',qty=0 where CODE_STOCK_PROD_SUB_ASSY = '" & TextBox1.Text & "'"
-                                        Dim dtUpdateLineSA = New SqlCommand(queryUpdateLineSA, Database.koneksi)
-                                        dtUpdateLineSA.ExecuteNonQuery()
+                                        'Dim queryUpdateLineSA As String = "update STOCK_PROD_SUB_ASSY set line='" & ComboBox1.Text & "',qty=0 where CODE_STOCK_PROD_SUB_ASSY = '" & TextBox1.Text & "'"
+                                        'Dim dtUpdateLineSA = New SqlCommand(queryUpdateLineSA, Database.koneksi)
+                                        'dtUpdateLineSA.ExecuteNonQuery()
                                     Next
 
                                     Dim queryCheckSumUsage As String = "select * from stock_card where status='Production Request' and id_level='" & TextBox1.Text & "'"

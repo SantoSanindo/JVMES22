@@ -898,4 +898,36 @@ Public Class MainPOSubPO
         End Try
 
     End Sub
+
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub TextBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox3.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub TextBox10_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox10.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub TextBox3_TextChanged(sender As Object, e As EventArgs) Handles TextBox3.TextChanged
+        If TextBox3.Text.StartsWith("0") AndAlso TextBox3.Text.Length > 1 Then
+            TextBox3.Text = TextBox3.Text.TrimStart("0"c)
+            TextBox3.SelectionStart = TextBox3.Text.Length
+        End If
+    End Sub
+
+    Private Sub TextBox10_TextChanged(sender As Object, e As EventArgs) Handles TextBox10.TextChanged
+        If TextBox10.Text.StartsWith("0") AndAlso TextBox10.Text.Length > 1 Then
+            TextBox10.Text = TextBox10.Text.TrimStart("0"c)
+            TextBox10.SelectionStart = TextBox10.Text.Length
+        End If
+    End Sub
 End Class

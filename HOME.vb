@@ -7,32 +7,32 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        'Try
-        '    Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
-        '    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
-        'Catch ex As Exception
-        '    RJMessageBox.Show("Updater Not Found")
-        'End Try
+        Try
+            Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
+            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
+        Catch ex As Exception
+            RJMessageBox.Show("Updater Not Found")
+        End Try
 
-        'Try
-        '    Me.Text = "MES Application v " & Application.ProductVersion
-        '    If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
+        Try
+            Me.Text = "MES Application v " & Application.ProductVersion
+            If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
 
-        '        Dim result As DialogResult = RJMessageBox.Show(
-        '                      "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
-        '                      MessageBoxButtons.YesNo)
+                Dim result As DialogResult = RJMessageBox.Show(
+                              "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
+                              MessageBoxButtons.YesNo)
 
-        '        If result = DialogResult.Yes Then
-        '            Process.Start("Updater.exe")
-        '            Me.Close()
-        '        End If
+                If result = DialogResult.Yes Then
+                    Process.Start("Updater.exe")
+                    Me.Close()
+                End If
 
-        '    End If
-        'Catch ex As Exception
-        '    RJMessageBox.Show(ex.ToString)
-        'End Try
+            End If
+        Catch ex As Exception
+            RJMessageBox.Show(ex.ToString)
+        End Try
 
-        'buka_printer()
+        buka_printer()
 
         TabControl1.TabPages.Add(FormLogin)
         TabControl1.TabPages(FormLogin).Select()

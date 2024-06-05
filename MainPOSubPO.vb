@@ -734,12 +734,24 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
-        Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+        HandleEditingControlShowing(sender, e)
+    End Sub
 
-        If (combo IsNot Nothing) Then
-            RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPO)
-            AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPO)
-        End If
+    Private Sub HandleEditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
+        Dim dgv As DataGridView = CType(sender, DataGridView)
+
+        Dim currentColumnIndex As Integer = dgv.CurrentCell.ColumnIndex
+        Dim currentColumnName As String = dgv.Columns(currentColumnIndex).Name
+
+        Select Case currentColumnName
+            Case "statuspo"
+                Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+
+                If (combo IsNot Nothing) Then
+                    RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPO)
+                    AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPO)
+                End If
+        End Select
     End Sub
 
     Private Sub Combo_SelectionChangeCommittedChangeStatusPO(ByVal sender As Object, ByVal e As EventArgs)
@@ -753,7 +765,7 @@ Public Class MainPOSubPO
                         Dim Sql As String = "update main_po set status='" & combo.SelectedValue & "' where id=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("#").Value
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
-                            RJMessageBox.Show("Main PO Open By Administrator")
+                            RJMessageBox.Show("Main PO Update By Administrator")
                             DGV_MainPO_All()
                         End If
                     Else
@@ -767,7 +779,7 @@ Public Class MainPOSubPO
                 Try
                     Dim result = RJMessageBox.Show("Are you sure for close this PO?", "Are you sure?", MessageBoxButtons.YesNo)
                     If result = DialogResult.Yes Then
-                        Dim Sql As String = "update main_po set status='" & combo.SelectedValue & "' where id=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("#").Value & ";update sub_sub_po set status='" & combo.SelectedValue & "' where main_po=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("#").Value
+                        Dim Sql As String = "update main_po set status='" & combo.SelectedValue & "',datetime_closed=getdate(),closed_who='" & globVar.username & "' where id=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("#").Value & ";update sub_sub_po set status='" & combo.SelectedValue & "',datetime_closed=getdate(),closed_who='" & globVar.username & "' where main_po=" & DataGridView1.Rows(DataGridView1.CurrentCell.RowIndex).Cells("#").Value
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
                             RJMessageBox.Show("Main PO successfully closed")
@@ -786,20 +798,50 @@ Public Class MainPOSubPO
     End Sub
 
     Private Sub DataGridView2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView2.EditingControlShowing
-        If DataGridView2.CurrentCell.ColumnIndex = 7 Then
-            Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+        HandleEditingControlShowing2(sender, e)
+    End Sub
 
-            If (combo IsNot Nothing) Then
-                RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPOSubSubPO)
-                AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPOSubSubPO)
-            End If
-        End If
+    Private Sub HandleEditingControlShowing2(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
+        Dim dgv As DataGridView = CType(sender, DataGridView)
+
+        Dim currentColumnIndex As Integer = dgv.CurrentCell.ColumnIndex
+        Dim currentColumnName As String = dgv.Columns(currentColumnIndex).Name
+
+        Select Case currentColumnName
+            Case "statuspo"
+                Dim combo As DataGridViewComboBoxEditingControl = CType(e.Control, DataGridViewComboBoxEditingControl)
+
+                If (combo IsNot Nothing) Then
+                    RemoveHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPOSubSubPO)
+                    AddHandler combo.SelectionChangeCommitted, New EventHandler(AddressOf Combo_SelectionChangeCommittedChangeStatusPOSubSubPO)
+                End If
+        End Select
     End Sub
 
     Private Sub Combo_SelectionChangeCommittedChangeStatusPOSubSubPO(ByVal sender As Object, ByVal e As EventArgs)
         If globVar.update > 0 Then
             Dim combo As DataGridViewComboBoxEditingControl = CType(sender, DataGridViewComboBoxEditingControl)
             If combo.SelectedValue = "Open" Then
+                If globVar.hakAkses.Contains("Administrator") Then
+                    Dim sqlcheck As String = "select * from SUB_SUB_PO where status ='Open' and line=(select line from sub_sub_po where ID=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("#").Value & ")"
+                    Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
+                    If dtMainPOCheck.Rows.Count > 0 Then
+                        RJMessageBox.Show("Cannot update this sub sub po because line in this sub sub po already use another sub sub po.")
+                        DGV_SubSubPO()
+                        Exit Sub
+                    End If
+
+                    Dim Sql As String = "update sub_sub_po set status='" & combo.SelectedValue & "' where id=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("#").Value
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        RJMessageBox.Show("Sub Sub PO Update By Administrator")
+                        DGV_MainPO_All()
+                        tampilDataComboBoxLine()
+                    End If
+                Else
+                    RJMessageBox.Show("If Change PO Close To Open. Please Contact Administrator")
+                End If
+
                 DGV_SubSubPO()
                 Exit Sub
             End If
@@ -807,11 +849,13 @@ Public Class MainPOSubPO
             Try
                 Dim result = RJMessageBox.Show(" Are you sure for close this Sub PO?", "Are you sure?", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
-                    Dim Sql As String = "update sub_sub_po set status='" & combo.SelectedValue & "' where id=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("#").Value
+                    Dim Sql As String = "update sub_sub_po set status='" & combo.SelectedValue & "',datetime_closed=getdate(),closed_who='" & globVar.username & "' where id=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("#").Value
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
                         RJMessageBox.Show("Sub Sub PO successfully closed")
                         DGV_SubSubPO()
+                        DGV_MainPO_All()
+                        tampilDataComboBoxLine()
                     End If
                 End If
             Catch ex As Exception
@@ -865,10 +909,12 @@ Public Class MainPOSubPO
     Private Sub DataGridView2_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView2.CellFormatting
         If DataGridView2.Columns(e.ColumnIndex).Name = "SSP Qty" Then
             e.CellStyle.BackColor = Color.Green
+            e.CellStyle.ForeColor = Color.White
         End If
 
         If DataGridView2.Columns(e.ColumnIndex).Name = "Yield Lose" Then
             e.CellStyle.BackColor = Color.Green
+            e.CellStyle.ForeColor = Color.White
         End If
     End Sub
 
@@ -928,6 +974,13 @@ Public Class MainPOSubPO
         If TextBox10.Text.StartsWith("0") AndAlso TextBox10.Text.Length > 1 Then
             TextBox10.Text = TextBox10.Text.TrimStart("0"c)
             TextBox10.SelectionStart = TextBox10.Text.Length
+        End If
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+        If TextBox1.Text.StartsWith("0") AndAlso TextBox1.Text.Length > 1 Then
+            TextBox1.Text = TextBox1.Text.TrimStart("0"c)
+            TextBox1.SelectionStart = TextBox1.Text.Length
         End If
     End Sub
 End Class

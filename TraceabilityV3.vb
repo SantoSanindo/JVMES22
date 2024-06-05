@@ -4,17 +4,19 @@ Public Class TraceabilityV3
     Public Shared menu As String = "Traceability"
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-
+        ShowDGVAtasV2()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
     End Sub
 
-    Private Sub txtFGTraceability_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGTraceability.PreviewKeyDown
-        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+    Sub ShowDGVAtas()
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
 
-            Dim queryATAS As String = "WITH LatestData AS (
+        Dim queryATAS As String = "WITH LatestData AS (
                 SELECT
                     df.SUB_SUB_PO,
                     df.fg,
@@ -93,20 +95,79 @@ Public Class TraceabilityV3
                 AND df.line IS NOT NULL
             ORDER BY
             	df.DATETIME_INSERT DESC;"
-            Dim dtATAS As DataTable = Database.GetData(queryATAS)
+        Dim dtATAS As DataTable = Database.GetData(queryATAS)
 
-            DataGridView1.DataSource = dtATAS
+        DataGridView1.DataSource = dtATAS
 
-            Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
-            sub_sub_po.Name = "check"
-            sub_sub_po.HeaderText = "Check"
-            sub_sub_po.Width = 50
-            sub_sub_po.Text = "Check"
-            sub_sub_po.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(0, sub_sub_po)
+        Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
+        sub_sub_po.Name = "check"
+        sub_sub_po.HeaderText = "Check"
+        sub_sub_po.Width = 50
+        sub_sub_po.Text = "Check"
+        sub_sub_po.UseColumnTextForButtonValue = True
+        DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            txtFGTraceability.Clear()
+        txtFGTraceability.Clear()
+    End Sub
 
+    Sub ShowDGVAtasV2()
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+        Call Database.koneksi_database()
+        Dim sql As String = "select date [Date Time], sub_sub_po [Sub Sub PO], fg [Finish Goods], line [Line], INSPECTOR [Inspector],
+                packer1 [Packer 1],
+                packer2 [Packer 2],
+                packer3 [Packer 3],
+                packer4 [Packer 4],
+                process1 [Process 1],
+                process2 [Process 2],
+                process3 [Process 3],
+                process4 [Process 4],
+                process5 [Process 5],
+                process6 [Process 6],
+                process7 [Process 7],
+                process8 [Process 8],
+                process9 [Process 9],
+                process10 [Process 10],
+                process11 [Process 11],
+                process12 [Process 12],
+                process13 [Process 13],
+                process14 [Process 14],
+                process15 [Process 15],
+                process16 [Process 16],
+                process17 [Process 17],
+                process18 [Process 18],
+                process19 [Process 19],
+                process20 [Process 20],
+                process21 [Process 21],
+                process22 [Process 22],
+                process23 [Process 23],
+                process24 [Process 24],
+                process25 [Process 25],
+                process26 [Process 26],
+                process27 [Process 27],
+                process28 [Process 28],
+                process29 [Process 29],
+                process30 [Process 30]
+            from summary_traceability where fg=" & txtFGTraceability.Text
+        Dim dtTraceability As DataTable = Database.GetData(sql)
+        DataGridView1.DataSource = dtTraceability
+
+        Dim checkTraceability As DataGridViewButtonColumn = New DataGridViewButtonColumn
+        checkTraceability.Name = "check"
+        checkTraceability.HeaderText = "Check"
+        checkTraceability.Width = 50
+        checkTraceability.Text = "Check"
+        checkTraceability.UseColumnTextForButtonValue = True
+        DataGridView1.Columns.Insert(0, checkTraceability)
+
+        txtFGTraceability.Clear()
+    End Sub
+
+    Private Sub txtFGTraceability_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGTraceability.PreviewKeyDown
+        If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+            ShowDGVAtasV2()
         End If
     End Sub
 
@@ -177,12 +238,12 @@ Public Class TraceabilityV3
     Sub DGV_Bawah(material As String)
         If material = "" Then
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select * from stock_card where sub_sub_po='" & VSplit(0) & "' and finish_goods_pn='" & VSplit(2) & "' order by material"
+            Dim queryBAWAH As String = "select * from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' and finish_goods_pn='" & VSplit(2) & "' order by component"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         Else
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select * from stock_card where material='" & material & "' and sub_sub_po='" & VSplit(0) & "' and finish_goods_pn='" & VSplit(2) & "' order by material"
+            Dim queryBAWAH As String = "select * from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' and finish_goods_pn='" & VSplit(2) & "' order by component"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         End If

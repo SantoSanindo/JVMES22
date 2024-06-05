@@ -83,7 +83,6 @@ Partial Class FormDefective
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel21 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnRejectDelete = New System.Windows.Forms.Button()
-        Me.btnRejectEdit = New System.Windows.Forms.Button()
         Me.dgReject = New System.Windows.Forms.DataGridView()
         Me.tpWIP = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
@@ -892,7 +891,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel21.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.77319!))
         Me.TableLayoutPanel21.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.2268!))
         Me.TableLayoutPanel21.Controls.Add(Me.btnRejectDelete, 0, 0)
-        Me.TableLayoutPanel21.Controls.Add(Me.btnRejectEdit, 1, 0)
         Me.TableLayoutPanel21.Location = New System.Drawing.Point(1035, 63)
         Me.TableLayoutPanel21.Name = "TableLayoutPanel21"
         Me.TableLayoutPanel21.RowCount = 1
@@ -911,19 +909,6 @@ Partial Class FormDefective
         Me.btnRejectDelete.TabIndex = 8
         Me.btnRejectDelete.Text = "Delete"
         Me.btnRejectDelete.UseVisualStyleBackColor = False
-        '
-        'btnRejectEdit
-        '
-        Me.btnRejectEdit.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.btnRejectEdit.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(102, Byte), Integer))
-        Me.btnRejectEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnRejectEdit.Location = New System.Drawing.Point(322, 3)
-        Me.btnRejectEdit.Name = "btnRejectEdit"
-        Me.btnRejectEdit.Size = New System.Drawing.Size(160, 49)
-        Me.btnRejectEdit.TabIndex = 7
-        Me.btnRejectEdit.Text = "SUB (-)"
-        Me.btnRejectEdit.UseVisualStyleBackColor = False
-        Me.btnRejectEdit.Visible = False
         '
         'dgReject
         '
@@ -1509,7 +1494,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel11.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSADefect, 0, 0)
-        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 2, 0)
+        Me.TableLayoutPanel11.Controls.Add(Me.btnSaveSA, 1, 0)
         Me.TableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel11.Location = New System.Drawing.Point(955, 531)
         Me.TableLayoutPanel11.Name = "TableLayoutPanel11"
@@ -1530,6 +1515,7 @@ Partial Class FormDefective
         Me.btnSaveSADefect.TabIndex = 5
         Me.btnSaveSADefect.Text = "Save Defect"
         Me.btnSaveSADefect.UseVisualStyleBackColor = False
+        Me.btnSaveSADefect.Visible = False
         '
         'btnSaveSA
         '
@@ -1537,9 +1523,9 @@ Partial Class FormDefective
         Me.btnSaveSA.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnSaveSA.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnSaveSA.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveSA.Location = New System.Drawing.Point(633, 3)
+        Me.btnSaveSA.Location = New System.Drawing.Point(318, 3)
         Me.btnSaveSA.Name = "btnSaveSA"
-        Me.btnSaveSA.Size = New System.Drawing.Size(310, 35)
+        Me.btnSaveSA.Size = New System.Drawing.Size(309, 35)
         Me.btnSaveSA.TabIndex = 6
         Me.btnSaveSA.Text = "Save Sub Assy"
         Me.btnSaveSA.UseVisualStyleBackColor = False
@@ -2192,7 +2178,6 @@ Partial Class FormDefective
     Friend WithEvents TextBox7 As TextBox
     Friend WithEvents TextBox8 As TextBox
     Friend WithEvents Button3 As Button
-    Friend WithEvents btnRejectEdit As Button
     Friend WithEvents txtRejectMaterialPN As TextBox
     Friend WithEvents TableLayoutPanel18 As TableLayoutPanel
     Friend WithEvents TextBox4 As TextBox

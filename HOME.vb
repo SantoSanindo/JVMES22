@@ -7,35 +7,37 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class HOME
     Private Sub HOME_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        'Try
-        '    Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
-        '    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
-        'Catch ex As Exception
-        '    RJMessageBox.Show("Updater Not Found")
-        'End Try
+        Try
+            Dim SourcePath As String = "\\192.168.0.254\Updater\MES App\_Updater"
+            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(SourcePath, Application.StartupPath, True)
+        Catch ex As Exception
+            RJMessageBox.Show("Updater Not Found")
+        End Try
 
-        'Try
-        '    Me.Text = "MES Application v " & Application.ProductVersion
-        '    If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
+        Try
+            Me.Text = "MES Application v " & Application.ProductVersion
+            If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
 
-        '        Dim result As DialogResult = RJMessageBox.Show(
-        '                      "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
-        '                      MessageBoxButtons.YesNo)
+                Dim result As DialogResult = RJMessageBox.Show(
+                              "Are you going to update to V " & read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt"), "Newer Version is available.",
+                              MessageBoxButtons.YesNo)
 
-        '        If result = DialogResult.Yes Then
-        '            Process.Start("Updater.exe")
-        '            Me.Close()
-        '        End If
+                If result = DialogResult.Yes Then
+                    Process.Start("Updater.exe")
+                    Me.Close()
+                End If
 
-        '    End If
-        'Catch ex As Exception
-        '    RJMessageBox.Show(ex.ToString)
-        'End Try
+            End If
+        Catch ex As Exception
+            RJMessageBox.Show(ex.ToString)
+        End Try
 
         buka_printer()
 
-        TabControl1.TabPages.Add(FormLogin)
-        TabControl1.TabPages(FormLogin).Select()
+        'TabControl1.TabPages.Add(FormLogin)
+        'TabControl1.TabPages(FormLogin).Select()
+
+        FormLogin.ShowDialog()
 
         Dim hostName As String = Dns.GetHostName()
         Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
@@ -337,14 +339,14 @@ Public Class HOME
     End Sub
 
     Private Sub BtnSummaryProduction(sender As Object, e As EventArgs) Handles SummaryProductionBtn.Click
-        'If globVar.CanAccess(Summary.menu) Then
-        Summary.Close()
-        TabControl1.TabPages.Clear()
-        TabControl1.TabPages.Add(SummaryV2)
-        TabControl1.TabPages(SummaryV2).Select()
-        'Else
-        '    RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        'End If
+        If globVar.CanAccess(SummaryV2.menu) Then
+            SummaryV2.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(SummaryV2)
+            TabControl1.TabPages(SummaryV2).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
 
     ' -----------------------End Menu Production----------------------'
@@ -430,8 +432,22 @@ Public Class HOME
     End Sub
 
     Private Sub BtnTraceability(sender As Object, e As EventArgs) Handles TraceabilityBtn.Click
-        TraceabilityV3.Close()
-        TabControl1.TabPages.Add(TraceabilityV3)
-        TabControl1.TabPages(TraceabilityV3).Select()
+        If globVar.CanAccess(TraceabilityV3.menu) Then
+            TraceabilityV3.Close()
+            TabControl1.TabPages.Add(TraceabilityV3)
+            TabControl1.TabPages(TraceabilityV3).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnOthers(sender As Object, e As EventArgs) Handles OthersBtn.Click
+        If globVar.CanAccess(OthersPart.menu) Then
+            OthersPart.Close()
+            TabControl1.TabPages.Add(OthersPart)
+            TabControl1.TabPages(OthersPart).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
 End Class

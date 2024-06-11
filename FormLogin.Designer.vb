@@ -107,7 +107,8 @@ Partial Class FormLogin
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1260, 666)
+        Me.ClientSize = New System.Drawing.Size(589, 341)
+        Me.ControlBox = False
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.txtPass)
         Me.Controls.Add(Me.btnKeluar)
@@ -116,11 +117,11 @@ Partial Class FormLogin
         Me.Controls.Add(Me.btnLogin)
         Me.Controls.Add(Me.txtUname)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.Name = "FormLogin"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Login"
         Me.TopMost = True
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

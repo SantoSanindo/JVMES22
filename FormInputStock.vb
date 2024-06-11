@@ -105,73 +105,90 @@ Public Class FormInputStock
         Try
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
                 If globVar.add > 0 Then
-                    Call Database.koneksi_database()
+                    If txt_forminputstock_qrcode.Text.Length > 64 And checkQr.Checked Then
 
-                    Dim adapter As SqlDataAdapter
-                    Dim ds As New DataTable
+                        globVar.QRCode_PN = ""
+                        globVar.QRCode_Inv = ""
+                        globVar.QRCode_Batch = ""
+                        globVar.QRCode_Country = ""
+                        globVar.QRCode_lot = ""
+                        globVar.QRCode_Qty = ""
+                        globVar.QRCode_Traceability = ""
 
-                    'If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
-                    QRCode.Baca(txt_forminputstock_qrcode.Text)
+                        Call Database.koneksi_database()
 
-                    Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & globVar.QRCode_PN & "'"
-                    adapter = New SqlDataAdapter(sql, Database.koneksi)
-                    adapter.Fill(ds)
+                        Dim adapter As SqlDataAdapter
+                        Dim ds As New DataTable
 
-                    If ds.Rows.Count > 0 Then
+                        'If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
+                        QRCode.Baca(txt_forminputstock_qrcode.Text)
 
-                        Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
-                        Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+                        Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & globVar.QRCode_PN & "'"
+                        adapter = New SqlDataAdapter(sql, Database.koneksi)
+                        adapter.Fill(ds)
 
-                        If dtCheckInputStockDetail.Rows.Count > 0 Then
-                            'RJMessageBox.Show("This QRCode Already Scan")
-                            lbl_Info.Text = "Double Scan!"
-                            Play_Sound.Double_scan()
+                        If ds.Rows.Count > 0 Then
 
+                            Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                            Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+
+                            If dtCheckInputStockDetail.Rows.Count > 0 Then
+                                'RJMessageBox.Show("This QRCode Already Scan")
+                                lbl_Info.Text = "Double Scan!"
+                                Play_Sound.Double_scan()
+
+
+                                txt_forminputstock_qrcode.Text = ""
+                                txt_forminputstock_qrcode.Select()
+
+                                dgv_forminputstock.DataSource = Nothing
+                                dgv_forminputstock.Rows.Clear()
+                                dgv_forminputstock.Columns.Clear()
+
+                                treeView_show()
+                            Else
+                                Try
+                                    Dim StandartPack As String
+
+                                    If ds.Rows(0).Item("STANDARD_QTY") = globVar.QRCode_Qty Then
+                                        StandartPack = "YES"
+                                    Else
+                                        StandartPack = "NO"
+                                    End If
+
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY, INSERT_WHO)
+                                    VALUES ('" & globVar.QRCode_PN & "'," & globVar.QRCode_Qty & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & txt_forminputstock_qrcode.Text.Trim & "','" & txt_forminputstock_mts_no.Text & "','" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & globVar.QRCode_Qty & ",'" & globVar.username & "')"
+                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                    If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+                                        txt_forminputstock_qrcode.Text = ""
+                                        txt_forminputstock_qrcode.Select()
+
+                                        dgv_forminputstock.DataSource = Nothing
+                                        dgv_forminputstock.Rows.Clear()
+                                        dgv_forminputstock.Columns.Clear()
+
+                                        treeView_show()
+
+                                        lbl_Info.Text = ""
+                                        Play_Sound.correct()
+                                    End If
+                                Catch ex As Exception
+                                    'RJMessageBox.Show("Error Insert" & ex.Message)
+                                    lbl_Info.Text = "Error Insert"
+                                    Play_Sound.Wrong()
+                                End Try
+                            End If
+                        Else
+                            'RJMessageBox.Show("Part Number not in DB")
+                            lbl_Info.Text = "Part Number not in DB"
+                            Play_Sound.not_in_database()
 
                             txt_forminputstock_qrcode.Text = ""
                             txt_forminputstock_qrcode.Select()
-
-                            dgv_forminputstock.DataSource = Nothing
-                            dgv_forminputstock.Rows.Clear()
-                            dgv_forminputstock.Columns.Clear()
-
-                            treeView_show()
-                        Else
-                            Try
-                                Dim StandartPack As String
-
-                                If ds.Rows(0).Item("STANDARD_QTY") = globVar.QRCode_Qty Then
-                                    StandartPack = "YES"
-                                Else
-                                    StandartPack = "NO"
-                                End If
-
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY, INSERT_WHO)
-                                    VALUES ('" & globVar.QRCode_PN & "'," & globVar.QRCode_Qty & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & txt_forminputstock_qrcode.Text.Trim & "','" & txt_forminputstock_mts_no.Text & "','" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & globVar.QRCode_Qty & ",'" & globVar.username & "')"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                If cmdInsertInputStockDetail.ExecuteNonQuery() Then
-                                    txt_forminputstock_qrcode.Text = ""
-                                    txt_forminputstock_qrcode.Select()
-
-                                    dgv_forminputstock.DataSource = Nothing
-                                    dgv_forminputstock.Rows.Clear()
-                                    dgv_forminputstock.Columns.Clear()
-
-                                    treeView_show()
-
-                                    lbl_Info.Text = ""
-                                    Play_Sound.correct()
-                                End If
-                            Catch ex As Exception
-                                'RJMessageBox.Show("Error Insert" & ex.Message)
-                                lbl_Info.Text = "Error Insert"
-                                Play_Sound.Wrong()
-                            End Try
                         End If
                     Else
-                        'RJMessageBox.Show("Part Number not in DB")
-                        lbl_Info.Text = "Part Number not in DB"
-                        Play_Sound.not_in_database()
+                        lbl_Info.Text = "QRCode Reject"
+                        Play_Sound.Wrong()
 
                         txt_forminputstock_qrcode.Text = ""
                         txt_forminputstock_qrcode.Select()

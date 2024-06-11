@@ -4,30 +4,34 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class FormLogin
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
-        Dim query As String = "select * from users where username='" & txtUname.Text & "' and password='" & txtPass.Text & "'"
-        Dim dt As DataTable = Database.GetData(query)
+        If txtUname.Text <> "" And txtPass.Text <> "" Then
+            Dim query As String = "select * from users where username='" & txtUname.Text & "' and password='" & txtPass.Text & "'"
+            Dim dt As DataTable = Database.GetData(query)
 
-        If dt.Rows.Count > 0 Then
-            globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
-            globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
-            globVar.username = txtUname.Text
+            If dt.Rows.Count > 0 Then
+                globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
+                globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
+                globVar.username = txtUname.Text
 
-            txtUname.Clear()
-            txtPass.Clear()
+                txtUname.Clear()
+                txtPass.Clear()
 
-            HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
+                HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
 
-            If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
-                ComboBox1.Enabled = True
+                If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
+                    ComboBox1.Enabled = True
+                    ControlBox = True
+                Else
+                    Me.Close()
+                End If
+            Else
+                'MessageBox.Show("Login Failed. Please Try Again.")
+                RJMessageBox.Show("Please Try Again !", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                txtUname.Clear()
+                txtPass.Clear()
+                txtUname.Select()
             End If
         Else
-            'MessageBox.Show("Login Failed. Please Try Again.")
-            RJMessageBox.Show("Please Try Again !",
-                                       "Login Failed",
-                                       MessageBoxButtons.OK,
-                                       MessageBoxIcon.Warning)
-            txtUname.Clear()
-            txtPass.Clear()
             txtUname.Select()
         End If
     End Sub
@@ -45,29 +49,31 @@ Public Class FormLogin
 
     Private Sub txtPass_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtPass.PreviewKeyDown
         If e.KeyData = Keys.Enter Then
-            Dim query As String = "select * from users where username='" & txtUname.Text & "' and password='" & txtPass.Text & "'"
-            Dim dt As DataTable = Database.GetData(query)
+            If txtUname.Text <> "" And txtPass.Text <> "" Then
+                Dim query As String = "select * from users where username='" & txtUname.Text & "' and password='" & txtPass.Text & "'"
+                Dim dt As DataTable = Database.GetData(query)
 
-            If dt.Rows.Count > 0 Then
-                globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
-                globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
-                globVar.username = txtUname.Text
-                txtUname.Clear()
-                txtPass.Clear()
+                If dt.Rows.Count > 0 Then
+                    globVar.hakAkses = dt.Rows(0).Item("ROLE").ToString
+                    globVar.department = dt.Rows(0).Item("DEPARTMENT").ToString
+                    globVar.username = txtUname.Text
+                    txtUname.Clear()
+                    txtPass.Clear()
 
-                HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
-                If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
-                    ComboBox1.Enabled = True
+                    HOME.LoginUser.Text = dt.Rows(0).Item("NAME").ToString & " - " & globVar.department
+                    If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
+                        ComboBox1.Enabled = True
+                        ControlBox = True
+                    Else
+                        Me.Close()
+                    End If
+                Else
+                    'MessageBox.Show("Login Failed. Please Try Again.")
+                    RJMessageBox.Show("Please Try Again !", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    txtUname.Clear()
+                    txtPass.Clear()
+                    txtUname.Select()
                 End If
-            Else
-                'MessageBox.Show("Login Failed. Please Try Again.")
-                RJMessageBox.Show("Please Try Again !",
-                                       "Login Failed",
-                                       MessageBoxButtons.OK,
-                                       MessageBoxIcon.Warning)
-                txtUname.Clear()
-                txtPass.Clear()
-                txtUname.Select()
             End If
         End If
     End Sub

@@ -10,7 +10,7 @@ Public Class Database
 
     Public Shared Sub koneksi_database()
         Try
-            Dim connectionString As String = ConfigurationManager.ConnectionStrings("Jovan_New.My.MySettings.Development").ConnectionString
+            Dim connectionString As String = ConfigurationManager.ConnectionStrings("Jovan_New.My.MySettings.Production").ConnectionString
             koneksi = New SqlConnection(connectionString)
             If koneksi.State = ConnectionState.Closed Then koneksi.Open() Else koneksi.Close()
         Catch ex As Exception

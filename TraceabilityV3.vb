@@ -238,12 +238,12 @@ Public Class TraceabilityV3
     Sub DGV_Bawah(material As String)
         If material = "" Then
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select * from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' and finish_goods_pn='" & VSplit(2) & "' order by component"
+            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty],remark [Remark] from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' order by ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         Else
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select * from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' and finish_goods_pn='" & VSplit(2) & "' order by component"
+            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty],remark [Remark] from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         End If
@@ -274,8 +274,8 @@ Public Class TraceabilityV3
                 .Alignment = ContentAlignment.MiddleCenter
             End With
 
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+            '.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End With
     End Sub
 End Class

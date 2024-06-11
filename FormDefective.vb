@@ -2687,6 +2687,7 @@ Public Class FormDefective
             Dim sResult As Integer = 1
             Dim spasiFlowTicket = txtFGFlowTicket.Text.Replace(ChrW(160), " ")
             Dim sFlowTicket = spasiFlowTicket.Split(";")
+            Dim sFlow_Ticket5 = sFlowTicket(5).Split(" of ")
             Dim materialkurang As String = ""
 
             If txtStatusSubSubPO.Text = "Closed" Then
@@ -2698,15 +2699,16 @@ Public Class FormDefective
 
             If result = DialogResult.Yes Then
 
-                Dim checkComponentQtyAvail As String = GetStockCardNew(cbFGPN.Text, sFlowTicket(5))
-                If checkComponentQtyAvail <> "" Then
-                    RJMessageBox.Show("Qty This " & checkComponentQtyAvail & " Material is not enough to make FG")
-                    Exit Sub
-                End If
-
                 Dim queryCheckDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "'"
                 Dim dtCheckDoneFG As DataTable = Database.GetData(queryCheckDoneFG)
                 If dtCheckDoneFG.Rows.Count = 0 Then
+
+                    Dim checkComponentQtyAvail As String = GetStockCardNew(cbFGPN.Text, sFlowTicket(5))
+                    If checkComponentQtyAvail <> "" Then
+                        RJMessageBox.Show("Qty This " & checkComponentQtyAvail & " Material is not enough to make FG")
+                        Exit Sub
+                    End If
+
                     Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and finish_goods_pn='" & cbFGPN.Text & "' and FLOW_TICKET='" & sFlowTicket(5) & "' and department='" & globVar.department & "' and status='Production Process' and line='" & cbLineNumber.Text & "'"
                     Dim dtCheckProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
                     If dtCheckProductionProcess.Rows.Count > 0 Then
@@ -2738,7 +2740,7 @@ Public Class FormDefective
 
                         Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG ,FLOW_TICKET,DEPARTMENT,laser_code, LOT_NO, qty,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,line)
                                 VALUES ('" & cbPONumber.Text & "','" & txtSubSubPODefective.Text & "','" & cbFGPN.Text & "','" & sFlowTicket(5) & "','" & globVar.department & "',
-                                '" & TextBox3.Text & "','" & sFlowTicket(5)(0) & "'," & txtSPQ.Text & ",'" & txtTampungLabel.Text & "','" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "')"
+                                '" & TextBox3.Text & "','" & sFlow_Ticket5(0) & "'," & txtSPQ.Text & ",'" & txtTampungLabel.Text & "','" & txtINV.Text & "','" & txtBatchno.Text & "','" & cbLineNumber.Text & "')"
                         Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
                         cmdInsertDoneFG.ExecuteNonQuery()
                     End If
@@ -3185,12 +3187,13 @@ Public Class FormDefective
         For i = 0 To dtMUFG.Rows().Count - 1
 
             Dim querySelectSumFlowTicket As String = "SELECT
-	                isnull( SUM ( ft.qty_per_lot * " & dtMUFG.Rows(i).Item("usage") & " ), 0 ) qty 
+	                isnull( ( ft.qty_per_lot * " & dtMUFG.Rows(i).Item("usage") & " ), 0 ) qty 
                 FROM
 	                flow_ticket ft 
                 WHERE
 	                ft.sub_sub_po= '" & txtSubSubPODefective.Text & "' 
-	                AND ft.done=0"
+	                AND ft.done=0
+                    AND ft.FLOW_TICKET = '" & flow_ticket & "'"
             Dim dtSelectSumFlowTicket As DataTable = Database.GetData(querySelectSumFlowTicket)
 
             Dim queryActualQtyProcess As String = "SELECT
@@ -4752,7 +4755,7 @@ Public Class FormDefective
                                         select [MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [FINISH_GOODS_PN], 
                                         [PO], [SUB_PO], [SUB_SUB_PO], [LINE], [DATETIME_INSERT], [SAVE], [QRCODE], [DATETIME_SAVE], [QTY], [ACTUAL_QTY], [FIFO], [ID_LEVEL], [LEVEL], [FLOW_TICKET] 
                                         from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
-                                    Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
+                                Dim dtInsertTemp = New SqlCommand(queryInsertToTemp, Database.koneksi)
                                 If dtInsertTemp.ExecuteNonQuery() Then
                                     Dim queryDeleteStockCard As String = "delete from stock_card where status='Production Process' and material='" & _sPNReject & "' and DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and FINISH_GOODS_PN='" & cbFGPN.Text & "' AND [LEVEL]='Fresh'"
                                     Dim dtDeleteStockCard = New SqlCommand(queryDeleteStockCard, Database.koneksi)
@@ -4870,7 +4873,7 @@ Public Class FormDefective
                                 txtRejectMaterialPN.Clear()
                                 txtRejectQty.Clear()
                             End If
-                        ElseIf InStr(txtRejectBarcode.Text, "B") > 0 And Len(txtRejectBarcode.text) < 10 Then
+                        ElseIf InStr(txtRejectBarcode.Text, "B") > 0 And Len(txtRejectBarcode.Text) < 10 Then
                             Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
                             Dim dttable As DataTable = Database.GetData(queryCheck)
                             If dttable.Rows.Count > 0 Then

@@ -69,11 +69,10 @@ Partial Class SummaryV2
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 3
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.15152!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 42.42424!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 42.42424!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1680, 624)
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.0!))
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1680, 881)
         Me.TableLayoutPanel1.TabIndex = 0
         '
         'TableLayoutPanel2
@@ -92,7 +91,7 @@ Partial Class SummaryV2
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1674, 88)
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1674, 126)
         Me.TableLayoutPanel2.TabIndex = 0
         '
         'ComboBox1
@@ -101,7 +100,7 @@ Partial Class SummaryV2
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(88, 25)
+        Me.ComboBox1.Location = New System.Drawing.Point(88, 44)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(175, 37)
         Me.ComboBox1.TabIndex = 0
@@ -111,7 +110,7 @@ Partial Class SummaryV2
         Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(13, 29)
+        Me.Label1.Location = New System.Drawing.Point(13, 48)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(59, 29)
         Me.Label1.TabIndex = 1
@@ -130,7 +129,7 @@ Partial Class SummaryV2
         Me.TableLayoutPanel4.RowCount = 2
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1272, 82)
+        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1272, 120)
         Me.TableLayoutPanel4.TabIndex = 2
         '
         'TableLayoutPanel5
@@ -152,7 +151,7 @@ Partial Class SummaryV2
         Me.TableLayoutPanel5.Name = "TableLayoutPanel5"
         Me.TableLayoutPanel5.RowCount = 1
         Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(1266, 35)
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(1266, 54)
         Me.TableLayoutPanel5.TabIndex = 0
         '
         'txtPO
@@ -180,7 +179,7 @@ Partial Class SummaryV2
         Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(526, 3)
+        Me.Label3.Location = New System.Drawing.Point(526, 12)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(48, 29)
         Me.Label3.TabIndex = 3
@@ -192,7 +191,7 @@ Partial Class SummaryV2
         Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(22, 3)
+        Me.Label2.Location = New System.Drawing.Point(22, 12)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(156, 29)
         Me.Label2.TabIndex = 0
@@ -210,7 +209,7 @@ Partial Class SummaryV2
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
         Me.TableLayoutPanel3.RowCount = 1
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(390, 29)
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(390, 48)
         Me.TableLayoutPanel3.TabIndex = 4
         '
         'Button2
@@ -221,7 +220,7 @@ Partial Class SummaryV2
         Me.Button2.ForeColor = System.Drawing.SystemColors.Control
         Me.Button2.Location = New System.Drawing.Point(193, 3)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(194, 23)
+        Me.Button2.Size = New System.Drawing.Size(194, 42)
         Me.Button2.TabIndex = 4
         Me.Button2.Text = "Close This Sub Sub PO"
         Me.Button2.UseVisualStyleBackColor = False
@@ -245,11 +244,11 @@ Partial Class SummaryV2
         Me.TableLayoutPanel6.Controls.Add(Me.Label5, 3, 0)
         Me.TableLayoutPanel6.Controls.Add(Me.Label6, 6, 0)
         Me.TableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel6.Location = New System.Drawing.Point(3, 44)
+        Me.TableLayoutPanel6.Location = New System.Drawing.Point(3, 63)
         Me.TableLayoutPanel6.Name = "TableLayoutPanel6"
         Me.TableLayoutPanel6.RowCount = 1
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel6.Size = New System.Drawing.Size(1266, 35)
+        Me.TableLayoutPanel6.Size = New System.Drawing.Size(1266, 54)
         Me.TableLayoutPanel6.TabIndex = 1
         '
         'txtSubSubPOQty
@@ -287,7 +286,7 @@ Partial Class SummaryV2
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(51, 3)
+        Me.Label4.Location = New System.Drawing.Point(51, 12)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(97, 29)
         Me.Label4.TabIndex = 4
@@ -299,7 +298,7 @@ Partial Class SummaryV2
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(477, 3)
+        Me.Label5.Location = New System.Drawing.Point(477, 12)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(146, 29)
         Me.Label5.TabIndex = 6
@@ -311,7 +310,7 @@ Partial Class SummaryV2
         Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(906, 3)
+        Me.Label6.Location = New System.Drawing.Point(906, 12)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(188, 29)
         Me.Label6.TabIndex = 8
@@ -324,7 +323,7 @@ Partial Class SummaryV2
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.SystemColors.Control
-        Me.Button1.Location = New System.Drawing.Point(269, 20)
+        Me.Button1.Location = New System.Drawing.Point(269, 39)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(124, 47)
         Me.Button1.TabIndex = 3
@@ -345,10 +344,10 @@ Partial Class SummaryV2
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 97)
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 135)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(1674, 258)
+        Me.DataGridView1.Size = New System.Drawing.Size(1674, 346)
         Me.DataGridView1.TabIndex = 1
         '
         'TableLayoutPanel7
@@ -359,11 +358,11 @@ Partial Class SummaryV2
         Me.TableLayoutPanel7.Controls.Add(Me.TreeView1, 0, 0)
         Me.TableLayoutPanel7.Controls.Add(Me.DataGridView2, 1, 0)
         Me.TableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel7.Location = New System.Drawing.Point(3, 361)
+        Me.TableLayoutPanel7.Location = New System.Drawing.Point(3, 487)
         Me.TableLayoutPanel7.Name = "TableLayoutPanel7"
         Me.TableLayoutPanel7.RowCount = 1
         Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel7.Size = New System.Drawing.Size(1674, 260)
+        Me.TableLayoutPanel7.Size = New System.Drawing.Size(1674, 391)
         Me.TableLayoutPanel7.TabIndex = 2
         '
         'TreeView1
@@ -372,7 +371,7 @@ Partial Class SummaryV2
         Me.TreeView1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TreeView1.Location = New System.Drawing.Point(3, 3)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(336, 254)
+        Me.TreeView1.Size = New System.Drawing.Size(336, 385)
         Me.TreeView1.TabIndex = 0
         '
         'DataGridView2
@@ -384,14 +383,14 @@ Partial Class SummaryV2
         Me.DataGridView2.Location = New System.Drawing.Point(345, 3)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.ReadOnly = True
-        Me.DataGridView2.Size = New System.Drawing.Size(1326, 254)
+        Me.DataGridView2.Size = New System.Drawing.Size(1326, 385)
         Me.DataGridView2.TabIndex = 2
         '
         'SummaryV2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1680, 624)
+        Me.ClientSize = New System.Drawing.Size(1680, 881)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Name = "SummaryV2"
         Me.Text = "Summary Production"

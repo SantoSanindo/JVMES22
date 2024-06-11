@@ -525,23 +525,30 @@ Public Class Production
             Next
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
-                Dim queryCheck As String = "select DISTINCT lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Result' ORDER BY lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode"
+                Dim queryCheck As String = "select DISTINCT lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Request' and qty > actual_qty ORDER BY lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode"
                 Dim dtCHECK As DataTable = Database.GetData(queryCheck)
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
-                    If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
-                        If i Mod 8 = 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(4).Value += Environment.NewLine
-                        End If
-                    Else
-                        If i Mod 4 = 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(4).Value += Environment.NewLine
-                        End If
-                        If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
-                        Else
-                            DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
-                        End If
+
+                    If i Mod 8 = 0 Then
+                        DataGridView1.Rows(rowDataSet).Cells(4).Value += Environment.NewLine
                     End If
+
+                    DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
+
+                    'If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
+                    '    If i Mod 8 = 0 Then
+                    '        DataGridView1.Rows(rowDataSet).Cells(4).Value += Environment.NewLine
+                    '    End If
+                    'Else
+                    '    If i Mod 4 = 0 Then
+                    '        DataGridView1.Rows(rowDataSet).Cells(4).Value += Environment.NewLine
+                    '    End If
+                    '    If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Then
+                    '        DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
+                    '    Else
+                    '        DataGridView1.Rows(rowDataSet).Cells(4).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
+                    '    End If
+                    'End If
                 Next
             Next
 

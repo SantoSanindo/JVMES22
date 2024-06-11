@@ -101,3 +101,4 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan-New.pdb
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.loading.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.TraceabilityV3.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.SummaryV2.resources
+C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.OthersPart.resources

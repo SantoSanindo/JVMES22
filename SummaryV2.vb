@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Reflection.Emit
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class SummaryV2
@@ -19,14 +20,23 @@ Public Class SummaryV2
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If globVar.view > 0 Then
+            TreeView1.Nodes.Clear()
 
-        LoadDataTXT()
+            DataGridView2.DataSource = Nothing
+            DataGridView2.Rows.Clear()
+            DataGridView2.Columns.Clear()
 
-        Call Database.koneksi_database()
-        Dim dtSummary As DataTable = Database.GetData("exec V_SUMMARY @Line='" + ComboBox1.Text + "',@department='" & globVar.department & "',@fg='" & txtFG.Text & "',@subsubpo='" & txtSubSubPO.Text & "'")
+            LoadDataTXT()
 
-        DGV_Summary()
+            Call Database.koneksi_database()
+            Dim query As String = "exec V_SUMMARY @Line='" + ComboBox1.Text + "',@department='" & globVar.department & "',@fg='" & txtFG.Text & "',@subsubpo='" & txtSubSubPO.Text & "'"
+            Dim dtSummary As DataTable = Database.GetData(query)
 
+            DGV_Summary()
+        Else
+            RJMessageBox.Show("Cannot access this menu.")
+        End If
     End Sub
 
     Private Sub DGV_Summary()
@@ -63,7 +73,6 @@ Public Class SummaryV2
         checkSummary.Text = "Check"
         checkSummary.UseColumnTextForButtonValue = True
         DataGridView1.Columns.Insert(0, checkSummary)
-
     End Sub
 
     Sub LoadDataTXT()
@@ -89,7 +98,7 @@ Public Class SummaryV2
         Dim query As String = "SELECT comp,fresh_in,sub_assy_in,onhold_in,wip_in,others_in,total_in,reject,[return],defect,wip_out,onhold_out,sa_out,fg_out,total_out FROM summary_fg WHERE comp='" & comp & "' AND sub_sub_po='" & sub_sub_po & "' order by comp"
         Dim dt As DataTable = Database.GetData(query)
 
-        TreeView1.Nodes.Add("SSP : " & sub_sub_po & " - Comp : " & comp)
+        TreeView1.Nodes.Add("SSP : " & sub_sub_po & " | Comp : " & comp)
 
         'For i = 0 To dt.Rows.Count - 1
         If dt.Rows.Count > 0 Then
@@ -117,47 +126,244 @@ Public Class SummaryV2
         End If
 
         Dim id As String = TreeView1.SelectedNode.Name
+        Dim parent As String() = TreeView1.SelectedNode.Parent.Text.Split(" | ")
 
-        DGV_Bawah(id)
+        DGV_Bawah(id, parent(6))
     End Sub
 
-    Sub DGV_Bawah(key As String)
+    Sub DGV_Bawah(key As String, comp As String)
         DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView2.DataSource = Nothing
         DataGridView2.Rows.Clear()
         DataGridView2.Columns.Clear()
         Call Database.koneksi_database()
 
-        'Dim dtSummary As DataTable
+        Dim query As String
 
-        'If key = "fresh_in" Then
-        '    dtSummary = Database.GetData("select * from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "sub_assy_in" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "onhold_in" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "wip_in" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "others_in" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "reject" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "return" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "defect" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "wip_out" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "onhold_out" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "sa_out" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'ElseIf key = "fg_out" Then
-        '    dtSummary = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
-        'End If
+        If key = "fresh_in" Then
+            query = "SELECT 
+	            mts_no [MTS NO],
+	            material [Material],
+	            INV_CTRL_DATE [ICD] ,
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY]
+            FROM
+	            STOCK_CARD 
+            WHERE
+	            status = 'Production Request' 
+	            AND LEVEL = 'Fresh' 
+	            AND QRCODE NOT LIKE 'SA%' 
+	            AND material = '" & comp & "'
+	            AND line = '" & ComboBox1.Text & "'
+	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            AND qty > ACTUAL_QTY 
+	            AND department ='" & globVar.department & "'"
+        ElseIf key = "sub_assy_in" Then
+            query = "SELECT 
+	            qrcode [QR CODE],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY]
+            FROM
+                STOCK_CARD
+            WHERE
+                Status = 'Production Request' 
+                And QRCode Like 'SA%' 
+	            And material = '" & comp & "'
+	            And line = '" & ComboBox1.Text & "'
+	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            And qty > ACTUAL_QTY 
+	            And department ='" & globVar.department & "'"
+        ElseIf key = "onhold_in" Then
+            query = "SELECT 
+	            qrcode [QR CODE],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY]
+            FROM
+                STOCK_CARD
+            WHERE
+                Status = 'Production Request' 
+                AND LEVEL = 'OH' 
+	            And material = '" & comp & "'
+	            And line = '" & ComboBox1.Text & "'
+	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            And qty > ACTUAL_QTY 
+	            And department ='" & globVar.department & "'"
+        ElseIf key = "wip_in" Then
+            query = "SELECT 
+	            qrcode [QR CODE],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY]
+            FROM
+                STOCK_CARD
+            WHERE
+                Status = 'Production Request' 
+                AND LEVEL = 'WIP' 
+	            And material = '" & comp & "'
+	            And line = '" & ComboBox1.Text & "'
+	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            And qty > ACTUAL_QTY 
+	            And department ='" & globVar.department & "'"
+        ElseIf key = "others_in" Then
+            query = "SELECT 
+	            qrcode [QR CODE],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY]
+            FROM
+                STOCK_CARD
+            WHERE
+                Status = 'Production Request' 
+                AND LEVEL = 'OT' 
+	            And material = '" & comp & "'
+	            And line = '" & ComboBox1.Text & "'
+	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            And qty > ACTUAL_QTY 
+	            And department ='" & globVar.department & "'"
+        ElseIf key = "reject" Then
+            query = "SELECT 
+	                CODE_OUT_PROD_REJECT [QR CODE], 
+	                PART_NUMBER [Material],
+	                INV_CTRL_DATE [ICD],
+	                TRACEABILITY [Traceability],
+	                BATCH_NO [Batch No],
+	                LOT_NO [Lot No],
+	                QTY [QTY],
+	                SUB_ASSY [Notes]
+                FROM
+	                OUT_PROD_REJECT 
+                WHERE
+	                SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	                AND line = '" & ComboBox1.Text & "' 
+	                AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "return" Then
+            query = "SELECT 
+	                mts_no [MTS NO],
+	                material [Material],
+	                INV_CTRL_DATE [ICD],
+	                TRACEABILITY [Traceability],
+	                BATCH_NO [Batch No],
+	                LOT_NO [Lot No],
+	                qty [QTY],
+	                qrcode [Notes]
+                FROM
+	                STOCK_CARD 
+                WHERE
+                    status = 'Return to Mini Store' 
+                    AND LEVEL = 'B' 
+	                and SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	                AND line = '" & ComboBox1.Text & "' 
+                    And department ='" & globVar.department & "'
+	                AND material = '" & comp & "'"
+        ElseIf key = "defect" Then
+            query = "SELECT
+	            CODE_OUT_PROD_DEFECT [QR CODE], 
+	            PART_NUMBER [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            (QTY * pengali) [QTY],
+	            process_reject [Process Reject],
+	            flow_ticket_no [Flow Ticket]
+            FROM
+	            OUT_PROD_DEFECT 
+            WHERE
+	            SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            AND line = '" & ComboBox1.Text & "' 
+	            AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "wip_out" Then
+            query = "SELECT 
+	            CODE_STOCK_PROD_WIP [QR CODE], 
+	            PART_NUMBER [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            (QTY * pengali) [QTY],
+	            process [Process WIP],
+	            flow_ticket_no [Flow Ticket]
+            FROM
+	            STOCK_PROD_WIP 
+            WHERE
+	            SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            AND line = '" & ComboBox1.Text & "'  
+	            AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "onhold_out" Then
+            query = "SELECT 
+	            CODE_STOCK_PROD_ONHOLD [QR CODE], 
+	            PART_NUMBER [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            (QTY * pengali) [QTY],
+	            process [Process On Hold],
+	            flow_ticket_no [Flow Ticket]
+            FROM
+	            STOCK_PROD_ONHOLD 
+            WHERE
+	            SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            AND line = '" & ComboBox1.Text & "'  
+	            AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "sa_out" Then
+            query = "SELECT 
+	            qrcode [QR CODE],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY],
+	            FLOW_TICKET [Flow Ticket]
+            FROM
+	            STOCK_CARD 
+            WHERE
+	            status = 'Production Result' 
+	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "'
+	            AND material =  '" & comp & "'
+	            AND line = '" & ComboBox1.Text & "' 
+	            AND LEVEL = 'SA' 
+	            AND department ='" & globVar.department & "'"
+        ElseIf key = "fg_out" Then
+            query = "SELECT 
+	            qrcode [QR CODE],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY],
+	            FLOW_TICKET [Flow Ticket]
+            FROM
+	            STOCK_CARD 
+            WHERE
+	            status = 'Production Result' 
+	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "'
+	            AND material =  '" & comp & "'
+	            AND line = '" & ComboBox1.Text & "' 
+	            AND LEVEL = 'FG' 
+	            AND department ='" & globVar.department & "'"
+        End If
 
-
-        'DataGridView2.DataSource = dtSummary
+        Dim dtSummary As DataTable = Database.GetData(query)
+        DataGridView2.DataSource = dtSummary
     End Sub
 
     Private Sub DataGridView2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView2.DataBindingComplete
@@ -221,30 +427,34 @@ Public Class SummaryV2
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim tidakBalance As Boolean = False
+        If globVar.add > 0 Then
+            Dim tidakBalance As Boolean = False
 
-        Dim result = RJMessageBox.Show("Are you sure for close this Sub Sub PO?.", "Are You Sure?", MessageBoxButtons.YesNo)
+            Dim result = RJMessageBox.Show("Are you sure for close this Sub Sub PO?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
-        If result = DialogResult.Yes Then
-            For i = 0 To DataGridView1.Rows.Count - 1
-                If DataGridView1.Rows(i).Cells("Total In").Value <> DataGridView1.Rows(i).Cells("Total Out").Value Then
-                    If IsDBNull(DataGridView1.Rows(i).Cells("Remark").Value) AndAlso DataGridView1.Rows(i).Cells("Remark").Value.ToString() = "" Then
-                        tidakBalance = True
+            If result = DialogResult.Yes Then
+                For i = 0 To DataGridView1.Rows.Count - 1
+                    If DataGridView1.Rows(i).Cells("Total In").Value <> DataGridView1.Rows(i).Cells("Total Out").Value Then
+                        If IsDBNull(DataGridView1.Rows(i).Cells("Remark").Value) AndAlso DataGridView1.Rows(i).Cells("Remark").Value.ToString() = "" Then
+                            tidakBalance = True
+                        End If
+                    End If
+                Next
+
+                If tidakBalance Then
+                    RJMessageBox.Show("Please check TOTAL IN and TOTAL OUT must be balance. If not balance, please make sure write something in REMARK")
+                Else
+                    SaveTraceability()
+
+                    Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed' where sub_sub_po='" & txtSubSubPO.Text & "'"
+                    Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                    If dtUpdateSubsubpo.ExecuteNonQuery() Then
+                        RJMessageBox.Show("Success Close Sub Sub PO")
                     End If
                 End If
-            Next
-
-            If tidakBalance Then
-                RJMessageBox.Show("Please check TOTAL IN and TOTAL OUT must be balance. If not balance, please make sure write something in REMARK")
-            Else
-                SaveTraceability()
-
-                Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed' where sub_sub_po='" & txtSubSubPO.Text & "'"
-                Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
-                If dtUpdateSubsubpo.ExecuteNonQuery() Then
-                    RJMessageBox.Show("Success Close Sub Sub PO")
-                End If
             End If
+        Else
+            RJMessageBox.Show("Cannot access this menu.")
         End If
     End Sub
 
@@ -321,22 +531,21 @@ Public Class SummaryV2
         Try
             Call Database.koneksi_database()
             If DataGridView1.Columns(e.ColumnIndex).Name = "Remark" Then
-                'If globVar.update > 0 Then
-                If Not IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("Remark").Value) AndAlso Not String.IsNullOrEmpty(DataGridView1.Rows(e.RowIndex).Cells("Remark").Value) Then
-                    Dim Sql As String = "update summary_fg set remark='" & DataGridView1.Rows(e.RowIndex).Cells("Remark").Value & "' where sub_sub_po='" & txtSubSubPO.Text & "' and line='" & ComboBox1.Text & "' and comp='" & DataGridView1.Rows(e.RowIndex).Cells("COMP").Value & "'"
-                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        Dim SqlRemark As String = "update sub_sub_po set remark=1 where sub_sub_po='" & txtSubSubPO.Text & "' and line='" & ComboBox1.Text & "'"
-                        Dim cmdRemark = New SqlCommand(SqlRemark, Database.koneksi)
-                        cmdRemark.ExecuteNonQuery()
-                        RJMessageBox.Show("Success updated data")
+                If globVar.update > 0 Then
+                    If Not IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("Remark").Value) AndAlso Not String.IsNullOrEmpty(DataGridView1.Rows(e.RowIndex).Cells("Remark").Value) Then
+                        Dim Sql As String = "update summary_fg set remark='" & DataGridView1.Rows(e.RowIndex).Cells("Remark").Value & "' where sub_sub_po='" & txtSubSubPO.Text & "' and line='" & ComboBox1.Text & "' and comp='" & DataGridView1.Rows(e.RowIndex).Cells("COMP").Value & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            Dim SqlRemark As String = "update sub_sub_po set remark=1 where sub_sub_po='" & txtSubSubPO.Text & "' and line='" & ComboBox1.Text & "'"
+                            Dim cmdRemark = New SqlCommand(SqlRemark, Database.koneksi)
+                            cmdRemark.ExecuteNonQuery()
+                            RJMessageBox.Show("Success updated data")
+                        End If
                     End If
+                Else
+                    RJMessageBox.Show("Your Access cannot execute this action")
                 End If
-                'Else
-                '    RJMessageBox.Show("Your Access cannot execute this action")
-                'End If
             End If
-
         Catch ex As Exception
             RJMessageBox.Show("Error Summary - 1 =>" & ex.Message)
         End Try

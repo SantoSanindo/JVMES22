@@ -221,6 +221,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="OthersPart.Designer.vb">
+      <DependentUpon>OthersPart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="OthersPart.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Play_Sound.vb" />
     <Compile Include="ProcessFlowMaterialUsage.Designer.vb">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>
@@ -394,6 +400,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OthersPart.resx">
+      <DependentUpon>OthersPart.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessFlowMaterialUsage.resx">
       <DependentUpon>ProcessFlowMaterialUsage.vb</DependentUpon>

@@ -159,7 +159,7 @@ Public Class ProductionRequest
             Call Database.koneksi_database()
             Dim queryInProdMaterial As String = "select in_mat.MATERIAL [Material],in_mat.LOT_NO [Lot],in_mat.TRACEABILITY [Trace],in_mat.INV_CTRL_DATE [ICD],in_mat.BATCH_NO [Batch],in_mat.QTY [Qty],in_mat.SUM_QTY [Actual Qty], in_mat.[level] [Level Material], in_mat.production_request_datetime [Date Scan],in_mat.production_request_who [Scan By]
             from stock_card in_mat, sub_sub_po sp 
-            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTMENT='" & globVar.department & "' and in_mat.[status]='Production Request' and in_mat.[level] = 'Fresh' ORDER BY in_mat.DATETIME_INSERT"
+            where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTMENT='" & globVar.department & "' and in_mat.[status]='Production Request' and in_mat.[level] = 'Fresh' ORDER BY in_mat.material, in_mat.lot_no"
             Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
 
             If dtInProdMaterial.Rows.Count > 0 Then
@@ -182,20 +182,22 @@ Public Class ProductionRequest
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked = CheckState.Unchecked Then
             TextBox2.Enabled = True
-            TextBox6.Enabled = True
             TextBox1.Enabled = False
-            Button1.Enabled = True
+            Button1.Enabled = False
+            ComboBox2.Enabled = False
+            TextBox1.Clear()
         Else
+            TextBox2.Clear()
+            ComboBox2.SelectedIndex = -1
             TextBox2.Enabled = False
-            TextBox6.Enabled = False
             TextBox1.Enabled = True
             Button1.Enabled = False
+            ComboBox2.Enabled = False
         End If
     End Sub
 
     Private Sub ProductionRequest_Load(sender As Object, e As EventArgs) Handles Me.Load
         TextBox2.Enabled = False
-        TextBox6.Enabled = False
         TextBox1.Enabled = True
         Button1.Enabled = False
         ComboBox1.SelectedIndex = -1
@@ -214,6 +216,11 @@ Public Class ProductionRequest
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
+            If TextBox2.Text = "" Or ComboBox2.Text = "" Then
+                RJMessageBox.Show("Part Number or Lot No Still blank. Please fill first")
+                Exit Sub
+            End If
+
             If globVar.add > 0 Then
                 Dim StringToSearch As String = ""
                 Dim CurrentRowIndex As Integer = 0
@@ -236,10 +243,31 @@ Public Class ProductionRequest
                     RJMessageBox.Show("Production no need for this Part Number.")
                     TextBox1.Text = ""
                 Else
-                    Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' and lot_no='" & TextBox6.Text & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and actual_qty>0 and [save]=1"
+
+                    Dim allmanualMaterial As String() = ComboBox2.Text.Split(" | ")
+                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
+                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
+                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
+                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+
+                    Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' 
+                        and lot_no='" & lotManualMaterial(1) & "' 
+                        and inv_ctrl_date='" & icdManualMaterial(1) & "' 
+                        and traceability='" & traceManualMaterial(1) & "' 
+                        and batch_no='" & batchManualMaterial(1) & "' 
+                        and department='" & globVar.department & "' 
+                        and (status='Receive From Main Store' or status='Receive From Production') 
+                        and actual_qty>0 and [save]=1"
                     Dim dtCheckStockMinistore As DataTable = Database.GetData(sqlCheckStockMinistore)
                     If dtCheckStockMinistore.Rows.Count > 0 Then
-                        Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' and lot_no='" & TextBox6.Text & "' and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
+                        Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' 
+                            and lot_no='" & lotManualMaterial(1) & "' 
+                            and inv_ctrl_date='" & icdManualMaterial(1) & "' 
+                            and traceability='" & traceManualMaterial(1) & "' 
+                            and batch_no='" & batchManualMaterial(1) & "' 
+                            and status='Production Request' 
+                            and department='" & globVar.department & "' 
+                            and sub_sub_po='" & SubSubPO.Text & "'"
                         Dim dtCheckInProdFreshMaterial As DataTable = Database.GetData(sqlCheckInProdFreshMaterial)
                         If dtCheckInProdFreshMaterial.Rows.Count > 0 Then
                             RJMessageBox.Show("Sorry QR Code already in database production")
@@ -255,15 +283,22 @@ Public Class ProductionRequest
                                 If dtCheckSumQtyProdcution.Rows(0).Item("qty") + dtCheckStockMinistore.Rows(0).Item("qty") > DataGridView3.Rows(CurrentRowIndex).Cells("Total Need").Value Then
                                     Try
                                         Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,QRCODE,MTS_NO,SUM_QTY,LEVEL,ID_LEVEL)
-                                            VALUES ('" & TextBox2.Text & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckStockMinistore.Rows(0).Item("TRACEABILITY") & "','" & TextBox6.Text & "','" & dtCheckStockMinistore.Rows(0).Item("BATCH_NO") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("Qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','Manual Input','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & TextBox2.Text & "')"
+                                            VALUES ('" & TextBox2.Text & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckStockMinistore.Rows(0).Item("TRACEABILITY") & "','" & lotManualMaterial(1) & "','" & dtCheckStockMinistore.Rows(0).Item("BATCH_NO") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("Qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','Manual Input','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & TextBox2.Text & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
 
                                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                             TextBox2.Text = ""
-                                            TextBox6.Text = ""
+                                            ComboBox2.SelectedIndex = -1
+                                            Button1.Enabled = False
                                             DGV_InProductionMaterial()
 
-                                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & TextBox2.Text & "' and lot_no='" & TextBox6.Text & "' AND DEPARTMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
+                                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & TextBox2.Text & "' 
+                                                and lot_no='" & lotManualMaterial(1) & "' 
+                                                and inv_ctrl_date='" & icdManualMaterial(1) & "' 
+                                                and traceability='" & traceManualMaterial(1) & "' 
+                                                and batch_no='" & batchManualMaterial(1) & "' 
+                                                AND DEPARTMENT='" & globVar.department & "' 
+                                                AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
                                             Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                             cmdUpdate.ExecuteNonQuery()
 
@@ -275,14 +310,21 @@ Public Class ProductionRequest
                                 Else
                                     Try
                                         Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,QRCODE,MTS_NO,SUM_QTY,LEVEL,ID_LEVEL)
-                                    VALUES ('" & TextBox2.Text & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckStockMinistore.Rows(0).Item("TRACEABILITY") & "','" & TextBox6.Text & "','" & dtCheckStockMinistore.Rows(0).Item("BATCH_NO") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("Qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','Manual Input','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & TextBox2.Text & "')"
+                                            VALUES ('" & TextBox2.Text & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckStockMinistore.Rows(0).Item("TRACEABILITY") & "','" & dtCheckStockMinistore.Rows(0).Item("LOT_NO") & "','" & dtCheckStockMinistore.Rows(0).Item("BATCH_NO") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("Qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','Manual Input','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & TextBox2.Text & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                             TextBox2.Text = ""
-                                            TextBox6.Text = ""
+                                            ComboBox2.SelectedIndex = -1
+                                            Button1.Enabled = False
                                             DGV_InProductionMaterial()
 
-                                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & TextBox2.Text & "' and lot_no='" & TextBox6.Text & "' AND DEPARTMENT='" & globVar.department & "' AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
+                                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE material='" & TextBox2.Text & "' 
+                                                and lot_no='" & lotManualMaterial(1) & "' 
+                                                and inv_ctrl_date='" & icdManualMaterial(1) & "' 
+                                                and traceability='" & traceManualMaterial(1) & "' 
+                                                and batch_no='" & batchManualMaterial(1) & "' 
+                                                AND DEPARTMENT='" & globVar.department & "' 
+                                                AND (STATUS='Receive From Main Store' or STATUS='Receive From Production')"
                                             Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                             cmdUpdate.ExecuteNonQuery()
 
@@ -297,7 +339,7 @@ Public Class ProductionRequest
                     Else
                         RJMessageBox.Show("This Material not available in Stock Ministore. Please goto input stock first")
                         TextBox2.Text = ""
-                        TextBox6.Text = ""
+                        ComboBox2.SelectedIndex = -1
                     End If
                 End If
             Else
@@ -361,5 +403,40 @@ Public Class ProductionRequest
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         TextBox1.Enabled = False
+    End Sub
+
+    Sub tampilDataComboBoxDataManualMaterial(material As String)
+        Call Database.koneksi_database()
+        Dim dtMaterial As DataTable = Database.GetData("select lot_no, inv_ctrl_date, traceability, batch_no from stock_card where department='" & globVar.department & "' and material='" & material & "' and qrcode='Manual Input' and actual_qty > 0 order by datetime_insert")
+
+        dtMaterial.Columns.Add("DisplayMember", GetType(String))
+
+        For Each row As DataRow In dtMaterial.Rows
+            row("DisplayMember") = "Lot No : " & row("lot_no").ToString() & " | ICD : " & row("inv_ctrl_date").ToString() & " | Trace : " & row("traceability").ToString() & " | Batch : " & row("batch_no").ToString()
+        Next
+
+        ComboBox2.DataSource = dtMaterial
+        ComboBox2.DisplayMember = "DisplayMember"
+        ComboBox2.ValueMember = "DisplayMember"
+        ComboBox2.SelectedIndex = -1
+    End Sub
+
+    Private Sub TextBox2_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox2.PreviewKeyDown
+        If e.KeyData = Keys.Enter Then
+            tampilDataComboBoxDataManualMaterial(TextBox2.Text)
+            Button1.Enabled = True
+            ComboBox2.Enabled = True
+        End If
+    End Sub
+
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+        Button1.Enabled = False
+        ComboBox2.Enabled = False
+    End Sub
+
+    Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox2.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 End Class

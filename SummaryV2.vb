@@ -5,6 +5,8 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class SummaryV2
     Public Shared menu As String = "Summary"
 
+    Dim selectdata As String = ""
+
     Private Sub SummaryV2_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBoxLine()
         ComboBox1.SelectedIndex = -1
@@ -29,14 +31,19 @@ Public Class SummaryV2
 
             LoadDataTXT()
 
-            Call Database.koneksi_database()
-            Dim query As String = "exec V_SUMMARY @Line='" + ComboBox1.Text + "',@department='" & globVar.department & "',@fg='" & txtFG.Text & "',@subsubpo='" & txtSubSubPO.Text & "'"
-            Dim dtSummary As DataTable = Database.GetData(query)
+            LoadData()
 
-            DGV_Summary()
         Else
             RJMessageBox.Show("Cannot access this menu.")
         End If
+    End Sub
+
+    Private Sub LoadData()
+        Call Database.koneksi_database()
+        Dim query As String = "exec V_SUMMARY @Line='" + ComboBox1.Text + "',@department='" & globVar.department & "',@fg='" & txtFG.Text & "',@subsubpo='" & txtSubSubPO.Text & "'"
+        Dim dtSummary As DataTable = Database.GetData(query)
+
+        DGV_Summary()
     End Sub
 
     Private Sub DGV_Summary()
@@ -98,9 +105,8 @@ Public Class SummaryV2
         Dim query As String = "SELECT comp,fresh_in,sub_assy_in,onhold_in,wip_in,others_in,total_in,reject,[return],defect,wip_out,onhold_out,sa_out,fg_out,total_out FROM summary_fg WHERE comp='" & comp & "' AND sub_sub_po='" & sub_sub_po & "' order by comp"
         Dim dt As DataTable = Database.GetData(query)
 
-        TreeView1.Nodes.Add("SSP : " & sub_sub_po & " | Comp : " & comp)
+        TreeView1.Nodes.Add("root", "SSP : " & sub_sub_po & " | Comp : " & comp)
 
-        'For i = 0 To dt.Rows.Count - 1
         If dt.Rows.Count > 0 Then
             TreeView1.Nodes(0).Nodes.Add("fresh_in", "Fresh In (" & dt.Rows(0).Item("fresh_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("sub_assy_in", "Sub Assy In (" & dt.Rows(0).Item("sub_assy_in").ToString & ")")
@@ -115,7 +121,7 @@ Public Class SummaryV2
             TreeView1.Nodes(0).Nodes.Add("sa_out", "SA Out (" & dt.Rows(0).Item("sa_out").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("fg_out", "FG Out (" & dt.Rows(0).Item("fg_out").ToString & ")")
         End If
-        'Next
+
         TreeView1.ExpandAll()
     End Sub
 
@@ -126,9 +132,14 @@ Public Class SummaryV2
         End If
 
         Dim id As String = TreeView1.SelectedNode.Name
-        Dim parent As String() = TreeView1.SelectedNode.Parent.Text.Split(" | ")
 
-        DGV_Bawah(id, parent(6))
+        selectdata = id
+
+        If TreeView1.SelectedNode.Name IsNot "root" Then
+            Dim parent As String() = TreeView1.SelectedNode.Parent.Text.Split(" | ")
+            DGV_Bawah(id, parent(6))
+        End If
+
     End Sub
 
     Sub DGV_Bawah(key As String, comp As String)
@@ -142,6 +153,7 @@ Public Class SummaryV2
 
         If key = "fresh_in" Then
             query = "SELECT 
+                id [#],
 	            mts_no [MTS NO],
 	            material [Material],
 	            INV_CTRL_DATE [ICD] ,
@@ -159,9 +171,11 @@ Public Class SummaryV2
 	            AND line = '" & ComboBox1.Text & "'
 	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            AND qty > ACTUAL_QTY 
-	            AND department ='" & globVar.department & "'"
+	            AND department ='" & globVar.department & "'
+            order by LOT_NO "
         ElseIf key = "sub_assy_in" Then
             query = "SELECT 
+                id [#],
 	            qrcode [QR CODE],
 	            material [Material],
 	            INV_CTRL_DATE [ICD],
@@ -178,9 +192,11 @@ Public Class SummaryV2
 	            And line = '" & ComboBox1.Text & "'
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            And qty > ACTUAL_QTY 
-	            And department ='" & globVar.department & "'"
+	            And department ='" & globVar.department & "'
+            order by LOT_NO "
         ElseIf key = "onhold_in" Then
             query = "SELECT 
+                id [#],
 	            qrcode [QR CODE],
 	            material [Material],
 	            INV_CTRL_DATE [ICD],
@@ -197,9 +213,11 @@ Public Class SummaryV2
 	            And line = '" & ComboBox1.Text & "'
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            And qty > ACTUAL_QTY 
-	            And department ='" & globVar.department & "'"
+	            And department ='" & globVar.department & "'
+            order by LOT_NO "
         ElseIf key = "wip_in" Then
             query = "SELECT 
+                id [#],
 	            qrcode [QR CODE],
 	            material [Material],
 	            INV_CTRL_DATE [ICD],
@@ -216,9 +234,11 @@ Public Class SummaryV2
 	            And line = '" & ComboBox1.Text & "'
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            And qty > ACTUAL_QTY 
-	            And department ='" & globVar.department & "'"
+	            And department ='" & globVar.department & "'
+            order by LOT_NO "
         ElseIf key = "others_in" Then
             query = "SELECT 
+                id [#],
 	            qrcode [QR CODE],
 	            material [Material],
 	            INV_CTRL_DATE [ICD],
@@ -235,7 +255,8 @@ Public Class SummaryV2
 	            And line = '" & ComboBox1.Text & "'
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            And qty > ACTUAL_QTY 
-	            And department ='" & globVar.department & "'"
+	            And department ='" & globVar.department & "'
+            order by LOT_NO "
         ElseIf key = "reject" Then
             query = "SELECT 
 	                CODE_OUT_PROD_REJECT [QR CODE], 
@@ -340,7 +361,8 @@ Public Class SummaryV2
 	            AND material =  '" & comp & "'
 	            AND line = '" & ComboBox1.Text & "' 
 	            AND LEVEL = 'SA' 
-	            AND department ='" & globVar.department & "'"
+	            AND department ='" & globVar.department & "'
+            ORDER BY CAST(SUBSTRING(FLOW_TICKET, 1, CHARINDEX(' ', FLOW_TICKET) - 1) AS INT)"
         ElseIf key = "fg_out" Then
             query = "SELECT 
 	            qrcode [QR CODE],
@@ -359,7 +381,9 @@ Public Class SummaryV2
 	            AND material =  '" & comp & "'
 	            AND line = '" & ComboBox1.Text & "' 
 	            AND LEVEL = 'FG' 
-	            AND department ='" & globVar.department & "'"
+	            AND department ='" & globVar.department & "'
+            ORDER BY CAST(SUBSTRING(FLOW_TICKET, 1, CHARINDEX(' ', FLOW_TICKET) - 1) AS INT)"
+
         End If
 
         Dim dtSummary As DataTable = Database.GetData(query)
@@ -561,5 +585,71 @@ Public Class SummaryV2
             e.CellStyle.BackColor = Color.Green
             e.CellStyle.ForeColor = Color.White
         End If
+    End Sub
+
+    Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
+        Try
+            Call Database.koneksi_database()
+            If DataGridView2.Columns(e.ColumnIndex).Name = "QTY" Then
+                If selectdata = "fresh_in" Then
+                    If globVar.update > 0 Then
+                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            LoadData()
+                            RJMessageBox.Show("Success updated data")
+                        End If
+                    Else
+                        RJMessageBox.Show("Your Access cannot execute this action")
+                    End If
+                ElseIf selectdata = "sub_assy_in" Then
+                    If globVar.update > 0 Then
+                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            LoadData()
+                            RJMessageBox.Show("Success updated data")
+                        End If
+                    Else
+                        RJMessageBox.Show("Your Access cannot execute this action")
+                    End If
+                ElseIf selectdata = "others_in" Then
+                    If globVar.update > 0 Then
+                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            LoadData()
+                            RJMessageBox.Show("Success updated data")
+                        End If
+                    Else
+                        RJMessageBox.Show("Your Access cannot execute this action")
+                    End If
+                ElseIf selectdata = "reject" Then
+                    If globVar.update > 0 Then
+                        Dim Sql As String = "update out_prod_reject set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            LoadData()
+                            RJMessageBox.Show("Success updated data")
+                        End If
+                    Else
+                        RJMessageBox.Show("Your Access cannot execute this action")
+                    End If
+                ElseIf selectdata = "return" Then
+                    If globVar.update > 0 Then
+                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            LoadData()
+                            RJMessageBox.Show("Success updated data")
+                        End If
+                    Else
+                        RJMessageBox.Show("Your Access cannot execute this action")
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            RJMessageBox.Show("Error Summary - 1 =>" & ex.Message)
+        End Try
     End Sub
 End Class

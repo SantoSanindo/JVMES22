@@ -117,7 +117,6 @@ Partial Class FormLogin
         Me.Controls.Add(Me.btnLogin)
         Me.Controls.Add(Me.txtUname)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.Name = "FormLogin"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Login"

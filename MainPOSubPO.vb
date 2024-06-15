@@ -849,14 +849,15 @@ Public Class MainPOSubPO
             Try
                 Dim result = RJMessageBox.Show(" Are you sure for close this Sub PO?", "Are you sure?", MessageBoxButtons.YesNo)
                 If result = DialogResult.Yes Then
-                    Dim Sql As String = "update sub_sub_po set status='" & combo.SelectedValue & "',datetime_closed=getdate(),closed_who='" & globVar.username & "' where id=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("#").Value
-                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        RJMessageBox.Show("Sub Sub PO successfully closed")
-                        DGV_SubSubPO()
-                        DGV_MainPO_All()
-                        tampilDataComboBoxLine()
-                    End If
+                    'Dim Sql As String = "update sub_sub_po set status='" & combo.SelectedValue & "',datetime_closed=getdate(),closed_who='" & globVar.username & "' where id=" & DataGridView2.Rows(DataGridView2.CurrentCell.RowIndex).Cells("#").Value
+                    'Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    'If cmd.ExecuteNonQuery() Then
+                    '    RJMessageBox.Show("Sub Sub PO successfully closed")
+                    '    DGV_SubSubPO()
+                    '    DGV_MainPO_All()
+                    '    tampilDataComboBoxLine()
+                    'End If
+                    RJMessageBox.Show("Cannot close sub sub po from this menu. Please using menu Summary Production.")
                 End If
             Catch ex As Exception
                 RJMessageBox.Show("Error Create Main PO - 18 =>" & ex.Message)

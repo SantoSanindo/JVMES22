@@ -181,6 +181,8 @@ Public Class FormDefective
         btnListPrintWIP.Enabled = False
         btnListPrintReturn.Enabled = False
         btnListPrintOthers.Enabled = False
+
+        TabControl1.TabPages(5).Enabled = False
     End Sub
 
     Sub enableStatusInputInput(statusEnable As Boolean)
@@ -4425,14 +4427,43 @@ Public Class FormDefective
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+        If TextBox1.Text = "" Or ComboBox2.Text = "" Then
+            RJMessageBox.Show("Part Number or Lot No Still blank. Please fill first")
+            Exit Sub
+        End If
+
         If globVar.view > 0 Then
 
             Try
-                Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox1.Text & "' and status='Return To Mini Store' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox2.Text & "'"
+
+                Dim allmanualMaterial As String() = ComboBox2.Text.Split(" | ")
+                Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
+                Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
+                Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
+                Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+
+                Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' 
+                    and material='" & TextBox1.Text & "' 
+                    and status='Return To Mini Store' 
+                    and actual_qty > 0 
+                    and department='" & globVar.department & "' 
+                    and traceability='" & traceManualMaterial(1) & "'
+                    and inv_ctrl_date='" & icdManualMaterial(1) & "'
+                    and batch_no='" & batchManualMaterial(1) & "'
+                    and lot_no='" & lotManualMaterial(1) & "'"
                 Dim dttableProductionProcess As DataTable = Database.GetData(queryCheckProductionProcess)
 
                 If dttableProductionProcess.Rows.Count = 0 Then
-                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox1.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox2.Text & "'"
+                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' 
+                        and material='" & TextBox1.Text & "' 
+                        and status='Production Request' 
+                        and actual_qty > 0 
+                        and department='" & globVar.department & "' 
+                        and traceability='" & traceManualMaterial(1) & "'
+                        and inv_ctrl_date='" & icdManualMaterial(1) & "'
+                        and batch_no='" & batchManualMaterial(1) & "'
+                        and lot_no='" & lotManualMaterial(1) & "'"
                     Dim dttable As DataTable = Database.GetData(queryCheck)
                     If dttable.Rows.Count > 0 Then
                         txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
@@ -4442,7 +4473,15 @@ Public Class FormDefective
                         txtBalanceMaterialPN.Clear()
                     End If
                 Else
-                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox1.Text & "' and status='Production Request' and actual_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox2.Text & "'"
+                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' 
+                        and material='" & TextBox1.Text & "' 
+                        and status='Production Request' 
+                        and actual_qty > 0 
+                        and department='" & globVar.department & "' 
+                        and traceability='" & traceManualMaterial(1) & "'
+                        and inv_ctrl_date='" & icdManualMaterial(1) & "'
+                        and batch_no='" & batchManualMaterial(1) & "'
+                        and lot_no='" & lotManualMaterial(1) & "'"
                     Dim dttable As DataTable = Database.GetData(queryCheck)
                     If dttable.Rows.Count > 0 Then
                         txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
@@ -4472,27 +4511,46 @@ Public Class FormDefective
         txtRejectMaterialPN.Clear()
         txtRejectQty.Clear()
         TextBox7.Clear()
-        TextBox8.Clear()
+        ComboBox1.SelectedIndex = -1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Try
             If txtSubSubPODefective.Text <> "" Then
-                Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & TextBox7.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & TextBox8.Text & "'"
-                Dim dttable As DataTable = Database.GetData(queryCheck)
-                If dttable.Rows.Count > 0 Then
-                    loaddgReject(TextBox7.Text)
-                    TextBox4.Text = TextBox8.Text
+                If ComboBox1.Text <> "" And TextBox7.Text <> "" Then
+
+                    Dim allmanualMaterial As String() = ComboBox1.Text.Split(" | ")
+                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
+                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
+                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
+                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+
+                    Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' 
+                        and material='" & TextBox7.Text & "' 
+                        and status='Production Request' 
+                        and sum_qty > 0 
+                        and department='" & globVar.department & "' 
+                        and traceability='" & traceManualMaterial(1) & "' 
+                        and inv_ctrl_date='" & icdManualMaterial(1) & "' 
+                        and batch_no='" & batchManualMaterial(1) & "' 
+                        and lot_no='" & lotManualMaterial(1) & "'"
+                    Dim dttable As DataTable = Database.GetData(queryCheck)
+                    If dttable.Rows.Count > 0 Then
+                        loaddgReject(TextBox7.Text)
+                        TextBox4.Text = lotManualMaterial(1)
+                    Else
+                        RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                        TextBox7.Clear()
+                        ComboBox1.SelectedIndex = -1
+                        txtRejectQty.Clear()
+                    End If
                 Else
-                    RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
-                    TextBox7.Clear()
-                    TextBox8.Clear()
-                    txtRejectQty.Clear()
+                    RJMessageBox.Show("Part Number or Lot No Still blank. Please fill first")
                 End If
             Else
                 RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                 TextBox7.Clear()
-                TextBox8.Clear()
+                ComboBox1.SelectedIndex = -1
                 txtRejectQty.Clear()
             End If
         Catch ex As Exception
@@ -4503,7 +4561,7 @@ Public Class FormDefective
     Private Sub btnRejectSave_Click(sender As Object, e As EventArgs) Handles btnRejectSave.Click
         If globVar.add > 0 Then
 
-            If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "" And txtRejectQty.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And TextBox8.Text <> "" And txtRejectQty.Text <> "") Then
+            If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "" And txtRejectQty.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And ComboBox1.Text <> "" And txtRejectQty.Text <> "") Then
                 Dim _dQtyReject As Double
                 Dim _sPNReject As String
 
@@ -4691,7 +4749,7 @@ Public Class FormDefective
                             txtRejectMaterialPN.Clear()
                             txtRejectQty.Clear()
                             TextBox7.Clear()
-                            TextBox8.Clear()
+                            ComboBox1.SelectedIndex = -1
                             TextBox4.Clear()
                         Else
                             RJMessageBox.Show("Fail Save data!!!")
@@ -4700,7 +4758,7 @@ Public Class FormDefective
                             txtRejectMaterialPN.Clear()
                             txtRejectQty.Clear()
                             TextBox7.Clear()
-                            TextBox8.Clear()
+                            ComboBox1.SelectedIndex = -1
                             TextBox4.Clear()
                         End If
 
@@ -4719,7 +4777,7 @@ Public Class FormDefective
 
     Private Sub btnRejectDelete_Click(sender As Object, e As EventArgs) Handles btnRejectDelete.Click
         If globVar.delete > 0 Then
-            If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And TextBox8.Text <> "") Then
+            If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text <> "" And txtRejectMaterialPN.Text <> "") Or (CheckBox3.CheckState = CheckState.Unchecked And TextBox7.Text <> "" And ComboBox1.Text <> "") Then
                 Dim _sPNReject As String
 
                 If CheckBox3.CheckState = CheckState.Checked Then
@@ -4805,7 +4863,7 @@ Public Class FormDefective
                             txtRejectBarcode.Clear()
                             txtRejectMaterialPN.Clear()
                             TextBox7.Clear()
-                            TextBox8.Clear()
+                            ComboBox1.SelectedIndex = -1
                             txtRejectQty.Clear()
                             TextBox4.Clear()
                             Exit Sub
@@ -4822,7 +4880,7 @@ Public Class FormDefective
                             txtRejectMaterialPN.Clear()
                             txtRejectQty.Clear()
                             TextBox7.Clear()
-                            TextBox8.Clear()
+                            ComboBox1.SelectedIndex = -1
                             TextBox4.Clear()
                         Else
                             RJMessageBox.Show("Fail Delete data!!!")
@@ -4831,7 +4889,7 @@ Public Class FormDefective
                             txtRejectMaterialPN.Clear()
                             txtRejectQty.Clear()
                             TextBox7.Clear()
-                            TextBox8.Clear()
+                            ComboBox1.SelectedIndex = -1
                             TextBox4.Clear()
                         End If
 
@@ -4926,7 +4984,7 @@ Public Class FormDefective
                 Exit Sub
             End If
 
-            If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text = "") Or (TextBox7.Text = "" And TextBox8.Text = "" And CheckBox3.CheckState = CheckState.Unchecked) Then
+            If (CheckBox3.CheckState = CheckState.Checked And txtRejectBarcode.Text = "") Or (TextBox7.Text = "" And ComboBox1.Text = "" And CheckBox3.CheckState = CheckState.Unchecked) Then
                 RJMessageBox.Show("Please Set Label Material First.")
                 Exit Sub
             End If
@@ -5276,6 +5334,60 @@ Public Class FormDefective
     End Sub
 
     Private Sub txtBalanceQty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtBalanceQty.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub TextBox7_TextChanged(sender As Object, e As EventArgs) Handles TextBox7.TextChanged
+        ComboBox1.Enabled = False
+        Button3.Enabled = False
+    End Sub
+
+    Private Sub TextBox7_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox7.PreviewKeyDown
+        If e.KeyData = Keys.Enter Then
+            tampilDataComboBoxDataManualMaterial(TextBox7.Text)
+            Button3.Enabled = True
+            ComboBox1.Enabled = True
+        End If
+    End Sub
+
+    Private Sub TextBox7_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox7.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Sub tampilDataComboBoxDataManualMaterial(material As String)
+        Call Database.koneksi_database()
+        Dim dtMaterial As DataTable = Database.GetData("select lot_no, inv_ctrl_date, traceability, batch_no from stock_card where department='" & globVar.department & "' and material='" & material & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' order by datetime_insert")
+
+        dtMaterial.Columns.Add("DisplayMember", GetType(String))
+
+        For Each row As DataRow In dtMaterial.Rows
+            row("DisplayMember") = "Lot No : " & row("lot_no").ToString() & " | ICD : " & row("inv_ctrl_date").ToString() & " | Trace : " & row("traceability").ToString() & " | Batch : " & row("batch_no").ToString()
+        Next
+
+        ComboBox1.DataSource = dtMaterial
+        ComboBox1.DisplayMember = "DisplayMember"
+        ComboBox1.ValueMember = "DisplayMember"
+        ComboBox1.SelectedIndex = -1
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+        ComboBox2.Enabled = False
+        Button1.Enabled = False
+    End Sub
+
+    Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
+        If e.KeyData = Keys.Enter Then
+            tampilDataComboBoxDataManualMaterial(TextBox1.Text)
+            Button1.Enabled = True
+            ComboBox2.Enabled = True
+        End If
+    End Sub
+
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If

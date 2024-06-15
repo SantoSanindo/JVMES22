@@ -177,6 +177,7 @@ Partial Class FormMessageBox
         Me.Name = "FormMessageBox"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "FormMessageBox"
+        Me.TopMost = True
         Me.panelTitleBar.ResumeLayout(False)
         Me.panelTitleBar.PerformLayout()
         Me.panelButtons.ResumeLayout(False)

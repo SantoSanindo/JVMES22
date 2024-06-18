@@ -4437,11 +4437,11 @@ Public Class FormDefective
 
             Try
 
-                Dim allmanualMaterial As String() = ComboBox2.Text.Split(" | ")
-                Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
-                Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
-                Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
-                Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+                Dim allmanualMaterial As String() = ComboBox2.Text.Split("|")
+                Dim lotManualMaterial As String() = allmanualMaterial(0).Split(":")
+                Dim icdManualMaterial As String() = allmanualMaterial(1).Split(":")
+                Dim traceManualMaterial As String() = allmanualMaterial(2).Split(":")
+                Dim batchManualMaterial As String() = allmanualMaterial(3).Split(":")
 
                 Dim queryCheckProductionProcess As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' 
                     and material='" & TextBox1.Text & "' 
@@ -4519,11 +4519,11 @@ Public Class FormDefective
             If txtSubSubPODefective.Text <> "" Then
                 If ComboBox1.Text <> "" And TextBox7.Text <> "" Then
 
-                    Dim allmanualMaterial As String() = ComboBox1.Text.Split(" | ")
-                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
-                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
-                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
-                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+                    Dim allmanualMaterial As String() = ComboBox1.Text.Split("|")
+                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(":")
+                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(":")
+                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(":")
+                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(":")
 
                     Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' 
                         and material='" & TextBox7.Text & "' 
@@ -5365,7 +5365,7 @@ Public Class FormDefective
         dtMaterial.Columns.Add("DisplayMember", GetType(String))
 
         For Each row As DataRow In dtMaterial.Rows
-            row("DisplayMember") = "Lot No : " & row("lot_no").ToString() & " | ICD : " & row("inv_ctrl_date").ToString() & " | Trace : " & row("traceability").ToString() & " | Batch : " & row("batch_no").ToString()
+            row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString()
         Next
 
         ComboBox1.DataSource = dtMaterial

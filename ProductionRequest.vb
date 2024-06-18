@@ -283,11 +283,11 @@ Public Class ProductionRequest
                     TextBox1.Text = ""
                 Else
 
-                    Dim allmanualMaterial As String() = ComboBox2.Text.Split(" | ")
-                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
-                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
-                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
-                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+                    Dim allmanualMaterial As String() = ComboBox2.Text.Split("|")
+                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(":")
+                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(":")
+                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(":")
+                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(":")
 
                     Dim sqlCheckStockMinistore As String = "SELECT * FROM stock_card WHERE material = '" & TextBox2.Text & "' 
                         and lot_no='" & lotManualMaterial(1) & "' 
@@ -451,7 +451,7 @@ Public Class ProductionRequest
         dtMaterial.Columns.Add("DisplayMember", GetType(String))
 
         For Each row As DataRow In dtMaterial.Rows
-            row("DisplayMember") = "Lot No : " & row("lot_no").ToString() & " | ICD : " & row("inv_ctrl_date").ToString() & " | Trace : " & row("traceability").ToString() & " | Batch : " & row("batch_no").ToString()
+            row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString()
         Next
 
         ComboBox2.DataSource = dtMaterial

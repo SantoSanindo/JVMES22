@@ -671,11 +671,11 @@ Public Class Production
 
                 If TextBox9.Text <> "" And ComboBox2.Text <> "" Then
 
-                    Dim allmanualMaterial As String() = ComboBox2.Text.Split(" | ")
-                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(" : ")
-                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(" : ")
-                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(" : ")
-                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(" : ")
+                    Dim allmanualMaterial As String() = ComboBox2.Text.Split("|")
+                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(":")
+                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(":")
+                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(":")
+                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(":")
 
                     Dim sqlCheckInStock As String = "select in_material.* from sub_sub_po sp, stock_card in_material where in_material.SUB_SUB_PO = sp.sub_sub_po 
                         and sp.status='Open' 
@@ -825,7 +825,7 @@ Public Class Production
         dtMaterial.Columns.Add("DisplayMember", GetType(String))
 
         For Each row As DataRow In dtMaterial.Rows
-            row("DisplayMember") = "Lot No : " & row("lot_no").ToString() & " | ICD : " & row("inv_ctrl_date").ToString() & " | Trace : " & row("traceability").ToString() & " | Batch : " & row("batch_no").ToString()
+            row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString()
         Next
 
         ComboBox2.DataSource = dtMaterial

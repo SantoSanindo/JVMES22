@@ -25,7 +25,7 @@ Public Class MainPOSubPO
 
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
-        Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW mpf, MATERIAL_USAGE_FINISH_GOODS mufg where MASTER_PROCESS IS NOT NULL and mpf.MASTER_FINISH_GOODS_PN = mufg.fg_part_number order by MASTER_FINISH_GOODS_PN")
+        Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW mpf, MATERIAL_USAGE_FINISH_GOODS mufg where MASTER_PROCESS IS NOT NULL and mpf.MASTER_FINISH_GOODS_PN = mufg.fg_part_number and material_usage is not null order by MASTER_FINISH_GOODS_PN")
 
         ComboBox1.DataSource = dtMasterProcessFlow
         ComboBox1.DisplayMember = "MASTER_FINISH_GOODS_PN"

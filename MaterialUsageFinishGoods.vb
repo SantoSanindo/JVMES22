@@ -44,7 +44,6 @@ Public Class MaterialUsageFinishGoods
                     txt_masterfinishgoods_desc.Clear()
                     cb_masterfinishgoods_component.SelectedIndex = -1
                     txt_masterfinishgoods_usage.Clear()
-                    txt_masterfinishgoods_family.Clear()
 
                 Catch ex As Exception
                     RJMessageBox.Show("Error Master Material Usage Finish Goods - 1 => " & ex.Message)

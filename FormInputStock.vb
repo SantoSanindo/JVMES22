@@ -123,6 +123,12 @@ Public Class FormInputStock
                         'If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
                         QRCode.Baca(txt_forminputstock_qrcode.Text)
 
+                        If globVar.QRCode_lot = "" Then
+                            RJMessageBox.Show("Qrcode cannot read LOT NO Material. Please input manual or call the leader.")
+                            txt_forminputstock_qrcode.Clear()
+                            Exit Sub
+                        End If
+
                         Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & globVar.QRCode_PN & "'"
                         adapter = New SqlDataAdapter(sql, Database.koneksi)
                         adapter.Fill(ds)

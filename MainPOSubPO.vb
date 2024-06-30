@@ -370,11 +370,11 @@ Public Class MainPOSubPO
             Try
                 Dim isOpen As Boolean = False
 
-                For i = 0 To DataGridView2.Rows.Count - 1
-                    If DataGridView2.Rows(i).Cells(4).Value = "Open" Then
-                        isOpen = True
-                    End If
-                Next
+                'For i = 0 To DataGridView2.Rows.Count - 1
+                '    If DataGridView2.Rows(i).Cells(4).Value = "Open" Then
+                '        isOpen = True
+                '    End If
+                'Next
 
                 If isOpen = False Then
                     If TextBox10.Text = "" Or ComboBox3.Text = "" Then

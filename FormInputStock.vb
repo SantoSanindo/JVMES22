@@ -102,29 +102,29 @@ Public Class FormInputStock
     End Sub
 
     Private Sub txt_forminputstock_qrcode_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_qrcode.PreviewKeyDown
+        Dim QrcodeValid As Boolean
         Try
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
                 If globVar.add > 0 Then
                     If txt_forminputstock_qrcode.Text.Length > 64 And checkQr.Checked Then
-
-                        globVar.QRCode_PN = ""
-                        globVar.QRCode_Inv = ""
-                        globVar.QRCode_Batch = ""
-                        globVar.QRCode_Country = ""
-                        globVar.QRCode_lot = ""
-                        globVar.QRCode_Qty = ""
-                        globVar.QRCode_Traceability = ""
 
                         Call Database.koneksi_database()
 
                         Dim adapter As SqlDataAdapter
                         Dim ds As New DataTable
 
-                        'If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
-                        QRCode.Baca(txt_forminputstock_qrcode.Text)
+                        QrcodeValid = QRCode.Baca(txt_forminputstock_qrcode.Text)
 
-                        If globVar.QRCode_lot = "" Then
-                            RJMessageBox.Show("Qrcode cannot read LOT NO Material. Please input manual or call the leader.")
+                        If QrcodeValid = False Then
+                            lbl_Info.Text = "QRCode Not Valid"
+                            Play_Sound.Wrong()
+                            txt_forminputstock_qrcode.Clear()
+                            Exit Sub
+                        End If
+
+                        If globVar.QRCode_PN = "" Or globVar.QRCode_lot = "" Or globVar.QRCode_Traceability = "" Or globVar.QRCode_Batch = "" Or globVar.QRCode_Inv = "" Then
+                            lbl_Info.Text = "QRCode Not Valid"
+                            Play_Sound.Wrong()
                             txt_forminputstock_qrcode.Clear()
                             Exit Sub
                         End If
@@ -193,7 +193,7 @@ Public Class FormInputStock
                             txt_forminputstock_qrcode.Select()
                         End If
                     Else
-                        lbl_Info.Text = "QRCode Reject"
+                        lbl_Info.Text = "Wrong QRCode"
                         Play_Sound.Wrong()
 
                         txt_forminputstock_qrcode.Text = ""

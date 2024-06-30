@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 
 Public Class ProductionRequest
     Public Shared menu As String = "Production Request"
@@ -52,6 +53,7 @@ Public Class ProductionRequest
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
+        Dim QrcodeValid As Boolean
         Try
             Dim ds As New DataSet
             Dim Found As Boolean = False
@@ -61,21 +63,47 @@ Public Class ProductionRequest
 
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And TextBox1.Text <> "" And ComboBox1.Text <> "" Then
                 If globVar.add > 0 Then
-                    If Len(TextBox1.Text) >= 64 Then
-                        QRCode.Baca(TextBox1.Text)
-                    Else
-                        If InStr(TextBox1.Text, "-") > 0 Then
-                            Dim SplitLabel = TextBox1.Text.Split("-")
-                            globVar.QRCode_PN = SplitLabel(0)
-                            globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
-                        Else
-                            Dim queryCheck As String = "select * from stock_card where id_level='" & TextBox1.Text & "' and status='Receive From Production' and actual_qty > 0 and department='" & globVar.department & "'"
-                            Dim dttable As DataTable = Database.GetData(queryCheck)
-                            If dttable.Rows.Count > 0 Then
-                                globVar.QRCode_PN = dttable.Rows(0).Item("material")
-                                globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
-                            End If
+
+                    If TextBox1.Text.StartsWith("B") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(1)) Then
+
+                        Dim queryCheck As String = "select * from stock_card where id_level='" & TextBox1.Text & "' and status='Receive From Production' and actual_qty > 0 and department='" & globVar.department & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                            globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
                         End If
+
+                    ElseIf Regex.IsMatch(TextBox1.text, "^\d+-\d+-\d+$") Then
+
+                        Dim SplitLabel = TextBox1.Text.Split("-")
+                        globVar.QRCode_PN = SplitLabel(0)
+                        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+
+                    ElseIf TextBox1.text.StartsWith("MX2D") Then
+
+                        QrcodeValid = QRCode.Baca(TextBox1.Text)
+
+                        If QrcodeValid = False Then
+                            RJMessageBox.Show("QRCode Not Valid")
+                            Play_Sound.Wrong()
+                            TextBox1.Clear()
+                            Exit Sub
+                        End If
+
+                        If globVar.QRCode_PN = "" Or globVar.QRCode_lot = "" Or globVar.QRCode_Traceability = "" Or globVar.QRCode_Batch = "" Or globVar.QRCode_Inv = "" Then
+                            RJMessageBox.Show("QRCode Not Valid")
+                            Play_Sound.Wrong()
+                            TextBox1.Clear()
+                            Exit Sub
+                        End If
+
+                    Else
+
+                        RJMessageBox.Show("QRCode not valid.")
+                        Play_Sound.Wrong()
+                        TextBox1.Clear()
+                        Exit Sub
+
                     End If
 
                     If DataGridView3.Rows.Count > 0 Then
@@ -446,12 +474,16 @@ Public Class ProductionRequest
 
     Sub tampilDataComboBoxDataManualMaterial(material As String)
         Call Database.koneksi_database()
-        Dim dtMaterial As DataTable = Database.GetData("select lot_no, inv_ctrl_date, traceability, batch_no from stock_card where department='" & globVar.department & "' and material='" & material & "' and qrcode='Manual Input' and actual_qty > 0 order by datetime_insert")
+        Dim dtMaterial As DataTable = Database.GetData("select lot_no, inv_ctrl_date, traceability, batch_no, qty, qrcode from stock_card where department='" & globVar.department & "' and material='" & material & "' and actual_qty > 0 and sub_sub_po is null and status = 'Receive From Main Store' and [save] = 1 order by lot_no, inv_ctrl_date, traceability, batch_no")
 
         dtMaterial.Columns.Add("DisplayMember", GetType(String))
 
         For Each row As DataRow In dtMaterial.Rows
-            row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString()
+            If row("qrcode").ToString() = "Manual Input" Then
+                row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString() & " - Manual"
+            Else
+                row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString()
+            End If
         Next
 
         ComboBox2.DataSource = dtMaterial

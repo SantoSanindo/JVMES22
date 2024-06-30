@@ -22,14 +22,14 @@ Partial Class FormReturnStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.checkQr = New System.Windows.Forms.CheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.Button4 = New System.Windows.Forms.Button()
-        Me.txtmanualLot = New System.Windows.Forms.TextBox()
         Me.txtmanualPN = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -108,8 +108,8 @@ Partial Class FormReturnStock
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.GroupBox2.Controls.Add(Me.ComboBox1)
         Me.GroupBox2.Controls.Add(Me.Button4)
-        Me.GroupBox2.Controls.Add(Me.txtmanualLot)
         Me.GroupBox2.Controls.Add(Me.txtmanualPN)
         Me.GroupBox2.Controls.Add(Me.Label7)
         Me.GroupBox2.Controls.Add(Me.Label3)
@@ -119,23 +119,26 @@ Partial Class FormReturnStock
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         '
+        'ComboBox1
+        '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.DropDownWidth = 800
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(534, 23)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(238, 37)
+        Me.ComboBox1.TabIndex = 18
+        '
         'Button4
         '
         Me.Button4.BackColor = System.Drawing.Color.Green
         Me.Button4.ForeColor = System.Drawing.Color.White
-        Me.Button4.Location = New System.Drawing.Point(791, 19)
+        Me.Button4.Location = New System.Drawing.Point(805, 19)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(169, 42)
         Me.Button4.TabIndex = 17
         Me.Button4.Text = "Add Manual"
         Me.Button4.UseVisualStyleBackColor = False
-        '
-        'txtmanualLot
-        '
-        Me.txtmanualLot.Location = New System.Drawing.Point(534, 23)
-        Me.txtmanualLot.Name = "txtmanualLot"
-        Me.txtmanualLot.Size = New System.Drawing.Size(210, 35)
-        Me.txtmanualLot.TabIndex = 16
         '
         'txtmanualPN
         '
@@ -204,14 +207,14 @@ Partial Class FormReturnStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_forminputstock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgv_forminputstock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_forminputstock.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_forminputstock.Location = New System.Drawing.Point(399, 150)
@@ -277,9 +280,9 @@ Partial Class FormReturnStock
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label3 As Label
-    Friend WithEvents txtmanualLot As TextBox
     Friend WithEvents txtmanualPN As TextBox
     Friend WithEvents checkQr As CheckBox
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button4 As Button
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

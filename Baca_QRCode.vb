@@ -52,18 +52,17 @@ Public Module QRCode
         globVar.QRCode_Qty = ""
         globVar.QRCode_Traceability = ""
 
-        If Input_QRCode.Length > 100 Then
+        If Input_QRCode.Length > 105 Then
             Return False
         End If
 
         If IsValidQRCode(Input_QRCode) Then
             Dim part1P As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "1P(\d{10})", 1))
             Dim partQ1 As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "Q(\d{12})", 1))
-            Dim partS As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "S(\d{14})", 1))
-            Dim partQ2 As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "Q(\d{4})", 2))
-            Dim partB As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "B(\w{7,12})", 1))
+            Dim partS As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "S(\d{12})", 1))
+            Dim partQ2 As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "13Q(\d{4})", 1))
+            Dim partB As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "B(\w{7,10})", 1))
             Dim part12D As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "12D(\d{8})", 1))
-            Dim part4L As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "4L\s*(\w+)$", 1))
 
             globVar.QRCode_PN = part1P
             globVar.QRCode_Qty = partQ1
@@ -71,7 +70,6 @@ Public Module QRCode
             globVar.QRCode_lot = partQ2
             globVar.QRCode_Batch = partB
             globVar.QRCode_Inv = part12D
-            globVar.QRCode_Country = part4L
 
             Return True
 
@@ -89,7 +87,7 @@ Public Module QRCode
 
     Function IsValidQRCode(qrCode As String) As Boolean
         Try
-            Dim pattern As New Regex("1P.*Q.*S.*Q.*B.*12D.*4L")
+            Dim pattern As New Regex("1P.*Q.*S.*13Q.*B.*12D.*4L")
             Return pattern.IsMatch(qrCode)
         Catch ex As Exception
             Return False

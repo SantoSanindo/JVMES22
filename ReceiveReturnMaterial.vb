@@ -13,34 +13,46 @@ Public Class ReceiveReturnMaterial
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And TextBox1.Text <> "" Then
             If globVar.add > 0 Then
-                Dim sqlCheckReturnMaterial As String = "SELECT * FROM stock_card WHERE id_level='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Return To Mini Store'"
-                Dim dtCheckReturnMaterial As DataTable = Database.GetData(sqlCheckReturnMaterial)
-                If dtCheckReturnMaterial.Rows.Count > 0 Then
-                    For i = 0 To dtCheckReturnMaterial.Rows.Count - 1
-                        Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE id_level = '" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production'"
-                        Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
-                        If dtCheckStockCard.Rows.Count > 0 Then
-                            RJMessageBox.Show("Double Scan")
-                        Else
-                            Dim sql = "insert into stock_card([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], 
+                If TextBox1.Text.StartsWith("B") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(1)) Then
+
+                    Dim sqlCheckReturnMaterial As String = "SELECT * FROM stock_card WHERE id_level='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Return To Mini Store'"
+                    Dim dtCheckReturnMaterial As DataTable = Database.GetData(sqlCheckReturnMaterial)
+                    If dtCheckReturnMaterial.Rows.Count > 0 Then
+                        For i = 0 To dtCheckReturnMaterial.Rows.Count - 1
+                            Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE id_level = '" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production'"
+                            Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
+                            If dtCheckStockCard.Rows.Count > 0 Then
+                                RJMessageBox.Show("Double Scan")
+                            Else
+                                Dim sql = "insert into stock_card([MTS_NO], [DEPARTMENT], [MATERIAL], [STATUS], [STANDARD_PACK], [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], 
                                 [QTY], [ACTUAL_QTY],[RETURN_MATERIAL],[QRCODE],[id_level],[level],[RETURN_MATERIAL_DATETIME],[RETURN_MATERIAL_WHO]) select [MTS_NO], [DEPARTMENT], [MATERIAL], 'Receive From Production', [STANDARD_PACK], 
                                 [INV_CTRL_DATE], [TRACEABILITY], [BATCH_NO], [LOT_NO], [QTY], [ACTUAL_QTY],1,[id_level],[id_level],[level],getdate(),'" & globVar.username & "' from stock_card 
                                 where id=" & dtCheckReturnMaterial.Rows(i).Item("id")
 
-                            Dim cmdInsertReceiveFromProduction = New SqlCommand(sql, Database.koneksi)
-                            If cmdInsertReceiveFromProduction.ExecuteNonQuery() Then
-                                Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE id=" & dtCheckReturnMaterial.Rows(i).Item("id")
-                                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                                If cmdUpdate.ExecuteNonQuery() Then
-                                    DGV_ReceiveFromProduction()
-                                    TextBox1.Clear()
+                                Dim cmdInsertReceiveFromProduction = New SqlCommand(sql, Database.koneksi)
+                                If cmdInsertReceiveFromProduction.ExecuteNonQuery() Then
+                                    Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE id=" & dtCheckReturnMaterial.Rows(i).Item("id")
+                                    Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                                    If cmdUpdate.ExecuteNonQuery() Then
+                                        DGV_ReceiveFromProduction()
+                                        TextBox1.Clear()
+                                    End If
                                 End If
                             End If
-                        End If
-                    Next
+                        Next
+
+                    Else
+                        RJMessageBox.Show("QRCode not exist in DB.")
+                        TextBox1.Clear()
+                    End If
+
                 Else
-                    RJMessageBox.Show("QRCode not exist in DB.")
+
+                    RJMessageBox.Show("QRCode not valid.")
+                    Play_Sound.Wrong()
                     TextBox1.Clear()
+                    Exit Sub
+
                 End If
             Else
                 RJMessageBox.Show("Your Access cannot execute this action")
@@ -84,9 +96,9 @@ Public Class ReceiveReturnMaterial
                 End If
                 If DataGridView1.Rows.Count > 0 Then
                     For Each gRow As DataGridViewRow In DataGridView1.Rows
-                        StringToSearch = gRow.Cells("Material").Value.ToString.Trim.ToLower
+                        StringToSearch = gRow.Cells("Label").Value.ToString.Trim.ToLower
                         If InStr(1, StringToSearch, LCase(Trim(TextBox2.Text)), vbTextCompare) = 1 Then
-                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Material")
+                            Dim myCurrentCell As DataGridViewCell = gRow.Cells("Label")
                             Dim myCurrentPosition As DataGridViewCell = gRow.Cells(0)
                             DataGridView1.CurrentCell = myCurrentCell
                             CurrentRowIndex = DataGridView1.CurrentRow.Index

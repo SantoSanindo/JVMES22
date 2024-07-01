@@ -480,7 +480,7 @@ Public Class ProductionRequest
 
         For Each row As DataRow In dtMaterial.Rows
             If row("qrcode").ToString() = "Manual Input" Then
-                row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString() & " - Manual"
+                row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString() & "|Manual"
             Else
                 row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString()
             End If
@@ -500,14 +500,19 @@ Public Class ProductionRequest
         End If
     End Sub
 
-    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-        Button1.Enabled = False
-        ComboBox2.Enabled = False
-    End Sub
-
     Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox2.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+        If TextBox2.Text.StartsWith("0") AndAlso TextBox2.Text.Length > 1 Then
+            TextBox2.Text = TextBox2.Text.TrimStart("0"c)
+            TextBox2.SelectionStart = TextBox2.Text.Length
+        End If
+
+        Button1.Enabled = False
+        ComboBox2.Enabled = False
     End Sub
 End Class

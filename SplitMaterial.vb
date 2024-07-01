@@ -619,7 +619,7 @@ Public Class SplitMaterial
 
     Private Sub SaveManual_Click(sender As Object, e As EventArgs) Handles SaveManual.Click
         If txtManual.Text = "" Or ComboBox1.SelectedIndex = -1 Then
-            RJMessageBox.Show("Part Number blank. Please fill first")
+            RJMessageBox.Show("Part Number blank. Please input first")
         End If
 
         If globVar.add > 0 Then
@@ -731,5 +731,21 @@ Public Class SplitMaterial
             RJMessageBox.Show("Your access cannot execute this action")
         End If
 
+    End Sub
+
+    Private Sub txtManual_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtManual.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txtManual_TextChanged(sender As Object, e As EventArgs) Handles txtManual.TextChanged
+        If txtManual.Text.StartsWith("0") AndAlso txtManual.Text.Length > 1 Then
+            txtManual.Text = txtManual.Text.TrimStart("0"c)
+            txtManual.SelectionStart = txtManual.Text.Length
+        End If
+
+        SaveManual.Enabled = False
+        ComboBox1.Enabled = False
     End Sub
 End Class

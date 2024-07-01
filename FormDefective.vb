@@ -1831,54 +1831,123 @@ Public Class FormDefective
     End Sub
 
     Private Sub txtBalanceBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBalanceBarcode.KeyDown
+        Dim QrcodeValid As Boolean
         If e.KeyCode = Keys.Enter Then
             Try
                 If txtSubSubPODefective.Text <> "" Then
 
-                    'QRCode.Baca(txtBalanceBarcode.Text)
+                    If txtBalanceBarcode.Text.StartsWith("B") AndAlso txtBalanceBarcode.Text.Length > 1 AndAlso IsNumeric(txtBalanceBarcode.Text.Substring(1)) Then 'Balance
 
-                    If Len(txtBalanceBarcode.Text) >= 64 Then
-                        QRCode.Baca(txtBalanceBarcode.Text)
-                    Else
-                        If InStr(txtBalanceBarcode.Text, "SA") > 0 Then
-                            Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and id_level='" & txtBalanceBarcode.Text & "' and status='Production Request' and department='" & globVar.department & "'"
-                            Dim dttable As DataTable = Database.GetData(queryCheck)
-                            If dttable.Rows.Count > 0 Then
-                                globVar.QRCode_PN = dttable.Rows(0).Item("material")
-                                globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
-                            Else
-                                RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
-                                txtBalanceBarcode.Clear()
-                                txtBalanceMaterialPN.Clear()
-                                TextBox9.Clear()
-                                Exit Sub
-                            End If
-                        ElseIf InStr(txtBalanceBarcode.Text, "B") > 0 And Len(txtBalanceBarcode.Text) < 10 Then
-                            Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtBalanceBarcode.Text & "' and status='Production Request' and department='" & globVar.department & "'"
-                            Dim dttable As DataTable = Database.GetData(queryCheck)
-                            If dttable.Rows.Count > 0 Then
-                                globVar.QRCode_PN = dttable.Rows(0).Item("material")
-                                globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
-                            Else
-                                RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
-                                txtBalanceBarcode.Clear()
-                                txtBalanceMaterialPN.Clear()
-                                TextBox9.Clear()
-                                Exit Sub
-                            End If
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtBalanceBarcode.Text & "' and status='Production Request' and department='" & globVar.department & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                            globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
                         Else
-                            If InStr(txtBalanceBarcode.Text, "-") > 0 Then
-                                Dim SplitLabel = txtBalanceBarcode.Text.Split("-")
-                                globVar.QRCode_PN = SplitLabel(0)
-                                globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
-                            Else
-                                globVar.QRCode_PN = txtBalanceBarcode.Text
-                            End If
-
-                            txtBalanceMaterialPN.Text = globVar.QRCode_PN
-                            TextBox9.Text = globVar.QRCode_lot
+                            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                            txtBalanceBarcode.Clear()
+                            txtBalanceMaterialPN.Clear()
+                            TextBox9.Clear()
+                            Exit Sub
                         End If
+
+                    ElseIf Regex.IsMatch(txtBalanceBarcode.Text, "^\d+-\d+-\d+$") Then 'Split Material
+
+                        If InStr(txtBalanceBarcode.Text, "-") > 0 Then
+                            Dim SplitLabel = txtBalanceBarcode.Text.Split("-")
+                            globVar.QRCode_PN = SplitLabel(0)
+                            globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                        Else
+                            globVar.QRCode_PN = txtBalanceBarcode.Text
+                        End If
+
+                        txtBalanceMaterialPN.Text = globVar.QRCode_PN
+                        TextBox9.Text = globVar.QRCode_lot
+
+                    ElseIf txtBalanceBarcode.Text.StartsWith("MX2D") Then 'Normal
+
+                        QrcodeValid = QRCode.Baca(txtBalanceBarcode.Text)
+
+                        If QrcodeValid = False Then
+                            RJMessageBox.Show("QRCode Not Valid")
+                            Play_Sound.Wrong()
+                            txtBalanceBarcode.Clear()
+                            Exit Sub
+                        End If
+
+                        If globVar.QRCode_PN = "" Or globVar.QRCode_lot = "" Or globVar.QRCode_Traceability = "" Or globVar.QRCode_Batch = "" Or globVar.QRCode_Inv = "" Then
+                            RJMessageBox.Show("QRCode Not Valid")
+                            Play_Sound.Wrong()
+                            txtBalanceBarcode.Clear()
+                            Exit Sub
+                        End If
+
+                    ElseIf txtBalanceBarcode.Text.StartsWith("SA") AndAlso txtBalanceBarcode.Text.Length > 2 AndAlso IsNumeric(txtBalanceBarcode.Text.Substring(2)) Then
+
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and id_level='" & txtBalanceBarcode.Text & "' and status='Production Request' and department='" & globVar.department & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                            globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
+                        Else
+                            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                            txtBalanceBarcode.Clear()
+                            txtBalanceMaterialPN.Clear()
+                            TextBox9.Clear()
+                            Exit Sub
+                        End If
+
+                    Else
+
+                        RJMessageBox.Show("QRCode not valid.")
+                        Play_Sound.Wrong()
+                        txtBalanceBarcode.Clear()
+                        Exit Sub
+
                     End If
+
+                    'If Len(txtBalanceBarcode.Text) >= 64 Then
+                    '    QRCode.Baca(txtBalanceBarcode.Text)
+                    'Else
+                    '    If InStr(txtBalanceBarcode.Text, "SA") > 0 Then
+                    '        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and id_level='" & txtBalanceBarcode.Text & "' and status='Production Request' and department='" & globVar.department & "'"
+                    '        Dim dttable As DataTable = Database.GetData(queryCheck)
+                    '        If dttable.Rows.Count > 0 Then
+                    '            globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                    '            globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
+                    '        Else
+                    '            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                    '            txtBalanceBarcode.Clear()
+                    '            txtBalanceMaterialPN.Clear()
+                    '            TextBox9.Clear()
+                    '            Exit Sub
+                    '        End If
+                    '    ElseIf InStr(txtBalanceBarcode.Text, "B") > 0 And Len(txtBalanceBarcode.Text) < 10 Then
+                    '        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtBalanceBarcode.Text & "' and status='Production Request' and department='" & globVar.department & "'"
+                    '        Dim dttable As DataTable = Database.GetData(queryCheck)
+                    '        If dttable.Rows.Count > 0 Then
+                    '            globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                    '            globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
+                    '        Else
+                    '            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                    '            txtBalanceBarcode.Clear()
+                    '            txtBalanceMaterialPN.Clear()
+                    '            TextBox9.Clear()
+                    '            Exit Sub
+                    '        End If
+                    '    Else
+                    '        If InStr(txtBalanceBarcode.Text, "-") > 0 Then
+                    '            Dim SplitLabel = txtBalanceBarcode.Text.Split("-")
+                    '            globVar.QRCode_PN = SplitLabel(0)
+                    '            globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                    '        Else
+                    '            globVar.QRCode_PN = txtBalanceBarcode.Text
+                    '        End If
+
+                    '        txtBalanceMaterialPN.Text = globVar.QRCode_PN
+                    '        TextBox9.Text = globVar.QRCode_lot
+                    '    End If
+                    'End If
 
                     txtBalanceMaterialPN.Text = globVar.QRCode_PN
                     TextBox9.Text = globVar.QRCode_lot
@@ -1891,6 +1960,7 @@ Public Class FormDefective
                         Dim dttable As DataTable = Database.GetData(queryCheck)
                         If dttable.Rows.Count > 0 Then
                             txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
+                            txtBalanceQty.Select()
                         Else
                             RJMessageBox.Show("This material not exist in DB.")
                             txtBalanceBarcode.Clear()
@@ -1901,6 +1971,7 @@ Public Class FormDefective
                         Dim dttable As DataTable = Database.GetData(queryCheck)
                         If dttable.Rows.Count > 0 Then
                             txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
+                            txtBalanceQty.Select()
                         Else
                             RJMessageBox.Show("This material not exist in DB.")
                             txtBalanceBarcode.Clear()
@@ -1908,7 +1979,6 @@ Public Class FormDefective
                         End If
                     End If
 
-                    txtBalanceQty.Select()
                 Else
                     RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                     txtBalanceBarcode.Clear()
@@ -4907,64 +4977,148 @@ Public Class FormDefective
     End Sub
 
     Private Sub txtRejectBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtRejectBarcode.KeyDown
+        Dim QrcodeValid As Boolean
         If e.KeyCode = Keys.Enter Then
             Try
                 If txtSubSubPODefective.Text <> "" Then
 
-                    'QRCode.Baca(txtRejectBarcode.Text)
+                    If txtRejectBarcode.Text.StartsWith("B") AndAlso txtRejectBarcode.Text.Length > 1 AndAlso IsNumeric(txtRejectBarcode.Text.Substring(1)) Then 'Balance
 
-                    If Len(txtRejectBarcode.Text) >= 64 Then
-                        QRCode.Baca(txtRejectBarcode.Text)
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            txtRejectMaterialPN.Text = dttable.Rows(0).Item("material")
+                            TextBox4.Text = dttable.Rows(0).Item("lot_no")
+                            loaddgReject(txtRejectMaterialPN.Text)
+                            txtRejectQty.Select()
+                        Else
+                            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                            txtRejectBarcode.Clear()
+                            txtRejectMaterialPN.Clear()
+                            txtRejectQty.Clear()
+                        End If
+
+                    ElseIf Regex.IsMatch(txtRejectBarcode.Text, "^\d+-\d+-\d+$") Then 'Split Material
+
+                        Dim SplitLabel = txtRejectBarcode.Text.Split("-")
+                        globVar.QRCode_PN = SplitLabel(0)
+                        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                        txtRejectMaterialPN.Text = globVar.QRCode_PN
+
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & globVar.QRCode_lot & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            loaddgReject(txtRejectMaterialPN.Text)
+                            TextBox4.Text = globVar.QRCode_lot
+                            txtRejectQty.Select()
+                        Else
+                            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                            txtRejectBarcode.Clear()
+                            txtRejectMaterialPN.Clear()
+                            txtRejectQty.Clear()
+                        End If
+
+                    ElseIf txtRejectBarcode.Text.StartsWith("MX2D") Then 'Normal
+
+                        QrcodeValid = QRCode.Baca(txtRejectBarcode.Text)
+
+                        If QrcodeValid = False Then
+                            RJMessageBox.Show("QRCode Not Valid")
+                            Play_Sound.Wrong()
+                            txtRejectBarcode.Clear()
+                            Exit Sub
+                        End If
+
+                        If globVar.QRCode_PN = "" Or globVar.QRCode_lot = "" Or globVar.QRCode_Traceability = "" Or globVar.QRCode_Batch = "" Or globVar.QRCode_Inv = "" Then
+                            RJMessageBox.Show("QRCode Not Valid")
+                            Play_Sound.Wrong()
+                            txtRejectBarcode.Clear()
+                            Exit Sub
+                        End If
+
                         txtRejectMaterialPN.Text = globVar.QRCode_PN
                         TextBox4.Text = globVar.QRCode_lot
-                    Else
-                        If InStr(txtRejectBarcode.Text, "SA") > 0 Then
-                            Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and id_level='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
-                            Dim dttable As DataTable = Database.GetData(queryCheck)
-                            If dttable.Rows.Count > 0 Then
-                                txtRejectMaterialPN.Text = dttable.Rows(0).Item("material")
-                                TextBox4.Text = dttable.Rows(0).Item("lot_no")
-                                loaddgReject(txtRejectMaterialPN.Text)
-                            Else
-                                RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
-                                txtRejectBarcode.Clear()
-                                txtRejectMaterialPN.Clear()
-                                txtRejectQty.Clear()
-                            End If
-                        ElseIf InStr(txtRejectBarcode.Text, "B") > 0 And Len(txtRejectBarcode.Text) < 10 Then
-                            Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
-                            Dim dttable As DataTable = Database.GetData(queryCheck)
-                            If dttable.Rows.Count > 0 Then
-                                txtRejectMaterialPN.Text = dttable.Rows(0).Item("material")
-                                TextBox4.Text = dttable.Rows(0).Item("lot_no")
-                                loaddgReject(txtRejectMaterialPN.Text)
-                            Else
-                                RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
-                                txtRejectBarcode.Clear()
-                                txtRejectMaterialPN.Clear()
-                                txtRejectQty.Clear()
-                            End If
-                        Else
-                            Dim SplitLabel = txtRejectBarcode.Text.Split("-")
-                            globVar.QRCode_PN = SplitLabel(0)
-                            globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
-                            txtRejectMaterialPN.Text = globVar.QRCode_PN
+                        txtRejectQty.Select()
 
-                            Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & globVar.QRCode_lot & "'"
-                            Dim dttable As DataTable = Database.GetData(queryCheck)
-                            If dttable.Rows.Count > 0 Then
-                                loaddgReject(txtRejectMaterialPN.Text)
-                                TextBox4.Text = globVar.QRCode_lot
-                            Else
-                                RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
-                                txtRejectBarcode.Clear()
-                                txtRejectMaterialPN.Clear()
-                                txtRejectQty.Clear()
-                            End If
+                    ElseIf txtRejectBarcode.Text.StartsWith("SA") AndAlso txtRejectBarcode.Text.Length > 2 AndAlso IsNumeric(txtRejectBarcode.Text.Substring(2)) Then
+
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and id_level='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            txtRejectMaterialPN.Text = dttable.Rows(0).Item("material")
+                            TextBox4.Text = dttable.Rows(0).Item("lot_no")
+                            loaddgReject(txtRejectMaterialPN.Text)
+
+                            txtRejectQty.Select()
+                        Else
+                            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                            txtRejectBarcode.Clear()
+                            txtRejectMaterialPN.Clear()
+                            txtRejectQty.Clear()
                         End If
+
+                    Else
+
+                        RJMessageBox.Show("QRCode not valid.")
+                        Play_Sound.Wrong()
+                        txtRejectBarcode.Clear()
+                        Exit Sub
+
                     End If
 
-                    txtRejectQty.Select()
+
+
+                    'If Len(txtRejectBarcode.Text) >= 64 Then
+                    '    QRCode.Baca(txtRejectBarcode.Text)
+                    '    txtRejectMaterialPN.Text = globVar.QRCode_PN
+                    '    TextBox4.Text = globVar.QRCode_lot
+                    'Else
+                    '    If InStr(txtRejectBarcode.Text, "SA") > 0 Then
+                    '        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and id_level='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
+                    '        Dim dttable As DataTable = Database.GetData(queryCheck)
+                    '        If dttable.Rows.Count > 0 Then
+                    '            txtRejectMaterialPN.Text = dttable.Rows(0).Item("material")
+                    '            TextBox4.Text = dttable.Rows(0).Item("lot_no")
+                    '            loaddgReject(txtRejectMaterialPN.Text)
+                    '        Else
+                    '            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                    '            txtRejectBarcode.Clear()
+                    '            txtRejectMaterialPN.Clear()
+                    '            txtRejectQty.Clear()
+                    '        End If
+                    '    ElseIf InStr(txtRejectBarcode.Text, "B") > 0 And Len(txtRejectBarcode.Text) < 10 Then
+                    '        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode='" & txtRejectBarcode.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "'"
+                    '        Dim dttable As DataTable = Database.GetData(queryCheck)
+                    '        If dttable.Rows.Count > 0 Then
+                    '            txtRejectMaterialPN.Text = dttable.Rows(0).Item("material")
+                    '            TextBox4.Text = dttable.Rows(0).Item("lot_no")
+                    '            loaddgReject(txtRejectMaterialPN.Text)
+                    '        Else
+                    '            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                    '            txtRejectBarcode.Clear()
+                    '            txtRejectMaterialPN.Clear()
+                    '            txtRejectQty.Clear()
+                    '        End If
+                    '    Else
+                    '        Dim SplitLabel = txtRejectBarcode.Text.Split("-")
+                    '        globVar.QRCode_PN = SplitLabel(0)
+                    '        globVar.QRCode_lot = SplitLabel(1) & "-" & SplitLabel(2)
+                    '        txtRejectMaterialPN.Text = globVar.QRCode_PN
+
+                    '        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & txtRejectMaterialPN.Text & "' and status='Production Request' and sum_qty > 0 and department='" & globVar.department & "' and lot_no='" & globVar.QRCode_lot & "'"
+                    '        Dim dttable As DataTable = Database.GetData(queryCheck)
+                    '        If dttable.Rows.Count > 0 Then
+                    '            loaddgReject(txtRejectMaterialPN.Text)
+                    '            TextBox4.Text = globVar.QRCode_lot
+                    '        Else
+                    '            RJMessageBox.Show("This material Qty = 0 or this material not exist in DB.")
+                    '            txtRejectBarcode.Clear()
+                    '            txtRejectMaterialPN.Clear()
+                    '            txtRejectQty.Clear()
+                    '        End If
+                    '    End If
+                    'End If
+
                 Else
                     RJMessageBox.Show("Sorry, please input Sub Sub PO First")
                     txtRejectBarcode.Clear()
@@ -5360,12 +5514,16 @@ Public Class FormDefective
 
     Sub tampilDataComboBoxDataManualMaterial(material As String)
         Call Database.koneksi_database()
-        Dim dtMaterial As DataTable = Database.GetData("select lot_no, inv_ctrl_date, traceability, batch_no from stock_card where department='" & globVar.department & "' and material='" & material & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' order by datetime_insert")
+        Dim dtMaterial As DataTable = Database.GetData("select lot_no, inv_ctrl_date, traceability, batch_no, qty, qrcode from stock_card where department='" & globVar.department & "' and material='" & material & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' order by datetime_insert")
 
         dtMaterial.Columns.Add("DisplayMember", GetType(String))
 
         For Each row As DataRow In dtMaterial.Rows
-            row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString()
+            If row("qrcode").ToString() = "Manual Input" Then
+                row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString() & "|Manual"
+            Else
+                row("DisplayMember") = "Lot No:" & row("lot_no").ToString() & "|ICD:" & row("inv_ctrl_date").ToString() & "|Trace:" & row("traceability").ToString() & "|Batch:" & row("batch_no").ToString() & "|Qty:" & row("qty").ToString()
+            End If
         Next
 
         ComboBox1.DataSource = dtMaterial

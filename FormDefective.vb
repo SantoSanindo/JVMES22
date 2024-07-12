@@ -3274,7 +3274,7 @@ Public Class FormDefective
 	                STOCK_CARD sc
                 WHERE
 	                sc.status = 'Production Process' 
-	                AND sc.material = " & dtMUFG.Rows(i).Item("component") & " 
+	                AND sc.material = '" & dtMUFG.Rows(i).Item("component") & "' 
 	                AND sc.DEPARTMENT = '" & globVar.department & "' 
 	                AND sc.sub_sub_po = '" & txtSubSubPODefective.Text & "' 
 	                AND sc.FINISH_GOODS_PN = '" & cbFGPN.Text & "'

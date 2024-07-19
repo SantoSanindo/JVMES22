@@ -5526,10 +5526,10 @@ Public Class FormDefective
             End If
         Next
 
-        ComboBox1.DataSource = dtMaterial
-        ComboBox1.DisplayMember = "DisplayMember"
-        ComboBox1.ValueMember = "DisplayMember"
-        ComboBox1.SelectedIndex = -1
+        ComboBox2.DataSource = dtMaterial
+        ComboBox2.DisplayMember = "DisplayMember"
+        ComboBox2.ValueMember = "DisplayMember"
+        ComboBox2.SelectedIndex = -1
     End Sub
 
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged

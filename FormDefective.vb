@@ -1551,7 +1551,17 @@ Public Class FormDefective
     Private Sub btnBalanceAdd_Click(sender As Object, e As EventArgs) Handles btnBalanceAdd.Click
         If globVar.add > 0 Then
             Try
-                If (CheckBox2.CheckState = CheckState.Checked And txtBalanceBarcode.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Or (CheckBox2.CheckState = CheckState.Unchecked And TextBox1.Text <> "" And TextBox2.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Then
+                If (CheckBox2.CheckState = CheckState.Checked And txtBalanceBarcode.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Or (CheckBox2.CheckState = CheckState.Unchecked And TextBox1.Text <> "" And ComboBox2.Text <> "" And Convert.ToDouble(txtBalanceQty.Text) > 0) Then
+
+                    Dim allmanualMaterial As String() = ComboBox2.Text.Split("|")
+                    Dim lotManualMaterial As String() = allmanualMaterial(0).Split(":")
+                    Dim icdManualMaterial As String() = allmanualMaterial(1).Split(":")
+                    Dim traceManualMaterial As String() = allmanualMaterial(2).Split(":")
+                    Dim batchManualMaterial As String() = allmanualMaterial(3).Split(":")
+
+                    txtBalanceMaterialPN.Text = TextBox1.Text
+                    TextBox9.Text = lotManualMaterial(1)
+
                     Call Database.koneksi_database()
 
                     Dim adapter As SqlDataAdapter
@@ -1568,6 +1578,7 @@ Public Class FormDefective
                     Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtBalanceMaterialPN.Text & "'"
                     adapter = New SqlDataAdapter(sql, Database.koneksi)
                     adapter.Fill(ds)
+
 
                     'If InStr(txtBalanceBarcode.Text, "SA") > 0 Then
                     '    sqlCheckStockCardCheck = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and status='Production Request' and material='" & txtBalanceMaterialPN.Text & "' and department='" & globVar.department & "' and finish_goods_pn='" & cbFGPN.Text & "' and lot_no='" & globVar.QRCode_lot & "' AND [LEVEL]='SA'"

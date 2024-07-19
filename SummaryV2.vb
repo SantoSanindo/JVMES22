@@ -85,11 +85,13 @@ Public Class SummaryV2
     Sub LoadDataTXT()
         Call Database.koneksi_database()
         Dim dtSummary As DataTable = Database.GetData("select * from sub_sub_po ssp, main_po mp where ssp.sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and ssp.line='" + ComboBox1.Text + "' and mp.id=ssp.main_po")
-        txtSubSubPO.Text = dtSummary.Rows(0).Item("sub_sub_po")
-        txtSubSubPOQty.Text = dtSummary.Rows(0).Item("sub_sub_po_qty")
-        txtPO.Text = dtSummary.Rows(0).Item("po")
-        txtSubPO.Text = dtSummary.Rows(0).Item("sub_po")
-        txtFG.Text = dtSummary.Rows(0).Item("fg_pn")
+        If dtSummary.Rows.Count > 0 Then
+            txtSubSubPO.Text = dtSummary.Rows(0).Item("sub_sub_po")
+            txtSubSubPOQty.Text = dtSummary.Rows(0).Item("sub_sub_po_qty")
+            txtPO.Text = dtSummary.Rows(0).Item("po")
+            txtSubPO.Text = dtSummary.Rows(0).Item("sub_po")
+            txtFG.Text = dtSummary.Rows(0).Item("fg_pn")
+        End If
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -541,9 +543,9 @@ Public Class SummaryV2
                         _remark = "Fresh"
                     End If
                     Dim sqlInsertSummaryFG As String = "INSERT INTO [SUMMARY_TRACEABILITY_COMP]([LINE], [COMPONENT], [DESC], [INV], [BATCH_NO], [LOT_COMP], [LOT_FG], 
-                                            [QTY], [SUB_SUB_PO],remark,FINISH_GOODS_PN) VALUES ('" & dttableMat.Rows(m).Item("line") & "', '" & dttableMat.Rows(m).Item("material") & "', '" & dttableMat.Rows(m).Item("name") & "', 
+                                            [QTY], [SUB_SUB_PO],remark) VALUES ('" & dttableMat.Rows(m).Item("line") & "', '" & dttableMat.Rows(m).Item("material") & "', '" & dttableMat.Rows(m).Item("name") & "', 
                                             '" & dttableMat.Rows(m).Item("inv_ctrl_date") & "', '" & dttableMat.Rows(m).Item("batch_no") & "', '" & dttableMat.Rows(m).Item("lot_no") & "', 
-                                            '" & dttableMat.Rows(m).Item("flow_ticket") & "', " & dttableMat.Rows(m).Item("qty").ToString().Replace(",", ".") & ", '" & txtSubSubPO.Text & "','" & _remark & "','" & txtFG.Text & "')"
+                                            '" & dttableMat.Rows(m).Item("flow_ticket") & "', " & dttableMat.Rows(m).Item("qty").ToString().Replace(",", ".") & ", '" & txtSubSubPO.Text & "','" & _remark & "')"
                     Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
                     cmdInsertSummaryFG.ExecuteNonQuery()
                 End If

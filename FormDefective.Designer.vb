@@ -347,7 +347,6 @@ Partial Class FormDefective
         Me.txtStatusSubSubPO.Name = "txtStatusSubSubPO"
         Me.txtStatusSubSubPO.Size = New System.Drawing.Size(100, 20)
         Me.txtStatusSubSubPO.TabIndex = 26
-        Me.txtStatusSubSubPO.Visible = False
         '
         'txtSPQ
         '
@@ -355,7 +354,6 @@ Partial Class FormDefective
         Me.txtSPQ.Name = "txtSPQ"
         Me.txtSPQ.Size = New System.Drawing.Size(100, 20)
         Me.txtSPQ.TabIndex = 24
-        Me.txtSPQ.Visible = False
         '
         'cbFGPN
         '
@@ -452,7 +450,6 @@ Partial Class FormDefective
         Me.txtTampungFlow.Name = "txtTampungFlow"
         Me.txtTampungFlow.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungFlow.TabIndex = 15
-        Me.txtTampungFlow.Visible = False
         '
         'txtTampungLabel
         '
@@ -460,7 +457,6 @@ Partial Class FormDefective
         Me.txtTampungLabel.Name = "txtTampungLabel"
         Me.txtTampungLabel.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungLabel.TabIndex = 14
-        Me.txtTampungLabel.Visible = False
         '
         'txtINV
         '
@@ -468,7 +464,6 @@ Partial Class FormDefective
         Me.txtINV.Name = "txtINV"
         Me.txtINV.Size = New System.Drawing.Size(100, 20)
         Me.txtINV.TabIndex = 13
-        Me.txtINV.Visible = False
         '
         'txtBatchno
         '
@@ -476,7 +471,6 @@ Partial Class FormDefective
         Me.txtBatchno.Name = "txtBatchno"
         Me.txtBatchno.Size = New System.Drawing.Size(100, 20)
         Me.txtBatchno.TabIndex = 12
-        Me.txtBatchno.Visible = False
         '
         'Label4
         '

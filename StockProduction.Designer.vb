@@ -24,6 +24,7 @@ Partial Class StockProduction
     Private Sub InitializeComponent()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -31,6 +32,7 @@ Partial Class StockProduction
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.btn_ExportTrace1 = New System.Windows.Forms.Button()
         Me.DataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -54,6 +56,7 @@ Partial Class StockProduction
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.ProgressBar1)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.DateTimePicker2)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -68,6 +71,16 @@ Partial Class StockProduction
         Me.GroupBox1.Size = New System.Drawing.Size(1298, 586)
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProgressBar1.Location = New System.Drawing.Point(737, 551)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(253, 23)
+        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee
+        Me.ProgressBar1.TabIndex = 15
+        Me.ProgressBar1.Visible = False
         '
         'Button2
         '
@@ -124,7 +137,7 @@ Partial Class StockProduction
         Me.btn_ExportTrace1.Name = "btn_ExportTrace1"
         Me.btn_ExportTrace1.Size = New System.Drawing.Size(296, 41)
         Me.btn_ExportTrace1.TabIndex = 9
-        Me.btn_ExportTrace1.Text = "Export to Excel"
+        Me.btn_ExportTrace1.Text = "Export this table to Excel"
         Me.btn_ExportTrace1.UseVisualStyleBackColor = False
         '
         'DataGridView1
@@ -172,4 +185,6 @@ Partial Class StockProduction
     Friend WithEvents DateTimePicker2 As DateTimePicker
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents ProgressBar1 As ProgressBar
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

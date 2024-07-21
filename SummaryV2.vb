@@ -52,26 +52,13 @@ Public Class SummaryV2
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtSummary As DataTable = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject Out], [return] [Return Out], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out], remark [Remark] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
+        Dim dtSummary As DataTable = Database.GetData("select comp [Comp], fresh_in [Fresh In], sub_assy_in [SA In], onhold_in [OnHold In], wip_in [WIP In], others_in [Others In], total_in [Total In], reject [Reject], [return] [Return], defect [Defect Out], wip_out [WIP Out], onhold_out [OnHold Out], sa_out [SA Out], fg_out [FG Out], total_out [Total Out] from summary_fg where sub_sub_po=(select sub_sub_po from sub_sub_po where line='" + ComboBox1.Text + "' and status='Open') and line='" + ComboBox1.Text + "'order by comp")
 
         DataGridView1.DataSource = dtSummary
 
-        DataGridView1.Columns(0).Width = 100
-        DataGridView1.Columns(1).Width = 50
-        DataGridView1.Columns(2).Width = 50
-        DataGridView1.Columns(3).Width = 50
-        DataGridView1.Columns(4).Width = 50
-        DataGridView1.Columns(5).Width = 50
-        DataGridView1.Columns(6).Width = 50
-        DataGridView1.Columns(7).Width = 50
-        DataGridView1.Columns(8).Width = 50
-        DataGridView1.Columns(9).Width = 50
-        DataGridView1.Columns(10).Width = 50
-        DataGridView1.Columns(11).Width = 50
-        DataGridView1.Columns(12).Width = 50
-        DataGridView1.Columns(13).Width = 50
-        DataGridView1.Columns(14).Width = 50
-        DataGridView1.Columns(15).Width = 500
+        DataGridView1.Columns(1).Width = 100
+        DataGridView1.Columns(6).Width = 100
+        DataGridView1.Columns(14).Width = 100
 
         Dim checkSummary As DataGridViewButtonColumn = New DataGridViewButtonColumn
         checkSummary.Name = "check"
@@ -112,16 +99,9 @@ Public Class SummaryV2
         If dt.Rows.Count > 0 Then
             TreeView1.Nodes(0).Nodes.Add("fresh_in", "Fresh In (" & dt.Rows(0).Item("fresh_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("sub_assy_in", "Sub Assy In (" & dt.Rows(0).Item("sub_assy_in").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("onhold_in", "On Hold In (" & dt.Rows(0).Item("onhold_in").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("wip_in", "WIP In (" & dt.Rows(0).Item("wip_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("others_in", "Others In (" & dt.Rows(0).Item("others_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("reject", "Reject (" & dt.Rows(0).Item("reject").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("return", "Return (" & dt.Rows(0).Item("return").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("defect", "Defect (" & dt.Rows(0).Item("defect").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("wip_out", "WIP Out (" & dt.Rows(0).Item("wip_out").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("onhold_out", "On Hold Out (" & dt.Rows(0).Item("onhold_out").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("sa_out", "SA Out (" & dt.Rows(0).Item("sa_out").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("fg_out", "FG Out (" & dt.Rows(0).Item("fg_out").ToString & ")")
         End If
 
         TreeView1.ExpandAll()
@@ -196,48 +176,6 @@ Public Class SummaryV2
 	            And qty > ACTUAL_QTY 
 	            And department ='" & globVar.department & "'
             order by LOT_NO "
-        ElseIf key = "onhold_in" Then
-            query = "SELECT 
-                id [#],
-	            qrcode [QR CODE],
-	            material [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            qty [QTY]
-            FROM
-                STOCK_CARD
-            WHERE
-                Status = 'Production Request' 
-                AND LEVEL = 'OH' 
-	            And material = '" & comp & "'
-	            And line = '" & ComboBox1.Text & "'
-	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            And qty > ACTUAL_QTY 
-	            And department ='" & globVar.department & "'
-            order by LOT_NO "
-        ElseIf key = "wip_in" Then
-            query = "SELECT 
-                id [#],
-	            qrcode [QR CODE],
-	            material [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            qty [QTY]
-            FROM
-                STOCK_CARD
-            WHERE
-                Status = 'Production Request' 
-                AND LEVEL = 'WIP' 
-	            And material = '" & comp & "'
-	            And line = '" & ComboBox1.Text & "'
-	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            And qty > ACTUAL_QTY 
-	            And department ='" & globVar.department & "'
-            order by LOT_NO "
         ElseIf key = "others_in" Then
             query = "SELECT 
                 id [#],
@@ -294,98 +232,6 @@ Public Class SummaryV2
 	                AND line = '" & ComboBox1.Text & "' 
                     And department ='" & globVar.department & "'
 	                AND material = '" & comp & "'"
-        ElseIf key = "defect" Then
-            query = "SELECT
-	            CODE_OUT_PROD_DEFECT [QR CODE], 
-	            PART_NUMBER [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            (QTY * pengali) [QTY],
-	            process_reject [Process Reject],
-	            flow_ticket_no [Flow Ticket]
-            FROM
-	            OUT_PROD_DEFECT 
-            WHERE
-	            SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            AND line = '" & ComboBox1.Text & "' 
-	            AND PART_NUMBER = '" & comp & "'"
-        ElseIf key = "wip_out" Then
-            query = "SELECT 
-	            CODE_STOCK_PROD_WIP [QR CODE], 
-	            PART_NUMBER [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            (QTY * pengali) [QTY],
-	            process [Process WIP],
-	            flow_ticket_no [Flow Ticket]
-            FROM
-	            STOCK_PROD_WIP 
-            WHERE
-	            SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            AND line = '" & ComboBox1.Text & "'  
-	            AND PART_NUMBER = '" & comp & "'"
-        ElseIf key = "onhold_out" Then
-            query = "SELECT 
-	            CODE_STOCK_PROD_ONHOLD [QR CODE], 
-	            PART_NUMBER [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            (QTY * pengali) [QTY],
-	            process [Process On Hold],
-	            flow_ticket_no [Flow Ticket]
-            FROM
-	            STOCK_PROD_ONHOLD 
-            WHERE
-	            SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            AND line = '" & ComboBox1.Text & "'  
-	            AND PART_NUMBER = '" & comp & "'"
-        ElseIf key = "sa_out" Then
-            query = "SELECT 
-	            qrcode [QR CODE],
-	            material [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            qty [QTY],
-	            FLOW_TICKET [Flow Ticket]
-            FROM
-	            STOCK_CARD 
-            WHERE
-	            status = 'Production Result' 
-	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "'
-	            AND material =  '" & comp & "'
-	            AND line = '" & ComboBox1.Text & "' 
-	            AND LEVEL = 'SA' 
-	            AND department ='" & globVar.department & "'
-            ORDER BY CAST(SUBSTRING(FLOW_TICKET, 1, CHARINDEX(' ', FLOW_TICKET) - 1) AS INT)"
-        ElseIf key = "fg_out" Then
-            query = "SELECT 
-	            qrcode [QR CODE],
-	            material [Material],
-	            INV_CTRL_DATE [ICD],
-	            TRACEABILITY [Traceability],
-	            BATCH_NO [Batch No],
-	            LOT_NO [Lot No],
-	            qty [QTY],
-	            FLOW_TICKET [Flow Ticket]
-            FROM
-	            STOCK_CARD 
-            WHERE
-	            status = 'Production Result' 
-	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "'
-	            AND material =  '" & comp & "'
-	            AND line = '" & ComboBox1.Text & "' 
-	            AND LEVEL = 'FG' 
-	            AND department ='" & globVar.department & "'
-            ORDER BY CAST(SUBSTRING(FLOW_TICKET, 1, CHARINDEX(' ', FLOW_TICKET) - 1) AS INT)"
-
         End If
 
         Dim dtSummary As DataTable = Database.GetData(query)
@@ -461,9 +307,7 @@ Public Class SummaryV2
             If result = DialogResult.Yes Then
                 For i = 0 To DataGridView1.Rows.Count - 1
                     If DataGridView1.Rows(i).Cells("Total In").Value <> DataGridView1.Rows(i).Cells("Total Out").Value Then
-                        If IsDBNull(DataGridView1.Rows(i).Cells("Remark").Value) AndAlso DataGridView1.Rows(i).Cells("Remark").Value.ToString() = "" Then
-                            tidakBalance = True
-                        End If
+                        tidakBalance = True
                     End If
                 Next
 

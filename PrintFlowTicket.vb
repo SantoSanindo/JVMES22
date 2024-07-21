@@ -91,19 +91,13 @@ Public Class PrintFlowTicket
                 Dim NoFlowTicket = "1 of 1"
 
                 Try
-                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow_ticket)
-                            VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
-                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                    If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                        Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
-                        Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
-                        If dtCheckFlowTicket.Rows.Count = 0 Then
-                            Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                    Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
+                    Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
+                    If dtCheckFlowTicket.Rows.Count = 0 Then
+                        Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
                                 VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
-                            Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
-                            cmdInsertFlowTicket.ExecuteNonQuery()
-                        End If
-
+                        Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                        cmdInsertFlowTicket.ExecuteNonQuery()
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show("Error Flow Ticket - 3 =>" & ex.Message)
@@ -114,42 +108,51 @@ Public Class PrintFlowTicket
                         Dim NoFlowTicket As String = i & " of " & Val(TextBox6.Text) / Val(TextBox7.Text)
 
                         Try
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow_ticket)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                                Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
-                                Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
-                                If dtCheckFlowTicket.Rows.Count = 0 Then
+                            'Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
+                            Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket like '" & i & " of %'"
+                            Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
+                            If dtCheckFlowTicket.Rows.Count = 0 Then
 
-                                    Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
                                             VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
-                                    Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
-                                    cmdInsertFlowTicket.ExecuteNonQuery()
-                                End If
+                                Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                cmdInsertFlowTicket.ExecuteNonQuery()
+                            Else
+
+                                Dim SqlUpdateFlowTicket As String = "update flow_ticket set qty_sub_sub_po=" & TextBox6.Text & ", qty_per_lot=" & TextBox7.Text & ", flow_ticket='" & NoFlowTicket & "' where ID=" & dtCheckFlowTicket.Rows(0).Item("id")
+                                Dim cmdUpdateFlowTicket = New SqlCommand(SqlUpdateFlowTicket, Database.koneksi)
+                                cmdUpdateFlowTicket.ExecuteNonQuery()
+
                             End If
                         Catch ex As Exception
                             RJMessageBox.Show("Error Flow Ticket - 5 =>" & ex.Message)
                         End Try
+
                     Next
+
+                    Dim sqlDelete As String = "delete from flow_ticket where sub_sub_po='" & TextBox8.Text & "' and qty_sub_sub_po != '" & TextBox6.Text & "'"
+                    Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
+                    cmdDelete.ExecuteNonQuery()
                 Else
                     For i = 1 To Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
                         Dim NoFlowTicket As String = i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1
 
                         Try
-                            Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, sub_sub_po,department,flow_ticket)
-                                    VALUES ('" & TextBox5.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "','" & TextBox8.Text & "','" & globVar.department & "','" & NoFlowTicket & "')"
-                            Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
-                            If cmdInsertPrintingRecord.ExecuteNonQuery() Then
-                                Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
-                                Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
-                                If dtCheckFlowTicket.Rows.Count = 0 Then
+                            'Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket='" & NoFlowTicket & "'"
+                            Dim queryCheckFlowTicket As String = "select * from flow_ticket where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox8.Text & "' and fg='" & TextBox2.Text & "' and department='" & globVar.department & "' and flow_ticket like '" & i & " of %'"
+                            Dim dtCheckFlowTicket As DataTable = Database.GetData(queryCheckFlowTicket)
+                            If dtCheckFlowTicket.Rows.Count = 0 Then
 
-                                    Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
+                                Dim sqlInsertFlowTicket As String = "INSERT INTO flow_ticket (sub_sub_po, fg, line, qty_sub_sub_po, qty_per_lot,department,flow_ticket)
                                     VALUES ('" & TextBox8.Text & "','" & TextBox2.Text & "','" & ComboBox1.Text & "'," & TextBox6.Text & "," & TextBox7.Text & ",'" & globVar.department & "','" & NoFlowTicket & "')"
-                                    Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
-                                    cmdInsertFlowTicket.ExecuteNonQuery()
-                                End If
+                                Dim cmdInsertFlowTicket = New SqlCommand(sqlInsertFlowTicket, Database.koneksi)
+                                cmdInsertFlowTicket.ExecuteNonQuery()
+                            Else
+
+                                Dim SqlUpdateFlowTicket As String = "update flow_ticket set qty_sub_sub_po=" & TextBox6.Text & ", qty_per_lot=" & TextBox7.Text & ", flow_ticket='" & NoFlowTicket & "' where ID=" & dtCheckFlowTicket.Rows(0).Item("id")
+                                Dim cmdUpdateFlowTicket = New SqlCommand(SqlUpdateFlowTicket, Database.koneksi)
+                                cmdUpdateFlowTicket.ExecuteNonQuery()
+
                             End If
                         Catch ex As Exception
                             RJMessageBox.Show("Error Flow Ticket - 6 =>" & ex.Message)
@@ -157,6 +160,10 @@ Public Class PrintFlowTicket
 
                         'rjMessageBox.Show("Print " & i & " of " & Math.Floor(Val(TextBox6.Text) / Val(TextBox7.Text)) + 1 & " Label Flow Ticket")
                     Next
+
+                    Dim sqlDelete As String = "delete from flow_ticket where sub_sub_po='" & TextBox8.Text & "' and qty_sub_sub_po != '" & TextBox6.Text & "'"
+                    Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
+                    cmdDelete.ExecuteNonQuery()
                 End If
             End If
 

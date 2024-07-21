@@ -43,7 +43,7 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_Spesific()
         Try
-            Dim sql As String = "select ID [#], PO, SUB_PO [Sub PO], SUB_PO_QTY [Sub PO Qty], FG_PN [FG],STATUS [Status],BALANCE [Balance],ACTUAL_QTY [Act Qty],STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS Line from main_po mp where po='" & TextBox1.Text & "' and fg_pn='" & ComboBox1.Text & "' and department='" & globVar.department & "' order by status desc"
+            Dim sql As String = "select ID [#], PO, SUB_PO [Sub PO], SUB_PO_QTY [Sub PO Qty], FG_PN [FG],STATUS [Status],mp.SUB_PO_QTY - mp.ACTUAL_QTY [Balance],ACTUAL_QTY [Act Qty],STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS Line from main_po mp where po='" & TextBox1.Text & "' and fg_pn='" & ComboBox1.Text & "' and department='" & globVar.department & "' order by status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.DataSource = Nothing
@@ -53,6 +53,10 @@ Public Class MainPOSubPO
 
             DataGridView1.DataSource = dtMainPO
 
+            DataGridView1.Columns("#").Width = 100
+            DataGridView1.Columns("Status").Width = 100
+            DataGridView1.Columns("Line").Width = 500
+
             Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
             sub_sub_po.Name = "subsubpo"
             sub_sub_po.HeaderText = "Sub-Sub PO"
@@ -61,26 +65,15 @@ Public Class MainPOSubPO
             sub_sub_po.UseColumnTextForButtonValue = True
             DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            Dim queryStatus As String = "select status from master_status"
-            Dim dtStatus As DataTable = Database.GetData(queryStatus)
-            Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            statusDGV.Name = "statuspo"
-            statusDGV.HeaderText = "Status PO"
-            statusDGV.DataSource = dtStatus
-            statusDGV.DisplayMember = "status"
-            statusDGV.ValueMember = "status"
-            statusDGV.DataPropertyName = "status"
-            DataGridView1.Columns.Insert(10, statusDGV)
-
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
             delete.HeaderText = "Delete"
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(11, delete)
+            DataGridView1.Columns.Insert(10, delete)
 
-            DataGridView1.Columns("status").Visible = False
+            'DataGridView1.Columns("status").Visible = False
         Catch ex As Exception
             RJMessageBox.Show("Error Create Main PO - 1 =>" & ex.Message)
         End Try
@@ -88,7 +81,7 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_All()
         Try
-            Dim sql As String = "SELECT mp.ID [#],mp.PO,mp.SUB_PO [Sub PO],mp.SUB_PO_QTY [Sub PO Qty],mp.FG_PN [FG],mp.STATUS [Status],mp.BALANCE [Balance],mp.ACTUAL_QTY [Act Qty],STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS Line FROM main_po mp where department='" & globVar.department & "' order by mp.status desc"
+            Dim sql As String = "SELECT mp.ID [#],mp.PO,mp.SUB_PO [Sub PO],mp.SUB_PO_QTY [Sub PO Qty],mp.FG_PN [FG],mp.SUB_PO_QTY - mp.ACTUAL_QTY [Balance],mp.ACTUAL_QTY [Act Qty],mp.STATUS [Status],STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS Line FROM main_po mp where department='" & globVar.department & "' and [DATETIME] >= DATEADD(MONTH, -3, GETDATE()) order by mp.status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.DataSource = Nothing
@@ -97,6 +90,10 @@ Public Class MainPOSubPO
 
             DataGridView1.DataSource = dtMainPO
 
+            DataGridView1.Columns("#").Width = 100
+            DataGridView1.Columns("Status").Width = 100
+            DataGridView1.Columns("Line").Width = 500
+
             Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
             sub_sub_po.Name = "subsubpo"
             sub_sub_po.HeaderText = "Sub-Sub PO"
@@ -105,26 +102,15 @@ Public Class MainPOSubPO
             sub_sub_po.UseColumnTextForButtonValue = True
             DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            Dim queryStatus As String = "select status from master_status"
-            Dim dtStatus As DataTable = Database.GetData(queryStatus)
-            Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            statusDGV.Name = "statuspo"
-            statusDGV.HeaderText = "Status PO"
-            statusDGV.DataSource = dtStatus
-            statusDGV.DisplayMember = "status"
-            statusDGV.ValueMember = "status"
-            statusDGV.DataPropertyName = "status"
-            DataGridView1.Columns.Insert(10, statusDGV)
-
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
             delete.HeaderText = "Delete"
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(11, delete)
+            DataGridView1.Columns.Insert(10, delete)
 
-            DataGridView1.Columns("status").Visible = False
+            'DataGridView1.Columns("status").Visible = False
         Catch ex As Exception
             RJMessageBox.Show("Error Create Main PO - 2 =>" & ex.Message)
         End Try
@@ -132,13 +118,17 @@ Public Class MainPOSubPO
 
     Sub DGV_MainPO_JustPO()
         Try
-            Dim sql As String = "select ID [#], PO, SUB_PO [Sub PO],SUB_PO_QTY [Sub PO Qty],FG_PN [FG],STATUS [Status],BALANCE [Balance],ACTUAL_QTY [Act Qty],STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS Line from main_po mp where po='" & TextBox1.Text & "' and department='" & globVar.department & "' order by status desc"
+            Dim sql As String = "select ID [#], PO, SUB_PO [Sub PO],SUB_PO_QTY [Sub PO Qty],FG_PN [FG],STATUS [Status],mp.SUB_PO_QTY - mp.ACTUAL_QTY [Balance],ACTUAL_QTY [Act Qty],STUFF(( SELECT ', ' + sub.line + '('+ left(sub.status,1) +')' FROM SUB_SUB_PO sub WHERE sub.main_po = mp.id FOR XML PATH ( '' ) ),1,2,'' ) AS Line from main_po mp where po='" & TextBox1.Text & "' and department='" & globVar.department & "' order by status desc"
             Dim dtMainPO As DataTable = Database.GetData(sql)
             DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView1.Columns.Clear()
             DataGridView1.DataSource = Nothing
 
             DataGridView1.DataSource = dtMainPO
+
+            DataGridView1.Columns("#").Width = 100
+            DataGridView1.Columns("Status").Width = 100
+            DataGridView1.Columns("Line").Width = 500
 
             Dim sub_sub_po As DataGridViewButtonColumn = New DataGridViewButtonColumn
             sub_sub_po.Name = "subsubpo"
@@ -148,26 +138,15 @@ Public Class MainPOSubPO
             sub_sub_po.UseColumnTextForButtonValue = True
             DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            Dim queryStatus As String = "select status from master_status"
-            Dim dtStatus As DataTable = Database.GetData(queryStatus)
-            Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            statusDGV.Name = "statuspo"
-            statusDGV.HeaderText = "Status PO"
-            statusDGV.DataSource = dtStatus
-            statusDGV.DisplayMember = "status"
-            statusDGV.ValueMember = "status"
-            statusDGV.DataPropertyName = "status"
-            DataGridView1.Columns.Insert(10, statusDGV)
-
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
             delete.HeaderText = "Delete"
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(11, delete)
+            DataGridView1.Columns.Insert(10, delete)
 
-            DataGridView1.Columns("status").Visible = False
+            'DataGridView1.Columns("status").Visible = False
         Catch ex As Exception
             RJMessageBox.Show("Error Create Main PO - 3 =>" & ex.Message)
         End Try
@@ -299,8 +278,32 @@ Public Class MainPOSubPO
                             TabControl1.SelectedTab = TabPage2
                             TabPage2.Enabled = True
                             DGV_SubSubPO()
+
+                            Button4.Enabled = True
+                            Button2.Enabled = True
                         Else
-                            RJMessageBox.Show("Cannot create Sub Sub PO because status PO is close.")
+
+                            Dim Result As DialogResult = RJMessageBox.Show("This PO has been closed. Do you want to check it out", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                            If Result = DialogResult.Yes Then
+                                Dim sqlGetName As String = "select * from master_finish_goods where fg_part_number='" & DataGridView1.Rows(e.RowIndex).Cells("FG").Value & "'"
+                                Dim dtGetName As DataTable = Database.GetData(sqlGetName)
+
+                                TextBox2.Text = DataGridView1.Rows(e.RowIndex).Cells("Sub PO").Value
+                                TextBox4.Text = DataGridView1.Rows(e.RowIndex).Cells("Sub PO Qty").Value
+                                TextBox8.Text = DataGridView1.Rows(e.RowIndex).Cells("PO").Value
+                                TextBox9.Text = DataGridView1.Rows(e.RowIndex).Cells("FG").Value
+                                TextBox12.Text = DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                                TextBox18.Text = dtGetName.Rows(0).Item("description").ToString
+                                ComboBox3.SelectedIndex = -1
+                                TabControl1.SelectedTab = TabPage2
+                                TabPage2.Enabled = True
+                                DGV_SubSubPO()
+
+                                Button4.Enabled = False
+                                Button2.Enabled = False
+                            End If
+
                         End If
                     Else
                         RJMessageBox.Show("Your Access cannot execute this action")
@@ -337,26 +340,178 @@ Public Class MainPOSubPO
         End If
     End Sub
 
+    Private Function IsValidNumber(value As String) As Boolean
+        Return Not String.IsNullOrEmpty(value) AndAlso value.All(AddressOf Char.IsDigit) AndAlso Not value.StartsWith("0")
+    End Function
+
     Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
         Try
             Call Database.koneksi_database()
+
             If DataGridView1.Columns(e.ColumnIndex).Name = "Sub PO Qty" Then
+
                 If globVar.update > 0 Then
-                    Dim sqlcheck As String = "select * from main_po where po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "' and (balance > 0 or actual_qty > 0) and department='" & globVar.department & "'"
-                    Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
-                    If dtMainPOCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Cannot update this data")
+
+                    Dim sqlSumQtySubSubPO As String = "select ISNULL(sum(sub_sub_po_qty),0) total_sub_sub_po from sub_sub_po where main_po=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                    Dim dtSumQtySubSubPO As DataTable = Database.GetData(sqlSumQtySubSubPO)
+
+                    If dtSumQtySubSubPO.Rows(0).Item("total_sub_sub_po") > DataGridView1.Rows(e.RowIndex).Cells("Sub PO Qty").Value Then
+                        RJMessageBox.Show("Can't change the QTY Sub PO because the current QTY of the Sub Sub PO is larger than the QTY Sub PO.")
                         DGV_MainPO_All()
                         Exit Sub
                     End If
 
+                    'Dim sqlcheck As String = "select * from main_po where po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "' and (balance > 0 or actual_qty > 0) and department='" & globVar.department & "'"
+                    'Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
+                    'If dtMainPOCheck.Rows.Count > 0 Then
+                    '    RJMessageBox.Show("Cannot update this data")
+                    '    DGV_MainPO_All()
+                    '    Exit Sub
+                    'End If
+
                     Dim Sql As String = "update main_po set SUB_PO_QTY=" & DataGridView1.Rows(e.RowIndex).Cells("Sub PO Qty").Value & " where ID=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
                     Dim cmd = New SqlCommand(Sql, Database.koneksi)
                     If cmd.ExecuteNonQuery() Then
-                        RJMessageBox.Show("Success updated data")
+                        RJMessageBox.Show("Success update qty Sub PO")
+                        DGV_MainPO_All()
+
+                        ClearTabPage2()
                     End If
                 Else
                     RJMessageBox.Show("Your Access cannot execute this action")
+                End If
+
+            ElseIf DataGridView1.Columns(e.ColumnIndex).Name = "PO" Then
+
+                Dim Result As DialogResult = RJMessageBox.Show("Are you sure for change this SA/PO Number?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                If Result Then
+                    If DataGridView1.Rows(e.RowIndex).Cells("Status").Value = "Closed" Then
+                        RJMessageBox.Show("Cannot change SA/PO Number because po already closed.")
+                        DGV_MainPO_All()
+                        Exit Sub
+                    End If
+
+                    If Not IsValidNumber(DataGridView1.Rows(e.RowIndex).Cells("PO").Value) Then
+                        RJMessageBox.Show("SA/PO Number must be number and cannot start with 0")
+                        DGV_MainPO_All()
+                        Exit Sub
+                    End If
+
+                    Dim SubPO As String() = DataGridView1.Rows(e.RowIndex).Cells("Sub PO").Value.Split("-")
+                    Dim ReadyToSaveSubPO As String = DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "-" & SubPO(1)
+
+                    Dim Sql As String = "update main_po set PO=" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & ", sub_po='" & ReadyToSaveSubPO & "' where ID=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+
+                        Dim sqlSubSubPO As String = "select * from sub_sub_po where main_po=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & " order by id"
+                        Dim dtSubSubPO As DataTable = Database.GetData(sqlSubSubPO)
+
+                        If dtSubSubPO.Rows.Count > 0 Then
+                            For i = 0 To dtSubSubPO.Rows.Count - 1
+                                Dim SubSubPOMainPO As String() = dtSubSubPO.Rows(i).Item("sub_sub_po").Split("-")
+                                Dim ReadyToSaveSubSubPO As String = DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "-" & SubSubPOMainPO(1) & "-" & SubSubPOMainPO(2)
+
+                                Dim sqlSelectDOP As String = "select * from PROD_DOP where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "'"
+                                Dim dtSelectDOP As DataTable = Database.GetData(sqlSelectDOP)
+                                If dtSelectDOP.Rows.Count > 0 Then
+                                    For ii = 0 To dtSelectDOP.Rows.Count - 1
+                                        Dim SqlUpdateDOP As String = "update PROD_DOP set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOP.Rows(ii).Item("id")
+                                        Dim cmdUpdateDOP = New SqlCommand(SqlUpdateDOP, Database.koneksi)
+                                        cmdUpdateDOP.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectDOC As String = "select * from PROD_DOC where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "'"
+                                Dim dtSelectDOC As DataTable = Database.GetData(sqlSelectDOC)
+                                If dtSelectDOC.Rows.Count > 0 Then
+                                    For iii = 0 To dtSelectDOC.Rows.Count - 1
+                                        Dim SqlUpdateDOC As String = "update PROD_DOC set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOC.Rows(iii).Item("id")
+                                        Dim cmdUpdateDOC = New SqlCommand(SqlUpdateDOC, Database.koneksi)
+                                        cmdUpdateDOC.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectDOPDetails As String = "select * from PROD_DOP_DETAILS where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "'"
+                                Dim dtSelectDOPDetails As DataTable = Database.GetData(sqlSelectDOPDetails)
+                                If dtSelectDOPDetails.Rows.Count > 0 Then
+                                    For iiii = 0 To dtSelectDOPDetails.Rows.Count - 1
+                                        Dim SqlUpdateDOPDetails As String = "update PROD_DOP_DETAILS set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOPDetails.Rows(iiii).Item("id")
+                                        Dim cmdUpdateDOPDetails = New SqlCommand(SqlUpdateDOPDetails, Database.koneksi)
+                                        cmdUpdateDOPDetails.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectStockCard As String = "select * from STOCK_CARD where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "' order by id"
+                                Dim dtSelectStockCard As DataTable = Database.GetData(sqlSelectStockCard)
+                                If dtSelectStockCard.Rows.Count > 0 Then
+                                    For iiiii = 0 To dtSelectStockCard.Rows.Count - 1
+                                        Dim SqlUpdateStockCard As String = "update STOCK_CARD set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectStockCard.Rows(iiiii).Item("id")
+                                        Dim cmdUpdateStockCard = New SqlCommand(SqlUpdateStockCard, Database.koneksi)
+                                        cmdUpdateStockCard.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectReject As String = "select * from OUT_PROD_REJECT where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "' order by id"
+                                Dim dtSelectReject As DataTable = Database.GetData(sqlSelectReject)
+                                If dtSelectReject.Rows.Count > 0 Then
+                                    For ij = 0 To dtSelectReject.Rows.Count - 1
+                                        Dim SqlUpdateReject As String = "update OUT_PROD_REJECT set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectReject.Rows(ij).Item("id")
+                                        Dim cmdUpdateReject = New SqlCommand(SqlUpdateReject, Database.koneksi)
+                                        cmdUpdateReject.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectDefect As String = "select * from OUT_PROD_DEFECT where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "' order by id"
+                                Dim dtSelectDefect As DataTable = Database.GetData(sqlSelectDefect)
+                                If dtSelectDefect.Rows.Count > 0 Then
+                                    For ik = 0 To dtSelectDefect.Rows.Count - 1
+                                        Dim SqlUpdateDefect As String = "update OUT_PROD_DEFECT set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDefect.Rows(ik).Item("id")
+                                        Dim cmdUpdateDefect = New SqlCommand(SqlUpdateDefect, Database.koneksi)
+                                        cmdUpdateDefect.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectOnHold As String = "select * from STOCK_PROD_ONHOLD where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "' order by id"
+                                Dim dtSelectOnHold As DataTable = Database.GetData(sqlSelectOnHold)
+                                If dtSelectOnHold.Rows.Count > 0 Then
+                                    For il = 0 To dtSelectOnHold.Rows.Count - 1
+                                        Dim SqlUpdateOnHold As String = "update STOCK_PROD_ONHOLD set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectOnHold.Rows(il).Item("id")
+                                        Dim cmdUpdateOnHold = New SqlCommand(SqlUpdateOnHold, Database.koneksi)
+                                        cmdUpdateOnHold.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectWIP As String = "select * from STOCK_PROD_WIP where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "' order by id"
+                                Dim dtSelectWIP As DataTable = Database.GetData(sqlSelectWIP)
+                                If dtSelectWIP.Rows.Count > 0 Then
+                                    For im = 0 To dtSelectWIP.Rows.Count - 1
+                                        Dim SqlUpdateWIP As String = "update STOCK_PROD_WIP set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectWIP.Rows(im).Item("id")
+                                        Dim cmdUpdateWIP = New SqlCommand(SqlUpdateWIP, Database.koneksi)
+                                        cmdUpdateWIP.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim sqlSelectFT As String = "select * from FLOW_TICKET where sub_sub_po='" & dtSubSubPO.Rows(i).Item("sub_sub_po") & "' order by id"
+                                Dim dtSelectFT As DataTable = Database.GetData(sqlSelectFT)
+                                If dtSelectFT.Rows.Count > 0 Then
+                                    For iq = 0 To dtSelectFT.Rows.Count - 1
+                                        Dim SqlUpdateFT As String = "update FLOW_TICKET set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectFT.Rows(iq).Item("id")
+                                        Dim cmdUpdateFT = New SqlCommand(SqlUpdateFT, Database.koneksi)
+                                        cmdUpdateFT.ExecuteNonQuery()
+                                    Next
+                                End If
+
+                                Dim SqlUpdateSubSubPO As String = "update sub_sub_po set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSubSubPO.Rows(i).Item("id")
+                                Dim cmdUpdateSubSubPO = New SqlCommand(SqlUpdateSubSubPO, Database.koneksi)
+                                cmdUpdateSubSubPO.ExecuteNonQuery()
+                            Next
+                        End If
+
+                        RJMessageBox.Show("Success updated data")
+                        DGV_MainPO_All()
+                    End If
                 End If
             End If
 
@@ -525,7 +680,7 @@ Public Class MainPOSubPO
 
     Sub DGV_SubSubPO()
         Try
-            Dim sql As String = "select ID [#], SUB_SUB_PO [SSP], SUB_SUB_PO_QTY [SSP Qty],LINE [Line],STATUS [Status],ACTUAL_QTY [Act Qty],YIELD_LOSE [Yield Lose], datetime_insert [Date Time], insert_who [Save By] from SUB_SUB_PO where MAIN_PO=" & TextBox12.Text
+            Dim sql As String = "select ID [#], SUB_SUB_PO [SSP], SUB_SUB_PO_QTY [SSP Qty],LINE [Line],ACTUAL_QTY [Actual Qty],YIELD_LOSE [Yield Lose], STATUS [Status], datetime_insert [Date Time], insert_who [Save By] from SUB_SUB_PO where MAIN_PO=" & TextBox12.Text
             Dim dtSubSubPO As DataTable = Database.GetData(sql)
             DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView2.DataSource = Nothing
@@ -534,16 +689,16 @@ Public Class MainPOSubPO
             Call Database.koneksi_database()
             DataGridView2.DataSource = dtSubSubPO
 
-            Dim queryStatus As String = "select status from master_status"
-            Dim dtStatus As DataTable = Database.GetData(queryStatus)
-            Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
-            statusDGV.Name = "statuspo"
-            statusDGV.HeaderText = "Status PO"
-            statusDGV.DataSource = dtStatus
-            statusDGV.DisplayMember = "status"
-            statusDGV.ValueMember = "status"
-            statusDGV.DataPropertyName = "status"
-            DataGridView2.Columns.Add(statusDGV)
+            'Dim queryStatus As String = "select status from master_status"
+            'Dim dtStatus As DataTable = Database.GetData(queryStatus)
+            'Dim statusDGV As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
+            'statusDGV.Name = "statuspo"
+            'statusDGV.HeaderText = "Status PO"
+            'statusDGV.DataSource = dtStatus
+            'statusDGV.DisplayMember = "status"
+            'statusDGV.ValueMember = "status"
+            'statusDGV.DataPropertyName = "status"
+            'DataGridView2.Columns.Add(statusDGV)
 
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
@@ -551,13 +706,13 @@ Public Class MainPOSubPO
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView2.Columns.Add(delete)
+            DataGridView2.Columns.Insert(9, delete)
 
             Dim sqlSum As String = "select isnull(sum(actual_qty),0) from sub_sub_po where main_po=" & TextBox12.Text
             Dim dtSubSubPOSum As DataTable = Database.GetData(sqlSum)
             TextBox11.Text = dtSubSubPOSum.Rows(0).Item(0).ToString
 
-            DataGridView2.Columns("status").Visible = False
+            'DataGridView2.Columns("status").Visible = False
 
             For i As Integer = 0 To DataGridView2.RowCount - 1
                 If DataGridView2.Rows(i).HeaderCell.Value = "SSP Qty" Then
@@ -669,13 +824,13 @@ Public Class MainPOSubPO
         If DataGridView2.Columns(e.ColumnIndex).Name = "SSP Qty" Then
             If globVar.update > 0 Then
                 Try
-                    Dim sqlcheck As String = "select * from SUB_SUB_PO where ID='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "' and (actual_qty > 0 or status='Closed')"
-                    Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
-                    If dtMainPOCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Cannot update this data becouse actual qty = 0 or Sub Sub PO is closed")
-                        DGV_SubSubPO()
-                        Exit Sub
-                    End If
+                    'Dim sqlcheck As String = "select * from SUB_SUB_PO where ID='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "' and (actual_qty > 0 or status='Closed')"
+                    'Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
+                    'If dtMainPOCheck.Rows.Count > 0 Then
+                    '    RJMessageBox.Show("Cannot update this data because actual qty = 0 or Sub Sub PO is closed")
+                    '    DGV_SubSubPO()
+                    '    Exit Sub
+                    'End If
 
                     Dim Sum As Integer = 0
                     For i = 0 To DataGridView2.Rows.Count - 1
@@ -683,14 +838,23 @@ Public Class MainPOSubPO
                     Next
 
                     If TextBox4.Text >= Sum Then
+
+                        If DataGridView2.Rows(e.RowIndex).Cells("SSP Qty").Value < DataGridView2.Rows(e.RowIndex).Cells("Actual Qty").Value Then
+                            RJMessageBox.Show("Cannot change SSP Qty because SSP Qty smaller then Actual Qty")
+                            DGV_SubSubPO()
+                            Exit Sub
+                        End If
+
                         Dim Sql As String = "update SUB_SUB_PO set SUB_SUB_PO_QTY=" & DataGridView2.Rows(e.RowIndex).Cells("SSP Qty").Value & " where ID=" & DataGridView2.Rows(e.RowIndex).Cells("#").Value
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
-                            RJMessageBox.Show("Success updated data")
+                            RJMessageBox.Show("Success update Sub Sub PO Qty")
                             DGV_SubSubPO()
                         End If
+
                     Else
-                        RJMessageBox.Show("Sorry Qty more than Qty PO")
+                        RJMessageBox.Show("Sum Qty for all Sub Sub PO larger than Qty Sub PO")
+                        DGV_SubSubPO()
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show("Error Create Main PO - 15 =>" & ex.Message)
@@ -922,6 +1086,12 @@ Public Class MainPOSubPO
     Private Sub DataGridView1_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView1.CellFormatting
         If DataGridView1.Columns(e.ColumnIndex).Name = "Sub PO Qty" Then
             e.CellStyle.BackColor = Color.Green
+            e.CellStyle.ForeColor = Color.White
+        End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "PO" Then
+            e.CellStyle.BackColor = Color.Green
+            e.CellStyle.ForeColor = Color.White
         End If
     End Sub
 

@@ -24,6 +24,7 @@ Partial Class StockMinistore
     Private Sub InitializeComponent()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -31,6 +32,7 @@ Partial Class StockMinistore
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.btn_ExportTrace1 = New System.Windows.Forms.Button()
         Me.DataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -54,6 +56,7 @@ Partial Class StockMinistore
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.ProgressBar1)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.Label1)
@@ -68,6 +71,16 @@ Partial Class StockMinistore
         Me.GroupBox1.Size = New System.Drawing.Size(1298, 586)
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProgressBar1.Location = New System.Drawing.Point(737, 551)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(253, 23)
+        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee
+        Me.ProgressBar1.TabIndex = 15
+        Me.ProgressBar1.Visible = False
         '
         'Label4
         '
@@ -126,7 +139,7 @@ Partial Class StockMinistore
         Me.btn_ExportTrace1.Name = "btn_ExportTrace1"
         Me.btn_ExportTrace1.Size = New System.Drawing.Size(296, 41)
         Me.btn_ExportTrace1.TabIndex = 9
-        Me.btn_ExportTrace1.Text = "Export to Excel"
+        Me.btn_ExportTrace1.Text = "Export this table to Excel"
         Me.btn_ExportTrace1.UseVisualStyleBackColor = False
         '
         'DataGridView1
@@ -149,6 +162,9 @@ Partial Class StockMinistore
         Me.DataGridView1.Size = New System.Drawing.Size(1281, 464)
         Me.DataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DataGridView1.TabIndex = 8
+        '
+        'BackgroundWorker1
+        '
         '
         'StockMinistore
         '
@@ -174,4 +190,6 @@ Partial Class StockMinistore
     Friend WithEvents DateTimePicker1 As DateTimePicker
     Friend WithEvents Label4 As Label
     Friend WithEvents Button2 As Button
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents ProgressBar1 As ProgressBar
 End Class

@@ -186,16 +186,6 @@ Public Class MasterFinishGoods
         If dgv_finish_goods.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
 
-                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG Part Number").Value & "' and status='Open'"
-                Dim dsexist = New DataSet
-                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
-                adapterexist.Fill(dsexist)
-
-                If dsexist.Tables(0).Rows.Count > 0 Then
-                    RJMessageBox.Show("Cannot delete. Because this FG still have Open PO")
-                    Exit Sub
-                End If
-
                 Dim queryCek2 As String = "select * from dbo.master_process_flow where master_finish_goods_pn='" & dgv_finish_goods.Rows(e.RowIndex).Cells("FG Part Number").Value & "'"
                 Dim dsexist2 = New DataSet
                 Dim adapterexist2 = New SqlDataAdapter(queryCek2, Database.koneksi)
@@ -254,6 +244,17 @@ Public Class MasterFinishGoods
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In dgv_finish_goods.Rows
                     If row.Cells(0).Value = True Then
+
+                        Dim queryCek2 As String = "select * from dbo.master_process_flow where master_finish_goods_pn='" & row.Cells("FG Part Number").Value & "'"
+                        Dim dsexist2 = New DataSet
+                        Dim adapterexist2 = New SqlDataAdapter(queryCek2, Database.koneksi)
+                        adapterexist2.Fill(dsexist2)
+
+                        If dsexist2.Tables(0).Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete. Because this FG still used in master process flow")
+                            Continue For
+                        End If
+
                         Dim sql As String = "delete from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & row.Cells("FG Part Number").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()

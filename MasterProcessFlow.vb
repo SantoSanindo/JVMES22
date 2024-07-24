@@ -198,6 +198,17 @@ Public Class MasterProcessFlow
         Call Database.koneksi_database()
         If dgv_masterprocessflow.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
+
+                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_masterprocessflow.Rows(e.RowIndex).Cells("Part Number").Value & "' and status='Open'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this FG still have Open PO")
+                    Exit Sub
+                End If
+
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
                 If result = DialogResult.Yes Then

@@ -222,25 +222,29 @@ Public Class AccessControll
                 Exit Sub
             End If
 
-            If globVar.delete > 0 Then
-                Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-                If result = DialogResult.Yes Then
-                    Try
-                        Dim sql As String = "delete from master_access where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            DGV_Access_Control()
-                        End If
-                    Catch ex As Exception
-                        RJMessageBox.Show("Error Access Control - 3 =>" & ex.Message)
-                    End Try
-                End If
-            Else
-                RJMessageBox.Show("Your Access cannot execute this action")
+            If globVar.username <> "admin" Then
+                RJMessageBox.Show("Cannot delete.")
+                Exit Sub
             End If
-        End If
+            If globVar.delete > 0 Then
+                    Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+                    If result = DialogResult.Yes Then
+                        Try
+                            Dim sql As String = "delete from master_access where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                DGV_Access_Control()
+                            End If
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Access Control - 3 =>" & ex.Message)
+                        End Try
+                    End If
+                Else
+                    RJMessageBox.Show("Your Access cannot execute this action")
+                End If
+            End If
 
-        If DataGridView1.Columns(e.ColumnIndex).Name = "edit" Then
+            If DataGridView1.Columns(e.ColumnIndex).Name = "edit" Then
             If globVar.update > 0 Then
                 For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
                     CheckedListBox1.SetItemChecked(c1, False)

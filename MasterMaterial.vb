@@ -171,6 +171,17 @@ Public Class MasterMaterial
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In dgv_material.Rows
                     If row.Cells(0).Value = True Then
+
+                        Dim queryCek As String = "SELECT * FROM dbo.material_usage_finish_goods where component='" & row.Cells("Part Number").Value & "'"
+                        Dim dsexist = New DataSet
+                        Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                        adapterexist.Fill(dsexist)
+
+                        If dsexist.Tables(0).Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete. Because this material still used in Material Usage Finish Goods")
+                            Continue For
+                        End If
+
                         Dim sql As String = "delete from master_material where part_number='" & row.Cells("Part Number").Value & "' and family='" & row.Cells("Family").Value & "' and department='" & row.Cells("Department").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()

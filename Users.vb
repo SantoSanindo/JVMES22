@@ -201,6 +201,22 @@ Public Class Users
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In DataGridView1.Rows
                     If row.Cells(0).Value = True Then
+
+                        Dim queryCek As String = "select * from PROD_DOP pd, sub_sub_po ssp where pd.operator_id='" & row.Cells("Name").Value & "' and ssp.line = pd.line and ssp.status = 'Open'"
+                        Dim dsexist = New DataSet
+                        Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                        adapterexist.Fill(dsexist)
+
+                        If dsexist.Tables(0).Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete. Because name of this operator still use in Open PO")
+                            Continue For
+                        End If
+
+                        If row.Cells("Role").Value.ToString().Contains("Administrator") Then
+                            RJMessageBox.Show("Cannot delete.")
+                            Continue For
+                        End If
+
                         Dim sql As String = "delete from users where id='" & row.Cells("ID Card").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
@@ -302,6 +318,22 @@ Public Class Users
 
         If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
+
+                Dim queryCek As String = "select * from PROD_DOP pd, sub_sub_po ssp where pd.operator_id='" & DataGridView1.Rows(e.RowIndex).Cells("Name").Value & "' and ssp.line = pd.line and ssp.status = 'Open'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because name of this operator still use in Open PO")
+                    Exit Sub
+                End If
+
+                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Then
+                    RJMessageBox.Show("Cannot delete.")
+                    Exit Sub
+                End If
+
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "Warning", MessageBoxButtons.YesNo)
 
                 If result = DialogResult.Yes Then
@@ -309,7 +341,6 @@ Public Class Users
                         Dim sql As String = "delete from users where id_card_no='" & DataGridView1.Rows(e.RowIndex).Cells("ID Card").Value & "'"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()
-
                         DGV_Users()
                     Catch ex As Exception
                         RJMessageBox.Show("Error Master Users - 5 =>" & ex.Message)

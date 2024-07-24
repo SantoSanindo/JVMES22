@@ -111,6 +111,17 @@ Public Class MaterialUsageFinishGoods
 
         If dgv_masterfinishgoods_atas.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
+
+                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells("FG Part Number").Value & "' and status='Open'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+                    RJMessageBox.Show("Cannot delete. Because this FG still have Open PO")
+                    Exit Sub
+                End If
+
                 Dim result = RJMessageBox.Show("Are you sure delete this data?", "warning", MessageBoxButtons.YesNo)
 
                 If result = DialogResult.Yes Then
@@ -192,6 +203,17 @@ Public Class MaterialUsageFinishGoods
             If result = DialogResult.Yes Then
                 For Each row As DataGridViewRow In dgv_masterfinishgoods_atas.Rows
                     If row.Cells(0).Value = True Then
+
+                        Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & row.Cells("FG Part Number").Value & "' and status='Open'"
+                        Dim dsexist = New DataSet
+                        Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                        adapterexist.Fill(dsexist)
+
+                        If dsexist.Tables(0).Rows.Count > 0 Then
+                            RJMessageBox.Show("Cannot delete. Because this FG still have Open PO")
+                            Continue For
+                        End If
+
                         Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where id=" & row.Cells(1).Value
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         cmd.ExecuteNonQuery()

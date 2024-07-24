@@ -64,9 +64,9 @@ Partial Class SplitMaterial
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 4
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1532, 817)
         Me.TableLayoutPanel1.TabIndex = 0
@@ -82,8 +82,8 @@ Partial Class SplitMaterial
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1526, 75)
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 92.0!))
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1526, 92)
         Me.TableLayoutPanel2.TabIndex = 0
         '
         'TableLayoutPanel3
@@ -118,14 +118,14 @@ Partial Class SplitMaterial
         Me.TableLayoutPanel3.RowCount = 2
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1520, 69)
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1520, 86)
         Me.TableLayoutPanel3.TabIndex = 2
         '
         'Label5
         '
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(8, 37)
+        Me.Label5.Location = New System.Drawing.Point(8, 50)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(149, 29)
         Me.Label5.TabIndex = 13
@@ -134,7 +134,7 @@ Partial Class SplitMaterial
         'txtManual
         '
         Me.txtManual.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtManual.Location = New System.Drawing.Point(163, 37)
+        Me.txtManual.Location = New System.Drawing.Point(163, 47)
         Me.txtManual.Name = "txtManual"
         Me.txtManual.Size = New System.Drawing.Size(215, 35)
         Me.txtManual.TabIndex = 11
@@ -142,7 +142,7 @@ Partial Class SplitMaterial
         'txtOuterLabel
         '
         Me.txtOuterLabel.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtOuterLabel.Location = New System.Drawing.Point(163, 3)
+        Me.txtOuterLabel.Location = New System.Drawing.Point(163, 4)
         Me.txtOuterLabel.Name = "txtOuterLabel"
         Me.txtOuterLabel.Size = New System.Drawing.Size(215, 35)
         Me.txtOuterLabel.TabIndex = 0
@@ -151,7 +151,7 @@ Partial Class SplitMaterial
         '
         Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(18, 2)
+        Me.Label1.Location = New System.Drawing.Point(18, 7)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(139, 29)
         Me.Label1.TabIndex = 1
@@ -163,9 +163,9 @@ Partial Class SplitMaterial
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(384, 3)
+        Me.CheckBox1.Location = New System.Drawing.Point(384, 5)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(127, 28)
+        Me.CheckBox1.Size = New System.Drawing.Size(127, 33)
         Me.CheckBox1.TabIndex = 9
         Me.CheckBox1.Text = "QRCode"
         Me.CheckBox1.UseVisualStyleBackColor = True
@@ -174,7 +174,7 @@ Partial Class SplitMaterial
         '
         Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(520, 2)
+        Me.Label2.Location = New System.Drawing.Point(520, 7)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(99, 29)
         Me.Label2.TabIndex = 0
@@ -193,7 +193,7 @@ Partial Class SplitMaterial
         '
         Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(836, 2)
+        Me.Label3.Location = New System.Drawing.Point(836, 7)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(138, 29)
         Me.Label3.TabIndex = 2
@@ -202,7 +202,7 @@ Partial Class SplitMaterial
         'txtMatLot
         '
         Me.txtMatLot.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtMatLot.Location = New System.Drawing.Point(982, 3)
+        Me.txtMatLot.Location = New System.Drawing.Point(982, 4)
         Me.txtMatLot.Name = "txtMatLot"
         Me.txtMatLot.ReadOnly = True
         Me.txtMatLot.Size = New System.Drawing.Size(155, 35)
@@ -212,7 +212,7 @@ Partial Class SplitMaterial
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(1143, 2)
+        Me.Label4.Location = New System.Drawing.Point(1143, 7)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(141, 29)
         Me.Label4.TabIndex = 5
@@ -221,7 +221,7 @@ Partial Class SplitMaterial
         'txtMatQty
         '
         Me.txtMatQty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.txtMatQty.Location = New System.Drawing.Point(1296, 3)
+        Me.txtMatQty.Location = New System.Drawing.Point(1296, 4)
         Me.txtMatQty.Name = "txtMatQty"
         Me.txtMatQty.ReadOnly = True
         Me.txtMatQty.Size = New System.Drawing.Size(190, 35)
@@ -233,9 +233,9 @@ Partial Class SplitMaterial
         Me.Button2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Button2.Enabled = False
         Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button2.Location = New System.Drawing.Point(1296, 37)
+        Me.Button2.Location = New System.Drawing.Point(1296, 46)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(221, 29)
+        Me.Button2.Size = New System.Drawing.Size(221, 37)
         Me.Button2.TabIndex = 7
         Me.Button2.Text = "Reset"
         Me.Button2.UseVisualStyleBackColor = False
@@ -246,7 +246,7 @@ Partial Class SplitMaterial
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.DropDownWidth = 1000
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(384, 37)
+        Me.ComboBox1.Location = New System.Drawing.Point(384, 46)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(121, 37)
         Me.ComboBox1.TabIndex = 12
@@ -256,9 +256,9 @@ Partial Class SplitMaterial
         Me.SaveManual.BackColor = System.Drawing.Color.Green
         Me.SaveManual.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SaveManual.ForeColor = System.Drawing.Color.White
-        Me.SaveManual.Location = New System.Drawing.Point(631, 37)
+        Me.SaveManual.Location = New System.Drawing.Point(631, 46)
         Me.SaveManual.Name = "SaveManual"
-        Me.SaveManual.Size = New System.Drawing.Size(199, 29)
+        Me.SaveManual.Size = New System.Drawing.Size(199, 37)
         Me.SaveManual.TabIndex = 14
         Me.SaveManual.Text = "Save"
         Me.SaveManual.UseVisualStyleBackColor = False
@@ -280,7 +280,7 @@ Partial Class SplitMaterial
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.GridColor = System.Drawing.SystemColors.Highlight
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 84)
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 101)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
@@ -294,10 +294,10 @@ Partial Class SplitMaterial
         Me.DataGridView2.AllowUserToDeleteRows = False
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView2.Location = New System.Drawing.Point(3, 410)
+        Me.DataGridView2.Location = New System.Drawing.Point(3, 411)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.ReadOnly = True
-        Me.DataGridView2.Size = New System.Drawing.Size(1526, 404)
+        Me.DataGridView2.Size = New System.Drawing.Size(1526, 403)
         Me.DataGridView2.TabIndex = 2
         '
         'TableLayoutPanel4
@@ -308,11 +308,11 @@ Partial Class SplitMaterial
         Me.TableLayoutPanel4.Controls.Add(Me.Button1, 0, 0)
         Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(3, 329)
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(3, 346)
         Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
         Me.TableLayoutPanel4.RowCount = 1
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1526, 75)
+        Me.TableLayoutPanel4.Size = New System.Drawing.Size(1526, 59)
         Me.TableLayoutPanel4.TabIndex = 3
         '
         'Button1
@@ -321,7 +321,7 @@ Partial Class SplitMaterial
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.Enabled = False
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(3, 11)
+        Me.Button1.Location = New System.Drawing.Point(3, 3)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(205, 53)
         Me.Button1.TabIndex = 6

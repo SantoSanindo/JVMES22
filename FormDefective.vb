@@ -4817,12 +4817,6 @@ Public Class FormDefective
                             End If
                         End If
 
-                        'Dim dtOutReturn As DataTable = Database.GetData("select isnull(sum(qty),0) from out_prod_reject where sub_sub_po='" & txtSubSubPODefective.Text & "' and part_number='" & _sPNReject & "'")
-
-                        'Dim queryUpdateStockCardProdReq As String = "update summary_fg set return_out=" & dtOutReturn.Rows(0)(0).ToString.Replace(",", ".") & " where sub_sub_po='" & txtSubSubPODefective.Text & "' and material='" & _sPNReject & "'"
-                        'Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
-                        'dtUpdateStockCardProdReq.ExecuteNonQuery()
-
                         If statusSimpan > 0 Then
                             RJMessageBox.Show("Success Save data!!!")
                             loaddgReject("")

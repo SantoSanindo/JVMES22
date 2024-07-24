@@ -6,6 +6,8 @@ Public Class SummaryV2
     Public Shared menu As String = "Summary"
 
     Dim selectdata As String = ""
+    Dim selectComp As String = ""
+
 
     Private Sub SummaryV2_Load(sender As Object, e As EventArgs) Handles Me.Load
         tampilDataComboBoxLine()
@@ -95,13 +97,14 @@ Public Class SummaryV2
         Dim dt As DataTable = Database.GetData(query)
 
         TreeView1.Nodes.Add("root", "SSP : " & sub_sub_po & " | Comp : " & comp)
+        selectComp = comp
 
         If dt.Rows.Count > 0 Then
             TreeView1.Nodes(0).Nodes.Add("fresh_in", "Fresh In (" & dt.Rows(0).Item("fresh_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("sub_assy_in", "Sub Assy In (" & dt.Rows(0).Item("sub_assy_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("others_in", "Others In (" & dt.Rows(0).Item("others_in").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("reject", "Reject (" & dt.Rows(0).Item("reject").ToString & ")")
-            TreeView1.Nodes(0).Nodes.Add("return", "Return (" & dt.Rows(0).Item("return").ToString & ")")
+            'TreeView1.Nodes(0).Nodes.Add("reject", "Reject (" & dt.Rows(0).Item("reject").ToString & ")")
+            'TreeView1.Nodes(0).Nodes.Add("return", "Return (" & dt.Rows(0).Item("return").ToString & ")")
         End If
 
         TreeView1.ExpandAll()
@@ -142,7 +145,9 @@ Public Class SummaryV2
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
-	            qty [QTY]
+	            qty [QTY],
+	            qty_adjust [QTY Adjust],
+	            remark_qty_adjust [Remark]
             FROM
 	            STOCK_CARD 
             WHERE
@@ -164,7 +169,9 @@ Public Class SummaryV2
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
-	            qty [QTY]
+	            qty [QTY],
+	            qty_adjust [QTY Adjust],
+	            remark_qty_adjust [Remark]
             FROM
                 STOCK_CARD
             WHERE
@@ -185,7 +192,9 @@ Public Class SummaryV2
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
-	            qty [QTY]
+	            qty [QTY],
+	            qty_adjust [QTY Adjust],
+	            remark_qty_adjust [Remark]
             FROM
                 STOCK_CARD
             WHERE
@@ -197,41 +206,41 @@ Public Class SummaryV2
 	            And qty > ACTUAL_QTY 
 	            And department ='" & globVar.department & "'
             order by LOT_NO "
-        ElseIf key = "reject" Then
-            query = "SELECT 
-	                CODE_OUT_PROD_REJECT [QR CODE], 
-	                PART_NUMBER [Material],
-	                INV_CTRL_DATE [ICD],
-	                TRACEABILITY [Traceability],
-	                BATCH_NO [Batch No],
-	                LOT_NO [Lot No],
-	                QTY [QTY],
-	                SUB_ASSY [Notes]
-                FROM
-	                OUT_PROD_REJECT 
-                WHERE
-	                SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	                AND line = '" & ComboBox1.Text & "' 
-	                AND PART_NUMBER = '" & comp & "'"
-        ElseIf key = "return" Then
-            query = "SELECT 
-	                mts_no [MTS NO],
-	                material [Material],
-	                INV_CTRL_DATE [ICD],
-	                TRACEABILITY [Traceability],
-	                BATCH_NO [Batch No],
-	                LOT_NO [Lot No],
-	                qty [QTY],
-	                qrcode [Notes]
-                FROM
-	                STOCK_CARD 
-                WHERE
-                    status = 'Return to Mini Store' 
-                    AND LEVEL = 'B' 
-	                and SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	                AND line = '" & ComboBox1.Text & "' 
-                    And department ='" & globVar.department & "'
-	                AND material = '" & comp & "'"
+            'ElseIf key = "reject" Then
+            '    query = "SELECT 
+            '         CODE_OUT_PROD_REJECT [QR CODE], 
+            '         PART_NUMBER [Material],
+            '         INV_CTRL_DATE [ICD],
+            '         TRACEABILITY [Traceability],
+            '         BATCH_NO [Batch No],
+            '         LOT_NO [Lot No],
+            '         QTY [QTY],
+            '         SUB_ASSY [Notes]
+            '        FROM
+            '         OUT_PROD_REJECT 
+            '        WHERE
+            '         SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+            '         AND line = '" & ComboBox1.Text & "' 
+            '         AND PART_NUMBER = '" & comp & "'"
+            'ElseIf key = "return" Then
+            '    query = "SELECT 
+            '         mts_no [MTS NO],
+            '         material [Material],
+            '         INV_CTRL_DATE [ICD],
+            '         TRACEABILITY [Traceability],
+            '         BATCH_NO [Batch No],
+            '         LOT_NO [Lot No],
+            '         qty [QTY],
+            '         qrcode [Notes]
+            '        FROM
+            '         STOCK_CARD 
+            '        WHERE
+            '            status = 'Return to Mini Store' 
+            '            AND LEVEL = 'B' 
+            '         and SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+            '         AND line = '" & ComboBox1.Text & "' 
+            '            And department ='" & globVar.department & "'
+            '         AND material = '" & comp & "'"
         End If
 
         Dim dtSummary As DataTable = Database.GetData(query)
@@ -312,7 +321,7 @@ Public Class SummaryV2
                 Next
 
                 If tidakBalance Then
-                    RJMessageBox.Show("Please check TOTAL IN and TOTAL OUT must be balance. If not balance, please make sure write something in REMARK")
+                    RJMessageBox.Show("Please check TOTAL IN and TOTAL OUT must be balance.")
                 Else
                     SaveTraceability()
 
@@ -423,11 +432,21 @@ Public Class SummaryV2
 
     Private Sub DataGridView1_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView1.CellFormatting
         If DataGridView1.Columns(e.ColumnIndex).Name = "Total In" Then
+            e.CellStyle.BackColor = Color.Yellow
+        End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "Total Out" Then
+            e.CellStyle.BackColor = Color.Yellow
+        End If
+    End Sub
+
+    Private Sub DataGridView2_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView2.CellFormatting
+        If DataGridView2.Columns(e.ColumnIndex).Name = "QTY Adjust" Then
             e.CellStyle.BackColor = Color.Green
             e.CellStyle.ForeColor = Color.White
         End If
 
-        If DataGridView1.Columns(e.ColumnIndex).Name = "Total Out" Then
+        If DataGridView2.Columns(e.ColumnIndex).Name = "Remark" Then
             e.CellStyle.BackColor = Color.Green
             e.CellStyle.ForeColor = Color.White
         End If
@@ -436,66 +455,61 @@ Public Class SummaryV2
     Private Sub DataGridView2_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellValueChanged
         Try
             Call Database.koneksi_database()
-            If DataGridView2.Columns(e.ColumnIndex).Name = "QTY" Then
-                If selectdata = "fresh_in" Then
+            If DataGridView2.Columns(e.ColumnIndex).Name = "QTY Adjust" Or DataGridView2.Columns(e.ColumnIndex).Name = "Remark" Then
+
+                If IsDBNull(DataGridView2.Rows(e.RowIndex).Cells("Remark").Value) OrElse String.IsNullOrEmpty(DataGridView2.Rows(e.RowIndex).Cells("Remark").Value.ToString()) Then
+                    RJMessageBox.Show("Please input remark first")
+                    Exit Sub
+                End If
+
+                If selectdata = "fresh_in" Or selectdata = "sub_assy_in" Or selectdata = "others_in" Then
                     If globVar.update > 0 Then
-                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                        Dim Sql As String = "update stock_card set qty_adjust='" & DataGridView2.Rows(e.RowIndex).Cells("QTY Adjust").Value & "', remark_qty_adjust='" & DataGridView2.Rows(e.RowIndex).Cells("Remark").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
+
                             LoadData()
+
+                            treeView_show(txtSubSubPO.Text, selectComp)
+
                             RJMessageBox.Show("Success updated data")
+
                         End If
                     Else
                         RJMessageBox.Show("Your Access cannot execute this action")
                     End If
-                ElseIf selectdata = "sub_assy_in" Then
-                    If globVar.update > 0 Then
-                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
-                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            LoadData()
-                            RJMessageBox.Show("Success updated data")
-                        End If
-                    Else
-                        RJMessageBox.Show("Your Access cannot execute this action")
-                    End If
-                ElseIf selectdata = "others_in" Then
-                    If globVar.update > 0 Then
-                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
-                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            LoadData()
-                            RJMessageBox.Show("Success updated data")
-                        End If
-                    Else
-                        RJMessageBox.Show("Your Access cannot execute this action")
-                    End If
-                ElseIf selectdata = "reject" Then
-                    If globVar.update > 0 Then
-                        Dim Sql As String = "update out_prod_reject set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
-                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            LoadData()
-                            RJMessageBox.Show("Success updated data")
-                        End If
-                    Else
-                        RJMessageBox.Show("Your Access cannot execute this action")
-                    End If
-                ElseIf selectdata = "return" Then
-                    If globVar.update > 0 Then
-                        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
-                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            LoadData()
-                            RJMessageBox.Show("Success updated data")
-                        End If
-                    Else
-                        RJMessageBox.Show("Your Access cannot execute this action")
-                    End If
+                    'ElseIf selectdata = "reject" Then
+                    '    If globVar.update > 0 Then
+                    '        Dim Sql As String = "update out_prod_reject set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                    '        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    '        If cmd.ExecuteNonQuery() Then
+                    '            LoadData()
+                    '            RJMessageBox.Show("Success updated data")
+                    '        End If
+                    '    Else
+                    '        RJMessageBox.Show("Your Access cannot execute this action")
+                    '    End If
+                    'ElseIf selectdata = "return" Then
+                    '    If globVar.update > 0 Then
+                    '        Dim Sql As String = "update stock_card set qty='" & DataGridView2.Rows(e.RowIndex).Cells("QTY").Value & "' where id='" & DataGridView2.Rows(e.RowIndex).Cells("#").Value & "'"
+                    '        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    '        If cmd.ExecuteNonQuery() Then
+                    '            LoadData()
+                    '            RJMessageBox.Show("Success updated data")
+                    '        End If
+                    '    Else
+                    '        RJMessageBox.Show("Your Access cannot execute this action")
+                    '    End If
                 End If
             End If
         Catch ex As Exception
             RJMessageBox.Show("Error Summary - 1 =>" & ex.Message)
         End Try
+    End Sub
+
+    Private Sub DataGridView2_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DataGridView2.DataError
+        ' Handle the data error event to provide custom error messages
+        RJMessageBox.Show("QTY Adjust must be number", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        e.ThrowException = False
     End Sub
 End Class

@@ -392,6 +392,7 @@ Partial Class SummaryV2
         Me.DataGridView2.Location = New System.Drawing.Point(345, 3)
         Me.DataGridView2.MultiSelect = False
         Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DataGridView2.Size = New System.Drawing.Size(1326, 385)
         Me.DataGridView2.TabIndex = 2
         '

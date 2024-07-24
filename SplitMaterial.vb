@@ -1,9 +1,30 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.VisualBasic.Logging
 
 Public Class SplitMaterial
     Public Shared menu As String = "Split Label"
+
+    Function SplitMaterialGenerateCode() As String
+        Dim balanceCode As String = ""
+        Try
+            Dim queryCheckCodeSM As String = "SELECT top 1 inner_label FROM SPLIT_LABEL ORDER BY cast(replace(inner_label,'SM','') as int) desc"
+            Dim dtCheckCodeSM As DataTable = Database.GetData(queryCheckCodeSM)
+            If dtCheckCodeSM.Rows.Count > 0 Then
+                Dim match As Match = Regex.Match(dtCheckCodeSM.Rows(0).Item("INNER_LABEL").ToString(), "^([A-Z]+)(\d+)$")
+                If match.Success Then
+                    Dim prefix As String = match.Groups(1).Value
+                    Dim number As Integer = Integer.Parse(match.Groups(2).Value)
+                    Dim nextNumber As Integer = number + 1
+                    balanceCode = prefix & nextNumber.ToString()
+                End If
+            End If
+        Catch ex As Exception
+            RJMessageBox.Show("Error Generate SM Code : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+        Return balanceCode
+    End Function
 
     Private Sub txtOuterLabel_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtOuterLabel.PreviewKeyDown
         Dim QrcodeValid As Boolean
@@ -75,24 +96,30 @@ Public Class SplitMaterial
                                 Dim vPembagian As Integer = Math.Round(Pembagi)
                                 If CDbl(Pembagi) = CInt(Pembagi) Then
                                     For i As Integer = 1 To q
+
+                                        Dim codeSM = SplitMaterialGenerateCode()
+
                                         Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                         Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                         If dtCheckForInsert.Rows.Count = 0 Then
                                             Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
                                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                             cmdInsertInputStockDetail.ExecuteNonQuery()
                                         End If
                                     Next
                                 Else
                                     For i As Integer = 1 To q
+
+                                        Dim codeSM = SplitMaterialGenerateCode()
+
                                         If i = q Then
                                             'MsgBox(Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)))
                                             Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                             Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                             If dtCheckForInsert.Rows.Count = 0 Then
                                                 Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
                                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                                 cmdInsertInputStockDetail.ExecuteNonQuery()
                                             End If
@@ -102,7 +129,7 @@ Public Class SplitMaterial
                                             Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                             If dtCheckForInsert.Rows.Count = 0 Then
                                                 Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & globVar.QRCode_PN & "-" & globVar.QRCode_lot & "-" & i & "','" & globVar.QRCode_lot & "-" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
                                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                                 cmdInsertInputStockDetail.ExecuteNonQuery()
                                             End If
@@ -279,7 +306,7 @@ Public Class SplitMaterial
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If globVar.view > 0 Then
             Try
-                Dim nocheck As Integer = 0
+                Dim _check As Integer = 0
                 If DataGridView2.Rows.Count > 0 Then
                     For i = 0 To DataGridView2.Rows.Count - 1
                         If DataGridView2.Rows(i).Cells("check").Value = True Then
@@ -320,7 +347,7 @@ Public Class SplitMaterial
                                     _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY")
                                     _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_ICD")
                                     _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH")
-                                    _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_LOT")
+                                    _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LOT")
                                     _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & Environment.NewLine
                                     _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
@@ -343,12 +370,13 @@ Public Class SplitMaterial
                                     End If
                                 End If
                             End If
-                        Else
-                            nocheck += 1
+
+                            _check += 1
+
                         End If
                     Next
 
-                    If nocheck >= DataGridView2.Rows.Count Then
+                    If _check <= 0 Then
                         RJMessageBox.Show("Please check first, if you want print")
                     End If
                 Else
@@ -378,30 +406,45 @@ Public Class SplitMaterial
             DataGridView2.Rows.Clear()
             DataGridView2.Columns.Clear()
 
-            Dim queryCheckSplitQty As String = "SELECT DISTINCT 
-                                                    s.outer_pn [Part Number],
-                                                    s.outer_lot [Lot],
-                                                    s.outer_icd [ICD],
-                                                    s.outer_batch [Batch],
-                                                    s.outer_traceability [Traceability],
-                                                    s.outer_qty [Qty],
-                                                    (SELECT COUNT(*) 
-                                                     FROM SPLIT_LABEL 
-                                                     WHERE outer_pn = s.outer_pn 
-                                                       AND outer_lot = s.outer_lot 
-                                                       AND outer_icd = s.outer_icd 
-                                                       AND outer_batch = s.outer_batch 
-                                                       AND outer_traceability = s.outer_traceability) AS [Total Split],
-		                                                (SELECT COUNT(*) 
-                                                     FROM SPLIT_LABEL 
-                                                     WHERE outer_pn = s.outer_pn 
-                                                       AND outer_lot = s.outer_lot 
-                                                       AND outer_icd = s.outer_icd 
-                                                       AND outer_batch = s.outer_batch 
-                                                       AND outer_traceability = s.outer_traceability
-			                                                 and [print] = 1) AS [Total Print]
-                                                FROM SPLIT_LABEL s 
-                                                ORDER BY outer_pn,outer_lot,outer_icd,outer_batch,outer_traceability"
+            Dim queryCheckSplitQty As String = "WITH NumberedRows AS (
+                                                    SELECT 
+                                                        s.outer_pn AS [Part Number],
+                                                        s.outer_lot AS [Lot],
+                                                        s.outer_icd AS [ICD],
+                                                        s.outer_batch AS [Batch],
+                                                        s.outer_traceability AS [Traceability],
+                                                        s.outer_qty AS [Qty],
+                                                        s.ID AS [ID],
+                                                        (SELECT SUM(inner_qty) 
+                                                         FROM SPLIT_LABEL 
+                                                         WHERE outer_pn = s.outer_pn 
+                                                           AND outer_lot = s.outer_lot 
+                                                           AND outer_icd = s.outer_icd 
+                                                           AND outer_batch = s.outer_batch 
+                                                           AND outer_traceability = s.outer_traceability) AS [Actual Qty],
+                                                        (SELECT COUNT(*) 
+                                                         FROM SPLIT_LABEL 
+                                                         WHERE outer_pn = s.outer_pn 
+                                                           AND outer_lot = s.outer_lot 
+                                                           AND outer_icd = s.outer_icd 
+                                                           AND outer_batch = s.outer_batch 
+                                                           AND outer_traceability = s.outer_traceability) AS [Total Split],
+                                                        ROW_NUMBER() OVER (PARTITION BY s.outer_pn, s.outer_lot, s.outer_icd, s.outer_batch, s.outer_traceability ORDER BY s.ID) AS RowNum
+                                                    FROM SPLIT_LABEL s
+                                                )
+                                                SELECT 
+                                                    [Part Number],
+                                                    [Lot],
+                                                    [ICD],
+                                                    [Batch],
+                                                    [Traceability],
+                                                    [Qty],
+                                                    [Actual Qty],
+                                                    [Total Split]
+                                                FROM NumberedRows
+                                                WHERE RowNum = 1
+                                                ORDER BY [ID] desc
+"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView1.DataSource = dtCheckSplitQty
 
@@ -480,34 +523,35 @@ Public Class SplitMaterial
                 Exit Sub
             End If
 
-            If DataGridView1.Rows(e.RowIndex).Cells("Total Print").Value = 0 Then
-                Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-                If result = DialogResult.Yes Then
-                    Try
-                        Dim sql As String = "delete from split_label where outer_pn='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
+            If DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value < DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+                RJMessageBox.Show("Cannot cancel this split because one of the split already in use in the PO")
+                Exit Sub
+            End If
+
+            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+            If result = DialogResult.Yes Then
+                Try
+                    Dim sql As String = "delete from split_label where outer_pn='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
                                             and outer_lot='" & DataGridView1.Rows(e.RowIndex).Cells("Lot").Value & "' 
                                             and outer_icd='" & DataGridView1.Rows(e.RowIndex).Cells("ICD").Value & "' 
                                             and outer_batch='" & DataGridView1.Rows(e.RowIndex).Cells("Batch").Value & "' 
                                             and outer_traceability='" & DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value & "'"
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET split_material=0, actual_qty=qty FROM STOCK_CARD WHERE material='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        Dim SqlUpdate As String = "UPDATE STOCK_CARD SET split_material=0, actual_qty=qty FROM STOCK_CARD WHERE material='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
                                                         and lot_no='" & DataGridView1.Rows(e.RowIndex).Cells("Lot").Value & "' 
                                                         and inv_ctrl_date='" & DataGridView1.Rows(e.RowIndex).Cells("ICD").Value & "' 
                                                         and batch_no='" & DataGridView1.Rows(e.RowIndex).Cells("Batch").Value & "' 
                                                         and traceability='" & DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value & "'"
-                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                            cmdUpdate.ExecuteNonQuery()
+                        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                        cmdUpdate.ExecuteNonQuery()
 
-                            DGV_Atas()
-                            RJMessageBox.Show("Success Cancel Split Label.")
-                        End If
-                    Catch ex As Exception
-                        RJMessageBox.Show("Error Split Material - 5 =>" & ex.Message)
-                    End Try
-                End If
-            Else
-                RJMessageBox.Show("Cannot Cancel this split.")
+                        DGV_Atas()
+                        RJMessageBox.Show("Success Cancel Split Label.")
+                    End If
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Split Material - 5 =>" & ex.Message)
+                End Try
             End If
         End If
     End Sub

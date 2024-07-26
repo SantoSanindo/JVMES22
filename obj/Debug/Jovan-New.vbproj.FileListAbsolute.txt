@@ -673,3 +673,4 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.SummaryV2.resources
 C:\Users\Arif\source\repos\JVMES22\bin\Debug\SDK.NET.Interface.dll
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.OthersPart.resources
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.OthersPart.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.ProductionV2.resources

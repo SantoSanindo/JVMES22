@@ -240,6 +240,12 @@
     <Compile Include="PrintFlowTicket.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ProductionV2.Designer.vb">
+      <DependentUpon>ProductionV2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProductionV2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Production.Designer.vb">
       <DependentUpon>Production.vb</DependentUpon>
     </Compile>
@@ -409,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PrintFlowTicket.resx">
       <DependentUpon>PrintFlowTicket.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductionV2.resx">
+      <DependentUpon>ProductionV2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Production.resx">
       <DependentUpon>Production.vb</DependentUpon>

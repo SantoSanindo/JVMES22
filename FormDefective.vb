@@ -2670,13 +2670,14 @@ Public Class FormDefective
         End If
     End Sub
 
-    Private Sub btnSaveFGDefect_Click(sender As Object, e As EventArgs) Handles btnSaveFGDefect.Click
+    Function SaveFGDefact()
         If globVar.add > 0 Then
             If DataGridView1.Rows.Count > 0 Then
                 Try
                     If txtStatusSubSubPO.Text = "Closed" Then
                         RJMessageBox.Show("Sorry This Sub Sub PO status is closed. Cannot use this menu.")
-                        Exit Sub
+                        Return "not_access"
+                        Exit Function
                     End If
 
                     Dim sResult As Integer = 0
@@ -2689,7 +2690,7 @@ Public Class FormDefective
                     If dtCheckDoneFG.Rows.Count > 0 Then
                         RJMessageBox.Show("Sorry this Flow Ticket already Done. Cannot Save.")
                         ClearInputFG()
-                        Exit Sub
+                        Exit Function
                     End If
 
                     For i = 0 To DataGridView1.Rows.Count - 1
@@ -2748,20 +2749,27 @@ Public Class FormDefective
                         End If
                     Next
 
-                    If sResult > 0 Then
-                        RJMessageBox.Show("Success Save data!!!")
-                        loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
-                    Else
-                        RJMessageBox.Show("Fail Save data!!!")
-                        loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
-                    End If
+                    'If sResult > 0 Then
+                    '    RJMessageBox.Show("Success Save data!!!")
+                    '    loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                    'Else
+                    '    RJMessageBox.Show("Fail Save data!!!")
+                    '    loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                    'End If
                 Catch ex As Exception
                     RJMessageBox.Show("ERDEF1-" & ex.Message)
                 End Try
             End If
+            'Return sResult
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
         End If
+
+        Return 0
+    End Function
+
+    Private Sub btnSaveFGDefect_Click(sender As Object, e As EventArgs) Handles btnSaveFGDefect.Click
+        SaveFGDefact()
     End Sub
 
     Private Sub btnSaveFG_Click(sender As Object, e As EventArgs) Handles btnSaveFG.Click
@@ -3245,6 +3253,7 @@ Public Class FormDefective
         Dim splitPN() As String = pn.Split(";")
         Dim i As Integer
         Dim sReturnValue As String = ""
+
         For i = 0 To splitPN.Length - 2
 
             Dim querySelectSumFlowTicket As String = "select isnull(sum(ft.qty_per_lot*mufg.[usage]),0) qty from material_usage_finish_goods mufg, flow_ticket ft where mufg.fg_part_number='" & cbFGPN.Text & "' and mufg.component='" & splitPN(i) & "' and ft.fg=mufg.fg_part_number and ft.sub_sub_po='" & txtSubSubPODefective.Text & "' and ft.done=0"
@@ -3256,7 +3265,9 @@ Public Class FormDefective
             If dtSelectSumMaterial.Rows(0).Item("qty") < dtSelectSumFlowTicket.Rows(0).Item("qty") Then
                 sReturnValue += splitPN(i) & ","
             End If
+
         Next
+
         Return sReturnValue
     End Function
 
@@ -3381,13 +3392,16 @@ Public Class FormDefective
 
     Function funcInsertReject(pn As String, qty As Integer, process As String, input_from_fg As Integer, sFlowTicket As String)
         Try
+
             If pn.Split("-")(0) = "Kosong" Then
                 RJMessageBox.Show("Sorry, the " & pn.Split("-")(1) & " does not use any material")
                 Return 0
                 Exit Function
             End If
+
             Dim sResult As Integer = 1
             Dim sTampung As String = GetStockCard(pn)
+
             If sTampung <> "" Then
                 RJMessageBox.Show("Sorry qty this material " & sTampung & " is not enough. Please input in menu Production")
                 Return 0

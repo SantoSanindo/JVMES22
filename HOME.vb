@@ -299,8 +299,8 @@ Public Class HOME
         If globVar.CanAccess(Production.menu) Then
             Production.Close()
             TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(Production)
-            TabControl1.TabPages(Production).Select()
+            TabControl1.TabPages.Add(ProductionV2)
+            TabControl1.TabPages(ProductionV2).Select()
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

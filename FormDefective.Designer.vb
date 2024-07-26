@@ -591,7 +591,7 @@ Partial Class FormDefective
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -840,7 +840,7 @@ Partial Class FormDefective
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.DropDownWidth = 800
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(115, 16)
+        Me.ComboBox1.Location = New System.Drawing.Point(115, 8)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(276, 37)
         Me.ComboBox1.TabIndex = 3
@@ -1132,7 +1132,7 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1447,7 +1447,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFGDefect, 0, 0)
-        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFG, 2, 0)
+        Me.TableLayoutPanel10.Controls.Add(Me.btnSaveFG, 1, 0)
         Me.TableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel10.Location = New System.Drawing.Point(3, 531)
         Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
@@ -1468,16 +1468,16 @@ Partial Class FormDefective
         Me.btnSaveFGDefect.TabIndex = 4
         Me.btnSaveFGDefect.Text = "Save Defect"
         Me.btnSaveFGDefect.UseVisualStyleBackColor = False
+        Me.btnSaveFGDefect.Visible = False
         '
         'btnSaveFG
         '
         Me.btnSaveFG.BackColor = System.Drawing.Color.Tan
-        Me.btnSaveFG.Dock = System.Windows.Forms.DockStyle.Fill
         Me.btnSaveFG.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnSaveFG.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSaveFG.Location = New System.Drawing.Point(633, 3)
+        Me.btnSaveFG.Location = New System.Drawing.Point(318, 3)
         Me.btnSaveFG.Name = "btnSaveFG"
-        Me.btnSaveFG.Size = New System.Drawing.Size(310, 35)
+        Me.btnSaveFG.Size = New System.Drawing.Size(309, 35)
         Me.btnSaveFG.TabIndex = 5
         Me.btnSaveFG.Text = "Save Finish Goods"
         Me.btnSaveFG.UseVisualStyleBackColor = False
@@ -1762,7 +1762,7 @@ Partial Class FormDefective
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.DropDownWidth = 800
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(123, 9)
+        Me.ComboBox2.Location = New System.Drawing.Point(123, 17)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(254, 37)
         Me.ComboBox2.TabIndex = 17

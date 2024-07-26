@@ -63,25 +63,6 @@ Public Class ProductionRequest
             If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And TextBox1.Text <> "" And ComboBox1.Text <> "" Then
                 If globVar.add > 0 Then
 
-                    If DataGridView3.Rows.Count > 0 Then
-                        For Each gRow As DataGridViewRow In DataGridView3.Rows
-                            StringToSearch = gRow.Cells("Comp").Value.ToString.Trim.ToLower
-                            If InStr(1, StringToSearch, LCase(Trim(globVar.QRCode_PN)), vbTextCompare) = 1 Then
-                                Dim myCurrentCell As DataGridViewCell = gRow.Cells("Comp")
-                                DataGridView3.CurrentCell = myCurrentCell
-                                CurrentRowIndex = DataGridView3.CurrentRow.Index
-                                Found = True
-                            End If
-                            If Found Then Exit For
-                        Next
-                    End If
-
-                    If Found = False Then
-                        RJMessageBox.Show("Production no need for this material.")
-                        TextBox1.Clear()
-                        Exit Sub
-                    End If
-
                     If TextBox1.Text.StartsWith("B") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(1)) Then
 
                         Dim queryCheck As String = "select * from stock_card where id_level='" & TextBox1.Text & "' and status='Receive From Production' and department='" & globVar.department & "'"
@@ -101,6 +82,25 @@ Public Class ProductionRequest
 
                         globVar.QRCode_PN = dttable.Rows(0).Item("material")
                         globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
+
+                        If DataGridView3.Rows.Count > 0 Then
+                            For Each gRow As DataGridViewRow In DataGridView3.Rows
+                                StringToSearch = gRow.Cells("Comp").Value.ToString.Trim.ToLower
+                                If InStr(1, StringToSearch, LCase(Trim(globVar.QRCode_PN)), vbTextCompare) = 1 Then
+                                    Dim myCurrentCell As DataGridViewCell = gRow.Cells("Comp")
+                                    DataGridView3.CurrentCell = myCurrentCell
+                                    CurrentRowIndex = DataGridView3.CurrentRow.Index
+                                    Found = True
+                                End If
+                                If Found Then Exit For
+                            Next
+                        End If
+
+                        If Found = False Then
+                            RJMessageBox.Show("Production no need for this material.")
+                            TextBox1.Clear()
+                            Exit Sub
+                        End If
 
                         Dim sqlCheckInProdFreshMaterial As String = "SELECT * FROM stock_card WHERE qrcode='" & TextBox1.Text & "' and status='Production Request' and department='" & globVar.department & "' and sub_sub_po='" & SubSubPO.Text & "'"
                         Dim dtCheckInProdFreshMaterial As DataTable = Database.GetData(sqlCheckInProdFreshMaterial)
@@ -139,7 +139,7 @@ Public Class ProductionRequest
 
                         DGV_MaterialNeed()
 
-                    ElseIf TextBox1.Text.StartsWith("SM") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(1)) Then
+                    ElseIf TextBox1.Text.StartsWith("SM") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(2)) Then
 
                         Dim sqlCheckStockSM = "SELECT * FROM split_label WHERE inner_label = '" & TextBox1.Text & "'"
                         Dim dtCheckStockSM As DataTable = Database.GetData(sqlCheckStockSM)
@@ -149,6 +149,25 @@ Public Class ProductionRequest
                         globVar.QRCode_Inv = dtCheckStockSM.Rows(0).Item("outer_icd")
                         globVar.QRCode_Traceability = dtCheckStockSM.Rows(0).Item("outer_traceability")
                         globVar.QRCode_Batch = dtCheckStockSM.Rows(0).Item("outer_batch")
+
+                        If DataGridView3.Rows.Count > 0 Then
+                            For Each gRow As DataGridViewRow In DataGridView3.Rows
+                                StringToSearch = gRow.Cells("Comp").Value.ToString.Trim.ToLower
+                                If InStr(1, StringToSearch, LCase(Trim(globVar.QRCode_PN)), vbTextCompare) = 1 Then
+                                    Dim myCurrentCell As DataGridViewCell = gRow.Cells("Comp")
+                                    DataGridView3.CurrentCell = myCurrentCell
+                                    CurrentRowIndex = DataGridView3.CurrentRow.Index
+                                    Found = True
+                                End If
+                                If Found Then Exit For
+                            Next
+                        End If
+
+                        If Found = False Then
+                            RJMessageBox.Show("Production no need for this material.")
+                            TextBox1.Clear()
+                            Exit Sub
+                        End If
 
                         If dtCheckStockSM.Rows.Count = 0 Then
                             RJMessageBox.Show("Material doesn't exist in Database")
@@ -179,13 +198,13 @@ Public Class ProductionRequest
                             DGV_InProductionMaterial()
                         Else
                             Try
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,QRCODE,SUM_QTY,LEVEL,ID_LEVEL,PRODUCTION_REQUEST_DATETIME,PRODUCTION_REQUEST_WHO)
-                                                VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','NO','" & TextBox1.Text & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'Fresh','" & globVar.QRCode_PN & "',getdate(),'" & globVar.username & "')"
+                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card ([MATERIAL], [QTY], [INV_CTRL_DATE], [TRACEABILITY], [LOT_NO], [BATCH_NO], [PO], [SUB_SUB_PO], [Finish_Goods_PN], [ACTUAL_QTY],[LINE],[SUB_PO],[STATUS],[DEPARTMENT],[STANDARD_PACK],[QRCODE],[SUM_QTY],[LEVEL],[ID_LEVEL],[PRODUCTION_REQUEST_DATETIME],[PRODUCTION_REQUEST_WHO])
+                                                VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & PO.Text & "','" & SubSubPO.Text & "','" & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','NO','" & TextBox1.Text & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'Fresh','" & globVar.QRCode_PN & "',getdate(),'" & globVar.username & "')"
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                     DGV_InProductionMaterial()
 
-                                    Dim SqlUpdate As String = "UPDATE split_label SET inner_qty=0 WHERE inner_label='" & TextBox1.Text & "')"
+                                    Dim SqlUpdate As String = "UPDATE split_label SET inner_qty=0 WHERE inner_label='" & TextBox1.Text & "'"
                                     Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                     cmdUpdate.ExecuteNonQuery()
                                     TextBox1.Clear()
@@ -211,6 +230,25 @@ Public Class ProductionRequest
                         If globVar.QRCode_PN = "" Or globVar.QRCode_lot = "" Or globVar.QRCode_Traceability = "" Or globVar.QRCode_Batch = "" Or globVar.QRCode_Inv = "" Then
                             RJMessageBox.Show("QRCode Not Valid")
                             Play_Sound.Wrong()
+                            TextBox1.Clear()
+                            Exit Sub
+                        End If
+
+                        If DataGridView3.Rows.Count > 0 Then
+                            For Each gRow As DataGridViewRow In DataGridView3.Rows
+                                StringToSearch = gRow.Cells("Comp").Value.ToString.Trim.ToLower
+                                If InStr(1, StringToSearch, LCase(Trim(globVar.QRCode_PN)), vbTextCompare) = 1 Then
+                                    Dim myCurrentCell As DataGridViewCell = gRow.Cells("Comp")
+                                    DataGridView3.CurrentCell = myCurrentCell
+                                    CurrentRowIndex = DataGridView3.CurrentRow.Index
+                                    Found = True
+                                End If
+                                If Found Then Exit For
+                            Next
+                        End If
+
+                        If Found = False Then
+                            RJMessageBox.Show("Production no need for this material.")
                             TextBox1.Clear()
                             Exit Sub
                         End If
@@ -296,7 +334,7 @@ Public Class ProductionRequest
             DataGridView4.Columns.Clear()
 
             Call Database.koneksi_database()
-            Dim queryInProdMaterial As String = "select in_mat.id [#], in_mat.MATERIAL [Material],in_mat.LOT_NO [Lot],in_mat.TRACEABILITY [Trace],in_mat.INV_CTRL_DATE [ICD],in_mat.BATCH_NO [Batch],in_mat.QTY [Qty],in_mat.SUM_QTY [Actual Qty], in_mat.[level] [Level Material], in_mat.production_request_datetime [Date Scan],in_mat.production_request_who [Scan By]
+            Dim queryInProdMaterial As String = "select in_mat.id [#], in_mat.MATERIAL [Material],in_mat.LOT_NO [Lot],in_mat.TRACEABILITY [Trace],in_mat.INV_CTRL_DATE [ICD],in_mat.BATCH_NO [Batch],in_mat.QTY [Qty],in_mat.actual_qty [Actual Qty], in_mat.[level] [Level Material], in_mat.production_request_datetime [Date Scan],in_mat.production_request_who [Scan By]
             from stock_card in_mat, sub_sub_po sp 
             where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTMENT='" & globVar.department & "' and in_mat.[status]='Production Request' and in_mat.[level] = 'Fresh' ORDER BY in_mat.material, in_mat.lot_no"
             Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
@@ -597,8 +635,6 @@ Public Class ProductionRequest
     End Sub
 
     Private Sub DataGridView4_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView4.CellClick
-        DGV_InProductionMaterial()
-        DGV_MaterialNeed()
 
         If e.RowIndex = -1 Then
             Exit Sub
@@ -610,19 +646,26 @@ Public Class ProductionRequest
 
         If DataGridView4.Columns(e.ColumnIndex).Name = "delete" Then
 
-            If DataGridView4.Rows(e.RowIndex).Cells("Qty").Value <> DataGridView4.Rows(e.RowIndex).Cells("Actual Qty").Value Then
-                RJMessageBox.Show("Cannot delete this material because this material already scan in production")
-                Exit Sub
-            End If
+            Dim result = RJMessageBox.Show("Are you sure for delete this material?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
-            Dim sql As String = "delete from stock_card where id=" & DataGridView4.Rows(e.RowIndex).Cells("#").Value
-            Dim cmd = New SqlCommand(sql, Database.koneksi)
-            If cmd.ExecuteNonQuery() Then
-                RJMessageBox.Show("Delete success")
-                DGV_InProductionMaterial()
-                DGV_MaterialNeed()
+            If result = DialogResult.Yes Then
+
+                If DataGridView4.Rows(e.RowIndex).Cells("Qty").Value <> DataGridView4.Rows(e.RowIndex).Cells("Actual Qty").Value Then
+                    RJMessageBox.Show("Cannot delete this material because this material already scan in production")
+                    Exit Sub
+                End If
+
+                Dim sql As String = "delete from stock_card where id=" & DataGridView4.Rows(e.RowIndex).Cells("#").Value
+                Dim cmd = New SqlCommand(sql, Database.koneksi)
+                If cmd.ExecuteNonQuery() Then
+                    RJMessageBox.Show("Delete success")
+                    DGV_InProductionMaterial()
+                    DGV_MaterialNeed()
+                End If
+
             End If
 
         End If
+
     End Sub
 End Class

@@ -108,6 +108,12 @@
     <Compile Include="FGA.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormDefectiveV2.Designer.vb">
+      <DependentUpon>FormDefectiveV2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormDefectiveV2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormDefective.Designer.vb">
       <DependentUpon>FormDefective.vb</DependentUpon>
     </Compile>
@@ -351,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FGA.resx">
       <DependentUpon>FGA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDefectiveV2.resx">
+      <DependentUpon>FormDefectiveV2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDefective.resx">
       <DependentUpon>FormDefective.vb</DependentUpon>

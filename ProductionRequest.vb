@@ -12,7 +12,7 @@ Public Class ProductionRequest
             DataGridView3.Rows.Clear()
             DataGridView3.Columns.Clear()
 
-            Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO [Sub Sub PO],mp.fg_pn [FG Part Number],mufg.component [Comp],mufg.description [Desc],mufg.usage [Usage],sp.sub_sub_po_qty [Qty],ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS [Total Need],mp.po,mp.sub_po,(select sum(qty) from STOCK_CARD where sub_sub_po=sp.SUB_SUB_PO and material=mufg.component and status='Production Request') [Total Ministore to Production]
+            Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO [Sub Sub PO],mp.fg_pn [FG Part Number],mufg.component [Comp],mufg.description [Desc],mufg.usage [Usage],sp.sub_sub_po_qty [Qty],ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS [Total Need],mp.po,mp.sub_po,isnull((select sum(qty) from STOCK_CARD where sub_sub_po=sp.SUB_SUB_PO and material=mufg.component and status='Production Request'),0) [Total Ministore to Production]
                 from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
                 where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox1.Text & "' and mp.department='" & globVar.department & "' order by sp.sub_sub_po"
             Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)
@@ -139,7 +139,7 @@ Public Class ProductionRequest
 
                         DGV_MaterialNeed()
 
-                    ElseIf TextBox1.Text.StartsWith("SM") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(2)) Then
+                    ElseIf TextBox1.Text.StartsWith("SM") AndAlso TextBox1.Text.Length > 2 AndAlso IsNumeric(TextBox1.Text.Substring(2)) Then
 
                         Dim sqlCheckStockSM = "SELECT * FROM split_label WHERE inner_label = '" & TextBox1.Text & "'"
                         Dim dtCheckStockSM As DataTable = Database.GetData(sqlCheckStockSM)
@@ -291,7 +291,7 @@ Public Class ProductionRequest
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
                                     DGV_InProductionMaterial()
 
-                                    Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 WHERE batch_no='" & globVar.QRCode_Batch & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store')"
+                                    Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 WHERE batch_no='" & globVar.QRCode_Batch & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store'"
                                     Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                     cmdUpdate.ExecuteNonQuery()
                                     TextBox1.Clear()
@@ -339,9 +339,7 @@ Public Class ProductionRequest
             where sp.sub_sub_po=in_mat.sub_sub_po and sp.line = '" & ComboBox1.Text & "' and in_mat.line= '" & ComboBox1.Text & "' and sp.sub_sub_po='" & SubSubPO.Text & "' and in_mat.sub_sub_po='" & SubSubPO.Text & "' AND DEPARTMENT='" & globVar.department & "' and in_mat.[status]='Production Request' and in_mat.[level] = 'Fresh' ORDER BY in_mat.material, in_mat.lot_no"
             Dim dtInProdMaterial As DataTable = Database.GetData(queryInProdMaterial)
 
-            If dtInProdMaterial.Rows.Count > 0 Then
-                DataGridView4.DataSource = dtInProdMaterial
-            End If
+            DataGridView4.DataSource = dtInProdMaterial
 
             Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
             deleteProductionRequest.Name = "delete"
@@ -655,13 +653,20 @@ Public Class ProductionRequest
                     Exit Sub
                 End If
 
-                Dim sql As String = "delete from stock_card where id=" & DataGridView4.Rows(e.RowIndex).Cells("#").Value
-                Dim cmd = New SqlCommand(sql, Database.koneksi)
-                If cmd.ExecuteNonQuery() Then
-                    RJMessageBox.Show("Delete success")
-                    DGV_InProductionMaterial()
-                    DGV_MaterialNeed()
+                Dim queryUpdateSC As String = "update stock_card set actual_qty=qty where (status='Receive From Main Store' or status='Receive From Production') and qrcode = (select qrcode from stock_card where id=" & DataGridView4.Rows(e.RowIndex).Cells("#").Value & ")"
+                Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+                If dtUpdateSC.ExecuteNonQuery() Then
+
+                    Dim sql As String = "delete from stock_card where id=" & DataGridView4.Rows(e.RowIndex).Cells("#").Value
+                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                    If cmd.ExecuteNonQuery() Then
+                        RJMessageBox.Show("Delete success")
+                        DGV_InProductionMaterial()
+                        DGV_MaterialNeed()
+                    End If
+
                 End If
+
 
             End If
 

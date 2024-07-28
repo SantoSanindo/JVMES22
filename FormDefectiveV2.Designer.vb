@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class FormDefective
+Partial Class FormDefectiveV2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -72,10 +72,10 @@ Partial Class FormDefective
         Me.txtRejectBarcode = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel19 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label28 = New System.Windows.Forms.Label()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
+        Me.txtRejectMaterialManual = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel20 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label29 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.CheckManualRejectMaterial = New System.Windows.Forms.Button()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.txtRejectQty = New System.Windows.Forms.TextBox()
         Me.btnRejectSave = New System.Windows.Forms.Button()
@@ -83,6 +83,7 @@ Partial Class FormDefective
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.btnRejectDelete = New System.Windows.Forms.Button()
+        Me.tampungIDMaterial = New System.Windows.Forms.TextBox()
         Me.dgReject = New System.Windows.Forms.DataGridView()
         Me.tpWIP = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
@@ -150,27 +151,19 @@ Partial Class FormDefective
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel7 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label19 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.CheckManualReturnMaterial = New System.Windows.Forms.Button()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.TableLayoutPanel14 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.txtReturnMaterialManual = New System.Windows.Forms.TextBox()
         Me.txtBalanceMaterialPN = New System.Windows.Forms.TextBox()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.txtReturnMaterialPN = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel22 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnBalanceEdit = New System.Windows.Forms.Button()
         Me.btnBalanceDelete = New System.Windows.Forms.Button()
         Me.btnPrintBalance = New System.Windows.Forms.Button()
+        Me.tampungIDMaterialReturnMaterial = New System.Windows.Forms.TextBox()
         Me.dgBalance = New System.Windows.Forms.DataGridView()
-        Me.tpDefective = New System.Windows.Forms.TabPage()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
-        Me.pDefective1 = New System.Windows.Forms.Panel()
-        Me.txtLabelOtherPart = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.btnPrintOthersPart = New System.Windows.Forms.Button()
-        Me.btnOtherSave = New System.Windows.Forms.Button()
-        Me.DataGridView4 = New System.Windows.Forms.DataGridView()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -207,11 +200,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel14.SuspendLayout()
         Me.TableLayoutPanel22.SuspendLayout()
         CType(Me.dgBalance, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tpDefective.SuspendLayout()
-        Me.TableLayoutPanel1.SuspendLayout()
-        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pDefective1.SuspendLayout()
-        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -591,7 +579,7 @@ Partial Class FormDefective
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -643,7 +631,6 @@ Partial Class FormDefective
         Me.TabControl1.Controls.Add(Me.tpOnHold)
         Me.TabControl1.Controls.Add(Me.tpFinishGoods)
         Me.TabControl1.Controls.Add(Me.tpBalance)
-        Me.TabControl1.Controls.Add(Me.tpDefective)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TabControl1.Location = New System.Drawing.Point(3, 16)
@@ -699,6 +686,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel17.Controls.Add(Me.TextBox4, 0, 1)
         Me.TableLayoutPanel17.Controls.Add(Me.TextBox5, 3, 0)
         Me.TableLayoutPanel17.Controls.Add(Me.btnRejectDelete, 5, 1)
+        Me.TableLayoutPanel17.Controls.Add(Me.tampungIDMaterial, 3, 1)
         Me.TableLayoutPanel17.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel17.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel17.Name = "TableLayoutPanel17"
@@ -770,7 +758,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel19.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
         Me.TableLayoutPanel19.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
         Me.TableLayoutPanel19.Controls.Add(Me.Label28, 0, 0)
-        Me.TableLayoutPanel19.Controls.Add(Me.TextBox7, 1, 0)
+        Me.TableLayoutPanel19.Controls.Add(Me.txtRejectMaterialManual, 1, 0)
         Me.TableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel19.Location = New System.Drawing.Point(688, 3)
         Me.TableLayoutPanel19.Name = "TableLayoutPanel19"
@@ -789,13 +777,13 @@ Partial Class FormDefective
         Me.Label28.TabIndex = 0
         Me.Label28.Text = "Comp"
         '
-        'TextBox7
+        'txtRejectMaterialManual
         '
-        Me.TextBox7.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox7.Location = New System.Drawing.Point(105, 9)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(233, 35)
-        Me.TextBox7.TabIndex = 1
+        Me.txtRejectMaterialManual.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtRejectMaterialManual.Location = New System.Drawing.Point(105, 9)
+        Me.txtRejectMaterialManual.Name = "txtRejectMaterialManual"
+        Me.txtRejectMaterialManual.Size = New System.Drawing.Size(233, 35)
+        Me.txtRejectMaterialManual.TabIndex = 1
         '
         'TableLayoutPanel20
         '
@@ -804,7 +792,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.10309!))
         Me.TableLayoutPanel20.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.10309!))
         Me.TableLayoutPanel20.Controls.Add(Me.Label29, 0, 0)
-        Me.TableLayoutPanel20.Controls.Add(Me.Button3, 2, 0)
+        Me.TableLayoutPanel20.Controls.Add(Me.CheckManualRejectMaterial, 2, 0)
         Me.TableLayoutPanel20.Controls.Add(Me.ComboBox1, 1, 0)
         Me.TableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel20.Location = New System.Drawing.Point(1035, 3)
@@ -824,15 +812,15 @@ Partial Class FormDefective
         Me.Label29.TabIndex = 0
         Me.Label29.Text = "Lot No"
         '
-        'Button3
+        'CheckManualRejectMaterial
         '
-        Me.Button3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Button3.Location = New System.Drawing.Point(397, 3)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(140, 48)
-        Me.Button3.TabIndex = 2
-        Me.Button3.Text = "Check"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.CheckManualRejectMaterial.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.CheckManualRejectMaterial.Location = New System.Drawing.Point(397, 3)
+        Me.CheckManualRejectMaterial.Name = "CheckManualRejectMaterial"
+        Me.CheckManualRejectMaterial.Size = New System.Drawing.Size(140, 48)
+        Me.CheckManualRejectMaterial.TabIndex = 2
+        Me.CheckManualRejectMaterial.Text = "Check"
+        Me.CheckManualRejectMaterial.UseVisualStyleBackColor = True
         '
         'ComboBox1
         '
@@ -840,7 +828,7 @@ Partial Class FormDefective
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.DropDownWidth = 800
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(115, 16)
+        Me.ComboBox1.Location = New System.Drawing.Point(115, 8)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(276, 37)
         Me.ComboBox1.TabIndex = 3
@@ -873,7 +861,6 @@ Partial Class FormDefective
         Me.txtRejectMaterialPN.Name = "txtRejectMaterialPN"
         Me.txtRejectMaterialPN.Size = New System.Drawing.Size(26, 35)
         Me.txtRejectMaterialPN.TabIndex = 8
-        Me.txtRejectMaterialPN.Visible = False
         '
         'TextBox4
         '
@@ -882,7 +869,6 @@ Partial Class FormDefective
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(26, 35)
         Me.TextBox4.TabIndex = 9
-        Me.TextBox4.Visible = False
         '
         'TextBox5
         '
@@ -891,7 +877,6 @@ Partial Class FormDefective
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(26, 35)
         Me.TextBox5.TabIndex = 10
-        Me.TextBox5.Visible = False
         '
         'btnRejectDelete
         '
@@ -904,6 +889,14 @@ Partial Class FormDefective
         Me.btnRejectDelete.TabIndex = 8
         Me.btnRejectDelete.Text = "Delete"
         Me.btnRejectDelete.UseVisualStyleBackColor = False
+        Me.btnRejectDelete.Visible = False
+        '
+        'tampungIDMaterial
+        '
+        Me.tampungIDMaterial.Location = New System.Drawing.Point(647, 63)
+        Me.tampungIDMaterial.Name = "tampungIDMaterial"
+        Me.tampungIDMaterial.Size = New System.Drawing.Size(35, 35)
+        Me.tampungIDMaterial.TabIndex = 11
         '
         'dgReject
         '
@@ -1132,7 +1125,7 @@ Partial Class FormDefective
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1623,9 +1616,10 @@ Partial Class FormDefective
         Me.TableLayoutPanel3.Controls.Add(Me.TableLayoutPanel7, 5, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.TableLayoutPanel14, 4, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.txtBalanceMaterialPN, 3, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.TextBox9, 0, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.txtReturnMaterialPN, 0, 0)
         Me.TableLayoutPanel3.Controls.Add(Me.TableLayoutPanel22, 5, 1)
         Me.TableLayoutPanel3.Controls.Add(Me.btnPrintBalance, 6, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.tampungIDMaterialReturnMaterial, 3, 1)
         Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
@@ -1726,7 +1720,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel7.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.96574!))
         Me.TableLayoutPanel7.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.97859!))
         Me.TableLayoutPanel7.Controls.Add(Me.Label19, 0, 0)
-        Me.TableLayoutPanel7.Controls.Add(Me.Button1, 2, 0)
+        Me.TableLayoutPanel7.Controls.Add(Me.CheckManualReturnMaterial, 2, 0)
         Me.TableLayoutPanel7.Controls.Add(Me.ComboBox2, 1, 0)
         Me.TableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel7.Location = New System.Drawing.Point(1021, 3)
@@ -1746,15 +1740,15 @@ Partial Class FormDefective
         Me.Label19.TabIndex = 1
         Me.Label19.Text = "Lot No"
         '
-        'Button1
+        'CheckManualReturnMaterial
         '
-        Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.Button1.Location = New System.Drawing.Point(383, 3)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(135, 49)
-        Me.Button1.TabIndex = 16
-        Me.Button1.Text = "Check"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.CheckManualReturnMaterial.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.CheckManualReturnMaterial.Location = New System.Drawing.Point(383, 3)
+        Me.CheckManualReturnMaterial.Name = "CheckManualReturnMaterial"
+        Me.CheckManualReturnMaterial.Size = New System.Drawing.Size(135, 49)
+        Me.CheckManualReturnMaterial.TabIndex = 16
+        Me.CheckManualReturnMaterial.Text = "Check"
+        Me.CheckManualReturnMaterial.UseVisualStyleBackColor = True
         '
         'ComboBox2
         '
@@ -1762,7 +1756,7 @@ Partial Class FormDefective
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.DropDownWidth = 800
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(123, 9)
+        Me.ComboBox2.Location = New System.Drawing.Point(123, 17)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(254, 37)
         Me.ComboBox2.TabIndex = 17
@@ -1773,7 +1767,7 @@ Partial Class FormDefective
         Me.TableLayoutPanel14.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
         Me.TableLayoutPanel14.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
         Me.TableLayoutPanel14.Controls.Add(Me.Label18, 0, 0)
-        Me.TableLayoutPanel14.Controls.Add(Me.TextBox1, 1, 0)
+        Me.TableLayoutPanel14.Controls.Add(Me.txtReturnMaterialManual, 1, 0)
         Me.TableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel14.Location = New System.Drawing.Point(675, 3)
         Me.TableLayoutPanel14.Name = "TableLayoutPanel14"
@@ -1792,13 +1786,13 @@ Partial Class FormDefective
         Me.Label18.TabIndex = 0
         Me.Label18.Text = "Comp"
         '
-        'TextBox1
+        'txtReturnMaterialManual
         '
-        Me.TextBox1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox1.Location = New System.Drawing.Point(105, 10)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(196, 35)
-        Me.TextBox1.TabIndex = 2
+        Me.txtReturnMaterialManual.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtReturnMaterialManual.Location = New System.Drawing.Point(105, 10)
+        Me.txtReturnMaterialManual.Name = "txtReturnMaterialManual"
+        Me.txtReturnMaterialManual.Size = New System.Drawing.Size(196, 35)
+        Me.txtReturnMaterialManual.TabIndex = 2
         '
         'txtBalanceMaterialPN
         '
@@ -1809,14 +1803,14 @@ Partial Class FormDefective
         Me.txtBalanceMaterialPN.TabIndex = 6
         Me.txtBalanceMaterialPN.Visible = False
         '
-        'TextBox9
+        'txtReturnMaterialPN
         '
-        Me.TextBox9.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.TextBox9.Location = New System.Drawing.Point(3, 13)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(26, 35)
-        Me.TextBox9.TabIndex = 16
-        Me.TextBox9.Visible = False
+        Me.txtReturnMaterialPN.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.txtReturnMaterialPN.Location = New System.Drawing.Point(3, 13)
+        Me.txtReturnMaterialPN.Name = "txtReturnMaterialPN"
+        Me.txtReturnMaterialPN.Size = New System.Drawing.Size(26, 35)
+        Me.txtReturnMaterialPN.TabIndex = 16
+        Me.txtReturnMaterialPN.Visible = False
         '
         'TableLayoutPanel22
         '
@@ -1855,6 +1849,7 @@ Partial Class FormDefective
         Me.btnBalanceDelete.TabIndex = 11
         Me.btnBalanceDelete.Text = "Delete"
         Me.btnBalanceDelete.UseVisualStyleBackColor = False
+        Me.btnBalanceDelete.Visible = False
         '
         'btnPrintBalance
         '
@@ -1869,6 +1864,14 @@ Partial Class FormDefective
         Me.btnPrintBalance.UseVisualStyleBackColor = False
         Me.btnPrintBalance.Visible = False
         '
+        'tampungIDMaterialReturnMaterial
+        '
+        Me.tampungIDMaterialReturnMaterial.Location = New System.Drawing.Point(637, 64)
+        Me.tampungIDMaterialReturnMaterial.Name = "tampungIDMaterialReturnMaterial"
+        Me.tampungIDMaterialReturnMaterial.Size = New System.Drawing.Size(32, 35)
+        Me.tampungIDMaterialReturnMaterial.TabIndex = 27
+        Me.tampungIDMaterialReturnMaterial.Visible = False
+        '
         'dgBalance
         '
         Me.dgBalance.AllowUserToAddRows = False
@@ -1880,119 +1883,14 @@ Partial Class FormDefective
         Me.dgBalance.Size = New System.Drawing.Size(1904, 446)
         Me.dgBalance.TabIndex = 1
         '
-        'tpDefective
-        '
-        Me.tpDefective.BackColor = System.Drawing.SystemColors.Control
-        Me.tpDefective.Controls.Add(Me.TableLayoutPanel1)
-        Me.tpDefective.Location = New System.Drawing.Point(4, 38)
-        Me.tpDefective.Name = "tpDefective"
-        Me.tpDefective.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpDefective.Size = New System.Drawing.Size(1910, 581)
-        Me.tpDefective.TabIndex = 0
-        Me.tpDefective.Text = "Others Part"
-        '
-        'TableLayoutPanel1
-        '
-        Me.TableLayoutPanel1.ColumnCount = 1
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Controls.Add(Me.DataGridView2, 0, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.pDefective1, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.btnOtherSave, 0, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.DataGridView4, 0, 3)
-        Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 3)
-        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-        Me.TableLayoutPanel1.RowCount = 4
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.25641!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.04348!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.869565!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.17391!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1904, 575)
-        Me.TableLayoutPanel1.TabIndex = 20
-        '
-        'DataGridView2
-        '
-        Me.DataGridView2.AllowUserToAddRows = False
-        Me.DataGridView2.AllowUserToDeleteRows = False
-        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView2.Location = New System.Drawing.Point(3, 61)
-        Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(1898, 229)
-        Me.DataGridView2.TabIndex = 2
-        '
-        'pDefective1
-        '
-        Me.pDefective1.Controls.Add(Me.txtLabelOtherPart)
-        Me.pDefective1.Controls.Add(Me.Label7)
-        Me.pDefective1.Controls.Add(Me.btnPrintOthersPart)
-        Me.pDefective1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pDefective1.Location = New System.Drawing.Point(3, 3)
-        Me.pDefective1.Name = "pDefective1"
-        Me.pDefective1.Size = New System.Drawing.Size(1898, 52)
-        Me.pDefective1.TabIndex = 18
-        '
-        'txtLabelOtherPart
-        '
-        Me.txtLabelOtherPart.Location = New System.Drawing.Point(194, 9)
-        Me.txtLabelOtherPart.Name = "txtLabelOtherPart"
-        Me.txtLabelOtherPart.Size = New System.Drawing.Size(384, 35)
-        Me.txtLabelOtherPart.TabIndex = 22
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(24, 12)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(148, 29)
-        Me.Label7.TabIndex = 21
-        Me.Label7.Text = "Label Defect"
-        '
-        'btnPrintOthersPart
-        '
-        Me.btnPrintOthersPart.BackColor = System.Drawing.Color.SkyBlue
-        Me.btnPrintOthersPart.Dock = System.Windows.Forms.DockStyle.Right
-        Me.btnPrintOthersPart.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnPrintOthersPart.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintOthersPart.Location = New System.Drawing.Point(1736, 0)
-        Me.btnPrintOthersPart.Name = "btnPrintOthersPart"
-        Me.btnPrintOthersPart.Size = New System.Drawing.Size(162, 52)
-        Me.btnPrintOthersPart.TabIndex = 20
-        Me.btnPrintOthersPart.Text = "Print"
-        Me.btnPrintOthersPart.UseVisualStyleBackColor = False
-        '
-        'btnOtherSave
-        '
-        Me.btnOtherSave.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.btnOtherSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
-        Me.btnOtherSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOtherSave.Location = New System.Drawing.Point(871, 296)
-        Me.btnOtherSave.Name = "btnOtherSave"
-        Me.btnOtherSave.Size = New System.Drawing.Size(162, 44)
-        Me.btnOtherSave.TabIndex = 1
-        Me.btnOtherSave.Text = "Save"
-        Me.btnOtherSave.UseVisualStyleBackColor = False
-        '
-        'DataGridView4
-        '
-        Me.DataGridView4.AllowUserToAddRows = False
-        Me.DataGridView4.AllowUserToDeleteRows = False
-        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView4.Location = New System.Drawing.Point(3, 346)
-        Me.DataGridView4.Name = "DataGridView4"
-        Me.DataGridView4.ReadOnly = True
-        Me.DataGridView4.Size = New System.Drawing.Size(1898, 226)
-        Me.DataGridView4.TabIndex = 19
-        '
-        'FormDefective
+        'FormDefectiveV2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1924, 811)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Name = "FormDefective"
+        Me.Name = "FormDefectiveV2"
         Me.Text = "Result Production"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GroupBox1.ResumeLayout(False)
@@ -2046,12 +1944,6 @@ Partial Class FormDefective
         Me.TableLayoutPanel14.PerformLayout()
         Me.TableLayoutPanel22.ResumeLayout(False)
         CType(Me.dgBalance, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tpDefective.ResumeLayout(False)
-        Me.TableLayoutPanel1.ResumeLayout(False)
-        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pDefective1.ResumeLayout(False)
-        Me.pDefective1.PerformLayout()
-        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2066,8 +1958,6 @@ Partial Class FormDefective
     Friend WithEvents Label1 As Label
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents TabControl1 As TabControl
-    Friend WithEvents tpDefective As TabPage
-    Friend WithEvents pDefective1 As Panel
     Friend WithEvents tpFinishGoods As TabPage
     Friend WithEvents tpBalance As TabPage
     Friend WithEvents tpWIP As TabPage
@@ -2086,7 +1976,6 @@ Partial Class FormDefective
     Friend WithEvents btnWIPAdd As Button
     Friend WithEvents TableLayoutPanel12 As TableLayoutPanel
     Friend WithEvents dgWIP As DataGridView
-    Friend WithEvents btnPrintOthersPart As Button
     Friend WithEvents TableLayoutPanel6 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel13 As TableLayoutPanel
     Friend WithEvents dgOnHold As DataGridView
@@ -2132,11 +2021,6 @@ Partial Class FormDefective
     Friend WithEvents Label25 As Label
     Friend WithEvents Label26 As Label
     Friend WithEvents txtSPQ As TextBox
-    Friend WithEvents DataGridView2 As DataGridView
-    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents btnOtherSave As Button
-    Friend WithEvents Label7 As Label
-    Friend WithEvents txtLabelOtherPart As TextBox
     Friend WithEvents btnPrintBalance As Button
     Friend WithEvents Label8 As Label
     Friend WithEvents txtSABatchNo As TextBox
@@ -2149,7 +2033,6 @@ Partial Class FormDefective
     Friend WithEvents btnPrintWIP As Button
     Friend WithEvents btnPrintOnhold As Button
     Friend WithEvents txtBalanceQty As TextBox
-    Friend WithEvents DataGridView4 As DataGridView
     Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
     Friend WithEvents CheckBox2 As CheckBox
     Friend WithEvents TableLayoutPanel7 As TableLayoutPanel
@@ -2157,8 +2040,8 @@ Partial Class FormDefective
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents TableLayoutPanel14 As TableLayoutPanel
     Friend WithEvents Label18 As Label
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents txtReturnMaterialManual As TextBox
+    Friend WithEvents CheckManualReturnMaterial As Button
     Friend WithEvents tpRejectMaterial As TabPage
     Friend WithEvents TableLayoutPanel16 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel17 As TableLayoutPanel
@@ -2172,13 +2055,13 @@ Partial Class FormDefective
     Friend WithEvents txtRejectQty As TextBox
     Friend WithEvents Label28 As Label
     Friend WithEvents Label29 As Label
-    Friend WithEvents TextBox7 As TextBox
-    Friend WithEvents Button3 As Button
+    Friend WithEvents txtRejectMaterialManual As TextBox
+    Friend WithEvents CheckManualRejectMaterial As Button
     Friend WithEvents txtRejectMaterialPN As TextBox
     Friend WithEvents TableLayoutPanel18 As TableLayoutPanel
     Friend WithEvents TextBox4 As TextBox
     Friend WithEvents TextBox5 As TextBox
-    Friend WithEvents TextBox9 As TextBox
+    Friend WithEvents txtReturnMaterialPN As TextBox
     Friend WithEvents btnRejectSave As Button
     Friend WithEvents btnRejectDelete As Button
     Friend WithEvents btnWIPDelete As Button
@@ -2205,4 +2088,6 @@ Partial Class FormDefective
     Friend WithEvents btnListPrintOnHold As Button
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents tampungIDMaterial As TextBox
+    Friend WithEvents tampungIDMaterialReturnMaterial As TextBox
 End Class

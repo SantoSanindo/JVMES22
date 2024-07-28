@@ -39,56 +39,56 @@ Public Class HOME
 
         FormLogin.ShowDialog()
 
-        Dim hostName As String = Dns.GetHostName()
-        Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
+        'Dim hostName As String = Dns.GetHostName()
+        'Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
 
-        Dim ipAdd As String
+        'Dim ipAdd As String
 
-        For Each ip As IPAddress In ipAddresses
-            If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
-                If ip.ToString().Contains("192.168.0") Then
-                    ipAdd = ip.ToString()
-                End If
-            End If
-        Next
+        'For Each ip As IPAddress In ipAddresses
+        '    If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
+        '        If ip.ToString().Contains("192.168.0") Then
+        '            ipAdd = ip.ToString()
+        '        End If
+        '    End If
+        'Next
 
-        Try
-            Dim sqlInsertMasterLine As String = "
-            IF NOT EXISTS (SELECT 1 FROM LIST_CONNECTION WHERE COMPUTER_NAME = '" & hostName & "' AND IP_ADDRESS = '" & ipAdd & "')
-                BEGIN
-                    INSERT INTO LIST_CONNECTION (COMPUTER_NAME, IP_ADDRESS, STATUS)
-                    VALUES ('" & hostName & "', '" & ipAdd & "','1')
-                END
-            ELSE
-                BEGIN
-                    RAISERROR('Data already exists', 16, 1)
-                END"
+        'Try
+        '    Dim sqlInsertMasterLine As String = "
+        '    IF NOT EXISTS (SELECT 1 FROM LIST_CONNECTION WHERE COMPUTER_NAME = '" & hostName & "' AND IP_ADDRESS = '" & ipAdd & "')
+        '        BEGIN
+        '            INSERT INTO LIST_CONNECTION (COMPUTER_NAME, IP_ADDRESS, STATUS)
+        '            VALUES ('" & hostName & "', '" & ipAdd & "','1')
+        '        END
+        '    ELSE
+        '        BEGIN
+        '            RAISERROR('Data already exists', 16, 1)
+        '        END"
 
-            Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
-            cmdInsertMasterLine.ExecuteNonQuery()
-        Catch ex As Exception
+        '    Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
+        '    cmdInsertMasterLine.ExecuteNonQuery()
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
-        Dim sql As String = "select ip_address from LIST_CONNECTION where server=1"
-        Dim dtServer As DataTable = Database.GetData(sql)
+        'Dim sql As String = "select ip_address from LIST_CONNECTION where server=1"
+        'Dim dtServer As DataTable = Database.GetData(sql)
 
-        Dim pingSender As New Ping()
-        Try
-            Dim reply As PingReply = pingSender.Send(dtServer.Rows(0).Item("ip_address").ToString)
+        'Dim pingSender As New Ping()
+        'Try
+        '    Dim reply As PingReply = pingSender.Send(dtServer.Rows(0).Item("ip_address").ToString)
 
-            If reply.Status = IPStatus.Success Then
-                Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=1, ping='" & reply.RoundtripTime & "',LAST_UPDATE=getdate() FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
-                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                cmdUpdate.ExecuteNonQuery()
-            Else
-                Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=0, ping is null,LAST_UPDATE=getdate() FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
-                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                cmdUpdate.ExecuteNonQuery()
-            End If
-        Catch ex As Exception
+        '    If reply.Status = IPStatus.Success Then
+        '        Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=1, ping='" & reply.RoundtripTime & "',LAST_UPDATE=getdate() FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
+        '        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+        '        cmdUpdate.ExecuteNonQuery()
+        '    Else
+        '        Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=0, ping is null,LAST_UPDATE=getdate() FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
+        '        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+        '        cmdUpdate.ExecuteNonQuery()
+        '    End If
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
     End Sub
 
@@ -282,6 +282,16 @@ Public Class HOME
     ' -----------------------End Menu Mini Store---------------------------'
 
     ' -----------------------Start Menu Production-------------------------'
+    Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
+        If globVar.CanAccess(StockProduction.menu) Then
+            StockProduction.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(StockProduction)
+            TabControl1.TabPages(StockProduction).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
 
     Private Sub btnMainPoSubPO(sender As Object, e As EventArgs) Handles MainPOSubPOBtn.Click
         If globVar.CanAccess(MainPOSubPO.menu) Then
@@ -289,29 +299,6 @@ Public Class HOME
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(MainPOSubPO)
             TabControl1.TabPages(MainPOSubPO).Select()
-        Else
-            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-
-    End Sub
-
-    Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
-        If globVar.CanAccess(Production.menu) Then
-            Production.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(ProductionV2)
-            TabControl1.TabPages(ProductionV2).Select()
-        Else
-            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-    End Sub
-
-    Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
-        If globVar.CanAccess(StockProduction.menu) Then
-            StockProduction.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(StockProduction)
-            TabControl1.TabPages(StockProduction).Select()
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -327,6 +314,7 @@ Public Class HOME
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
+
     Private Sub BtnPrintFlowTicket(sender As Object, e As EventArgs) Handles PrintFlowTicketBtn.Click
         If globVar.CanAccess(PrintFlowTicket.menu) Then
             PrintFlowTicket.Close()
@@ -338,12 +326,59 @@ Public Class HOME
         End If
     End Sub
 
+    Private Sub BtnStatusFlowTicket(sender As Object, e As EventArgs) Handles StatusFlowTicket.Click
+        Dim _formStatusFlowTicket As New StatusFlowTicket()
+        _formStatusFlowTicket.ShowDialog()
+    End Sub
+
+    Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
+        If globVar.CanAccess(ProductionV2.menu) Then
+            ProductionV2.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(ProductionV2)
+            TabControl1.TabPages(ProductionV2).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
+        If globVar.CanAccess(FormDefectiveV2.menu) Then
+            FormDefectiveV2.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(FormDefectiveV2)
+            TabControl1.TabPages(FormDefectiveV2).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
     Private Sub BtnSummaryProduction(sender As Object, e As EventArgs) Handles SummaryProductionBtn.Click
         If globVar.CanAccess(SummaryV2.menu) Then
             SummaryV2.Close()
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(SummaryV2)
             TabControl1.TabPages(SummaryV2).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnTraceability(sender As Object, e As EventArgs) Handles TraceabilityBtn.Click
+        If globVar.CanAccess(TraceabilityV3.menu) Then
+            TraceabilityV3.Close()
+            TabControl1.TabPages.Add(TraceabilityV3)
+            TabControl1.TabPages(TraceabilityV3).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnOthers(sender As Object, e As EventArgs) Handles OthersBtn.Click
+        If globVar.CanAccess(OthersPart.menu) Then
+            OthersPart.Close()
+            TabControl1.TabPages.Add(OthersPart)
+            TabControl1.TabPages(OthersPart).Select()
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -395,17 +430,6 @@ Public Class HOME
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
-
-    Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
-        If globVar.CanAccess(FormDefective.menu) Then
-            FormDefective.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(FormDefective)
-            TabControl1.TabPages(FormDefective).Select()
-        Else
-            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-    End Sub
     ' -----------------------End Menu FGA-------------------------'
 
     ' -----------------------Start Menu Drop Down-------------------------'
@@ -426,28 +450,4 @@ Public Class HOME
         Process.Start(filePath)
     End Sub
 
-    Private Sub BtnStatusFlowTicket(sender As Object, e As EventArgs) Handles StatusFlowTicket.Click
-        Dim _formStatusFlowTicket As New StatusFlowTicket()
-        _formStatusFlowTicket.ShowDialog()
-    End Sub
-
-    Private Sub BtnTraceability(sender As Object, e As EventArgs) Handles TraceabilityBtn.Click
-        If globVar.CanAccess(TraceabilityV3.menu) Then
-            TraceabilityV3.Close()
-            TabControl1.TabPages.Add(TraceabilityV3)
-            TabControl1.TabPages(TraceabilityV3).Select()
-        Else
-            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-    End Sub
-
-    Private Sub BtnOthers(sender As Object, e As EventArgs) Handles OthersBtn.Click
-        If globVar.CanAccess(OthersPart.menu) Then
-            OthersPart.Close()
-            TabControl1.TabPages.Add(OthersPart)
-            TabControl1.TabPages(OthersPart).Select()
-        Else
-            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-    End Sub
 End Class

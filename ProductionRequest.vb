@@ -12,7 +12,7 @@ Public Class ProductionRequest
             DataGridView3.Rows.Clear()
             DataGridView3.Columns.Clear()
 
-            Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO [Sub Sub PO],mp.fg_pn [FG Part Number],mufg.component [Comp],mufg.description [Desc],mufg.usage [Usage],sp.sub_sub_po_qty [Qty],ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS [Total Need],mp.po,mp.sub_po,isnull((select sum(qty) from STOCK_CARD where sub_sub_po=sp.SUB_SUB_PO and material=mufg.component and status='Production Request'),0) [Total Ministore to Production]
+            Dim queryMasterFinishGoods As String = "select sp.Sub_Sub_PO [Sub Sub PO],mp.fg_pn [FG Part Number],mufg.component [Comp],mufg.description [Desc],mufg.usage [Usage],sp.sub_sub_po_qty [Qty],ceiling(( mufg.usage * sp.sub_sub_po_qty ) + ( mufg.usage * sp.sub_sub_po_qty * sp.yield_lose / 100)) AS [Total Need],mp.po,mp.sub_po,isnull((select sum(qty) from STOCK_CARD where sub_sub_po=sp.SUB_SUB_PO and material=mufg.component and status='Production Request'),0) [Total Production Request]
                 from sub_sub_po sp,main_po mp,material_usage_finish_goods mufg 
                 where sp.main_po= mp.id AND mufg.fg_part_number= mp.fg_pn AND sp.status= 'Open' and sp.line = '" & ComboBox1.Text & "' and mp.department='" & globVar.department & "' order by sp.sub_sub_po"
             Dim dtMaterialNeed As DataTable = Database.GetData(queryMasterFinishGoods)

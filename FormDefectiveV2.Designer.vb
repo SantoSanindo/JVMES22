@@ -579,7 +579,7 @@ Partial Class FormDefectiveV2
         Me.cbWIPProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbWIPProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbWIPProcess.FormattingEnabled = True
-        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbWIPProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbWIPProcess.Name = "cbWIPProcess"
         Me.cbWIPProcess.Size = New System.Drawing.Size(519, 37)
         Me.cbWIPProcess.TabIndex = 4
@@ -828,7 +828,7 @@ Partial Class FormDefectiveV2
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.DropDownWidth = 800
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(115, 8)
+        Me.ComboBox1.Location = New System.Drawing.Point(115, 16)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(276, 37)
         Me.ComboBox1.TabIndex = 3
@@ -861,6 +861,7 @@ Partial Class FormDefectiveV2
         Me.txtRejectMaterialPN.Name = "txtRejectMaterialPN"
         Me.txtRejectMaterialPN.Size = New System.Drawing.Size(26, 35)
         Me.txtRejectMaterialPN.TabIndex = 8
+        Me.txtRejectMaterialPN.Visible = False
         '
         'TextBox4
         '
@@ -869,6 +870,7 @@ Partial Class FormDefectiveV2
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(26, 35)
         Me.TextBox4.TabIndex = 9
+        Me.TextBox4.Visible = False
         '
         'TextBox5
         '
@@ -877,6 +879,7 @@ Partial Class FormDefectiveV2
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(26, 35)
         Me.TextBox5.TabIndex = 10
+        Me.TextBox5.Visible = False
         '
         'btnRejectDelete
         '
@@ -897,6 +900,7 @@ Partial Class FormDefectiveV2
         Me.tampungIDMaterial.Name = "tampungIDMaterial"
         Me.tampungIDMaterial.Size = New System.Drawing.Size(35, 35)
         Me.tampungIDMaterial.TabIndex = 11
+        Me.tampungIDMaterial.Visible = False
         '
         'dgReject
         '
@@ -1125,7 +1129,7 @@ Partial Class FormDefectiveV2
         Me.cbOnHoldProcess.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbOnHoldProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbOnHoldProcess.FormattingEnabled = True
-        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 19)
+        Me.cbOnHoldProcess.Location = New System.Drawing.Point(153, 11)
         Me.cbOnHoldProcess.Name = "cbOnHoldProcess"
         Me.cbOnHoldProcess.Size = New System.Drawing.Size(518, 37)
         Me.cbOnHoldProcess.TabIndex = 4
@@ -1183,7 +1187,7 @@ Partial Class FormDefectiveV2
         Me.tpFinishGoods.Padding = New System.Windows.Forms.Padding(3)
         Me.tpFinishGoods.Size = New System.Drawing.Size(1910, 581)
         Me.tpFinishGoods.TabIndex = 1
-        Me.tpFinishGoods.Text = "Finish Goods"
+        Me.tpFinishGoods.Text = "Finish Goods / Sub Assy"
         '
         'TableLayoutPanel12
         '
@@ -1538,10 +1542,10 @@ Partial Class FormDefectiveV2
         Me.rbFG.AutoSize = True
         Me.rbFG.Location = New System.Drawing.Point(3, 9)
         Me.rbFG.Name = "rbFG"
-        Me.rbFG.Size = New System.Drawing.Size(194, 33)
+        Me.rbFG.Size = New System.Drawing.Size(266, 33)
         Me.rbFG.TabIndex = 0
         Me.rbFG.TabStop = True
-        Me.rbFG.Text = "Goods To Ship"
+        Me.rbFG.Text = "Finish Goods Material"
         Me.rbFG.UseVisualStyleBackColor = True
         '
         'TableLayoutPanel24
@@ -1756,7 +1760,7 @@ Partial Class FormDefectiveV2
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.DropDownWidth = 800
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(123, 17)
+        Me.ComboBox2.Location = New System.Drawing.Point(123, 9)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(254, 37)
         Me.ComboBox2.TabIndex = 17

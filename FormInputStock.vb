@@ -213,13 +213,21 @@ Public Class FormInputStock
         If dgv_forminputstock.CurrentCell.ColumnIndex = 6 Then
             If globVar.update > 0 Then
                 Try
-                    Dim Sql As String = "update STOCK_CARD set QTY=" & dgv_forminputstock.Rows(e.RowIndex).Cells("Qty").Value & ", ACTUAL_QTY=" & dgv_forminputstock.Rows(e.RowIndex).Cells("Qty").Value & " where ID=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
-                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                    cmd.ExecuteNonQuery()
+                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value & " and actual_qty > 0"
+                    Dim dtCheck As DataTable = Database.GetData(queryCheck)
+                    If dtCheck.Rows.Count > 0 Then
+                        Dim Sql As String = "update STOCK_CARD set QTY=" & dgv_forminputstock.Rows(e.RowIndex).Cells("Qty").Value & ", ACTUAL_QTY=" & dgv_forminputstock.Rows(e.RowIndex).Cells("Qty").Value & " where ID=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                        cmd.ExecuteNonQuery()
 
-                    DGV_InputStock(TextBox1.Text)
-                    treeView_show()
-                    RJMessageBox.Show("Success updated data")
+                        DGV_InputStock(TextBox1.Text)
+                        treeView_show()
+                        RJMessageBox.Show("Success updated data")
+                    Else
+
+                        RJMessageBox.Show("Cannot delete this material because this material has been used in production")
+
+                    End If
                 Catch ex As Exception
                     RJMessageBox.Show("Error Input Stock - 3 =>" & ex.Message)
                 End Try
@@ -271,17 +279,23 @@ Public Class FormInputStock
 
             If dgv_forminputstock.Columns(e.ColumnIndex).Name = "delete" Then
                 If globVar.delete > 0 Then
-
                     Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
                     If result = DialogResult.Yes Then
                         Try
-                            Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
-                            Dim cmd = New SqlCommand(sql, Database.koneksi)
-                            If cmd.ExecuteNonQuery() Then
-                                DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
-                                treeView_show()
-                                RJMessageBox.Show("Success delete.")
+                            Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value & " and actual_qty > 0"
+                            Dim dtCheck As DataTable = Database.GetData(queryCheck)
+                            If dtCheck.Rows.Count > 0 Then
+                                Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                                Dim cmd = New SqlCommand(sql, Database.koneksi)
+                                If cmd.ExecuteNonQuery() Then
+                                    DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
+                                    treeView_show()
+                                    RJMessageBox.Show("Success delete.")
+                                End If
+                            Else
+                                RJMessageBox.Show("Cannot delete this material because this material has been used in production")
                             End If
+
                         Catch ex As Exception
                             RJMessageBox.Show("Error Input Stock - 4 =>" & ex.Message)
                         End Try

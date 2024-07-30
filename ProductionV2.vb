@@ -594,10 +594,12 @@ Public Class ProductionV2
 	                                        desc_comp Description,
 	                                        component Component,
 	                                        [USAGE],
-	                                        (select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status='Production Process') [Total IN],
+	                                        isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status='Production Process'),0) [Total IN],
 	                                        isnull((select sum(qty) from out_prod_reject where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) [Total Reject],
+                                            isnull((select sum(qty * pengali) from out_prod_defect where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) [Total Defect],
                                             isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Return To Mini Store'),0) [Total Return],
-	                                        (SELECT SUM(qty) FROM stock_card WHERE material = component AND sub_sub_po = '" & TextBox11.Text & "' and status='Production Process') - ISNULL((SELECT SUM(qty) FROM out_prod_reject WHERE part_number = component AND sub_sub_po = '" & TextBox11.Text & "'), 0) - isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Return To Mini Store'),0) AS [Current Qty]
+	                                        isnull((SELECT SUM(qty) FROM stock_card WHERE material = component AND sub_sub_po = '" & TextBox11.Text & "' and status='Production Process'),0) - ISNULL((SELECT SUM(qty) FROM out_prod_reject WHERE part_number = component AND sub_sub_po = '" & TextBox11.Text & "'), 0) - isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Return To Mini Store'),0) - isnull((select sum(qty * pengali) from out_prod_defect where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) AS [Current Qty],
+                                            [usage] * " & Convert.ToInt32(TextBox6.Text) & " as [Qty Need]
                                         FROM
 	                                        prod_doc 
                                         WHERE
@@ -611,7 +613,7 @@ Public Class ProductionV2
             Dim scan As DataGridViewTextBoxColumn = New DataGridViewTextBoxColumn
             scan.Name = "Lot Scan"
             scan.HeaderText = "Lot Scan"
-            DataGridView1.Columns.Insert(7, scan)
+            DataGridView1.Columns.Insert(9, scan)
 
             DataGridView1.Columns(0).Width = 200
             DataGridView1.Columns(1).Width = 100
@@ -620,8 +622,10 @@ Public Class ProductionV2
             DataGridView1.Columns(4).Width = 70
             DataGridView1.Columns(5).Width = 70
             DataGridView1.Columns(6).Width = 70
-            DataGridView1.Columns(7).Width = 650
-            DataGridView1.Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DataGridView1.Columns(7).Width = 70
+            DataGridView1.Columns(8).Width = 70
+            DataGridView1.Columns(9).Width = 650
+            DataGridView1.Columns(9).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
                 Dim queryCheck As String = "select DISTINCT lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Process' ORDER BY lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode"
@@ -629,19 +633,19 @@ Public Class ProductionV2
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
                     If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
                         If i Mod 8 = 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(7).Value += Environment.NewLine
+                            DataGridView1.Rows(rowDataSet).Cells(9).Value += Environment.NewLine
                         End If
 
                         If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(7).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
+                            DataGridView1.Rows(rowDataSet).Cells(9).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
                         Else
-                            DataGridView1.Rows(rowDataSet).Cells(7).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
+                            DataGridView1.Rows(rowDataSet).Cells(9).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
                         End If
                     Else
                         If i Mod 4 = 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(7).Value += Environment.NewLine
+                            DataGridView1.Rows(rowDataSet).Cells(9).Value += Environment.NewLine
                         End If
-                        DataGridView1.Rows(rowDataSet).Cells(7).Value += dtCHECK.Rows(i).Item("id_level").ToString & ", "
+                        DataGridView1.Rows(rowDataSet).Cells(9).Value += dtCHECK.Rows(i).Item("id_level").ToString & ", "
                     End If
                 Next
             Next

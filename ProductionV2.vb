@@ -108,6 +108,7 @@ Public Class ProductionV2
                                 RJMessageBox.Show("Double Scan")
                                 TextBox1.Text = ""
                                 DGV_DOC()
+                                DGV_DOS()
 
                             Else
 
@@ -124,6 +125,7 @@ Public Class ProductionV2
 
                                     TextBox1.Clear()
                                     DGV_DOC()
+                                    DGV_DOS()
 
                                 Else
 
@@ -184,6 +186,7 @@ Public Class ProductionV2
                             RJMessageBox.Show("Double Scan")
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
 
                         Else
 
@@ -200,6 +203,7 @@ Public Class ProductionV2
 
                                 TextBox1.Clear()
                                 DGV_DOC()
+                                DGV_DOS()
 
                             Else
 
@@ -260,6 +264,7 @@ Public Class ProductionV2
                             RJMessageBox.Show("Double Scan")
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
                         Else
 
                             Dim sqlInsertStockCardProductionProcess As String = "INSERT INTO [dbo].[STOCK_CARD] ([MTS_NO],[DEPARTMENT],[MATERIAL],[STATUS],[STANDARD_PACK],[INV_CTRL_DATE],[TRACEABILITY],
@@ -275,6 +280,7 @@ Public Class ProductionV2
 
                                 TextBox1.Clear()
                                 DGV_DOC()
+                                DGV_DOS()
 
                             Else
 
@@ -341,6 +347,7 @@ Public Class ProductionV2
                                 RJMessageBox.Show("Double Scan")
                                 TextBox1.Text = ""
                                 DGV_DOC()
+                                DGV_DOS()
 
                             Else
 
@@ -364,6 +371,7 @@ Public Class ProductionV2
 
                         TextBox1.Clear()
                         DGV_DOC()
+                        DGV_DOS()
 
                     Catch ex As Exception
 
@@ -425,6 +433,7 @@ Public Class ProductionV2
 
                         TextBox1.Text = ""
                         DGV_DOC()
+                        DGV_DOS()
 
                     Catch ex As Exception
                         RJMessageBox.Show("Error Production - 4 =>" & ex.Message)
@@ -489,10 +498,12 @@ Public Class ProductionV2
 
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
                         Else
                             RJMessageBox.Show("ONHOLD not Exist in DB")
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
                         End If
                     Catch ex As Exception
                         RJMessageBox.Show("Error Production - 3 =>" & ex.Message)
@@ -557,10 +568,12 @@ Public Class ProductionV2
 
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
                         Else
                             RJMessageBox.Show("WIP not Exist in DB")
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
                         End If
 
                     Catch ex As Exception
@@ -582,50 +595,55 @@ Public Class ProductionV2
         End If
     End Sub
 
-    Sub DGV_DOC()
+    Sub DGV_DOS()
         Try
-            DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            DataGridView1.DataSource = Nothing
-            DataGridView1.Rows.Clear()
-            DataGridView1.Columns.Clear()
+            DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView3.DataSource = Nothing
+            DataGridView3.Rows.Clear()
+            DataGridView3.Columns.Clear()
             Call Database.koneksi_database()
-            'Dim queryDOC As String = "select desc_comp Description,component Component,Usage from prod_doc where line='" & ComboBox1.Text & "' and sub_sub_po='" & TextBox11.Text & "' and department='" & globVar.department & "'"
+
             Dim queryDOC As String = "SELECT
 	                                        desc_comp Description,
 	                                        component Component,
 	                                        [USAGE],
+                                            [usage] * " & Convert.ToInt32(TextBox6.Text) & " as [Qty Need],
 	                                        isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status='Production Process'),0) [Total IN],
+                                            isnull((SELECT SUM(qty) FROM stock_card WHERE material=component AND sub_sub_po='" & TextBox11.Text & "' and status='Production Process'),0) - ISNULL((SELECT SUM(qty) FROM out_prod_reject WHERE part_number = component AND sub_sub_po = '" & TextBox11.Text & "'), 0) - isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Return To Mini Store'),0) - isnull((select sum(qty * pengali) from out_prod_defect where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) - isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Production Result'),0) AS [Current Qty],
 	                                        isnull((select sum(qty) from out_prod_reject where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) [Total Reject],
                                             isnull((select sum(qty * pengali) from out_prod_defect where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) [Total Defect],
                                             isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Return To Mini Store'),0) [Total Return],
-	                                        isnull((SELECT SUM(qty) FROM stock_card WHERE material = component AND sub_sub_po = '" & TextBox11.Text & "' and status='Production Process'),0) - ISNULL((SELECT SUM(qty) FROM out_prod_reject WHERE part_number = component AND sub_sub_po = '" & TextBox11.Text & "'), 0) - isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Return To Mini Store'),0) - isnull((select sum(qty * pengali) from out_prod_defect where part_number=component and sub_sub_po='" & TextBox11.Text & "'),0) AS [Current Qty],
-                                            [usage] * " & Convert.ToInt32(TextBox6.Text) & " as [Qty Need]
+                                            isnull(cast((select count(*) from flow_ticket where sub_sub_po='" & TextBox11.Text & "' and department='" & globVar.department & "' and [done] = 1) AS VARCHAR(10) ),0) + ' / ' + isnull(cast((select count(*) from flow_ticket where sub_sub_po='" & TextBox11.Text & "' and department='" & globVar.department & "') AS VARCHAR(10) ),0) [FT Done],
+                                            isnull((select sum(qty) from stock_card where material=component and sub_sub_po='" & TextBox11.Text & "' and status ='Production Result'),0) [Qty Done]
                                         FROM
 	                                        prod_doc 
                                         WHERE
 	                                        line = '" & ComboBox1.Text & "' 
 	                                        AND sub_sub_po = '" & TextBox11.Text & "' 
 	                                        AND department = '" & globVar.department & "'"
+
             Dim dtDOC As DataTable = Database.GetData(queryDOC)
 
-            DataGridView1.DataSource = dtDOC
+            DataGridView3.DataSource = dtDOC
 
             Dim scan As DataGridViewTextBoxColumn = New DataGridViewTextBoxColumn
             scan.Name = "Lot Scan"
             scan.HeaderText = "Lot Scan"
-            DataGridView1.Columns.Insert(9, scan)
+            DataGridView3.Columns.Insert(11, scan)
 
-            DataGridView1.Columns(0).Width = 200
-            DataGridView1.Columns(1).Width = 100
-            DataGridView1.Columns(2).Width = 70
-            DataGridView1.Columns(3).Width = 70
-            DataGridView1.Columns(4).Width = 70
-            DataGridView1.Columns(5).Width = 70
-            DataGridView1.Columns(6).Width = 70
-            DataGridView1.Columns(7).Width = 70
-            DataGridView1.Columns(8).Width = 70
-            DataGridView1.Columns(9).Width = 650
-            DataGridView1.Columns(9).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DataGridView3.Columns(0).Width = 300
+            DataGridView3.Columns(1).Width = 100
+            DataGridView3.Columns(2).Width = 70
+            DataGridView3.Columns(3).Width = 70
+            DataGridView3.Columns(4).Width = 70
+            DataGridView3.Columns(5).Width = 70
+            DataGridView3.Columns(6).Width = 70
+            DataGridView3.Columns(7).Width = 70
+            DataGridView3.Columns(8).Width = 70
+            DataGridView3.Columns(9).Width = 70
+            DataGridView3.Columns(10).Width = 70
+            DataGridView3.Columns(11).Width = 650
+            DataGridView3.Columns(11).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
                 Dim queryCheck As String = "select DISTINCT lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Process' ORDER BY lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode"
@@ -633,22 +651,73 @@ Public Class ProductionV2
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
                     If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
                         If i Mod 8 = 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(9).Value += Environment.NewLine
+                            DataGridView3.Rows(rowDataSet).Cells(11).Value += Environment.NewLine
                         End If
 
                         If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(9).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
+                            DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
                         Else
-                            DataGridView1.Rows(rowDataSet).Cells(9).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
+                            DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
                         End If
                     Else
                         If i Mod 4 = 0 Then
-                            DataGridView1.Rows(rowDataSet).Cells(9).Value += Environment.NewLine
+                            DataGridView3.Rows(rowDataSet).Cells(11).Value += Environment.NewLine
                         End If
-                        DataGridView1.Rows(rowDataSet).Cells(9).Value += dtCHECK.Rows(i).Item("id_level").ToString & ", "
+                        DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("id_level").ToString & ", "
                     End If
                 Next
             Next
+
+            For i As Integer = 0 To DataGridView3.RowCount - 1
+                If DataGridView3.Rows(i).Index Mod 2 = 0 Then
+                    DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    DataGridView3.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
+        Catch ex As Exception
+            RJMessageBox.Show("Error Production - 7 =>" & ex.Message)
+        End Try
+    End Sub
+
+    Sub DGV_DOC()
+        Try
+            DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView1.DataSource = Nothing
+            DataGridView1.Rows.Clear()
+            DataGridView1.Columns.Clear()
+            Call Database.koneksi_database()
+
+            Dim queryDOC As String = "SELECT
+	                                        id [#],
+                                            LEFT(qrcode, 15) [QRCode],
+                                            material [Material],
+                                            lot_no [Lot No],
+                                            inv_ctrl_date [Inv Ctrl Date],
+                                            traceability [Traceability],
+                                            batch_no [Batch No],
+                                            qty [Qty],
+                                            actual_qty [Actual Qty]
+                                        FROM
+	                                        stock_card 
+                                        WHERE
+	                                        sub_sub_po = '" & TextBox11.Text & "' 
+	                                        AND department = '" & globVar.department & "'
+                                            and status = 'Production Process'
+                                        order by material"
+            Dim dtDOC As DataTable = Database.GetData(queryDOC)
+
+            DataGridView1.DataSource = dtDOC
+
+            Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            deleteProductionRequest.Name = "delete"
+            deleteProductionRequest.HeaderText = "Delete"
+            deleteProductionRequest.Width = 50
+            deleteProductionRequest.Text = "Delete"
+            deleteProductionRequest.UseColumnTextForButtonValue = True
+            DataGridView1.Columns.Insert(9, deleteProductionRequest)
+
+            DataGridView1.Columns(0).Width = 100
 
             For i As Integer = 0 To DataGridView1.RowCount - 1
                 If DataGridView1.Rows(i).Index Mod 2 = 0 Then
@@ -718,12 +787,14 @@ Public Class ProductionV2
 
                         DGV_DOC()
                         DGV_DOP()
+                        DGV_DOS()
 
                         Button1.Enabled = True
                     Else
                         RJMessageBox.Show("This line no have any PO")
                         DGV_DOC()
                         DGV_DOP()
+                        DGV_DOS()
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show("Error Production - 9 =>" & ex.Message)
@@ -802,6 +873,7 @@ Public Class ProductionV2
                             RJMessageBox.Show("Double Scan")
                             TextBox1.Text = ""
                             DGV_DOC()
+                            DGV_DOS()
                         Else
                             Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcess_NEW @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckInStock.Rows(0).Item("actual_qty") & ",@material='" & TextBox9.Text & "',@lot_material='" & lotManualMaterial(1) & "',@in_icd='" & icdManualMaterial(1) & "',@in_trace='" & traceManualMaterial(1) & "',@in_batch='" & batchManualMaterial(1) & "'"
                             Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
@@ -809,6 +881,7 @@ Public Class ProductionV2
                             TextBox9.Text = ""
                             ComboBox2.SelectedIndex = -1
                             DGV_DOC()
+                            DGV_DOS()
 
                             For i = 0 To DataGridView1.Rows.Count - 1
                                 If DataGridView1.Rows(i).Cells(1).Value = TextBox9.Text Then
@@ -845,6 +918,10 @@ Public Class ProductionV2
         DataGridView2.DataSource = Nothing
         DataGridView2.Columns.Clear()
         DataGridView2.Rows.Clear()
+
+        DataGridView3.DataSource = Nothing
+        DataGridView3.Columns.Clear()
+        DataGridView3.Rows.Clear()
 
         ComboBox1.SelectedIndex = -1
         TextBox1.Clear()
@@ -890,6 +967,28 @@ Public Class ProductionV2
 
     Private Sub DataGridView2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView2.DataBindingComplete
         With DataGridView2
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DataGridView3_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView3.DataBindingComplete
+        With DataGridView3
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
             For i As Integer = 0 To .ColumnCount - 1
@@ -957,6 +1056,175 @@ Public Class ProductionV2
     Private Sub TextBox9_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox9.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
+        End If
+    End Sub
+
+    Private Sub DataGridView3_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+
+            Dim result = RJMessageBox.Show("Are you sure for delete this material?.", "Are You Sure?", MessageBoxButtons.YesNo)
+
+            If result = DialogResult.Yes Then
+
+                If DataGridView1.Rows(e.RowIndex).Cells("Qty").Value <> DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value Then
+                    RJMessageBox.Show("Cannot delete this material because this material already have Finish Goods / Sub Assy")
+                    Exit Sub
+                End If
+
+                If DataGridView1.Rows(e.RowIndex).Cells("QRCode").Value = "Manual Input" Then
+                    Dim queryUpdateSC As String = "update 
+                                                        stock_card 
+                                                    set 
+                                                        actual_qty=qty 
+                                                    where 
+                                                        status='Production Request' 
+                                                        and material = (select material from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")
+                                                        and lot_no = (select lot_no from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")
+                                                        and traceability = (select traceability from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")
+                                                        and inv_ctrl_date = (select inv_ctrl_date from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")
+                                                        and batch_no = (select batch_no from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")"
+                    Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+                    If dtUpdateSC.ExecuteNonQuery() Then
+
+                        Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Delete Success")
+                            DGV_DOC()
+                            DGV_DOS()
+
+                        End If
+                    Else
+
+                        RJMessageBox.Show("Delete Failed")
+
+                    End If
+                Else
+                    Dim queryUpdateSC As String = "update stock_card set actual_qty=qty where status='Production Request' and qrcode = (select qrcode from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")"
+                    Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+                    If dtUpdateSC.ExecuteNonQuery() Then
+
+                        Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Delete Success")
+                            DGV_DOC()
+                            DGV_DOS()
+
+                        End If
+                    Else
+
+                        RJMessageBox.Show("Delete Failed")
+
+                    End If
+
+                End If
+
+            End If
+
+        End If
+
+    End Sub
+
+    Private Sub dgReject_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView1.CellFormatting
+        If DataGridView1.Columns(e.ColumnIndex).Name = "Qty" Then
+            e.CellStyle.BackColor = Color.Green
+            e.CellStyle.ForeColor = Color.White
+        End If
+    End Sub
+
+    Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
+
+        If e.RowIndex = -1 Then
+
+            Exit Sub
+
+        End If
+
+        If e.ColumnIndex = -1 Then
+
+            Exit Sub
+
+        End If
+
+        If globVar.update = 0 Then
+
+            RJMessageBox.Show("Your Access cannot execute this action")
+            Exit Sub
+
+        End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "Qty" Then
+
+            Dim sqlcheck As String = "select * from stock_card where ID=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+            Dim dtCheck As DataTable = Database.GetData(sqlcheck)
+
+            If dtCheck.Rows(0).Item("qty") <> DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+
+                If DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value = 0 And dtCheck.Rows(0).Item("qty") > DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+
+                    RJMessageBox.Show("cannot change less than qty when actual qty = 0")
+                    DGV_DOC()
+                    DGV_DOS()
+
+                Else
+
+                    If dtCheck.Rows(0).Item("qty") > DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+
+                        Dim SumQty = dtCheck.Rows(0).Item("qty") - DataGridView1.Rows(e.RowIndex).Cells("Qty").Value
+
+                        If dtCheck.Rows(0).Item("actual_qty") - SumQty < 0 Then
+
+                            RJMessageBox.Show("cannot change the qty because the addition makes the actual qty smaller than 0")
+                            DGV_DOC()
+                            DGV_DOS()
+                            Exit Sub
+
+                        End If
+
+                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty - " & SumQty & ", actual_qty = actual_qty - " & SumQty & " where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                        If dtUpdateactualQty.ExecuteNonQuery() Then
+
+                            RJMessageBox.Show("Update Qty Success")
+                            DGV_DOC()
+                            DGV_DOS()
+
+                        End If
+
+                    Else
+
+                        Dim SumQty = DataGridView1.Rows(e.RowIndex).Cells("Qty").Value - dtCheck.Rows(0).Item("qty")
+
+                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty + " & SumQty & ", actual_qty=actual_qty + " & SumQty & " where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                        If dtUpdateactualQty.ExecuteNonQuery() Then
+
+                            RJMessageBox.Show("Update Qty Success")
+                            DGV_DOC()
+                            DGV_DOS()
+
+                        End If
+
+                    End If
+
+                End If
+
+            Else
+
+                RJMessageBox.Show("Old and New qty is same")
+
+            End If
+
         End If
     End Sub
 End Class

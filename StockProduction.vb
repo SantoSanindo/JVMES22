@@ -19,28 +19,28 @@ Public Class StockProduction
 
     Private Sub DGV_StockMiniststore()
         Try
-            DataGridView1.DataSource = Nothing
-            DataGridView1.Rows.Clear()
-            DataGridView1.Columns.Clear()
+            DG_SCMaterial.DataSource = Nothing
+            DG_SCMaterial.Rows.Clear()
+            DG_SCMaterial.Columns.Clear()
             Call Database.koneksi_database()
             Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS] [Status], [MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE] [Line], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [FIFO], [LEVEL], [FLOW_TICKET], [QRCODE] [QR Code], PRODUCTION_PROCESS_DATETIME [Date Time Production Process], PRODUCTION_PROCESS_WHO [Scan Production Process] FROM STOCK_CARD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result','Return to Mini Store') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
-            DataGridView1.DataSource = dtInputStockDetail
+            DG_SCMaterial.DataSource = dtInputStockDetail
         Catch ex As Exception
             RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
-    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
-        For i As Integer = 0 To DataGridView1.RowCount - 1
-            If DataGridView1.Rows(i).Index Mod 2 = 0 Then
-                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCMaterial.DataBindingComplete
+        For i As Integer = 0 To DG_SCMaterial.RowCount - 1
+            If DG_SCMaterial.Rows(i).Index Mod 2 = 0 Then
+                DG_SCMaterial.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
             Else
-                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                DG_SCMaterial.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
 
-        With DataGridView1
+        With DG_SCMaterial
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
             For i As Integer = 0 To .ColumnCount - 1
@@ -78,7 +78,7 @@ Public Class StockProduction
             btn_ExportTrace1.Enabled = False
 
             ' Jalankan backgroundWorker
-            BackgroundWorker1.RunWorkerAsync(DataGridView1)
+            BackgroundWorker1.RunWorkerAsync(DG_SCMaterial)
         End If
     End Sub
 
@@ -150,9 +150,9 @@ Public Class StockProduction
         DateTimePicker2.MinDate = DateTimePicker1.Value
         DateTimePicker2.MaxDate = DateTime.Now.AddDays(1)
         btn_ExportTrace1.Enabled = False
-        DataGridView1.DataSource = Nothing
-        DataGridView1.Rows.Clear()
-        DataGridView1.Columns.Clear()
+        DG_SCMaterial.DataSource = Nothing
+        DG_SCMaterial.Rows.Clear()
+        DG_SCMaterial.Columns.Clear()
     End Sub
 
     Private Sub DateTimePicker1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker1.KeyPress
@@ -165,9 +165,9 @@ Public Class StockProduction
 
     Private Sub DateTimePicker2_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker2.ValueChanged
         btn_ExportTrace1.Enabled = False
-        DataGridView1.DataSource = Nothing
-        DataGridView1.Rows.Clear()
-        DataGridView1.Columns.Clear()
+        DG_SCMaterial.DataSource = Nothing
+        DG_SCMaterial.Rows.Clear()
+        DG_SCMaterial.Columns.Clear()
     End Sub
 
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As DoWorkEventArgs) Handles BackgroundWorker1.DoWork

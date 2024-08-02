@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar
 Imports Microsoft.Office.Interop
 
@@ -15,6 +16,8 @@ Public Class StockProduction
         DateTimePicker2.CustomFormat = "yyyy-MM-dd"
 
         btn_ExportTrace1.Enabled = False
+
+        TabControl1.SelectedIndex = 0
     End Sub
 
     Private Sub DGV_StockMiniststore()
@@ -26,12 +29,198 @@ Public Class StockProduction
             Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS] [Status], [MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE] [Line], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [FIFO], [LEVEL], [FLOW_TICKET], [QRCODE] [QR Code], PRODUCTION_PROCESS_DATETIME [Date Time Production Process], PRODUCTION_PROCESS_WHO [Scan Production Process] FROM STOCK_CARD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result','Return to Mini Store') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCMaterial.DataSource = dtInputStockDetail
+            SetEqualColumnWidths(DG_SCMaterial)
         Catch ex As Exception
             RJMessageBox.Show(ex.Message)
         End Try
     End Sub
 
-    Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCMaterial.DataBindingComplete
+    Private Sub DGV_SA()
+        Try
+            DG_SCSA.DataSource = Nothing
+            DG_SCSA.Rows.Clear()
+            DG_SCSA.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [CODE_STOCK_PROD_SUB_ASSY] [QRCode], [FG] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [PO], [SUB_SUB_PO] [SSPO], [QTY] [Qty] FROM STOCK_PROD_SUB_ASSY where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCSA.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCSA)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_Reject()
+        Try
+            DG_SCReject.DataSource = Nothing
+            DG_SCReject.Rows.Clear()
+            DG_SCReject.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [part_number] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [FG_PN] [FG], [PO], [SUB_SUB_PO] [SSPO], [LINE] [Line], [QTY] [Qty Reject] FROM OUT_PROD_REJECT where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCReject.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCReject)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_Others()
+        Try
+            DG_SCOthers.DataSource = Nothing
+            DG_SCOthers.Rows.Clear()
+            DG_SCOthers.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [CODE_STOCK_PROD_OTHERS] [QRCode], [PART_NUMBER] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [CODE_OUT_PROD_DEFECT] [CODE DEFECT], [QTY] [Qty] FROM STOCK_PROD_OTHERS where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCOthers.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCOthers)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_WIP()
+        Try
+            DG_SCWIPATAS.DataSource = Nothing
+            DG_SCWIPATAS.Rows.Clear()
+            DG_SCWIPATAS.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "select * from (select DISTINCT [CODE_STOCK_PROD_WIP] [QRCode], [FG_PN] [FINISH GOODS], [PENGALI] [Qty] from STOCK_PROD_WIP where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') as listofwip ORDER BY cast(replace(QRCode,'WIP','') as int) desc"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCWIPATAS.DataSource = dtInputStockDetail
+
+            Dim CheckStockWIP As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            CheckStockWIP.Name = "Check"
+            CheckStockWIP.HeaderText = "Check"
+            CheckStockWIP.Width = 50
+            CheckStockWIP.Text = "Check"
+            CheckStockWIP.UseColumnTextForButtonValue = True
+            DG_SCWIPATAS.Columns.Insert(0, CheckStockWIP)
+
+            SetEqualColumnWidths(DG_SCWIPATAS)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_WIPBawah(code As String)
+        Try
+            DG_SCWIPBAWAH.DataSource = Nothing
+            DG_SCWIPBAWAH.Rows.Clear()
+            DG_SCWIPBAWAH.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP = '" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' ORDER BY datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCWIPBAWAH.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCWIPBAWAH)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_OH()
+        Try
+            DG_SCOHATAS.DataSource = Nothing
+            DG_SCOHATAS.Rows.Clear()
+            DG_SCOHATAS.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "select * from (SELECT DISTINCT [CODE_STOCK_PROD_ONHOLD] [QRCode], [FG_PN] [FINISH GOODS], [PENGALI] [Qty] from STOCK_PROD_ONHOLD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') as listofoh ORDER BY cast(replace(QRCode,'OH','') as int) desc"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCOHATAS.DataSource = dtInputStockDetail
+
+            Dim CheckStockOH As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            CheckStockOH.Name = "Check"
+            CheckStockOH.HeaderText = "Check"
+            CheckStockOH.Width = 50
+            CheckStockOH.Text = "Check"
+            CheckStockOH.UseColumnTextForButtonValue = True
+            DG_SCWIPATAS.Columns.Insert(0, CheckStockOH)
+
+            SetEqualColumnWidths(DG_SCOHATAS)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_OHBawah(code As String)
+        Try
+            DG_SCOHBAWAH.DataSource = Nothing
+            DG_SCOHBAWAH.Rows.Clear()
+            DG_SCOHBAWAH.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "select * from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD = '" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' ORDER BY datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCOHBAWAH.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCOHBAWAH)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_Defect()
+        Try
+            DG_SCDEFECTATAS.DataSource = Nothing
+            DG_SCDEFECTATAS.Rows.Clear()
+            DG_SCDEFECTATAS.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT * FROM (SELECT DISTINCT [CODE_OUT_PROD_DEFECT] [QRCode], [sub_sub_po] [SUB SUB PO], FG_PN [FINISH GOODS], [PENGALI] [Qty] FROM out_prod_defect where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') AS LISTOFDEFECT order by cast(replace(QRCode,'D','') as int) desc"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCDEFECTATAS.DataSource = dtInputStockDetail
+
+            Dim CheckStockDefect As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            CheckStockDefect.Name = "Check"
+            CheckStockDefect.HeaderText = "Check"
+            CheckStockDefect.Width = 50
+            CheckStockDefect.Text = "Check"
+            CheckStockDefect.UseColumnTextForButtonValue = True
+            DG_SCDEFECTATAS.Columns.Insert(0, CheckStockDefect)
+
+            SetEqualColumnWidths(DG_SCDEFECTATAS)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_DefectBawah(code As String)
+        Try
+            DG_SCDEFECTBAWAH.DataSource = Nothing
+            DG_SCDEFECTBAWAH.Rows.Clear()
+            DG_SCDEFECTBAWAH.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT * FROM out_prod_defect where CODE_OUT_PROD_DEFECT='" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCDEFECTBAWAH.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCDEFECTBAWAH)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub SetEqualColumnWidths(ByVal dgv As DataGridView)
+        dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
+
+        Dim totalWidth As Integer = dgv.ClientSize.Width
+        Dim columnCount As Integer = dgv.ColumnCount
+        Dim equalWidth As Integer = Math.Floor(totalWidth / columnCount)
+
+        For Each column As DataGridViewColumn In dgv.Columns
+            column.Width = equalWidth
+        Next
+
+        Dim remainingWidth As Integer = totalWidth - (equalWidth * columnCount)
+        For i As Integer = 0 To remainingWidth - 1
+            dgv.Columns(i).Width += 1
+        Next
+    End Sub
+
+    Private Sub DG_SCMaterial_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCMaterial.DataBindingComplete
         For i As Integer = 0 To DG_SCMaterial.RowCount - 1
             If DG_SCMaterial.Rows(i).Index Mod 2 = 0 Then
                 DG_SCMaterial.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
@@ -41,6 +230,276 @@ Public Class StockProduction
         Next i
 
         With DG_SCMaterial
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCSA_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCSA.DataBindingComplete
+        For i As Integer = 0 To DG_SCSA.RowCount - 1
+            If DG_SCSA.Rows(i).Index Mod 2 = 0 Then
+                DG_SCSA.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCSA.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCSA
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCOthers_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCOthers.DataBindingComplete
+        For i As Integer = 0 To DG_SCOthers.RowCount - 1
+            If DG_SCOthers.Rows(i).Index Mod 2 = 0 Then
+                DG_SCOthers.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCOthers.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCOthers
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCReject_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCReject.DataBindingComplete
+        For i As Integer = 0 To DG_SCReject.RowCount - 1
+            If DG_SCReject.Rows(i).Index Mod 2 = 0 Then
+                DG_SCReject.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCReject.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCReject
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCWIPATAS_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCWIPATAS.DataBindingComplete
+        For i As Integer = 0 To DG_SCWIPATAS.RowCount - 1
+            If DG_SCWIPATAS.Rows(i).Index Mod 2 = 0 Then
+                DG_SCWIPATAS.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCWIPATAS.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCWIPATAS
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCWIPBAWAH_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCWIPBAWAH.DataBindingComplete
+        For i As Integer = 0 To DG_SCWIPBAWAH.RowCount - 1
+            If DG_SCWIPBAWAH.Rows(i).Index Mod 2 = 0 Then
+                DG_SCWIPBAWAH.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCWIPBAWAH.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCWIPBAWAH
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCOHATAS_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCOHATAS.DataBindingComplete
+        For i As Integer = 0 To DG_SCOHATAS.RowCount - 1
+            If DG_SCOHATAS.Rows(i).Index Mod 2 = 0 Then
+                DG_SCOHATAS.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCOHATAS.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCOHATAS
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCOHBAWAH_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCOHBAWAH.DataBindingComplete
+        For i As Integer = 0 To DG_SCOHBAWAH.RowCount - 1
+            If DG_SCOHBAWAH.Rows(i).Index Mod 2 = 0 Then
+                DG_SCOHBAWAH.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCOHBAWAH.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCOHBAWAH
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCDEFECTATAS_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCDEFECTATAS.DataBindingComplete
+        For i As Integer = 0 To DG_SCDEFECTATAS.RowCount - 1
+            If DG_SCDEFECTATAS.Rows(i).Index Mod 2 = 0 Then
+                DG_SCDEFECTATAS.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCDEFECTATAS.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCDEFECTATAS
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub DG_SCDEFECTBAWAH_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCDEFECTBAWAH.DataBindingComplete
+        For i As Integer = 0 To DG_SCDEFECTBAWAH.RowCount - 1
+            If DG_SCDEFECTBAWAH.Rows(i).Index Mod 2 = 0 Then
+                DG_SCDEFECTBAWAH.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCDEFECTBAWAH.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCDEFECTBAWAH
             .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
             For i As Integer = 0 To .ColumnCount - 1
@@ -141,7 +600,35 @@ Public Class StockProduction
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If globVar.view > 0 Then
-            DGV_StockMiniststore()
+            If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
+
+                DGV_SA()
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
+
+                DGV_WIP()
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
+
+                DGV_OH()
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
+
+                DGV_Defect()
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
+
+                DGV_Reject()
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
+
+                DGV_Others()
+
+            Else
+
+                DGV_StockMiniststore()
+
+            End If
             btn_ExportTrace1.Enabled = True
         End If
     End Sub
@@ -150,9 +637,50 @@ Public Class StockProduction
         DateTimePicker2.MinDate = DateTimePicker1.Value
         DateTimePicker2.MaxDate = DateTime.Now.AddDays(1)
         btn_ExportTrace1.Enabled = False
+
+        clearDG()
+    End Sub
+
+    Sub clearDG()
         DG_SCMaterial.DataSource = Nothing
         DG_SCMaterial.Rows.Clear()
         DG_SCMaterial.Columns.Clear()
+
+        DG_SCSA.DataSource = Nothing
+        DG_SCSA.Rows.Clear()
+        DG_SCSA.Columns.Clear()
+
+        DG_SCWIPATAS.DataSource = Nothing
+        DG_SCWIPATAS.Rows.Clear()
+        DG_SCWIPATAS.Columns.Clear()
+
+        DG_SCWIPBAWAH.DataSource = Nothing
+        DG_SCWIPBAWAH.Rows.Clear()
+        DG_SCWIPBAWAH.Columns.Clear()
+
+        DG_SCOHATAS.DataSource = Nothing
+        DG_SCOHATAS.Rows.Clear()
+        DG_SCOHATAS.Columns.Clear()
+
+        DG_SCOHBAWAH.DataSource = Nothing
+        DG_SCOHBAWAH.Rows.Clear()
+        DG_SCOHBAWAH.Columns.Clear()
+
+        DG_SCDEFECTATAS.DataSource = Nothing
+        DG_SCDEFECTATAS.Rows.Clear()
+        DG_SCDEFECTATAS.Columns.Clear()
+
+        DG_SCDEFECTBAWAH.DataSource = Nothing
+        DG_SCDEFECTBAWAH.Rows.Clear()
+        DG_SCDEFECTBAWAH.Columns.Clear()
+
+        DG_SCReject.DataSource = Nothing
+        DG_SCReject.Rows.Clear()
+        DG_SCReject.Columns.Clear()
+
+        DG_SCOthers.DataSource = Nothing
+        DG_SCOthers.Rows.Clear()
+        DG_SCOthers.Columns.Clear()
     End Sub
 
     Private Sub DateTimePicker1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker1.KeyPress
@@ -165,9 +693,7 @@ Public Class StockProduction
 
     Private Sub DateTimePicker2_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker2.ValueChanged
         btn_ExportTrace1.Enabled = False
-        DG_SCMaterial.DataSource = Nothing
-        DG_SCMaterial.Rows.Clear()
-        DG_SCMaterial.Columns.Clear()
+        clearDG()
     End Sub
 
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As DoWorkEventArgs) Handles BackgroundWorker1.DoWork
@@ -217,5 +743,91 @@ Public Class StockProduction
     Private Sub backgroundWorker1_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
         ProgressBar1.Visible = False
         btn_ExportTrace1.Enabled = True
+    End Sub
+
+    Private Sub TabControl1_Click(sender As Object, e As EventArgs) Handles TabControl1.Click
+        If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
+
+            DGV_SA()
+
+        ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
+
+            DGV_WIP()
+
+        ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
+
+            DGV_OH()
+
+        ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
+
+            DGV_Defect()
+
+        ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
+
+            DGV_Reject()
+
+        ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
+
+            DGV_Others()
+
+        Else
+
+            DGV_StockMiniststore()
+
+        End If
+    End Sub
+
+    Private Sub DG_SCWIPATAS_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DG_SCWIPATAS.CellClick
+
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
+        If DG_SCWIPATAS.Columns(e.ColumnIndex).Name = "Check" Then
+
+            DGV_WIPBawah(DG_SCWIPATAS.Rows(e.RowIndex).Cells("QRCode").Value)
+
+        End If
+
+    End Sub
+
+    Private Sub DG_SCOHATAS_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DG_SCOHATAS.CellClick
+
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
+        If DG_SCOHATAS.Columns(e.ColumnIndex).Name = "Check" Then
+
+            DGV_OHBawah(DG_SCOHATAS.Rows(e.RowIndex).Cells("QRCode").Value)
+
+        End If
+
+    End Sub
+
+    Private Sub DG_SCDEFECTATAS_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DG_SCDEFECTATAS.CellClick
+
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
+        If DG_SCDEFECTATAS.Columns(e.ColumnIndex).Name = "Check" Then
+
+            DGV_DefectBawah(DG_SCDEFECTATAS.Rows(e.RowIndex).Cells("QRCode").Value)
+
+        End If
+
     End Sub
 End Class

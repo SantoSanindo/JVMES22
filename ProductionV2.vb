@@ -1076,7 +1076,7 @@ Public Class ProductionV2
             If result = DialogResult.Yes Then
 
                 If DataGridView1.Rows(e.RowIndex).Cells("Qty").Value <> DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value Then
-                    RJMessageBox.Show("Cannot delete this material because this material already have Finish Goods / Sub Assy")
+                    RJMessageBox.Show("Cannot delete this material because this material already in use")
                     Exit Sub
                 End If
 

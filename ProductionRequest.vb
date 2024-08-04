@@ -253,7 +253,7 @@ Public Class ProductionRequest
                             Exit Sub
                         End If
 
-                        Dim sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and batch_no='" & globVar.QRCode_Batch & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and [save]=1"
+                        Dim sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and batch_no='" & globVar.QRCode_Batch & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and department='" & globVar.department & "' and (status='Receive From Main Store' or status='Receive From Production') and [save]=1 and actual_qty > 0"
                         Dim dtCheckStockMinistore As DataTable = Database.GetData(sqlCheckStockMinistore)
 
                         If dtCheckStockMinistore.Rows.Count = 0 Then
@@ -262,8 +262,8 @@ Public Class ProductionRequest
                             Exit Sub
                         End If
 
-                        If dtCheckStockMinistore.Rows(0).Item("actual_qty") <= 0 Then
-                            RJMessageBox.Show("This Material is 0")
+                        If dtCheckStockMinistore.Rows.Count > 1 Then
+                            RJMessageBox.Show("The scanned material has more than 1 material. " & globVar.QRCode_PN & " - " & globVar.QRCode_lot)
                             TextBox1.Clear()
                             Exit Sub
                         End If

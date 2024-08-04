@@ -135,7 +135,7 @@ Public Class FormInputStock
 
                         If ds.Rows.Count > 0 Then
 
-                            Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                            Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
                             Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                             If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -166,6 +166,16 @@ Public Class FormInputStock
                                     VALUES ('" & globVar.QRCode_PN & "'," & globVar.QRCode_Qty & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & txt_forminputstock_qrcode.Text.Trim & "','" & txt_forminputstock_mts_no.Text & "','" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & globVar.QRCode_Qty & ",'" & globVar.username & "')"
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                     If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                                        Dim queryCheckReturn As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Return To Main Store' and actual_qty > 0"
+                                        Dim dtCheckReturn As DataTable = Database.GetData(queryCheckReturn)
+
+                                        If dtCheckReturn.Rows.Count > 0 Then
+                                            Dim SqlUpdate As String = "update STOCK_CARD set actual_qty=0 where ID=" & dtCheckReturn.Rows(0).Item("id")
+                                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                                            cmdUpdate.ExecuteNonQuery()
+                                        End If
+
                                         txt_forminputstock_qrcode.Text = ""
                                         txt_forminputstock_qrcode.Select()
 
@@ -473,7 +483,7 @@ Public Class FormInputStock
 
                 If ds.Rows.Count > 0 Then
 
-                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text & "' AND MATERIAL='" & txtmanualPN.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "'"
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text & "' AND MATERIAL='" & txtmanualPN.Text & "' and inv_ctrl_date='" & txtmanualInv.Text & "' and traceability='" & txtmanualTraceability.Text & "' and batch_no='" & txtmanualBatch.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
                     Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                     If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -501,6 +511,16 @@ Public Class FormInputStock
                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
 
                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                                Dim queryCheckReturn As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text & "' AND MATERIAL='" & txtmanualPN.Text & "' and inv_ctrl_date='" & txtmanualInv.Text & "' and traceability='" & txtmanualTraceability.Text & "' and batch_no='" & txtmanualBatch.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Return To Main Store' and actual_qty > 0"
+                                Dim dtCheckReturn As DataTable = Database.GetData(queryCheckInputStockDetail)
+
+                                If dtCheckReturn.Rows.Count > 0 Then
+                                    Dim SqlUpdate As String = "update STOCK_CARD set actual_qty=0 where ID=" & dtCheckReturn.Rows(0).Item("id")
+                                    Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                                    cmdUpdate.ExecuteNonQuery()
+                                End If
+
                                 txtmanualBatch.Text = ""
                                 txtmanualInv.Text = ""
                                 txtmanualLot.Text = ""

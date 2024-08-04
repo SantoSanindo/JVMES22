@@ -15,11 +15,11 @@ Public Class MainPOSubPO
             ComboBox3.SelectedIndex = -1
             TabPage2.Enabled = False
 
-            If globVar.hakAkses.Contains("Administrator") Then
-                Button2.Visible = True
-            Else
-                Button2.Visible = False
-            End If
+            'If globVar.hakAkses.Contains("Administrator") Then
+            '    Button2.Visible = True
+            'Else
+            '    Button2.Visible = False
+            'End If
         End If
     End Sub
 

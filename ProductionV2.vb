@@ -82,13 +82,22 @@ Public Class ProductionV2
                         Dim dtCheckKecukupanQty As DataTable = Database.GetData(sqlCheckKecukupanQty)
 
                         If dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan") > dtCheckKecukupanQty.Rows(0).Item("total_input") Then
-                            Dim sqlCheckStockCard As String = "select * from stock_card where material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and status='Production Request'"
+                            Dim sqlCheckStockCard As String = "select * from stock_card where material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and sub_sub_po='" & TextBox11.Text & "' and finish_goods_pn='" & TextBox2.Text & "' and status='Production Request' and actual_qty > 0"
                             Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
 
                             If dtCheckStockCard.Rows.Count = 0 Then
 
                                 RJMessageBox.Show("Sorry this material not for this line.")
                                 TextBox1.Text = ""
+                                TextBox1.Select()
+                                Exit Sub
+
+                            End If
+
+                            If dtCheckStockCard.Rows.Count > 1 Then
+
+                                RJMessageBox.Show("The scanned material has more than 1 material. " & globVar.QRCode_PN & " - " & globVar.QRCode_lot)
+                                TextBox1.Clear()
                                 TextBox1.Select()
                                 Exit Sub
 
@@ -697,6 +706,7 @@ Public Class ProductionV2
                                             traceability [Traceability],
                                             batch_no [Batch No],
                                             qty [Qty],
+                                            remark [Remark],
                                             actual_qty [Actual Qty]
                                         FROM
 	                                        stock_card 
@@ -715,7 +725,7 @@ Public Class ProductionV2
             deleteProductionRequest.Width = 50
             deleteProductionRequest.Text = "Delete"
             deleteProductionRequest.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(9, deleteProductionRequest)
+            DataGridView1.Columns.Insert(10, deleteProductionRequest)
 
             DataGridView1.Columns(0).Width = 100
 
@@ -1140,6 +1150,11 @@ Public Class ProductionV2
             e.CellStyle.BackColor = Color.Green
             e.CellStyle.ForeColor = Color.White
         End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "Remark" Then
+            e.CellStyle.BackColor = Color.Green
+            e.CellStyle.ForeColor = Color.White
+        End If
     End Sub
 
     Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
@@ -1170,6 +1185,13 @@ Public Class ProductionV2
 
             If dtCheck.Rows(0).Item("qty") <> DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
 
+                If DataGridView1.Rows(e.RowIndex).Cells("Remark").Value Is DBNull.Value OrElse DataGridView1.Rows(e.RowIndex).Cells("Remark").Value.ToString() = "" Then
+
+                    RJMessageBox.Show("Please fill the remark")
+                    Exit Sub
+
+                End If
+
                 If DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value = 0 And dtCheck.Rows(0).Item("qty") > DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
 
                     RJMessageBox.Show("cannot change less than qty when actual qty = 0")
@@ -1191,7 +1213,7 @@ Public Class ProductionV2
 
                         End If
 
-                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty - " & SumQty & ", actual_qty = actual_qty - " & SumQty & " where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty - " & SumQty & ", actual_qty = actual_qty - " & SumQty & ", remark='" & DataGridView1.Rows(e.RowIndex).Cells("Remark").Value & "' where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
                         Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
                         If dtUpdateactualQty.ExecuteNonQuery() Then
 
@@ -1205,7 +1227,78 @@ Public Class ProductionV2
 
                         Dim SumQty = DataGridView1.Rows(e.RowIndex).Cells("Qty").Value - dtCheck.Rows(0).Item("qty")
 
-                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty + " & SumQty & ", actual_qty=actual_qty + " & SumQty & " where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty + " & SumQty & ", actual_qty=actual_qty + " & SumQty & ", remark='" & DataGridView1.Rows(e.RowIndex).Cells("Remark").Value & "' where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                        If dtUpdateactualQty.ExecuteNonQuery() Then
+
+                            RJMessageBox.Show("Update Qty Success")
+                            DGV_DOC()
+                            DGV_DOS()
+
+                        End If
+
+                    End If
+
+                End If
+
+            Else
+
+                RJMessageBox.Show("Old and New qty is same")
+
+            End If
+
+        End If
+
+        If DataGridView1.Columns(e.ColumnIndex).Name = "Remark" Then
+
+            Dim sqlcheck As String = "select * from stock_card where ID=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+            Dim dtCheck As DataTable = Database.GetData(sqlcheck)
+
+            If dtCheck.Rows(0).Item("qty") <> DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+
+                If DataGridView1.Rows(e.RowIndex).Cells("Remark").Value Is DBNull.Value OrElse DataGridView1.Rows(e.RowIndex).Cells("Remark").Value.ToString() = "" Then
+
+                    RJMessageBox.Show("Please fill the remark")
+                    Exit Sub
+
+                End If
+
+                If DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value = 0 And dtCheck.Rows(0).Item("qty") > DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+
+                    RJMessageBox.Show("cannot change less than qty when actual qty = 0")
+                    DGV_DOC()
+                    DGV_DOS()
+
+                Else
+
+                    If dtCheck.Rows(0).Item("qty") > DataGridView1.Rows(e.RowIndex).Cells("Qty").Value Then
+
+                        Dim SumQty = dtCheck.Rows(0).Item("qty") - DataGridView1.Rows(e.RowIndex).Cells("Qty").Value
+
+                        If dtCheck.Rows(0).Item("actual_qty") - SumQty < 0 Then
+
+                            RJMessageBox.Show("cannot change the qty because the addition makes the actual qty smaller than 0")
+                            DGV_DOC()
+                            DGV_DOS()
+                            Exit Sub
+
+                        End If
+
+                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty - " & SumQty & ", actual_qty = actual_qty - " & SumQty & ", remark='" & DataGridView1.Rows(e.RowIndex).Cells("Remark").Value & "' where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                        Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                        If dtUpdateactualQty.ExecuteNonQuery() Then
+
+                            RJMessageBox.Show("Update Qty Success")
+                            DGV_DOC()
+                            DGV_DOS()
+
+                        End If
+
+                    Else
+
+                        Dim SumQty = DataGridView1.Rows(e.RowIndex).Cells("Qty").Value - dtCheck.Rows(0).Item("qty")
+
+                        Dim queryUpdateactualQty As String = "update stock_card set qty = qty + " & SumQty & ", actual_qty=actual_qty + " & SumQty & ", remark='" & DataGridView1.Rows(e.RowIndex).Cells("Remark").Value & "' where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
                         Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
                         If dtUpdateactualQty.ExecuteNonQuery() Then
 

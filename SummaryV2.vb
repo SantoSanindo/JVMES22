@@ -146,18 +146,16 @@ Public Class SummaryV2
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
 	            qty [QTY],
-	            qty_adjust [QTY Adjust],
-	            remark_qty_adjust [Remark]
+	            remark [Remark]
             FROM
 	            STOCK_CARD 
             WHERE
-	            status = 'Production Request' 
+	            status = 'Production Process' 
 	            AND LEVEL = 'Fresh' 
 	            AND QRCODE NOT LIKE 'SA%' 
 	            AND material = '" & comp & "'
 	            AND line = '" & ComboBox1.Text & "'
 	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            AND qty > ACTUAL_QTY 
 	            AND department ='" & globVar.department & "'
             order by LOT_NO "
         ElseIf key = "sub_assy_in" Then
@@ -170,17 +168,15 @@ Public Class SummaryV2
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
 	            qty [QTY],
-	            qty_adjust [QTY Adjust],
-	            remark_qty_adjust [Remark]
+	            remark [Remark]
             FROM
                 STOCK_CARD
             WHERE
-                Status = 'Production Request' 
+                Status = 'Production Process' 
                 And QRCode Like 'SA%' 
 	            And material = '" & comp & "'
 	            And line = '" & ComboBox1.Text & "'
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            And qty > ACTUAL_QTY 
 	            And department ='" & globVar.department & "'
             order by LOT_NO "
         ElseIf key = "others_in" Then
@@ -193,17 +189,15 @@ Public Class SummaryV2
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
 	            qty [QTY],
-	            qty_adjust [QTY Adjust],
-	            remark_qty_adjust [Remark]
+	            remark [Remark]
             FROM
                 STOCK_CARD
             WHERE
-                Status = 'Production Request' 
+                Status = 'Production Process' 
                 AND LEVEL = 'OT' 
 	            And material = '" & comp & "'
 	            And line = '" & ComboBox1.Text & "'
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-	            And qty > ACTUAL_QTY 
 	            And department ='" & globVar.department & "'
             order by LOT_NO "
             'ElseIf key = "reject" Then
@@ -325,10 +319,25 @@ Public Class SummaryV2
                 Else
                     SaveTraceability()
 
-                    Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed' where sub_sub_po='" & txtSubSubPO.Text & "'"
-                    Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
-                    If dtUpdateSubsubpo.ExecuteNonQuery() Then
-                        RJMessageBox.Show("Success Close Sub Sub PO")
+                    Dim sqlStr As String = "SELECT mp.id, mp.sub_po_qty,mp.actual_qty FROM sub_sub_po ssp, main_po mp where ssp.sub_sub_po='" & txtSubSubPO.Text & "' and ssp.main_po = mp.id"
+                    Dim dttable As DataTable = Database.GetData(sqlStr)
+
+                    If dttable.Rows(0).Item("sub_po_qty") = dttable.Rows(0).Item("actual_qty") Then
+
+                        Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where sub_sub_po='" & txtSubSubPO.Text & "';update main_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where id=" & dttable.Rows(0).Item("id")
+                        Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                        If dtUpdateSubsubpo.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Success Close Sub Sub PO")
+                        End If
+
+                    Else
+
+                        Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where sub_sub_po='" & txtSubSubPO.Text & "'"
+                        Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                        If dtUpdateSubsubpo.ExecuteNonQuery() Then
+                            RJMessageBox.Show("Success Close Sub Sub PO")
+                        End If
+
                     End If
                 End If
             End If
@@ -338,22 +347,50 @@ Public Class SummaryV2
     End Sub
 
     Sub SaveTraceability()
-        Dim sqlStr As String = "SELECT d.DATETIME_INSERT,d.sub_sub_po,d.line,d.fg,d.laser_code,d.INV_CTRL_DATE,d.BATCH_NO,d.LOT_NO,f.inspector,f.packer1,f.packer2,f.packer3,f.packer4 FROM done_fg d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtFG.Text & "' and d.sub_sub_po='" & txtSubSubPO.Text & "'"
-        Dim dttable As DataTable = Database.GetData(sqlStr)
-        If dttable.Rows.Count > 0 Then
-            For u = 0 To dttable.Rows.Count - 1
-                Dim sqlCheckSummaryTraceability As String = "SELECT * FROM summary_traceability WHERE sub_sub_po = '" & dttable.Rows(u).Item("sub_sub_po") & "' and fg='" & txtFG.Text & "' and lot_no='" & dttable.Rows(u).Item("LOT_NO") & "'"
-                Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
-                If dtCheckSummaryTraceability.Rows.Count = 0 Then
-                    Dim sqlInsertSummaryFG As String = "INSERT INTO SUMMARY_TRACEABILITY([DATE], [SUB_SUB_PO], [LINE], [FG], [LASER_CODE], [INV], [BATCH_NO], [LOT_NO], 
+
+        Dim sqlCheckMasterFG As String = "SELECT * FROM master_finish_goods where fg_part_number= '" & txtFG.Text & "'"
+        Dim dtCheckMasterFG As DataTable = Database.GetData(sqlCheckMasterFG)
+
+        If dtCheckMasterFG.Rows(0).Item("level") = "Sub Assy" Then
+
+            Dim sqlStr As String = "SELECT d.DATETIME_INSERT,d.sub_sub_po,d.line,d.fg,d.laser_code,d.INV_CTRL_DATE,d.BATCH_NO,d.LOT_NO,d.traceability,f.inspector,f.packer1,f.packer2,f.packer3,f.packer4 FROM STOCK_PROD_SUB_ASSY d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtFG.Text & "' and d.sub_sub_po='" & txtSubSubPO.Text & "'"
+            Dim dttable As DataTable = Database.GetData(sqlStr)
+            If dttable.Rows.Count > 0 Then
+                For u = 0 To dttable.Rows.Count - 1
+                    Dim sqlCheckSummaryTraceability As String = "SELECT * FROM summary_traceability WHERE sub_sub_po = '" & dttable.Rows(u).Item("sub_sub_po") & "' and fg='" & txtFG.Text & "' and lot_no='" & dttable.Rows(u).Item("LOT_NO") & "'"
+                    Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
+                    If dtCheckSummaryTraceability.Rows.Count = 0 Then
+                        Dim sqlInsertSummaryFG As String = "INSERT INTO SUMMARY_TRACEABILITY([DATE], [SUB_SUB_PO], [LINE], [FG], [LASER_CODE], [INV], [BATCH_NO], [LOT_NO], [TRACEABILITY],
                                             [INSPECTOR], [PACKER1], [PACKER2], [PACKER3], [PACKER4]) VALUES (getdate(), '" & dttable.Rows(u).Item("sub_sub_po") & "', 
                                             '" & dttable.Rows(u).Item("line") & "', '" & dttable.Rows(u).Item("fg") & "', '" & dttable.Rows(u).Item("laser_code") & "', '" & dttable.Rows(u).Item("INV_CTRL_DATE") & "', 
-                                            '" & dttable.Rows(u).Item("BATCH_NO") & "', '" & dttable.Rows(u).Item("LOT_NO") & "', '" & dttable.Rows(u).Item("inspector") & "', '" & dttable.Rows(u).Item("packer1") & "', 
-                                            '" & dttable.Rows(u).Item("packer2") & "', '" & dttable.Rows(u).Item("packer3") & "', '" & dttable.Rows(u).Item("packer4") & "')"
-                    Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
-                    cmdInsertSummaryFG.ExecuteNonQuery()
-                End If
-            Next
+                                            '" & dttable.Rows(u).Item("BATCH_NO") & "', '" & dttable.Rows(u).Item("LOT_NO") & "', '" & dttable.Rows(u).Item("TRACEABILITY") & "', '" & dttable.Rows(u).Item("inspector") & "', 
+                                            '" & dttable.Rows(u).Item("packer1") & "', '" & dttable.Rows(u).Item("packer2") & "', '" & dttable.Rows(u).Item("packer3") & "', '" & dttable.Rows(u).Item("packer4") & "')"
+                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                        cmdInsertSummaryFG.ExecuteNonQuery()
+                    End If
+                Next
+            End If
+
+        Else
+
+            Dim sqlStr As String = "SELECT d.DATETIME_INSERT,d.sub_sub_po,d.line,d.fg,d.laser_code,d.INV_CTRL_DATE,d.BATCH_NO,d.LOT_NO,d.traceability,f.inspector,f.packer1,f.packer2,f.packer3,f.packer4 FROM done_fg d left join fga f on d.sub_sub_po=f.sub_sub_po and d.flow_ticket=f.no_flowticket WHERE d.fg= '" & txtFG.Text & "' and d.sub_sub_po='" & txtSubSubPO.Text & "'"
+            Dim dttable As DataTable = Database.GetData(sqlStr)
+            If dttable.Rows.Count > 0 Then
+                For u = 0 To dttable.Rows.Count - 1
+                    Dim sqlCheckSummaryTraceability As String = "SELECT * FROM summary_traceability WHERE sub_sub_po = '" & dttable.Rows(u).Item("sub_sub_po") & "' and fg='" & txtFG.Text & "' and lot_no='" & dttable.Rows(u).Item("LOT_NO") & "'"
+                    Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
+                    If dtCheckSummaryTraceability.Rows.Count = 0 Then
+                        Dim sqlInsertSummaryFG As String = "INSERT INTO SUMMARY_TRACEABILITY([DATE], [SUB_SUB_PO], [LINE], [FG], [LASER_CODE], [INV], [BATCH_NO], [LOT_NO], [TRACEABILITY],
+                                            [INSPECTOR], [PACKER1], [PACKER2], [PACKER3], [PACKER4]) VALUES (getdate(), '" & dttable.Rows(u).Item("sub_sub_po") & "', 
+                                            '" & dttable.Rows(u).Item("line") & "', '" & dttable.Rows(u).Item("fg") & "', '" & dttable.Rows(u).Item("laser_code") & "', '" & dttable.Rows(u).Item("INV_CTRL_DATE") & "', 
+                                            '" & dttable.Rows(u).Item("BATCH_NO") & "', '" & dttable.Rows(u).Item("LOT_NO") & "', '" & dttable.Rows(u).Item("TRACEABILITY") & "', '" & dttable.Rows(u).Item("inspector") & "', 
+                                            '" & dttable.Rows(u).Item("packer1") & "', '" & dttable.Rows(u).Item("packer2") & "', '" & dttable.Rows(u).Item("packer3") & "', '" & dttable.Rows(u).Item("packer4") & "')"
+                        Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
+                        cmdInsertSummaryFG.ExecuteNonQuery()
+                    End If
+                Next
+            End If
+
         End If
 
         Dim sqlStrZ As String = "select * from summary_traceability where fg='" & txtFG.Text & "' and sub_sub_po='" & txtSubSubPO.Text & "'"
@@ -382,23 +419,19 @@ Public Class SummaryV2
             Next
         End If
 
-        Dim _remark As String = ""
-        Dim sqlStrMat As String = "select sc.line,sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,qty,id_level,qrcode from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & txtFG.Text & "' and sc.sub_sub_po='" & txtSubSubPO.Text & "' and sc.material=mm.part_number order by sc.line,sc.flow_ticket,sc.material"
+        Dim sqlStrMat As String = "select sc.line,sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,sc.traceability,sc.remark,qty,qrcode, qrcode_sa from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & txtFG.Text & "' and sc.sub_sub_po='" & txtSubSubPO.Text & "' and sc.material=mm.part_number order by sc.line,sc.flow_ticket,sc.material"
         Dim dttableMat As DataTable = Database.GetData(sqlStrMat)
         If dttableMat.Rows.Count > 0 Then
             For m = 0 To dttableMat.Rows.Count - 1
                 Dim sqlCheckSummaryTraceability As String = "SELECT * FROM summary_traceability_comp WHERE lot_fg='" & dttableMat.Rows(m).Item("flow_ticket") & "' and component='" & dttableMat.Rows(m).Item("material") & "' and sub_sub_po='" & txtSubSubPO.Text & "' and lot_comp='" & dttableMat.Rows(m).Item("lot_no") & "'"
                 Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
                 If dtCheckSummaryTraceability.Rows.Count = 0 Then
-                    If InStr(dttableMat.Rows(m).Item("qrcode").ToString, "SA") > 0 Or InStr(dttableMat.Rows(m).Item("qrcode").ToString, "WIP") > 0 Or InStr(dttableMat.Rows(m).Item("qrcode").ToString, "OT") > 0 Then
-                        _remark = dttableMat.Rows(m).Item("qrcode")
-                    Else
-                        _remark = "Fresh"
-                    End If
-                    Dim sqlInsertSummaryFG As String = "INSERT INTO [SUMMARY_TRACEABILITY_COMP]([LINE], [COMPONENT], [DESC], [INV], [BATCH_NO], [LOT_COMP], [LOT_FG], 
-                                            [QTY], [SUB_SUB_PO],remark) VALUES ('" & dttableMat.Rows(m).Item("line") & "', '" & dttableMat.Rows(m).Item("material") & "', '" & dttableMat.Rows(m).Item("name") & "', 
+
+                    Dim sqlInsertSummaryFG As String = "INSERT INTO [SUMMARY_TRACEABILITY_COMP]([LINE], [COMPONENT], [DESC], [INV], [BATCH_NO], [LOT_COMP], [TRACEABILITY], [QRCODE], [LOT_FG], [QTY], [SUB_SUB_PO], [REMARK]) 
+                                            VALUES ('" & dttableMat.Rows(m).Item("line") & "', '" & dttableMat.Rows(m).Item("material") & "', '" & dttableMat.Rows(m).Item("name") & "', 
                                             '" & dttableMat.Rows(m).Item("inv_ctrl_date") & "', '" & dttableMat.Rows(m).Item("batch_no") & "', '" & dttableMat.Rows(m).Item("lot_no") & "', 
-                                            '" & dttableMat.Rows(m).Item("flow_ticket") & "', " & dttableMat.Rows(m).Item("qty").ToString().Replace(",", ".") & ", '" & txtSubSubPO.Text & "','" & _remark & "')"
+                                            '" & dttableMat.Rows(m).Item("traceability") & "', '" & dttableMat.Rows(m).Item("qrcode") & "', 
+                                            '" & dttableMat.Rows(m).Item("flow_ticket") & "', " & dttableMat.Rows(m).Item("qty").ToString().Replace(",", ".") & ", '" & txtSubSubPO.Text & "','" & dttableMat.Rows(m).Item("qrcode_sa") & "')"
                     Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
                     cmdInsertSummaryFG.ExecuteNonQuery()
                 End If
@@ -437,18 +470,6 @@ Public Class SummaryV2
 
         If DataGridView1.Columns(e.ColumnIndex).Name = "Total Out" Then
             e.CellStyle.BackColor = Color.Yellow
-        End If
-    End Sub
-
-    Private Sub DataGridView2_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DataGridView2.CellFormatting
-        If DataGridView2.Columns(e.ColumnIndex).Name = "QTY Adjust" Then
-            e.CellStyle.BackColor = Color.Green
-            e.CellStyle.ForeColor = Color.White
-        End If
-
-        If DataGridView2.Columns(e.ColumnIndex).Name = "Remark" Then
-            e.CellStyle.BackColor = Color.Green
-            e.CellStyle.ForeColor = Color.White
         End If
     End Sub
 

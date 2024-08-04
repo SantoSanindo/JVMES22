@@ -417,7 +417,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectDOP As DataTable = Database.GetData(sqlSelectDOP)
                                 If dtSelectDOP.Rows.Count > 0 Then
                                     For ii = 0 To dtSelectDOP.Rows.Count - 1
-                                        Dim SqlUpdateDOP As String = "update PROD_DOP set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOP.Rows(ii).Item("id")
+                                        Dim SqlUpdateDOP As String = "update PROD_DOP set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "',sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOP.Rows(ii).Item("id")
                                         Dim cmdUpdateDOP = New SqlCommand(SqlUpdateDOP, Database.koneksi)
                                         cmdUpdateDOP.ExecuteNonQuery()
                                     Next
@@ -427,7 +427,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectDOC As DataTable = Database.GetData(sqlSelectDOC)
                                 If dtSelectDOC.Rows.Count > 0 Then
                                     For iii = 0 To dtSelectDOC.Rows.Count - 1
-                                        Dim SqlUpdateDOC As String = "update PROD_DOC set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOC.Rows(iii).Item("id")
+                                        Dim SqlUpdateDOC As String = "update PROD_DOC set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "',sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDOC.Rows(iii).Item("id")
                                         Dim cmdUpdateDOC = New SqlCommand(SqlUpdateDOC, Database.koneksi)
                                         cmdUpdateDOC.ExecuteNonQuery()
                                     Next
@@ -447,7 +447,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectStockCard As DataTable = Database.GetData(sqlSelectStockCard)
                                 If dtSelectStockCard.Rows.Count > 0 Then
                                     For iiiii = 0 To dtSelectStockCard.Rows.Count - 1
-                                        Dim SqlUpdateStockCard As String = "update STOCK_CARD set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectStockCard.Rows(iiiii).Item("id")
+                                        Dim SqlUpdateStockCard As String = "update STOCK_CARD set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "', sub_po='" & ReadyToSaveSubPO & "', sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectStockCard.Rows(iiiii).Item("id")
                                         Dim cmdUpdateStockCard = New SqlCommand(SqlUpdateStockCard, Database.koneksi)
                                         cmdUpdateStockCard.ExecuteNonQuery()
                                     Next
@@ -457,7 +457,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectReject As DataTable = Database.GetData(sqlSelectReject)
                                 If dtSelectReject.Rows.Count > 0 Then
                                     For ij = 0 To dtSelectReject.Rows.Count - 1
-                                        Dim SqlUpdateReject As String = "update OUT_PROD_REJECT set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectReject.Rows(ij).Item("id")
+                                        Dim SqlUpdateReject As String = "update OUT_PROD_REJECT set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "',sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectReject.Rows(ij).Item("id")
                                         Dim cmdUpdateReject = New SqlCommand(SqlUpdateReject, Database.koneksi)
                                         cmdUpdateReject.ExecuteNonQuery()
                                     Next
@@ -467,7 +467,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectDefect As DataTable = Database.GetData(sqlSelectDefect)
                                 If dtSelectDefect.Rows.Count > 0 Then
                                     For ik = 0 To dtSelectDefect.Rows.Count - 1
-                                        Dim SqlUpdateDefect As String = "update OUT_PROD_DEFECT set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDefect.Rows(ik).Item("id")
+                                        Dim SqlUpdateDefect As String = "update OUT_PROD_DEFECT set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "',sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectDefect.Rows(ik).Item("id")
                                         Dim cmdUpdateDefect = New SqlCommand(SqlUpdateDefect, Database.koneksi)
                                         cmdUpdateDefect.ExecuteNonQuery()
                                     Next
@@ -477,7 +477,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectOnHold As DataTable = Database.GetData(sqlSelectOnHold)
                                 If dtSelectOnHold.Rows.Count > 0 Then
                                     For il = 0 To dtSelectOnHold.Rows.Count - 1
-                                        Dim SqlUpdateOnHold As String = "update STOCK_PROD_ONHOLD set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectOnHold.Rows(il).Item("id")
+                                        Dim SqlUpdateOnHold As String = "update STOCK_PROD_ONHOLD set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "',sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectOnHold.Rows(il).Item("id")
                                         Dim cmdUpdateOnHold = New SqlCommand(SqlUpdateOnHold, Database.koneksi)
                                         cmdUpdateOnHold.ExecuteNonQuery()
                                     Next
@@ -487,7 +487,7 @@ Public Class MainPOSubPO
                                 Dim dtSelectWIP As DataTable = Database.GetData(sqlSelectWIP)
                                 If dtSelectWIP.Rows.Count > 0 Then
                                     For im = 0 To dtSelectWIP.Rows.Count - 1
-                                        Dim SqlUpdateWIP As String = "update STOCK_PROD_WIP set sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectWIP.Rows(im).Item("id")
+                                        Dim SqlUpdateWIP As String = "update STOCK_PROD_WIP set po='" & DataGridView1.Rows(e.RowIndex).Cells("PO").Value & "',sub_sub_po='" & ReadyToSaveSubSubPO & "' where ID=" & dtSelectWIP.Rows(im).Item("id")
                                         Dim cmdUpdateWIP = New SqlCommand(SqlUpdateWIP, Database.koneksi)
                                         cmdUpdateWIP.ExecuteNonQuery()
                                     Next

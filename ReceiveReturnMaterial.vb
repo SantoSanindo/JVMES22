@@ -15,11 +15,11 @@ Public Class ReceiveReturnMaterial
             If globVar.add > 0 Then
                 If TextBox1.Text.StartsWith("B") AndAlso TextBox1.Text.Length > 1 AndAlso IsNumeric(TextBox1.Text.Substring(1)) Then
 
-                    Dim sqlCheckReturnMaterial As String = "SELECT * FROM stock_card WHERE id_level='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Return To Mini Store'"
+                    Dim sqlCheckReturnMaterial As String = "SELECT * FROM stock_card WHERE qrcode='" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Return To Mini Store'"
                     Dim dtCheckReturnMaterial As DataTable = Database.GetData(sqlCheckReturnMaterial)
                     If dtCheckReturnMaterial.Rows.Count > 0 Then
                         For i = 0 To dtCheckReturnMaterial.Rows.Count - 1
-                            Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE id_level = '" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production'"
+                            Dim sqlCheckStockCard As String = "SELECT * FROM stock_card WHERE qrcode = '" & TextBox1.Text & "' and department='" & globVar.department & "' and status='Receive From Production'"
                             Dim dtCheckStockCard As DataTable = Database.GetData(sqlCheckStockCard)
                             If dtCheckStockCard.Rows.Count > 0 Then
                                 RJMessageBox.Show("Double Scan")

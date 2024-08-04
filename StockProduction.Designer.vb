@@ -53,6 +53,8 @@ Partial Class StockProduction
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.btn_ExportTrace1 = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.DG_SCReturn = New Zuby.ADGV.AdvancedDataGridView()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -75,6 +77,8 @@ Partial Class StockProduction
         CType(Me.DG_SCReject, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage7.SuspendLayout()
         CType(Me.DG_SCOthers, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage8.SuspendLayout()
+        CType(Me.DG_SCReturn, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Button1
@@ -108,7 +112,7 @@ Partial Class StockProduction
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(2, -14)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1526, 586)
+        Me.GroupBox1.Size = New System.Drawing.Size(1777, 586)
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
         '
@@ -124,10 +128,11 @@ Partial Class StockProduction
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage6)
         Me.TabControl1.Controls.Add(Me.TabPage7)
+        Me.TabControl1.Controls.Add(Me.TabPage8)
         Me.TabControl1.Location = New System.Drawing.Point(6, 68)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1520, 467)
+        Me.TabControl1.Size = New System.Drawing.Size(1771, 467)
         Me.TabControl1.TabIndex = 16
         '
         'TabPage1
@@ -137,7 +142,7 @@ Partial Class StockProduction
         Me.TabPage1.Location = New System.Drawing.Point(4, 38)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage1.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Stock Card Material"
         '
@@ -156,7 +161,7 @@ Partial Class StockProduction
         Me.DG_SCMaterial.ReadOnly = True
         Me.DG_SCMaterial.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCMaterial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCMaterial.Size = New System.Drawing.Size(1506, 419)
+        Me.DG_SCMaterial.Size = New System.Drawing.Size(1757, 419)
         Me.DG_SCMaterial.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCMaterial.TabIndex = 8
         '
@@ -167,7 +172,7 @@ Partial Class StockProduction
         Me.TabPage2.Location = New System.Drawing.Point(4, 38)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage2.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Stock Card Sub Assy"
         '
@@ -186,7 +191,7 @@ Partial Class StockProduction
         Me.DG_SCSA.ReadOnly = True
         Me.DG_SCSA.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCSA.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCSA.Size = New System.Drawing.Size(1506, 419)
+        Me.DG_SCSA.Size = New System.Drawing.Size(1757, 419)
         Me.DG_SCSA.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCSA.TabIndex = 9
         '
@@ -196,7 +201,7 @@ Partial Class StockProduction
         Me.TabPage3.Controls.Add(Me.TableLayoutPanel1)
         Me.TabPage3.Location = New System.Drawing.Point(4, 38)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage3.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Stock Card WIP"
         '
@@ -212,7 +217,7 @@ Partial Class StockProduction
         Me.TableLayoutPanel1.RowCount = 2
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1512, 425)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1763, 425)
         Me.TableLayoutPanel1.TabIndex = 0
         '
         'DG_SCWIPBAWAH
@@ -230,7 +235,7 @@ Partial Class StockProduction
         Me.DG_SCWIPBAWAH.ReadOnly = True
         Me.DG_SCWIPBAWAH.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCWIPBAWAH.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCWIPBAWAH.Size = New System.Drawing.Size(1506, 164)
+        Me.DG_SCWIPBAWAH.Size = New System.Drawing.Size(1757, 164)
         Me.DG_SCWIPBAWAH.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCWIPBAWAH.TabIndex = 11
         '
@@ -249,7 +254,7 @@ Partial Class StockProduction
         Me.DG_SCWIPATAS.ReadOnly = True
         Me.DG_SCWIPATAS.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCWIPATAS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCWIPATAS.Size = New System.Drawing.Size(1506, 249)
+        Me.DG_SCWIPATAS.Size = New System.Drawing.Size(1757, 249)
         Me.DG_SCWIPATAS.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCWIPATAS.TabIndex = 10
         '
@@ -259,7 +264,7 @@ Partial Class StockProduction
         Me.TabPage4.Controls.Add(Me.TableLayoutPanel2)
         Me.TabPage4.Location = New System.Drawing.Point(4, 38)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage4.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Stock Card On Hold"
         '
@@ -275,7 +280,7 @@ Partial Class StockProduction
         Me.TableLayoutPanel2.RowCount = 2
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1512, 425)
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1763, 425)
         Me.TableLayoutPanel2.TabIndex = 1
         '
         'DG_SCOHBAWAH
@@ -293,7 +298,7 @@ Partial Class StockProduction
         Me.DG_SCOHBAWAH.ReadOnly = True
         Me.DG_SCOHBAWAH.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCOHBAWAH.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCOHBAWAH.Size = New System.Drawing.Size(1506, 164)
+        Me.DG_SCOHBAWAH.Size = New System.Drawing.Size(1757, 164)
         Me.DG_SCOHBAWAH.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCOHBAWAH.TabIndex = 11
         '
@@ -312,7 +317,7 @@ Partial Class StockProduction
         Me.DG_SCOHATAS.ReadOnly = True
         Me.DG_SCOHATAS.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCOHATAS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCOHATAS.Size = New System.Drawing.Size(1506, 249)
+        Me.DG_SCOHATAS.Size = New System.Drawing.Size(1757, 249)
         Me.DG_SCOHATAS.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCOHATAS.TabIndex = 10
         '
@@ -322,7 +327,7 @@ Partial Class StockProduction
         Me.TabPage5.Controls.Add(Me.TableLayoutPanel3)
         Me.TabPage5.Location = New System.Drawing.Point(4, 38)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage5.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Stock Card Defect"
         '
@@ -338,7 +343,7 @@ Partial Class StockProduction
         Me.TableLayoutPanel3.RowCount = 2
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.0!))
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1512, 425)
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1763, 425)
         Me.TableLayoutPanel3.TabIndex = 1
         '
         'DG_SCDEFECTBAWAH
@@ -356,7 +361,7 @@ Partial Class StockProduction
         Me.DG_SCDEFECTBAWAH.ReadOnly = True
         Me.DG_SCDEFECTBAWAH.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCDEFECTBAWAH.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCDEFECTBAWAH.Size = New System.Drawing.Size(1506, 164)
+        Me.DG_SCDEFECTBAWAH.Size = New System.Drawing.Size(1757, 164)
         Me.DG_SCDEFECTBAWAH.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCDEFECTBAWAH.TabIndex = 11
         '
@@ -375,7 +380,7 @@ Partial Class StockProduction
         Me.DG_SCDEFECTATAS.ReadOnly = True
         Me.DG_SCDEFECTATAS.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCDEFECTATAS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCDEFECTATAS.Size = New System.Drawing.Size(1506, 249)
+        Me.DG_SCDEFECTATAS.Size = New System.Drawing.Size(1757, 249)
         Me.DG_SCDEFECTATAS.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCDEFECTATAS.TabIndex = 10
         '
@@ -385,7 +390,7 @@ Partial Class StockProduction
         Me.TabPage6.Controls.Add(Me.DG_SCReject)
         Me.TabPage6.Location = New System.Drawing.Point(4, 38)
         Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage6.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Stock Card Reject"
         '
@@ -404,7 +409,7 @@ Partial Class StockProduction
         Me.DG_SCReject.ReadOnly = True
         Me.DG_SCReject.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCReject.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCReject.Size = New System.Drawing.Size(1512, 425)
+        Me.DG_SCReject.Size = New System.Drawing.Size(1763, 425)
         Me.DG_SCReject.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCReject.TabIndex = 10
         '
@@ -414,7 +419,7 @@ Partial Class StockProduction
         Me.TabPage7.Controls.Add(Me.DG_SCOthers)
         Me.TabPage7.Location = New System.Drawing.Point(4, 38)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(1512, 425)
+        Me.TabPage7.Size = New System.Drawing.Size(1763, 425)
         Me.TabPage7.TabIndex = 6
         Me.TabPage7.Text = "Stock Card Others"
         '
@@ -433,14 +438,14 @@ Partial Class StockProduction
         Me.DG_SCOthers.ReadOnly = True
         Me.DG_SCOthers.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.DG_SCOthers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DG_SCOthers.Size = New System.Drawing.Size(1512, 425)
+        Me.DG_SCOthers.Size = New System.Drawing.Size(1763, 425)
         Me.DG_SCOthers.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCOthers.TabIndex = 11
         '
         'ProgressBar1
         '
         Me.ProgressBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(965, 551)
+        Me.ProgressBar1.Location = New System.Drawing.Point(1216, 551)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(253, 23)
         Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee
@@ -498,7 +503,7 @@ Partial Class StockProduction
         Me.btn_ExportTrace1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_ExportTrace1.BackColor = System.Drawing.Color.Blue
         Me.btn_ExportTrace1.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btn_ExportTrace1.Location = New System.Drawing.Point(1224, 540)
+        Me.btn_ExportTrace1.Location = New System.Drawing.Point(1475, 540)
         Me.btn_ExportTrace1.Name = "btn_ExportTrace1"
         Me.btn_ExportTrace1.Size = New System.Drawing.Size(296, 41)
         Me.btn_ExportTrace1.TabIndex = 9
@@ -508,11 +513,38 @@ Partial Class StockProduction
         'BackgroundWorker1
         '
         '
+        'TabPage8
+        '
+        Me.TabPage8.Controls.Add(Me.DG_SCReturn)
+        Me.TabPage8.Location = New System.Drawing.Point(4, 38)
+        Me.TabPage8.Name = "TabPage8"
+        Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage8.Size = New System.Drawing.Size(1763, 425)
+        Me.TabPage8.TabIndex = 7
+        Me.TabPage8.Text = "Stock Card Return"
+        Me.TabPage8.UseVisualStyleBackColor = True
+        '
+        'DG_SCReturn
+        '
+        Me.DG_SCReturn.AllowUserToAddRows = False
+        Me.DG_SCReturn.AllowUserToDeleteRows = False
+        Me.DG_SCReturn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DG_SCReturn.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DG_SCReturn.FilterAndSortEnabled = True
+        Me.DG_SCReturn.FilterStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.DG_SCReturn.Location = New System.Drawing.Point(3, 3)
+        Me.DG_SCReturn.Name = "DG_SCReturn"
+        Me.DG_SCReturn.ReadOnly = True
+        Me.DG_SCReturn.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.DG_SCReturn.Size = New System.Drawing.Size(1757, 419)
+        Me.DG_SCReturn.SortStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.DG_SCReturn.TabIndex = 0
+        '
         'StockProduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1528, 572)
+        Me.ClientSize = New System.Drawing.Size(1779, 572)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "StockProduction"
         Me.Text = "Stock Production"
@@ -540,6 +572,8 @@ Partial Class StockProduction
         CType(Me.DG_SCReject, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage7.ResumeLayout(False)
         CType(Me.DG_SCOthers, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage8.ResumeLayout(False)
+        CType(Me.DG_SCReturn, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -574,4 +608,6 @@ Partial Class StockProduction
     Friend WithEvents DG_SCOHATAS As Zuby.ADGV.AdvancedDataGridView
     Friend WithEvents DG_SCDEFECTBAWAH As Zuby.ADGV.AdvancedDataGridView
     Friend WithEvents DG_SCDEFECTATAS As Zuby.ADGV.AdvancedDataGridView
+    Friend WithEvents TabPage8 As TabPage
+    Friend WithEvents DG_SCReturn As Zuby.ADGV.AdvancedDataGridView
 End Class

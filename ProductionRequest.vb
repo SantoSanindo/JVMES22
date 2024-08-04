@@ -390,7 +390,7 @@ Public Class ProductionRequest
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select * from master_line where department='" & globVar.department & "' order by name")
+        Dim dtMasterLine As DataTable = Database.GetData("select line as name from SUB_SUB_PO ssp LEFT JOIN main_po mp on mp.id=ssp.main_po and mp.department ='" & globVar.department & "' where ssp.status='Open' order by ssp.line")
 
         ComboBox1.DataSource = dtMasterLine
         ComboBox1.DisplayMember = "name"

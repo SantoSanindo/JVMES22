@@ -84,11 +84,17 @@ Public Class SummaryV2
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        If e.ColumnIndex >= 0 Then
-            If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
-                treeView_show(txtSubSubPO.Text, DataGridView1.Rows(e.RowIndex).Cells("Comp").Value)
+        Try
+
+            If e.ColumnIndex >= 0 Then
+                If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
+                    treeView_show(txtSubSubPO.Text, DataGridView1.Rows(e.RowIndex).Cells("Comp").Value)
+                End If
             End If
-        End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub treeView_show(sub_sub_po As String, comp As String)
@@ -102,9 +108,16 @@ Public Class SummaryV2
         If dt.Rows.Count > 0 Then
             TreeView1.Nodes(0).Nodes.Add("fresh_in", "Fresh In (" & dt.Rows(0).Item("fresh_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("sub_assy_in", "Sub Assy In (" & dt.Rows(0).Item("sub_assy_in").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("onhold_in", "On Hold In (" & dt.Rows(0).Item("onhold_in").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("wip_in", "WIP In (" & dt.Rows(0).Item("wip_in").ToString & ")")
             TreeView1.Nodes(0).Nodes.Add("others_in", "Others In (" & dt.Rows(0).Item("others_in").ToString & ")")
-            'TreeView1.Nodes(0).Nodes.Add("reject", "Reject (" & dt.Rows(0).Item("reject").ToString & ")")
-            'TreeView1.Nodes(0).Nodes.Add("return", "Return (" & dt.Rows(0).Item("return").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("reject", "Reject (" & dt.Rows(0).Item("reject").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("return", "Return (" & dt.Rows(0).Item("return").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("defect", "Defect (" & dt.Rows(0).Item("defect").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("onhold_out", "On Hold Out (" & dt.Rows(0).Item("onhold_out").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("wip_out", "WIP Out (" & dt.Rows(0).Item("wip_out").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("sa_out", "SA Out (" & dt.Rows(0).Item("sa_out").ToString & ")")
+            TreeView1.Nodes(0).Nodes.Add("fg_out", "FG Out (" & dt.Rows(0).Item("fg_out").ToString & ")")
         End If
 
         TreeView1.ExpandAll()
@@ -139,6 +152,7 @@ Public Class SummaryV2
         If key = "fresh_in" Then
             query = "SELECT 
                 id [#],
+                qrcode [QRCode],
 	            mts_no [MTS NO],
 	            material [Material],
 	            INV_CTRL_DATE [ICD] ,
@@ -161,13 +175,14 @@ Public Class SummaryV2
         ElseIf key = "sub_assy_in" Then
             query = "SELECT 
                 id [#],
-	            qrcode [QR CODE],
+	            qrcode [QRCode],
 	            material [Material],
 	            INV_CTRL_DATE [ICD],
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
 	            qty [QTY],
+                qrcode [QRCode],
 	            remark [Remark]
             FROM
                 STOCK_CARD
@@ -179,16 +194,61 @@ Public Class SummaryV2
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            And department ='" & globVar.department & "'
             order by LOT_NO "
-        ElseIf key = "others_in" Then
+        ElseIf key = "onhold_in" Then
             query = "SELECT 
                 id [#],
-	            qrcode [QR CODE],
+	            qrcode [QRCode],
 	            material [Material],
 	            INV_CTRL_DATE [ICD],
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
 	            qty [QTY],
+                qrcode [QRCode],
+	            remark [Remark]
+            FROM
+                STOCK_CARD
+            WHERE
+                Status = 'Production Process' 
+                And QRCode Like 'OH%' 
+	            And material = '" & comp & "'
+	            And line = '" & ComboBox1.Text & "'
+	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            And department ='" & globVar.department & "'
+            order by LOT_NO "
+        ElseIf key = "wip_in" Then
+            query = "SELECT 
+                id [#],
+	            qrcode [QRCode],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY],
+                qrcode [QRCode],
+	            remark [Remark]
+            FROM
+                STOCK_CARD
+            WHERE
+                Status = 'Production Process' 
+                And QRCode Like 'WIP%' 
+	            And material = '" & comp & "'
+	            And line = '" & ComboBox1.Text & "'
+	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+	            And department ='" & globVar.department & "'
+            order by LOT_NO "
+        ElseIf key = "others_in" Then
+            query = "SELECT 
+                id [#],
+	            qrcode [QRCode],
+	            material [Material],
+	            INV_CTRL_DATE [ICD],
+	            TRACEABILITY [Traceability],
+	            BATCH_NO [Batch No],
+	            LOT_NO [Lot No],
+	            qty [QTY],
+                qrcode [QRCode],
 	            remark [Remark]
             FROM
                 STOCK_CARD
@@ -200,41 +260,123 @@ Public Class SummaryV2
 	            And SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
 	            And department ='" & globVar.department & "'
             order by LOT_NO "
-            'ElseIf key = "reject" Then
-            '    query = "SELECT 
-            '         CODE_OUT_PROD_REJECT [QR CODE], 
-            '         PART_NUMBER [Material],
-            '         INV_CTRL_DATE [ICD],
-            '         TRACEABILITY [Traceability],
-            '         BATCH_NO [Batch No],
-            '         LOT_NO [Lot No],
-            '         QTY [QTY],
-            '         SUB_ASSY [Notes]
-            '        FROM
-            '         OUT_PROD_REJECT 
-            '        WHERE
-            '         SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-            '         AND line = '" & ComboBox1.Text & "' 
-            '         AND PART_NUMBER = '" & comp & "'"
-            'ElseIf key = "return" Then
-            '    query = "SELECT 
-            '         mts_no [MTS NO],
-            '         material [Material],
-            '         INV_CTRL_DATE [ICD],
-            '         TRACEABILITY [Traceability],
-            '         BATCH_NO [Batch No],
-            '         LOT_NO [Lot No],
-            '         qty [QTY],
-            '         qrcode [Notes]
-            '        FROM
-            '         STOCK_CARD 
-            '        WHERE
-            '            status = 'Return to Mini Store' 
-            '            AND LEVEL = 'B' 
-            '         and SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
-            '         AND line = '" & ComboBox1.Text & "' 
-            '            And department ='" & globVar.department & "'
-            '         AND material = '" & comp & "'"
+        ElseIf key = "reject" Then
+            query = "SELECT 
+                     CODE_OUT_PROD_REJECT [QRCode], 
+                     PART_NUMBER [Material],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     QTY [QTY],
+                     SUB_ASSY [Notes]
+                    FROM
+                     OUT_PROD_REJECT 
+                    WHERE
+                     SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "return" Then
+            query = "SELECT 
+                     mts_no [MTS NO],
+                     material [Material],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     qty [QTY],
+                     qrcode [Notes]
+                    FROM
+                     STOCK_CARD 
+                    WHERE
+                     status = 'Return to Mini Store' 
+                     AND LEVEL = 'B' 
+                     and SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     And department ='" & globVar.department & "'
+                     AND material = '" & comp & "'"
+        ElseIf key = "defect" Then
+            query = "SELECT 
+                     CODE_OUT_PROD_DEFECT [QRCode], 
+                     PART_NUMBER [Material],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     FLOW_TICKET_NO [Flow Ticket],
+                     QTY [QTY]
+                    FROM
+                     OUT_PROD_DEFECT 
+                    WHERE
+                     SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     And department ='" & globVar.department & "'
+                     AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "onhold_out" Then
+            query = "SELECT 
+                     CODE_STOCK_PROD_ONHOLD [QRCode], 
+                     PART_NUMBER [Material],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     QTY [QTY]
+                    FROM
+                     stock_prod_onhold 
+                    WHERE
+                     SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     And department ='" & globVar.department & "'
+                     AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "wip_out" Then
+            query = "SELECT 
+                     CODE_STOCK_PROD_WIP [QRCode], 
+                     PART_NUMBER [Material],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     QTY [QTY]
+                    FROM
+                     stock_prod_wip 
+                    WHERE
+                     SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     And department ='" & globVar.department & "'
+                     AND PART_NUMBER = '" & comp & "'"
+        ElseIf key = "sa_out" Then
+            query = "SELECT 
+                     CODE_STOCK_PROD_SUB_ASSY [QRCode], 
+                     FG [SA],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     FLOW_TICKET,
+                     QTY [QTY]
+                    FROM
+                     stock_prod_sub_assy 
+                    WHERE
+                     SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     And department ='" & globVar.department & "'"
+        ElseIf key = "fg_out" Then
+            query = "SELECT 
+                     material [Material],
+                     INV_CTRL_DATE [ICD],
+                     TRACEABILITY [Traceability],
+                     BATCH_NO [Batch No],
+                     LOT_NO [Lot No],
+                     FLOW_TICKET,
+                     qty [QTY]
+                    FROM
+                     STOCK_CARD 
+                    WHERE
+                     SUB_SUB_PO = '" & txtSubSubPO.Text & "' 
+                     AND line = '" & ComboBox1.Text & "' 
+                     And department ='" & globVar.department & "'
+                     AND material = '" & comp & "'
+                     AND STATUS='Production Result'"
         End If
 
         Dim dtSummary As DataTable = Database.GetData(query)

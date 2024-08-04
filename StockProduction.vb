@@ -26,9 +26,10 @@ Public Class StockProduction
             DG_SCMaterial.Rows.Clear()
             DG_SCMaterial.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS] [Status], [MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE] [Line], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [FIFO], [LEVEL], [FLOW_TICKET], [QRCODE] [QR Code], PRODUCTION_PROCESS_DATETIME [Date Time Production Process], PRODUCTION_PROCESS_WHO [Scan Production Process] FROM STOCK_CARD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Request','Production Process','Production Result','Return to Mini Store') order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [STATUS] [Status], [MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [FINISH_GOODS_PN] [FG], [PO], [SUB_PO] [SPO], [SUB_SUB_PO] [SSPO], [LINE] [Line], [QTY] [Qty], [ACTUAL_QTY] [Actual Qty], [FLOW_TICKET] [Flow Ticket], [QRCODE] [QRCode] FROM STOCK_CARD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status in ('Production Process','Production Result') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCMaterial.DataSource = dtInputStockDetail
+
             SetEqualColumnWidths(DG_SCMaterial)
         Catch ex As Exception
             RJMessageBox.Show(ex.Message)
@@ -198,6 +199,22 @@ Public Class StockProduction
             DG_SCDEFECTBAWAH.DataSource = dtInputStockDetail
 
             SetEqualColumnWidths(DG_SCDEFECTBAWAH)
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DGV_Return()
+        Try
+            DG_SCReturn.DataSource = Nothing
+            DG_SCReturn.Rows.Clear()
+            DG_SCReturn.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [qrcode] [QRCode], [material] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [PO], [SUB_SUB_PO] [SSPO], [QTY] [Qty], actual_qty [Actual Qty] FROM STOCK_CARD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' and status='Return to Mini Store' order by datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            DG_SCReturn.DataSource = dtInputStockDetail
+
+            SetEqualColumnWidths(DG_SCReturn)
         Catch ex As Exception
             RJMessageBox.Show(ex.Message)
         End Try
@@ -520,6 +537,36 @@ Public Class StockProduction
         End With
     End Sub
 
+    Private Sub DG_SCReturn_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DG_SCReturn.DataBindingComplete
+        For i As Integer = 0 To DG_SCReturn.RowCount - 1
+            If DG_SCReturn.Rows(i).Index Mod 2 = 0 Then
+                DG_SCReturn.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DG_SCReturn.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With DG_SCReturn
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs)
         If globVar.view > 0 Then
             DGV_StockMiniststore()
@@ -537,7 +584,29 @@ Public Class StockProduction
             btn_ExportTrace1.Enabled = False
 
             ' Jalankan backgroundWorker
-            BackgroundWorker1.RunWorkerAsync(DG_SCMaterial)
+
+            If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
+
+                BackgroundWorker1.RunWorkerAsync(DG_SCSA)
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
+
+                BackgroundWorker1.RunWorkerAsync(DG_SCReject)
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
+
+                BackgroundWorker1.RunWorkerAsync(DG_SCOthers)
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Return" Then
+
+                BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
+
+            Else
+
+                BackgroundWorker1.RunWorkerAsync(DG_SCMaterial)
+
+            End If
+
         End If
     End Sub
 
@@ -746,6 +815,7 @@ Public Class StockProduction
     End Sub
 
     Private Sub TabControl1_Click(sender As Object, e As EventArgs) Handles TabControl1.Click
+
         If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
 
             DGV_SA()
@@ -769,6 +839,10 @@ Public Class StockProduction
         ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
 
             DGV_Others()
+
+        ElseIf TabControl1.SelectedTab.Text = "Stock Card Return" Then
+
+            DGV_Return()
 
         Else
 

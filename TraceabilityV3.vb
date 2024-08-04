@@ -115,7 +115,7 @@ Public Class TraceabilityV3
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
         Call Database.koneksi_database()
-        Dim sql As String = "select date [Date Time], sub_sub_po [Sub Sub PO], fg [Finish Goods], line [Line], INSPECTOR [Inspector],
+        Dim sql As String = "select date [Date Time], sub_sub_po [Sub Sub PO], fg [Finish Goods], line [Line], LOT_NO [LOT FG], INSPECTOR [Inspector],
                 packer1 [Packer 1],
                 packer2 [Packer 2],
                 packer3 [Packer 3],
@@ -150,7 +150,8 @@ Public Class TraceabilityV3
                 process28 [Process 28],
                 process29 [Process 29],
                 process30 [Process 30]
-            from summary_traceability where fg=" & txtFGTraceability.Text
+            from summary_traceability where fg='" & txtFGTraceability.Text & "'
+            order by id desc, lot_no"
         Dim dtTraceability As DataTable = Database.GetData(sql)
         DataGridView1.DataSource = dtTraceability
 
@@ -202,13 +203,19 @@ Public Class TraceabilityV3
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        If e.ColumnIndex >= 0 Then
-            If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
-                TextBox1.Clear()
-                TextBox1.Text = DataGridView1.Rows(e.RowIndex).Cells("Sub Sub PO").Value & " | " & DataGridView1.Rows(e.RowIndex).Cells("Finish Goods").Value
-                treeView_show(DataGridView1.Rows(e.RowIndex).Cells("Sub Sub PO").Value, DataGridView1.Rows(e.RowIndex).Cells("Finish Goods").Value)
+        Try
+
+            If e.ColumnIndex >= 0 Then
+                If DataGridView1.Columns(e.ColumnIndex).Name = "check" Then
+                    TextBox1.Clear()
+                    TextBox1.Text = DataGridView1.Rows(e.RowIndex).Cells("Sub Sub PO").Value & " | " & DataGridView1.Rows(e.RowIndex).Cells("Finish Goods").Value
+                    treeView_show(DataGridView1.Rows(e.RowIndex).Cells("Sub Sub PO").Value, DataGridView1.Rows(e.RowIndex).Cells("Finish Goods").Value)
+                End If
             End If
-        End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub treeView_show(sub_sub_po As String, fg As String)

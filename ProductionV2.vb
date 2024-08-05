@@ -734,6 +734,7 @@ Public Class ProductionV2
 
             Dim queryDOC As String = "SELECT
 	                                        id [#],
+                                            datetime_insert [DateTime Scan],
                                             LEFT(qrcode, 15) [QRCode],
                                             material [Material],
                                             lot_no [Lot No],
@@ -1106,27 +1107,29 @@ Public Class ProductionV2
 
     Private Sub DataGridView3_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
 
-        If e.RowIndex = -1 Then
-            Exit Sub
-        End If
+        Try
 
-        If e.ColumnIndex = -1 Then
-            Exit Sub
-        End If
+            If e.RowIndex = -1 Then
+                Exit Sub
+            End If
 
-        If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
+            If e.ColumnIndex = -1 Then
+                Exit Sub
+            End If
 
-            Dim result = RJMessageBox.Show("Are you sure for delete this material?.", "Are You Sure?", MessageBoxButtons.YesNo)
+            If DataGridView1.Columns(e.ColumnIndex).Name = "delete" Then
 
-            If result = DialogResult.Yes Then
+                Dim result = RJMessageBox.Show("Are you sure for delete this material?.", "Are You Sure?", MessageBoxButtons.YesNo)
 
-                If DataGridView1.Rows(e.RowIndex).Cells("Qty").Value <> DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value Then
-                    RJMessageBox.Show("Cannot delete this material because this material already in use")
-                    Exit Sub
-                End If
+                If result = DialogResult.Yes Then
 
-                If DataGridView1.Rows(e.RowIndex).Cells("QRCode").Value = "Manual Input" Then
-                    Dim queryUpdateSC As String = "update 
+                    If DataGridView1.Rows(e.RowIndex).Cells("Qty").Value <> DataGridView1.Rows(e.RowIndex).Cells("Actual Qty").Value Then
+                        RJMessageBox.Show("Cannot delete this material because this material already in use")
+                        Exit Sub
+                    End If
+
+                    If DataGridView1.Rows(e.RowIndex).Cells("QRCode").Value = "Manual Input" Then
+                        Dim queryUpdateSC As String = "update 
                                                         stock_card 
                                                     set 
                                                         actual_qty=qty 
@@ -1137,38 +1140,40 @@ Public Class ProductionV2
                                                         and traceability = (select traceability from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")
                                                         and inv_ctrl_date = (select inv_ctrl_date from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")
                                                         and batch_no = (select batch_no from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")"
-                    Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
-                    If dtUpdateSC.ExecuteNonQuery() Then
+                        Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+                        If dtUpdateSC.ExecuteNonQuery() Then
 
-                        Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            RJMessageBox.Show("Delete Success")
-                            DGV_DOC()
-                            DGV_DOS()
+                            Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Delete Success")
+                                DGV_DOC()
+                                DGV_DOS()
 
-                        End If
-                    Else
+                            End If
+                        Else
 
-                        RJMessageBox.Show("Delete Failed")
-
-                    End If
-                Else
-                    Dim queryUpdateSC As String = "update stock_card set actual_qty=qty where status='Production Request' and qrcode = (select qrcode from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")"
-                    Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
-                    If dtUpdateSC.ExecuteNonQuery() Then
-
-                        Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
-                        Dim cmd = New SqlCommand(sql, Database.koneksi)
-                        If cmd.ExecuteNonQuery() Then
-                            RJMessageBox.Show("Delete Success")
-                            DGV_DOC()
-                            DGV_DOS()
+                            RJMessageBox.Show("Delete Failed")
 
                         End If
                     Else
+                        Dim queryUpdateSC As String = "update stock_card set actual_qty=qty where status='Production Request' and qrcode = (select qrcode from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & ")"
+                        Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+                        If dtUpdateSC.ExecuteNonQuery() Then
 
-                        RJMessageBox.Show("Delete Failed")
+                            Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Delete Success")
+                                DGV_DOC()
+                                DGV_DOS()
+
+                            End If
+                        Else
+
+                            RJMessageBox.Show("Delete Failed")
+
+                        End If
 
                     End If
 
@@ -1176,7 +1181,9 @@ Public Class ProductionV2
 
             End If
 
-        End If
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 

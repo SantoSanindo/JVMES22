@@ -2813,6 +2813,7 @@ Public Class FormDefectiveV2
             Dim sFlowTicketSplitOf = sFlowTicket(5).Split(" of ")
             Dim AdaDefectFG = False
             Dim codeDefect As String = ""
+            Dim showMessageBox As Boolean = True
 
             If globVar.add = 0 Then
                 RJMessageBox.Show("Your Access cannot execute this action")
@@ -3050,7 +3051,11 @@ Public Class FormDefectiveV2
                                         Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
                                         cmdInsertDoneFG.ExecuteNonQuery()
 
-                                        RJMessageBox.Show("Success Save Finish Goods data!!!")
+                                        If showMessageBox Then
+                                            RJMessageBox.Show("Success Save Finish Goods data!!!")
+                                            showMessageBox = False
+                                        End If
+
                                         ClearInputFG()
                                         UpdateQtySubSubPO()
 
@@ -3380,6 +3385,7 @@ Public Class FormDefectiveV2
             Dim AdaDefectSA = False
             Dim codeSubassy As String = ""
             Dim IlostQty As Integer = 0
+            Dim showMessageBox As Boolean = True
 
             If globVar.add = 0 Then
                 RJMessageBox.Show("Your Access cannot execute this action")
@@ -3535,7 +3541,11 @@ Public Class FormDefectiveV2
                                     Dim dtUpdateFlowTicket = New SqlCommand(queryUpdateFlowTicket, Database.koneksi)
                                     If dtUpdateFlowTicket.ExecuteNonQuery() Then
 
-                                        RJMessageBox.Show("Success Save Sub Assy data!!!")
+                                        If showMessageBox Then
+                                            RJMessageBox.Show("Success Save Sub Assy data!!!")
+                                            showMessageBox = False
+                                        End If
+
                                         ClearInputFG()
                                         UpdateQtySubSubPO()
 
@@ -3594,7 +3604,11 @@ Public Class FormDefectiveV2
                                     Dim dtUpdateFlowTicket = New SqlCommand(queryUpdateFlowTicket, Database.koneksi)
                                     If dtUpdateFlowTicket.ExecuteNonQuery() Then
 
-                                        RJMessageBox.Show("Success Save Sub Assy data!!!")
+                                        If showMessageBox Then
+                                            RJMessageBox.Show("Success Save Sub Assy data!!!")
+                                            showMessageBox = False
+                                        End If
+
                                         ClearInputFG()
                                         UpdateQtySubSubPO()
 
@@ -5735,60 +5749,75 @@ Public Class FormDefectiveV2
     End Sub
 
     Private Sub dgReject_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgReject.CellClick
-        If e.RowIndex = -1 Then
-            Exit Sub
-        End If
 
-        If e.ColumnIndex = -1 Then
-            Exit Sub
-        End If
+        Try
 
-        If globVar.delete = 0 Then
-            RJMessageBox.Show("Your Access cannot execute this action")
-            Exit Sub
-        End If
+            If e.RowIndex = -1 Then
+                Exit Sub
+            End If
 
-        If dgReject.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim queryUpdateactualQty As String = "update stock_card set actual_qty=actual_qty + " & dgReject.Rows(e.RowIndex).Cells("Reject Qty").Value & " where material='" & dgReject.Rows(e.RowIndex).Cells("Material").Value & "' and lot_no='" & dgReject.Rows(e.RowIndex).Cells("Lot No.").Value & "' and inv_ctrl_date='" & dgReject.Rows(e.RowIndex).Cells("Inv. Ctrl Date").Value & "' and traceability='" & dgReject.Rows(e.RowIndex).Cells("Traceability").Value & "' and batch_no='" & dgReject.Rows(e.RowIndex).Cells("Batch No.").Value & "' and status='Production Process'"
-            Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
-            If dtUpdateactualQty.ExecuteNonQuery() Then
-                Dim sqlDelete As String = "delete from out_prod_reject where id=" & dgReject.Rows(e.RowIndex).Cells("#").Value
-                Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
-                If cmdDelete.ExecuteNonQuery() Then
-                    RJMessageBox.Show("Delete Reject Material Success.")
+            If e.ColumnIndex = -1 Then
+                Exit Sub
+            End If
 
-                    loaddgReject("")
+            If globVar.delete = 0 Then
+                RJMessageBox.Show("Your Access cannot execute this action")
+                Exit Sub
+            End If
+
+            If dgReject.Columns(e.ColumnIndex).Name = "delete" Then
+                Dim queryUpdateactualQty As String = "update stock_card set actual_qty=actual_qty + " & dgReject.Rows(e.RowIndex).Cells("Reject Qty").Value & " where material='" & dgReject.Rows(e.RowIndex).Cells("Material").Value & "' and lot_no='" & dgReject.Rows(e.RowIndex).Cells("Lot No.").Value & "' and inv_ctrl_date='" & dgReject.Rows(e.RowIndex).Cells("Inv. Ctrl Date").Value & "' and traceability='" & dgReject.Rows(e.RowIndex).Cells("Traceability").Value & "' and batch_no='" & dgReject.Rows(e.RowIndex).Cells("Batch No.").Value & "' and status='Production Process'"
+                Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                If dtUpdateactualQty.ExecuteNonQuery() Then
+                    Dim sqlDelete As String = "delete from out_prod_reject where id=" & dgReject.Rows(e.RowIndex).Cells("#").Value
+                    Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
+                    If cmdDelete.ExecuteNonQuery() Then
+                        RJMessageBox.Show("Delete Reject Material Success.")
+
+                        loaddgReject("")
+                    End If
                 End If
             End If
-        End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub dgBalance_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgBalance.CellClick
-        If e.RowIndex = -1 Then
-            Exit Sub
-        End If
 
-        If e.ColumnIndex = -1 Then
-            Exit Sub
-        End If
+        Try
 
-        If globVar.delete = 0 Then
-            RJMessageBox.Show("Your Access cannot execute this action")
-            Exit Sub
-        End If
+            If e.RowIndex = -1 Then
+                Exit Sub
+            End If
 
-        If dgBalance.Columns(e.ColumnIndex).Name = "delete" Then
-            Dim queryUpdateactualQty As String = "update stock_card set actual_qty=actual_qty + " & dgBalance.Rows(e.RowIndex).Cells("Return Qty").Value & " where material='" & dgBalance.Rows(e.RowIndex).Cells("Material").Value & "' and lot_no='" & dgBalance.Rows(e.RowIndex).Cells("Lot No.").Value & "' and inv_ctrl_date='" & dgBalance.Rows(e.RowIndex).Cells("Inv. Ctrl Date").Value & "' and traceability='" & dgBalance.Rows(e.RowIndex).Cells("Traceability").Value & "' and batch_no='" & dgBalance.Rows(e.RowIndex).Cells("Batch No.").Value & "' and status='Production Process'"
-            Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
-            If dtUpdateactualQty.ExecuteNonQuery() Then
-                Dim sqlDelete As String = "delete from stock_card where id=" & dgBalance.Rows(e.RowIndex).Cells("#").Value
-                Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
-                If cmdDelete.ExecuteNonQuery() Then
-                    RJMessageBox.Show("Delete Return Material Success.")
+            If e.ColumnIndex = -1 Then
+                Exit Sub
+            End If
 
-                    loaddgBalance("")
+            If globVar.delete = 0 Then
+                RJMessageBox.Show("Your Access cannot execute this action")
+                Exit Sub
+            End If
+
+            If dgBalance.Columns(e.ColumnIndex).Name = "delete" Then
+                Dim queryUpdateactualQty As String = "update stock_card set actual_qty=actual_qty + " & dgBalance.Rows(e.RowIndex).Cells("Return Qty").Value & " where material='" & dgBalance.Rows(e.RowIndex).Cells("Material").Value & "' and lot_no='" & dgBalance.Rows(e.RowIndex).Cells("Lot No.").Value & "' and inv_ctrl_date='" & dgBalance.Rows(e.RowIndex).Cells("Inv. Ctrl Date").Value & "' and traceability='" & dgBalance.Rows(e.RowIndex).Cells("Traceability").Value & "' and batch_no='" & dgBalance.Rows(e.RowIndex).Cells("Batch No.").Value & "' and status='Production Process'"
+                Dim dtUpdateactualQty = New SqlCommand(queryUpdateactualQty, Database.koneksi)
+                If dtUpdateactualQty.ExecuteNonQuery() Then
+                    Dim sqlDelete As String = "delete from stock_card where id=" & dgBalance.Rows(e.RowIndex).Cells("#").Value
+                    Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
+                    If cmdDelete.ExecuteNonQuery() Then
+                        RJMessageBox.Show("Delete Return Material Success.")
+
+                        loaddgBalance("")
+                    End If
                 End If
             End If
-        End If
+
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

@@ -102,6 +102,7 @@ Public Class HOME
         TabControl1.TabPages.Add(_PrintingDefect)
         TabControl1.TabPages.Add(_PrintingSubAssyRawMaterial)
         TabControl1.TabPages.Add(_PrintingWIPOnHold)
+        TabControl1.TabPages.Add(_PrintingNewLabel)
         TabControl1.TabPages.Clear()
     End Sub
 
@@ -395,10 +396,12 @@ Public Class HOME
             TabControl1.TabPages.Add(_PrintingDefect)
             TabControl1.TabPages.Add(_PrintingSubAssyRawMaterial)
             TabControl1.TabPages.Add(_PrintingWIPOnHold)
+            TabControl1.TabPages.Add(_PrintingNewLabel)
             TabControl1.TabPages(_PrintingFlowTicket).Select()
             TabControl1.TabPages(_PrintingDefect).Select()
             TabControl1.TabPages(_PrintingSubAssyRawMaterial).Select()
             TabControl1.TabPages(_PrintingWIPOnHold).Select()
+            TabControl1.TabPages(_PrintingNewLabel).Select()
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

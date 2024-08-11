@@ -326,6 +326,12 @@
     <Compile Include="Users.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="_PrintingNewLabel.Designer.vb">
+      <DependentUpon>_PrintingNewLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="_PrintingNewLabel.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="_PrintingDefect.Designer.vb">
       <DependentUpon>_PrintingDefect.vb</DependentUpon>
     </Compile>
@@ -463,6 +469,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Users.resx">
       <DependentUpon>Users.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrintingNewLabel.resx">
+      <DependentUpon>_PrintingNewLabel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_PrintingDefect.resx">
       <DependentUpon>_PrintingDefect.vb</DependentUpon>

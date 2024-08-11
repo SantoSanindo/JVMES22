@@ -103,9 +103,9 @@ Partial Class FormDefectiveV2
         Me.txtOnHoldTicketNo = New System.Windows.Forms.TextBox()
         Me.cbOnHoldProcess = New System.Windows.Forms.ComboBox()
         Me.btnPrintOnhold = New System.Windows.Forms.Button()
-        Me.btnOnHoldSave = New System.Windows.Forms.Button()
         Me.TextBox12 = New System.Windows.Forms.TextBox()
         Me.btnOnHoldDelete = New System.Windows.Forms.Button()
+        Me.btnOnHoldSave = New System.Windows.Forms.Button()
         Me.tpFinishGoods = New System.Windows.Forms.TabPage()
         Me.TableLayoutPanel12 = New System.Windows.Forms.TableLayoutPanel()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
@@ -335,6 +335,7 @@ Partial Class FormDefectiveV2
         Me.txtStatusSubSubPO.Name = "txtStatusSubSubPO"
         Me.txtStatusSubSubPO.Size = New System.Drawing.Size(100, 20)
         Me.txtStatusSubSubPO.TabIndex = 26
+        Me.txtStatusSubSubPO.Visible = False
         '
         'txtSPQ
         '
@@ -342,6 +343,7 @@ Partial Class FormDefectiveV2
         Me.txtSPQ.Name = "txtSPQ"
         Me.txtSPQ.Size = New System.Drawing.Size(100, 20)
         Me.txtSPQ.TabIndex = 24
+        Me.txtSPQ.Visible = False
         '
         'cbFGPN
         '
@@ -438,6 +440,7 @@ Partial Class FormDefectiveV2
         Me.txtTampungFlow.Name = "txtTampungFlow"
         Me.txtTampungFlow.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungFlow.TabIndex = 15
+        Me.txtTampungFlow.Visible = False
         '
         'txtTampungLabel
         '
@@ -445,6 +448,7 @@ Partial Class FormDefectiveV2
         Me.txtTampungLabel.Name = "txtTampungLabel"
         Me.txtTampungLabel.Size = New System.Drawing.Size(100, 20)
         Me.txtTampungLabel.TabIndex = 14
+        Me.txtTampungLabel.Visible = False
         '
         'txtINV
         '
@@ -452,6 +456,7 @@ Partial Class FormDefectiveV2
         Me.txtINV.Name = "txtINV"
         Me.txtINV.Size = New System.Drawing.Size(100, 20)
         Me.txtINV.TabIndex = 13
+        Me.txtINV.Visible = False
         '
         'txtBatchno
         '
@@ -459,6 +464,7 @@ Partial Class FormDefectiveV2
         Me.txtBatchno.Name = "txtBatchno"
         Me.txtBatchno.Size = New System.Drawing.Size(100, 20)
         Me.txtBatchno.TabIndex = 12
+        Me.txtBatchno.Visible = False
         '
         'Label4
         '
@@ -551,9 +557,9 @@ Partial Class FormDefectiveV2
         Me.btnWIPAdd.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnWIPAdd.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
         Me.btnWIPAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnWIPAdd.Location = New System.Drawing.Point(813, 5)
+        Me.btnWIPAdd.Location = New System.Drawing.Point(813, 122)
         Me.btnWIPAdd.Name = "btnWIPAdd"
-        Me.btnWIPAdd.Size = New System.Drawing.Size(162, 49)
+        Me.btnWIPAdd.Size = New System.Drawing.Size(162, 48)
         Me.btnWIPAdd.TabIndex = 7
         Me.btnWIPAdd.Text = "Save"
         Me.btnWIPAdd.UseVisualStyleBackColor = False
@@ -743,6 +749,7 @@ Partial Class FormDefectiveV2
         Me.CheckBox3.TabIndex = 0
         Me.CheckBox3.Text = "QR Code"
         Me.CheckBox3.UseVisualStyleBackColor = True
+        Me.CheckBox3.Visible = False
         '
         'txtRejectBarcode
         '
@@ -776,6 +783,7 @@ Partial Class FormDefectiveV2
         Me.Label28.Size = New System.Drawing.Size(78, 29)
         Me.Label28.TabIndex = 0
         Me.Label28.Text = "Comp"
+        Me.Label28.Visible = False
         '
         'txtRejectMaterialManual
         '
@@ -784,6 +792,7 @@ Partial Class FormDefectiveV2
         Me.txtRejectMaterialManual.Name = "txtRejectMaterialManual"
         Me.txtRejectMaterialManual.Size = New System.Drawing.Size(233, 35)
         Me.txtRejectMaterialManual.TabIndex = 1
+        Me.txtRejectMaterialManual.Visible = False
         '
         'TableLayoutPanel20
         '
@@ -811,6 +820,7 @@ Partial Class FormDefectiveV2
         Me.Label29.Size = New System.Drawing.Size(84, 29)
         Me.Label29.TabIndex = 0
         Me.Label29.Text = "Lot No"
+        Me.Label29.Visible = False
         '
         'CheckManualRejectMaterial
         '
@@ -821,6 +831,7 @@ Partial Class FormDefectiveV2
         Me.CheckManualRejectMaterial.TabIndex = 2
         Me.CheckManualRejectMaterial.Text = "Check"
         Me.CheckManualRejectMaterial.UseVisualStyleBackColor = True
+        Me.CheckManualRejectMaterial.Visible = False
         '
         'ComboBox1
         '
@@ -832,6 +843,7 @@ Partial Class FormDefectiveV2
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(276, 37)
         Me.ComboBox1.TabIndex = 3
+        Me.ComboBox1.Visible = False
         '
         'txtRejectQty
         '
@@ -944,6 +956,8 @@ Partial Class FormDefectiveV2
         '
         Me.dgWIP.AllowUserToAddRows = False
         Me.dgWIP.AllowUserToDeleteRows = False
+        Me.dgWIP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.dgWIP.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.dgWIP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgWIP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgWIP.Location = New System.Drawing.Point(3, 182)
@@ -966,10 +980,10 @@ Partial Class FormDefectiveV2
         Me.TableLayoutPanel6.Controls.Add(Me.Label14, 0, 2)
         Me.TableLayoutPanel6.Controls.Add(Me.txtWIPTicketNo, 1, 1)
         Me.TableLayoutPanel6.Controls.Add(Me.cbWIPProcess, 1, 0)
-        Me.TableLayoutPanel6.Controls.Add(Me.btnWIPAdd, 3, 0)
         Me.TableLayoutPanel6.Controls.Add(Me.btnPrintWIP, 5, 2)
         Me.TableLayoutPanel6.Controls.Add(Me.TextBox11, 2, 0)
         Me.TableLayoutPanel6.Controls.Add(Me.btnWIPDelete, 4, 0)
+        Me.TableLayoutPanel6.Controls.Add(Me.btnWIPAdd, 3, 2)
         Me.TableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel6.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel6.Name = "TableLayoutPanel6"
@@ -1011,6 +1025,7 @@ Partial Class FormDefectiveV2
         Me.btnWIPDelete.TabIndex = 10
         Me.btnWIPDelete.Text = "Delete"
         Me.btnWIPDelete.UseVisualStyleBackColor = False
+        Me.btnWIPDelete.Visible = False
         '
         'tpOnHold
         '
@@ -1042,6 +1057,8 @@ Partial Class FormDefectiveV2
         '
         Me.dgOnHold.AllowUserToAddRows = False
         Me.dgOnHold.AllowUserToDeleteRows = False
+        Me.dgOnHold.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.dgOnHold.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.dgOnHold.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgOnHold.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgOnHold.Location = New System.Drawing.Point(3, 182)
@@ -1065,9 +1082,9 @@ Partial Class FormDefectiveV2
         Me.TableLayoutPanel15.Controls.Add(Me.txtOnHoldTicketNo, 1, 1)
         Me.TableLayoutPanel15.Controls.Add(Me.cbOnHoldProcess, 1, 0)
         Me.TableLayoutPanel15.Controls.Add(Me.btnPrintOnhold, 5, 2)
-        Me.TableLayoutPanel15.Controls.Add(Me.btnOnHoldSave, 3, 0)
         Me.TableLayoutPanel15.Controls.Add(Me.TextBox12, 2, 0)
         Me.TableLayoutPanel15.Controls.Add(Me.btnOnHoldDelete, 4, 0)
+        Me.TableLayoutPanel15.Controls.Add(Me.btnOnHoldSave, 3, 2)
         Me.TableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel15.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel15.Name = "TableLayoutPanel15"
@@ -1146,18 +1163,6 @@ Partial Class FormDefectiveV2
         Me.btnPrintOnhold.Text = "Print"
         Me.btnPrintOnhold.UseVisualStyleBackColor = False
         '
-        'btnOnHoldSave
-        '
-        Me.btnOnHoldSave.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.btnOnHoldSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
-        Me.btnOnHoldSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOnHoldSave.Location = New System.Drawing.Point(811, 5)
-        Me.btnOnHoldSave.Name = "btnOnHoldSave"
-        Me.btnOnHoldSave.Size = New System.Drawing.Size(162, 49)
-        Me.btnOnHoldSave.TabIndex = 7
-        Me.btnOnHoldSave.Text = "Save"
-        Me.btnOnHoldSave.UseVisualStyleBackColor = False
-        '
         'TextBox12
         '
         Me.TextBox12.Location = New System.Drawing.Point(770, 3)
@@ -1177,6 +1182,19 @@ Partial Class FormDefectiveV2
         Me.btnOnHoldDelete.TabIndex = 10
         Me.btnOnHoldDelete.Text = "Delete"
         Me.btnOnHoldDelete.UseVisualStyleBackColor = False
+        Me.btnOnHoldDelete.Visible = False
+        '
+        'btnOnHoldSave
+        '
+        Me.btnOnHoldSave.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.btnOnHoldSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnOnHoldSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnOnHoldSave.Location = New System.Drawing.Point(811, 120)
+        Me.btnOnHoldSave.Name = "btnOnHoldSave"
+        Me.btnOnHoldSave.Size = New System.Drawing.Size(162, 49)
+        Me.btnOnHoldSave.TabIndex = 7
+        Me.btnOnHoldSave.Text = "Save"
+        Me.btnOnHoldSave.UseVisualStyleBackColor = False
         '
         'tpFinishGoods
         '
@@ -1716,6 +1734,7 @@ Partial Class FormDefectiveV2
         Me.CheckBox2.TabIndex = 5
         Me.CheckBox2.Text = "QR Code"
         Me.CheckBox2.UseVisualStyleBackColor = True
+        Me.CheckBox2.Visible = False
         '
         'TableLayoutPanel7
         '
@@ -1743,6 +1762,7 @@ Partial Class FormDefectiveV2
         Me.Label19.Size = New System.Drawing.Size(84, 29)
         Me.Label19.TabIndex = 1
         Me.Label19.Text = "Lot No"
+        Me.Label19.Visible = False
         '
         'CheckManualReturnMaterial
         '
@@ -1753,6 +1773,7 @@ Partial Class FormDefectiveV2
         Me.CheckManualReturnMaterial.TabIndex = 16
         Me.CheckManualReturnMaterial.Text = "Check"
         Me.CheckManualReturnMaterial.UseVisualStyleBackColor = True
+        Me.CheckManualReturnMaterial.Visible = False
         '
         'ComboBox2
         '
@@ -1764,6 +1785,7 @@ Partial Class FormDefectiveV2
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(254, 37)
         Me.ComboBox2.TabIndex = 17
+        Me.ComboBox2.Visible = False
         '
         'TableLayoutPanel14
         '
@@ -1789,6 +1811,7 @@ Partial Class FormDefectiveV2
         Me.Label18.Size = New System.Drawing.Size(78, 29)
         Me.Label18.TabIndex = 0
         Me.Label18.Text = "Comp"
+        Me.Label18.Visible = False
         '
         'txtReturnMaterialManual
         '
@@ -1797,6 +1820,7 @@ Partial Class FormDefectiveV2
         Me.txtReturnMaterialManual.Name = "txtReturnMaterialManual"
         Me.txtReturnMaterialManual.Size = New System.Drawing.Size(196, 35)
         Me.txtReturnMaterialManual.TabIndex = 2
+        Me.txtReturnMaterialManual.Visible = False
         '
         'txtBalanceMaterialPN
         '

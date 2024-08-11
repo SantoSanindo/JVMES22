@@ -92,6 +92,7 @@ Partial Class ProductionRequest
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(326, 37)
         Me.ComboBox2.TabIndex = 24
+        Me.ComboBox2.Visible = False
         '
         'GroupBox2
         '
@@ -188,6 +189,7 @@ Partial Class ProductionRequest
         Me.CheckBox1.TabIndex = 21
         Me.CheckBox1.Text = "QRCode"
         Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.CheckBox1.Visible = False
         '
         'TextBox2
         '
@@ -195,6 +197,7 @@ Partial Class ProductionRequest
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(339, 35)
         Me.TextBox2.TabIndex = 6
+        Me.TextBox2.Visible = False
         '
         'GroupBox4
         '
@@ -277,6 +280,7 @@ Partial Class ProductionRequest
         Me.Label7.Size = New System.Drawing.Size(84, 29)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "Lot No"
+        Me.Label7.Visible = False
         '
         'Button2
         '
@@ -299,6 +303,7 @@ Partial Class ProductionRequest
         Me.Button1.TabIndex = 5
         Me.Button1.Text = "Add"
         Me.Button1.UseVisualStyleBackColor = False
+        Me.Button1.Visible = False
         '
         'TextBox1
         '
@@ -315,6 +320,7 @@ Partial Class ProductionRequest
         Me.Label3.Size = New System.Drawing.Size(149, 29)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Part Number"
+        Me.Label3.Visible = False
         '
         'ComboBox1
         '

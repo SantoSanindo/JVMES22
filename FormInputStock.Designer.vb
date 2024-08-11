@@ -23,16 +23,17 @@ Partial Class FormInputStock
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GenQRCode = New System.Windows.Forms.Button()
         Me.lbl_Info = New System.Windows.Forms.Label()
         Me.unlock = New System.Windows.Forms.Button()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.checkQr = New System.Windows.Forms.CheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.txtmanualQty = New System.Windows.Forms.TextBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.txtmanualLot = New System.Windows.Forms.TextBox()
         Me.txtmanualBatch = New System.Windows.Forms.TextBox()
         Me.txtmanualInv = New System.Windows.Forms.TextBox()
@@ -74,9 +75,9 @@ Partial Class FormInputStock
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.GenQRCode)
         Me.GroupBox1.Controls.Add(Me.lbl_Info)
         Me.GroupBox1.Controls.Add(Me.unlock)
-        Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.checkQr)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.Button1)
@@ -96,13 +97,25 @@ Partial Class FormInputStock
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         '
+        'GenQRCode
+        '
+        Me.GenQRCode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GenQRCode.BackColor = System.Drawing.SystemColors.Highlight
+        Me.GenQRCode.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.GenQRCode.Location = New System.Drawing.Point(1452, 31)
+        Me.GenQRCode.Name = "GenQRCode"
+        Me.GenQRCode.Size = New System.Drawing.Size(184, 83)
+        Me.GenQRCode.TabIndex = 20
+        Me.GenQRCode.Text = "Generate New QRCode"
+        Me.GenQRCode.UseVisualStyleBackColor = False
+        '
         'lbl_Info
         '
         Me.lbl_Info.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbl_Info.AutoSize = True
         Me.lbl_Info.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_Info.ForeColor = System.Drawing.Color.Red
-        Me.lbl_Info.Location = New System.Drawing.Point(1161, 11)
+        Me.lbl_Info.Location = New System.Drawing.Point(941, 31)
         Me.lbl_Info.Name = "lbl_Info"
         Me.lbl_Info.Size = New System.Drawing.Size(28, 42)
         Me.lbl_Info.TabIndex = 19
@@ -113,21 +126,13 @@ Partial Class FormInputStock
         Me.unlock.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.unlock.BackColor = System.Drawing.Color.IndianRed
         Me.unlock.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.unlock.Location = New System.Drawing.Point(1426, 59)
+        Me.unlock.Location = New System.Drawing.Point(1677, 139)
         Me.unlock.Name = "unlock"
-        Me.unlock.Size = New System.Drawing.Size(143, 78)
+        Me.unlock.Size = New System.Drawing.Size(184, 42)
         Me.unlock.TabIndex = 14
         Me.unlock.Text = "EDIT"
         Me.unlock.UseVisualStyleBackColor = False
         Me.unlock.Visible = False
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(1217, 35)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(43, 35)
-        Me.TextBox1.TabIndex = 13
-        Me.TextBox1.Visible = False
         '
         'checkQr
         '
@@ -135,7 +140,7 @@ Partial Class FormInputStock
         Me.checkQr.CausesValidation = False
         Me.checkQr.Checked = True
         Me.checkQr.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.checkQr.Location = New System.Drawing.Point(1032, 37)
+        Me.checkQr.Location = New System.Drawing.Point(802, 37)
         Me.checkQr.Name = "checkQr"
         Me.checkQr.Size = New System.Drawing.Size(133, 33)
         Me.checkQr.TabIndex = 12
@@ -147,6 +152,7 @@ Partial Class FormInputStock
         Me.GroupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.GroupBox2.Controls.Add(Me.Button3)
         Me.GroupBox2.Controls.Add(Me.txtmanualQty)
+        Me.GroupBox2.Controls.Add(Me.TextBox1)
         Me.GroupBox2.Controls.Add(Me.txtmanualLot)
         Me.GroupBox2.Controls.Add(Me.txtmanualBatch)
         Me.GroupBox2.Controls.Add(Me.txtmanualInv)
@@ -160,7 +166,7 @@ Partial Class FormInputStock
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Location = New System.Drawing.Point(6, 76)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(1414, 113)
+        Me.GroupBox2.Size = New System.Drawing.Size(1397, 113)
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         '
@@ -168,7 +174,7 @@ Partial Class FormInputStock
         '
         Me.Button3.BackColor = System.Drawing.Color.Green
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(1227, 45)
+        Me.Button3.Location = New System.Drawing.Point(1215, 43)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(167, 40)
         Me.Button3.TabIndex = 18
@@ -181,6 +187,14 @@ Partial Class FormInputStock
         Me.txtmanualQty.Name = "txtmanualQty"
         Me.txtmanualQty.Size = New System.Drawing.Size(244, 35)
         Me.txtmanualQty.TabIndex = 17
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(863, 73)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(43, 35)
+        Me.TextBox1.TabIndex = 13
+        Me.TextBox1.Visible = False
         '
         'txtmanualLot
         '
@@ -276,9 +290,9 @@ Partial Class FormInputStock
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.MediumSeaGreen
         Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button1.Location = New System.Drawing.Point(1748, 59)
+        Me.Button1.Location = New System.Drawing.Point(1677, 72)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(113, 78)
+        Me.Button1.Size = New System.Drawing.Size(184, 42)
         Me.Button1.TabIndex = 10
         Me.Button1.Text = "Reset"
         Me.Button1.UseVisualStyleBackColor = False
@@ -297,9 +311,9 @@ Partial Class FormInputStock
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.BackColor = System.Drawing.Color.Green
         Me.Button2.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Button2.Location = New System.Drawing.Point(1589, 59)
+        Me.Button2.Location = New System.Drawing.Point(1452, 139)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(143, 78)
+        Me.Button2.Size = New System.Drawing.Size(184, 42)
         Me.Button2.TabIndex = 6
         Me.Button2.Text = "SAVE"
         Me.Button2.UseVisualStyleBackColor = False
@@ -312,14 +326,14 @@ Partial Class FormInputStock
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_forminputstock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_forminputstock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
         Me.dgv_forminputstock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_forminputstock.GridColor = System.Drawing.SystemColors.Highlight
         Me.dgv_forminputstock.Location = New System.Drawing.Point(399, 195)
@@ -343,7 +357,7 @@ Partial Class FormInputStock
         '
         Me.txt_forminputstock_qrcode.Location = New System.Drawing.Point(540, 35)
         Me.txt_forminputstock_qrcode.Name = "txt_forminputstock_qrcode"
-        Me.txt_forminputstock_qrcode.Size = New System.Drawing.Size(463, 35)
+        Me.txt_forminputstock_qrcode.Size = New System.Drawing.Size(238, 35)
         Me.txt_forminputstock_qrcode.TabIndex = 2
         '
         'txt_forminputstock_mts_no
@@ -406,4 +420,5 @@ Partial Class FormInputStock
     Friend WithEvents unlock As Button
     Friend WithEvents lbl_Info As Label
     Friend WithEvents Timer1 As Timer
+    Friend WithEvents GenQRCode As Button
 End Class

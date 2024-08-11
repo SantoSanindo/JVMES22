@@ -17,7 +17,7 @@ Public Class OthersPart
     Private Sub txtLabelOtherPart_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtLabelOtherPart.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
             If globVar.view > 0 Then
-                loadDGVOthers()
+                loadDGVAtas()
             Else
                 RJMessageBox.Show("Cannot access this menu.")
             End If
@@ -207,10 +207,10 @@ Public Class OthersPart
 
                     If statusSimpan > 0 Then
                         RJMessageBox.Show("Success Save data!!!")
-                        loadDGVOthers()
+                        loadDGVAtas()
                     Else
                         RJMessageBox.Show("Fail Save data!!!")
-                        loadDGVOthers()
+                        loadDGVAtas()
                     End If
 
                 Catch ex As Exception
@@ -263,29 +263,20 @@ Public Class OthersPart
         End If
     End Sub
 
-    Sub loadDGVOthers()
+    Sub loadDGVAtas()
+
         Try
-            Dim query As String = "Select sub_sub_po,fg_pn,line,part_number,sum(qty) qty,lot_no,traceability,batch_no,inv_ctrl_date from OUT_PROD_DEFECT where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' GROUP BY sub_sub_po,fg_pn,line,part_number,lot_no,traceability,batch_no,inv_ctrl_date"
+            Dim query As String = "Select sub_sub_po [SSP],fg_pn [FG],part_number [Material],lot_no [Lot No],traceability [Trace],batch_no [Batch No],inv_ctrl_date [ICD],process_reject [Process], flow_ticket_no [Flow Ticket], qty [Max Qty] from OUT_PROD_DEFECT where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "'"
 
             Dim dtOutProd As DataTable = Database.GetData(query)
 
             With DataGridView2
+
                 .Rows.Clear()
 
-                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+                .DataSource = dtOutProd
 
-                .ColumnCount = 11
-                .Columns(0).Name = "No"
-                .Columns(1).Name = "Sub Sub PO"
-                .Columns(2).Name = "Finish Goods"
-                .Columns(3).Name = "Line"
-                .Columns(4).Name = "Part Number"
-                .Columns(5).Name = "Lot No"
-                .Columns(6).Name = "Traceability"
-                .Columns(7).Name = "Batch No"
-                .Columns(8).Name = "Inv Ctrl Date"
-                .Columns(9).Name = "Qty Max"
-                .Columns(10).Name = "Qty"
+                .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
                 .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -297,7 +288,6 @@ Public Class OthersPart
                 .Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(8).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                 .Columns(9).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(10).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
                 .EnableHeadersVisualStyles = False
                 With .ColumnHeadersDefaultCellStyle
@@ -308,102 +298,100 @@ Public Class OthersPart
                     .Alignment = ContentAlignment.MiddleCenter
                 End With
 
+                'If dtOutProd.Rows.Count > 0 Then
+                '    For i = 0 To dtOutProd.Rows.Count - 1
+                '        Dim queryOthersStock As String = "select qty from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and part_number='" & dtOutProd.Rows(i)("part_number") & "'"
+                '        Dim dtOthersStock As DataTable = Database.GetData(queryOthersStock)
+                '        Dim qtyOthers As Integer = 0
+                '        If dtOthersStock.Rows.Count > 0 Then
+                '            qtyOthers = dtOthersStock.Rows(0).Item("qty")
+                '        End If
 
-                If dtOutProd.Rows.Count > 0 Then
-                    For i = 0 To dtOutProd.Rows.Count - 1
-                        Dim queryOthersStock As String = "select qty from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and part_number='" & dtOutProd.Rows(i)("part_number") & "'"
-                        Dim dtOthersStock As DataTable = Database.GetData(queryOthersStock)
-                        Dim qtyOthers As Integer = 0
-                        If dtOthersStock.Rows.Count > 0 Then
-                            qtyOthers = dtOthersStock.Rows(0).Item("qty")
-                        End If
-
-                        .Rows.Add(1)
-                        .Item(0, i).Value = (i + 1).ToString()
-                        .Item(1, i).Value = dtOutProd.Rows(i)("sub_sub_po")
-                        .Item(2, i).Value = dtOutProd.Rows(i)("fg_pn")
-                        .Item(3, i).Value = dtOutProd.Rows(i)("line")
-                        .Item(4, i).Value = dtOutProd.Rows(i)("part_number")
-                        .Item(5, i).Value = dtOutProd.Rows(i)("lot_no")
-                        .Item(6, i).Value = dtOutProd.Rows(i)("traceability")
-                        .Item(7, i).Value = dtOutProd.Rows(i)("batch_no")
-                        .Item(8, i).Value = dtOutProd.Rows(i)("inv_ctrl_date")
-                        .Item(9, i).Value = dtOutProd.Rows(i)("qty")
-                        .Item(10, i).Value = qtyOthers
-                    Next
-                End If
+                '        .Rows.Add(1)
+                '        .Item(0, i).Value = dtOutProd.Rows(i)("sub_sub_po")
+                '        .Item(1, i).Value = dtOutProd.Rows(i)("fg_pn")
+                '        .Item(2, i).Value = dtOutProd.Rows(i)("part_number")
+                '        .Item(3, i).Value = dtOutProd.Rows(i)("lot_no")
+                '        .Item(4, i).Value = dtOutProd.Rows(i)("traceability")
+                '        .Item(5, i).Value = dtOutProd.Rows(i)("batch_no")
+                '        .Item(6, i).Value = dtOutProd.Rows(i)("inv_ctrl_date")
+                '        .Item(7, i).Value = dtOutProd.Rows(i)("qty")
+                '        .Item(8, i).Value = qtyOthers
+                '    Next
+                'End If
 
                 .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
                 .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+
             End With
 
             For i As Integer = 0 To DataGridView2.RowCount - 1
+
                 If DataGridView2.Rows(i).Index Mod 2 = 0 Then
                     DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
                 Else
                     DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
                 End If
+
             Next i
 
-            Dim queryOthers As String = "select * from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "'"
-            Dim dtOthers As DataTable = Database.GetData(queryOthers)
+        Catch ex As Exception
 
-            With DataGridView4
-                .Rows.Clear()
+            RJMessageBox.Show(ex.Message)
 
-                .DefaultCellStyle.Font = New Font("Tahoma", 14)
+        End Try
 
-                .ColumnCount = 6
-                .Columns(0).Name = "No"
-                .Columns(1).Name = "Code Defect"
-                .Columns(2).Name = "Code Others"
-                .Columns(3).Name = "Part Number"
-                .Columns(4).Name = "Lot No"
-                .Columns(5).Name = "Qty"
+    End Sub
 
-                .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                .Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    Sub loadDGVBawah()
+        Dim queryOthers As String = "select * from stock_prod_others where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "'"
+        Dim dtOthers As DataTable = Database.GetData(queryOthers)
 
-                .EnableHeadersVisualStyles = False
-                With .ColumnHeadersDefaultCellStyle
-                    .BackColor = Color.Navy
-                    .ForeColor = Color.White
-                    .Font = New Font("Tahoma", 13, FontStyle.Bold)
-                    .Alignment = HorizontalAlignment.Center
-                    .Alignment = ContentAlignment.MiddleCenter
-                End With
+        With DataGridView4
+            .Rows.Clear()
 
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
 
-                If dtOthers.Rows.Count > 0 Then
-                    For i = 0 To dtOthers.Rows.Count - 1
-                        .Rows.Add(1)
-                        .Item(0, i).Value = (i + 1).ToString()
-                        .Item(1, i).Value = dtOthers.Rows(i)("CODE_OUT_PROD_DEFECT")
-                        .Item(2, i).Value = dtOthers.Rows(i)("code_stock_prod_others")
-                        .Item(3, i).Value = dtOthers.Rows(i)("part_number")
-                        .Item(4, i).Value = dtOthers.Rows(i)("lot_no")
-                        .Item(5, i).Value = dtOthers.Rows(i)("qty")
-                    Next
-                End If
+            .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
-                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
             End With
 
-            For i As Integer = 0 To DataGridView4.RowCount - 1
-                If DataGridView4.Rows(i).Index Mod 2 = 0 Then
-                    DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-                Else
-                    DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-                End If
-            Next i
-        Catch ex As Exception
-            RJMessageBox.Show(ex.Message)
-        End Try
+
+            If dtOthers.Rows.Count > 0 Then
+                For i = 0 To dtOthers.Rows.Count - 1
+                    .Rows.Add(1)
+                    .Item(0, i).Value = (i + 1).ToString()
+                    .Item(1, i).Value = dtOthers.Rows(i)("CODE_OUT_PROD_DEFECT")
+                    .Item(2, i).Value = dtOthers.Rows(i)("code_stock_prod_others")
+                    .Item(3, i).Value = dtOthers.Rows(i)("part_number")
+                    .Item(4, i).Value = dtOthers.Rows(i)("lot_no")
+                    .Item(5, i).Value = dtOthers.Rows(i)("qty")
+                Next
+            End If
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+
+        For i As Integer = 0 To DataGridView4.RowCount - 1
+            If DataGridView4.Rows(i).Index Mod 2 = 0 Then
+                DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
     End Sub
 
 End Class

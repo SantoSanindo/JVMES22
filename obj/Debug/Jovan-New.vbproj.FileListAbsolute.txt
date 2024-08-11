@@ -675,3 +675,4 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.OthersPart.resources
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.OthersPart.resources
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.ProductionV2.resources
 C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.FormDefectiveV2.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New._PrintingNewLabel.resources

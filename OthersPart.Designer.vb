@@ -42,8 +42,8 @@ Partial Class OthersPart
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.DataGridView2, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.pDefective1, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.btnOtherSave, 0, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.DataGridView4, 0, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.btnOtherSave, 0, 2)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(7)
@@ -83,7 +83,7 @@ Partial Class OthersPart
         'txtLabelOtherPart
         '
         Me.txtLabelOtherPart.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.txtLabelOtherPart.Location = New System.Drawing.Point(208, 11)
+        Me.txtLabelOtherPart.Location = New System.Drawing.Point(171, 11)
         Me.txtLabelOtherPart.Margin = New System.Windows.Forms.Padding(7)
         Me.txtLabelOtherPart.Name = "txtLabelOtherPart"
         Me.txtLabelOtherPart.Size = New System.Drawing.Size(426, 35)
@@ -93,7 +93,7 @@ Partial Class OthersPart
         '
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(46, 14)
+        Me.Label7.Location = New System.Drawing.Point(9, 14)
         Me.Label7.Margin = New System.Windows.Forms.Padding(7, 0, 7, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(148, 29)

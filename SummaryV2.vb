@@ -159,6 +159,7 @@ Public Class SummaryV2
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
+                qrcode_new [New Label],
 	            qty [QTY],
 	            remark [Remark]
             FROM
@@ -203,8 +204,8 @@ Public Class SummaryV2
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
 	            LOT_NO [Lot No],
-	            qty [QTY],
-                qrcode [QRCode],
+                qrcode_new [New Label],
+	            actual_qty [QTY],
 	            remark [Remark]
             FROM
                 STOCK_CARD
@@ -224,9 +225,9 @@ Public Class SummaryV2
 	            INV_CTRL_DATE [ICD],
 	            TRACEABILITY [Traceability],
 	            BATCH_NO [Batch No],
+                qrcode_new [New Label],
 	            LOT_NO [Lot No],
-	            qty [QTY],
-                qrcode [QRCode],
+	            actual_qty [QTY],
 	            remark [Remark]
             FROM
                 STOCK_CARD
@@ -376,7 +377,9 @@ Public Class SummaryV2
                      AND line = '" & ComboBox1.Text & "' 
                      And department ='" & globVar.department & "'
                      AND material = '" & comp & "'
-                     AND STATUS='Production Result'"
+                     AND STATUS='Production Result'
+                    order by cast(replace(flow_ticket,' of ','') as int) asc"
+
         End If
 
         Dim dtSummary As DataTable = Database.GetData(query)
@@ -461,7 +464,7 @@ Public Class SummaryV2
                 Else
                     SaveTraceability()
 
-                    Dim sqlStr As String = "SELECT mp.id, mp.sub_po_qty,mp.actual_qty FROM sub_sub_po ssp, main_po mp where ssp.sub_sub_po='" & txtSubSubPO.Text & "' and ssp.main_po = mp.id"
+                    Dim sqlStr As String = "SELECT mp.id, mp.sub_po_qty,mp.actual_qty,mfg.level FROM sub_sub_po ssp, main_po mp, MASTER_FINISH_GOODS mfg where ssp.sub_sub_po='" & txtSubSubPO.Text & "' and ssp.main_po = mp.id and mfg.FG_PART_NUMBER=mp.fg_pn"
                     Dim dttable As DataTable = Database.GetData(sqlStr)
 
                     If dttable.Rows(0).Item("sub_po_qty") = dttable.Rows(0).Item("actual_qty") Then
@@ -472,13 +475,29 @@ Public Class SummaryV2
                             RJMessageBox.Show("Success Close Sub Sub PO")
                         End If
 
+                        clearAll()
+
                     Else
 
-                        Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where sub_sub_po='" & txtSubSubPO.Text & "'"
-                        Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
-                        If dtUpdateSubsubpo.ExecuteNonQuery() Then
-                            RJMessageBox.Show("Success Close Sub Sub PO")
+                        If dttable.Rows(0).Item("level") = "Sub Assy" Then
+
+                            Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where sub_sub_po='" & txtSubSubPO.Text & "';update main_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where id=" & dttable.Rows(0).Item("id")
+                            Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                            If dtUpdateSubsubpo.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Success Close Sub Sub PO")
+                            End If
+
+                        Else
+
+                            Dim queryUpdateSubsubpo As String = "update sub_sub_po set status='Closed',datetime_closed=getdate(),closed_who='" & globVar.username & "' where sub_sub_po='" & txtSubSubPO.Text & "'"
+                            Dim dtUpdateSubsubpo = New SqlCommand(queryUpdateSubsubpo, Database.koneksi)
+                            If dtUpdateSubsubpo.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Success Close Sub Sub PO")
+                            End If
+
                         End If
+
+                        clearAll()
 
                     End If
                 End If
@@ -674,5 +693,24 @@ Public Class SummaryV2
         ' Handle the data error event to provide custom error messages
         RJMessageBox.Show("QTY Adjust must be number", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         e.ThrowException = False
+    End Sub
+
+    Sub clearAll()
+        tampilDataComboBoxLine()
+        txtFG.Clear()
+        txtPO.Clear()
+        txtSubPO.Clear()
+        txtSubSubPO.Clear()
+        txtSubSubPOQty.Clear()
+
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Rows.Clear()
+        DataGridView1.Columns.Clear()
+
+        DataGridView2.DataSource = Nothing
+        DataGridView2.Rows.Clear()
+        DataGridView2.Columns.Clear()
+
+        TreeView1.Nodes.Clear()
     End Sub
 End Class

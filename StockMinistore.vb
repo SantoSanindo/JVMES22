@@ -12,6 +12,8 @@ Public Class StockMinistore
 
         DateTimePicker2.Format = DateTimePickerFormat.Custom
         DateTimePicker2.CustomFormat = "yyyy-MM-dd"
+
+        TabControl1.TabIndex = 0
     End Sub
 
     Private Sub DGV_StockMiniststore()
@@ -60,16 +62,28 @@ Public Class StockMinistore
 
     Private Sub btn_ExportTrace1_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace1.Click
         If globVar.view > 0 Then
-            ' Tampilkan ProgressBar
-            ProgressBar1.Visible = True
-            ProgressBar1.Style = ProgressBarStyle.Marquee
-            ProgressBar1.MarqueeAnimationSpeed = 30
+            If TabControl1.SelectedIndex = 0 Then
 
-            ' Nonaktifkan tombol selama ekspor
-            btn_ExportTrace1.Enabled = False
+                ProgressBar1.Visible = True
+                ProgressBar1.Style = ProgressBarStyle.Marquee
+                ProgressBar1.MarqueeAnimationSpeed = 30
 
-            ' Jalankan backgroundWorker
-            BackgroundWorker1.RunWorkerAsync(DataGridView1)
+                btn_ExportTrace1.Enabled = False
+
+                BackgroundWorker1.RunWorkerAsync(DataGridView1)
+
+            ElseIf TabControl1.SelectedIndex = 1 Then
+
+                ProgressBar1.Visible = True
+                ProgressBar1.Style = ProgressBarStyle.Marquee
+                ProgressBar1.MarqueeAnimationSpeed = 30
+
+                btn_ExportTrace1.Enabled = False
+
+                BackgroundWorker1.RunWorkerAsync(ReportDGAtas)
+
+            End If
+
         End If
     End Sub
 
@@ -128,8 +142,17 @@ Public Class StockMinistore
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If globVar.view > 0 Then
-            DGV_StockMiniststore()
-            btn_ExportTrace1.Enabled = True
+            If TabControl1.SelectedIndex = 0 Then
+
+                DGV_StockMiniststore()
+                btn_ExportTrace1.Enabled = True
+
+            ElseIf TabControl1.SelectedIndex = 1 Then
+
+                LoadDGAtas()
+                btn_ExportTrace1.Enabled = True
+
+            End If
         End If
     End Sub
 
@@ -204,5 +227,147 @@ Public Class StockMinistore
     Private Sub backgroundWorker1_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
         ProgressBar1.Visible = False
         btn_ExportTrace1.Enabled = True
+    End Sub
+
+    Private Sub TabControl1_Click(sender As Object, e As EventArgs) Handles TabControl1.Click
+        If TabControl1.SelectedIndex = 0 Then
+
+            DGV_StockMiniststore()
+
+        ElseIf TabControl1.SelectedIndex = 1 Then
+
+            LoadDGAtas()
+
+            If ReportDGAtas.RowCount > 0 Then
+                btn_ExportTrace1.Enabled = True
+            End If
+
+        End If
+    End Sub
+
+    Sub LoadDGAtas()
+        Try
+            ReportDGAtas.DataSource = Nothing
+            ReportDGAtas.Rows.Clear()
+            ReportDGAtas.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT 
+	                                                    material Material,
+	                                                    SUM(qty) AS [Total Qty],
+	                                                    SUM(ACTUAL_QTY) AS [Total Actual Qty]
+                                                    FROM
+	                                                    stock_card 
+                                                    WHERE
+	                                                    department = 'zQSFP' 
+	                                                    AND CAST(datetime_insert AS DATE) >= '2024-08-01' 
+	                                                    AND CAST(datetime_insert AS DATE) <= '2024-08-13' 
+	                                                    AND status IN ('Receive From Main Store', 'Receive From Production')
+                                                    GROUP BY 
+	                                                    material
+                                                    order by
+                                                        material"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            ReportDGAtas.DataSource = dtInputStockDetail
+
+            Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            deleteProductionRequest.Name = "check"
+            deleteProductionRequest.HeaderText = "Check"
+            deleteProductionRequest.Width = 50
+            deleteProductionRequest.Text = "Check"
+            deleteProductionRequest.UseColumnTextForButtonValue = True
+            ReportDGAtas.Columns.Insert(0, deleteProductionRequest)
+
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub ReportDGAtas_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles ReportDGAtas.DataBindingComplete
+        For i As Integer = 0 To ReportDGAtas.RowCount - 1
+            If ReportDGAtas.Rows(i).Index Mod 2 = 0 Then
+                ReportDGAtas.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                ReportDGAtas.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With ReportDGAtas
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Sub LoadDGBawah(material As String)
+        Try
+            ReportDGBawah.DataSource = Nothing
+            ReportDGBawah.Rows.Clear()
+            ReportDGBawah.Columns.Clear()
+            Call Database.koneksi_database()
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [QRCODE] [QR Code], INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production') and material='" & material & "' and actual_qty > 0 order by datetime_insert"
+            Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
+            ReportDGBawah.DataSource = dtInputStockDetail
+        Catch ex As Exception
+            RJMessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub ReportDGBawah_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles ReportDGBawah.DataBindingComplete
+        For i As Integer = 0 To ReportDGBawah.RowCount - 1
+            If ReportDGBawah.Rows(i).Index Mod 2 = 0 Then
+                ReportDGBawah.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                ReportDGBawah.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        With ReportDGBawah
+            .DefaultCellStyle.Font = New Font("Tahoma", 14)
+
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub ReportDGAtas_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles ReportDGAtas.CellClick
+
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
+        If ReportDGAtas.Columns(e.ColumnIndex).Name = "check" Then
+            LoadDGBawah(ReportDGAtas.Rows(e.RowIndex).Cells("Material").Value)
+        End If
     End Sub
 End Class

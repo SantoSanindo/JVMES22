@@ -24,6 +24,7 @@ Partial Class FGA
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.bQty = New System.Windows.Forms.TextBox()
         Me.bFlowTicket = New System.Windows.Forms.TextBox()
         Me.aQty = New System.Windows.Forms.TextBox()
@@ -31,7 +32,7 @@ Partial Class FGA
         Me.aFlowTicket = New System.Windows.Forms.TextBox()
         Me.aPO = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.txtSAP = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
@@ -41,7 +42,7 @@ Partial Class FGA
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.textFT = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -59,6 +60,7 @@ Partial Class FGA
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.bQty)
         Me.GroupBox1.Controls.Add(Me.bFlowTicket)
         Me.GroupBox1.Controls.Add(Me.aQty)
@@ -66,7 +68,7 @@ Partial Class FGA
         Me.GroupBox1.Controls.Add(Me.aFlowTicket)
         Me.GroupBox1.Controls.Add(Me.aPO)
         Me.GroupBox1.Controls.Add(Me.Label9)
-        Me.GroupBox1.Controls.Add(Me.TextBox4)
+        Me.GroupBox1.Controls.Add(Me.txtSAP)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.DataGridView1)
         Me.GroupBox1.Controls.Add(Me.TextBox3)
@@ -76,7 +78,7 @@ Partial Class FGA
         Me.GroupBox1.Controls.Add(Me.ComboBox3)
         Me.GroupBox1.Controls.Add(Me.ComboBox2)
         Me.GroupBox1.Controls.Add(Me.ComboBox1)
-        Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Controls.Add(Me.textFT)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Label6)
@@ -88,84 +90,103 @@ Partial Class FGA
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(1, -11)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1508, 636)
+        Me.GroupBox1.Size = New System.Drawing.Size(1922, 636)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
+        'Button2
+        '
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(1715, 23)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(196, 45)
+        Me.Button2.TabIndex = 27
+        Me.Button2.Text = "Reset"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
         'bQty
         '
-        Me.bQty.Location = New System.Drawing.Point(1365, 69)
+        Me.bQty.Location = New System.Drawing.Point(979, 23)
         Me.bQty.Name = "bQty"
-        Me.bQty.Size = New System.Drawing.Size(100, 35)
+        Me.bQty.Size = New System.Drawing.Size(81, 35)
         Me.bQty.TabIndex = 26
         Me.bQty.Visible = False
+        Me.bQty.WordWrap = False
         '
         'bFlowTicket
         '
-        Me.bFlowTicket.Location = New System.Drawing.Point(1236, 69)
+        Me.bFlowTicket.Location = New System.Drawing.Point(889, 23)
         Me.bFlowTicket.Name = "bFlowTicket"
-        Me.bFlowTicket.Size = New System.Drawing.Size(100, 35)
+        Me.bFlowTicket.Size = New System.Drawing.Size(84, 35)
         Me.bFlowTicket.TabIndex = 25
         Me.bFlowTicket.Visible = False
+        Me.bFlowTicket.WordWrap = False
         '
         'aQty
         '
-        Me.aQty.Location = New System.Drawing.Point(1365, 28)
+        Me.aQty.Location = New System.Drawing.Point(631, 23)
         Me.aQty.Name = "aQty"
-        Me.aQty.Size = New System.Drawing.Size(100, 35)
+        Me.aQty.Size = New System.Drawing.Size(83, 35)
         Me.aQty.TabIndex = 24
         Me.aQty.Visible = False
+        Me.aQty.WordWrap = False
         '
         'bPO
         '
-        Me.bPO.Location = New System.Drawing.Point(1102, 69)
+        Me.bPO.Location = New System.Drawing.Point(796, 23)
         Me.bPO.Name = "bPO"
-        Me.bPO.Size = New System.Drawing.Size(100, 35)
+        Me.bPO.Size = New System.Drawing.Size(87, 35)
         Me.bPO.TabIndex = 23
         Me.bPO.Visible = False
+        Me.bPO.WordWrap = False
         '
         'aFlowTicket
         '
-        Me.aFlowTicket.Location = New System.Drawing.Point(1236, 28)
+        Me.aFlowTicket.Location = New System.Drawing.Point(541, 23)
         Me.aFlowTicket.Name = "aFlowTicket"
-        Me.aFlowTicket.Size = New System.Drawing.Size(100, 35)
+        Me.aFlowTicket.Size = New System.Drawing.Size(84, 35)
         Me.aFlowTicket.TabIndex = 22
         Me.aFlowTicket.Visible = False
+        Me.aFlowTicket.WordWrap = False
         '
         'aPO
         '
-        Me.aPO.Location = New System.Drawing.Point(1102, 28)
+        Me.aPO.Location = New System.Drawing.Point(448, 23)
         Me.aPO.Name = "aPO"
-        Me.aPO.Size = New System.Drawing.Size(100, 35)
+        Me.aPO.Size = New System.Drawing.Size(87, 35)
         Me.aPO.TabIndex = 21
         Me.aPO.Visible = False
+        Me.aPO.WordWrap = False
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(20, 72)
+        Me.Label9.Location = New System.Drawing.Point(20, 130)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(126, 29)
         Me.Label9.TabIndex = 20
         Me.Label9.Text = "Label SAP"
         '
-        'TextBox4
+        'txtSAP
         '
-        Me.TextBox4.Location = New System.Drawing.Point(168, 69)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(244, 35)
-        Me.TextBox4.TabIndex = 19
+        Me.txtSAP.Location = New System.Drawing.Point(168, 127)
+        Me.txtSAP.Name = "txtSAP"
+        Me.txtSAP.Size = New System.Drawing.Size(244, 35)
+        Me.txtSAP.TabIndex = 19
         '
         'Button1
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1306, 146)
+        Me.Button1.Location = New System.Drawing.Point(1715, 119)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(148, 70)
+        Me.Button1.Size = New System.Drawing.Size(196, 51)
         Me.Button1.TabIndex = 18
-        Me.Button1.Text = "Save"
+        Me.Button1.Text = "Save Data FGA"
         Me.Button1.UseVisualStyleBackColor = False
+        Me.Button1.Visible = False
         '
         'DataGridView1
         '
@@ -185,81 +206,86 @@ Partial Class FGA
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(11, 232)
+        Me.DataGridView1.Location = New System.Drawing.Point(11, 176)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1486, 392)
+        Me.DataGridView1.Size = New System.Drawing.Size(1900, 448)
         Me.DataGridView1.TabIndex = 17
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(643, 69)
+        Me.TextBox3.Location = New System.Drawing.Point(1427, 127)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(410, 35)
+        Me.TextBox3.Size = New System.Drawing.Size(244, 35)
         Me.TextBox3.TabIndex = 15
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(643, 28)
+        Me.TextBox2.Location = New System.Drawing.Point(994, 127)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(410, 35)
+        Me.TextBox2.Size = New System.Drawing.Size(244, 35)
         Me.TextBox2.TabIndex = 14
         '
         'ComboBox5
         '
+        Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox5.FormattingEnabled = True
-        Me.ComboBox5.Location = New System.Drawing.Point(1024, 184)
+        Me.ComboBox5.Location = New System.Drawing.Point(1427, 72)
         Me.ComboBox5.Name = "ComboBox5"
         Me.ComboBox5.Size = New System.Drawing.Size(244, 37)
         Me.ComboBox5.TabIndex = 13
         '
         'ComboBox4
         '
+        Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox4.FormattingEnabled = True
-        Me.ComboBox4.Location = New System.Drawing.Point(1024, 143)
+        Me.ComboBox4.Location = New System.Drawing.Point(994, 72)
         Me.ComboBox4.Name = "ComboBox4"
         Me.ComboBox4.Size = New System.Drawing.Size(244, 37)
         Me.ComboBox4.TabIndex = 12
         '
         'ComboBox3
         '
+        Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(585, 184)
+        Me.ComboBox3.Location = New System.Drawing.Point(578, 75)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.Size = New System.Drawing.Size(244, 37)
         Me.ComboBox3.TabIndex = 11
         '
         'ComboBox2
         '
+        Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(585, 143)
+        Me.ComboBox2.Location = New System.Drawing.Point(168, 75)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(244, 37)
         Me.ComboBox2.TabIndex = 10
         '
         'ComboBox1
         '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(168, 164)
+        Me.ComboBox1.Location = New System.Drawing.Point(168, 23)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(244, 37)
         Me.ComboBox1.TabIndex = 9
         '
-        'TextBox1
+        'textFT
         '
-        Me.TextBox1.Location = New System.Drawing.Point(168, 28)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(244, 35)
-        Me.TextBox1.TabIndex = 8
+        Me.textFT.Location = New System.Drawing.Point(578, 127)
+        Me.textFT.Name = "textFT"
+        Me.textFT.Size = New System.Drawing.Size(244, 35)
+        Me.textFT.TabIndex = 8
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(441, 72)
+        Me.Label8.Location = New System.Drawing.Point(1267, 130)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(135, 29)
         Me.Label8.TabIndex = 7
@@ -268,16 +294,16 @@ Partial Class FGA
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(441, 31)
+        Me.Label7.Location = New System.Drawing.Point(842, 130)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(188, 29)
+        Me.Label7.Size = New System.Drawing.Size(144, 29)
         Me.Label7.TabIndex = 6
-        Me.Label7.Text = "FG Part Number"
+        Me.Label7.Text = "Finish Good"
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(880, 187)
+        Me.Label6.Location = New System.Drawing.Point(1289, 75)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(113, 29)
         Me.Label6.TabIndex = 5
@@ -286,7 +312,7 @@ Partial Class FGA
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(880, 146)
+        Me.Label5.Location = New System.Drawing.Point(856, 78)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(113, 29)
         Me.Label5.TabIndex = 4
@@ -295,7 +321,7 @@ Partial Class FGA
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(441, 187)
+        Me.Label4.Location = New System.Drawing.Point(443, 78)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(113, 29)
         Me.Label4.TabIndex = 3
@@ -304,7 +330,7 @@ Partial Class FGA
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(441, 146)
+        Me.Label3.Location = New System.Drawing.Point(20, 78)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(113, 29)
         Me.Label3.TabIndex = 2
@@ -313,7 +339,7 @@ Partial Class FGA
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(24, 167)
+        Me.Label2.Location = New System.Drawing.Point(20, 26)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(112, 29)
         Me.Label2.TabIndex = 1
@@ -322,7 +348,7 @@ Partial Class FGA
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(20, 31)
+        Me.Label1.Location = New System.Drawing.Point(430, 130)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(138, 29)
         Me.Label1.TabIndex = 0
@@ -332,7 +358,7 @@ Partial Class FGA
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1510, 625)
+        Me.ClientSize = New System.Drawing.Size(1924, 625)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FGA"
         Me.Text = "FGA"
@@ -353,7 +379,7 @@ Partial Class FGA
     Friend WithEvents ComboBox3 As ComboBox
     Friend WithEvents ComboBox2 As ComboBox
     Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents textFT As TextBox
     Friend WithEvents Label8 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Label6 As Label
@@ -364,11 +390,12 @@ Partial Class FGA
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Button1 As Button
     Friend WithEvents Label9 As Label
-    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents txtSAP As TextBox
     Friend WithEvents bQty As TextBox
     Friend WithEvents bFlowTicket As TextBox
     Friend WithEvents aQty As TextBox
     Friend WithEvents bPO As TextBox
     Friend WithEvents aFlowTicket As TextBox
     Friend WithEvents aPO As TextBox
+    Friend WithEvents Button2 As Button
 End Class

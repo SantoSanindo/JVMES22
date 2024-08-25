@@ -23,7 +23,7 @@ Public Class MasterProcessFlow
             dgv_masterprocessflow.Rows.Clear()
             dgv_masterprocessflow.Columns.Clear()
 
-            Dim queryCek As String = "select * from MASTER_PROCESS_NUMBER"
+            Dim queryCek As String = "select * from MASTER_PROCESS_NUMBER "
             Dim dsexist = New DataSet
             Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
             adapterexist.Fill(dsexist)
@@ -51,7 +51,7 @@ Public Class MasterProcessFlow
                     dgv_masterprocessflow.Rows.Add(row)
                 Next
 
-                Dim queryProcess As String = "select process_name from master_process where family=(select family from master_finish_goods where fg_part_number='" & cb_masterprocessflow.Text & "') order by process_name"
+                Dim queryProcess As String = "select process_name from master_process where family=(select family from master_finish_goods where fg_part_number='" & cb_masterprocessflow.Text & "' and department='" & globVar.department & "') order by process_name"
                 Dim dsProcess = New DataSet
                 Dim adapterProcess = New SqlDataAdapter(queryProcess, Database.koneksi)
                 adapterProcess.Fill(dsProcess)
@@ -150,7 +150,7 @@ Public Class MasterProcessFlow
 
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
-        Dim dtMasterFinishGoods As DataTable = Database.GetData("select distinct fg_part_number from master_finish_goods order by fg_part_number")
+        Dim dtMasterFinishGoods As DataTable = Database.GetData("select distinct fg_part_number from master_finish_goods where department='" & globVar.department & "' order by fg_part_number")
 
         cb_masterprocessflow.DataSource = dtMasterFinishGoods
         cb_masterprocessflow.DisplayMember = "fg_part_number"

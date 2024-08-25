@@ -4,6 +4,7 @@ Imports System.Globalization
 Imports System.Reflection
 Imports System.Reflection.Emit
 Imports System.Runtime.Remoting
+Imports System.Security.Cryptography
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.VisualBasic.Logging
@@ -178,6 +179,8 @@ Public Class FormDefectiveV2
     End Sub
 
     Private Sub FormDefective_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        globVar.PingVersion()
+
         loadCBLine()
 
         ReadonlyFormSA(True)
@@ -2783,7 +2786,7 @@ Public Class FormDefectiveV2
 
                 For i = 0 To dtMUFGCheck1.Rows.Count - 1
 
-                    Dim TotalQtySaveFG = dtMUFGCheck1.Rows(0).Item("usage") * txtSPQ.Text
+                    Dim TotalQtySaveFG = dtMUFGCheck1.Rows(i).Item("usage") * txtSPQ.Text
                     Dim TotalQty As Integer
 
                     If tampungQty.ContainsKey(dtMUFGCheck1.Rows(i).Item("component")) Then
@@ -2937,6 +2940,45 @@ Public Class FormDefectiveV2
                         End If
 
                     Next
+
+                    If CheckBoxFGDefect.CheckState = CheckState.Checked Then
+
+                        Dim queryCheckdefect As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) [Code],flow_ticket_no [Flow Ticket],fg_pn [Finish Goods], Line from out_prod_DEFECT where sub_sub_po='" & txtSubSubPODefective.Text & "'"
+                        Dim dtCheckDEFECT As DataTable = Database.GetData(queryCheckdefect)
+                        If dtCheckDEFECT.Rows.Count > 0 Then
+
+                            For i = 0 To dtCheckDEFECT.Rows.Count - 1
+
+                                globVar.failPrint = ""
+                                Dim parts As String() = txtSubSubPODefective.Text.Split("-"c)
+
+                                _PrintingDefect.txt_QR_Code.Text = dtCheckDEFECT.Rows(i).Item("Code")
+                                _PrintingDefect.Label2.Text = "Defect Ticket"
+                                _PrintingDefect.txt_Unique_id.Text = dtCheckDEFECT.Rows(i).Item("Code")
+                                _PrintingDefect.txt_part_number.Text = dtCheckDEFECT.Rows(i).Item("Finish Goods")
+                                _PrintingDefect.txt_Part_Description.Text = txtDescDefective.Text
+                                _PrintingDefect.txt_Traceability.Text = parts(0)
+                                _PrintingDefect.txt_Inv_crtl_date.Text = txtINV.Text
+                                _PrintingDefect.btn_Print_Click(sender, e)
+
+                                If globVar.failPrint = "No" Then
+
+                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (po, fg, line, remark,sub_sub_po,department,flow_ticket,code_print)
+                                    VALUES ('" & parts(0) & "','" & dtCheckDEFECT.Rows(i).Item("Finish Goods") & "','" & dtCheckDEFECT.Rows(i).Item("Line") & "','Defect Material','" & txtSubSubPODefective.Text & "','" & globVar.department & "','" & dtCheckDEFECT.Rows(i).Item("Flow Ticket") & "','" & dtCheckDEFECT.Rows(i).Item("Code") & "')"
+                                    Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
+                                    cmdInsertPrintingRecord.ExecuteNonQuery()
+
+                                    Dim sqlupdateDefect As String = "update out_prod_defect set [print]=1 where CODE_OUT_PROD_DEFECT='" & dtCheckDEFECT.Rows(i).Item("Code") & "'"
+                                    Dim cmdupdateDefect = New SqlCommand(sqlupdateDefect, Database.koneksi)
+                                    cmdupdateDefect.ExecuteNonQuery()
+
+                                End If
+
+                            Next
+
+                        End If
+
+                    End If
 
                 End If
 
@@ -3307,7 +3349,7 @@ Public Class FormDefectiveV2
 
             For i = 0 To dtqueryCheckmaterial_usage_finish_goods.Rows.Count - 1
 
-                TotalQtyCheck = dtqueryCheckmaterial_usage_finish_goods.Rows(i).Item("usage") * txtWIPQuantity.Text
+                TotalQtyCheck = dtqueryCheckmaterial_usage_finish_goods.Rows(i).Item("usage") * txtLossQty.Text
 
                 Dim querySelectSC As String = "select 
                                                 sum(actual_qty) total
@@ -3316,7 +3358,7 @@ Public Class FormDefectiveV2
                                             where 
                                                 status = 'Production Process' 
                                                 AND department ='" & globVar.department & "'
-                                                AND material = '" & dtqueryCheckmaterial_usage_finish_goods.Rows(i).Item("material") & "' 
+                                                AND material = '" & dtqueryCheckmaterial_usage_finish_goods.Rows(i).Item("component") & "' 
                                                 AND sub_sub_po ='" & txtSubSubPODefective.Text & "'"
                 Dim dtSelectSC As DataTable = Database.GetData(querySelectSC)
 

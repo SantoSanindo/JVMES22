@@ -21,25 +21,27 @@ Public Class Users
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
                 If globVar.update > 0 Then
+
                     Try
                         Dim query As String
-                        If TextBox4.Text <> "" Then
-                            query = "update users set role='" & sRole.ToString & "',department='" & ComboBox1.Text & "',username='" & TextBox3.Text & "',password='" & TextBox4.Text & "' where id_card_no = '" & TextBox1.Text & "'"
+                        Dim saveFGA As Integer
+
+                        If cbFGA.Text = "YES" Then
+                            saveFGA = 1
                         Else
-                            query = "update users set role='" & sRole.ToString & "',department='" & ComboBox1.Text & "',username='" & TextBox3.Text & "' where id_card_no = '" & TextBox1.Text & "'"
+                            saveFGA = 0
+                        End If
+
+                        If TextBox4.Text <> "" Then
+                            query = "update users set role='" & sRole.ToString & "',department='" & ComboBox1.Text & "',username='" & TextBox3.Text & "',password='" & TextBox4.Text & "',user_fga=" & saveFGA & " where id_card_no = '" & TextBox1.Text & "'"
+                        Else
+                            query = "update users set role='" & sRole.ToString & "',department='" & ComboBox1.Text & "',username='" & TextBox3.Text & "',user_fga=" & saveFGA & " where id_card_no = '" & TextBox1.Text & "'"
                         End If
                         Dim dtUpdate = New SqlCommand(query, Database.koneksi)
                         If dtUpdate.ExecuteNonQuery() Then
-                            DGV_Users()
 
-                            TextBox1.ReadOnly = False
-                            TextBox2.ReadOnly = False
+                            reset()
 
-                            For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
-                                CheckedListBox1.SetItemChecked(c1, False)
-                            Next
-
-                            ComboBox1.SelectedIndex = -1
                         End If
                     Catch ex As Exception
                         RJMessageBox.Show("Error Master Users - 1 =>" & ex.Message)
@@ -50,7 +52,7 @@ Public Class Users
             Else
                 If globVar.add > 0 Then
                     Try
-                        Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox1.Text & "','" & sRole.ToString & "')"
+                        Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role,by_who) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox1.Text & "','" & sRole.ToString & "','" & globVar.department & "')"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -60,16 +62,7 @@ Public Class Users
                             TextBox4.Text = ""
                             TextBox1.Select()
 
-                            DGV_Users()
-
-                            TextBox1.ReadOnly = False
-                            TextBox2.ReadOnly = False
-
-                            For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
-                                CheckedListBox1.SetItemChecked(c1, False)
-                            Next
-
-                            ComboBox1.SelectedIndex = -1
+                            reset()
                         End If
                     Catch ex As Exception
                         RJMessageBox.Show("Error Master Users - 2 =>" & ex.Message)
@@ -87,8 +80,10 @@ Public Class Users
 
             loadAccessControl()
             tampilDataComboBoxDepartement()
+            tampilDataComboBoxYESNO()
 
             ComboBox1.SelectedIndex = -1
+            cbFGA.SelectedIndex = -1
 
             For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
                 CheckedListBox1.SetItemChecked(c1, False)
@@ -98,11 +93,26 @@ Public Class Users
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from department order by department")
+        Dim sql As String
+        If globVar.username = "admin" Then
+            sql = "select * from department order by department"
+        Else
+            sql = "select * from department where department='" & globVar.department & "' order by department"
+        End If
+        Dim dtMasterDepart As DataTable = Database.GetData(sql)
 
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "department"
         ComboBox1.ValueMember = "department"
+    End Sub
+
+    Sub tampilDataComboBoxYESNO()
+        Call Database.koneksi_database()
+        Dim dtYESNO As DataTable = Database.GetData("select * from yesno order by id")
+
+        cbFGA.DataSource = dtYESNO
+        cbFGA.DisplayMember = "name"
+        cbFGA.ValueMember = "id"
     End Sub
 
     Sub loadAccessControl()
@@ -121,7 +131,7 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department, DATETIME_INSERT [Date Time], by_who [Created By] from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department,case when user_fga = 1 then 'YES' else 'NO' end as [User FGA], DATETIME_INSERT [Date Time], by_who [Created By] from USERS order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 
@@ -147,7 +157,7 @@ Public Class Users
         edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         edit.Text = "Edit"
         edit.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(8, edit)
+        DataGridView1.Columns.Insert(9, edit)
 
         Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
         delete.Name = "delete"
@@ -156,7 +166,7 @@ Public Class Users
         delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         delete.Text = "Delete"
         delete.UseColumnTextForButtonValue = True
-        DataGridView1.Columns.Insert(9, delete)
+        DataGridView1.Columns.Insert(10, delete)
     End Sub
 
     Private Sub TextBox5_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox5.PreviewKeyDown
@@ -329,7 +339,7 @@ Public Class Users
                     Exit Sub
                 End If
 
-                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Then
+                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Or DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("NULL") Then
                     RJMessageBox.Show("Cannot delete.")
                     Exit Sub
                 End If
@@ -353,6 +363,11 @@ Public Class Users
 
         If DataGridView1.Columns(e.ColumnIndex).Name = "edit" Then
             If globVar.update > 0 Then
+                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Or DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("NULL") Then
+                    RJMessageBox.Show("Cannot edit.")
+                    Exit Sub
+                End If
+
                 For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
                     CheckedListBox1.SetItemChecked(c1, False)
                 Next
@@ -384,6 +399,16 @@ Public Class Users
                     ComboBox1.SelectedValue = DataGridView1.Rows(e.RowIndex).Cells("Department").Value
                 End If
 
+                If IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("User FGA").Value) Then
+                    cbFGA.SelectedIndex = -1
+                Else
+                    If DataGridView1.Rows(e.RowIndex).Cells("User FGA").Value = "YES" Then
+                        cbFGA.SelectedValue = 1
+                    Else
+                        cbFGA.SelectedValue = 0
+                    End If
+                End If
+
                 TextBox1.ReadOnly = True
                 TextBox2.ReadOnly = True
             Else
@@ -398,5 +423,32 @@ Public Class Users
                 DataGridView1.Rows(e.RowIndex).Cells(0).Value = True
             End If
         End If
+    End Sub
+
+    Sub reset()
+        DGV_Users()
+
+        loadAccessControl()
+        tampilDataComboBoxDepartement()
+        tampilDataComboBoxYESNO()
+
+        ComboBox1.SelectedIndex = -1
+        cbFGA.SelectedIndex = -1
+
+        TextBox1.Clear()
+        TextBox2.Clear()
+        TextBox3.Clear()
+        TextBox4.Clear()
+
+        TextBox1.Enabled = True
+        TextBox2.Enabled = True
+
+        For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
+            CheckedListBox1.SetItemChecked(c1, False)
+        Next
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        reset()
     End Sub
 End Class

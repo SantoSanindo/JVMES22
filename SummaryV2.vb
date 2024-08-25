@@ -10,6 +10,7 @@ Public Class SummaryV2
 
 
     Private Sub SummaryV2_Load(sender As Object, e As EventArgs) Handles Me.Load
+        globVar.PingVersion()
         tampilDataComboBoxLine()
         ComboBox1.SelectedIndex = -1
     End Sub
@@ -167,7 +168,7 @@ Public Class SummaryV2
             WHERE
 	            status = 'Production Process' 
 	            AND LEVEL = 'Fresh' 
-	            AND QRCODE NOT LIKE 'SA%' 
+	            AND (QRCODE NOT LIKE 'SA%' or QRCODE_NEW IS NOT NULL) 
 	            AND material = '" & comp & "'
 	            AND line = '" & ComboBox1.Text & "'
 	            AND SUB_SUB_PO = '" & txtSubSubPO.Text & "' 

@@ -7,6 +7,8 @@ Public Class FormInputStock
     Public Shared menu As String = "Input Stock"
 
     Private Sub FormInputStock_Load(sender As Object, e As EventArgs) Handles Me.Load
+        globVar.PingVersion()
+
         If globVar.view > 0 Then
 
             txt_forminputstock_qrcode.ReadOnly = True
@@ -324,7 +326,8 @@ Public Class FormInputStock
 
                         If ds.Rows.Count > 0 Then
 
-                            Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
+                            'Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
+                            Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & globVar.QRCode_lot & "' AND MATERIAL='" & globVar.QRCode_PN & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and batch_no='" & globVar.QRCode_Batch & "' and DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
                             Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                             If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -518,7 +521,7 @@ Public Class FormInputStock
 
     Private Sub treeView_show()
         TreeView1.Nodes.Clear()
-        Dim queryInputStock As String = "SELECT DISTINCT(MATERIAL),SUM(QTY) QTY FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store' GROUP BY MATERIAL"
+        Dim queryInputStock As String = "SELECT DISTINCT(MATERIAL),SUM(QTY) QTY FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store' GROUP BY MATERIAL"
         Dim dtInputStock As DataTable = Database.GetData(queryInputStock)
 
         TreeView1.Nodes.Add(txt_forminputstock_mts_no.Text, "MTS No : " & txt_forminputstock_mts_no.Text)
@@ -536,7 +539,7 @@ Public Class FormInputStock
                     RJMessageBox.Show("MTS cannot be null.")
                     txt_forminputstock_mts_no.Select()
                 Else
-                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status != 'Receive From Main Store'"
+                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status != 'Receive From Main Store'"
                     Dim dtCheck As DataTable = Database.GetData(queryCheck)
                     If dtCheck.Rows.Count > 0 Then
                         RJMessageBox.Show("Sorry MTS Number already in DB")
@@ -671,9 +674,67 @@ Public Class FormInputStock
             txtmanualBatch.ReadOnly = False
             txtmanualLot.ReadOnly = False
             txtmanualQty.ReadOnly = False
-            txtmanualPN.Select()
+            'txtmanualPN.Select()
             txt_forminputstock_qrcode.ReadOnly = True
             Button3.Enabled = True
+
+            Dim q As String
+
+            Do
+                q = InputBox("Please scan barcode manual", "Scan barcode manual")
+
+                If q = "" Or q Is Nothing Then
+                    Exit Do
+                End If
+
+                If q.StartsWith("1P") And q.Contains("Q") = False And q.Contains("B") = False And q.Contains("1T") = False Then
+                    Dim resultString = q.Substring(2)
+                    txtmanualPN.Text = resultString.TrimStart("0"c)
+                ElseIf q.StartsWith("Q") And q.Contains("1P") = False And q.Contains("B") = False And q.Contains("1T") = False Then
+                    Dim resultString = q.Substring(1)
+                    txtmanualQty.Text = resultString.TrimStart("0"c)
+                ElseIf q.StartsWith("B") And q.Contains("Q") = False And q.Contains("1P") = False And q.Contains("1T") = False Then
+                    Dim resultString = q.Substring(1)
+                    txtmanualBatch.Text = resultString.TrimStart("0"c)
+                ElseIf q.StartsWith("S") And q.Contains("Q") = False And q.Contains("1P") = False And q.Contains("1T") = False Then
+                    Dim resultString = q.Substring(1)
+                    txtmanualBatch.Text = resultString.TrimStart("0"c)
+                ElseIf q.StartsWith("1T") And q.Contains("Q") = False And q.Contains("B") = False And q.Contains("1P") = False Then
+                    Dim resultString = q.Substring(2)
+                    txtmanualTraceability.Text = resultString.TrimStart("0"c)
+                Else
+                    lbl_Info.Text = "Wrong Barcode"
+                    Play_Sound.Wrong()
+                End If
+
+            Loop While True
+
+
+
+            'Dim q = InputBox("Please scan barcode manual", "Scan barcode manual")
+            'If q = "" Or q Is Nothing Then
+            '    Exit Sub
+            'End If
+
+            'If q.StartsWith("1P") And q.Contains("Q") = False And q.Contains("B") = False And q.Contains("1T") = False Then
+            '    Dim resultString = q.Substring(2)
+            '    txtmanualPN.Text = resultString.TrimStart("0"c)
+            'ElseIf q.StartsWith("Q") And q.Contains("1P") = False And q.Contains("B") = False And q.Contains("1T") = False Then
+            '    Dim resultString = q.Substring(1)
+            '    txtmanualQty.Text = resultString.TrimStart("0"c)
+            'ElseIf q.StartsWith("B") And q.Contains("Q") = False And q.Contains("1P") = False And q.Contains("1T") = False Then
+            '    Dim resultString = q.Substring(1)
+            '    txtmanualBatch.Text = resultString.TrimStart("0"c)
+            'ElseIf q.StartsWith("S") And q.Contains("Q") = False And q.Contains("1P") = False And q.Contains("1T") = False Then
+            '    Dim resultString = q.Substring(1)
+            '    txtmanualBatch.Text = resultString.TrimStart("0"c)
+            'ElseIf q.StartsWith("1T") And q.Contains("Q") = False And q.Contains("B") = False And q.Contains("1P") = False Then
+            '    Dim resultString = q.Substring(2)
+            '    txtmanualTraceability.Text = resultString.TrimStart("0"c)
+            'Else
+            '    lbl_Info.Text = "Wrong Barcode"
+            '    Play_Sound.Wrong()
+            'End If
         End If
     End Sub
 
@@ -691,7 +752,7 @@ Public Class FormInputStock
 
                 If dtCheckNewQR.Rows.Count = 0 Then
 
-                    lbl_Info.Text = "New QRCode already used"
+                    lbl_Info.Text = "New QRCode already used or QRCode doesnt exist in DB"
                     Play_Sound.Wrong()
                     txt_forminputstock_qrcode.Clear()
                     Exit Sub

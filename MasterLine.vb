@@ -50,7 +50,13 @@ Public Class MasterLine
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from department order by department")
+        Dim sql As String
+        If globVar.username = "admin" Then
+            sql = "select * from department order by department"
+        Else
+            sql = "select * from department where department='" & globVar.department & "' order by department"
+        End If
+        Dim dtMasterDepart As DataTable = Database.GetData(sql)
 
         ComboBox1.DataSource = dtMasterDepart
         ComboBox1.DisplayMember = "department"
@@ -68,7 +74,7 @@ Public Class MasterLine
 
     Sub DGV_MasterLine()
         Call Database.koneksi_database()
-        Dim sql As String = "select ID [#],name [Name Line], department [Department], insert_date [Date Time], by_who [Created By] from master_line order by name"
+        Dim sql As String = "select ID [#],name [Name Line], department [Department], insert_date [Date Time], by_who [Created By] from master_line where department='" & globVar.department & "' order by name"
         Dim dtMainPO As DataTable = Database.GetData(sql)
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.DataSource = Nothing

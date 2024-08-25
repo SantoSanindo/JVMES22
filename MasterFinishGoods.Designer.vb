@@ -24,6 +24,7 @@ Partial Class MasterFinishGoods
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.dgv_finish_goods = New Zuby.ADGV.AdvancedDataGridView()
         Me.cb_family = New System.Windows.Forms.ComboBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txt_level = New System.Windows.Forms.ComboBox()
@@ -42,7 +43,6 @@ Partial Class MasterFinishGoods
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.dgv_finish_goods = New System.Windows.Forms.DataGridView()
         Me.txt_desc = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -57,6 +57,7 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.dgv_finish_goods)
         Me.GroupBox1.Controls.Add(Me.cb_family)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.txt_level)
@@ -75,7 +76,6 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.Button1)
-        Me.GroupBox1.Controls.Add(Me.dgv_finish_goods)
         Me.GroupBox1.Controls.Add(Me.txt_desc)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
@@ -85,6 +85,37 @@ Partial Class MasterFinishGoods
         Me.GroupBox1.Size = New System.Drawing.Size(1913, 705)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'dgv_finish_goods
+        '
+        Me.dgv_finish_goods.AllowUserToAddRows = False
+        Me.dgv_finish_goods.AllowUserToDeleteRows = False
+        Me.dgv_finish_goods.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgv_finish_goods.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgv_finish_goods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgv_finish_goods.FilterAndSortEnabled = True
+        Me.dgv_finish_goods.FilterStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.dgv_finish_goods.GridColor = System.Drawing.SystemColors.Highlight
+        Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 128)
+        Me.dgv_finish_goods.MultiSelect = False
+        Me.dgv_finish_goods.Name = "dgv_finish_goods"
+        Me.dgv_finish_goods.ReadOnly = True
+        Me.dgv_finish_goods.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.dgv_finish_goods.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
+        Me.dgv_finish_goods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.dgv_finish_goods.Size = New System.Drawing.Size(1901, 519)
+        Me.dgv_finish_goods.SortStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.dgv_finish_goods.TabIndex = 24
         '
         'cb_family
         '
@@ -259,34 +290,6 @@ Partial Class MasterFinishGoods
         Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
         '
-        'dgv_finish_goods
-        '
-        Me.dgv_finish_goods.AllowUserToAddRows = False
-        Me.dgv_finish_goods.AllowUserToDeleteRows = False
-        Me.dgv_finish_goods.AllowUserToOrderColumns = True
-        Me.dgv_finish_goods.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dgv_finish_goods.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_finish_goods.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        Me.dgv_finish_goods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_finish_goods.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_finish_goods.Location = New System.Drawing.Point(6, 128)
-        Me.dgv_finish_goods.MultiSelect = False
-        Me.dgv_finish_goods.Name = "dgv_finish_goods"
-        Me.dgv_finish_goods.ReadOnly = True
-        Me.dgv_finish_goods.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.dgv_finish_goods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_finish_goods.Size = New System.Drawing.Size(1901, 519)
-        Me.dgv_finish_goods.TabIndex = 4
-        '
         'txt_desc
         '
         Me.txt_desc.Location = New System.Drawing.Point(165, 80)
@@ -342,7 +345,6 @@ Partial Class MasterFinishGoods
     Friend WithEvents Button3 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Button1 As Button
-    Friend WithEvents dgv_finish_goods As DataGridView
     Friend WithEvents txt_desc As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
@@ -358,4 +360,5 @@ Partial Class MasterFinishGoods
     Friend WithEvents txt_level As ComboBox
     Friend WithEvents Label8 As Label
     Friend WithEvents cb_family As ComboBox
+    Friend WithEvents dgv_finish_goods As Zuby.ADGV.AdvancedDataGridView
 End Class

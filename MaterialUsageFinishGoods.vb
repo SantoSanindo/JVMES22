@@ -71,7 +71,7 @@ Public Class MaterialUsageFinishGoods
 
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
-        Dim dtMasterFinishGoods As DataTable = Database.GetData("select fg_part_number from master_finish_goods order by fg_part_number")
+        Dim dtMasterFinishGoods As DataTable = Database.GetData("select fg_part_number from master_finish_goods where department='" & globVar.department & "' order by fg_part_number")
 
         cb_masterfinishgoods_pn.DataSource = dtMasterFinishGoods
         cb_masterfinishgoods_pn.DisplayMember = "fg_part_number"
@@ -80,7 +80,7 @@ Public Class MaterialUsageFinishGoods
 
     Sub tampilDataComboBoxMaterial()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select part_number from master_material where standard_qty>0 and family='" & txt_masterfinishgoods_family.Text & "' order by part_number")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select part_number from master_material where standard_qty>0 and family='" & txt_masterfinishgoods_family.Text & "' and department='" & globVar.department & "' order by part_number")
 
         cb_masterfinishgoods_component.DataSource = dtMasterMaterial
         cb_masterfinishgoods_component.DisplayMember = "part_number"

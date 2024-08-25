@@ -71,7 +71,7 @@ Public Class AddChangeOperator
                     Dim name As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn
                     name.Name = "name"
                     name.HeaderText = "Operator Name"
-                    Dim queryUsers As String = "select name +' - '+ id_card_no id_name,name from users where department='" & globVar.department & "' order by name"
+                    Dim queryUsers As String = "select name +' - '+ id_card_no id_name,name from users where department='" & globVar.department & "' and user_fga=0 order by name"
                     Dim dtUsers As DataTable = Database.GetData(queryUsers)
                     name.DataSource = dtUsers
                     name.DisplayMember = "id_name"

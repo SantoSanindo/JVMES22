@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Net.Mime.MediaTypeNames
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MdiTabControl
 
@@ -14,6 +15,19 @@ Public Class ProductionV2
         ComboBox1.DataSource = dtMasterLine
         ComboBox1.DisplayMember = "NAME"
         ComboBox1.ValueMember = "NAME"
+    End Sub
+
+    Sub notification(material As String, qty As String)
+        NotifyIcon1.Icon = SystemIcons.Information
+        NotifyIcon1.Visible = True
+
+        NotifyIcon1.BalloonTipTitle = "Infomation"
+        NotifyIcon1.BalloonTipText = "Success input " & material & " with Qty " & qty
+        NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
+        NotifyIcon1.ShowBalloonTip(1000)
+
+        Timer1.Interval = 3000
+        Timer1.Start()
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
@@ -138,6 +152,8 @@ Public Class ProductionV2
                                 Dim cmdInsertStockCardProductionProcess = New SqlCommand(sqlInsertStockCardProductionProcess, Database.koneksi)
                                 If cmdInsertStockCardProductionProcess.ExecuteNonQuery() Then
 
+                                    notification(dtCheckStockCard.Rows(0).Item("material"), dtCheckStockCard.Rows(0).Item("qty"))
+
                                     Dim queryUpdateStockCardProdReq As String = "update stock_card set actual_qty = 0 where id=" & dtCheckStockCard.Rows(0).Item("id")
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
@@ -226,6 +242,8 @@ Public Class ProductionV2
                                                                             FROM stock_card WHERE id =" & dtCheckStockCard.Rows(0).Item("id")
                                 Dim cmdInsertStockCardProductionProcess = New SqlCommand(sqlInsertStockCardProductionProcess, Database.koneksi)
                                 If cmdInsertStockCardProductionProcess.ExecuteNonQuery() Then
+
+                                    notification(TextBox1.Text, dtCheckStockCard.Rows(0).Item("qty"))
 
                                     Dim queryUpdateStockCardProdReq As String = "update stock_card set actual_qty = 0 where id=" & dtCheckStockCard.Rows(0).Item("id")
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
@@ -321,6 +339,8 @@ Public Class ProductionV2
                                 Dim cmdInsertStockCardProductionProcess = New SqlCommand(sqlInsertStockCardProductionProcess, Database.koneksi)
                                 If cmdInsertStockCardProductionProcess.ExecuteNonQuery() Then
 
+                                    notification(TextBox1.Text, dtCheckStockCard.Rows(0).Item("qty"))
+
                                     Dim queryUpdateStockCardProdReq As String = "update stock_card set actual_qty = 0 where id=" & dtCheckStockCard.Rows(0).Item("id")
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
@@ -407,6 +427,8 @@ Public Class ProductionV2
                                 Dim cmdInsertStockCardProductionProcess = New SqlCommand(sqlInsertStockCardProductionProcess, Database.koneksi)
                                 If cmdInsertStockCardProductionProcess.ExecuteNonQuery() Then
 
+                                    notification(TextBox1.Text, dtCheckBalance.Rows(0).Item("qty"))
+
                                     Dim queryUpdateStockCardProdReq As String = "update stock_card set actual_qty = 0 where id=" & dtCheckBalance.Rows(0).Item("id")
                                     Dim dtUpdateStockCardProdReq = New SqlCommand(queryUpdateStockCardProdReq, Database.koneksi)
                                     dtUpdateStockCardProdReq.ExecuteNonQuery()
@@ -491,7 +513,9 @@ Public Class ProductionV2
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 cmdInsertInputStockDetail.ExecuteNonQuery()
 
-                                Dim queryUpdateLineSA As String = "update STOCK_PROD_SUB_ASSY set qty=0 where CODE_STOCK_PROD_SUB_ASSY = '" & TextBox1.Text & "'"
+                                notification(TextBox1.Text, dtCheckStockSubAssy.Rows(0).Item("qty"))
+
+                                Dim queryUpdateLineSA As String = "update STOCK_PROD_SUB_ASSY set qty=0,for_sub_sub_po='" & TextBox11.Text & "' where CODE_STOCK_PROD_SUB_ASSY = '" & TextBox1.Text & "'"
                                 Dim dtUpdateLineSA = New SqlCommand(queryUpdateLineSA, Database.koneksi)
                                 dtUpdateLineSA.ExecuteNonQuery()
 
@@ -516,63 +540,77 @@ Public Class ProductionV2
 
                 ElseIf TextBox1.Text.StartsWith("OT") AndAlso TextBox1.Text.Length > 2 AndAlso IsNumeric(TextBox1.Text.Substring(2)) Then 'Others Material
 
-                    'Try
-                    '    Dim CompExist As String = ""
+                    Try
 
-                    '    Dim sqlCheckStockOTHERS As String = "select * from STOCK_PROD_OTHERS where CODE_STOCK_PROD_OTHERS='" & TextBox1.Text & "' and department='" & globVar.department & "'"
-                    '    Dim dtCheckStockOTHERS As DataTable = Database.GetData(sqlCheckStockOTHERS)
+                        Dim CompExist As String = ""
 
-                    '    If dtCheckStockOTHERS.Rows.Count = 0 Then
-                    '        RJMessageBox.Show("Sorry this material don't exist in database")
-                    '        TextBox1.Text = ""
-                    '        TextBox1.Select()
-                    '        Exit Sub
-                    '    End If
+                        Dim sqlCheckStockOTHERS As String = "select * from STOCK_PROD_OTHERS where CODE_STOCK_PROD_OTHERS='" & TextBox1.Text & "' and department='" & globVar.department & "'"
+                        Dim dtCheckStockOTHERS As DataTable = Database.GetData(sqlCheckStockOTHERS)
 
-                    '    If dtCheckStockOTHERS.Rows(0).Item("qty") <= 0 Then
-                    '        RJMessageBox.Show("Qty of this material is 0")
-                    '        TextBox1.Text = ""
-                    '        TextBox1.Select()
-                    '        Exit Sub
-                    '    End If
+                        If dtCheckStockOTHERS.Rows.Count = 0 Then
+                            RJMessageBox.Show("Sorry this material don't exist in database")
+                            TextBox1.Text = ""
+                            TextBox1.Select()
+                            Exit Sub
+                        End If
 
-                    '    For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
-                    '        For j = 0 To DataGridView1.Rows.Count - 1
-                    '            If DataGridView1.Rows(j).Cells(1).Value = dtCheckStockOTHERS.Rows(i).Item("part_number") Then
-                    '                Dim sqlCheckSum As String = "select isnull(sum(qty),0) from stock_card where material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "' and department='" & globVar.department & "' and sub_sub_po='" & TextBox11.Text & "' and line='" & ComboBox1.Text & "' and status='Production Process'"
-                    '                Dim dtCheckSum As DataTable = Database.GetData(sqlCheckSum)
-                    '                If Convert.ToDouble(DataGridView1.Rows(j).Cells(2).Value) * Convert.ToInt16(TextBox7.Text) <= dtCheckSum.Rows(0).Item(0) Then
-                    '                    CompExist += dtCheckStockOTHERS.Rows(i).Item("part_number") & ","
-                    '                End If
-                    '            End If
-                    '        Next
-                    '    Next
+                        If dtCheckStockOTHERS.Rows(0).Item("qty") <= 0 Then
+                            RJMessageBox.Show("Qty of this material is 0")
+                            TextBox1.Text = ""
+                            TextBox1.Select()
+                            Exit Sub
+                        End If
 
-                    '    If CompExist <> "" Then
-                    '        RJMessageBox.Show("Cannot add OTHERS. Because (" & CompExist & ") Material Qty more than Qty Need")
-                    '        TextBox1.Clear()
-                    '        Exit Sub
-                    '    End If
+                        Dim sqlCheckKecukupanQty As String = "SELECT ( select CEILING(sum((mufg.usage * ssp.sub_sub_po_qty) + (mufg.usage * ssp.sub_sub_po_qty * ssp.YIELD_LOSE) / 100)) from sub_sub_po ssp, MATERIAL_USAGE_FINISH_GOODS mufg, main_po mp where ssp.sub_sub_po='" & TextBox11.Text & "' and ssp.main_po=mp.id and mufg.fg_part_number=mp.fg_pn and mufg.COMPONENT='" & dtCheckStockOTHERS.Rows(0).Item("part_number") & "' ) total_kebutuhan, isnull( SUM ( sum_qty ), 0 ) total_input FROM stock_card WHERE sub_sub_po= '" & TextBox11.Text & "' AND status= 'Production Process' AND material= '" & dtCheckStockOTHERS.Rows(0).Item("part_number") & "'"
+                        Dim dtCheckKecukupanQty As DataTable = Database.GetData(sqlCheckKecukupanQty)
 
-                    '    For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
-                    '        Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL)
-                    '                VALUES ('" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "'," & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockOTHERS.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockOTHERS.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockOTHERS.Rows(i).Item("lot_no") & "','" & dtCheckStockOTHERS.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "',0,'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Request','" & globVar.department & "','NO'," & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",'OT','" & dtCheckStockOTHERS.Rows(i).Item("CODE_STOCK_PROD_OTHERS") & "')"
-                    '        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                    '        cmdInsertInputStockDetail.ExecuteNonQuery()
-                    '    Next
+                        If IsDBNull(dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan")) Then
+                            RJMessageBox.Show("Material Doesn't Exists in this Finish Goods")
+                            TextBox1.Text = ""
+                            Exit Sub
+                        End If
 
-                    '    For i = 0 To dtCheckStockOTHERS.Rows.Count - 1
-                    '        Dim sqlExeProcedure As String = "exec pCreateStockCardProdProcessOTHERS @sub_sub_po='" & TextBox11.Text & "', @fg='" & TextBox2.Text & "',@line='" & ComboBox1.Text & "',@dept='" & globVar.department & "',@qtyMaterial=" & dtCheckStockOTHERS.Rows(i).Item("qty").ToString.Replace(",", ".") & ",@material='" & dtCheckStockOTHERS.Rows(i).Item("part_number") & "',@lot_material='" & dtCheckStockOTHERS.Rows(i).Item("lot_no") & "',@codeOTHERS='" & dtCheckStockOTHERS.Rows(i).Item("CODE_STOCK_PROD_OTHERS") & "',@po='" & TextBox5.Text & "',@sub_po='" & TextBox10.Text & "'"
-                    '        Dim dtExeProcedure As DataTable = Database.GetData(sqlExeProcedure)
-                    '    Next
+                        If dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan") > dtCheckKecukupanQty.Rows(0).Item("total_input") Then
 
-                    '    TextBox1.Text = ""
-                    '    DGV_DOC()
-                    '    DGV_DOS()
+                            Dim sqlCheckInStockNewRecord As String = "select * from stock_card where sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "' and qrcode = '" & TextBox1.Text & "'"
+                            Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
 
-                    'Catch ex As Exception
-                    '    RJMessageBox.Show("Error Production - 16 =>" & ex.Message)
-                    'End Try
+                            If dtCheckInStockNewRecord.Rows.Count > 0 Then
+
+                                RJMessageBox.Show("Double Scan")
+                                TextBox1.Text = ""
+                                DGV_DOC()
+                                DGV_DOS()
+
+                            Else
+
+                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who)
+                                            VALUES ('" & dtCheckStockOTHERS.Rows(0).Item("part_number") & "'," & dtCheckStockOTHERS.Rows(0).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockOTHERS.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckStockOTHERS.Rows(0).Item("TRACEABILITY") & "','" & dtCheckStockOTHERS.Rows(0).Item("lot_no") & "','" & dtCheckStockOTHERS.Rows(0).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockOTHERS.Rows(0).Item("qty").ToString.Replace(",", ".") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','YES'," & dtCheckStockOTHERS.Rows(0).Item("qty").ToString.Replace(",", ".") & ",'Fresh','" & dtCheckStockOTHERS.Rows(0).Item("CODE_STOCK_PROD_OTHERS") & "','" & dtCheckStockOTHERS.Rows(0).Item("CODE_STOCK_PROD_OTHERS") & "','" & globVar.username & "')"
+                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                                cmdInsertInputStockDetail.ExecuteNonQuery()
+
+                                notification(TextBox1.Text, dtCheckStockOTHERS.Rows(0).Item("qty"))
+
+                                Dim queryUpdateLineOT As String = "update STOCK_PROD_OTHERS set qty=0 where CODE_STOCK_PROD_OTHERS = '" & TextBox1.Text & "'"
+                                Dim dtUpdateLineOT = New SqlCommand(queryUpdateLineOT, Database.koneksi)
+                                dtUpdateLineOT.ExecuteNonQuery()
+
+                            End If
+
+                        Else
+
+                            RJMessageBox.Show("Material " & dtCheckStockOTHERS.Rows(0).Item("part_number") & " is full")
+                            TextBox1.Text = ""
+
+                        End If
+
+                        TextBox1.Clear()
+                        DGV_DOC()
+                        DGV_DOS()
+
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Production - 16 =>" & ex.Message)
+                    End Try
 
                 ElseIf TextBox1.Text.StartsWith("OH") AndAlso TextBox1.Text.Length > 2 AndAlso IsNumeric(TextBox1.Text.Substring(2)) Then 'OnHold Material
 
@@ -640,6 +678,7 @@ Public Class ProductionV2
 
                         If successonholdmaterial = DataGridView3.Rows.Count Then
 
+                            notification(TextBox1.Text, dtCheckStockONHOLD.Rows(0).Item("pengali"))
                             Play_Sound.correct()
                             TextBox1.Clear()
                             DGV_DOC()
@@ -722,6 +761,7 @@ Public Class ProductionV2
 
                         If successwipmaterial = DataGridView3.Rows.Count Then
 
+                            notification(TextBox1.Text, dtCheckStockWIP.Rows(0).Item("pengali"))
                             Play_Sound.correct()
                             TextBox1.Clear()
                             DGV_DOC()
@@ -775,7 +815,8 @@ Public Class ProductionV2
                                         WHERE
 	                                        line = '" & ComboBox1.Text & "' 
 	                                        AND sub_sub_po = '" & TextBox11.Text & "' 
-	                                        AND department = '" & globVar.department & "'"
+	                                        AND department = '" & globVar.department & "'
+                                        order by component"
 
             Dim dtDOC As DataTable = Database.GetData(queryDOC)
 
@@ -809,7 +850,7 @@ Public Class ProductionV2
                             DataGridView3.Rows(rowDataSet).Cells(11).Value += Environment.NewLine
                         End If
 
-                        If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Then
+                        If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Or InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "WIP") Or InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "OH") Or InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "OT") Then
                             DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
                         Else
                             DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
@@ -855,7 +896,7 @@ Public Class ProductionV2
 			                                    WHEN qrcode_new IS NULL THEN
 					                                    LEFT(qrcode COLLATE SQL_Latin1_General_CP1_CI_AS, 16)
 			                                    ELSE 
-					                                    LEFT(qrcode COLLATE SQL_Latin1_General_CP1_CI_AS, 16) + ' (' + qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS + ')'
+					                                    LEFT(qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS, 16)
 	                                        END AS QRCode,
                                             qty [Qty],
                                             remark [Remark],
@@ -919,6 +960,7 @@ Public Class ProductionV2
     End Sub
 
     Private Sub Production_Load(sender As Object, e As EventArgs) Handles Me.Load
+        globVar.PingVersion()
         tampilDataComboBoxLine()
         TextBox1.ReadOnly = True
     End Sub
@@ -1222,7 +1264,7 @@ Public Class ProductionV2
         End If
     End Sub
 
-    Private Sub DataGridView3_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
 
         Try
 
@@ -1262,6 +1304,32 @@ Public Class ProductionV2
                                                         qty=" & DataGridView1.Rows(e.RowIndex).Cells("Qty").Value & " 
                                                     where 
                                                         code_stock_prod_sub_assy = '" & DataGridView1.Rows(e.RowIndex).Cells("QRCode").Value & "'"
+                        Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+                        If dtUpdateSC.ExecuteNonQuery() Then
+
+                            Dim sql As String = "delete from stock_card where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Delete Success")
+                                DGV_DOC()
+                                DGV_DOS()
+
+                            End If
+                        Else
+
+                            RJMessageBox.Show("Delete Failed")
+
+                        End If
+
+
+                    ElseIf DataGridView1.Rows(e.RowIndex).Cells("QRCode").Value.ToString.StartsWith("OT") Then
+
+                        Dim queryUpdateSC As String = "update 
+                                                        stock_prod_others 
+                                                    set 
+                                                        qty=" & DataGridView1.Rows(e.RowIndex).Cells("Qty").Value & " 
+                                                    where 
+                                                        code_stock_prod_others = '" & DataGridView1.Rows(e.RowIndex).Cells("QRCode").Value & "'"
                         Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
                         If dtUpdateSC.ExecuteNonQuery() Then
 

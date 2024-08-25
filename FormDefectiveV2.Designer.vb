@@ -118,6 +118,7 @@ Partial Class FormDefectiveV2
         Me.txtFGFlowTicket = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Label30 = New System.Windows.Forms.Label()
+        Me.CheckBoxFGDefect = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel9 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnResetSA = New System.Windows.Forms.Button()
         Me.Label31 = New System.Windows.Forms.Label()
@@ -1267,6 +1268,7 @@ Partial Class FormDefectiveV2
         Me.TableLayoutPanel8.Controls.Add(Me.txtFGFlowTicket, 2, 1)
         Me.TableLayoutPanel8.Controls.Add(Me.TextBox3, 2, 2)
         Me.TableLayoutPanel8.Controls.Add(Me.Label30, 1, 2)
+        Me.TableLayoutPanel8.Controls.Add(Me.CheckBoxFGDefect, 3, 2)
         Me.TableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel8.Location = New System.Drawing.Point(3, 60)
         Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
@@ -1343,6 +1345,19 @@ Partial Class FormDefectiveV2
         Me.Label30.Size = New System.Drawing.Size(156, 29)
         Me.Label30.TabIndex = 7
         Me.Label30.Text = "   Laser Code"
+        '
+        'CheckBoxFGDefect
+        '
+        Me.CheckBoxFGDefect.AutoSize = True
+        Me.CheckBoxFGDefect.Checked = True
+        Me.CheckBoxFGDefect.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBoxFGDefect.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CheckBoxFGDefect.Location = New System.Drawing.Point(711, 113)
+        Me.CheckBoxFGDefect.Name = "CheckBoxFGDefect"
+        Me.CheckBoxFGDefect.Size = New System.Drawing.Size(232, 50)
+        Me.CheckBoxFGDefect.TabIndex = 8
+        Me.CheckBoxFGDefect.Text = "Auto Print Defect"
+        Me.CheckBoxFGDefect.UseVisualStyleBackColor = True
         '
         'TableLayoutPanel9
         '
@@ -2118,4 +2133,5 @@ Partial Class FormDefectiveV2
     Friend WithEvents ComboBox2 As ComboBox
     Friend WithEvents tampungIDMaterial As TextBox
     Friend WithEvents tampungIDMaterialReturnMaterial As TextBox
+    Friend WithEvents CheckBoxFGDefect As CheckBox
 End Class

@@ -90,7 +90,31 @@ Public Class StockProduction
             DG_SCWIPATAS.Rows.Clear()
             DG_SCWIPATAS.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "select * from (select DISTINCT [CODE_STOCK_PROD_WIP] [QRCode], [FG_PN] [FINISH GOODS], [PENGALI] [Qty] from STOCK_PROD_WIP where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') as listofwip ORDER BY cast(replace(QRCode,'WIP','') as int) desc"
+            'Dim queryInputStockDetail As String = "select * from (select DISTINCT [CODE_STOCK_PROD_WIP] [QRCode], [FG_PN] [FINISH GOODS], [PENGALI] [Qty] from STOCK_PROD_WIP where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') as listofwip ORDER BY cast(replace(QRCode,'WIP','') as int) desc"
+            Dim queryInputStockDetail As String = "SELECT
+	                                                    [QRCode],
+	                                                    [FINISH GOODS],
+	                                                    [Qty],
+	                                                    CASE
+		                                                    WHEN sum_qty > [Qty] THEN [Qty]
+		                                                    ELSE 0
+	                                                    END AS [Actual Qty]
+                                                    FROM
+	                                                    (
+	                                                    SELECT DISTINCT
+		                                                    [CODE_STOCK_PROD_WIP] AS [QRCode],
+		                                                    [FG_PN] AS [FINISH GOODS],
+		                                                    [PENGALI] AS [Qty],
+                                                        SUM(qty) OVER (PARTITION BY [CODE_STOCK_PROD_WIP], [FG_PN], [PENGALI]) AS sum_qty
+	                                                    FROM
+		                                                    STOCK_PROD_WIP 
+	                                                    WHERE
+		                                                    CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "'
+		                                                    AND CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "'
+		                                                    AND department = '" & globVar.department & "' 
+	                                                    ) AS listofwip 
+                                                    ORDER BY
+	                                                    CAST(REPLACE([QRCode], 'WIP', '') AS INT) DESC"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCWIPATAS.DataSource = dtInputStockDetail
 
@@ -130,7 +154,31 @@ Public Class StockProduction
             DG_SCOHATAS.Rows.Clear()
             DG_SCOHATAS.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "select * from (SELECT DISTINCT [CODE_STOCK_PROD_ONHOLD] [QRCode], [FG_PN] [FINISH GOODS], [PENGALI] [Qty] from STOCK_PROD_ONHOLD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') as listofoh ORDER BY cast(replace(QRCode,'OH','') as int) desc"
+            'Dim queryInputStockDetail As String = "select * from (SELECT DISTINCT [CODE_STOCK_PROD_ONHOLD] [QRCode], [FG_PN] [FINISH GOODS], [PENGALI] [Qty] from STOCK_PROD_ONHOLD where CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "') as listofoh ORDER BY cast(replace(QRCode,'OH','') as int) desc"
+            Dim queryInputStockDetail As String = "SELECT
+	                                                    [QRCode],
+	                                                    [FINISH GOODS],
+	                                                    [Qty],
+	                                                    CASE
+		                                                    WHEN sum_qty > [Qty] THEN [Qty]
+		                                                    ELSE 0
+	                                                    END AS [Actual Qty]
+                                                    FROM
+	                                                    (
+	                                                    SELECT DISTINCT
+		                                                    [CODE_STOCK_PROD_ONHOLD] AS [QRCode],
+		                                                    [FG_PN] AS [FINISH GOODS],
+		                                                    [PENGALI] AS [Qty],
+                                                        SUM(qty) OVER (PARTITION BY [CODE_STOCK_PROD_WIP], [FG_PN], [PENGALI]) AS sum_qty
+	                                                    FROM
+		                                                    STOCK_PROD_ONHOLD 
+	                                                    WHERE
+		                                                    CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "'
+		                                                    AND CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "'
+		                                                    AND department = '" & globVar.department & "' 
+	                                                    ) AS listofoh 
+                                                    ORDER BY
+	                                                    CAST(REPLACE([QRCode], 'OH', '') AS INT) DESC"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCOHATAS.DataSource = dtInputStockDetail
 

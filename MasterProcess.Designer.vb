@@ -22,8 +22,9 @@ Partial Class MasterProcess
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.dgv_masterprocess = New Zuby.ADGV.AdvancedDataGridView()
         Me.cb_masterprocess_dept = New System.Windows.Forms.ComboBox()
         Me.cb_masterprocess_family = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -34,7 +35,6 @@ Partial Class MasterProcess
         Me.txt_masterprocess_search = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.dgv_masterprocess = New System.Windows.Forms.DataGridView()
         Me.txt_masterprocess_desc = New System.Windows.Forms.TextBox()
         Me.txt_masterprocess_nama = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -52,6 +52,7 @@ Partial Class MasterProcess
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.dgv_masterprocess)
         Me.GroupBox1.Controls.Add(Me.cb_masterprocess_dept)
         Me.GroupBox1.Controls.Add(Me.cb_masterprocess_family)
         Me.GroupBox1.Controls.Add(Me.Label5)
@@ -62,7 +63,6 @@ Partial Class MasterProcess
         Me.GroupBox1.Controls.Add(Me.txt_masterprocess_search)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Button1)
-        Me.GroupBox1.Controls.Add(Me.dgv_masterprocess)
         Me.GroupBox1.Controls.Add(Me.txt_masterprocess_desc)
         Me.GroupBox1.Controls.Add(Me.txt_masterprocess_nama)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -73,6 +73,33 @@ Partial Class MasterProcess
         Me.GroupBox1.Size = New System.Drawing.Size(1855, 636)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
+        '
+        'dgv_masterprocess
+        '
+        Me.dgv_masterprocess.AllowUserToAddRows = False
+        Me.dgv_masterprocess.AllowUserToDeleteRows = False
+        Me.dgv_masterprocess.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgv_masterprocess.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgv_masterprocess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgv_masterprocess.FilterAndSortEnabled = True
+        Me.dgv_masterprocess.FilterStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.dgv_masterprocess.GridColor = System.Drawing.SystemColors.Highlight
+        Me.dgv_masterprocess.Location = New System.Drawing.Point(11, 122)
+        Me.dgv_masterprocess.Name = "dgv_masterprocess"
+        Me.dgv_masterprocess.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.dgv_masterprocess.Size = New System.Drawing.Size(1838, 508)
+        Me.dgv_masterprocess.SortStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.dgv_masterprocess.TabIndex = 22
         '
         'cb_masterprocess_dept
         '
@@ -176,34 +203,6 @@ Partial Class MasterProcess
         Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
         '
-        'dgv_masterprocess
-        '
-        Me.dgv_masterprocess.AllowUserToAddRows = False
-        Me.dgv_masterprocess.AllowUserToDeleteRows = False
-        Me.dgv_masterprocess.AllowUserToOrderColumns = True
-        Me.dgv_masterprocess.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dgv_masterprocess.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_masterprocess.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
-        Me.dgv_masterprocess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_masterprocess.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_masterprocess.Location = New System.Drawing.Point(6, 128)
-        Me.dgv_masterprocess.MultiSelect = False
-        Me.dgv_masterprocess.Name = "dgv_masterprocess"
-        Me.dgv_masterprocess.ReadOnly = True
-        Me.dgv_masterprocess.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.dgv_masterprocess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_masterprocess.Size = New System.Drawing.Size(1843, 461)
-        Me.dgv_masterprocess.TabIndex = 4
-        '
         'txt_masterprocess_desc
         '
         Me.txt_masterprocess_desc.Location = New System.Drawing.Point(215, 78)
@@ -270,7 +269,6 @@ Partial Class MasterProcess
 
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Button1 As Button
-    Friend WithEvents dgv_masterprocess As DataGridView
     Friend WithEvents txt_masterprocess_desc As TextBox
     Friend WithEvents txt_masterprocess_nama As TextBox
     Friend WithEvents Label2 As Label
@@ -288,4 +286,5 @@ Partial Class MasterProcess
     Friend WithEvents cb_masterprocess_family As ComboBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Label4 As Label
+    Friend WithEvents dgv_masterprocess As Zuby.ADGV.AdvancedDataGridView
 End Class

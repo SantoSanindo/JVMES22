@@ -22,8 +22,9 @@ Partial Class MasterMaterial
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.dgv_material = New Zuby.ADGV.AdvancedDataGridView()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.cb_mastermaterial_dept = New System.Windows.Forms.ComboBox()
         Me.cb_mastermaterial_family = New System.Windows.Forms.ComboBox()
@@ -37,7 +38,6 @@ Partial Class MasterMaterial
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.dgv_material = New System.Windows.Forms.DataGridView()
         Me.txt_mastermaterial_qty = New System.Windows.Forms.TextBox()
         Me.txt_mastermaterial_pn = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -53,6 +53,7 @@ Partial Class MasterMaterial
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.dgv_material)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.cb_mastermaterial_dept)
         Me.GroupBox1.Controls.Add(Me.cb_mastermaterial_family)
@@ -66,7 +67,6 @@ Partial Class MasterMaterial
         Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.Button1)
-        Me.GroupBox1.Controls.Add(Me.dgv_material)
         Me.GroupBox1.Controls.Add(Me.txt_mastermaterial_qty)
         Me.GroupBox1.Controls.Add(Me.txt_mastermaterial_pn)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -77,6 +77,37 @@ Partial Class MasterMaterial
         Me.GroupBox1.Size = New System.Drawing.Size(1925, 705)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'dgv_material
+        '
+        Me.dgv_material.AllowUserToAddRows = False
+        Me.dgv_material.AllowUserToDeleteRows = False
+        Me.dgv_material.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgv_material.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_material.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgv_material.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgv_material.FilterAndSortEnabled = True
+        Me.dgv_material.FilterStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.dgv_material.GridColor = System.Drawing.SystemColors.Highlight
+        Me.dgv_material.Location = New System.Drawing.Point(6, 134)
+        Me.dgv_material.MultiSelect = False
+        Me.dgv_material.Name = "dgv_material"
+        Me.dgv_material.ReadOnly = True
+        Me.dgv_material.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.dgv_material.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
+        Me.dgv_material.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.dgv_material.Size = New System.Drawing.Size(1913, 520)
+        Me.dgv_material.SortStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.dgv_material.TabIndex = 19
         '
         'Label6
         '
@@ -210,33 +241,6 @@ Partial Class MasterMaterial
         Me.Button1.Text = "Save"
         Me.Button1.UseVisualStyleBackColor = False
         '
-        'dgv_material
-        '
-        Me.dgv_material.AllowUserToAddRows = False
-        Me.dgv_material.AllowUserToDeleteRows = False
-        Me.dgv_material.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dgv_material.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_material.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
-        Me.dgv_material.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_material.GridColor = System.Drawing.SystemColors.Highlight
-        Me.dgv_material.Location = New System.Drawing.Point(6, 134)
-        Me.dgv_material.MultiSelect = False
-        Me.dgv_material.Name = "dgv_material"
-        Me.dgv_material.ReadOnly = True
-        Me.dgv_material.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.dgv_material.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.dgv_material.Size = New System.Drawing.Size(1913, 520)
-        Me.dgv_material.TabIndex = 4
-        '
         'txt_mastermaterial_qty
         '
         Me.txt_mastermaterial_qty.Location = New System.Drawing.Point(546, 28)
@@ -291,7 +295,6 @@ Partial Class MasterMaterial
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents dgv_material As DataGridView
     Friend WithEvents txt_mastermaterial_qty As TextBox
     Friend WithEvents txt_mastermaterial_pn As TextBox
     Friend WithEvents Label2 As Label
@@ -311,4 +314,5 @@ Partial Class MasterMaterial
     Friend WithEvents cb_mastermaterial_family As ComboBox
     Friend WithEvents cb_mastermaterial_dept As ComboBox
     Friend WithEvents Label6 As Label
+    Friend WithEvents dgv_material As Zuby.ADGV.AdvancedDataGridView
 End Class

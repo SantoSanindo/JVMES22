@@ -22,6 +22,7 @@ Partial Class MasterProcessFlow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -37,6 +38,7 @@ Partial Class MasterProcessFlow
         Me.dgv_masterprocessflow = New System.Windows.Forms.DataGridView()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.GroupBox1.SuspendLayout()
         CType(Me.dgvBawah, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgv_masterprocessflow, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -205,6 +207,11 @@ Partial Class MasterProcessFlow
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 26)
+        '
         'MasterProcessFlow
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -237,4 +244,5 @@ Partial Class MasterProcessFlow
     Friend WithEvents btn_export_Finish_Goods As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents dgvBawah As DataGridView
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
 End Class

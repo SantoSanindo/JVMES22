@@ -24,6 +24,10 @@ Partial Class Users
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView1 = New Zuby.ADGV.AdvancedDataGridView()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.cbFGA = New System.Windows.Forms.ComboBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -32,7 +36,6 @@ Partial Class Users
         Me.Button2 = New System.Windows.Forms.Button()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
@@ -52,6 +55,10 @@ Partial Class Users
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.DataGridView1)
+        Me.GroupBox1.Controls.Add(Me.Button4)
+        Me.GroupBox1.Controls.Add(Me.cbFGA)
+        Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.ComboBox1)
         Me.GroupBox1.Controls.Add(Me.CheckedListBox1)
         Me.GroupBox1.Controls.Add(Me.Label7)
@@ -60,7 +67,6 @@ Partial Class Users
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.TextBox5)
         Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.DataGridView1)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TextBox4)
         Me.GroupBox1.Controls.Add(Me.TextBox3)
@@ -76,6 +82,66 @@ Partial Class Users
         Me.GroupBox1.Size = New System.Drawing.Size(1665, 670)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.AllowUserToAddRows = False
+        Me.DataGridView1.AllowUserToDeleteRows = False
+        Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.FilterAndSortEnabled = True
+        Me.DataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.DataGridView1.GridColor = System.Drawing.SystemColors.Highlight
+        Me.DataGridView1.Location = New System.Drawing.Point(6, 184)
+        Me.DataGridView1.MultiSelect = False
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.ReadOnly = True
+        Me.DataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.DataGridView1.Size = New System.Drawing.Size(1653, 431)
+        Me.DataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.DataGridView1.TabIndex = 23
+        '
+        'Button4
+        '
+        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button4.BackColor = System.Drawing.Color.Green
+        Me.Button4.ForeColor = System.Drawing.Color.White
+        Me.Button4.Location = New System.Drawing.Point(1532, 23)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(121, 44)
+        Me.Button4.TabIndex = 22
+        Me.Button4.Text = "Reset"
+        Me.Button4.UseVisualStyleBackColor = False
+        '
+        'cbFGA
+        '
+        Me.cbFGA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbFGA.FormattingEnabled = True
+        Me.cbFGA.Location = New System.Drawing.Point(1092, 78)
+        Me.cbFGA.Name = "cbFGA"
+        Me.cbFGA.Size = New System.Drawing.Size(249, 37)
+        Me.cbFGA.TabIndex = 21
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(948, 81)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(118, 29)
+        Me.Label8.TabIndex = 20
+        Me.Label8.Text = "User FGA"
         '
         'ComboBox1
         '
@@ -156,42 +222,15 @@ Partial Class Users
         Me.Label5.TabIndex = 10
         Me.Label5.Text = "Search Name"
         '
-        'DataGridView1
-        '
-        Me.DataGridView1.AllowUserToAddRows = False
-        Me.DataGridView1.AllowUserToDeleteRows = False
-        Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Desktop
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.GridColor = System.Drawing.SystemColors.Highlight
-        Me.DataGridView1.Location = New System.Drawing.Point(6, 184)
-        Me.DataGridView1.MultiSelect = False
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1653, 431)
-        Me.DataGridView1.TabIndex = 9
-        '
         'Button1
         '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1383, 15)
+        Me.Button1.Location = New System.Drawing.Point(953, 131)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(121, 44)
+        Me.Button1.Size = New System.Drawing.Size(388, 44)
         Me.Button1.TabIndex = 8
-        Me.Button1.Text = "Save"
+        Me.Button1.Text = "Save User"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'TextBox4
@@ -288,7 +327,6 @@ Partial Class Users
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents TextBox4 As TextBox
     Friend WithEvents Button1 As Button
-    Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Button2 As Button
@@ -298,4 +336,8 @@ Partial Class Users
     Friend WithEvents Label6 As Label
     Friend WithEvents CheckedListBox1 As CheckedListBox
     Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents cbFGA As ComboBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Button4 As Button
+    Friend WithEvents DataGridView1 As Zuby.ADGV.AdvancedDataGridView
 End Class

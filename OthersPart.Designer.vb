@@ -28,12 +28,14 @@ Partial Class OthersPart
         Me.txtLabelOtherPart = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnPrintOthersPart = New System.Windows.Forms.Button()
-        Me.btnOtherSave = New System.Windows.Forms.Button()
         Me.DataGridView4 = New System.Windows.Forms.DataGridView()
+        Me.btnOtherSave = New System.Windows.Forms.Button()
+        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pDefective1.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TableLayoutPanel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -43,7 +45,7 @@ Partial Class OthersPart
         Me.TableLayoutPanel1.Controls.Add(Me.DataGridView2, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.pDefective1, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.DataGridView4, 0, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.btnOtherSave, 0, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel2, 0, 2)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(7)
@@ -72,7 +74,6 @@ Partial Class OthersPart
         '
         Me.pDefective1.Controls.Add(Me.txtLabelOtherPart)
         Me.pDefective1.Controls.Add(Me.Label7)
-        Me.pDefective1.Controls.Add(Me.btnPrintOthersPart)
         Me.pDefective1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pDefective1.Location = New System.Drawing.Point(7, 7)
         Me.pDefective1.Margin = New System.Windows.Forms.Padding(7)
@@ -82,7 +83,7 @@ Partial Class OthersPart
         '
         'txtLabelOtherPart
         '
-        Me.txtLabelOtherPart.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.txtLabelOtherPart.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.txtLabelOtherPart.Location = New System.Drawing.Point(171, 11)
         Me.txtLabelOtherPart.Margin = New System.Windows.Forms.Padding(7)
         Me.txtLabelOtherPart.Name = "txtLabelOtherPart"
@@ -91,7 +92,7 @@ Partial Class OthersPart
         '
         'Label7
         '
-        Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(9, 14)
         Me.Label7.Margin = New System.Windows.Forms.Padding(7, 0, 7, 0)
@@ -102,30 +103,17 @@ Partial Class OthersPart
         '
         'btnPrintOthersPart
         '
-        Me.btnPrintOthersPart.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnPrintOthersPart.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnPrintOthersPart.BackColor = System.Drawing.Color.SkyBlue
         Me.btnPrintOthersPart.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnPrintOthersPart.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintOthersPart.Location = New System.Drawing.Point(939, 0)
+        Me.btnPrintOthersPart.Location = New System.Drawing.Point(7, 7)
         Me.btnPrintOthersPart.Margin = New System.Windows.Forms.Padding(7)
         Me.btnPrintOthersPart.Name = "btnPrintOthersPart"
-        Me.btnPrintOthersPart.Size = New System.Drawing.Size(184, 56)
+        Me.btnPrintOthersPart.Size = New System.Drawing.Size(184, 41)
         Me.btnPrintOthersPart.TabIndex = 20
-        Me.btnPrintOthersPart.Text = "Print"
+        Me.btnPrintOthersPart.Text = "Print Dismantle"
         Me.btnPrintOthersPart.UseVisualStyleBackColor = False
-        '
-        'btnOtherSave
-        '
-        Me.btnOtherSave.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.btnOtherSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
-        Me.btnOtherSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnOtherSave.Location = New System.Drawing.Point(379, 360)
-        Me.btnOtherSave.Margin = New System.Windows.Forms.Padding(7)
-        Me.btnOtherSave.Name = "btnOtherSave"
-        Me.btnOtherSave.Size = New System.Drawing.Size(378, 47)
-        Me.btnOtherSave.TabIndex = 1
-        Me.btnOtherSave.Text = "Save"
-        Me.btnOtherSave.UseVisualStyleBackColor = False
         '
         'DataGridView4
         '
@@ -139,6 +127,34 @@ Partial Class OthersPart
         Me.DataGridView4.ReadOnly = True
         Me.DataGridView4.Size = New System.Drawing.Size(1123, 266)
         Me.DataGridView4.TabIndex = 19
+        '
+        'btnOtherSave
+        '
+        Me.btnOtherSave.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.btnOtherSave.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnOtherSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnOtherSave.Location = New System.Drawing.Point(920, 7)
+        Me.btnOtherSave.Margin = New System.Windows.Forms.Padding(7)
+        Me.btnOtherSave.Name = "btnOtherSave"
+        Me.btnOtherSave.Size = New System.Drawing.Size(204, 41)
+        Me.btnOtherSave.TabIndex = 1
+        Me.btnOtherSave.Text = "Save Dismantle"
+        Me.btnOtherSave.UseVisualStyleBackColor = False
+        '
+        'TableLayoutPanel2
+        '
+        Me.TableLayoutPanel2.ColumnCount = 2
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 229.0!))
+        Me.TableLayoutPanel2.Controls.Add(Me.btnOtherSave, 1, 0)
+        Me.TableLayoutPanel2.Controls.Add(Me.btnPrintOthersPart, 0, 0)
+        Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 356)
+        Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
+        Me.TableLayoutPanel2.RowCount = 1
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(1131, 55)
+        Me.TableLayoutPanel2.TabIndex = 20
         '
         'OthersPart
         '
@@ -155,6 +171,7 @@ Partial Class OthersPart
         Me.pDefective1.ResumeLayout(False)
         Me.pDefective1.PerformLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TableLayoutPanel2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -167,4 +184,5 @@ Partial Class OthersPart
     Friend WithEvents btnPrintOthersPart As Button
     Friend WithEvents btnOtherSave As Button
     Friend WithEvents DataGridView4 As DataGridView
+    Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
 End Class

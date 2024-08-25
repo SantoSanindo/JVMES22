@@ -49,6 +49,36 @@ Public Class SplitMaterial
                             Exit Sub
                         End If
 
+                    ElseIf txtOuterLabel.Text.StartsWith("NQ") Then
+
+                        Dim checkNQ As String = "SELECT * FROM STOCK_CARD where qrcode_new='" & txtOuterLabel.Text & "' 
+                                                                    and status = 'Receive From Main Store'
+                                                                    and split_material = 0
+                                                                    and [save]=1 
+                                                                    and actual_qty > 0 "
+                        Dim dtCheckNQ As DataTable = Database.GetData(checkNQ)
+                        If dtCheckNQ.Rows.Count = 0 Then
+
+                            RJMessageBox.Show("QRCode Does't exist in ministore.")
+                            Play_Sound.Wrong()
+                            txtOuterLabel.Clear()
+                            Exit Sub
+
+                        End If
+
+                        globVar.QRCode_PN = dtCheckNQ.Rows(0).Item("material")
+                        globVar.QRCode_lot = dtCheckNQ.Rows(0).Item("lot_no")
+                        globVar.QRCode_Traceability = dtCheckNQ.Rows(0).Item("traceability")
+                        globVar.QRCode_Batch = dtCheckNQ.Rows(0).Item("batch_no")
+                        globVar.QRCode_Inv = dtCheckNQ.Rows(0).Item("inv_ctrl_date")
+
+                        If globVar.QRCode_PN = "" Or globVar.QRCode_lot = "" Or globVar.QRCode_Traceability = "" Or globVar.QRCode_Batch = "" Or globVar.QRCode_Inv = "" Then
+                            RJMessageBox.Show("Data NQ not complete.")
+                            Play_Sound.Wrong()
+                            txtOuterLabel.Clear()
+                            Exit Sub
+                        End If
+
                     Else
 
                         RJMessageBox.Show("QRCode Not Valid")
@@ -164,34 +194,34 @@ Public Class SplitMaterial
         End If
     End Sub
 
-    Sub DGV_Split_Qty(pOuterLabel As String)
-        Try
-            DataGridView1.DataSource = Nothing
-            DataGridView1.Rows.Clear()
-            DataGridView1.Columns.Clear()
+    'Sub DGV_Split_Qty(pOuterLabel As String)
+    '    Try
+    '        DataGridView1.DataSource = Nothing
+    '        DataGridView1.Rows.Clear()
+    '        DataGridView1.Columns.Clear()
 
-            Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_LOT [Outer LOT], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], [print] [Print] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
-            Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
-            DataGridView1.DataSource = dtCheckSplitQty
+    '        Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_LOT [Outer LOT], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], [print] [Print] FROM split_label where outer_label='" & pOuterLabel & "' order by [print]"
+    '        Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
+    '        DataGridView1.DataSource = dtCheckSplitQty
 
-            Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
-            check.Name = "check"
-            check.HeaderText = "Check For Print"
-            check.Width = 200
-            check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-            DataGridView1.Columns.Insert(0, check)
+    '        Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
+    '        check.Name = "check"
+    '        check.HeaderText = "Check For Print"
+    '        check.Width = 200
+    '        check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+    '        DataGridView1.Columns.Insert(0, check)
 
-            For i As Integer = 0 To DataGridView1.RowCount - 1
-                If DataGridView1.Rows(i).Index Mod 2 = 0 Then
-                    DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-                Else
-                    DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-                End If
-            Next i
-        Catch ex As Exception
-            RJMessageBox.Show("Error Split Label - 2 =>" & ex.Message)
-        End Try
-    End Sub
+    '        For i As Integer = 0 To DataGridView1.RowCount - 1
+    '            If DataGridView1.Rows(i).Index Mod 2 = 0 Then
+    '                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+    '            Else
+    '                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+    '            End If
+    '        Next i
+    '    Catch ex As Exception
+    '        RJMessageBox.Show("Error Split Label - 2 =>" & ex.Message)
+    '    End Try
+    'End Sub
 
     Sub DGV_Split_Qty2(pn As String, lot As String, batch As String, traceability As String, icd As String)
         Try
@@ -205,18 +235,11 @@ Public Class SplitMaterial
 
             Dim check As DataGridViewCheckBoxColumn = New DataGridViewCheckBoxColumn
             check.Name = "check"
-            check.HeaderText = "Check For Print"
+            check.HeaderText = "Check All"
             check.Width = 200
             check.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
             DataGridView2.Columns.Insert(0, check)
 
-            For i As Integer = 0 To DataGridView2.RowCount - 1
-                If DataGridView2.Rows(i).Index Mod 2 = 0 Then
-                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-                Else
-                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-                End If
-            Next i
         Catch ex As Exception
             RJMessageBox.Show("Error Split Label - 2 =>" & ex.Message)
         End Try
@@ -335,7 +358,7 @@ Public Class SplitMaterial
                                             Dim cmd = New SqlCommand(Sql, Database.koneksi)
                                             cmd.ExecuteNonQuery()
 
-                                            DGV_Split_Qty(txtOuterLabel.Text)
+                                            'DGV_Split_Qty(txtOuterLabel.Text)
                                         End If
                                     End If
                                 Else
@@ -476,28 +499,28 @@ Public Class SplitMaterial
         End Try
     End Sub
 
-    Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
-        If DataGridView1.CurrentCell.ColumnIndex = 9 Then
-            If globVar.update > 0 Then
-                Try
-                    If IsNumeric(DataGridView1.Rows(e.RowIndex).Cells("INNER QTY").Value) = True Then
-                        Dim Sql As String = "update split_label set INNER_QTY=" & DataGridView1.Rows(e.RowIndex).Cells("INNER QTY").Value & " where ID=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
-                        Dim cmd = New SqlCommand(Sql, Database.koneksi)
-                        cmd.ExecuteNonQuery()
+    'Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
+    '    If DataGridView1.CurrentCell.ColumnIndex = 9 Then
+    '        If globVar.update > 0 Then
+    '            Try
+    '                If IsNumeric(DataGridView1.Rows(e.RowIndex).Cells("INNER QTY").Value) = True Then
+    '                    Dim Sql As String = "update split_label set INNER_QTY=" & DataGridView1.Rows(e.RowIndex).Cells("INNER QTY").Value & " where ID=" & DataGridView1.Rows(e.RowIndex).Cells("ID").Value
+    '                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+    '                    cmd.ExecuteNonQuery()
 
-                        DGV_Split_Qty(txtOuterLabel.Text)
-                        RJMessageBox.Show("Success updated data")
-                    Else
-                        RJMessageBox.Show("Your Value not number. Please change the value.")
-                    End If
-                Catch ex As Exception
-                    RJMessageBox.Show("Error Split Label - 4 =>" & ex.Message)
-                End Try
-            Else
-                RJMessageBox.Show("Your Access cannot execute this action")
-            End If
-        End If
-    End Sub
+    '                    DGV_Split_Qty(txtOuterLabel.Text)
+    '                    RJMessageBox.Show("Success updated data")
+    '                Else
+    '                    RJMessageBox.Show("Your Value not number. Please change the value.")
+    '                End If
+    '            Catch ex As Exception
+    '                RJMessageBox.Show("Error Split Label - 4 =>" & ex.Message)
+    '            End Try
+    '        Else
+    '            RJMessageBox.Show("Your Access cannot execute this action")
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         If e.RowIndex = -1 Then
@@ -659,6 +682,28 @@ Public Class SplitMaterial
                 DataGridView2.Rows(e.RowIndex).Cells(0).Value = True
             End If
         End If
+    End Sub
+
+    Private Sub DataGridView2_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView2.ColumnHeaderMouseClick
+        If e.ColumnIndex = 0 Then
+            If DataGridView2.Rows(0).Cells(0).Value = True Then
+                For i As Integer = 0 To DataGridView2.RowCount - 1
+                    DataGridView2.Rows(i).Cells(0).Value = False
+                Next
+            ElseIf DataGridView2.Rows(0).Cells(0).Value = False Then
+                For i As Integer = 0 To DataGridView2.RowCount - 1
+                    DataGridView2.Rows(i).Cells(0).Value = True
+                Next
+            Else
+                For i As Integer = 0 To DataGridView2.RowCount - 1
+                    DataGridView2.Rows(i).Cells(0).Value = True
+                Next
+            End If
+        End If
+
+        For Each column As DataGridViewColumn In DataGridView2.Columns
+            column.SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
     End Sub
 
     Private Sub SaveManual_Click(sender As Object, e As EventArgs) Handles SaveManual.Click

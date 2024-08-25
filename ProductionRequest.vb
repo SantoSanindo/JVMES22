@@ -52,6 +52,19 @@ Public Class ProductionRequest
         End Try
     End Sub
 
+    Sub notification(material As String, qty As String)
+        NotifyIcon1.Icon = SystemIcons.Information
+        NotifyIcon1.Visible = True
+
+        NotifyIcon1.BalloonTipTitle = "Infomation"
+        NotifyIcon1.BalloonTipText = "Success input " & material & " with Qty " & qty
+        NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
+        NotifyIcon1.ShowBalloonTip(1000)
+
+        Timer1.Interval = 3000
+        Timer1.Start()
+    End Sub
+
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
         Dim QrcodeValid As Boolean
         Try
@@ -118,10 +131,15 @@ Public Class ProductionRequest
                             DGV_InProductionMaterial()
                         Else
                             Try
+
+
                                 Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,QRCODE,MTS_NO,SUM_QTY,LEVEL,ID_LEVEL,insert_who)
                                                 VALUES ('" & dttable.Rows(0).Item("material") & "'," & dttable.Rows(0).Item("qty") & ",'" & dttable.Rows(0).Item("inv_ctrl_date") & "','" & dttable.Rows(0).Item("traceability") & "','" & dttable.Rows(0).Item("lot_no") & "','" & dttable.Rows(0).Item("batch_no") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dttable.Rows(0).Item("Qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dttable.Rows(0).Item("standard_pack") & "','" & dttable.Rows(0).Item("qrcode") & "','" & dttable.Rows(0).Item("mts_no") & "'," & dttable.Rows(0).Item("qty") & ",'Fresh','" & dttable.Rows(0).Item("material") & "','" & globVar.username & "')"
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                                    notification(TextBox1.Text, dttable.Rows(0).Item("qty"))
+
                                     DGV_InProductionMaterial()
 
                                     Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 WHERE qrcode='" & TextBox1.Text & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Production'"
@@ -202,12 +220,16 @@ Public Class ProductionRequest
                                                 VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & PO.Text & "','" & SubSubPO.Text & "','" & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','NO','" & TextBox1.Text & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'Fresh','" & globVar.QRCode_PN & "','" & globVar.username & "')"
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                                    notification(TextBox1.Text, dtCheckStockSM.Rows(0).Item("inner_qty"))
+
                                     DGV_InProductionMaterial()
 
                                     Dim SqlUpdate As String = "UPDATE split_label SET inner_qty=0 WHERE inner_label='" & TextBox1.Text & "'"
                                     Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                     cmdUpdate.ExecuteNonQuery()
                                     TextBox1.Clear()
+
                                 End If
                             Catch ex As Exception
                                 RJMessageBox.Show("Error Insert" & ex.Message)
@@ -301,6 +323,8 @@ Public Class ProductionRequest
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
 
+                                    notification(TextBox1.Text, dtCheckStockNQ.Rows(0).Item("qty"))
+
                                     DGV_InProductionMaterial()
 
                                     Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 WHERE qrcode_new='" & TextBox1.Text & "' and STATUS='Receive From Main Store'"
@@ -389,6 +413,9 @@ Public Class ProductionRequest
                                                 VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'" & dtCheckStockMinistore.Rows(0).Item("inv_ctrl_date") & "','" & dtCheckStockMinistore.Rows(0).Item("traceability") & "','" & globVar.QRCode_lot & "','" & dtCheckStockMinistore.Rows(0).Item("batch_no") & "','" & PO.Text & "','" & SubSubPO.Text & "'," & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "," & dtCheckStockMinistore.Rows(0).Item("Qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','" & dtCheckStockMinistore.Rows(0).Item("standard_pack") & "','" & dtCheckStockMinistore.Rows(0).Item("qrcode") & "','" & dtCheckStockMinistore.Rows(0).Item("mts_no") & "'," & dtCheckStockMinistore.Rows(0).Item("qty") & ",'Fresh','" & globVar.QRCode_PN & "','" & globVar.username & "')"
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                                    notification(globVar.QRCode_PN, dtCheckStockMinistore.Rows(0).Item("qty"))
+
                                     DGV_InProductionMaterial()
 
                                     Dim SqlUpdate As String = "UPDATE STOCK_CARD SET actual_qty=0 WHERE batch_no='" & globVar.QRCode_Batch & "' and material='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Receive From Main Store' and qrcode_new is null"
@@ -488,6 +515,7 @@ Public Class ProductionRequest
     End Sub
 
     Private Sub ProductionRequest_Load(sender As Object, e As EventArgs) Handles Me.Load
+        globVar.PingVersion()
         TextBox2.Enabled = False
         TextBox1.Enabled = True
         Button1.Enabled = False

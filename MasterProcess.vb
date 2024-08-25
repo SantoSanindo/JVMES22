@@ -51,7 +51,13 @@ Public Class MasterProcess
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department order by department")
+        Dim sql As String
+        If globVar.username = "admin" Then
+            sql = "select * from department order by department"
+        Else
+            sql = "select * from department where department='" & globVar.department & "' order by department"
+        End If
+        Dim dtMasterDepartment As DataTable = Database.GetData(sql)
 
         cb_masterprocess_dept.DataSource = dtMasterDepartment
         cb_masterprocess_dept.DisplayMember = "department"
@@ -77,7 +83,7 @@ Public Class MasterProcess
         dgv_masterprocess.Rows.Clear()
         dgv_masterprocess.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select process_name as [Name Process],process_desc as [Desc Process], FAMILY [Family], DEPARTMENT [Department], insert_date [Date Time], by_who [Created By] from MASTER_PROCESS order by process_name")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select process_name as [Name Process],process_desc as [Desc Process], FAMILY [Family], DEPARTMENT [Department], insert_date [Date Time], by_who [Created By] from MASTER_PROCESS where department='" & globVar.department & "' order by process_name")
 
         dgv_masterprocess.DataSource = dtMasterMaterial
 
@@ -236,6 +242,8 @@ Public Class MasterProcess
         Dim connectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
         oleCon = New OleDbConnection(connectionString)
         Dim totalInsert As Integer = 0
+
+
 
         Call Database.koneksi_database()
         Try

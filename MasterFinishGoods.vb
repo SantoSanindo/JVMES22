@@ -61,7 +61,14 @@ Public Class MasterFinishGoods
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepart As DataTable = Database.GetData("select * from department order by department")
+        Dim sql As String
+        If globVar.username = "admin" Then
+            sql = "select * from department order by department"
+        Else
+            sql = "select * from department where department='" & globVar.department & "' order by department"
+        End If
+
+        Dim dtMasterDepart As DataTable = Database.GetData(sql)
 
         txt_dept.DataSource = dtMasterDepart
         txt_dept.DisplayMember = "department"
@@ -96,7 +103,7 @@ Public Class MasterFinishGoods
         dgv_finish_goods.Rows.Clear()
         dgv_finish_goods.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT [Department],FG_PART_NUMBER [FG Part Number],DESCRIPTION [Desc],LEVEL [Level], SPQ [Spq], LASER_CODE [Laser Code],FAMILY [Family], datetime_insert [Date Time], by_who [Created By] from MASTER_FINISH_GOODS order by FG_PART_NUMBER")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select DEPARTMENT [Department],FG_PART_NUMBER [FG Part Number],DESCRIPTION [Desc],LEVEL [Level], SPQ [Spq], LASER_CODE [Laser Code],FAMILY [Family], datetime_insert [Date Time], by_who [Created By] from MASTER_FINISH_GOODS where department='" & globVar.department & "' order by FG_PART_NUMBER")
 
         dgv_finish_goods.DataSource = dtMasterMaterial
 
@@ -109,7 +116,7 @@ Public Class MasterFinishGoods
         dgv_finish_goods.Columns(0).Width = 200
         dgv_finish_goods.Columns(1).Width = 150
         dgv_finish_goods.Columns(2).Width = 300
-        dgv_finish_goods.Columns(3).Width = 500
+        dgv_finish_goods.Columns(3).Width = 300
         dgv_finish_goods.Columns(4).Width = 150
         dgv_finish_goods.Columns(5).Width = 100
         dgv_finish_goods.Columns(6).Width = 200

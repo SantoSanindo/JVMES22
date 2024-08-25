@@ -22,6 +22,7 @@ Partial Class ProductionRequest
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -49,6 +50,8 @@ Partial Class ProductionRequest
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -349,6 +352,11 @@ Partial Class ProductionRequest
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Line"
         '
+        'NotifyIcon1
+        '
+        Me.NotifyIcon1.Text = "NotifyIcon1"
+        Me.NotifyIcon1.Visible = True
+        '
         'ProductionRequest
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -395,4 +403,6 @@ Partial Class ProductionRequest
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents DataGridView3 As DataGridView
     Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents NotifyIcon1 As NotifyIcon
+    Friend WithEvents Timer1 As Timer
 End Class

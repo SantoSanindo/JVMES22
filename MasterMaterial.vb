@@ -76,7 +76,13 @@ Public Class MasterMaterial
 
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
-        Dim dtMasterDepartment As DataTable = Database.GetData("select * from department order by department")
+        Dim sql As String
+        If globVar.username = "admin" Then
+            sql = "select * from department order by department"
+        Else
+            sql = "select * from department where department='" & globVar.department & "' order by department"
+        End If
+        Dim dtMasterDepartment As DataTable = Database.GetData(sql)
 
         cb_mastermaterial_dept.DataSource = dtMasterDepartment
         cb_mastermaterial_dept.DisplayMember = "department"
@@ -89,7 +95,7 @@ Public Class MasterMaterial
         dgv_material.Rows.Clear()
         dgv_material.Columns.Clear()
         Call Database.koneksi_database()
-        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER [Part Number],NAME [Name], STANDARD_QTY [Std Qty], FAMILY [Family], DEPARTMENT [Department], insert_date [Date Time], by_who [Created By] from MASTER_MATERIAL order by part_number")
+        Dim dtMasterMaterial As DataTable = Database.GetData("select PART_NUMBER [Part Number],NAME [Name], STANDARD_QTY [Std Qty], FAMILY [Family], DEPARTMENT [Department], insert_date [Date Time], by_who [Created By] from MASTER_MATERIAL where department='" & globVar.department & "' order by part_number")
 
         dgv_material.DataSource = dtMasterMaterial
 

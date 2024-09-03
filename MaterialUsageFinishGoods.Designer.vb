@@ -231,6 +231,7 @@ Partial Class MaterialUsageFinishGoods
         Me.Button2.TabIndex = 16
         Me.Button2.Text = "Delete Multiple Data"
         Me.Button2.UseVisualStyleBackColor = False
+        Me.Button2.Visible = False
         '
         'Button3
         '

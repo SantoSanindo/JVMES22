@@ -581,7 +581,7 @@ Public Class SummaryV2
             Next
         End If
 
-        Dim sqlStrMat As String = "select sc.line,sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,sc.traceability,sc.remark,qty,qrcode, qrcode_sa from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & txtFG.Text & "' and sc.sub_sub_po='" & txtSubSubPO.Text & "' and sc.material=mm.part_number order by sc.line,sc.flow_ticket,sc.material"
+        Dim sqlStrMat As String = "select sc.line,sc.material,mm.name,sc.inv_ctrl_date,sc.batch_no,sc.lot_no,sc.flow_ticket,sc.traceability,sc.remark,sc.qty,sc.qrcode,sc.qrcode_sa,sc.qrcode_new,sc.datetime_insert from stock_card sc, master_material mm where sc.status='Production Result' and sc.finish_goods_pn='" & txtFG.Text & "' and sc.sub_sub_po='" & txtSubSubPO.Text & "' and sc.material=mm.part_number order by sc.line,sc.flow_ticket,sc.material"
         Dim dttableMat As DataTable = Database.GetData(sqlStrMat)
         If dttableMat.Rows.Count > 0 Then
             For m = 0 To dttableMat.Rows.Count - 1
@@ -589,11 +589,11 @@ Public Class SummaryV2
                 Dim dtCheckSummaryTraceability As DataTable = Database.GetData(sqlCheckSummaryTraceability)
                 If dtCheckSummaryTraceability.Rows.Count = 0 Then
 
-                    Dim sqlInsertSummaryFG As String = "INSERT INTO [SUMMARY_TRACEABILITY_COMP]([LINE], [COMPONENT], [DESC], [INV], [BATCH_NO], [LOT_COMP], [TRACEABILITY], [QRCODE], [LOT_FG], [QTY], [SUB_SUB_PO], [REMARK]) 
+                    Dim sqlInsertSummaryFG As String = "INSERT INTO [SUMMARY_TRACEABILITY_COMP]([LINE], [COMPONENT], [DESC], [INV], [BATCH_NO], [LOT_COMP], [TRACEABILITY], [QRCODE], [LOT_FG], [QTY], [SUB_SUB_PO], [REMARK], [DATETIME]) 
                                             VALUES ('" & dttableMat.Rows(m).Item("line") & "', '" & dttableMat.Rows(m).Item("material") & "', '" & dttableMat.Rows(m).Item("name") & "', 
                                             '" & dttableMat.Rows(m).Item("inv_ctrl_date") & "', '" & dttableMat.Rows(m).Item("batch_no") & "', '" & dttableMat.Rows(m).Item("lot_no") & "', 
                                             '" & dttableMat.Rows(m).Item("traceability") & "', '" & dttableMat.Rows(m).Item("qrcode") & "', 
-                                            '" & dttableMat.Rows(m).Item("flow_ticket") & "', " & dttableMat.Rows(m).Item("qty").ToString().Replace(",", ".") & ", '" & txtSubSubPO.Text & "','" & dttableMat.Rows(m).Item("qrcode_sa") & "')"
+                                            '" & dttableMat.Rows(m).Item("flow_ticket") & "', " & dttableMat.Rows(m).Item("qty").ToString().Replace(",", ".") & ", '" & txtSubSubPO.Text & "','" & dttableMat.Rows(m).Item("qrcode_sa") & dttableMat.Rows(m).Item("qrcode_new") & "',(SELECT TRY_CONVERT(DATETIME, '" & dttableMat.Rows(m).Item("DATETIME_INSERT") & "', 103)))"
                     Dim cmdInsertSummaryFG = New SqlCommand(sqlInsertSummaryFG, Database.koneksi)
                     cmdInsertSummaryFG.ExecuteNonQuery()
                 End If

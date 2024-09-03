@@ -16,6 +16,18 @@ Public Class MaterialUsageFinishGoods
 
             If cb_masterfinishgoods_pn.Text <> "" And txt_masterfinishgoods_desc.Text <> "" And txt_masterfinishgoods_family.Text <> "" And cb_masterfinishgoods_component.Text <> "" And txt_masterfinishgoods_usage.Text <> "" Then
 
+                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & cb_masterfinishgoods_pn.Text & "' and status='Open'"
+                Dim dsexist = New DataSet
+                Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
+                adapterexist.Fill(dsexist)
+
+                If dsexist.Tables(0).Rows.Count > 0 Then
+
+                    RJMessageBox.Show("Cannot Add. Because this FG still have Open PO")
+                    Exit Sub
+
+                End If
+
                 Dim queryMasterFinishGoods As String = "select * from master_material where part_number='" & cb_masterfinishgoods_component.Text & "'"
                 Dim dtMasterFG As DataTable = Database.GetData(queryMasterFinishGoods)
                 If dtMasterFG.Rows.Count = 0 Then
@@ -45,8 +57,18 @@ Public Class MaterialUsageFinishGoods
                     cb_masterfinishgoods_component.SelectedIndex = -1
                     txt_masterfinishgoods_usage.Clear()
 
+                    Dim queryUpdatemfg As String = "update MASTER_FINISH_GOODS set STATUS_CHANGE=1 where FG_PART_NUMBER=" & cb_masterfinishgoods_pn.Text
+                    Dim dtUpdatemfg = New SqlCommand(queryUpdatemfg, Database.koneksi)
+                    dtUpdatemfg.ExecuteNonQuery()
+
+                    Dim queryUpdatempf As String = "update master_process_flow set material_usage=null where master_finish_goods_pn=" & cb_masterfinishgoods_pn.Text
+                    Dim dtUpdatempf = New SqlCommand(queryUpdatempf, Database.koneksi)
+                    dtUpdatempf.ExecuteNonQuery()
+
                 Catch ex As Exception
+
                     RJMessageBox.Show("Error Master Material Usage Finish Goods - 1 => " & ex.Message)
+
                 End Try
             End If
         Else
@@ -129,7 +151,17 @@ Public Class MaterialUsageFinishGoods
                         Dim sql As String = "delete from MATERIAL_USAGE_FINISH_GOODS where ID=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells(1).Value
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
                         If cmd.ExecuteNonQuery() Then
+
+                            Dim queryUpdatemfg As String = "update MASTER_FINISH_GOODS set STATUS_CHANGE=1 where FG_PART_NUMBER=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells("FG Part Number").Value
+                            Dim dtUpdatemfg = New SqlCommand(queryUpdatemfg, Database.koneksi)
+                            dtUpdatemfg.ExecuteNonQuery()
+
+                            Dim queryUpdatempf As String = "update master_process_flow set material_usage=null where master_finish_goods_pn=" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells("FG Part Number").Value
+                            Dim dtUpdatempf = New SqlCommand(queryUpdatempf, Database.koneksi)
+                            dtUpdatempf.ExecuteNonQuery()
+
                             RJMessageBox.Show("Delete Success")
+
                         End If
                         DGV_Masterfinishgoods_atass(idP)
                         treeView_show()

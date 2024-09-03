@@ -2759,6 +2759,11 @@ Public Class FormDefectiveV2
                                     Dim queryMUFGCheck As String = "select * from MATERIAL_USAGE_FINISH_GOODS where FG_PART_NUMBER='" & cbFGPN.Text & "' and component='" & material & "'"
                                     Dim dtMUFGCheck As DataTable = Database.GetData(queryMUFGCheck)
 
+                                    If dtMUFGCheck.Rows.Count = 0 Then
+                                        RJMessageBox.Show("In this FG " & cbFGPN.Text & " cannot find Material " & material & ". Please check material usage finish goods.")
+                                        Exit Sub
+                                    End If
+
                                     TotalQtyCheck = dtMUFGCheck.Rows(0).Item("usage") * DataGridView1.Rows(defectFG).Cells("Defect Qty").Value
 
                                     If tampungQty.ContainsKey(material) Then
@@ -3025,12 +3030,12 @@ Public Class FormDefectiveV2
                                 Dim sqlInsertSubAssyResult As String = "insert into stock_card(
                                                                 [MTS_NO],[DEPARTMENT],[MATERIAL],[STATUS],[STANDARD_PACK],
                                                                 [INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],[FINISH_GOODS_PN],
-                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QTY],[ACTUAL_QTY],
+                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QRCODE_NEW],[QTY],[ACTUAL_QTY],
                                                                 [ID_LEVEL],[LEVEL],[FLOW_TICKET], [INSERT_WHO]) 
                                                             select top 1
                                                                 [MTS_NO],[DEPARTMENT],[MATERIAL],'Production Result',[STANDARD_PACK],
                                                                 [INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],[FINISH_GOODS_PN],
-                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE]," & totalPenguranganYangAda & ",
+                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QRCODE_NEW]," & totalPenguranganYangAda & ",
                                                                 " & totalPenguranganYangAda & ",[ID_LEVEL],'FG','" & sFlowTicket(5) & "','" & globVar.username & "' 
                                                             from 
                                                                 stock_card 
@@ -3045,7 +3050,7 @@ Public Class FormDefectiveV2
                                     Dim dtUpdateSCProductionProcess = New SqlCommand(queryUpdateSCProductionProcess, Database.koneksi)
                                     dtUpdateSCProductionProcess.ExecuteNonQuery()
 
-                                    Dim queryUpdateFlowTicket As String = "update flow_ticket set done=1 where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "'"
+                                    Dim queryUpdateFlowTicket As String = "update flow_ticket set done=1,datetime_done=getdate() where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "'"
                                     Dim dtUpdateFlowTicket = New SqlCommand(queryUpdateFlowTicket, Database.koneksi)
                                     If dtUpdateFlowTicket.ExecuteNonQuery() Then
 
@@ -3080,12 +3085,12 @@ Public Class FormDefectiveV2
                                 Dim sqlInsertSubAssyResult As String = "insert into stock_card(
                                                                 [MTS_NO],[DEPARTMENT],[MATERIAL],[STATUS],[STANDARD_PACK],
                                                                 [INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],[FINISH_GOODS_PN],
-                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QTY],[ACTUAL_QTY],
+                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QRCODE_NEW],[QTY],[ACTUAL_QTY],
                                                                 [ID_LEVEL],[LEVEL],[FLOW_TICKET], [INSERT_WHO]) 
                                                             select top 1
                                                                 [MTS_NO],[DEPARTMENT],[MATERIAL],'Production Result',[STANDARD_PACK],
                                                                 [INV_CTRL_DATE],[TRACEABILITY],[BATCH_NO],[LOT_NO],[FINISH_GOODS_PN],
-                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE]," & dtSelectSC.Rows(i).Item("actual_qty") & ",
+                                                                [PO],[SUB_PO],[SUB_SUB_PO],[LINE],[QRCODE],[QRCODE_NEW]," & dtSelectSC.Rows(i).Item("actual_qty") & ",
                                                                 " & dtSelectSC.Rows(i).Item("actual_qty") & ",[ID_LEVEL],'FG','" & sFlowTicket(5) & "','" & globVar.username & "' 
                                                             from 
                                                                 stock_card 
@@ -3469,7 +3474,7 @@ Public Class FormDefectiveV2
                                     Dim dtUpdateSCProductionProcess = New SqlCommand(queryUpdateSCProductionProcess, Database.koneksi)
                                     dtUpdateSCProductionProcess.ExecuteNonQuery()
 
-                                    Dim queryUpdateFlowTicket As String = "update flow_ticket set done=1 where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "'"
+                                    Dim queryUpdateFlowTicket As String = "update flow_ticket set done=1,datetime_done=getdate() where DEPARTMENT='" & globVar.department & "' and sub_sub_po='" & txtSubSubPODefective.Text & "' and line='" & cbLineNumber.Text & "' and fg='" & cbFGPN.Text & "' and flow_ticket='" & sFlowTicket(5) & "'"
                                     Dim dtUpdateFlowTicket = New SqlCommand(queryUpdateFlowTicket, Database.koneksi)
                                     If dtUpdateFlowTicket.ExecuteNonQuery() Then
 

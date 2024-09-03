@@ -123,6 +123,10 @@ Public Class ProcessFlowMaterialUsage
                         End If
                     End If
                 End If
+
+                Dim queryUpdatemfg As String = "update MASTER_FINISH_GOODS set STATUS_CHANGE=0 where FG_PART_NUMBER=(select master_finish_goods_pn from master_process_flow where id=" & TreeView1.SelectedNode.Name & ")"
+                Dim dtUpdatemfg = New SqlCommand(queryUpdatemfg, Database.koneksi)
+                dtUpdatemfg.ExecuteNonQuery()
             Else
                 RJMessageBox.Show("Your Access cannot execute this action")
             End If

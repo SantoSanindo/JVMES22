@@ -760,7 +760,7 @@ Public Class FormInputStock
                 End If
 
 
-                If Not IsNumeric(txtmanualQty.Text) Or Not IsNumeric(txtmanualLot.Text) Then
+                If Not IsNumeric(txtmanualQty.Text.TrimStart("0"c)) Or Not IsNumeric(txtmanualLot.Text.TrimStart("0"c)) Then
                     RJMessageBox.Show("Sorry. Lot No / Qty must be Number.")
                     Exit Sub
                 End If
@@ -768,13 +768,13 @@ Public Class FormInputStock
                 Dim adapter As SqlDataAdapter
                 Dim ds As New DataTable
 
-                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtmanualPN.Text & "'"
+                Dim sql As String = "SELECT * FROM MASTER_MATERIAL where PART_NUMBER='" & txtmanualPN.Text.TrimStart("0"c) & "'"
                 adapter = New SqlDataAdapter(sql, Database.koneksi)
                 adapter.Fill(ds)
 
                 If ds.Rows.Count > 0 Then
 
-                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text & "' AND MATERIAL='" & txtmanualPN.Text & "' and inv_ctrl_date='" & txtmanualInv.Text & "' and traceability='" & txtmanualTraceability.Text & "' and batch_no='" & txtmanualBatch.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text.TrimStart("0"c) & "' AND MATERIAL='" & txtmanualPN.Text.TrimStart("0"c) & "' and inv_ctrl_date='" & txtmanualInv.Text.TrimStart("0"c) & "' and traceability='" & txtmanualTraceability.Text.TrimStart("0"c) & "' and batch_no='" & txtmanualBatch.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
                     Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
 
                     If dtCheckInputStockDetail.Rows.Count > 0 Then
@@ -791,23 +791,23 @@ Public Class FormInputStock
                         Try
                             Dim StandartPack As String
 
-                            If ds.Rows(0).Item("STANDARD_QTY") = txtmanualQty.Text Then
+                            If ds.Rows(0).Item("STANDARD_QTY") = txtmanualQty.Text.TrimStart("0"c) Then
                                 StandartPack = "YES"
                             Else
                                 StandartPack = "NO"
                             End If
 
                             Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY, INSERT_WHO, qrcode_new)
-                                    VALUES ('" & txtmanualPN.Text & "'," & txtmanualQty.Text & ",'" & txtmanualInv.Text & "','" & txtmanualTraceability.Text & "','" & txtmanualLot.Text & "','" & txtmanualBatch.Text & "','Manual Input'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & txtmanualQty.Text & ",'" & globVar.username & "','" & q & "')"
+                                    VALUES ('" & txtmanualPN.Text.TrimStart("0"c) & "'," & txtmanualQty.Text.TrimStart("0"c) & ",'" & txtmanualInv.Text.TrimStart("0"c) & "','" & txtmanualTraceability.Text.TrimStart("0"c) & "','" & txtmanualLot.Text.TrimStart("0"c) & "','" & txtmanualBatch.Text.TrimStart("0"c) & "','Manual Input'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & StandartPack & "','Receive From Main Store'," & txtmanualQty.Text.TrimStart("0"c) & ",'" & globVar.username & "','" & q & "')"
                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
 
                             If cmdInsertInputStockDetail.ExecuteNonQuery() Then
 
-                                Dim SqlUpdateNewLabel As String = "update new_label set material='" & txtmanualPN.Text & "',QTY=" & txtmanualQty.Text & ",INV_CTRL_DATE='" & txtmanualInv.Text & "',TRACEABILITY='" & txtmanualTraceability.Text & "',LOT_NO='" & txtmanualLot.Text & "',BATCH_NO='" & txtmanualBatch.Text & "',datetime_update=getdate(),update_who='"& globVar .username  &"' where qrcode='" & q & "'"
+                                Dim SqlUpdateNewLabel As String = "update new_label set material='" & txtmanualPN.Text.TrimStart("0"c) & "',QTY=" & txtmanualQty.Text.TrimStart("0"c) & ",INV_CTRL_DATE='" & txtmanualInv.Text.TrimStart("0"c) & "',TRACEABILITY='" & txtmanualTraceability.Text.TrimStart("0"c) & "',LOT_NO='" & txtmanualLot.Text.TrimStart("0"c) & "',BATCH_NO='" & txtmanualBatch.Text.TrimStart("0"c) & "',datetime_update=getdate(),update_who='" & globVar.username & "' where qrcode='" & q & "'"
                                 Dim cmdUpdateNewLabel = New SqlCommand(SqlUpdateNewLabel, Database.koneksi)
                                 cmdUpdateNewLabel.ExecuteNonQuery()
 
-                                Dim queryCheckReturn As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text & "' AND MATERIAL='" & txtmanualPN.Text & "' and inv_ctrl_date='" & txtmanualInv.Text & "' and traceability='" & txtmanualTraceability.Text & "' and batch_no='" & txtmanualBatch.Text & "' AND DEPARTMENT='" & globVar.department & "' and status='Return To Main Store' and actual_qty > 0"
+                                Dim queryCheckReturn As String = "SELECT * FROM STOCK_CARD where lot_no='" & txtmanualLot.Text.TrimStart("0"c) & "' AND MATERIAL='" & txtmanualPN.Text.TrimStart("0"c) & "' and inv_ctrl_date='" & txtmanualInv.Text.TrimStart("0"c) & "' and traceability='" & txtmanualTraceability.Text.TrimStart("0"c) & "' and batch_no='" & txtmanualBatch.Text.TrimStart("0"c) & "' AND DEPARTMENT='" & globVar.department & "' and status='Return To Main Store' and actual_qty > 0"
                                 Dim dtCheckReturn As DataTable = Database.GetData(queryCheckReturn)
 
                                 If dtCheckReturn.Rows.Count > 0 Then

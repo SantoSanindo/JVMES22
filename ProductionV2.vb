@@ -842,7 +842,7 @@ Public Class ProductionV2
             DataGridView3.Columns(11).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
             For rowDataSet As Integer = 0 To dtDOC.Rows.Count - 1
-                Dim queryCheck As String = "select lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Process' ORDER BY datetime_insert"
+                Dim queryCheck As String = "select lot_no, inv_ctrl_date, traceability, batch_no, id_level, level, qrcode, qrcode_new from stock_card where material='" & dtDOC.Rows(rowDataSet).Item("Component").ToString & "' and sub_sub_po='" & TextBox11.Text & "' and line ='" & ComboBox1.Text & "' and status='Production Process' ORDER BY datetime_insert"
                 Dim dtCHECK As DataTable = Database.GetData(queryCheck)
                 For i As Integer = 0 To dtCHECK.Rows.Count - 1
                     If dtCHECK.Rows(i).Item("level").ToString = "Fresh" Then
@@ -850,10 +850,22 @@ Public Class ProductionV2
                             DataGridView3.Rows(rowDataSet).Cells(11).Value += Environment.NewLine
                         End If
 
-                        If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Or InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "WIP") Or InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "OH") Or InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "OT") Then
+                        If InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SA") > 0 Or
+                            InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "WIP") > 0 Or
+                            InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "OH") > 0 Or
+                            InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "OT") > 0 Or
+                            InStr(dtCHECK.Rows(i).Item("qrcode").ToString, "SM") > 0 Then
+
                             DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("qrcode").ToString & ", "
+
+                        ElseIf InStr(dtCHECK.Rows(i).Item("qrcode_new").ToString, "NQ") > 0 Then
+
+                            DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("qrcode_new").ToString & ", "
+
                         Else
+
                             DataGridView3.Rows(rowDataSet).Cells(11).Value += dtCHECK.Rows(i).Item("lot_no").ToString & ", "
+
                         End If
                     Else
                         If i Mod 4 = 0 Then

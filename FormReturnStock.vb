@@ -409,6 +409,10 @@ Public Class FormReturnStock
         txtmanualPN.Enabled = False
         checkQr.Enabled = False
 
+        txt_forminputstock_mts_no.ReadOnly = False
+
+        txt_forminputstock_mts_no.Select()
+
         txt_forminputstock_mts_no.Text = ""
         txt_forminputstock_qrcode.Text = ""
 
@@ -564,6 +568,13 @@ Public Class FormReturnStock
     Private Sub txtmanualPN_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtmanualPN.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txt_forminputstock_mts_no_TextChanged(sender As Object, e As EventArgs) Handles txt_forminputstock_mts_no.TextChanged
+        If txt_forminputstock_mts_no.Text.StartsWith("0") AndAlso txt_forminputstock_mts_no.Text.Length > 1 Then
+            txt_forminputstock_mts_no.Text = txt_forminputstock_mts_no.Text.TrimStart("0"c)
+            txt_forminputstock_mts_no.SelectionStart = txt_forminputstock_mts_no.Text.Length
         End If
     End Sub
 End Class

@@ -286,7 +286,7 @@ Public Class HOME
     Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
         If globVar.CanAccess(ProductionV2.menu) Then
             ProductionV2.Close()
-            TabControl1.TabPages.Clear()
+            'TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(ProductionV2)
             TabControl1.TabPages(ProductionV2).Select()
         Else
@@ -297,7 +297,7 @@ Public Class HOME
     Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
         If globVar.CanAccess(FormDefectiveV2.menu) Then
             FormDefectiveV2.Close()
-            TabControl1.TabPages.Clear()
+            'TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(FormDefectiveV2)
             TabControl1.TabPages(FormDefectiveV2).Select()
         Else
@@ -308,7 +308,7 @@ Public Class HOME
     Private Sub BtnSummaryProduction(sender As Object, e As EventArgs) Handles SummaryProductionBtn.Click
         If globVar.CanAccess(SummaryV2.menu) Then
             SummaryV2.Close()
-            TabControl1.TabPages.Clear()
+            'TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(SummaryV2)
             TabControl1.TabPages(SummaryV2).Select()
         Else
@@ -329,6 +329,7 @@ Public Class HOME
     Private Sub BtnOthers(sender As Object, e As EventArgs) Handles OthersBtn.Click
         If globVar.CanAccess(OthersPart.menu) Then
             OthersPart.Close()
+            TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(OthersPart)
             TabControl1.TabPages(OthersPart).Select()
         Else

@@ -983,4 +983,11 @@ Public Class FormInputStock
         txtmanualQty.Clear()
         txtmanualTraceability.Clear()
     End Sub
+
+    Private Sub txt_forminputstock_mts_no_TextChanged(sender As Object, e As EventArgs) Handles txt_forminputstock_mts_no.TextChanged
+        If txt_forminputstock_mts_no.Text.StartsWith("0") AndAlso txt_forminputstock_mts_no.Text.Length > 1 Then
+            txt_forminputstock_mts_no.Text = txt_forminputstock_mts_no.Text.TrimStart("0"c)
+            txt_forminputstock_mts_no.SelectionStart = txt_forminputstock_mts_no.Text.Length
+        End If
+    End Sub
 End Class

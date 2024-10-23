@@ -134,7 +134,7 @@ Public Class MaterialUsageFinishGoods
         If dgv_masterfinishgoods_atas.Columns(e.ColumnIndex).Name = "delete" Then
             If globVar.delete > 0 Then
 
-                Dim queryCek As String = "SELECT * FROM dbo.main_po where fg_pn='" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells("FG Part Number").Value & "' and status='Open'"
+                Dim queryCek As String = "SELECT * FROM dbo.main_po mp, dbo.sub_sub_po ssp where mp.fg_pn='" & dgv_masterfinishgoods_atas.Rows(e.RowIndex).Cells("FG Part Number").Value & "' and mp.id=ssp.main_po and ssp.status='Open'"
                 Dim dsexist = New DataSet
                 Dim adapterexist = New SqlDataAdapter(queryCek, Database.koneksi)
                 adapterexist.Fill(dsexist)

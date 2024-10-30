@@ -105,3 +105,4 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.OthersPart.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.FormDefectiveV2.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.ProductionV2.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New._PrintingNewLabel.resources
+C:\Users\SERVER\Downloads\JVMES22\obj\Release\Jovan_New.NotifBeforeCreatePO.resources

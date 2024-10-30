@@ -1215,4 +1215,9 @@ Public Class MainPOSubPO
             TextBox1.SelectionStart = TextBox1.Text.Length
         End If
     End Sub
+
+    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
+        Dim _formNotifBeforeCreatePO As New NotifBeforeCreatePO(ComboBox1.Text)
+        _formNotifBeforeCreatePO.ShowDialog()
+    End Sub
 End Class

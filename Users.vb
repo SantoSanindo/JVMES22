@@ -8,7 +8,7 @@ Public Class Users
     Dim oleCon As OleDbConnection
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim sRole As New System.Text.StringBuilder
-        If TextBox1.Text <> "" And TextBox2.Text <> "" Then
+        If TextBox1.Text.Trim() <> "" And TextBox2.Text.Trim() <> "" Then
 
             For i = 0 To CheckedListBox1.Items.Count - 1
                 If (CheckedListBox1.GetItemChecked(i)) = True Then
@@ -71,6 +71,8 @@ Public Class Users
                     RJMessageBox.Show("Your Access cannot execute this action")
                 End If
             End If
+        Else
+            RJMessageBox.Show("ID Card / Name cannot be blank.")
         End If
     End Sub
 
@@ -339,7 +341,7 @@ Public Class Users
                     Exit Sub
                 End If
 
-                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Or DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("NULL") Then
+                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Then
                     RJMessageBox.Show("Cannot delete.")
                     Exit Sub
                 End If
@@ -363,7 +365,7 @@ Public Class Users
 
         If DataGridView1.Columns(e.ColumnIndex).Name = "edit" Then
             If globVar.update > 0 Then
-                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Or DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("NULL") Then
+                If DataGridView1.Rows(e.RowIndex).Cells("Name").Value.ToString().Contains("Administrator") Then
                     RJMessageBox.Show("Cannot edit.")
                     Exit Sub
                 End If

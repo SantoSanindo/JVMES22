@@ -169,7 +169,7 @@ Public Class StockProduction
 		                                                    [CODE_STOCK_PROD_ONHOLD] AS [QRCode],
 		                                                    [FG_PN] AS [FINISH GOODS],
 		                                                    [PENGALI] AS [Qty],
-                                                        SUM(qty) OVER (PARTITION BY [CODE_STOCK_PROD_WIP], [FG_PN], [PENGALI]) AS sum_qty
+                                                        SUM(qty) OVER (PARTITION BY [CODE_STOCK_PROD_ONHOLD], [FG_PN], [PENGALI]) AS sum_qty
 	                                                    FROM
 		                                                    STOCK_PROD_ONHOLD 
 	                                                    WHERE

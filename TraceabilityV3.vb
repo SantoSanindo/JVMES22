@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
+Imports Zuby.ADGV
 
 Public Class TraceabilityV3
     Public Shared menu As String = "Traceability"
@@ -529,4 +530,27 @@ Public Class TraceabilityV3
         DataGridView4.Columns.Clear()
     End Sub
 
+    Private Sub DataGridView2_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView2.ColumnHeaderMouseClick
+
+        Dim column As DataGridViewColumn = DataGridView2.Columns(e.ColumnIndex)
+
+        If DataGridView2.SortOrder = SortOrder.Ascending Then
+            DataGridView2.Sort(column, System.ComponentModel.ListSortDirection.Descending)
+        Else
+            DataGridView2.Sort(column, System.ComponentModel.ListSortDirection.Ascending)
+        End If
+
+    End Sub
+
+    Private Sub DataGridView1_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView1.ColumnHeaderMouseClick
+
+        Dim column As DataGridViewColumn = DataGridView1.Columns(e.ColumnIndex)
+
+        If DataGridView1.SortOrder = SortOrder.Ascending Then
+            DataGridView1.Sort(column, System.ComponentModel.ListSortDirection.Descending)
+        Else
+            DataGridView1.Sort(column, System.ComponentModel.ListSortDirection.Ascending)
+        End If
+
+    End Sub
 End Class

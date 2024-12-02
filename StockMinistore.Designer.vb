@@ -39,6 +39,7 @@ Partial Class StockMinistore
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.btn_ExportTrace1 = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -297,4 +298,5 @@ Partial Class StockMinistore
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents ReportDGAtas As Zuby.ADGV.AdvancedDataGridView
     Friend WithEvents ReportDGBawah As Zuby.ADGV.AdvancedDataGridView
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

@@ -351,7 +351,8 @@ Public Class MasterFinishGoods
     Private Sub btn_export_template_Click(sender As Object, e As EventArgs) Handles btn_export_template.Click
         If globVar.view > 0 Then
 
-            ExportToExcel()
+            'ExportToExcel()
+            ExportToExcelV2()
         End If
     End Sub
     Private Sub ExportToExcel()
@@ -387,6 +388,56 @@ Public Class MasterFinishGoods
         releaseObject(xlApp)
 
         RJMessageBox.Show("Export to Excel Success !")
+    End Sub
+
+    Private Sub ExportToExcelV2()
+        If globVar.view > 0 Then
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            Dim misValue As Object = System.Reflection.Missing.Value
+
+            xlWorkBook = xlApp.Workbooks.Add(misValue)
+            xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+            ' Mengatur header
+            For k As Integer = 1 To dgv_finish_goods.Columns.Count
+                xlWorkSheet.Cells(1, k) = dgv_finish_goods.Columns(k - 1).HeaderText
+            Next
+
+            ' Menyalin data ke array dua dimensi
+            Dim dataArray(dgv_finish_goods.RowCount - 1, dgv_finish_goods.ColumnCount - 1) As Object
+            For i As Integer = 0 To dgv_finish_goods.RowCount - 1
+                For j As Integer = 0 To dgv_finish_goods.ColumnCount - 1
+                    dataArray(i, j) = dgv_finish_goods(j, i).Value
+                Next
+            Next
+
+            ' Menyalin array ke lembar kerja Excel
+            xlWorkSheet.Range("A2").Resize(dgv_finish_goods.RowCount, dgv_finish_goods.ColumnCount).Value = dataArray
+
+            ' Mengatur direktori awal untuk dialog
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' Memilih folder penyimpanan
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                Dim currentDate As Date = DateTime.Now
+                Dim namafile As String = "Master Finish Goods Export - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
+
+                xlWorkSheet.SaveAs(filePath)
+                RJMessageBox.Show("Export to Excel Success!" & Environment.NewLine & "Name is " & namafile)
+            End If
+
+            ' Membersihkan objek Excel
+            xlWorkBook.Close(False)
+            xlApp.Quit()
+
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
+        End If
     End Sub
 
     Private Sub releaseObject(ByVal obj As Object)

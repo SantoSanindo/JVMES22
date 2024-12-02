@@ -990,7 +990,7 @@ Public Class FormDefectiveV2
                 For i = 0 To dtSelectSC.Rows.Count - 1 'looping material yang ada di stock card 
 
                     Dim querySelectOnHold As String = "select 
-                                                    isnull(sum(qty),0) qty
+                                                    isnull(sum(qty),0) totalResult
                                                 from 
                                                     stock_prod_onhold 
                                                 where 
@@ -1001,13 +1001,13 @@ Public Class FormDefectiveV2
 
                     Dim dtSelectOnHold As DataTable = Database.GetData(querySelectOnHold)
 
-                    If dtSelectOnHold.Rows(0).Item("qty") = TotalQtySave Then
+                    If dtSelectOnHold.Rows(0).Item("totalResult") = TotalQtySave Then
                         Exit For
                     End If
 
                     If dtSelectOnHold.Rows(0).Item("totalResult") <> TotalQtySave Then
 
-                        Dim totalPenguranganYangAda = TotalQtySave - dtSelectOnHold.Rows(0).Item("qty")
+                        Dim totalPenguranganYangAda = TotalQtySave - dtSelectOnHold.Rows(0).Item("totalResult")
 
                         Dim totalPenguranganSCProcess = dtSelectSC.Rows(i).Item("actual_qty") - totalPenguranganYangAda
 

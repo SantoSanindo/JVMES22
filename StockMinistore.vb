@@ -62,28 +62,80 @@ Public Class StockMinistore
 
     Private Sub btn_ExportTrace1_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace1.Click
         If globVar.view > 0 Then
-            If TabControl1.SelectedIndex = 0 Then
+            ExportToExcelV2()
 
-                ProgressBar1.Visible = True
-                ProgressBar1.Style = ProgressBarStyle.Marquee
-                ProgressBar1.MarqueeAnimationSpeed = 30
+            'If TabControl1.SelectedIndex = 0 Then
 
-                btn_ExportTrace1.Enabled = False
+            '    ProgressBar1.Visible = True
+            '    ProgressBar1.Style = ProgressBarStyle.Marquee
+            '    ProgressBar1.MarqueeAnimationSpeed = 30
 
-                BackgroundWorker1.RunWorkerAsync(DataGridView1)
+            '    btn_ExportTrace1.Enabled = False
 
-            ElseIf TabControl1.SelectedIndex = 1 Then
+            '    BackgroundWorker1.RunWorkerAsync(DataGridView1)
 
-                ProgressBar1.Visible = True
-                ProgressBar1.Style = ProgressBarStyle.Marquee
-                ProgressBar1.MarqueeAnimationSpeed = 30
+            'ElseIf TabControl1.SelectedIndex = 1 Then
 
-                btn_ExportTrace1.Enabled = False
+            '    ProgressBar1.Visible = True
+            '    ProgressBar1.Style = ProgressBarStyle.Marquee
+            '    ProgressBar1.MarqueeAnimationSpeed = 30
 
-                BackgroundWorker1.RunWorkerAsync(ReportDGAtas)
+            '    btn_ExportTrace1.Enabled = False
 
+            '    BackgroundWorker1.RunWorkerAsync(ReportDGAtas)
+
+            'End If
+
+        End If
+    End Sub
+
+    Private Sub ExportToExcelV2()
+        If globVar.view > 0 Then
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            Dim misValue As Object = System.Reflection.Missing.Value
+
+            xlWorkBook = xlApp.Workbooks.Add(misValue)
+            xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+            ' Mengatur header
+            For k As Integer = 1 To DataGridView1.Columns.Count
+                xlWorkSheet.Cells(1, k) = DataGridView1.Columns(k - 1).HeaderText
+            Next
+
+            ' Menyalin data ke array dua dimensi
+            Dim dataArray(DataGridView1.RowCount - 1, DataGridView1.ColumnCount - 1) As Object
+            For i As Integer = 0 To DataGridView1.RowCount - 1
+                For j As Integer = 0 To DataGridView1.ColumnCount - 1
+                    dataArray(i, j) = DataGridView1(j, i).Value
+                Next
+            Next
+
+            ' Menyalin array ke lembar kerja Excel
+            xlWorkSheet.Range("A2").Resize(DataGridView1.RowCount, DataGridView1.ColumnCount).Value = dataArray
+
+            ' Mengatur direktori awal untuk dialog
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' Memilih folder penyimpanan
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                Dim currentDate As Date = DateTime.Now
+                Dim namafile As String = "Export Stock Card Ministore - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
+
+                xlWorkSheet.SaveAs(filePath)
+                RJMessageBox.Show("Export to Excel Success!" & Environment.NewLine & "Name is " & namafile)
             End If
 
+            ' Membersihkan objek Excel
+            xlWorkBook.Close(False)
+            xlApp.Quit()
+
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
         End If
     End Sub
 

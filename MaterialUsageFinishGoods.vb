@@ -534,4 +534,64 @@ Public Class MaterialUsageFinishGoods
         End If
     End Sub
 
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim queryMasterFinishGoods As String = "select FG_PART_NUMBER,FAMILY,COMPONENT,DESCRIPTION,[USAGE] from MATERIAL_USAGE_FINISH_GOODS order by FG_PART_NUMBER asc, COMPONENT desc"
+        Dim dtMasterMaterial As DataTable = Database.GetData(queryMasterFinishGoods)
+
+        DataGridView1.DataSource = dtMasterMaterial
+
+        If globVar.view > 0 Then
+            ExportToExcelAllFG()
+        End If
+    End Sub
+
+    Private Sub ExportToExcelAllFG()
+        If globVar.view > 0 Then
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            Dim misValue As Object = System.Reflection.Missing.Value
+
+            xlWorkBook = xlApp.Workbooks.Add(misValue)
+            xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+            ' Mengatur header
+            For k As Integer = 1 To DataGridView1.Columns.Count
+                xlWorkSheet.Cells(1, k) = DataGridView1.Columns(k - 1).HeaderText
+            Next
+
+            ' Menyalin data ke array dua dimensi
+            Dim dataArray(DataGridView1.RowCount - 1, DataGridView1.ColumnCount - 1) As Object
+            For i As Integer = 0 To DataGridView1.RowCount - 1
+                For j As Integer = 0 To DataGridView1.ColumnCount - 1
+                    dataArray(i, j) = DataGridView1(j, i).Value
+                Next
+            Next
+
+            ' Menyalin array ke lembar kerja Excel
+            xlWorkSheet.Range("A2").Resize(DataGridView1.RowCount, DataGridView1.ColumnCount).Value = dataArray
+
+            ' Mengatur direktori awal untuk dialog
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' Memilih folder penyimpanan
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                Dim currentDate As Date = DateTime.Now
+                Dim namafile As String = "Material Usage Process Flow Export - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
+
+                xlWorkSheet.SaveAs(filePath)
+                RJMessageBox.Show("Export to Excel Success!" & Environment.NewLine & "Name is " & namafile)
+            End If
+
+            ' Membersihkan objek Excel
+            xlWorkBook.Close(False)
+            xlApp.Quit()
+
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
+        End If
+    End Sub
 End Class

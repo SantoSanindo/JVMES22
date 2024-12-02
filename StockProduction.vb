@@ -138,7 +138,7 @@ Public Class StockProduction
             DG_SCWIPBAWAH.Rows.Clear()
             DG_SCWIPBAWAH.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP = '" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' ORDER BY datetime_insert"
+            Dim queryInputStockDetail As String = "select DATETIME_INSERT [Date Save], CODE_STOCK_PROD_WIP [Code], PO [Po], SUB_SUB_PO [Sub Sub PO], FG_PN [Finish Goods], PART_NUMBER [Material], LOT_NO [Lot No], TRACEABILITY [Traceability], BATCH_NO [Batch No], PENGALI [Qty], QTY [Total Qty], PROCESS [Process], FLOW_TICKET_NO [Flow Ticket], QRCODE [Remark] from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP = '" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' ORDER BY datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCWIPBAWAH.DataSource = dtInputStockDetail
 
@@ -188,7 +188,7 @@ Public Class StockProduction
             CheckStockOH.Width = 50
             CheckStockOH.Text = "Check"
             CheckStockOH.UseColumnTextForButtonValue = True
-            DG_SCWIPATAS.Columns.Insert(0, CheckStockOH)
+            DG_SCOHATAS.Columns.Insert(0, CheckStockOH)
 
             SetEqualColumnWidths(DG_SCOHATAS)
         Catch ex As Exception
@@ -202,7 +202,7 @@ Public Class StockProduction
             DG_SCOHBAWAH.Rows.Clear()
             DG_SCOHBAWAH.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "select * from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD = '" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' ORDER BY datetime_insert"
+            Dim queryInputStockDetail As String = "select DATETIME_INSERT [Date Save], CODE_STOCK_PROD_ONHOLD [Code], PO [Po], SUB_SUB_PO [Sub Sub PO], FG_PN [Finish Goods], PART_NUMBER [Material], LOT_NO [Lot No], TRACEABILITY [Traceability], BATCH_NO [Batch No], PENGALI [Qty], QTY [Total Qty], PROCESS [Process], FLOW_TICKET_NO [Flow Ticket], QRCODE [Remark] from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD = '" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' ORDER BY datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCOHBAWAH.DataSource = dtInputStockDetail
 
@@ -242,7 +242,7 @@ Public Class StockProduction
             DG_SCDEFECTBAWAH.Rows.Clear()
             DG_SCDEFECTBAWAH.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT * FROM out_prod_defect where CODE_OUT_PROD_DEFECT='" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT DATETIME_INSERT [Date Save], CODE_OUT_PROD_DEFECT [Code], PO [Po], SUB_SUB_PO [Sub Sub PO], FG_PN [Finish Goods], PART_NUMBER [Material], LOT_NO [Lot No], TRACEABILITY [Traceability], BATCH_NO [Batch No], PENGALI [Qty], QTY [Total Qty], PROCESS_REJECT [Process Reject], FLOW_TICKET_NO [Flow Ticket], QRCODE [Remark] FROM out_prod_defect where CODE_OUT_PROD_DEFECT='" & code & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and department='" & globVar.department & "' order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DG_SCDEFECTBAWAH.DataSource = dtInputStockDetail
 
@@ -460,8 +460,8 @@ Public Class StockProduction
                 .Alignment = ContentAlignment.MiddleCenter
             End With
 
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
         End With
     End Sub
 
@@ -520,8 +520,8 @@ Public Class StockProduction
                 .Alignment = ContentAlignment.MiddleCenter
             End With
 
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
         End With
     End Sub
 
@@ -580,8 +580,8 @@ Public Class StockProduction
                 .Alignment = ContentAlignment.MiddleCenter
             End With
 
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
         End With
     End Sub
 
@@ -624,9 +624,9 @@ Public Class StockProduction
     Private Sub btn_ExportTrace1_Click(sender As Object, e As EventArgs) Handles btn_ExportTrace1.Click
         If globVar.view > 0 Then
             ' Tampilkan ProgressBar
-            ProgressBar1.Visible = True
-            ProgressBar1.Style = ProgressBarStyle.Marquee
-            ProgressBar1.MarqueeAnimationSpeed = 30
+            'ProgressBar1.Visible = True
+            'ProgressBar1.Style = ProgressBarStyle.Marquee
+            'ProgressBar1.MarqueeAnimationSpeed = 30
 
             ' Nonaktifkan tombol selama ekspor
             btn_ExportTrace1.Enabled = False
@@ -635,26 +635,96 @@ Public Class StockProduction
 
             If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
 
-                BackgroundWorker1.RunWorkerAsync(DG_SCSA)
+                'BackgroundWorker1.RunWorkerAsync(DG_SCSA)
+                ExportToExcelV2(DG_SCSA, "Export Stock Sub Assy")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
 
-                BackgroundWorker1.RunWorkerAsync(DG_SCReject)
+                'BackgroundWorker1.RunWorkerAsync(DG_SCReject)
+                ExportToExcelV2(DG_SCReject, "Export Stock Card Reject")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
 
-                BackgroundWorker1.RunWorkerAsync(DG_SCOthers)
+                'BackgroundWorker1.RunWorkerAsync(DG_SCOthers)
+                ExportToExcelV2(DG_SCOthers, "Export Stock Card Others")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Return" Then
 
-                BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
+                'BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
+                ExportToExcelV2(DG_SCReturn, "Export Stock Card Return To Mini Store")
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
+
+                'BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
+                'ExportToExcelV2(DG_SCReturn, "Export Stock Card WIP")
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
+
+                'BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
+                'ExportToExcelV2(DG_SCReturn, "Export Stock Card On Hold")
+
+            ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
+
+                'BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
+                'ExportToExcelV2(DG_SCReturn, "Export Stock Card Defect")
 
             Else
 
-                BackgroundWorker1.RunWorkerAsync(DG_SCMaterial)
+                'BackgroundWorker1.RunWorkerAsync(DG_SCMaterial)
+                ExportToExcelV2(DG_SCMaterial, "Export Stock Card Production")
 
             End If
 
+        End If
+    End Sub
+
+    Private Sub ExportToExcelV2(datagridview As DataGridView, nama As String)
+        If globVar.view > 0 Then
+            Dim xlApp As New Excel.Application
+            Dim xlWorkBook As Excel.Workbook
+            Dim xlWorkSheet As Excel.Worksheet
+            Dim misValue As Object = System.Reflection.Missing.Value
+
+            xlWorkBook = xlApp.Workbooks.Add(misValue)
+            xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+            ' Mengatur header
+            For k As Integer = 1 To datagridview.Columns.Count
+                xlWorkSheet.Cells(1, k) = datagridview.Columns(k - 1).HeaderText
+            Next
+
+            ' Menyalin data ke array dua dimensi
+            Dim dataArray(datagridview.RowCount - 1, datagridview.ColumnCount - 1) As Object
+            For i As Integer = 0 To datagridview.RowCount - 1
+                For j As Integer = 0 To datagridview.ColumnCount - 1
+                    dataArray(i, j) = datagridview(j, i).Value
+                Next
+            Next
+
+            ' Menyalin array ke lembar kerja Excel
+            xlWorkSheet.Range("A2").Resize(datagridview.RowCount, datagridview.ColumnCount).Value = dataArray
+
+            ' Mengatur direktori awal untuk dialog
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' Memilih folder penyimpanan
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                Dim currentDate As Date = DateTime.Now
+                Dim namafile As String = nama & " - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
+
+                xlWorkSheet.SaveAs(filePath)
+                RJMessageBox.Show("Export to Excel Success!" & Environment.NewLine & "Name is " & namafile)
+            End If
+
+            ' Membersihkan objek Excel
+            xlWorkBook.Close(False)
+            xlApp.Quit()
+
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
         End If
     End Sub
 
@@ -719,30 +789,37 @@ Public Class StockProduction
         If globVar.view > 0 Then
             If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
 
+                btn_ExportTrace1.Enabled = True
                 DGV_SA()
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
 
+                btn_ExportTrace1.Enabled = False
                 DGV_WIP()
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
 
+                btn_ExportTrace1.Enabled = False
                 DGV_OH()
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
 
+                btn_ExportTrace1.Enabled = False
                 DGV_Defect()
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
 
+                btn_ExportTrace1.Enabled = True
                 DGV_Reject()
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
 
+                btn_ExportTrace1.Enabled = True
                 DGV_Others()
 
             Else
 
+                btn_ExportTrace1.Enabled = True
                 DGV_StockMiniststore()
 
             End If
@@ -866,34 +943,42 @@ Public Class StockProduction
 
         If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
 
+            btn_ExportTrace1.Enabled = True
             DGV_SA()
 
         ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
 
+            btn_ExportTrace1.Enabled = False
             DGV_WIP()
 
         ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
 
+            btn_ExportTrace1.Enabled = False
             DGV_OH()
 
         ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
 
+            btn_ExportTrace1.Enabled = False
             DGV_Defect()
 
         ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
 
+            btn_ExportTrace1.Enabled = True
             DGV_Reject()
 
         ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
 
+            btn_ExportTrace1.Enabled = True
             DGV_Others()
 
         ElseIf TabControl1.SelectedTab.Text = "Stock Card Return" Then
 
+            btn_ExportTrace1.Enabled = True
             DGV_Return()
 
         Else
 
+            btn_ExportTrace1.Enabled = True
             DGV_StockMiniststore()
 
         End If

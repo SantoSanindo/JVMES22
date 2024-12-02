@@ -45,6 +45,8 @@ Partial Class StockProduction
         Me.DG_SCReject = New Zuby.ADGV.AdvancedDataGridView()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.DG_SCOthers = New Zuby.ADGV.AdvancedDataGridView()
+        Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.DG_SCReturn = New Zuby.ADGV.AdvancedDataGridView()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
@@ -53,8 +55,7 @@ Partial Class StockProduction
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.btn_ExportTrace1 = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.TabPage8 = New System.Windows.Forms.TabPage()
-        Me.DG_SCReturn = New Zuby.ADGV.AdvancedDataGridView()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -442,6 +443,33 @@ Partial Class StockProduction
         Me.DG_SCOthers.SortStringChangedInvokeBeforeDatasourceUpdate = True
         Me.DG_SCOthers.TabIndex = 11
         '
+        'TabPage8
+        '
+        Me.TabPage8.Controls.Add(Me.DG_SCReturn)
+        Me.TabPage8.Location = New System.Drawing.Point(4, 38)
+        Me.TabPage8.Name = "TabPage8"
+        Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage8.Size = New System.Drawing.Size(1763, 425)
+        Me.TabPage8.TabIndex = 7
+        Me.TabPage8.Text = "Stock Card Return"
+        Me.TabPage8.UseVisualStyleBackColor = True
+        '
+        'DG_SCReturn
+        '
+        Me.DG_SCReturn.AllowUserToAddRows = False
+        Me.DG_SCReturn.AllowUserToDeleteRows = False
+        Me.DG_SCReturn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DG_SCReturn.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DG_SCReturn.FilterAndSortEnabled = True
+        Me.DG_SCReturn.FilterStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.DG_SCReturn.Location = New System.Drawing.Point(3, 3)
+        Me.DG_SCReturn.Name = "DG_SCReturn"
+        Me.DG_SCReturn.ReadOnly = True
+        Me.DG_SCReturn.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.DG_SCReturn.Size = New System.Drawing.Size(1757, 419)
+        Me.DG_SCReturn.SortStringChangedInvokeBeforeDatasourceUpdate = True
+        Me.DG_SCReturn.TabIndex = 0
+        '
         'ProgressBar1
         '
         Me.ProgressBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -513,33 +541,6 @@ Partial Class StockProduction
         'BackgroundWorker1
         '
         '
-        'TabPage8
-        '
-        Me.TabPage8.Controls.Add(Me.DG_SCReturn)
-        Me.TabPage8.Location = New System.Drawing.Point(4, 38)
-        Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage8.Size = New System.Drawing.Size(1763, 425)
-        Me.TabPage8.TabIndex = 7
-        Me.TabPage8.Text = "Stock Card Return"
-        Me.TabPage8.UseVisualStyleBackColor = True
-        '
-        'DG_SCReturn
-        '
-        Me.DG_SCReturn.AllowUserToAddRows = False
-        Me.DG_SCReturn.AllowUserToDeleteRows = False
-        Me.DG_SCReturn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DG_SCReturn.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DG_SCReturn.FilterAndSortEnabled = True
-        Me.DG_SCReturn.FilterStringChangedInvokeBeforeDatasourceUpdate = True
-        Me.DG_SCReturn.Location = New System.Drawing.Point(3, 3)
-        Me.DG_SCReturn.Name = "DG_SCReturn"
-        Me.DG_SCReturn.ReadOnly = True
-        Me.DG_SCReturn.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.DG_SCReturn.Size = New System.Drawing.Size(1757, 419)
-        Me.DG_SCReturn.SortStringChangedInvokeBeforeDatasourceUpdate = True
-        Me.DG_SCReturn.TabIndex = 0
-        '
         'StockProduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -610,4 +611,5 @@ Partial Class StockProduction
     Friend WithEvents DG_SCDEFECTATAS As Zuby.ADGV.AdvancedDataGridView
     Friend WithEvents TabPage8 As TabPage
     Friend WithEvents DG_SCReturn As Zuby.ADGV.AdvancedDataGridView
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

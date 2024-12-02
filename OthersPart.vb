@@ -151,7 +151,7 @@ Public Class OthersPart
             If DataGridView4.Rows.Count > 0 Then
                 Dim countPrint = 0
                 Try
-                    Dim query As String = "select stock_prod_others.*,master_material.name from stock_prod_others, master_material where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and department='" & globVar.department & "' and stock_prod_others.part_number=master_material.part_number"
+                    Dim query As String = "select stock_prod_others.*,master_material.name from stock_prod_others, master_material where CODE_OUT_PROD_DEFECT='" & txtLabelOtherPart.Text & "' and stock_prod_others.department='" & globVar.department & "' and stock_prod_others.part_number=master_material.part_number"
                     Dim dtCheckOthersMaterialBalance As DataTable = Database.GetData(query)
                     If dtCheckOthersMaterialBalance.Rows.Count > 0 Then
                         For i = 0 To dtCheckOthersMaterialBalance.Rows.Count - 1
@@ -162,12 +162,16 @@ Public Class OthersPart
                                 _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckOthersMaterialBalance.Rows(i).Item("name")
                                 _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckOthersMaterialBalance.Rows(i).Item("qty")
                                 _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Others Material"
+                                _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckOthersMaterialBalance.Rows(i).Item("traceability")
+                                _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckOthersMaterialBalance.Rows(i).Item("inv_ctrl_date")
+                                _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckOthersMaterialBalance.Rows(i).Item("batch_no")
+                                _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckOthersMaterialBalance.Rows(i).Item("lot_no")
                                 _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & Environment.NewLine
                                 _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
                                 If globVar.failPrint = "No" Then
-                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (fg, line, remark,sub_sub_po,department,material,code_print)
-                                        VALUES ('" & DataGridView2.Rows(i).Cells("FG PN").Value & "','" & DataGridView2.Rows(i).Cells("Line").Value & "','Others Material','" & DataGridView2.Rows(i).Cells("Sub Sub PO").Value & "','" & globVar.department & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("part_number") & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & "')"
+                                    Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (fg, remark,sub_sub_po,department,material,code_print)
+                                        VALUES ('" & DataGridView2.Rows(i).Cells("FG").Value & "','Others Material','" & DataGridView2.Rows(i).Cells("SSP").Value & "','" & globVar.department & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("part_number") & "','" & dtCheckOthersMaterialBalance.Rows(i).Item("code_stock_prod_others") & "')"
                                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                                     cmdInsertPrintingRecord.ExecuteNonQuery()
                                 End If

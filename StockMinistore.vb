@@ -22,7 +22,11 @@ Public Class StockMinistore
             DataGridView1.Rows.Clear()
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[qrcode_new] [QRCode New],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [QRCODE] [QR Code], INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production','Production Request','Return To Main Store') and [save] = 1 order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [Act Qty], CASE 
+                                                        WHEN qrcode_new is not null
+		                                                THEN qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS 
+		                                                ELSE qrcode COLLATE SQL_Latin1_General_CP1_CI_AS  
+                                                    END AS QRCode, INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production','Production Request','Return To Main Store') and [save] = 1 order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception
@@ -91,6 +95,29 @@ Public Class StockMinistore
 
     Private Sub ExportToExcelV2()
         If globVar.view > 0 Then
+
+            Dim _datagridview As DataGridView
+            Dim nama As String
+
+            If TabControl1.SelectedIndex = 0 Then
+
+                _datagridview = DataGridView1
+                nama = "Stock Card Ministore "
+
+            ElseIf TabControl1.SelectedIndex = 1 Then
+
+                _datagridview = ReportDGAtas
+                nama = "Report Ministore "
+
+            End If
+
+            If _datagridview.Rows.Count = 0 Then
+
+                RJMessageBox.Show("Cannot export with data empty.")
+                Exit Sub
+
+            End If
+
             Dim xlApp As New Excel.Application
             Dim xlWorkBook As Excel.Workbook
             Dim xlWorkSheet As Excel.Worksheet
@@ -100,20 +127,20 @@ Public Class StockMinistore
             xlWorkSheet = xlWorkBook.Sheets("sheet1")
 
             ' Mengatur header
-            For k As Integer = 1 To DataGridView1.Columns.Count
-                xlWorkSheet.Cells(1, k) = DataGridView1.Columns(k - 1).HeaderText
+            For k As Integer = 1 To _datagridview.Columns.Count
+                xlWorkSheet.Cells(1, k) = _datagridview.Columns(k - 1).HeaderText
             Next
 
             ' Menyalin data ke array dua dimensi
-            Dim dataArray(DataGridView1.RowCount - 1, DataGridView1.ColumnCount - 1) As Object
-            For i As Integer = 0 To DataGridView1.RowCount - 1
-                For j As Integer = 0 To DataGridView1.ColumnCount - 1
-                    dataArray(i, j) = DataGridView1(j, i).Value
+            Dim dataArray(_datagridview.RowCount - 1, _datagridview.ColumnCount - 1) As Object
+            For i As Integer = 0 To _datagridview.RowCount - 1
+                For j As Integer = 0 To _datagridview.ColumnCount - 1
+                    dataArray(i, j) = _datagridview(j, i).Value
                 Next
             Next
 
             ' Menyalin array ke lembar kerja Excel
-            xlWorkSheet.Range("A2").Resize(DataGridView1.RowCount, DataGridView1.ColumnCount).Value = dataArray
+            xlWorkSheet.Range("A2").Resize(_datagridview.RowCount, _datagridview.ColumnCount).Value = dataArray
 
             ' Mengatur direktori awal untuk dialog
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
@@ -122,7 +149,7 @@ Public Class StockMinistore
             If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
                 Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
                 Dim currentDate As Date = DateTime.Now
-                Dim namafile As String = "Export Stock Card Ministore - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                Dim namafile As String = nama & DateTimePicker1.Text & " - " & DateTimePicker2.Text & ".xlsx"
                 Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
 
                 xlWorkSheet.SaveAs(filePath)
@@ -303,21 +330,65 @@ Public Class StockMinistore
             ReportDGAtas.Rows.Clear()
             ReportDGAtas.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT 
-	                                                    material Material,
-	                                                    SUM(qty) AS [Total Qty],
-	                                                    SUM(ACTUAL_QTY) AS [Total Actual Qty]
+            'Dim queryInputStockDetail As String = "SELECT 
+            '                                         material Material,
+            '                                         SUM(qty) AS [Qty Receive From Main Store],
+            '                                         SUM(ACTUAL_QTY) AS [Total Actual Qty Mini Store]
+            '                                        FROM
+            '                                         stock_card 
+            '                                        WHERE
+            '                                         department = '" & globVar.department & "' 
+            '                                         AND CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' 
+            '                                         AND CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' 
+            '                                         AND status = 'Receive From Main Store'
+            '                                        GROUP BY 
+            '                                         material
+            '                                        order by
+            '                                            material"
+
+            Dim queryInputStockDetail As String = "SELECT
+                                                        sc.material AS Material,
+                                                        SUM(sc.qty) AS [Qty Receive From Main Store],
+                                                        SUM(sc.ACTUAL_QTY) AS [Total Actual Qty Receive From Main Store],
+                                                        COALESCE((
+                                                            SELECT SUM(sc2.qty)
+                                                            FROM stock_card sc2
+                                                            WHERE sc2.MATERIAL = sc.MATERIAL
+                                                                AND sc2.STATUS = 'Receive From Production'
+                                                                AND sc2.DEPARTMENT = '" & globVar.department & "'
+                                                                AND CAST(sc2.datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "'
+                                                                AND CAST(sc2.datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "'
+                                                        ), 0) AS [Qty Return],
+                                                        COALESCE((
+                                                            SELECT SUM(sc2.ACTUAL_QTY)
+                                                            FROM stock_card sc2
+                                                            WHERE sc2.MATERIAL = sc.MATERIAL
+                                                                AND sc2.STATUS = 'Receive From Production'
+                                                                AND sc2.DEPARTMENT = '" & globVar.department & "'
+                                                                AND CAST(sc2.datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "'
+                                                                AND CAST(sc2.datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "'
+                                                        ), 0) AS [Total Actual Qty Return],
+                                                        COALESCE(SUM(sc.ACTUAL_QTY), 0) + COALESCE((
+                                                            SELECT SUM(sc2.ACTUAL_QTY)
+                                                            FROM stock_card sc2
+                                                            WHERE sc2.MATERIAL = sc.MATERIAL
+                                                                AND sc2.STATUS = 'Receive From Production'
+                                                                AND sc2.DEPARTMENT = '" & globVar.department & "'
+                                                                AND CAST(sc2.datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "'
+                                                                AND CAST(sc2.datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "'
+                                                        ), 0) AS [Actual Qty Mini Store (Act Qty Receive + Act Qty Return)]
                                                     FROM
-	                                                    stock_card 
+                                                        stock_card sc
                                                     WHERE
-	                                                    department = 'zQSFP' 
-	                                                    AND CAST(datetime_insert AS DATE) >= '2024-08-01' 
-	                                                    AND CAST(datetime_insert AS DATE) <= '2024-08-13' 
-	                                                    AND status IN ('Receive From Main Store', 'Receive From Production')
-                                                    GROUP BY 
-	                                                    material
-                                                    order by
-                                                        material"
+                                                        sc.department = '" & globVar.department & "' 
+                                                        AND CAST(sc.datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' 
+                                                        AND CAST(sc.datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' 
+                                                        AND sc.status = 'Receive From Main Store'
+                                                    GROUP BY
+                                                        sc.material
+                                                    ORDER BY
+                                                        sc.material"
+
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             ReportDGAtas.DataSource = dtInputStockDetail
 
@@ -370,7 +441,11 @@ Public Class StockMinistore
             ReportDGBawah.Rows.Clear()
             ReportDGBawah.Columns.Clear()
             Call Database.koneksi_database()
-            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [ACT_QTY], [QRCODE] [QR Code], INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production') and material='" & material & "' and actual_qty > 0 order by datetime_insert"
+            Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [Act Qty], CASE 
+                                                        WHEN qrcode_new is not null
+		                                                THEN qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS 
+		                                                ELSE qrcode COLLATE SQL_Latin1_General_CP1_CI_AS  
+                                                    END AS QRCode, INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production') and material='" & material & "' order by datetime_insert, status"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             ReportDGBawah.DataSource = dtInputStockDetail
         Catch ex As Exception

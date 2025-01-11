@@ -7,23 +7,41 @@ Public Class SplitMaterial
     Public Shared menu As String = "Split Label"
 
     Function SplitMaterialGenerateCode() As String
+
         Dim balanceCode As String = ""
+
         Try
+
             Dim queryCheckCodeSM As String = "SELECT top 1 inner_label FROM SPLIT_LABEL ORDER BY cast(replace(inner_label,'SM','') as int) desc"
+
             Dim dtCheckCodeSM As DataTable = Database.GetData(queryCheckCodeSM)
+
             If dtCheckCodeSM.Rows.Count > 0 Then
+
                 Dim match As Match = Regex.Match(dtCheckCodeSM.Rows(0).Item("INNER_LABEL").ToString(), "^([A-Z]+)(\d+)$")
+
                 If match.Success Then
+
                     Dim prefix As String = match.Groups(1).Value
+
                     Dim number As Integer = Integer.Parse(match.Groups(2).Value)
+
                     Dim nextNumber As Integer = number + 1
+
                     balanceCode = prefix & nextNumber.ToString()
+
                 End If
+
             End If
+
         Catch ex As Exception
+
             RJMessageBox.Show("Error Generate SM Code : " & ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
         End Try
+
         Return balanceCode
+
     End Function
 
     Private Sub txtOuterLabel_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtOuterLabel.PreviewKeyDown
@@ -184,6 +202,11 @@ Public Class SplitMaterial
                         End If
                     Else
                         RJMessageBox.Show("Sorry this material not exists in DB or the QTY = 0.")
+                        txtOuterLabel.ReadOnly = False
+                        txtMatLot.Clear()
+                        txtMatQty.Clear()
+                        txtMat.Clear()
+                        txtOuterLabel.Clear()
                     End If
                 Catch ex As Exception
                     RJMessageBox.Show("Error Split Label - 1 =>" & ex.Message)
@@ -327,28 +350,50 @@ Public Class SplitMaterial
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
         If globVar.view > 0 Then
+
             Try
+
                 Dim _check As Integer = 0
+
                 If DataGridView2.Rows.Count > 0 Then
+
                     For i = 0 To DataGridView2.Rows.Count - 1
+
                         If DataGridView2.Rows(i).Cells("check").Value = True Then
+
                             Dim queryCheckSplitLabel As String = "SELECT * FROM SPLIT_LABEL SL, MASTER_MATERIAL MM where SL.ID=" & DataGridView2.Rows(i).Cells("#").Value & " AND SL.OUTER_PN = MM.PART_NUMBER"
                             Dim dtCheckSplitLabel As DataTable = Database.GetData(queryCheckSplitLabel)
+
                             If dtCheckSplitLabel.Rows.Count > 0 Then
-                                Dim queryCheckStockCard As String = "SELECT * FROM STOCK_CARD where lot_no='" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "' AND MATERIAL='" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
+
+                                Dim queryCheckStockCard As String = "SELECT * FROM STOCK_CARD where qrcode='" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "' AND DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
                                 Dim dtCheckStockCard As DataTable = Database.GetData(queryCheckStockCard)
+
                                 If dtCheckStockCard.Rows.Count = 0 Then
+
                                     Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY,ID_FROM_SPLIT,[SAVE])
                                         VALUES ('" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",'" & dtCheckSplitLabel.Rows(0).Item("OUTER_ICD") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "',(SELECT MTS_NO FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),'" & globVar.department & "','NO','Receive From Main Store'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",(SELECT ID FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),1)"
+
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+
                                     If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
                                         _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Split Material"
                                         _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL")
+                                        _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_PN")
+                                        _PrintingSubAssyRawMaterial.txt_Part_Description.Text = dtCheckSplitLabel.Rows(0).Item("NAME")
+                                        _PrintingSubAssyRawMaterial.txt_Qty.Text = dtCheckSplitLabel.Rows(0).Item("INNER_QTY")
+                                        _PrintingSubAssyRawMaterial.txt_Traceability.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY")
+                                        _PrintingSubAssyRawMaterial.txt_Inv_crtl_date.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_ICD")
+                                        _PrintingSubAssyRawMaterial.txt_Batch_no.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH")
+                                        _PrintingSubAssyRawMaterial.txt_Lot_no.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LOT")
                                         _PrintingSubAssyRawMaterial.txt_QR_Code.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & Environment.NewLine
                                         _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
                                         If globVar.failPrint = "No" Then
+
                                             Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (remark,department,code_print)
                                             VALUES ('Split Material Print','" & globVar.department & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "')"
                                             Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
@@ -360,8 +405,11 @@ Public Class SplitMaterial
 
                                             'DGV_Split_Qty(txtOuterLabel.Text)
                                         End If
+
                                     End If
+
                                 Else
+
                                     _PrintingSubAssyRawMaterial.txt_jenis_ticket.Text = "Split Material"
                                     _PrintingSubAssyRawMaterial.txt_Unique_id.Text = dtCheckSplitLabel.Rows(0).Item("INNER_LABEL")
                                     _PrintingSubAssyRawMaterial.txt_part_number.Text = dtCheckSplitLabel.Rows(0).Item("OUTER_PN")
@@ -375,6 +423,7 @@ Public Class SplitMaterial
                                     _PrintingSubAssyRawMaterial.btn_Print_Click(sender, e)
 
                                     If globVar.failPrint = "No" Then
+
                                         Dim Sql As String = "update split_label set [print]=1 where ID=" & DataGridView2.Rows(i).Cells("#").Value
                                         Dim cmd = New SqlCommand(Sql, Database.koneksi)
                                         cmd.ExecuteNonQuery()
@@ -384,14 +433,17 @@ Public Class SplitMaterial
                                         Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                                         cmdInsertPrintingRecord.ExecuteNonQuery()
 
-                                        DGV_Split_Qty2(dtCheckSplitLabel.Rows(0).Item("OUTER_PN"),
-                                                       dtCheckSplitLabel.Rows(0).Item("OUTER_LOT"),
-                                                       dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH"),
-                                                       dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY"),
-                                                       dtCheckSplitLabel.Rows(0).Item("OUTER_ICD"))
-                                        DGV_Atas()
+                                        'DGV_Split_Qty2(dtCheckSplitLabel.Rows(0).Item("OUTER_PN"),
+                                        '               dtCheckSplitLabel.Rows(0).Item("OUTER_LOT"),
+                                        '               dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH"),
+                                        '               dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY"),
+                                        '               dtCheckSplitLabel.Rows(0).Item("OUTER_ICD"))
+                                        'DGV_Atas()
+
                                     End If
+
                                 End If
+
                             End If
 
                             _check += 1
@@ -400,15 +452,25 @@ Public Class SplitMaterial
                     Next
 
                     If _check <= 0 Then
+
                         RJMessageBox.Show("Please check first, if you want print")
+
                     End If
+
                 Else
+
                     RJMessageBox.Show("No Data")
+
                 End If
+
             Catch ex As Exception
+
                 RJMessageBox.Show("Error Split Label - 3 =>" & ex.Message)
+
             End Try
+
         End If
+
     End Sub
 
     Private Sub SplitMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -815,6 +877,11 @@ Public Class SplitMaterial
                 End If
             Else
                 RJMessageBox.Show("Sorry this material not exists in DB or the QTY = 0.")
+                txtOuterLabel.ReadOnly = False
+                txtMatLot.Clear()
+                txtMatQty.Clear()
+                txtMat.Clear()
+                txtOuterLabel.Clear()
             End If
         Else
             RJMessageBox.Show("Your access cannot execute this action")

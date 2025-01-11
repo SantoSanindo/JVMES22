@@ -21,7 +21,16 @@ Public Class FormReturnStock
 
             Button2.Enabled = False
 
+            Unlock.Enabled = False
+
             checkQr.Enabled = False
+
+            If globVar.hakAkses.Contains("Administrator") Then
+                Unlock.Visible = True
+            Else
+                Unlock.Visible = False
+            End If
+
         End If
     End Sub
 
@@ -34,7 +43,11 @@ Public Class FormReturnStock
         dgv_forminputstock.Rows.Clear()
         dgv_forminputstock.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryInputStockDetail As String = "SELECT ID [#],MATERIAL [Material],LOT_NO [Lot],TRACEABILITY [Trace],BATCH_NO [Batch],INV_CTRL_DATE [ICD],QTY [Qty], RETURN_MAINSTORE_DATETIME [Date Time], RETURN_MAINSTORE_WHO [Return By] FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' and MATERIAL='" & id & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
+        Dim queryInputStockDetail As String = "SELECT ID [#],MATERIAL [Material],LOT_NO [Lot],TRACEABILITY [Trace],BATCH_NO [Batch],INV_CTRL_DATE [ICD],QTY [Qty], CASE 
+                                                        WHEN qrcode_new is not null
+		                                                THEN qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS 
+		                                                ELSE qrcode COLLATE SQL_Latin1_General_CP1_CI_AS  
+                                                    END AS QRCode, RETURN_MAINSTORE_DATETIME [Date Time], RETURN_MAINSTORE_WHO [Return By] FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' and MATERIAL='" & id & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
         Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
         dgv_forminputstock.DataSource = dtInputStockDetail
 
@@ -50,7 +63,7 @@ Public Class FormReturnStock
                 delete.Text = "Delete"
                 delete.UseColumnTextForButtonValue = True
 
-                dgv_forminputstock.Columns.Insert(9, delete)
+                dgv_forminputstock.Columns.Insert(10, delete)
 
                 Button2.Enabled = True
             End If
@@ -91,7 +104,7 @@ Public Class FormReturnStock
 
             If txt_forminputstock_qrcode.Text.StartsWith("B") AndAlso txt_forminputstock_qrcode.Text.Length > 1 AndAlso IsNumeric(txt_forminputstock_qrcode.Text.Substring(1)) Then
 
-                Dim sqlCheckBalance As String = "select * from stock_card where qrcode = '" & txt_forminputstock_qrcode.Text & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and department='" & globVar.department & "'"
+                Dim sqlCheckBalance As String = "select * from stock_card where qrcode = '" & txt_forminputstock_qrcode.Text & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and actual_qty > 0 and department='" & globVar.department & "'"
                 Dim dtCheckBalance As DataTable = Database.GetData(sqlCheckBalance)
                 If dtCheckBalance.Rows.Count > 0 Then
 
@@ -154,7 +167,7 @@ Public Class FormReturnStock
                     Exit Sub
                 End If
 
-                Dim sql As String = "SELECT * FROM STOCK_CARD where MATERIAL='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and department='" & globVar.department & "' and actual_qty>0"
+                Dim sql As String = "SELECT * FROM STOCK_CARD where qrcode='" & txt_forminputstock_qrcode.Text & "' and MATERIAL='" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and department='" & globVar.department & "' and actual_qty>0"
                 adapter = New SqlDataAdapter(sql, Database.koneksi)
                 adapter.Fill(ds)
 
@@ -203,11 +216,147 @@ Public Class FormReturnStock
                     txt_forminputstock_qrcode.Select()
                 End If
 
+            ElseIf txt_forminputstock_qrcode.Text.StartsWith("NQ") AndAlso txt_forminputstock_qrcode.Text.Length > 1 AndAlso IsNumeric(txt_forminputstock_qrcode.Text.Substring(1)) Then
+
+                Dim sqlCheckStockNQ = "SELECT * FROM new_label WHERE qrcode = '" & txt_forminputstock_qrcode.Text & "'"
+                Dim dtCheckStockNQ As DataTable = Database.GetData(sqlCheckStockNQ)
+
+                If dtCheckStockNQ.Rows.Count = 0 Then
+                    RJMessageBox.Show("Material doesn't exist in Database")
+                    Play_Sound.Wrong()
+                    txt_forminputstock_qrcode.Clear()
+                    Exit Sub
+                End If
+
+                globVar.QRCode_PN = dtCheckStockNQ.Rows(0).Item("material")
+                globVar.QRCode_lot = dtCheckStockNQ.Rows(0).Item("lot_no")
+                globVar.QRCode_Inv = dtCheckStockNQ.Rows(0).Item("inv_ctrl_date")
+                globVar.QRCode_Traceability = dtCheckStockNQ.Rows(0).Item("traceability")
+                globVar.QRCode_Batch = dtCheckStockNQ.Rows(0).Item("batch_no")
+
+                If dtCheckStockNQ.Rows(0).Item("qty") <= 0 Then
+                    RJMessageBox.Show("Qty this material is 0")
+                    Play_Sound.Wrong()
+                    txt_forminputstock_qrcode.Clear()
+                    Exit Sub
+                End If
+
+                Dim sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and batch_no='" & globVar.QRCode_Batch & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and department='" & globVar.department & "' and (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and actual_qty > 0 and qrcode_new='" & TextBox1.Text & "'"
+                adapter = New SqlDataAdapter(sqlCheckStockMinistore, Database.koneksi)
+                adapter.Fill(ds)
+
+                If ds.Rows.Count = 0 Then
+
+                    RJMessageBox.Show("Sorry this material qty is zero or this material already return.")
+                    txt_forminputstock_qrcode.Text = ""
+                    txt_forminputstock_qrcode.Select()
+                    Exit Sub
+
+                End If
+
+                Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where qrcode_new='" & txt_forminputstock_qrcode.Text & "' and lot_no='" & ds.Rows(0).Item("lot_no") & "' AND MATERIAL='" & ds.Rows(0).Item("material") & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND status='Return To Main Store'"
+                Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+
+                If dtCheckInputStockDetail.Rows.Count > 0 Then
+
+                    RJMessageBox.Show("This QRCode Already Scan")
+
+                    txt_forminputstock_qrcode.Text = ""
+                    txt_forminputstock_qrcode.Select()
+
+                    dgv_forminputstock.DataSource = Nothing
+                    dgv_forminputstock.Rows.Clear()
+                    dgv_forminputstock.Columns.Clear()
+
+                    treeView_show()
+
+                Else
+                    Try
+                        Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (qrcode,MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY,RETURN_MAINSTORE_DATETIME,RETURN_MAINSTORE_WHO,qrcode_new)
+                                    VALUES ('Manual Input'," & ds.Rows(0).Item("material") & ",'" & ds.Rows(0).Item("actual_qty") & "','" & ds.Rows(0).Item("inv_ctrl_date") & "','" & ds.Rows(0).Item("traceability") & "','" & ds.Rows(0).Item("lot_no") & "','" & ds.Rows(0).Item("batch_no") & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & ds.Rows(0).Item("STANDARD_PACK") & "','Return To Main Store'," & ds.Rows(0).Item("actual_qty") & ",getdate(),'" & globVar.username & "','" & txt_forminputstock_qrcode.Text & "')"
+                        Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                        If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                            Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE id=" & ds.Rows(0).Item("id")
+                            Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+                            If cmdUpdateQty.ExecuteNonQuery() Then
+                                txt_forminputstock_qrcode.Text = ""
+                                txt_forminputstock_qrcode.Select()
+
+                                dgv_forminputstock.DataSource = Nothing
+                                dgv_forminputstock.Rows.Clear()
+                                dgv_forminputstock.Columns.Clear()
+                            End If
+                            treeView_show()
+                        End If
+                    Catch ex As Exception
+                        RJMessageBox.Show("Error Return Stock - 1 =>" & ex.Message)
+                    End Try
+                End If
+
+            ElseIf txt_forminputstock_qrcode.Text.StartsWith("SM") AndAlso txt_forminputstock_qrcode.Text.Length > 2 AndAlso IsNumeric(txt_forminputstock_qrcode.Text.Substring(2)) Then
+
+                Dim sqlCheckStockSM = "SELECT * FROM stock_card WHERE qrcode = '" & txt_forminputstock_qrcode.Text & "' and actual_qty > 0 and status='Receive From Main Store' and [save] = 1 and department='" & globVar.department & "'"
+                Dim dtCheckStockSM As DataTable = Database.GetData(sqlCheckStockSM)
+
+                If dtCheckStockSM.Rows.Count = 0 Then
+
+                    RJMessageBox.Show("Sorry this material qty is zero or this material already return.")
+                    txt_forminputstock_qrcode.Text = ""
+                    txt_forminputstock_qrcode.Select()
+                    Exit Sub
+
+                End If
+
+                If dtCheckStockSM.Rows.Count > 0 Then
+
+                    Dim queryCheckInputStockDetail As String = "SELECT * FROM STOCK_CARD where qrcode='" & txt_forminputstock_qrcode.Text & "' and mts_no='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND status='Return To Main Store'"
+                    Dim dtCheckInputStockDetail As DataTable = Database.GetData(queryCheckInputStockDetail)
+
+                    If dtCheckInputStockDetail.Rows.Count > 0 Then
+                        RJMessageBox.Show("This QRCode Already Scan")
+
+                        txt_forminputstock_qrcode.Text = ""
+                        txt_forminputstock_qrcode.Select()
+
+                        dgv_forminputstock.DataSource = Nothing
+                        dgv_forminputstock.Rows.Clear()
+                        dgv_forminputstock.Columns.Clear()
+
+                        treeView_show()
+                    Else
+                        Try
+                            Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (qrcode,MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY,RETURN_MAINSTORE_DATETIME,RETURN_MAINSTORE_WHO)
+                                    VALUES ('" & txt_forminputstock_qrcode.Text & "'," & dtCheckStockSM.Rows(0).Item("material") & ",'" & dtCheckStockSM.Rows(0).Item("actual_qty") & "','" & dtCheckStockSM.Rows(0).Item("inv_ctrl_date") & "','" & dtCheckStockSM.Rows(0).Item("traceability") & "','" & dtCheckStockSM.Rows(0).Item("lot_no") & "','" & dtCheckStockSM.Rows(0).Item("batch_no") & "'," & txt_forminputstock_mts_no.Text & ",'" & globVar.department & "','" & dtCheckStockSM.Rows(0).Item("STANDARD_PACK") & "','Return To Main Store'," & dtCheckStockSM.Rows(0).Item("actual_qty") & ",getdate(),'" & globVar.username & "')"
+                            Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                            If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+
+                                Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=0 FROM STOCK_CARD WHERE id=" & dtCheckStockSM.Rows(0).Item("id")
+                                Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+                                If cmdUpdateQty.ExecuteNonQuery() Then
+                                    txt_forminputstock_qrcode.Text = ""
+                                    txt_forminputstock_qrcode.Select()
+
+                                    dgv_forminputstock.DataSource = Nothing
+                                    dgv_forminputstock.Rows.Clear()
+                                    dgv_forminputstock.Columns.Clear()
+                                End If
+                                treeView_show()
+                            End If
+                        Catch ex As Exception
+                            RJMessageBox.Show("Error Return Stock - 2 =>" & ex.Message)
+                        End Try
+                    End If
+
+                End If
+
             Else
+
                 RJMessageBox.Show("QRCode Not Valid")
                 Play_Sound.Wrong()
                 txt_forminputstock_qrcode.Clear()
                 Exit Sub
+
             End If
 
         End If
@@ -252,6 +401,7 @@ Public Class FormReturnStock
                             txt_forminputstock_qrcode.ReadOnly = True
                             checkQr.Enabled = False
                             Button2.Enabled = False
+                            Unlock.Enabled = True
                             dgv_forminputstock.ReadOnly = True
 
                             RJMessageBox.Show("Success Save The Data")
@@ -280,28 +430,69 @@ Public Class FormReturnStock
 
                         If dtCheck.Rows.Count > 0 Then
 
-                            Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=" & dtCheck.Rows(0).Item("actual_qty") & " FROM STOCK_CARD WHERE 
-                                status in ('Receive From Main Store','Receive From Production')
-                                and qrcode='" & dtCheck.Rows(0).Item("qrcode") & "'
-                                and material='" & dtCheck.Rows(0).Item("material") & "'
-                                and lot_no='" & dtCheck.Rows(0).Item("lot_no") & "'
-                                and traceability='" & dtCheck.Rows(0).Item("traceability") & "'
-                                and inv_ctrl_date='" & dtCheck.Rows(0).Item("inv_ctrl_date") & "'
-                                and batch_no='" & dtCheck.Rows(0).Item("batch_no") & "'"
-                            Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+                            If dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value.ToString.StartsWith("NQ") Then
 
-                            If cmdUpdateQty.ExecuteNonQuery() Then
+                                Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=qty FROM STOCK_CARD WHERE 
+                                    status = 'Receive From Main Store' and department='" & globVar.department & "'
+                                    and qrcode_new='" & dtCheck.Rows(0).Item("qrcode_new") & "'"
+                                Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
 
-                                Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
-                                Dim cmd = New SqlCommand(sql, Database.koneksi)
-                                If cmd.ExecuteNonQuery() Then
-                                    DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
-                                    treeView_show()
-                                    RJMessageBox.Show("Success delete.")
+                                If cmdUpdateQty.ExecuteNonQuery() Then
+
+                                    Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                                    If cmd.ExecuteNonQuery() Then
+                                        DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
+                                        treeView_show()
+                                        RJMessageBox.Show("Success delete.")
+                                    End If
+
+                                Else
+                                    RJMessageBox.Show("Failed delete.")
+                                End If
+
+                            ElseIf dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value.ToString.StartsWith("B") Then
+
+                                Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=qty FROM STOCK_CARD WHERE 
+                                        status = 'Receive From Production' and department='" & globVar.department & "'
+                                        and qrcode='" & dtCheck.Rows(0).Item("qrcode") & "'"
+                                Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+
+                                If cmdUpdateQty.ExecuteNonQuery() Then
+
+                                    Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                                    If cmd.ExecuteNonQuery() Then
+                                        DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
+                                        treeView_show()
+                                        RJMessageBox.Show("Success delete.")
+                                    End If
+
+                                Else
+                                    RJMessageBox.Show("Failed delete.")
                                 End If
 
                             Else
-                                RJMessageBox.Show("Failed delete.")
+
+                                Dim SqlUpdateQty As String = "UPDATE STOCK_CARD SET actual_qty=qty FROM STOCK_CARD WHERE 
+                                        status = 'Receive From Main Store' and department='" & globVar.department & "'
+                                        and qrcode='" & dtCheck.Rows(0).Item("qrcode") & "'"
+                                Dim cmdUpdateQty = New SqlCommand(SqlUpdateQty, Database.koneksi)
+
+                                If cmdUpdateQty.ExecuteNonQuery() Then
+
+                                    Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                                    If cmd.ExecuteNonQuery() Then
+                                        DGV_InputStock(dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
+                                        treeView_show()
+                                        RJMessageBox.Show("Success delete.")
+                                    End If
+
+                                Else
+                                    RJMessageBox.Show("Failed delete.")
+                                End If
+
                             End If
 
                         End If
@@ -335,10 +526,10 @@ Public Class FormReturnStock
                     RJMessageBox.Show("MTS cannot be null.")
                     txt_forminputstock_mts_no.Select()
                 Else
-                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1"
+                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status='Receive From Main Store'"
                     Dim dtCheck As DataTable = Database.GetData(queryCheck)
                     If dtCheck.Rows.Count > 0 Then
-                        RJMessageBox.Show("Sorry MTS Number already in DB")
+                        RJMessageBox.Show("Sorry This MTS Number already use in input stock")
                         txt_forminputstock_mts_no.Clear()
                         Exit Sub
                     End If
@@ -365,14 +556,17 @@ Public Class FormReturnStock
                     If dtCheckLock.Rows.Count > 0 Then
                         If dtCheckLock.Rows(0).Item("SAVE") = 0 Then
                             Button2.Enabled = True
+                            Unlock.Enabled = False
                         Else
                             txt_forminputstock_qrcode.ReadOnly = True
                             checkQr.Enabled = False
                             Button2.Enabled = False
                             dgv_forminputstock.ReadOnly = True
+                            Unlock.Enabled = True
                         End If
                     Else
                         Button2.Enabled = True
+                        Unlock.Enabled = False
                     End If
                 End If
             End If
@@ -576,5 +770,36 @@ Public Class FormReturnStock
             txt_forminputstock_mts_no.Text = txt_forminputstock_mts_no.Text.TrimStart("0"c)
             txt_forminputstock_mts_no.SelectionStart = txt_forminputstock_mts_no.Text.Length
         End If
+    End Sub
+
+    Private Sub Unlock_Click(sender As Object, e As EventArgs) Handles Unlock.Click
+
+        Dim result = RJMessageBox.Show("Data return already saved. Are you sure to edit this MTS Data?", "Warning", MessageBoxButtons.YesNo)
+
+        If result = DialogResult.Yes Then
+            Try
+                Dim sqlInsertInputStockDetail As String = "INSERT INTO LOG (MENU, REMARK, WHO) VALUES ('INPUT STOCK','Edit Return Stock After Save','" & globVar.username & "')"
+                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                If cmdInsertInputStockDetail.ExecuteNonQuery() Then
+                    Dim Sql As String = "UPDATE STOCK_CARD SET [SAVE]=0, DATETIME_SAVE=null FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT='" & globVar.department & "' AND STATUS='Return To Main Store'"
+                    Dim cmd = New SqlCommand(Sql, Database.koneksi)
+                    If (cmd.ExecuteNonQuery() > 0) Then
+
+                        dgv_forminputstock.DataSource = Nothing
+                        treeView_show()
+                        txt_forminputstock_qrcode.ReadOnly = False
+                        checkQr.Enabled = True
+                        Button2.Enabled = True
+                        Unlock.Enabled = False
+                        dgv_forminputstock.ReadOnly = False
+
+                        RJMessageBox.Show("Success Change The Data. You can EDIT now.")
+                    End If
+                End If
+            Catch ex As Exception
+                RJMessageBox.Show("Error Return Stock - 8 =>" & ex.Message)
+            End Try
+        End If
+
     End Sub
 End Class

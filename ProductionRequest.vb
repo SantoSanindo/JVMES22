@@ -281,7 +281,7 @@ Public Class ProductionRequest
                         End If
 
                         If dtCheckStockNQ.Rows(0).Item("qty") <= 0 Then
-                            RJMessageBox.Show("Qty this material split is 0")
+                            RJMessageBox.Show("Qty this material is 0")
                             TextBox1.Clear()
                             Exit Sub
                         End If

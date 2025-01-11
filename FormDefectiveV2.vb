@@ -1901,6 +1901,37 @@ Public Class FormDefectiveV2
                             Exit Sub
                         End If
 
+                    ElseIf txtBalanceBarcode.Text.StartsWith("OT") AndAlso txtBalanceBarcode.Text.Length > 2 AndAlso IsNumeric(txtBalanceBarcode.Text.Substring(2)) Then
+
+                        Dim queryCheck As String = "select * from stock_card where sub_sub_po='" & txtSubSubPODefective.Text & "' and qrcode_new='" & txtBalanceBarcode.Text & "' and status='Production Process' and department='" & globVar.department & "'"
+                        Dim dttable As DataTable = Database.GetData(queryCheck)
+                        If dttable.Rows.Count > 0 Then
+                            globVar.QRCode_PN = dttable.Rows(0).Item("material")
+                            globVar.QRCode_lot = dttable.Rows(0).Item("lot_no")
+
+                            txtReturnMaterialPN.Text = globVar.QRCode_PN
+                            TextBox10.Text = globVar.QRCode_lot
+
+                            tampungIDMaterialReturnMaterial.Text = dttable.Rows(0).Item("id")
+
+                            If dttable.Rows(0).Item("actual_qty") = 0 Then
+                                txtBalanceBarcode.Clear()
+                                RJMessageBox.Show("This material qty is 0.")
+                                Exit Sub
+                            End If
+
+                            txtBalanceQty.Enabled = True
+                            txtBalanceQty.Text = dttable.Rows(0).Item("actual_qty")
+                            txtBalanceQty.Select()
+                            btnBalanceAdd.Enabled = True
+                        Else
+                            RJMessageBox.Show("This material not exist in Database.")
+                            txtBalanceBarcode.Clear()
+                            txtBalanceMaterialPN.Clear()
+                            txtReturnMaterialPN.Clear()
+                            Exit Sub
+                        End If
+
                     Else
 
                         RJMessageBox.Show("QRCode not valid.")

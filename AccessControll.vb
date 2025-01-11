@@ -158,7 +158,14 @@ Public Class AccessControll
 
     Sub loadDepartment()
         CheckedListBox3.Items.Clear()
-        Dim query As String = "select department from department"
+        Dim query As String
+
+        If globVar.hakAkses.Contains("Administrator") Then
+            query = "select * from department order by department"
+        Else
+            query = "select * from department where department='" & globVar.department & "' order by department"
+        End If
+
         Dim dtDepartment As DataTable = Database.GetData(query)
         If dtDepartment.Rows.Count > 0 Then
             For i = 0 To dtDepartment.Rows.Count - 1
@@ -168,7 +175,14 @@ Public Class AccessControll
     End Sub
 
     Sub DGV_Access_Control()
-        Dim sql As String = "select [id] #,[name] Name,[menu] Menu, [department] Department, [view] [View],[add] [Add],[update] [Update],[delete] [Delete],[user_add] [Created By] from master_access"
+        Dim sql As String
+
+        If globVar.hakAkses.Contains("Administrator") Then
+            sql = "select [id] #,[name] Name,[menu] Menu, [department] Department, [view] [View],[add] [Add],[update] [Update],[delete] [Delete],[user_add] [Created By] from master_access "
+        Else
+            sql = "select [id] #,[name] Name,[menu] Menu, [department] Department, [view] [View],[add] [Add],[update] [Update],[delete] [Delete],[user_add] [Created By] from master_access where department like '%" & globVar.department & "%' and name != 'Administrator'"
+        End If
+
         Dim dtMainPO As DataTable = Database.GetData(sql)
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DataGridView1.DataSource = Nothing

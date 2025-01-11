@@ -111,7 +111,7 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub treeView_show()
         TreeView1.Nodes.Clear()
-        Dim queryFinishGoods As String = "select DISTINCT(FG_PART_NUMBER) from MATERIAL_USAGE_FINISH_GOODS order by fg_part_number"
+        Dim queryFinishGoods As String = "select FG_PART_NUMBER from MASTER_FINISH_GOODS where department='" & globVar.department & "'"
         Dim dtFinishGoods As DataTable = Database.GetData(queryFinishGoods)
 
         TreeView1.Nodes.Add("Material Usage Finish Goods")
@@ -381,28 +381,79 @@ Public Class MaterialUsageFinishGoods
                 Dim queryExcel As String = "select * from [" & SheetName & "$]"
                 Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
                 Dim rd As OleDbDataReader
+                Dim duplicateComponents As New List(Of String) ' Untuk menyimpan komponen duplikat
 
                 Call Database.koneksi_database()
                 Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
                     bulkCopy.DestinationTableName = "dbo.MATERIAL_USAGE_FINISH_GOODS"
+
+                    Dim dataTable As New DataTable()
+
+                    ' Definisikan kolom sesuai dengan tabel tujuan
+                    dataTable.Columns.Add("FG_PART_NUMBER", GetType(String))
+                    dataTable.Columns.Add("FAMILY", GetType(String))
+                    dataTable.Columns.Add("COMPONENT", GetType(String))
+                    dataTable.Columns.Add("DESCRIPTION", GetType(String))
+                    dataTable.Columns.Add("USAGE", GetType(Integer))
+
                     Try
                         rd = cmd.ExecuteReader
 
-                        bulkCopy.ColumnMappings.Add(0, 1)
-                        bulkCopy.ColumnMappings.Add(1, 2)
-                        bulkCopy.ColumnMappings.Add(2, 3)
-                        bulkCopy.ColumnMappings.Add(3, 4)
-                        bulkCopy.ColumnMappings.Add(4, 5)
+                        While rd.Read()
+                            Dim fgPartNumber = rd("Finish Goods Part Number *").ToString().Trim()
+                            Dim family = rd("Family (zSFP, zQSFP etc) *").ToString().Trim()
+                            Dim component = rd("Component *").ToString().Trim()
+                            Dim description = rd("Description *").ToString().Trim()
+                            Dim usageValue = Convert.ToInt32(rd("Usage *"))
 
-                        bulkCopy.WriteToServer(rd)
+                            Dim checkQuery As String = "SELECT COUNT(*) FROM dbo.MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER = @FG_PART_NUMBER AND COMPONENT = @COMPONENT"
+                            Dim exists As Integer
+                            Using checkCmd As New SqlCommand(checkQuery, Database.koneksi)
+                                checkCmd.Parameters.AddWithValue("@FG_PART_NUMBER", fgPartNumber)
+                                checkCmd.Parameters.AddWithValue("@COMPONENT", component)
+                                exists = Convert.ToInt32(checkCmd.ExecuteScalar())
+                            End Using
+
+                            If exists = 0 Then
+                                Dim row As DataRow = DataTable.NewRow()
+                                row("FG_PART_NUMBER") = fgPartNumber
+                                row("FAMILY") = family
+                                row("COMPONENT") = component
+                                row("DESCRIPTION") = description
+                                row("USAGE") = usageValue
+                                DataTable.Rows.Add(row)
+                            Else
+                                duplicateComponents.Add($"{component} (FG: {fgPartNumber})") ' Catat data duplikat
+                            End If
+                        End While
+
+                        ' Tutup DataReader
                         rd.Close()
 
+                        ' Jika ada data baru, kirim ke database menggunakan SqlBulkCopy
+                        If dataTable.Rows.Count > 0 Then
+
+                            bulkCopy.ColumnMappings.Add("FG_PART_NUMBER", "FG_PART_NUMBER")
+                            bulkCopy.ColumnMappings.Add("FAMILY", "FAMILY")
+                            bulkCopy.ColumnMappings.Add("COMPONENT", "COMPONENT")
+                            bulkCopy.ColumnMappings.Add("DESCRIPTION", "DESCRIPTION")
+                            bulkCopy.ColumnMappings.Add("USAGE", "USAGE")
+
+                            bulkCopy.WriteToServer(dataTable)
+
+                        End If
+
+                        ' Refresh DataGridView dan TreeView
                         DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
                         treeView_show()
 
-                        idP = cb_masterfinishgoods_pn.Text
+                        ' Tampilkan pesan sukses
+                        Dim message As String = "Import Material Usage Finish Goods Success."
+                        If duplicateComponents.Count > 0 Then
+                            message &= vbCrLf & "But, some data is duplicate: " & String.Join(", ", duplicateComponents)
+                        End If
+                        RJMessageBox.Show(message)
 
-                        RJMessageBox.Show("Import Material Usage Finish Goods Success")
                     Catch ex As Exception
                         RJMessageBox.Show("Error Master Material Usage Finish Goods - 4 => " & ex.Message)
                     End Try
@@ -425,11 +476,11 @@ Public Class MaterialUsageFinishGoods
             Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
             'write data to worksheet
-            worksheet.Range("A1").Value = "Finish Goods Part Number"
-            worksheet.Range("B1").Value = "Family"
-            worksheet.Range("C1").Value = "Component"
-            worksheet.Range("D1").Value = "Description"
-            worksheet.Range("E1").Value = "Usage"
+            worksheet.Range("A1").Value = "Finish Goods Part Number *"
+            worksheet.Range("B1").Value = "Family (zSFP, zQSFP etc) *"
+            worksheet.Range("C1").Value = "Component *"
+            worksheet.Range("D1").Value = "Description *"
+            worksheet.Range("E1").Value = "Usage *"
 
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
@@ -454,30 +505,60 @@ Public Class MaterialUsageFinishGoods
     End Sub
 
     Private Sub ExportToExcel()
+        ' Cek apakah DataGridView memiliki data
+        If dgv_masterfinishgoods_atas.RowCount <= 0 Then
+            RJMessageBox.Show("Cannot export with empty table")
+            Return
+        End If
+
         Dim xlApp As New Excel.Application
         Dim xlWorkBook As Excel.Workbook
         Dim xlWorkSheet As Excel.Worksheet
         Dim misValue As Object = System.Reflection.Missing.Value
-        Dim i As Integer
-        Dim j As Integer
+        Dim FG As String = ""
+
+        ' Kolom yang dikecualikan
+        Dim excludedColumns As New List(Of String) From {"Check For Delete", "#", "Date Time", "Created By", "Delete"}
+
         xlWorkBook = xlApp.Workbooks.Add(misValue)
         xlWorkSheet = xlWorkBook.Sheets("sheet1")
 
-        For i = 1 To dgv_masterfinishgoods_atas.RowCount - 2
-            For j = 1 To dgv_masterfinishgoods_atas.ColumnCount - 2
-                For k As Integer = 1 To dgv_masterfinishgoods_atas.Columns.Count
-                    xlWorkSheet.Cells(1, k) = dgv_masterfinishgoods_atas.Columns(k - 1).HeaderText
-                    xlWorkSheet.Cells(i + 2, j + 1) = dgv_masterfinishgoods_atas(j, i).Value.ToString()
-                Next
+        Dim colIndex As Integer = 1
+
+        ' Header: Tambahkan hanya kolom yang tidak dikecualikan
+        For Each column As DataGridViewColumn In dgv_masterfinishgoods_atas.Columns
+            If Not excludedColumns.Contains(column.HeaderText) Then
+                xlWorkSheet.Cells(1, colIndex) = column.HeaderText
+                colIndex += 1
+            End If
+        Next
+
+        ' Data: Tambahkan hanya kolom yang tidak dikecualikan
+        For i As Integer = 0 To dgv_masterfinishgoods_atas.RowCount - 1
+            colIndex = 1
+            For Each column As DataGridViewColumn In dgv_masterfinishgoods_atas.Columns
+                If Not excludedColumns.Contains(column.HeaderText) Then
+                    Dim cellValue = dgv_masterfinishgoods_atas.Rows(i).Cells(column.Index).Value
+                    xlWorkSheet.Cells(i + 2, colIndex) = If(cellValue IsNot Nothing, cellValue.ToString(), "")
+                    colIndex += 1
+                End If
             Next
         Next
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            xlWorkSheet.SaveAs(directoryPath & "\Master Material Finish Goods.xlsx")
+        ' Ambil nilai FG Part Number untuk nama file
+        If dgv_masterfinishgoods_atas.RowCount > 0 AndAlso dgv_masterfinishgoods_atas.Columns.Contains("FG Part Number") Then
+            FG = dgv_masterfinishgoods_atas.Rows(0).Cells("FG Part Number").Value.ToString()
         End If
 
+        ' Dialog untuk memilih lokasi penyimpanan
+        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+            Dim fileName As String = $"Export {FG} Material Usage.xlsx"
+            xlWorkSheet.SaveAs(System.IO.Path.Combine(directoryPath, fileName))
+        End If
+
+        ' Membersihkan resource
         xlWorkBook.Close()
         xlApp.Quit()
 
@@ -485,8 +566,9 @@ Public Class MaterialUsageFinishGoods
         releaseObject(xlWorkBook)
         releaseObject(xlApp)
 
-        RJMessageBox.Show("Export to Excel Success !")
+        RJMessageBox.Show("Export to Excel Success!")
     End Sub
+
 
     Private Sub releaseObject(ByVal obj As Object)
         Try
@@ -577,12 +659,11 @@ Public Class MaterialUsageFinishGoods
             ' Memilih folder penyimpanan
             If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
                 Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-                Dim currentDate As Date = DateTime.Now
-                Dim namafile As String = "Material Usage Process Flow Export - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                Dim namafile As String = "Export All Material Usage.xlsx"
                 Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
 
                 xlWorkSheet.SaveAs(filePath)
-                RJMessageBox.Show("Export to Excel Success!" & Environment.NewLine & "Name is " & namafile)
+                RJMessageBox.Show("Export to Excel Success!")
             End If
 
             ' Membersihkan objek Excel

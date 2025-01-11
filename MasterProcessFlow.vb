@@ -105,7 +105,7 @@ Public Class MasterProcessFlow
                 End If
             Next
 
-            Dim query As String = "SELECT * FROM (SELECT master_finish_goods_pn as FG_Number,master_process_number, master_process FROM dbo.MASTER_PROCESS_FLOW) t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
+            Dim query As String = "SELECT * FROM (SELECT mpf.master_finish_goods_pn AS FG_Number, mpf.master_process_number, mpf.master_process FROM dbo.MASTER_PROCESS_FLOW mpf, master_finish_goods mfg where mfg.fg_part_number=mpf.master_finish_goods_pn and mfg.department='" & globVar.department & "') t PIVOT ( max(master_process) FOR master_process_number IN ( " + varProcess + " )) pivot_table"
 
             Dim adapterGas As SqlDataAdapter
             Dim datasetGas As New DataSet
@@ -353,10 +353,10 @@ Public Class MasterProcessFlow
             Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
             'write data to worksheet
-            worksheet.Range("A1").Value = "Finish Goods Part Number"
-            worksheet.Range("B1").Value = "Process Number "
-            worksheet.Range("C1").Value = "Process Name"
-            worksheet.Range("D1").Value = "Material Usage"
+            worksheet.Range("A1").Value = "Finish Goods Part Number *"
+            worksheet.Range("B1").Value = "Process Number (1, 2, 3 etc) *"
+            worksheet.Range("C1").Value = "Process Name (Must same with Master Process) *"
+            worksheet.Range("D1").Value = "Material Usage ( 1, 2, 3 etc ) *"
 
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

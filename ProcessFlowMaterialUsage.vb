@@ -15,14 +15,14 @@ Public Class ProcessFlowMaterialUsage
 
     Private Sub treeView_show()
         TreeView1.Nodes.Clear()
-        Dim queryFinishGoodsMaterialUsage As String = "SELECT distinct master_finish_goods_pn FROM master_process_flow order by master_finish_goods_pn"
+        Dim queryFinishGoodsMaterialUsage As String = "select * from MASTER_FINISH_GOODS where department='" & globVar.department & "'"
         Dim dtFinishGoodsMaterialUsage As DataTable = Database.GetData(queryFinishGoodsMaterialUsage)
 
         If dtFinishGoodsMaterialUsage.Rows.Count > 0 Then
             For i = 0 To dtFinishGoodsMaterialUsage.Rows.Count - 1
-                TreeView1.Nodes.Add(dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString, "FG PN : " & dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString)
+                TreeView1.Nodes.Add(dtFinishGoodsMaterialUsage.Rows(i).Item("FG_PART_NUMBER").ToString, "FG PN : " & dtFinishGoodsMaterialUsage.Rows(i).Item("FG_PART_NUMBER").ToString)
 
-                Dim queryProcess As String = "SELECT id,master_process,master_process_number,material_usage FROM master_process_flow where master_finish_goods_pn='" & dtFinishGoodsMaterialUsage.Rows(i).Item("MASTER_FINISH_GOODS_PN").ToString & "' and master_process is not null order by id"
+                Dim queryProcess As String = "SELECT mpf.id,mpf.master_process,mpf.master_process_number,mpf.material_usage FROM master_process_flow mpf, MASTER_FINISH_GOODS mfg where mpf.master_finish_goods_pn=mfg.fg_part_number and mfg.department='" & globVar.department & "' and mpf.master_finish_goods_pn='" & dtFinishGoodsMaterialUsage.Rows(i).Item("FG_PART_NUMBER").ToString & "' and mpf.master_process is not null order by id"
                 Dim dtProcess As DataTable = Database.GetData(queryProcess)
 
                 If dtProcess.Rows.Count > 0 Then

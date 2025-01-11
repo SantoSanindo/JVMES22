@@ -77,7 +77,7 @@ Public Class MasterFinishGoods
 
     Sub tampilDataComboBoxFamily()
         Call Database.koneksi_database()
-        Dim dtMasterFamily As DataTable = Database.GetData("select * from family order by family")
+        Dim dtMasterFamily As DataTable = Database.GetData("select family from family where department='" & globVar.department & "' order by family")
 
         cb_family.DataSource = dtMasterFamily
         cb_family.DisplayMember = "family"
@@ -147,35 +147,86 @@ Public Class MasterFinishGoods
                 oleCon = New OleDbConnection(koneksiExcel)
                 oleCon.Open()
 
-                Dim queryExcel As String = "select * from [" & SheetName & "$]"
+                Dim queryExcel As String = "SELECT * FROM [" & SheetName & "$]"
                 Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
                 Dim rd As OleDbDataReader
 
                 Call Database.koneksi_database()
+
+                Dim duplicateRows As New List(Of String)
+                Dim dataTable As New DataTable()
+
+                dataTable.Columns.Add("FG_PART_NUMBER", GetType(String))
+                dataTable.Columns.Add("DEPARTMENT", GetType(String))
+                dataTable.Columns.Add("LEVEL", GetType(String))
+                dataTable.Columns.Add("DESCRIPTION", GetType(String))
+                dataTable.Columns.Add("SPQ", GetType(Int32))
+                dataTable.Columns.Add("FAMILY", GetType(String))
+                dataTable.Columns.Add("LASER_CODE", GetType(String))
+
                 Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
                     bulkCopy.DestinationTableName = "dbo.MASTER_FINISH_GOODS"
                     Try
-                        rd = cmd.ExecuteReader
+                        rd = cmd.ExecuteReader()
 
-                        bulkCopy.ColumnMappings.Add(0, 0)
-                        bulkCopy.ColumnMappings.Add(1, 1)
-                        bulkCopy.ColumnMappings.Add(2, 2)
-                        bulkCopy.ColumnMappings.Add(3, 3)
-                        bulkCopy.ColumnMappings.Add(4, 4)
-                        bulkCopy.ColumnMappings.Add(5, 5)
-                        bulkCopy.ColumnMappings.Add(6, 7)
+                        While rd.Read()
+                            Dim fgPartNumber As String = rd("Finish Goods Part Number *").ToString().Trim()
+                            Dim _dept As String = rd("Department (zQSFP, Ten60 etc) *").ToString().Trim()
 
-                        bulkCopy.WriteToServer(rd)
+                            If _dept = globVar.department Then
+
+                                Dim cekQuery As String = "SELECT COUNT(*) FROM dbo.MASTER_FINISH_GOODS WHERE FG_PART_NUMBER = @FG_PART_NUMBER"
+                                Using cekCmd As New SqlCommand(cekQuery, Database.koneksi)
+                                    cekCmd.Parameters.AddWithValue("@FG_PART_NUMBER", fgPartNumber)
+
+                                    Dim exists As Integer = Convert.ToInt32(cekCmd.ExecuteScalar())
+                                    If exists > 0 Then
+                                        duplicateRows.Add(fgPartNumber)
+                                    Else
+                                        Dim row As DataRow = dataTable.NewRow()
+                                        row("FG_PART_NUMBER") = fgPartNumber
+                                        row("DEPARTMENT") = _dept
+                                        row("LEVEL") = rd("Level (Sub Assy, FG etc) *").ToString().Trim()
+                                        row("DESCRIPTION") = rd("Description *").ToString().Trim()
+                                        row("SPQ") = Convert.ToInt32(rd("Standard Pack *"))
+                                        row("FAMILY") = rd("Family (zSFP, zQSFP etc) *").ToString().Trim()
+                                        row("LASER_CODE") = If(rd.IsDBNull(rd.GetOrdinal("Laser Code")), DBNull.Value, rd("Laser Code").ToString().Trim())
+                                        dataTable.Rows.Add(row)
+                                    End If
+                                End Using
+
+                            End If
+
+                        End While
+
+                        If dataTable.Rows.Count > 0 Then
+                            bulkCopy.ColumnMappings.Add("FG_PART_NUMBER", "FG_PART_NUMBER")
+                            bulkCopy.ColumnMappings.Add("DEPARTMENT", "DEPARTMENT")
+                            bulkCopy.ColumnMappings.Add("LEVEL", "LEVEL")
+                            bulkCopy.ColumnMappings.Add("DESCRIPTION", "DESCRIPTION")
+                            bulkCopy.ColumnMappings.Add("SPQ", "SPQ")
+                            bulkCopy.ColumnMappings.Add("FAMILY", "FAMILY")
+                            bulkCopy.ColumnMappings.Add("LASER_CODE", "LASER_CODE")
+                            bulkCopy.WriteToServer(dataTable)
+                        End If
+
+                        If duplicateRows.Count > 0 Then
+                            RJMessageBox.Show("Import Success. But, some data is duplicate: " & String.Join(", ", duplicateRows))
+                        Else
+                            RJMessageBox.Show("Import Finish Goods Success.")
+                        End If
+
                         rd.Close()
-
                         dgv_finish_goods.DataSource = Nothing
                         DGV_MasterFinishGoods()
-                        RJMessageBox.Show("Import Finish Goods Success")
+
                     Catch ex As Exception
                         RJMessageBox.Show("Error Master Finish Goods - 2 => " & ex.Message)
                     End Try
                 End Using
             End If
+
+
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
         End If
@@ -463,13 +514,13 @@ Public Class MasterFinishGoods
             Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
             'write data to worksheet
-            worksheet.Range("A1").Value = "Finish Goods Part Number"
-            worksheet.Range("B1").Value = "Department"
-            worksheet.Range("C1").Value = "Level"
-            worksheet.Range("D1").Value = "Description"
-            worksheet.Range("E1").Value = "Standard Pack"
-            worksheet.Range("F1").Value = "Laser Code"
-            worksheet.Range("G1").Value = "Family"
+            worksheet.Range("A1").Value = "Finish Goods Part Number *"
+            worksheet.Range("B1").Value = "Department (zQSFP, Ten60 etc) *"
+            worksheet.Range("C1").Value = "Level (Sub Assy, FG etc) *"
+            worksheet.Range("D1").Value = "Description *"
+            worksheet.Range("E1").Value = "Standard Pack *"
+            worksheet.Range("F1").Value = "Family (zSFP, zQSFP etc) *"
+            worksheet.Range("G1").Value = "Laser Code"
 
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

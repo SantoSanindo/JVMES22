@@ -17,6 +17,14 @@ Public Class Users
                 End If
             Next
 
+            Dim saveFGA As Integer
+
+            If cbFGA.Text = "YES" Then
+                saveFGA = 1
+            Else
+                saveFGA = 0
+            End If
+
             Dim querycheck As String = "select * from users where id_card_no='" & TextBox1.Text & "'"
             Dim dtCheck As DataTable = Database.GetData(querycheck)
             If dtCheck.Rows.Count > 0 Then
@@ -24,13 +32,6 @@ Public Class Users
 
                     Try
                         Dim query As String
-                        Dim saveFGA As Integer
-
-                        If cbFGA.Text = "YES" Then
-                            saveFGA = 1
-                        Else
-                            saveFGA = 0
-                        End If
 
                         If TextBox4.Text <> "" Then
                             query = "update users set role='" & sRole.ToString & "',department='" & ComboBox1.Text & "',username='" & TextBox3.Text & "',password='" & TextBox4.Text & "',user_fga=" & saveFGA & " where id_card_no = '" & TextBox1.Text & "'"
@@ -52,7 +53,7 @@ Public Class Users
             Else
                 If globVar.add > 0 Then
                     Try
-                        Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role,by_who) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox1.Text & "','" & sRole.ToString & "','" & globVar.department & "')"
+                        Dim sql As String = "INSERT INTO users (id_card_no,name,username,password,department,role,by_who,user_fga) VALUES ('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & ComboBox1.Text & "','" & sRole.ToString & "','" & globVar.username & "'," & saveFGA & ")"
                         Dim cmd = New SqlCommand(sql, Database.koneksi)
 
                         If cmd.ExecuteNonQuery() Then
@@ -96,11 +97,13 @@ Public Class Users
     Sub tampilDataComboBoxDepartement()
         Call Database.koneksi_database()
         Dim sql As String
-        If globVar.username = "admin" Then
+
+        If globVar.hakAkses.Contains("Administrator") Then
             sql = "select * from department order by department"
         Else
             sql = "select * from department where department='" & globVar.department & "' order by department"
         End If
+
         Dim dtMasterDepart As DataTable = Database.GetData(sql)
 
         ComboBox1.DataSource = dtMasterDepart
@@ -133,7 +136,7 @@ Public Class Users
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department,case when user_fga = 1 then 'YES' else 'NO' end as [User FGA], DATETIME_INSERT [Date Time], by_who [Created By] from USERS order by name")
+        Dim dtMasterUsers As DataTable = Database.GetData("select id_card_no [ID Card],name Name,username [Username], role Role, department Department,case when user_fga = 1 then 'YES' else 'NO' end as [User FGA], DATETIME_INSERT [Date Time], by_who [Created By] from USERS where department='" & globVar.department & "' order by name")
 
         DataGridView1.DataSource = dtMasterUsers
 
@@ -444,6 +447,8 @@ Public Class Users
 
         TextBox1.Enabled = True
         TextBox2.Enabled = True
+        TextBox1.ReadOnly = False
+        TextBox2.ReadOnly = False
 
         For c1 As Integer = 0 To CheckedListBox1.Items.Count - 1
             CheckedListBox1.SetItemChecked(c1, False)

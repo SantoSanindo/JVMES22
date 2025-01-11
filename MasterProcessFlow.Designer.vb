@@ -105,6 +105,7 @@ Partial Class MasterProcessFlow
         Me.btn_ex_template.TabIndex = 19
         Me.btn_ex_template.Text = "Export Template"
         Me.btn_ex_template.UseVisualStyleBackColor = False
+        Me.btn_ex_template.Visible = False
         '
         'btn_export_Finish_Goods
         '
@@ -147,6 +148,7 @@ Partial Class MasterProcessFlow
         Me.Button2.TabIndex = 8
         Me.Button2.Text = "Import"
         Me.Button2.UseVisualStyleBackColor = False
+        Me.Button2.Visible = False
         '
         'Button1
         '
@@ -210,7 +212,7 @@ Partial Class MasterProcessFlow
         'ContextMenuStrip1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
         'MasterProcessFlow
         '

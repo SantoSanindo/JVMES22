@@ -67,7 +67,7 @@ Public Class MasterMaterial
 
     Sub tampilDataComboBoxFamily()
         Call Database.koneksi_database()
-        Dim dtMasterFamily As DataTable = Database.GetData("select * from family order by family")
+        Dim dtMasterFamily As DataTable = Database.GetData("select family from family where department='" & globVar.department & "' order by family")
 
         cb_mastermaterial_family.DataSource = dtMasterFamily
         cb_mastermaterial_family.DisplayMember = "family"

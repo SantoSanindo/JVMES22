@@ -42,7 +42,7 @@ Public Class MasterProcess
 
     Sub tampilDataComboBoxFamily()
         Call Database.koneksi_database()
-        Dim dtMasterFamily As DataTable = Database.GetData("select * from family order by family")
+        Dim dtMasterFamily As DataTable = Database.GetData("select family from family where department='" & globVar.department & "' order by family")
 
         cb_masterprocess_family.DataSource = dtMasterFamily
         cb_masterprocess_family.DisplayMember = "family"

@@ -1089,7 +1089,7 @@ Public Class FormInputStock
                 If globVar.failPrint = "No" Then
 
                     Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (remark,department,code_print)
-                                     VALUES ('New Label','" & globVar.username & "','" & NewLabelCode & "')"
+                                     VALUES ('New Label','" & globVar.department & " - " & globVar.username & "','" & NewLabelCode & "')"
                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                     cmdInsertPrintingRecord.ExecuteNonQuery()
 
@@ -1112,7 +1112,7 @@ Public Class FormInputStock
                 If globVar.failPrint = "No" Then
 
                     Dim sqlInsertPrintingRecord As String = "INSERT INTO record_printing (remark,department,code_print)
-                                     VALUES ('New Label','" & globVar.username & "','" & QRCodeFirstTime & "')"
+                                     VALUES ('New Label','" & globVar.department & " - " & globVar.username & "','" & QRCodeFirstTime & "')"
                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                     cmdInsertPrintingRecord.ExecuteNonQuery()
 

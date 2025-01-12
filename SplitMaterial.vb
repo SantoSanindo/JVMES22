@@ -72,6 +72,7 @@ Public Class SplitMaterial
                         Dim checkNQ As String = "SELECT * FROM STOCK_CARD where qrcode_new='" & txtOuterLabel.Text & "' 
                                                                     and status = 'Receive From Main Store'
                                                                     and split_material = 0
+                                                                    and department='" & globVar.department & "'
                                                                     and [save]=1 
                                                                     and actual_qty > 0 "
                         Dim dtCheckNQ As DataTable = Database.GetData(checkNQ)
@@ -147,11 +148,11 @@ Public Class SplitMaterial
 
                                         Dim codeSM = SplitMaterialGenerateCode()
 
-                                        Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
+                                        Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "' and department='" & globVar.department & "'"
                                         Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                         If dtCheckForInsert.Rows.Count = 0 Then
-                                            Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
+                                            Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who, department)
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "','" & globVar.department & "')"
                                             Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                             cmdInsertInputStockDetail.ExecuteNonQuery()
                                         End If
@@ -163,21 +164,21 @@ Public Class SplitMaterial
 
                                         If i = q Then
                                             'MsgBox(Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)))
-                                            Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
+                                            Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "' and department='" & globVar.department & "'"
                                             Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                             If dtCheckForInsert.Rows.Count = 0 Then
-                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
+                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who, department)
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "','" & globVar.department & "')"
                                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                                 cmdInsertInputStockDetail.ExecuteNonQuery()
                                             End If
                                         Else
                                             'MsgBox(vPembagian & " - " & i)
-                                            Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
+                                            Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "' and department='" & globVar.department & "'"
                                             Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                             If dtCheckForInsert.Rows.Count = 0 Then
-                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "')"
+                                                Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who, department)
+                                            VALUES ('" & globVar.QRCode_PN & "','" & globVar.QRCode_Inv & "','" & txtOuterLabel.Text & "'," & txtMatQty.Text & ",'" & codeSM & "','" & i & "'," & vPembagian & ",'" & globVar.QRCode_Batch & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.username & "','" & globVar.department & "')"
                                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                                 cmdInsertInputStockDetail.ExecuteNonQuery()
                                             End If
@@ -252,7 +253,7 @@ Public Class SplitMaterial
             DataGridView2.Rows.Clear()
             DataGridView2.Columns.Clear()
 
-            Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_LOT [Outer LOT], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], [print] [Print] FROM split_label where outer_pn='" & pn & "' and outer_lot='" & lot & "' and outer_traceability='" & traceability & "' and outer_batch='" & batch & "' and outer_icd='" & icd & "' order by [print]"
+            Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_LOT [Outer LOT], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], [print] [Print] FROM split_label where outer_pn='" & pn & "' and outer_lot='" & lot & "' and outer_traceability='" & traceability & "' and outer_batch='" & batch & "' and outer_icd='" & icd & "' and department='" & globVar.department & "' order by [print]"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView2.DataSource = dtCheckSplitQty
 
@@ -516,6 +517,7 @@ Public Class SplitMaterial
                                                            AND outer_traceability = s.outer_traceability) AS [Total Split],
                                                         ROW_NUMBER() OVER (PARTITION BY s.outer_pn, s.outer_lot, s.outer_icd, s.outer_batch, s.outer_traceability ORDER BY s.ID) AS RowNum
                                                     FROM SPLIT_LABEL s
+                                                    WHERE department='" & globVar.department & "'
                                                 )
                                                 SELECT 
                                                     [Part Number],
@@ -828,8 +830,8 @@ Public Class SplitMaterial
                                                                         and inner_lot='" & lotManualMaterial(1) & "-" & i & "'"
                                 Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                 If dtCheckForInsert.Rows.Count = 0 Then
-                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & txtManual.Text & "','" & icdManualMaterial(1) & "','Manual Input'," & txtMatQty.Text & ",'" & txtManual.Text & "-" & lotManualMaterial(1) & "-" & i & "','" & lotManualMaterial(1) & "-" & i & "'," & vPembagian & ",'" & batchManualMaterial(1) & "','" & traceManualMaterial(1) & "','" & lotManualMaterial(1) & "','" & globVar.username & "')"
+                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who, department)
+                                            VALUES ('" & txtManual.Text & "','" & icdManualMaterial(1) & "','Manual Input'," & txtMatQty.Text & ",'" & txtManual.Text & "-" & lotManualMaterial(1) & "-" & i & "','" & lotManualMaterial(1) & "-" & i & "'," & vPembagian & ",'" & batchManualMaterial(1) & "','" & traceManualMaterial(1) & "','" & lotManualMaterial(1) & "','" & globVar.username & "','" & globVar.department & "')"
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                     cmdInsertInputStockDetail.ExecuteNonQuery()
                                 End If
@@ -841,8 +843,8 @@ Public Class SplitMaterial
                                     Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                     Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                     If dtCheckForInsert.Rows.Count = 0 Then
-                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & txtManual.Text & "','" & icdManualMaterial(1) & "','Manual Input'," & txtMatQty.Text & ",'" & txtManual.Text & "-" & lotManualMaterial(1) & "-" & i & "','" & lotManualMaterial(1) & "-" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & batchManualMaterial(1) & "','" & traceManualMaterial(1) & "','" & lotManualMaterial(1) & "','" & globVar.username & "')"
+                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who, department)
+                                            VALUES ('" & txtManual.Text & "','" & icdManualMaterial(1) & "','Manual Input'," & txtMatQty.Text & ",'" & txtManual.Text & "-" & lotManualMaterial(1) & "-" & i & "','" & lotManualMaterial(1) & "-" & i & "'," & Convert.ToInt64(txtMatQty.Text) - (vPembagian * (q - 1)) & ",'" & batchManualMaterial(1) & "','" & traceManualMaterial(1) & "','" & lotManualMaterial(1) & "','" & globVar.username & "','" & globVar.department & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         cmdInsertInputStockDetail.ExecuteNonQuery()
                                     End If
@@ -851,8 +853,8 @@ Public Class SplitMaterial
                                     Dim queryCheckForInsert As String = "SELECT * FROM split_label where outer_label='" & txtOuterLabel.Text & "' and inner_lot='" & globVar.QRCode_lot & "-" & i & "'"
                                     Dim dtCheckForInsert As DataTable = Database.GetData(queryCheckForInsert)
                                     If dtCheckForInsert.Rows.Count = 0 Then
-                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who)
-                                            VALUES ('" & txtManual.Text & "','" & icdManualMaterial(1) & "','Manual Input'," & txtMatQty.Text & ",'" & txtManual.Text & "-" & lotManualMaterial(1) & "-" & i & "','" & lotManualMaterial(1) & "-" & i & "'," & vPembagian & ",'" & batchManualMaterial(1) & "','" & traceManualMaterial(1) & "','" & lotManualMaterial(1) & "','" & globVar.username & "')"
+                                        Dim sqlInsertInputStockDetail As String = "INSERT INTO split_label (outer_pn, outer_icd, outer_label, outer_qty, inner_label, inner_lot, inner_qty, outer_batch,outer_traceability,outer_lot, by_who, department)
+                                            VALUES ('" & txtManual.Text & "','" & icdManualMaterial(1) & "','Manual Input'," & txtMatQty.Text & ",'" & txtManual.Text & "-" & lotManualMaterial(1) & "-" & i & "','" & lotManualMaterial(1) & "-" & i & "'," & vPembagian & ",'" & batchManualMaterial(1) & "','" & traceManualMaterial(1) & "','" & lotManualMaterial(1) & "','" & globVar.username & "','" & globVar.department & "')"
                                         Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                         cmdInsertInputStockDetail.ExecuteNonQuery()
                                     End If

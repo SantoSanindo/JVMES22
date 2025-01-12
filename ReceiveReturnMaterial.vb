@@ -65,7 +65,7 @@ Public Class ReceiveReturnMaterial
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryDGV As String = "select [id_level] [Label], MATERIAL [Material],lot_no [Lot],INV_CTRL_DATE [ICD],TRACEABILITY [Trace],batch_no [Batch],qty [Qty],actual_qty [Actual Qty], return_material_datetime [Date Time], return_material_who [Return By] from stock_card where status='Receive From Production' order by datetime_insert desc"
+        Dim queryDGV As String = "select [id_level] [Label], MATERIAL [Material],lot_no [Lot],INV_CTRL_DATE [ICD],TRACEABILITY [Trace],batch_no [Batch],qty [Qty],actual_qty [Actual Qty], return_material_datetime [Date Time], return_material_who [Return By] from stock_card where status='Receive From Production' and department='" & globVar.department & "' order by datetime_insert desc"
         Dim dtDGV As DataTable = Database.GetData(queryDGV)
 
         DataGridView1.DataSource = dtDGV

@@ -29,8 +29,7 @@ Public Class MainPOSubPO
     Sub tampilDataComboBox()
         Call Database.koneksi_database()
         'Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW mpf, MATERIAL_USAGE_FINISH_GOODS mufg where MASTER_PROCESS IS NOT NULL and mpf.MASTER_FINISH_GOODS_PN = mufg.fg_part_number and material_usage is not null order by MASTER_FINISH_GOODS_PN")
-        Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW mpf, MATERIAL_USAGE_FINISH_GOODS mufg, MASTER_FINISH_GOODS mfg where MASTER_PROCESS IS NOT NULL and mpf.MASTER_FINISH_GOODS_PN = mufg.fg_part_number and material_usage is not null and mfg.FG_PART_NUMBER=mpf.master_finish_goods_pn and mfg.status_change = 0 order by MASTER_FINISH_GOODS_PN")
-
+        Dim dtMasterProcessFlow As DataTable = Database.GetData("select distinct MASTER_FINISH_GOODS_PN from MASTER_PROCESS_FLOW mpf, MATERIAL_USAGE_FINISH_GOODS mufg, MASTER_FINISH_GOODS mfg where MASTER_PROCESS IS NOT NULL and mpf.MASTER_FINISH_GOODS_PN = mufg.fg_part_number and material_usage is not null and mfg.FG_PART_NUMBER=mpf.master_finish_goods_pn and mfg.status_change = 0 and mfg.DEPARTMENT='" & globVar.department & "' order by MASTER_FINISH_GOODS_PN")
 
         ComboBox1.DataSource = dtMasterProcessFlow
         ComboBox1.DisplayMember = "MASTER_FINISH_GOODS_PN"
@@ -70,13 +69,13 @@ Public Class MainPOSubPO
             sub_sub_po.UseColumnTextForButtonValue = True
             DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            Dim closepo As DataGridViewButtonColumn = New DataGridViewButtonColumn
-            closepo.Name = "close"
-            closepo.HeaderText = "Close PO"
-            closepo.Width = 50
-            closepo.Text = "Close PO"
-            closepo.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(10, closepo)
+            'Dim closepo As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            'closepo.Name = "close"
+            'closepo.HeaderText = "Close PO"
+            'closepo.Width = 50
+            'closepo.Text = "Close PO"
+            'closepo.UseColumnTextForButtonValue = True
+            'DataGridView1.Columns.Insert(10, closepo)
 
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
@@ -84,7 +83,7 @@ Public Class MainPOSubPO
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(11, delete)
+            DataGridView1.Columns.Insert(10, delete)
 
             'DataGridView1.Columns("status").Visible = False
         Catch ex As Exception
@@ -115,13 +114,13 @@ Public Class MainPOSubPO
             sub_sub_po.UseColumnTextForButtonValue = True
             DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            Dim closepo As DataGridViewButtonColumn = New DataGridViewButtonColumn
-            closepo.Name = "close"
-            closepo.HeaderText = "Close PO"
-            closepo.Width = 50
-            closepo.Text = "Close PO"
-            closepo.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(10, closepo)
+            'Dim closepo As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            'closepo.Name = "close"
+            'closepo.HeaderText = "Close PO"
+            'closepo.Width = 50
+            'closepo.Text = "Close PO"
+            'closepo.UseColumnTextForButtonValue = True
+            'DataGridView1.Columns.Insert(10, closepo)
 
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
@@ -129,7 +128,7 @@ Public Class MainPOSubPO
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(11, delete)
+            DataGridView1.Columns.Insert(10, delete)
 
             'DataGridView1.Columns("status").Visible = False
         Catch ex As Exception
@@ -159,13 +158,13 @@ Public Class MainPOSubPO
             sub_sub_po.UseColumnTextForButtonValue = True
             DataGridView1.Columns.Insert(0, sub_sub_po)
 
-            Dim closepo As DataGridViewButtonColumn = New DataGridViewButtonColumn
-            closepo.Name = "close"
-            closepo.HeaderText = "Close PO"
-            closepo.Width = 50
-            closepo.Text = "Close PO"
-            closepo.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(10, closepo)
+            'Dim closepo As DataGridViewButtonColumn = New DataGridViewButtonColumn
+            'closepo.Name = "close"
+            'closepo.HeaderText = "Close PO"
+            'closepo.Width = 50
+            'closepo.Text = "Close PO"
+            'closepo.UseColumnTextForButtonValue = True
+            'DataGridView1.Columns.Insert(10, closepo)
 
             Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
             delete.Name = "delete"
@@ -173,7 +172,7 @@ Public Class MainPOSubPO
             delete.Width = 50
             delete.Text = "Delete"
             delete.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(11, delete)
+            DataGridView1.Columns.Insert(10, delete)
 
             'DataGridView1.Columns("status").Visible = False
         Catch ex As Exception
@@ -188,10 +187,51 @@ Public Class MainPOSubPO
                 Exit Sub
             End If
 
+            '    Try
+            '        Dim sql As String = "select count(*) from main_po where po='" & TextBox1.Text.Trim & "' and department='" & globVar.department & "'"
+            '        Dim dtMainPOCount As DataTable = Database.GetData(sql)
+            '        Dim sub_po = TextBox1.Text & "-" & dtMainPOCount.Rows(0).Item(0) + 1
+
+            '        Dim sqlCheck As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and fg_pn='" & ComboBox1.Text.Trim & "' and department='" & globVar.department & "'"
+            '        Dim dtMainPOCheck As DataTable = Database.GetData(sqlCheck)
+
+            '        If dtMainPOCheck.Rows.Count > 0 Then
+            '            RJMessageBox.Show("PO & FG Part Number already in DB")
+            '            DGV_MainPO_Spesific()
+            '        Else
+            '            Try
+            '                Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty,department)
+            '                            VALUES ('" & TextBox1.Text.Trim & "','" & sub_po & "'," & TextBox3.Text.Trim & ",'" & ComboBox1.Text.Trim & "','Open',0,0,'" & globVar.department & "')"
+            '                Dim cmdInsertMainPOSubPO = New SqlCommand(sqlInsertMainPOSubPO, Database.koneksi)
+            '                If cmdInsertMainPOSubPO.ExecuteNonQuery() Then
+            '                    DGV_MainPO_Spesific()
+            '                    TextBox1.Text = ""
+            '                    TextBox3.Text = ""
+            '                    ComboBox1.Text = ""
+            '                End If
+            '            Catch ex As Exception
+            '                RJMessageBox.Show("MainPOSubPO-01 : " & ex.Message)
+            '            End Try
+            '        End If
+
+            '    Catch ex As Exception
+            '        RJMessageBox.Show("Error Create Main PO - 4 =>" & ex.Message)
+            '    End Try
+
             Try
+
                 Dim sql As String = "select count(*) from main_po where po='" & TextBox1.Text.Trim & "' and department='" & globVar.department & "'"
                 Dim dtMainPOCount As DataTable = Database.GetData(sql)
-                Dim sub_po = TextBox1.Text & "-" & dtMainPOCount.Rows(0).Item(0) + 1
+
+                Dim sub_po As String = TextBox1.Text & "-" & (dtMainPOCount.Rows(0).Item(0) + 1).ToString()
+
+                Dim sqlCheckSubPO As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and sub_po='" & sub_po & "' and department='" & globVar.department & "'"
+                Dim dtCheckSubPO As DataTable = Database.GetData(sqlCheckSubPO)
+
+                While dtCheckSubPO.Rows.Count > 0
+                    sub_po = TextBox1.Text & "-" & (dtMainPOCount.Rows(0).Item(0) + 2).ToString()
+                    dtCheckSubPO = Database.GetData(sqlCheckSubPO)
+                End While
 
                 Dim sqlCheck As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and fg_pn='" & ComboBox1.Text.Trim & "' and department='" & globVar.department & "'"
                 Dim dtMainPOCheck As DataTable = Database.GetData(sqlCheck)
@@ -201,8 +241,8 @@ Public Class MainPOSubPO
                     DGV_MainPO_Spesific()
                 Else
                     Try
-                        Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty,department)
-                                    VALUES ('" & TextBox1.Text.Trim & "','" & sub_po & "'," & TextBox3.Text.Trim & ",'" & ComboBox1.Text.Trim & "','Open',0,0,'" & globVar.department & "')"
+                        Dim sqlInsertMainPOSubPO As String = "INSERT INTO main_po (po, sub_po, sub_po_qty, fg_pn, status, balance, actual_qty, department) " &
+                                                  "VALUES ('" & TextBox1.Text.Trim & "','" & sub_po & "'," & TextBox3.Text.Trim & ",'" & ComboBox1.Text.Trim & "','Open',0,0,'" & globVar.department & "')"
                         Dim cmdInsertMainPOSubPO = New SqlCommand(sqlInsertMainPOSubPO, Database.koneksi)
                         If cmdInsertMainPOSubPO.ExecuteNonQuery() Then
                             DGV_MainPO_Spesific()
@@ -218,9 +258,11 @@ Public Class MainPOSubPO
             Catch ex As Exception
                 RJMessageBox.Show("Error Create Main PO - 4 =>" & ex.Message)
             End Try
+
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
         End If
+
     End Sub
 
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
@@ -291,37 +333,37 @@ Public Class MainPOSubPO
                     End If
                 End If
 
-                If DataGridView1.Columns(e.ColumnIndex).Name = "close" Then
-                    If globVar.delete > 0 Then
-                        Dim sqlcheck As String = "select * from sub_sub_po where main_po='" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & "' and status='Open'"
-                        Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
-                        If dtMainPOCheck.Rows.Count > 0 Then
-                            RJMessageBox.Show("Cannot close this PO because Sub Sub PO still open.")
-                            Exit Sub
-                        End If
+                'If DataGridView1.Columns(e.ColumnIndex).Name = "close" Then
+                '    If globVar.delete > 0 Then
+                '        Dim sqlcheck As String = "select * from sub_sub_po where main_po='" & DataGridView1.Rows(e.RowIndex).Cells("#").Value & "' and status='Open'"
+                '        Dim dtMainPOCheck As DataTable = Database.GetData(sqlcheck)
+                '        If dtMainPOCheck.Rows.Count > 0 Then
+                '            RJMessageBox.Show("Cannot close this PO because Sub Sub PO still open.")
+                '            Exit Sub
+                '        End If
 
-                        If DataGridView1.Rows(e.RowIndex).Cells("Balance").Value = 0 And DataGridView1.Rows(e.RowIndex).Cells("Sub PO Qty").Value = DataGridView1.Rows(e.RowIndex).Cells("Act Qty").Value Then
-                            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
-                            If result = DialogResult.Yes Then
-                                Try
-                                    Dim sql As String = "update main_po set status='Closed' where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
-                                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                                    If cmd.ExecuteNonQuery() Then
-                                        DGV_MainPO_All()
-                                    End If
-                                Catch ex As Exception
-                                    RJMessageBox.Show("Error Create Main PO - 5 =>" & ex.Message)
-                                End Try
-                            End If
-                        Else
-                            RJMessageBox.Show("Cannot close this PO because Sub Sub PO still running.")
-                            Exit Sub
-                        End If
+                '        If DataGridView1.Rows(e.RowIndex).Cells("Balance").Value = 0 And DataGridView1.Rows(e.RowIndex).Cells("Sub PO Qty").Value = DataGridView1.Rows(e.RowIndex).Cells("Act Qty").Value Then
+                '            Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
+                '            If result = DialogResult.Yes Then
+                '                Try
+                '                    Dim sql As String = "update main_po set status='Closed' where id=" & DataGridView1.Rows(e.RowIndex).Cells("#").Value
+                '                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                '                    If cmd.ExecuteNonQuery() Then
+                '                        DGV_MainPO_All()
+                '                    End If
+                '                Catch ex As Exception
+                '                    RJMessageBox.Show("Error Create Main PO - 5 =>" & ex.Message)
+                '                End Try
+                '            End If
+                '        Else
+                '            RJMessageBox.Show("Cannot close this PO because Sub Sub PO still running.")
+                '            Exit Sub
+                '        End If
 
-                    Else
-                        RJMessageBox.Show("Your Access cannot execute this action")
-                    End If
-                End If
+                '    Else
+                '        RJMessageBox.Show("Your Access cannot execute this action")
+                '    End If
+                'End If
 
                 If DataGridView1.Columns(e.ColumnIndex).Name = "subsubpo" Then
                     If globVar.add > 0 Then

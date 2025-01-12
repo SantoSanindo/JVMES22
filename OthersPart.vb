@@ -122,7 +122,7 @@ Public Class OthersPart
                                 cmdUpdateProcessProd.ExecuteNonQuery()
                             Else
                                 Dim sqlInsertOther As String = "INSERT INTO stock_prod_others (CODE_STOCK_PROD_OTHERS, PART_NUMBER, QTY,CODE_OUT_PROD_DEFECT,DEPARTMENT,LOT_NO,TRACEABILITY,INV_CTRL_DATE,BATCH_NO,PROCESS_NAME,insert_who)
-                                                values ('" & codeOther & "','" & DataGridView2.Rows(i).Cells("Material").Value & "','" & DataGridView2.Rows(i).Cells("Qty Dismantle").Value.ToString().Replace(",", ".") & "','" & txtLabelOtherPart.Text & "','" & globVar.department & "','" & DataGridView2.Rows(i).Cells("Lot No").Value & "','" & DataGridView2.Rows(i).Cells("Trace").Value & "','" & DataGridView2.Rows(i).Cells("ICD").Value & "','" & DataGridView2.Rows(i).Cells("Batch No").Value & "','" & DataGridView2.Rows(i).Cells("Process").Value & "','" & globVar.department & "')"
+                                                values ('" & codeOther & "','" & DataGridView2.Rows(i).Cells("Material").Value & "','" & DataGridView2.Rows(i).Cells("Qty Dismantle").Value.ToString().Replace(",", ".") & "','" & txtLabelOtherPart.Text & "','" & globVar.department & "','" & DataGridView2.Rows(i).Cells("Lot No").Value & "','" & DataGridView2.Rows(i).Cells("Trace").Value & "','" & DataGridView2.Rows(i).Cells("ICD").Value & "','" & DataGridView2.Rows(i).Cells("Batch No").Value & "','" & DataGridView2.Rows(i).Cells("Process").Value & "','" & globVar.username & "')"
                                 Dim cmdInsertOther = New SqlCommand(sqlInsertOther, Database.koneksi)
                                 cmdInsertOther.ExecuteNonQuery()
                             End If
@@ -243,9 +243,10 @@ Public Class OthersPart
 
     Sub loadDGVBawah()
 
-        Dim Query As String
+        Dim Query As String = ""
 
-        Query = ""
+        DataGridView4.Columns.Clear()
+        DataGridView4.DataSource = Nothing
 
         If txtLabelOtherPart.Text.StartsWith("D") Then 'Label Defect
 
@@ -302,6 +303,14 @@ Public Class OthersPart
 
         DataGridView4.DataSource = dtOthers
 
+        Dim delete As DataGridViewButtonColumn = New DataGridViewButtonColumn
+        delete.Name = "delete"
+        delete.HeaderText = "Delete"
+        delete.Width = 50
+        delete.Text = "Delete"
+        delete.UseColumnTextForButtonValue = True
+        DataGridView4.Columns.Insert(9, delete)
+
         For i As Integer = 0 To DataGridView4.RowCount - 1
             If DataGridView4.Rows(i).Index Mod 2 = 0 Then
                 DataGridView4.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
@@ -339,5 +348,57 @@ Public Class OthersPart
 
         clear()
 
+    End Sub
+
+    Private Sub DataGridView4_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView4.CellClick
+        If e.RowIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = -1 Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex >= 0 Then
+            If DataGridView4.Columns(e.ColumnIndex).Name = "delete" Then
+                If globVar.delete > 0 Then
+
+                    If DataGridView4.Rows(e.RowIndex).Cells("Qty").Value = 0 Then
+                        RJMessageBox.Show("Cannot delete if qty = 0")
+                        Exit Sub
+                    End If
+
+                    Dim sqlcheckSOT As String = "select * from stock_prod_others where code_stock_prod_others='" & DataGridView4.Rows(e.RowIndex).Cells("Code Other").Value & "'"
+                    Dim dtMainPOCheckSOT As DataTable = Database.GetData(sqlcheckSOT)
+                    If dtMainPOCheckSOT.Rows.Count > 0 Then
+
+                        Dim sqlcheckOPD As String = "select * from out_prod_defect where code_out_prod_defect='" & dtMainPOCheckSOT.Rows(0).Item("code_out_prod_defect") & "' and part_number='" & dtMainPOCheckSOT.Rows(0).Item("part_number") & "' and lot_no='" & dtMainPOCheckSOT.Rows(0).Item("lot_no") & "'"
+                        Dim dtMainPOCheckOPD As DataTable = Database.GetData(sqlcheckOPD)
+                        If dtMainPOCheckOPD.Rows.Count > 0 Then
+
+                            Dim SqlUpdate As String = "update out_prod_defect set qty_out=0 where ID=" & dtMainPOCheckOPD.Rows(0).Item("id")
+                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                            If cmdUpdate.ExecuteNonQuery() Then
+
+                                Dim sqlDelete As String = "delete from stock_prod_others where code_stock_prod_others='" & DataGridView4.Rows(e.RowIndex).Cells("Code Other").Value & "'"
+                                Dim cmdDelete = New SqlCommand(sqlDelete, Database.koneksi)
+                                If cmdDelete.ExecuteNonQuery() Then
+
+                                    loadDGVBawah()
+                                    loadDGVAtas()
+
+                                End If
+
+                            End If
+
+                        End If
+
+                    End If
+
+                Else
+                    RJMessageBox.Show("Your Access cannot execute this action")
+                End If
+            End If
+        End If
     End Sub
 End Class

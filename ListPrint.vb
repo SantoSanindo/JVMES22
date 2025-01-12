@@ -61,7 +61,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckwip As String = "select code_stock_prod_wip [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_wip where sub_sub_po='" & subsubpo & "' group by code_stock_prod_wip,fg_pn,flow_ticket_no,process,pengali"
+        Dim queryCheckwip As String = "select code_stock_prod_wip [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_wip where sub_sub_po='" & subsubpo & "' and department='" & globVar.department & "' group by code_stock_prod_wip,fg_pn,flow_ticket_no,process,pengali"
         Dim dtCheckWIP As DataTable = Database.GetData(queryCheckwip)
         If dtCheckWIP.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckWIP
@@ -79,7 +79,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
+        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' and department='" & globVar.department & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
         Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
         If dtCheckONHOLD.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckONHOLD
@@ -97,7 +97,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckdefect As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) [Code],flow_ticket_no [Flow Ticket],fg_pn [Finish Goods], Line from out_prod_DEFECT where sub_sub_po='" & subsubpo & "' and line='" & line & "'"
+        Dim queryCheckdefect As String = "select DISTINCT(CODE_OUT_PROD_DEFECT) [Code],flow_ticket_no [Flow Ticket],fg_pn [Finish Goods], Line from out_prod_DEFECT where sub_sub_po='" & subsubpo & "' and line='" & line & "' and department='" & globVar.department & "'"
         Dim dtCheckDEFECT As DataTable = Database.GetData(queryCheckdefect)
         If dtCheckDEFECT.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckDEFECT
@@ -115,7 +115,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryChecksa As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY) [Code],flow_ticket [Flow Ticket],FG [Finish Goods],Qty,Traceability,inv_ctrl_date [Inv Ctrl],batch_no [Batch],lot_no [Lot No] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & subsubpo & "'"
+        Dim queryChecksa As String = "select DISTINCT(CODE_STOCK_PROD_SUB_ASSY) [Code],flow_ticket [Flow Ticket],FG [Finish Goods],Qty,Traceability,inv_ctrl_date [Inv Ctrl],batch_no [Batch],lot_no [Lot No] from STOCK_PROD_SUB_ASSY where sub_sub_po='" & subsubpo & "' and department='" & globVar.department & "'"
         Dim dtCheckSA As DataTable = Database.GetData(queryChecksa)
         If dtCheckSA.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckSA
@@ -133,7 +133,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckreturn As String = "select sc.id_level [Code],sc.material [Material],m.name [Name],sc.traceability [Traceability],sc.inv_ctrl_date [Inv Ctrl],sc.batch_no [Batch],sc.lot_no [Lot No],sc.actual_qty [Qty], sc.finish_goods_pn [Finish Goods] from stock_card sc, master_material m where sc.status='Return To Mini Store' and sc.sub_sub_po='" & subsubpo & "' and line='" & line & "' and sc.material=m.part_number"
+        Dim queryCheckreturn As String = "select sc.id_level [Code],sc.material [Material],m.name [Name],sc.traceability [Traceability],sc.inv_ctrl_date [Inv Ctrl],sc.batch_no [Batch],sc.lot_no [Lot No],sc.actual_qty [Qty], sc.finish_goods_pn [Finish Goods] from stock_card sc, master_material m where sc.status='Return To Mini Store' and sc.sub_sub_po='" & subsubpo & "' and line='" & line & "' and sc.material=m.part_number and sc.department='" & globVar.department & "'"
         Dim dtCheckReturn As DataTable = Database.GetData(queryCheckreturn)
         If dtCheckReturn.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckReturn
@@ -151,7 +151,7 @@ Public Class ListPrint
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
+        Dim queryCheckonhold As String = "select code_stock_prod_onhold [Code],fg_pn [Finish Goods],flow_ticket_no [Flow Ticket],process [Process],pengali [Qty] from stock_prod_onhold where sub_sub_po='" & subsubpo & "' and department='" & globVar.department & "' group by code_stock_prod_onhold,fg_pn,flow_ticket_no,process,pengali"
         Dim dtCheckONHOLD As DataTable = Database.GetData(queryCheckonhold)
         If dtCheckONHOLD.Rows.Count > 0 Then
             DataGridView1.DataSource = dtCheckONHOLD

@@ -257,7 +257,7 @@ Public Class AddChangeOperator
                 Exit Sub
             End If
 
-            Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table order by cast(lot_flow_ticket as int)"
+            Dim query As String = "SELECT * FROM (SELECT lot_flow_ticket, process, operator FROM dbo.prod_dop_details where sub_sub_po='" & TextBox1.Text & "' and department='" & globVar.department & "') t PIVOT ( max(operator) FOR process IN ( " + varProcess + " )) pivot_table order by cast(lot_flow_ticket as int)"
             Dim dtDOP As DataTable = Database.GetData(query)
 
             If dtDOP.Rows.Count > 0 Then
@@ -300,7 +300,7 @@ Public Class AddChangeOperator
             FROM (
               SELECT lot_flow_ticket, ROW_NUMBER() OVER (PARTITION BY lot_flow_ticket ORDER BY lot_flow_ticket) AS row_num
               FROM prod_dop_details
-              WHERE sub_sub_po = '" & sub_sub_po & "'
+              WHERE sub_sub_po = '" & sub_sub_po & "' and department='" & globVar.department & "'
             ) AS subquery
             WHERE subquery.row_num = 1
             ORDER BY CAST(subquery.lot_flow_ticket AS INT) ASC")
@@ -362,7 +362,7 @@ Public Class AddChangeOperator
                             DataGridView2.Rows.Add(row)
                         Next
 
-                        Dim queryOperator As String = "select name from users where department='" & globVar.department & "' order by name"
+                        Dim queryOperator As String = "select name from users where department='" & globVar.department & "' and user_fga=0 order by name"
                         Dim dsOperator = New DataSet
                         Dim adapterOperator = New SqlDataAdapter(queryOperator, Database.koneksi)
                         adapterOperator.Fill(dsOperator)

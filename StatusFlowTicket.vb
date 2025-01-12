@@ -21,7 +21,7 @@ Public Class StatusFlowTicket
             subsubpo = TextBox1.Text
         End If
 
-        Dim queryStatusFlowTicket As String = "SELECT ft.ID,mp.PO,mp.Sub_po [Sub PO],ft.sub_sub_po [Sub Sub PO],ft.line [Line],ft.flow_ticket [Flow Ticket],MAX(sc.DATETIME_INSERT) AS [Time Finish] FROM flow_ticket ft LEFT JOIN sub_sub_po ssp on ssp.SUB_SUB_PO=ft.SUB_SUB_PO LEFT JOIN main_po mp on ssp.main_po=mp.ID LEFT JOIN stock_card sc on sc.FLOW_TICKET=ft.FLOW_TICKET and sc.SUB_SUB_PO=ft.SUB_SUB_PO and sc.level != 'Fresh' WHERE ft.sub_sub_po = '" & subsubpo & "' GROUP BY ft.ID,mp.PO,mp.Sub_po,ft.sub_sub_po,ft.line,ft.flow_ticket ORDER BY ft.id"
+        Dim queryStatusFlowTicket As String = "SELECT ft.ID,mp.PO,mp.Sub_po [Sub PO],ft.sub_sub_po [Sub Sub PO],ft.line [Line],ft.flow_ticket [Flow Ticket],MAX(sc.DATETIME_INSERT) AS [Time Finish] FROM flow_ticket ft LEFT JOIN sub_sub_po ssp on ssp.SUB_SUB_PO=ft.SUB_SUB_PO LEFT JOIN main_po mp on ssp.main_po=mp.ID LEFT JOIN stock_card sc on sc.FLOW_TICKET=ft.FLOW_TICKET and sc.SUB_SUB_PO=ft.SUB_SUB_PO and sc.level != 'Fresh' WHERE ft.sub_sub_po = '" & subsubpo & "' and ft.department='" & globVar.department & "' GROUP BY ft.ID,mp.PO,mp.Sub_po,ft.sub_sub_po,ft.line,ft.flow_ticket ORDER BY ft.id"
         Dim dtStatusFlowTicket As DataTable = Database.GetData(queryStatusFlowTicket)
         If dtStatusFlowTicket.Rows.Count > 0 Then
             DataGridView1.DataSource = dtStatusFlowTicket

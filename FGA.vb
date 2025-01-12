@@ -116,8 +116,8 @@ Public Class FGA
         If ComboBox1.Text <> "" And ComboBox2.Text <> "" And textFT.Text <> "" Then
             If globVar.add > 0 Then
                 Try
-                    Dim sqlInsertPrintingRecord As String = "INSERT INTO fga (flow_ticket, inspector, packer1, packer2, packer3, packer4,sub_sub_po,fg_pn,line,no_flowticket,department)
-                                    VALUES ('" & textFT.Text & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "','" & sub_sub_po & "','" & pn_fg & "','" & line & "','" & noflowticket & "','" & globVar.department & "')"
+                    Dim sqlInsertPrintingRecord As String = "INSERT INTO fga (flow_ticket, inspector, packer1, packer2, packer3, packer4,sub_sub_po,fg_pn,line,no_flowticket,department, insert_who)
+                                    VALUES ('" & textFT.Text & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "','" & sub_sub_po & "','" & pn_fg & "','" & line & "','" & noflowticket & "','" & globVar.department & "','" & globVar.username & "')"
                     Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                     If cmdInsertPrintingRecord.ExecuteNonQuery() Then
                         Dim SqlUpdate As String = "UPDATE summary_traceability SET inspector='" & ComboBox1.Text & "',packer1='" & ComboBox2.Text & "',packer2='" & ComboBox3.Text & "',packer3='" & ComboBox4.Text & "',packer4='" & ComboBox5.Text & "' WHERE sub_sub_po='" & sub_sub_po & "' and lot_no='" & aFlowTicket.Text & "'"
@@ -216,7 +216,7 @@ Public Class FGA
 
                 End If
 
-                If bFlowTicket.Text <> aFlowTicket.Text And bQty.Text <> aQty.Text And bPO.Text <> aPO.Text Then
+                If bFlowTicket.Text <> aFlowTicket.Text Or bQty.Text <> aQty.Text Or bPO.Text <> aPO.Text Then
 
                     textFT.Clear()
                     textFT.Select()
@@ -239,8 +239,8 @@ Public Class FGA
 
                     If dtDOC.Rows.Count = 0 Then
 
-                        Dim sqlInsertPrintingRecord As String = "INSERT INTO fga (flow_ticket, sub_sub_po,fg_pn,line,no_flowticket,department,inspector,packer1,packer2,packer3,packer4)
-                                    VALUES ('" & textFT.Text & "','" & sub_sub_po & "','" & splitFlowTicket(1) & "','" & line & "','" & splitFlowTicket(5) & "','" & globVar.department & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "')"
+                        Dim sqlInsertPrintingRecord As String = "INSERT INTO fga (flow_ticket, sub_sub_po,fg_pn,line,no_flowticket,department,inspector,packer1,packer2,packer3,packer4, insert_who)
+                                    VALUES ('" & textFT.Text & "','" & sub_sub_po & "','" & splitFlowTicket(1) & "','" & line & "','" & splitFlowTicket(5) & "','" & globVar.department & "','" & ComboBox1.Text & "','" & ComboBox2.Text & "','" & ComboBox3.Text & "','" & ComboBox4.Text & "','" & ComboBox5.Text & "','" & globVar.username & "')"
                         Dim cmdInsertPrintingRecord = New SqlCommand(sqlInsertPrintingRecord, Database.koneksi)
                         If cmdInsertPrintingRecord.ExecuteNonQuery() Then
 
@@ -381,5 +381,26 @@ Public Class FGA
 
     Private Sub ComboBox4_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox4.SelectedIndexChanged
         ComboBox5.Enabled = True
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        txtSAP.Clear()
+        textFT.Clear()
+
+        aFlowTicket.Clear()
+        aPO.Clear()
+        aQty.Clear()
+
+        bFlowTicket.Clear()
+        bPO.Clear()
+        bQty.Clear()
+
+        TextBox2.Clear()
+        TextBox3.Clear()
+
+        txtSAP.Enabled = True
+        textFT.Enabled = False
+
+        txtSAP.Select()
     End Sub
 End Class

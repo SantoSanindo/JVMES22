@@ -24,6 +24,7 @@ Partial Class FGA
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.bQty = New System.Windows.Forms.TextBox()
         Me.bFlowTicket = New System.Windows.Forms.TextBox()
@@ -60,6 +61,7 @@ Partial Class FGA
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.bQty)
         Me.GroupBox1.Controls.Add(Me.bFlowTicket)
@@ -93,6 +95,18 @@ Partial Class FGA
         Me.GroupBox1.Size = New System.Drawing.Size(1922, 636)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'Button3
+        '
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button3.BackColor = System.Drawing.Color.SlateGray
+        Me.Button3.ForeColor = System.Drawing.Color.White
+        Me.Button3.Location = New System.Drawing.Point(1715, 122)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(196, 45)
+        Me.Button3.TabIndex = 28
+        Me.Button3.Text = "Empty Fill"
+        Me.Button3.UseVisualStyleBackColor = False
         '
         'Button2
         '
@@ -180,7 +194,7 @@ Partial Class FGA
         '
         Me.Button1.BackColor = System.Drawing.Color.Green
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1715, 119)
+        Me.Button1.Location = New System.Drawing.Point(1376, 15)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(196, 51)
         Me.Button1.TabIndex = 18
@@ -398,4 +412,5 @@ Partial Class FGA
     Friend WithEvents aFlowTicket As TextBox
     Friend WithEvents aPO As TextBox
     Friend WithEvents Button2 As Button
+    Friend WithEvents Button3 As Button
 End Class

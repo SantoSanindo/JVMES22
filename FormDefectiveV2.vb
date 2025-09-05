@@ -2573,13 +2573,25 @@ Public Class FormDefectiveV2
 
     Private Sub TextBox4_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGFlowTicket.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And txtFGFlowTicket.Text IsNot "" Then
+
+            Dim count As Integer = txtFGFlowTicket.Text.Count(Function(c) c = ";")
+
+            If count <> 5 Then
+                RJMessageBox.Show("Sorry. Wrong label.")
+                txtFGFlowTicket.Clear()
+                Exit Sub
+            End If
+
             Try
                 Dim Split() As String = txtFGFlowTicket.Text.Split(";")
                 Dim Split1() As String = Split(0).Split("-")
+                Dim Splitof() As String = Split(5).Split("of")
 
                 txtTampungFlow.Text = Split1(0)
+                txtFTLot.Text = Splitof(0).Trim
+                txtFTQty.Text = Split(3)
                 If txtFGLabel.Text IsNot "" Then
-                    If Split1(0) = txtTampungLabel.Text Then
+                    If Split1(0) = txtTampungLabel.Text And Split(0) = txtSubSubPODefective.Text And Split(1) = cbFGPN.Text And Split(4) = cbLineNumber.Text Then
                         If rbFG.Checked = True Then
                             loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
                             btnSaveFGDefect.Enabled = True
@@ -2593,6 +2605,7 @@ Public Class FormDefectiveV2
                         End If
                     Else
                         RJMessageBox.Show("Sorry. QR Code SAP and QR Code Flow Ticket are different. Please double check.")
+                        txtFGFlowTicket.Clear()
                     End If
                 End If
             Catch ex As Exception
@@ -2603,6 +2616,13 @@ Public Class FormDefectiveV2
 
     Private Sub txtFGLabel_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGLabel.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And txtFGLabel.Text IsNot "" Then
+
+            If txtFGLabel.Text.Contains(";") Then
+                RJMessageBox.Show("Sorry. Wrong label.")
+                txtFGLabel.Clear()
+                Exit Sub
+            End If
+
             Try
                 QRCode.Baca(txtFGLabel.Text)
 
@@ -2611,24 +2631,38 @@ Public Class FormDefectiveV2
                 txtTampungLabel.Text = intValue
                 txtINV.Text = globVar.QRCode_Inv
                 txtBatchno.Text = globVar.QRCode_Batch
+                txtSAPLot.Text = globVar.QRCode_lot
+                txtSAPQty.Text = globVar.QRCode_Qty
 
-                If txtFGFlowTicket.Text IsNot "" Then
-                    If intValue.ToString = txtTampungFlow.Text Then
-                        If rbFG.Checked = True Then
-                            loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
-                            btnSaveFGDefect.Enabled = True
-                            btnSaveFG.Enabled = True
-                            btnPrintFGDefect.Enabled = True
-                            DataGridView1.Enabled = True
-                            txtFGLabel.ReadOnly = True
-                            txtFGFlowTicket.ReadOnly = True
-                            btnResetFG.Enabled = True
-                            txtFGFlowTicket.Select()
-                        End If
-                    Else
-                        RJMessageBox.Show("Sorry. QR Code SAP and QR Code Flow Ticket are different. Please double check.")
-                    End If
+                'If txtFGFlowTicket.Text IsNot "" Then
+                If rbFG.Checked = True Then
+                    'loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                    'btnSaveFGDefect.Enabled = True
+                    'btnSaveFG.Enabled = True
+                    'btnPrintFGDefect.Enabled = True
+                    'DataGridView1.Enabled = True
+                    'txtFGLabel.ReadOnly = True
+                    'txtFGFlowTicket.ReadOnly = True
+                    txtFGLabel.ReadOnly = True
+                    btnResetFG.Enabled = True
+                    txtFGFlowTicket.Select()
                 End If
+                'If intValue.ToString = txtTampungFlow.Text Then
+                '    If rbFG.Checked = True Then
+                '        loadFG(cbFGPN.Text, txtFGFlowTicket.Text)
+                '        btnSaveFGDefect.Enabled = True
+                '        btnSaveFG.Enabled = True
+                '        btnPrintFGDefect.Enabled = True
+                '        DataGridView1.Enabled = True
+                '        txtFGLabel.ReadOnly = True
+                '        txtFGFlowTicket.ReadOnly = True
+                '        btnResetFG.Enabled = True
+                '        txtFGFlowTicket.Select()
+                '    End If
+                'Else
+                '    RJMessageBox.Show("Sorry. QR Code SAP and QR Code Flow Ticket are different. Please double check.")
+                'End If
+                'End If
             Catch ex As Exception
                 RJMessageBox.Show(ex.Message)
             End Try
@@ -2839,7 +2873,7 @@ Public Class FormDefectiveV2
                     End If
 
                     Dim querySelectSC As String = "select 
-                                                    sum(actual_qty) total
+                                                    isnull(sum(actual_qty),0) total
                                                 from 
                                                     stock_card 
                                                 where 
@@ -3095,9 +3129,9 @@ Public Class FormDefectiveV2
                         If cmdUpdateFlowTicket.ExecuteNonQuery() Then
                             If showMessageBox Then
 
-                                Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, FLOW_TICKET, DEPARTMENT, laser_code, LOT_NO, qty, TRACEABILITY, INV_CTRL_DATE, BATCH_NO, line) " &
+                                Dim sqlInsertDoneFG As String = "INSERT INTO done_fg (po, sub_sub_po, FG, FLOW_TICKET, DEPARTMENT, laser_code, LOT_NO, qty, TRACEABILITY, INV_CTRL_DATE, BATCH_NO, line, LABEL_FT, LABEL_SAP) " &
                                                                 "VALUES ('" & cbPONumber.Text & "', '" & txtSubSubPODefective.Text & "', '" & cbFGPN.Text & "', '" & sFlowTicket(5) & "', '" & globVar.department & "', " &
-                                                                "'" & TextBox3.Text & "', '" & sFlowTicketSplitOf(0) & "', " & txtSPQ.Text & ", '" & txtTampungLabel.Text & "', '" & txtINV.Text & "', '" & txtBatchno.Text & "', '" & cbLineNumber.Text & "')"
+                                                                "'" & TextBox3.Text & "', '" & sFlowTicketSplitOf(0) & "', " & txtSPQ.Text & ", '" & txtTampungLabel.Text & "', '" & txtINV.Text & "', '" & txtBatchno.Text & "', '" & cbLineNumber.Text & "','" & txtFGFlowTicket.Text & "','" & txtFGLabel.Text & "')"
                                 Dim cmdInsertDoneFG = New SqlCommand(sqlInsertDoneFG, Database.koneksi)
                                 cmdInsertDoneFG.ExecuteNonQuery()
 

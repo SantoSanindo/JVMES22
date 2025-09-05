@@ -83,7 +83,7 @@ Public Class AccessControll
             If dtCheck.Rows.Count > 0 Then
                 If globVar.update > 0 Then
                     Try
-                        Dim query As String = "update [master_access] set menu='" & sMenu.ToString & "',[view]='" & view & "',[add]='" & add & "',[update]='" & update & "',[delete]='" & delete & "' where [name] = '" & txtName.Text & "'"
+                        Dim query As String = "update [master_access] set menu='" & sMenu.ToString & "',[view]='" & view & "',[add]='" & add & "',[update]='" & update & "',[delete]='" & delete & "',[department]='" & sDept.ToString & "' where [name] = '" & txtName.Text & "'"
                         Dim dtUpdate = New SqlCommand(query, Database.koneksi)
                         If dtUpdate.ExecuteNonQuery() Then
                             RJMessageBox.Show("Update Access Control Success")

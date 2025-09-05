@@ -249,7 +249,7 @@ Partial Class SplitMaterial
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.DropDownWidth = 1000
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(384, 54)
+        Me.ComboBox1.Location = New System.Drawing.Point(384, 46)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(121, 37)
         Me.ComboBox1.TabIndex = 12

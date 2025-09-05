@@ -24,6 +24,7 @@ Partial Class FGA
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.SelectFT = New System.Windows.Forms.TextBox()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.bQty = New System.Windows.Forms.TextBox()
@@ -61,6 +62,7 @@ Partial Class FGA
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.SelectFT)
         Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.bQty)
@@ -95,6 +97,15 @@ Partial Class FGA
         Me.GroupBox1.Size = New System.Drawing.Size(1922, 636)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'SelectFT
+        '
+        Me.SelectFT.Location = New System.Drawing.Point(1121, 23)
+        Me.SelectFT.Name = "SelectFT"
+        Me.SelectFT.Size = New System.Drawing.Size(81, 35)
+        Me.SelectFT.TabIndex = 29
+        Me.SelectFT.Visible = False
+        Me.SelectFT.WordWrap = False
         '
         'Button3
         '
@@ -413,4 +424,5 @@ Partial Class FGA
     Friend WithEvents aPO As TextBox
     Friend WithEvents Button2 As Button
     Friend WithEvents Button3 As Button
+    Friend WithEvents SelectFT As TextBox
 End Class

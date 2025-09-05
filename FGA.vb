@@ -12,6 +12,8 @@ Public Class FGA
     Dim noflowticket As String
 
     Private Sub FGA_Load(sender As Object, e As EventArgs) Handles Me.Load
+        globVar.PingVersion()
+
         If globVar.view > 0 Then
 
             tampilDataComboBoxInspector()
@@ -29,7 +31,6 @@ Public Class FGA
 
             txtSAP.Enabled = False
             textFT.Enabled = False
-
 
         End If
     End Sub
@@ -86,8 +87,15 @@ Public Class FGA
         ComboBox5.SelectedIndex = -1
     End Sub
 
+    Private Function NormalizeText(input As String) As String
+        Return New String(input.Where(Function(c) Not Char.IsWhiteSpace(c) OrElse c = " "c).ToArray()).Replace(ChrW(160), " ").Trim()
+    End Function
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim queryCheck As String = "select * from fga where FLOW_TICKET='" & textFT.Text & "'"
+
+        Dim cleanedTextFT As String = NormalizeText(textFT.Text)
+
+        Dim queryCheck As String = "select * from fga where FLOW_TICKET='" & cleanedTextFT & "'"
         Dim dtCheck As DataTable = Database.GetData(queryCheck)
 
         If dtCheck.Rows.Count > 0 Then
@@ -184,8 +192,10 @@ Public Class FGA
                 End If
 
                 Dim splitFlowTicket = textFT.Text.Split(New String() {";"}, StringSplitOptions.None)
+                Dim lotFlowTicketold = splitFlowTicket(5).ToString()
+                Dim lotSplit = lotFlowTicketold.Split(New String() {"of"}, StringSplitOptions.None)
 
-                aFlowTicket.Text = splitFlowTicket(5).Split(" of ")(0)
+                aFlowTicket.Text = lotSplit(0).Trim()
                 aQty.Text = splitFlowTicket(3)
                 aPO.Text = splitFlowTicket(0).Split("-")(0)
                 sub_sub_po = splitFlowTicket(0)
@@ -216,14 +226,30 @@ Public Class FGA
 
                 End If
 
-                If bFlowTicket.Text <> aFlowTicket.Text Or bQty.Text <> aQty.Text Or bPO.Text <> aPO.Text Then
+                If SelectFT.Text = "Tidak Ada" Then
 
-                    textFT.Clear()
-                    textFT.Select()
-                    RJMessageBox.Show("Label SAP & Label Flow Ticket is not same")
-                    Exit Sub
+                    If bQty.Text <> aQty.Text Or bPO.Text <> aPO.Text Then
+
+                        textFT.Clear()
+                        textFT.Select()
+                        RJMessageBox.Show("Label SAP & Label Flow Ticket is not same")
+                        Exit Sub
+
+                    End If
+
+                Else
+
+                    If NormalizeText(SelectFT.Text) <> NormalizeText(textFT.Text) Then
+
+                        textFT.Clear()
+                        textFT.Select()
+                        RJMessageBox.Show("Label SAP & Label Flow Ticket is not same")
+                        Exit Sub
+
+                    End If
 
                 End If
+
 
                 Try
 
@@ -307,6 +333,16 @@ Public Class FGA
     Private Sub txtSAP_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtSAP.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And txtSAP.Text <> "" Then
             If txtSAP.Text <> "" And txtSAP.Text.Length > 64 Then
+
+                Dim queryDoneFG As String = "select * from done_fg where label_sap='" & txtSAP.Text & "' order by id desc"
+                Dim dtDoneFG As DataTable = Database.GetData(queryDoneFG)
+
+                If dtDoneFG.Rows.Count > 0 Then
+                    SelectFT.Text = dtDoneFG.Rows(0).Item("label_ft")
+                Else
+                    SelectFT.Text = "Tidak Ada"
+                End If
+
 
                 QRCode.Baca(txtSAP.Text)
 

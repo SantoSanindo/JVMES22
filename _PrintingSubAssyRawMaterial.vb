@@ -2,6 +2,8 @@
 Imports System.Reflection
 Imports NiceLabel.SDK
 Public Class _PrintingSubAssyRawMaterial
+    Public Shared menu As String = "Label1"
+
     Dim label As ILabel
 
     Dim printers As IList(Of IPrinter)

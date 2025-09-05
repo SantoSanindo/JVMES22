@@ -234,7 +234,6 @@ Public Class MasterMaterial
                 Dim FamMaterial As String = reader.GetString(3)
                 Dim NameMaterial As String = reader.GetString(1)
                 Dim SPQMaterial As Double = reader.GetDouble(2)
-                Dim DeptMaterial As String = reader.GetString(4)
 
                 Dim PNMaterial As Object = reader.GetValue(0)
                 If IsNumeric(SPQMaterial) Then
@@ -245,30 +244,24 @@ Public Class MasterMaterial
                     PN = PNMaterialString
                 End If
 
-                Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "' and upper(department)='" & DeptMaterial.ToUpper & "' and upper(family)='" & FamMaterial.ToUpper & "'", Database.koneksi)
-                Dim count As Integer = existsCmd.ExecuteScalar()
+                Dim queryCheckFamily As String = "SELECT * FROM family where [family]='" & FamMaterial & "' and department='" & globVar.department & "'"
+                Dim dtCheckFamilty As DataTable = Database.GetData(queryCheckFamily)
+                If dtCheckFamilty.Rows.Count > 0 Then
 
-                Dim existsDept As New SqlCommand("SELECT COUNT(*) FROM dbo.DEPARTMENT WHERE [DEPARTMENT] = '" & DeptMaterial & "'", Database.koneksi)
-                Dim countDept As Integer = existsDept.ExecuteScalar()
-                If countDept = 0 Then
-                    RJMessageBox.Show("Sorry Department Wrong Format")
-                    Exit Sub
+                    Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "' and department='" & globVar.department & "' and family='" & FamMaterial & "'", Database.koneksi)
+                    Dim count As Integer = existsCmd.ExecuteScalar()
+
+                    If count = 0 Then
+                        Dim sql As String = "INSERT INTO dbo.MASTER_MATERIAL (part_number,name,standard_qty,family,department,by_who) VALUES ('" & PN & "', '" & NameMaterial & "', " & SPQMaterial & ",'" & dtCheckFamilty.Rows(0).Item("family") & "','" & globVar.department & "','" & globVar.username & "')"
+
+                        Dim insertCmd As New SqlCommand(sql, Database.koneksi)
+                        insertCmd.ExecuteNonQuery()
+                        totalInsert = totalInsert + 1
+
+                    End If
+
                 End If
 
-                Dim existsFam As New SqlCommand("SELECT COUNT(*) FROM dbo.FAMILY WHERE [FAMILY] = '" & FamMaterial & "'", Database.koneksi)
-                Dim countFam As Integer = existsFam.ExecuteScalar()
-                If countFam = 0 Then
-                    RJMessageBox.Show("Sorry Family Wrong Format")
-                    Exit Sub
-                End If
-
-                If count = 0 Then
-                    Dim sql As String = "INSERT INTO dbo.MASTER_MATERIAL (part_number,name,standard_qty,family,department) VALUES ('" & PN & "', '" & NameMaterial & "', " & SPQMaterial & ",'" & FamMaterial & "','" & DeptMaterial & "')"
-
-                    Dim insertCmd As New SqlCommand(sql, Database.koneksi)
-                    insertCmd.ExecuteNonQuery()
-                    totalInsert = totalInsert + 1
-                End If
             End While
             DGV_MasterMaterial()
             RJMessageBox.Show("Import Material Success. Total " & totalInsert & " new Material ")
@@ -467,7 +460,6 @@ Public Class MasterMaterial
             worksheet.Range("B1").Value = "Name"
             worksheet.Range("C1").Value = "Standard Qty"
             worksheet.Range("D1").Value = "Family"
-            worksheet.Range("E1").Value = "Department"
 
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

@@ -21,6 +21,7 @@ Public Class FormLogin
                 If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
                     ComboBox1.Enabled = True
                     ControlBox = True
+                    tampilDataComboBoxDepartement()
                 Else
                     Me.Close()
                 End If
@@ -64,6 +65,7 @@ Public Class FormLogin
                     If dt.Rows(0).Item("NAME").ToString = "Administrator" Then
                         ComboBox1.Enabled = True
                         ControlBox = True
+                        tampilDataComboBoxDepartement()
                     Else
                         Me.Close()
                     End If
@@ -86,5 +88,17 @@ Public Class FormLogin
     Private Sub txtUname_TextChanged(sender As Object, e As EventArgs) Handles txtUname.TextChanged
         ComboBox1.Enabled = False
         ComboBox1.SelectedIndex = -1
+    End Sub
+
+    Sub tampilDataComboBoxDepartement()
+        Call Database.koneksi_database()
+        Dim sql As String
+
+        sql = "select * from department order by department"
+        Dim dtMasterDepartment As DataTable = Database.GetData(sql)
+
+        ComboBox1.DataSource = dtMasterDepartment
+        ComboBox1.DisplayMember = "department"
+        ComboBox1.ValueMember = "department"
     End Sub
 End Class

@@ -4,6 +4,8 @@ Imports System.Security.Claims
 Imports NiceLabel.SDK
 
 Public Class _PrintingFlowTicket
+    Public Shared menu As String = "Label1"
+
     Dim label As ILabel
 
     Dim printers As IList(Of IPrinter)

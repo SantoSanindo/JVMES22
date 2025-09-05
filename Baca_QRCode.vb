@@ -60,7 +60,7 @@ Public Module QRCode
             Dim part1P As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "1P(\d{10})", 1))
             Dim partQ1 As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "Q(\d{12})", 1))
             Dim partS As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "S(\d{12})", 1))
-            Dim partQ2 As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "13Q(\d{4})", 1))
+            Dim partQ2 As String = RemoveLeadingZeros(ExtractPartLast(Input_QRCode, "13Q(\d{4})"))
             Dim partB As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "B(\w{7,10})", 1))
             Dim part12D As String = RemoveLeadingZeros(ExtractPart(Input_QRCode, "12D(\d{8})", 1))
 
@@ -104,5 +104,13 @@ Public Module QRCode
 
     Function RemoveLeadingZeros(input As String) As String
         Return input.TrimStart("0"c)
+    End Function
+
+    Function ExtractPartLast(input As String, pattern As String) As String
+        Dim match As MatchCollection = Regex.Matches(input, pattern)
+        If match.Count > 0 Then
+            Return match(match.Count - 1).Groups(1).Value.Trim()
+        End If
+        Return String.Empty
     End Function
 End Module

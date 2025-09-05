@@ -23,6 +23,10 @@ Partial Class FormDefectiveV2
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtFTQty = New System.Windows.Forms.TextBox()
+        Me.txtSAPQty = New System.Windows.Forms.TextBox()
+        Me.txtFTLot = New System.Windows.Forms.TextBox()
+        Me.txtSAPLot = New System.Windows.Forms.TextBox()
         Me.btnListPrintOthers = New System.Windows.Forms.Button()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.btnListPrintReturn = New System.Windows.Forms.Button()
@@ -205,6 +209,10 @@ Partial Class FormDefectiveV2
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtFTQty)
+        Me.GroupBox1.Controls.Add(Me.txtSAPQty)
+        Me.GroupBox1.Controls.Add(Me.txtFTLot)
+        Me.GroupBox1.Controls.Add(Me.txtSAPLot)
         Me.GroupBox1.Controls.Add(Me.btnListPrintOthers)
         Me.GroupBox1.Controls.Add(Me.TextBox2)
         Me.GroupBox1.Controls.Add(Me.btnListPrintReturn)
@@ -240,6 +248,38 @@ Partial Class FormDefectiveV2
         Me.GroupBox1.Size = New System.Drawing.Size(1924, 169)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'txtFTQty
+        '
+        Me.txtFTQty.Location = New System.Drawing.Point(1705, 62)
+        Me.txtFTQty.Name = "txtFTQty"
+        Me.txtFTQty.Size = New System.Drawing.Size(100, 20)
+        Me.txtFTQty.TabIndex = 36
+        Me.txtFTQty.Visible = False
+        '
+        'txtSAPQty
+        '
+        Me.txtSAPQty.Location = New System.Drawing.Point(1579, 62)
+        Me.txtSAPQty.Name = "txtSAPQty"
+        Me.txtSAPQty.Size = New System.Drawing.Size(100, 20)
+        Me.txtSAPQty.TabIndex = 35
+        Me.txtSAPQty.Visible = False
+        '
+        'txtFTLot
+        '
+        Me.txtFTLot.Location = New System.Drawing.Point(1705, 19)
+        Me.txtFTLot.Name = "txtFTLot"
+        Me.txtFTLot.Size = New System.Drawing.Size(100, 20)
+        Me.txtFTLot.TabIndex = 34
+        Me.txtFTLot.Visible = False
+        '
+        'txtSAPLot
+        '
+        Me.txtSAPLot.Location = New System.Drawing.Point(1579, 19)
+        Me.txtSAPLot.Name = "txtSAPLot"
+        Me.txtSAPLot.Size = New System.Drawing.Size(100, 20)
+        Me.txtSAPLot.TabIndex = 33
+        Me.txtSAPLot.Visible = False
         '
         'btnListPrintOthers
         '
@@ -380,7 +420,7 @@ Partial Class FormDefectiveV2
         Me.btnPrintFGDefect.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnPrintFGDefect.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnPrintFGDefect.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnPrintFGDefect.Location = New System.Drawing.Point(1680, 61)
+        Me.btnPrintFGDefect.Location = New System.Drawing.Point(1709, 113)
         Me.btnPrintFGDefect.Name = "btnPrintFGDefect"
         Me.btnPrintFGDefect.Size = New System.Drawing.Size(199, 39)
         Me.btnPrintFGDefect.TabIndex = 5
@@ -2134,4 +2174,8 @@ Partial Class FormDefectiveV2
     Friend WithEvents tampungIDMaterial As TextBox
     Friend WithEvents tampungIDMaterialReturnMaterial As TextBox
     Friend WithEvents CheckBoxFGDefect As CheckBox
+    Friend WithEvents txtFTQty As TextBox
+    Friend WithEvents txtSAPQty As TextBox
+    Friend WithEvents txtFTLot As TextBox
+    Friend WithEvents txtSAPLot As TextBox
 End Class

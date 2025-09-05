@@ -15,7 +15,7 @@ Public Class HOME
         End Try
 
         Try
-            Me.Text = "MES Application v " & Application.ProductVersion
+            Me.Text = "MES Application v " & Application.ProductVersion & " - " & Environment.MachineName
             If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
 
                 Dim result As DialogResult = RJMessageBox.Show(
@@ -155,6 +155,28 @@ Public Class HOME
             TabControl1.TabPages.Clear()
             TabControl1.TabPages.Add(AccessControll)
             TabControl1.TabPages(AccessControll).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnDept(sender As Object, e As EventArgs) Handles DeptBtn.Click
+        If globVar.CanAccess(MasterDepartment.menu) Then
+            MasterDepartment.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(MasterDepartment)
+            TabControl1.TabPages(MasterDepartment).Select()
+        Else
+            RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Private Sub BtnFam(sender As Object, e As EventArgs) Handles FamBtn.Click
+        If globVar.CanAccess(MasterFamily.menu) Then
+            MasterFamily.Close()
+            TabControl1.TabPages.Clear()
+            TabControl1.TabPages.Add(MasterFamily)
+            TabControl1.TabPages(MasterFamily).Select()
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

@@ -253,7 +253,7 @@ Public Class SplitMaterial
             DataGridView2.Rows.Clear()
             DataGridView2.Columns.Clear()
 
-            Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_LOT [Outer LOT], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], [print] [Print] FROM split_label where outer_pn='" & pn & "' and outer_lot='" & lot & "' and outer_traceability='" & traceability & "' and outer_batch='" & batch & "' and outer_icd='" & icd & "' and department='" & globVar.department & "' order by [print]"
+            Dim queryCheckSplitQty As String = "SELECT ID [#], outer_pn [OUTER PN], OUTER_LOT [Outer LOT], OUTER_ICD [Outer ICD],OUTER_BATCH [Outer Batch], OUTER_TRACEABILITY [Outer Trace], OUTER_QTY [Outer Qty], INNER_LABEL [Inner Label], INNER_QTY [Inner Qty],datetime_insert [Date Time], by_who [Created By], CASE WHEN [print] = 1 THEN 'Yes' ELSE 'No' END AS [Print] FROM split_label where outer_pn='" & pn & "' and outer_lot='" & lot & "' and outer_traceability='" & traceability & "' and outer_batch='" & batch & "' and outer_icd='" & icd & "' and department='" & globVar.department & "' order by [print]"
             Dim dtCheckSplitQty As DataTable = Database.GetData(queryCheckSplitQty)
             DataGridView2.DataSource = dtCheckSplitQty
 
@@ -618,24 +618,44 @@ Public Class SplitMaterial
             Dim result = RJMessageBox.Show("Are you sure to delete?", "Warning", MessageBoxButtons.YesNo)
             If result = DialogResult.Yes Then
                 Try
-                    Dim sql As String = "delete from split_label where outer_pn='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
+
+                    Dim sqlSelect As String = "select * from stock_card where material='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
+                            and lot_no='" & DataGridView1.Rows(e.RowIndex).Cells("Lot").Value & "' 
+                            and inv_ctrl_date='" & DataGridView1.Rows(e.RowIndex).Cells("ICD").Value & "' 
+                            and batch_no='" & DataGridView1.Rows(e.RowIndex).Cells("Batch").Value & "' 
+                            and traceability='" & DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value & "'
+                            and split_material=1"
+
+                    Dim dtSelect As DataTable = Database.GetData(sqlSelect)
+
+                    If dtSelect.Rows.Count > 0 Then
+
+                        Dim sql As String = "delete from split_label where outer_pn='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
                                             and outer_lot='" & DataGridView1.Rows(e.RowIndex).Cells("Lot").Value & "' 
                                             and outer_icd='" & DataGridView1.Rows(e.RowIndex).Cells("ICD").Value & "' 
                                             and outer_batch='" & DataGridView1.Rows(e.RowIndex).Cells("Batch").Value & "' 
                                             and outer_traceability='" & DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value & "'"
-                    Dim cmd = New SqlCommand(sql, Database.koneksi)
-                    If cmd.ExecuteNonQuery() Then
-                        Dim SqlUpdate As String = "UPDATE STOCK_CARD SET split_material=0, actual_qty=qty FROM STOCK_CARD WHERE material='" & DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value & "' 
-                                                        and lot_no='" & DataGridView1.Rows(e.RowIndex).Cells("Lot").Value & "' 
-                                                        and inv_ctrl_date='" & DataGridView1.Rows(e.RowIndex).Cells("ICD").Value & "' 
-                                                        and batch_no='" & DataGridView1.Rows(e.RowIndex).Cells("Batch").Value & "' 
-                                                        and traceability='" & DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value & "'"
-                        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                        cmdUpdate.ExecuteNonQuery()
+                        Dim cmd = New SqlCommand(sql, Database.koneksi)
+                        If cmd.ExecuteNonQuery() Then
 
-                        DGV_Atas()
-                        RJMessageBox.Show("Success Cancel Split Label.")
+                            Dim SqlUpdate As String = "UPDATE STOCK_CARD SET split_material=0, actual_qty=qty FROM STOCK_CARD WHERE id='" & dtSelect.Rows(0).Item("id") & "'"
+                            Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+                            cmdUpdate.ExecuteNonQuery()
+
+                            Dim sqlDeleteSC As String = "delete from stock_card where id_from_split='" & dtSelect.Rows(0).Item("id") & "'"
+                            Dim cmdDeleteSC = New SqlCommand(sqlDeleteSC, Database.koneksi)
+                            cmdDeleteSC.ExecuteNonQuery()
+
+                            DGV_Atas()
+                            RJMessageBox.Show("Success Cancel Split Label.")
+
+                        End If
+                    Else
+
+                        RJMessageBox.Show("cancel label failed")
+
                     End If
+
                 Catch ex As Exception
                     RJMessageBox.Show("Error Split Material - 5 =>" & ex.Message)
                 End Try

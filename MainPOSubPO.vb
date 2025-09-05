@@ -223,14 +223,18 @@ Public Class MainPOSubPO
                 Dim sql As String = "select count(*) from main_po where po='" & TextBox1.Text.Trim & "' and department='" & globVar.department & "'"
                 Dim dtMainPOCount As DataTable = Database.GetData(sql)
 
-                Dim sub_po As String = TextBox1.Text & "-" & (dtMainPOCount.Rows(0).Item(0) + 1).ToString()
+                Dim lastValue As Int16 = dtMainPOCount.Rows(0).Item(0)
 
-                Dim sqlCheckSubPO As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and sub_po='" & sub_po & "' and department='" & globVar.department & "'"
-                Dim dtCheckSubPO As DataTable = Database.GetData(sqlCheckSubPO)
+                Dim sub_po As String
 
-                While dtCheckSubPO.Rows.Count > 0
-                    sub_po = TextBox1.Text & "-" & (dtMainPOCount.Rows(0).Item(0) + 2).ToString()
-                    dtCheckSubPO = Database.GetData(sqlCheckSubPO)
+                While True
+                    lastValue = lastValue + 1
+                    sub_po = TextBox1.Text & "-" & lastValue.ToString()
+                    Dim sqlCheckSubPO As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and sub_po='" & sub_po & "' and department='" & globVar.department & "'"
+                    Dim dtCheckSubPO As DataTable = Database.GetData(sqlCheckSubPO)
+                    If dtCheckSubPO.Rows.Count = 0 Then
+                        Exit While
+                    End If
                 End While
 
                 Dim sqlCheck As String = "select * from main_po where po='" & TextBox1.Text.Trim & "' and fg_pn='" & ComboBox1.Text.Trim & "' and department='" & globVar.department & "'"

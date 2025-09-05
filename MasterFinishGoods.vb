@@ -157,7 +157,6 @@ Public Class MasterFinishGoods
                 Dim dataTable As New DataTable()
 
                 dataTable.Columns.Add("FG_PART_NUMBER", GetType(String))
-                dataTable.Columns.Add("DEPARTMENT", GetType(String))
                 dataTable.Columns.Add("LEVEL", GetType(String))
                 dataTable.Columns.Add("DESCRIPTION", GetType(String))
                 dataTable.Columns.Add("SPQ", GetType(Int32))
@@ -171,37 +170,42 @@ Public Class MasterFinishGoods
 
                         While rd.Read()
                             Dim fgPartNumber As String = rd("Finish Goods Part Number *").ToString().Trim()
-                            Dim _dept As String = rd("Department (zQSFP, Ten60 etc) *").ToString().Trim()
+                            Dim fgFam As String = rd("Family *").ToString().Trim()
 
-                            If _dept = globVar.department Then
+                            Dim cekQuery As String = "SELECT COUNT(*) FROM dbo.MASTER_FINISH_GOODS WHERE FG_PART_NUMBER = @FG_PART_NUMBER"
+                            Using cekCmd As New SqlCommand(cekQuery, Database.koneksi)
+                                cekCmd.Parameters.AddWithValue("@FG_PART_NUMBER", fgPartNumber)
 
-                                Dim cekQuery As String = "SELECT COUNT(*) FROM dbo.MASTER_FINISH_GOODS WHERE FG_PART_NUMBER = @FG_PART_NUMBER"
-                                Using cekCmd As New SqlCommand(cekQuery, Database.koneksi)
-                                    cekCmd.Parameters.AddWithValue("@FG_PART_NUMBER", fgPartNumber)
+                                Dim cekFamily As String = "SELECT COUNT(*) FROM dbo.family WHERE family = @family and department='" & globVar.department & "'"
+                                Using cekCmdFam As New SqlCommand(cekFamily, Database.koneksi)
+                                    cekCmdFam.Parameters.AddWithValue("@family", fgFam)
 
                                     Dim exists As Integer = Convert.ToInt32(cekCmd.ExecuteScalar())
+                                    Dim famExists As Integer = Convert.ToInt32(cekCmdFam.ExecuteScalar())
                                     If exists > 0 Then
                                         duplicateRows.Add(fgPartNumber)
+                                    ElseIf famExists = 0 Then
+
                                     Else
                                         Dim row As DataRow = dataTable.NewRow()
                                         row("FG_PART_NUMBER") = fgPartNumber
-                                        row("DEPARTMENT") = _dept
                                         row("LEVEL") = rd("Level (Sub Assy, FG etc) *").ToString().Trim()
                                         row("DESCRIPTION") = rd("Description *").ToString().Trim()
                                         row("SPQ") = Convert.ToInt32(rd("Standard Pack *"))
-                                        row("FAMILY") = rd("Family (zSFP, zQSFP etc) *").ToString().Trim()
+                                        row("FAMILY") = rd("Family *").ToString().Trim()
                                         row("LASER_CODE") = If(rd.IsDBNull(rd.GetOrdinal("Laser Code")), DBNull.Value, rd("Laser Code").ToString().Trim())
                                         dataTable.Rows.Add(row)
                                     End If
                                 End Using
 
-                            End If
+
+                            End Using
 
                         End While
 
                         If dataTable.Rows.Count > 0 Then
                             bulkCopy.ColumnMappings.Add("FG_PART_NUMBER", "FG_PART_NUMBER")
-                            bulkCopy.ColumnMappings.Add("DEPARTMENT", "DEPARTMENT")
+                            bulkCopy.ColumnMappings.Add("DEPARTMENT", globVar.department)
                             bulkCopy.ColumnMappings.Add("LEVEL", "LEVEL")
                             bulkCopy.ColumnMappings.Add("DESCRIPTION", "DESCRIPTION")
                             bulkCopy.ColumnMappings.Add("SPQ", "SPQ")
@@ -515,12 +519,11 @@ Public Class MasterFinishGoods
 
             'write data to worksheet
             worksheet.Range("A1").Value = "Finish Goods Part Number *"
-            worksheet.Range("B1").Value = "Department (zQSFP, Ten60 etc) *"
-            worksheet.Range("C1").Value = "Level (Sub Assy, FG etc) *"
-            worksheet.Range("D1").Value = "Description *"
-            worksheet.Range("E1").Value = "Standard Pack *"
-            worksheet.Range("F1").Value = "Family (zSFP, zQSFP etc) *"
-            worksheet.Range("G1").Value = "Laser Code"
+            worksheet.Range("B1").Value = "Level (Sub Assy, FG etc) *"
+            worksheet.Range("C1").Value = "Description *"
+            worksheet.Range("D1").Value = "Standard Pack *"
+            worksheet.Range("E1").Value = "Family *"
+            worksheet.Range("F1").Value = "Laser Code"
 
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)

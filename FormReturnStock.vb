@@ -526,7 +526,7 @@ Public Class FormReturnStock
                     RJMessageBox.Show("MTS cannot be null.")
                     txt_forminputstock_mts_no.Select()
                 Else
-                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO=" & txt_forminputstock_mts_no.Text & " AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status='Receive From Main Store'"
+                    Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE MTS_NO='" & txt_forminputstock_mts_no.Text & "' AND DEPARTMENT = '" & globVar.department & "' and [save]=1 and status='Receive From Main Store'"
                     Dim dtCheck As DataTable = Database.GetData(queryCheck)
                     If dtCheck.Rows.Count > 0 Then
                         RJMessageBox.Show("Sorry This MTS Number already use in input stock")

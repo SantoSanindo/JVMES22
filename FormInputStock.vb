@@ -234,7 +234,7 @@ Public Class FormInputStock
 
                         End If
 
-                        Dim q = InputBox("Please scan label material double", "Scan Material Double")
+                        Dim q = InputBox("Please scan the material labels that are duplicated, unreadable, or unclear.", "Scan Material Double")
                         If q = "" Or q Is Nothing Then
                             Exit Sub
                         End If
@@ -439,7 +439,7 @@ Public Class FormInputStock
 
                     ElseIf (txt_forminputstock_qrcode.Text.StartsWith("B") Or txt_forminputstock_qrcode.Text.StartsWith("SM")) And checkQr.Checked Then
 
-                        Dim queryCheckInputStock As String = "SELECT * FROM STOCK_CARD where qrcode='" & txt_forminputstock_qrcode.Text & "' and DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store'"
+                        Dim queryCheckInputStock As String = "SELECT * FROM STOCK_CARD where qrcode='" & txt_forminputstock_qrcode.Text & "' and DEPARTMENT='" & globVar.department & "' and status='Receive From Main Store' and actual_qty > 0"
                         Dim dtCheckInputStock As DataTable = Database.GetData(queryCheckInputStock)
 
                         If dtCheckInputStock.Rows.Count > 0 Then
@@ -626,48 +626,65 @@ Public Class FormInputStock
                             Dim queryCheck As String = "SELECT * FROM STOCK_CARD WHERE id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value & " and actual_qty > 0"
                             Dim dtCheck As DataTable = Database.GetData(queryCheck)
                             If dtCheck.Rows.Count > 0 Then
-                                Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
-                                Dim cmd = New SqlCommand(sql, Database.koneksi)
-                                If cmd.ExecuteNonQuery() Then
-                                    If dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value.StartsWith("NQ") Then
+                                ' Flag untuk mengecek apakah semua operasi update berhasil
+                                Dim allUpdatesSuccessful As Boolean = True
+                                Dim updateErrorMessage As String = ""
 
-                                        Dim queryCheckNQ As String = "SELECT * FROM STOCK_CARD WHERE qrcode_new=" & dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value & " and status='Return To Main Store' and department='" & globVar.department & "'"
+                                ' Proses update berdasarkan jenis QRCode sebelum delete
+                                Try
+                                    If dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value.StartsWith("NQ") Then
+                                        Dim queryCheckNQ As String = "SELECT * FROM STOCK_CARD WHERE qrcode_new='" & dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value & "' and status='Return To Main Store' and department='" & globVar.department & "'"
                                         Dim dtCheckNQ As DataTable = Database.GetData(queryCheckNQ)
 
                                         If dtCheckNQ.Rows.Count > 0 Then
-
                                             Dim SqlUpdateNewLabel As String = "update stock_card set actual_qty=qty where qrcode_new='" & dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value & "' and status='Return To Main Store' and department='" & globVar.department & "'"
                                             Dim cmdUpdateNewLabel = New SqlCommand(SqlUpdateNewLabel, Database.koneksi)
-                                            cmdUpdateNewLabel.ExecuteNonQuery()
-
+                                            Dim rowsAffected As Integer = cmdUpdateNewLabel.ExecuteNonQuery()
+                                            If rowsAffected = 0 Then
+                                                allUpdatesSuccessful = False
+                                                updateErrorMessage = "Failed to update stock_card for NQ QRCode"
+                                            End If
                                         Else
-
                                             Dim SqlUpdateNewLabel As String = "update new_label set material=null,QTY=null,INV_CTRL_DATE=null,TRACEABILITY=null,LOT_NO=null,BATCH_NO=null,datetime_update=null,update_who=null where qrcode='" & dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value & "'"
                                             Dim cmdUpdateNewLabel = New SqlCommand(SqlUpdateNewLabel, Database.koneksi)
-                                            cmdUpdateNewLabel.ExecuteNonQuery()
-
+                                            Dim rowsAffected As Integer = cmdUpdateNewLabel.ExecuteNonQuery()
+                                            If rowsAffected = 0 Then
+                                                allUpdatesSuccessful = False
+                                                updateErrorMessage = "Failed to update new_label for NQ QRCode"
+                                            End If
                                         End If
 
                                     ElseIf dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value.ToString.StartsWith("B") Or dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value.ToString.StartsWith("SM") Then
-
                                         Dim SqlUpdateNewLabel As String = "update stock_card set actual_qty=qty where qrcode='" & dgv_forminputstock.Rows(e.RowIndex).Cells("QRCode").Value & "' and status='Return To Main Store' and department='" & globVar.department & "'"
                                         Dim cmdUpdateNewLabel = New SqlCommand(SqlUpdateNewLabel, Database.koneksi)
-                                        cmdUpdateNewLabel.ExecuteNonQuery()
-
+                                        Dim rowsAffected As Integer = cmdUpdateNewLabel.ExecuteNonQuery()
+                                        If rowsAffected = 0 Then
+                                            allUpdatesSuccessful = False
+                                            updateErrorMessage = "Failed to update stock_card for B/SM QRCode"
+                                        End If
                                     End If
+                                Catch updateEx As Exception
+                                    allUpdatesSuccessful = False
+                                    updateErrorMessage = "Update operation failed: " & updateEx.Message
+                                End Try
 
-                                    DGV_InputStock(False, dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
-                                    treeView_show()
-                                    RJMessageBox.Show("Success delete.")
-
+                                ' Hanya lakukan delete jika semua update berhasil
+                                If allUpdatesSuccessful Then
+                                    Dim sql As String = "delete from STOCK_CARD where id=" & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                                    Dim cmd = New SqlCommand(sql, Database.koneksi)
+                                    If cmd.ExecuteNonQuery() > 0 Then
+                                        DGV_InputStock(False, dgv_forminputstock.Rows(e.RowIndex).Cells(1).Value)
+                                        treeView_show()
+                                        RJMessageBox.Show("Success delete.")
+                                    Else
+                                        RJMessageBox.Show("Failed to delete record")
+                                    End If
+                                Else
+                                    RJMessageBox.Show("Delete cancelled. " & updateErrorMessage)
                                 End If
-
                             Else
-
                                 RJMessageBox.Show("Cannot delete this material because this material in production request")
-
                             End If
-
                         Catch ex As Exception
                             RJMessageBox.Show("Error Input Stock - 4 =>" & ex.Message)
                         End Try

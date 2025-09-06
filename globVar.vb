@@ -68,64 +68,64 @@ Public Class globVar
 
     Public Shared Sub PingVersion()
 
-        Dim hostName As String = Dns.GetHostName()
-        Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
+        'Dim hostName As String = Dns.GetHostName()
+        'Dim ipAddresses As IPAddress() = Dns.GetHostAddresses(hostName)
 
-        Dim ipAdd As String
+        'Dim ipAdd As String
 
-        For Each ip As IPAddress In ipAddresses
-            If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
-                If ip.ToString().Contains("192.168.0") Then
-                    ipAdd = ip.ToString()
-                End If
-            End If
-        Next
+        'For Each ip As IPAddress In ipAddresses
+        '    If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
+        '        If ip.ToString().Contains("192.168.0") Then
+        '            ipAdd = ip.ToString()
+        '        End If
+        '    End If
+        'Next
 
-        Try
-            Dim sqlInsertMasterLine As String = "
-            IF NOT EXISTS (SELECT 1 FROM LIST_CONNECTION WHERE COMPUTER_NAME = '" & hostName & "' AND IP_ADDRESS = '" & ipAdd & "')
-                BEGIN
-                    INSERT INTO LIST_CONNECTION (COMPUTER_NAME, IP_ADDRESS, STATUS)
-                    VALUES ('" & hostName & "', '" & ipAdd & "','1')
-                END
-            ELSE
-                BEGIN
-                    RAISERROR('Data already exists', 16, 1)
-                END"
+        'Try
+        '    Dim sqlInsertMasterLine As String = "
+        '    IF NOT EXISTS (SELECT 1 FROM LIST_CONNECTION WHERE COMPUTER_NAME = '" & hostName & "' AND IP_ADDRESS = '" & ipAdd & "')
+        '        BEGIN
+        '            INSERT INTO LIST_CONNECTION (COMPUTER_NAME, IP_ADDRESS, STATUS)
+        '            VALUES ('" & hostName & "', '" & ipAdd & "','1')
+        '        END
+        '    ELSE
+        '        BEGIN
+        '            RAISERROR('Data already exists', 16, 1)
+        '        END"
 
-            Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
-            cmdInsertMasterLine.ExecuteNonQuery()
-        Catch ex As Exception
+        '    Dim cmdInsertMasterLine = New SqlCommand(sqlInsertMasterLine, Database.koneksi)
+        '    cmdInsertMasterLine.ExecuteNonQuery()
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
-        Dim sql As String = "select ip_address from LIST_CONNECTION where server=1"
-        Dim dtServer As DataTable = Database.GetData(sql)
+        'Dim sql As String = "select ip_address from LIST_CONNECTION where server=1"
+        'Dim dtServer As DataTable = Database.GetData(sql)
 
-        Dim pingSender As New Ping()
-        Try
-            Dim reply As PingReply = pingSender.Send(dtServer.Rows(0).Item("ip_address").ToString)
+        'Dim pingSender As New Ping()
+        'Try
+        '    Dim reply As PingReply = pingSender.Send(dtServer.Rows(0).Item("ip_address").ToString)
 
-            If reply.Status = IPStatus.Success Then
-                Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=1, ping='" & reply.RoundtripTime & "',LAST_UPDATE=getdate(),VERSION='" & Application.ProductVersion & "' FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
-                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                cmdUpdate.ExecuteNonQuery()
-            Else
-                Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=0, ping is null,LAST_UPDATE=getdate(),VERSION='" & Application.ProductVersion & "' FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
-                Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
-                cmdUpdate.ExecuteNonQuery()
-            End If
-        Catch ex As Exception
+        '    If reply.Status = IPStatus.Success Then
+        '        Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=1, ping='" & reply.RoundtripTime & "',LAST_UPDATE=getdate(),VERSION='" & Application.ProductVersion & "' FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
+        '        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+        '        cmdUpdate.ExecuteNonQuery()
+        '    Else
+        '        Dim SqlUpdate As String = "UPDATE LIST_CONNECTION SET status=0, ping is null,LAST_UPDATE=getdate(),VERSION='" & Application.ProductVersion & "' FROM LIST_CONNECTION WHERE COMPUTER_NAME='" & hostName & "' and IP_ADDRESS='" & ipAdd & "'"
+        '        Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
+        '        cmdUpdate.ExecuteNonQuery()
+        '    End If
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
-        If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
+        'If read_notepad("\\192.168.0.254\Updater\MES App\_Version\Version.txt") <> Application.ProductVersion Then
 
-            RJMessageBox.Show("New Version is available so this apps exit with automatically.")
-            Application.Exit()
-            Exit Sub
+        '    RJMessageBox.Show("New Version is available so this apps exit with automatically.")
+        '    Application.Exit()
+        '    Exit Sub
 
-        End If
+        'End If
 
     End Sub
 

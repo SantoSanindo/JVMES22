@@ -682,3 +682,6 @@ C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New._PrintingNewLabel.resource
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.NotifBeforeCreatePO.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.MasterDepartment.resources
 C:\Users\SERVER\Downloads\JVMES22\obj\Debug\Jovan_New.MasterFamily.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.MasterDepartment.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.MasterFamily.resources
+C:\Users\Arif\source\repos\JVMES22\obj\Debug\Jovan_New.NotifBeforeCreatePO.resources

@@ -6,6 +6,12 @@ Imports Microsoft.VisualBasic.Logging
 Public Class SplitMaterial
     Public Shared menu As String = "Split Label"
 
+    Dim tempVarPartNumber As String = ""
+    Dim tempVarLot As String = ""
+    Dim tempVarBatch As String = ""
+    Dim tempVarTraceability As String = ""
+    Dim tempVarICD As String = ""
+
     Function SplitMaterialGenerateCode() As String
 
         Dim balanceCode As String = ""
@@ -375,7 +381,7 @@ Public Class SplitMaterial
                                 If dtCheckStockCard.Rows.Count = 0 Then
 
                                     Dim sqlInsertInputStockDetail As String = "INSERT INTO STOCK_CARD (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, QRCODE, MTS_NO,DEPARTMENT, STANDARD_PACK,STATUS,ACTUAL_QTY,ID_FROM_SPLIT,[SAVE])
-                                        VALUES ('" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",'" & dtCheckSplitLabel.Rows(0).Item("OUTER_ICD") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "',(SELECT MTS_NO FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),'" & globVar.department & "','NO','Receive From Main Store'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",(SELECT ID FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),1)"
+                                        VALUES ('" & dtCheckSplitLabel.Rows(0).Item("OUTER_PN") & "'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",'" & dtCheckSplitLabel.Rows(0).Item("OUTER_ICD") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_TRACEABILITY") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LOT") & "','" & dtCheckSplitLabel.Rows(0).Item("OUTER_BATCH") & "','" & dtCheckSplitLabel.Rows(0).Item("INNER_LABEL") & "',(SELECT MTS_NO FROM STOCK_CARD WHERE QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' AND STATUS='Receive From Main Store'),'" & globVar.department & "','NO','Receive From Main Store'," & dtCheckSplitLabel.Rows(0).Item("INNER_QTY") & ",(SELECT ID FROM STOCK_CARD WHERE (QRCODE='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "' or QRCODE_NEW='" & dtCheckSplitLabel.Rows(0).Item("OUTER_LABEL") & "') AND STATUS='Receive From Main Store'),1)"
 
                                     Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
 
@@ -452,6 +458,12 @@ Public Class SplitMaterial
                         End If
                     Next
 
+                    DGV_Split_Qty2(tempVarPartNumber,
+                           tempVarLot,
+                           tempVarBatch,
+                           tempVarTraceability,
+                           tempVarICD)
+
                     If _check <= 0 Then
 
                         RJMessageBox.Show("Please check first, if you want print")
@@ -494,6 +506,7 @@ Public Class SplitMaterial
 
             Dim queryCheckSplitQty As String = "WITH NumberedRows AS (
                                                     SELECT 
+                                                        s.outer_label As [QR Code],
                                                         s.outer_pn AS [Part Number],
                                                         s.outer_lot AS [Lot],
                                                         s.outer_icd AS [ICD],
@@ -520,6 +533,7 @@ Public Class SplitMaterial
                                                     WHERE department='" & globVar.department & "'
                                                 )
                                                 SELECT 
+                                                    [QR Code],
                                                     [Part Number],
                                                     [Lot],
                                                     [ICD],
@@ -549,7 +563,7 @@ Public Class SplitMaterial
             cancelSplit.Width = 50
             cancelSplit.Text = "Cancel"
             cancelSplit.UseColumnTextForButtonValue = True
-            DataGridView1.Columns.Insert(9, cancelSplit)
+            DataGridView1.Columns.Insert(10, cancelSplit)
 
             For i As Integer = 0 To DataGridView1.RowCount - 1
                 If DataGridView1.Rows(i).Index Mod 2 = 0 Then
@@ -601,6 +615,13 @@ Public Class SplitMaterial
                            DataGridView1.Rows(e.RowIndex).Cells("Batch").Value,
                            DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value,
                            DataGridView1.Rows(e.RowIndex).Cells("ICD").Value)
+
+            tempVarPartNumber = DataGridView1.Rows(e.RowIndex).Cells("Part Number").Value
+            tempVarLot = DataGridView1.Rows(e.RowIndex).Cells("Lot").Value
+            tempVarBatch = DataGridView1.Rows(e.RowIndex).Cells("Batch").Value
+            tempVarTraceability = DataGridView1.Rows(e.RowIndex).Cells("Traceability").Value
+            tempVarICD = DataGridView1.Rows(e.RowIndex).Cells("ICD").Value
+
             Button1.Enabled = True
         End If
 
@@ -684,24 +705,6 @@ Public Class SplitMaterial
             End If
         Else
             RJMessageBox.Show("Outer label blank")
-        End If
-    End Sub
-
-    Private Sub DataGridView1_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView1.ColumnHeaderMouseClick
-        If e.ColumnIndex = 0 Then
-            If DataGridView1.Rows(0).Cells(0).Value = True Then
-                For i As Integer = 0 To DataGridView1.RowCount - 1
-                    DataGridView1.Rows(i).Cells(0).Value = False
-                Next
-            ElseIf DataGridView1.Rows(0).Cells(0).Value = False Then
-                For i As Integer = 0 To DataGridView1.RowCount - 1
-                    DataGridView1.Rows(i).Cells(0).Value = True
-                Next
-            Else
-                For i As Integer = 0 To DataGridView1.RowCount - 1
-                    DataGridView1.Rows(i).Cells(0).Value = True
-                Next
-            End If
         End If
     End Sub
 

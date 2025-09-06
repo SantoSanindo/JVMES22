@@ -159,8 +159,14 @@ Public Class ProductionRequest
 
                     ElseIf TextBox1.Text.StartsWith("SM") AndAlso TextBox1.Text.Length > 2 AndAlso IsNumeric(TextBox1.Text.Substring(2)) Then
 
-                        Dim sqlCheckStockSM = "SELECT * FROM split_label WHERE inner_label = '" & TextBox1.Text & "'"
+                        Dim sqlCheckStockSM = "SELECT * FROM split_label WHERE inner_label = '" & TextBox1.Text & "' and [print]=1"
                         Dim dtCheckStockSM As DataTable = Database.GetData(sqlCheckStockSM)
+
+                        If dtCheckStockSM.Rows.Count = 0 Then
+                            RJMessageBox.Show("The split material Code can only be used after it has been printed. Please print it first.")
+                            TextBox1.Clear()
+                            Exit Sub
+                        End If
 
                         globVar.QRCode_PN = dtCheckStockSM.Rows(0).Item("outer_pn")
                         globVar.QRCode_lot = dtCheckStockSM.Rows(0).Item("outer_lot")
@@ -217,7 +223,7 @@ Public Class ProductionRequest
                         Else
                             Try
                                 Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card ([MATERIAL], [QTY], [INV_CTRL_DATE], [TRACEABILITY], [LOT_NO], [BATCH_NO], [PO], [SUB_SUB_PO], [Finish_Goods_PN], [ACTUAL_QTY],[LINE],[SUB_PO],[STATUS],[DEPARTMENT],[STANDARD_PACK],[QRCODE],[SUM_QTY],[LEVEL],[ID_LEVEL],[insert_who])
-                                                VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & globVar.QRCode_lot & "','" & globVar.QRCode_Batch & "','" & PO.Text & "','" & SubSubPO.Text & "','" & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','NO','" & TextBox1.Text & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'Fresh','" & globVar.QRCode_PN & "','" & globVar.username & "')"
+                                                VALUES ('" & globVar.QRCode_PN & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & globVar.QRCode_Inv & "','" & globVar.QRCode_Traceability & "','" & dtCheckStockSM.Rows(0).Item("inner_lot") & "','" & globVar.QRCode_Batch & "','" & PO.Text & "','" & SubSubPO.Text & "','" & DataGridView3.Rows(CurrentRowIndex).Cells("FG Part Number").Value & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'" & ComboBox1.Text & "','" & SubPO.Text & "','Production Request','" & globVar.department & "','NO','" & TextBox1.Text & "'," & dtCheckStockSM.Rows(0).Item("inner_qty") & ",'Fresh','" & globVar.QRCode_PN & "','" & globVar.username & "')"
                                 Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
                                 If cmdInsertInputStockDetail.ExecuteNonQuery() Then
 
@@ -225,7 +231,7 @@ Public Class ProductionRequest
 
                                     DGV_InProductionMaterial()
 
-                                    Dim SqlUpdate As String = "UPDATE split_label SET inner_qty=0 WHERE inner_label='" & TextBox1.Text & "'"
+                                    Dim SqlUpdate As String = "UPDATE split_label SET inner_qty=0 WHERE inner_label='" & TextBox1.Text & "';update stock_card set actual_qty=0 where qrcode='" & TextBox1.Text & "' and status='Receive From Main Store'"
                                     Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                     cmdUpdate.ExecuteNonQuery()
                                     TextBox1.Clear()
@@ -796,6 +802,23 @@ Public Class ProductionRequest
                     If dtCheckQRCode.Rows(0).Item("qrcode").ToString.StartsWith("NQ") Then
 
                         Dim queryUpdateSC As String = "update stock_card set actual_qty=qty where (status='Receive From Main Store' or status='Receive From Production') and qrcode_new = '" & dtCheckQRCode.Rows(0).Item("qrcode") & "'"
+                        Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
+
+                        If dtUpdateSC.ExecuteNonQuery() Then
+
+                            Dim sql As String = "delete from stock_card where id=" & DataGridView4.Rows(e.RowIndex).Cells("#").Value
+                            Dim cmd = New SqlCommand(sql, Database.koneksi)
+                            If cmd.ExecuteNonQuery() Then
+                                RJMessageBox.Show("Delete success")
+                                DGV_InProductionMaterial()
+                                DGV_MaterialNeed()
+                            End If
+
+                        End If
+
+                    ElseIf dtCheckQRCode.Rows(0).Item("qrcode").ToString.StartsWith("SM") Then
+
+                        Dim queryUpdateSC As String = "update split_label set inner_qty=" & DataGridView4.Rows(e.RowIndex).Cells("Qty").Value & " where inner_label = '" & dtCheckQRCode.Rows(0).Item("qrcode") & "';update stock_card set actual_qty=" & DataGridView4.Rows(e.RowIndex).Cells("Qty").Value & " where qrcode='" & dtCheckQRCode.Rows(0).Item("qrcode") & "'"
                         Dim dtUpdateSC = New SqlCommand(queryUpdateSC, Database.koneksi)
 
                         If dtUpdateSC.ExecuteNonQuery() Then

@@ -23,10 +23,14 @@ Public Class StockMinistore
             DataGridView1.Columns.Clear()
             Call Database.koneksi_database()
             Dim queryInputStockDetail As String = "SELECT [datetime_insert] [Date Time], [MTS_NO] [Mts],[STATUS] [Status],[MATERIAL] [Material], [INV_CTRL_DATE] [ICD], [TRACEABILITY] [Trace], [BATCH_NO] [Batch], [LOT_NO] [Lot], [QTY] [Qty], [ACTUAL_QTY] [Act Qty], CASE 
-                                                        WHEN qrcode_new is not null
-		                                                THEN qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS 
-		                                                ELSE qrcode COLLATE SQL_Latin1_General_CP1_CI_AS  
-                                                    END AS QRCode, INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production','Production Request','Return To Main Store') and [save] = 1 order by datetime_insert"
+                                                    WHEN qrcode_new is not null
+	                                                THEN qrcode_new COLLATE SQL_Latin1_General_CP1_CI_AS 
+	                                                ELSE qrcode COLLATE SQL_Latin1_General_CP1_CI_AS  
+                                                END AS QRCode, INSERT_WHO [Scan By], DATETIME_SAVE [Date Time Save], SAVE_WHO [Save By], CASE 
+                                                    WHEN split_material = 1 
+                                                    THEN 'YES' 
+                                                    ELSE 'NO' 
+                                                END AS [Split Material] FROM STOCK_CARD where department='" & globVar.department & "' and CAST(datetime_insert AS DATE) >= '" & DateTimePicker1.Text & "' and CAST(datetime_insert AS DATE) <= '" & DateTimePicker2.Text & "' and status in ('Receive From Main Store','Receive From Production','Production Request','Return To Main Store') order by datetime_insert"
             Dim dtInputStockDetail As DataTable = Database.GetData(queryInputStockDetail)
             DataGridView1.DataSource = dtInputStockDetail
         Catch ex As Exception

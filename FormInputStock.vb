@@ -190,7 +190,7 @@ Public Class FormInputStock
 
                         If dtCheckNewQR.Rows.Count = 0 Then
 
-                            Dim queryCheckNQReturn As String = "SELECT * FROM stock_card where qrcode_new='" & txt_forminputstock_qrcode.Text & "' and status='Return To Main Store' and actual_qty > 0"
+                            Dim queryCheckNQReturn As String = "SELECT * FROM stock_card where qrcode_new='" & txt_forminputstock_qrcode.Text & "' and status='Return To Main Store' and actual_qty > 0 and [save] = 1"
                             Dim dtCheckNQReturn As DataTable = Database.GetData(queryCheckNQReturn)
 
                             If dtCheckNQReturn.Rows.Count > 0 Then

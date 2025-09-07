@@ -102,7 +102,7 @@ Public Class FormReturnStock
 
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) Then
 
-            If txt_forminputstock_qrcode.Text.StartsWith("B") AndAlso txt_forminputstock_qrcode.Text.Length > 1 AndAlso IsNumeric(txt_forminputstock_qrcode.Text.Substring(1)) Then
+            If txt_forminputstock_qrcode.Text.StartsWith("B") Then
 
                 Dim sqlCheckBalance As String = "select * from stock_card where qrcode = '" & txt_forminputstock_qrcode.Text & "' AND (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and actual_qty > 0 and department='" & globVar.department & "'"
                 Dim dtCheckBalance As DataTable = Database.GetData(sqlCheckBalance)
@@ -216,7 +216,7 @@ Public Class FormReturnStock
                     txt_forminputstock_qrcode.Select()
                 End If
 
-            ElseIf txt_forminputstock_qrcode.Text.StartsWith("NQ") AndAlso txt_forminputstock_qrcode.Text.Length > 1 AndAlso IsNumeric(txt_forminputstock_qrcode.Text.Substring(1)) Then
+            ElseIf txt_forminputstock_qrcode.Text.StartsWith("NQ") Then
 
                 Dim sqlCheckStockNQ = "SELECT * FROM new_label WHERE qrcode = '" & txt_forminputstock_qrcode.Text & "'"
                 Dim dtCheckStockNQ As DataTable = Database.GetData(sqlCheckStockNQ)
@@ -241,7 +241,7 @@ Public Class FormReturnStock
                     Exit Sub
                 End If
 
-                Dim sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE material = '" & globVar.QRCode_PN & "' and lot_no='" & globVar.QRCode_lot & "' and batch_no='" & globVar.QRCode_Batch & "' and inv_ctrl_date='" & globVar.QRCode_Inv & "' and traceability='" & globVar.QRCode_Traceability & "' and department='" & globVar.department & "' and (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and actual_qty > 0 and qrcode_new='" & TextBox1.Text & "'"
+                Dim sqlCheckStockMinistore = "SELECT * FROM stock_card WHERE department='" & globVar.department & "' and (STATUS='Receive From Production' or (STATUS='Receive From Main Store' AND [SAVE]=1)) and actual_qty > 0 and ( qrcode_new='" & txt_forminputstock_qrcode.Text & "' or qrcode = '" & txt_forminputstock_qrcode.Text & "')"
                 adapter = New SqlDataAdapter(sqlCheckStockMinistore, Database.koneksi)
                 adapter.Fill(ds)
 
@@ -294,7 +294,7 @@ Public Class FormReturnStock
                     End Try
                 End If
 
-            ElseIf txt_forminputstock_qrcode.Text.StartsWith("SM") AndAlso txt_forminputstock_qrcode.Text.Length > 2 AndAlso IsNumeric(txt_forminputstock_qrcode.Text.Substring(2)) Then
+            ElseIf txt_forminputstock_qrcode.Text.StartsWith("SM") Then
 
                 Dim sqlCheckStockSM = "SELECT * FROM stock_card WHERE qrcode = '" & txt_forminputstock_qrcode.Text & "' and actual_qty > 0 and status='Receive From Main Store' and [save] = 1 and department='" & globVar.department & "'"
                 Dim dtCheckStockSM As DataTable = Database.GetData(sqlCheckStockSM)
@@ -397,6 +397,7 @@ Public Class FormReturnStock
                         If cmd.ExecuteNonQuery() Then
 
                             dgv_forminputstock.DataSource = Nothing
+                            dgv_forminputstock.Columns.Clear()
                             treeView_show()
                             txt_forminputstock_qrcode.ReadOnly = True
                             checkQr.Enabled = False
@@ -425,7 +426,7 @@ Public Class FormReturnStock
                 If result = DialogResult.Yes Then
                     Try
 
-                        Dim sqlCheck As String = "select * from stock_card where id = " & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
+                        Dim sqlCheck As String = "select * from stock_card where actual_qty>0 and id = " & dgv_forminputstock.Rows(e.RowIndex).Cells("#").Value
                         Dim dtCheck As DataTable = Database.GetData(sqlCheck)
 
                         If dtCheck.Rows.Count > 0 Then
@@ -495,6 +496,10 @@ Public Class FormReturnStock
 
                             End If
 
+                        Else
+
+                            RJMessageBox.Show("This material cannot be deleted because it has already been reused.")
+
                         End If
                     Catch ex As Exception
                         RJMessageBox.Show("Error Return Stock - 4 =>" & ex.Message)
@@ -517,6 +522,12 @@ Public Class FormReturnStock
             TreeView1.Nodes(0).Nodes.Add(dtInputStock.Rows(i).Item("MATERIAL").ToString, "PN : " & dtInputStock.Rows(i).Item("MATERIAL").ToString & " - Qty : " & dtInputStock.Rows(i).Item("QTY").ToString)
         Next
         TreeView1.ExpandAll()
+    End Sub
+
+    Private Sub txt_forminputstock_mts_no_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt_forminputstock_mts_no.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub txt_forminputstock_mts_no_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_forminputstock_mts_no.PreviewKeyDown

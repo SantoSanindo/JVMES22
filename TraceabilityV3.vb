@@ -406,33 +406,71 @@ Public Class TraceabilityV3
     End Sub
 
     Private Sub DataGridView2_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView2.DataBindingComplete
-        For i As Integer = 0 To DataGridView2.RowCount - 1
-            If DataGridView2.Rows(i).Index Mod 2 = 0 Then
-                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
-            Else
-                DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
-            End If
-        Next i
+        ' Tampilkan loading untuk styling
+        Me.Cursor = Cursors.WaitCursor
 
-        With DataGridView2
-            .DefaultCellStyle.Font = New System.Drawing.Font("Tahoma", 14)
+        Try
+            ' Alternating row colors
+            For i As Integer = 0 To DataGridView2.RowCount - 1
+                If DataGridView2.Rows(i).Index Mod 2 = 0 Then
+                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                Else
+                    DataGridView2.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+                End If
+            Next i
 
-            For i As Integer = 0 To .ColumnCount - 1
-                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-            Next
-
-            .EnableHeadersVisualStyles = False
-            With .ColumnHeadersDefaultCellStyle
-                .BackColor = Color.Navy
-                .ForeColor = Color.White
-                .Font = New System.Drawing.Font("Tahoma", 13, FontStyle.Bold)
-                .Alignment = HorizontalAlignment.Center
-                .Alignment = ContentAlignment.MiddleCenter
+            ' Basic styling
+            With DataGridView2
+                .DefaultCellStyle.Font = New System.Drawing.Font("Tahoma", 14)
+                For i As Integer = 0 To .ColumnCount - 1
+                    .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                Next
+                .EnableHeadersVisualStyles = False
+                With .ColumnHeadersDefaultCellStyle
+                    .BackColor = Color.Navy
+                    .ForeColor = Color.White
+                    .Font = New System.Drawing.Font("Tahoma", 13, FontStyle.Bold)
+                    .Alignment = HorizontalAlignment.Center
+                    .Alignment = ContentAlignment.MiddleCenter
+                End With
+                .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
             End With
 
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
-        End With
+            ' Style QR Code column untuk SA codes setelah styling dasar
+            StyleQRCodeColumnWithAlternatingColors()
+
+        Finally
+            ' Sembunyikan loading setelah semua styling selesai
+            ShowDataGridViewLoading(False)
+        End Try
+    End Sub
+
+    Private Sub StyleQRCodeColumnWithAlternatingColors()
+        ' Optimasi: Cek dulu apakah ada kolom QR Code
+        If Not DataGridView2.Columns.Contains("QR Code") Then
+            Exit Sub
+        End If
+
+        ' Style untuk setiap row berdasarkan QR Code, dengan mempertahankan alternating colors
+        For Each row As DataGridViewRow In DataGridView2.Rows
+            If Not row.IsNewRow Then
+                Dim qrCode As String = If(row.Cells("QR Code").Value?.ToString(), "")
+
+                If qrCode.StartsWith("SA") Then
+                    ' Pertahankan background color dari alternating rows
+                    ' Hanya ubah warna text dan font untuk QR Code SA
+                    row.Cells("QR Code").Style.ForeColor = Color.DarkBlue
+                    row.Cells("QR Code").Style.Font = New Font("Tahoma", 14, FontStyle.Bold Or FontStyle.Underline)
+                    row.Cells("QR Code").ToolTipText = "Click to view details"
+                Else
+                    ' Reset ke default untuk QR Code lainnya
+                    row.Cells("QR Code").Style.ForeColor = Color.Black ' Warna default
+                    row.Cells("QR Code").Style.Font = New Font("Tahoma", 14) ' Font default
+                    row.Cells("QR Code").ToolTipText = ""
+                End If
+            End If
+        Next
     End Sub
 
     Private Sub DataGridView3_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView3.DataBindingComplete
@@ -467,22 +505,36 @@ Public Class TraceabilityV3
 
     Private Sub DataGridView3_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView3.CellClick
         Try
-
             If e.ColumnIndex >= 0 Then
                 If DataGridView3.Columns(e.ColumnIndex).Name = "check" Then
-                    TextBox1.Clear()
-                    DataGridView2.DataSource = Nothing
-                    DataGridView2.Rows.Clear()
-                    DataGridView2.Columns.Clear()
-                    TextBox1.Text = DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value & " | " & DataGridView3.Rows(e.RowIndex).Cells("Finish Goods").Value
-                    ShowDGVDataKananAtas(DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value, DataGridView3.Rows(e.RowIndex).Cells("Finish Goods").Value)
-                    treeView_show(DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value, DataGridView3.Rows(e.RowIndex).Cells("Finish Goods").Value)
-                    exportDGV(DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value)
+                    ' Tampilkan loading
+                    Me.Cursor = Cursors.WaitCursor
+                    DataGridView3.Enabled = False
+
+                    Try
+                        TextBox1.Clear()
+                        DataGridView2.DataSource = Nothing
+                        DataGridView2.Rows.Clear()
+                        DataGridView2.Columns.Clear()
+
+                        TextBox1.Text = DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value & " | " & DataGridView3.Rows(e.RowIndex).Cells("Finish Goods").Value
+
+                        ShowDGVDataKananAtas(DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value, DataGridView3.Rows(e.RowIndex).Cells("Finish Goods").Value)
+                        treeView_show(DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value, DataGridView3.Rows(e.RowIndex).Cells("Finish Goods").Value)
+                        exportDGV(DataGridView3.Rows(e.RowIndex).Cells("Sub Sub PO").Value)
+
+                    Finally
+                        ' Sembunyikan loading
+                        Me.Cursor = Cursors.Default
+                        DataGridView3.Enabled = True
+                    End Try
                 End If
             End If
-
         Catch ex As Exception
-
+            ' Handle error dan pastikan loading dihilangkan
+            Me.Cursor = Cursors.Default
+            DataGridView3.Enabled = True
+            RJMessageBox.Show("Error: " & ex.Message)
         End Try
     End Sub
 
@@ -505,23 +557,159 @@ Public Class TraceabilityV3
             Exit Sub
         End If
 
-        Dim id As String = TreeView1.SelectedNode.Name
+        ' Tampilkan loading
+        ShowDataGridViewLoading(True)
 
-        DGV_Bawah(id)
+        Try
+            Dim id As String = TreeView1.SelectedNode.Name
+            DGV_Bawah(id)
+
+        Catch ex As Exception
+            RJMessageBox.Show("Error loading data: " & ex.Message)
+        Finally
+            ' Loading akan dihilangkan di DataBindingComplete event
+        End Try
     End Sub
 
     Sub DGV_Bawah(material As String)
         If material = "" Then
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty],remark [Remark],datetime [Date Save] from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
+            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty], qrcode [QR Code], remark [Remark],datetime [Date Save] from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         Else
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty],remark [Remark],datetime [Date Save] from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
+            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty], qrcode [QR Code], remark [Remark],datetime [Date Save] from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         End If
+
+    End Sub
+
+    Private Sub ShowDataGridViewLoading(show As Boolean)
+        If show Then
+            Me.Cursor = Cursors.WaitCursor
+            TreeView1.Enabled = False
+            DataGridView2.Enabled = False
+            ' Tambahkan loading indicator jika perlu
+            ' lblStatus.Text = "Loading data..."
+            ' lblStatus.Visible = True
+            Me.Update()
+        Else
+            Me.Cursor = Cursors.Default
+            TreeView1.Enabled = True
+            DataGridView2.Enabled = True
+            ' lblStatus.Visible = False
+        End If
+    End Sub
+
+    ' Event handler untuk cell click
+    Private Sub DataGridView2_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellClick
+        If e.ColumnIndex >= 0 AndAlso e.RowIndex >= 0 Then
+            If DataGridView2.Columns(e.ColumnIndex).Name = "QR Code" Then
+                Dim qrCode As String = DataGridView2.Rows(e.RowIndex).Cells("QR Code").Value?.ToString()
+
+                If Not String.IsNullOrEmpty(qrCode) AndAlso qrCode.StartsWith("SA") Then
+                    HandleSAQRCodeAction(qrCode, e.RowIndex)
+                End If
+            End If
+        End If
+    End Sub
+
+    ' Event handler untuk mengubah cursor saat hover
+    Private Sub DataGridView2_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellMouseEnter
+        If e.ColumnIndex >= 0 AndAlso e.RowIndex >= 0 Then
+            If DataGridView2.Columns(e.ColumnIndex).Name = "QR Code" Then
+                Dim qrCode As String = DataGridView2.Rows(e.RowIndex).Cells("QR Code").Value?.ToString()
+
+                If Not String.IsNullOrEmpty(qrCode) AndAlso qrCode.StartsWith("SA") Then
+                    DataGridView2.Cursor = Cursors.Hand
+                End If
+            End If
+        End If
+    End Sub
+
+    ' Event handler untuk mengembalikan cursor normal
+    Private Sub DataGridView2_CellMouseLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellMouseLeave
+        DataGridView2.Cursor = Cursors.Default
+    End Sub
+
+    Private Sub HandleSAQRCodeAction(qrCode As String, rowIndex As Integer)
+        ' Atau bisa buka form detail, popup, dll
+        ShowPopupDataGridView(qrCode)
+    End Sub
+
+    Private Sub ShowPopupDataGridView(qrCode As String)
+        ' Buat Form popup baru
+        Dim popupForm As New Form()
+        popupForm.Text = "Detail Data - " & qrCode
+        popupForm.Size = New Size(1500, 300)
+        popupForm.StartPosition = FormStartPosition.CenterParent
+        popupForm.FormBorderStyle = FormBorderStyle.Sizable
+
+        ' Buat DataGridView
+        Dim popupDGV As New DataGridView()
+        popupDGV.Dock = DockStyle.Fill
+        popupDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        popupDGV.AllowUserToAddRows = False
+        popupDGV.AllowUserToDeleteRows = False
+        popupDGV.ReadOnly = True
+        popupDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+
+        ' Load data ke popup DataGridView
+        LoadDataToPopupDGV(popupDGV, qrCode)
+
+        ' Apply styling yang sama seperti DataGridView3 setelah data loaded
+        AddHandler popupDGV.DataBindingComplete, Sub(sender, e) StylePopupDataGridView(popupDGV)
+
+        ' Add DataGridView langsung ke form
+        popupForm.Controls.Add(popupDGV)
+
+        ' Show popup
+        popupForm.ShowDialog(Me)
+    End Sub
+
+    Private Sub StylePopupDataGridView(dgv As DataGridView)
+        ' Apply alternating row colors
+        For i As Integer = 0 To dgv.RowCount - 1
+            If dgv.Rows(i).Index Mod 2 = 0 Then
+                dgv.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+            Else
+                dgv.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
+            End If
+        Next i
+
+        ' Apply styling yang sama seperti DataGridView3
+        With dgv
+            .DefaultCellStyle.Font = New System.Drawing.Font("Tahoma", 14)
+            For i As Integer = 0 To .ColumnCount - 1
+                .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            Next
+            .EnableHeadersVisualStyles = False
+            With .ColumnHeadersDefaultCellStyle
+                .BackColor = Color.Navy
+                .ForeColor = Color.White
+                .Font = New System.Drawing.Font("Tahoma", 13, FontStyle.Bold)
+                .Alignment = HorizontalAlignment.Center
+                .Alignment = ContentAlignment.MiddleCenter
+            End With
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End With
+    End Sub
+
+    Private Sub LoadDataToPopupDGV(dgv As DataGridView, qrCode As String)
+        Try
+            ' Query untuk load data
+            Dim query As String = "SELECT id [#],line [Line],component [Comp],[desc] [Desc],inv [INV],batch_no [Batch],lot_comp [LOT], traceability [Trace], sub_sub_po [Sub Sub PO], qty [Qty], lot_fg [Lot FG], qrcode [QR Code] FROM summary_traceability_comp WHERE remark = '" & qrCode & "'"
+            Dim dt As DataTable = Database.GetData(query)
+            dgv.DataSource = dt
+
+            ' Styling custom akan diaplikasikan melalui DataBindingComplete event
+
+        Catch ex As Exception
+            RJMessageBox.Show("Error loading popup data: " & ex.Message)
+        End Try
     End Sub
 
     Private Sub TraceabilityV3_Load(sender As Object, e As EventArgs) Handles Me.Load

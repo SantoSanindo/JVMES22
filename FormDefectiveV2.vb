@@ -2771,9 +2771,40 @@ Public Class FormDefectiveV2
         SaveFGDefact()
     End Sub
 
+    Public Function IsValidFormat(input As String) As Boolean
+
+        Try
+
+            Dim parts As String() = input.Split(";"c)
+
+            If parts.Length < 6 Then Return False
+
+            Dim lastPart As String = parts(5).Trim()
+
+            Dim pattern As String = "^\d+ of \d+$"
+
+            Dim regex As New System.Text.RegularExpressions.Regex(pattern)
+
+            Return regex.IsMatch(lastPart)
+
+        Catch
+
+            Return False
+
+        End Try
+
+    End Function
+
     Private Sub btnSaveFG_Click(sender As Object, e As EventArgs) Handles btnSaveFG.Click
 
         Try
+
+            If Not IsValidFormat(txtFGFlowTicket.Text) Then
+
+                RJMessageBox.Show("Flow Ticket Is not Valid.")
+                Exit Sub
+
+            End If
 
             Dim spasiFlowTicket = txtFGFlowTicket.Text.Replace(ChrW(160), " ")
             Dim sFlowTicket = spasiFlowTicket.Split(";")

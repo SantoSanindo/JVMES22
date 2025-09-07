@@ -636,22 +636,22 @@ Public Class StockProduction
             If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
 
                 'BackgroundWorker1.RunWorkerAsync(DG_SCSA)
-                ExportToExcelV2(DG_SCSA, "Export Stock Sub Assy")
+                ExportToExcelV3(DG_SCSA, "Export Stock Sub Assy")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
 
                 'BackgroundWorker1.RunWorkerAsync(DG_SCReject)
-                ExportToExcelV2(DG_SCReject, "Export Stock Card Reject")
+                ExportToExcelV3(DG_SCReject, "Export Stock Card Reject")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
 
                 'BackgroundWorker1.RunWorkerAsync(DG_SCOthers)
-                ExportToExcelV2(DG_SCOthers, "Export Stock Card Others")
+                ExportToExcelV3(DG_SCOthers, "Export Stock Card Others")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card Return" Then
 
                 'BackgroundWorker1.RunWorkerAsync(DG_SCReturn)
-                ExportToExcelV2(DG_SCReturn, "Export Stock Card Return To Mini Store")
+                ExportToExcelV3(DG_SCReturn, "Export Stock Card Return To Mini Store")
 
             ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
 
@@ -671,10 +671,117 @@ Public Class StockProduction
             Else
 
                 'BackgroundWorker1.RunWorkerAsync(DG_SCMaterial)
-                ExportToExcelV2(DG_SCMaterial, "Export Stock Card Production")
+                ExportToExcelV3(DG_SCMaterial, "Export Stock Card Production")
 
             End If
 
+        End If
+    End Sub
+
+    Private Sub ExportToExcelV3(datagridview As DataGridView, nama As String)
+        If globVar.view > 0 Then
+            ' Cek jumlah data terlebih dahulu
+            If datagridview.Rows.Count = 0 OrElse (datagridview.Rows.Count = 1 AndAlso datagridview.Rows(0).IsNewRow) Then
+                RJMessageBox.Show("No data to export!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            ' Cek apakah ada data yang valid (tidak semua cell kosong)
+            Dim hasData As Boolean = False
+            For i As Integer = 0 To datagridview.Rows.Count - 1
+                If Not datagridview.Rows(i).IsNewRow Then
+                    For j As Integer = 0 To datagridview.Columns.Count - 1
+                        If datagridview(j, i).Value IsNot Nothing AndAlso datagridview(j, i).Value.ToString().Trim() <> "" Then
+                            hasData = True
+                            Exit For
+                        End If
+                    Next
+                    If hasData Then Exit For
+                End If
+            Next
+
+            If Not hasData Then
+                RJMessageBox.Show("No valid data to export!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            ' Tampilkan informasi jumlah data yang akan diexport
+            Dim actualRowCount As Integer = If(datagridview.Rows(datagridview.Rows.Count - 1).IsNewRow,
+                                          datagridview.Rows.Count - 1,
+                                          datagridview.Rows.Count)
+
+            Dim confirmResult = RJMessageBox.Show($"Found {actualRowCount} rows of data to export.{Environment.NewLine}Do you want to continue?",
+                                            "Export Confirmation",
+                                            MessageBoxButtons.YesNo,
+                                            MessageBoxIcon.Information)
+
+            If confirmResult = DialogResult.No Then
+                Exit Sub
+            End If
+
+            Try
+                Dim xlApp As New Excel.Application
+                Dim xlWorkBook As Excel.Workbook
+                Dim xlWorkSheet As Excel.Worksheet
+                Dim misValue As Object = System.Reflection.Missing.Value
+                xlWorkBook = xlApp.Workbooks.Add(misValue)
+                xlWorkSheet = xlWorkBook.Sheets("sheet1")
+
+                ' Mengatur header
+                For k As Integer = 1 To datagridview.Columns.Count
+                    xlWorkSheet.Cells(1, k) = datagridview.Columns(k - 1).HeaderText
+                Next
+
+                ' Menyalin data ke array dua dimensi (hanya data yang valid)
+                Dim validRowCount As Integer = 0
+                For i As Integer = 0 To datagridview.Rows.Count - 1
+                    If Not datagridview.Rows(i).IsNewRow Then
+                        validRowCount += 1
+                    End If
+                Next
+
+                If validRowCount > 0 Then
+                    Dim dataArray(validRowCount - 1, datagridview.ColumnCount - 1) As Object
+                    Dim arrayRow As Integer = 0
+
+                    For i As Integer = 0 To datagridview.Rows.Count - 1
+                        If Not datagridview.Rows(i).IsNewRow Then
+                            For j As Integer = 0 To datagridview.ColumnCount - 1
+                                dataArray(arrayRow, j) = If(datagridview(j, i).Value, "")
+                            Next
+                            arrayRow += 1
+                        End If
+                    Next
+
+                    ' Menyalin array ke lembar kerja Excel
+                    xlWorkSheet.Range("A2").Resize(validRowCount, datagridview.ColumnCount).Value = dataArray
+                End If
+
+                ' Mengatur direktori awal untuk dialog
+                FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+                ' Memilih folder penyimpanan
+                If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                    Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                    Dim currentDate As Date = DateTime.Now
+                    Dim namafile As String = nama & " - " & currentDate.ToString("yyyy-MM-dd HH-mm-ss") & ".xlsx"
+                    Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
+                    xlWorkSheet.SaveAs(filePath)
+                    RJMessageBox.Show($"Export to Excel Success!{Environment.NewLine}Name: {namafile}{Environment.NewLine}Exported {validRowCount} rows of data")
+                End If
+
+                ' Membersihkan objek Excel
+                xlWorkBook.Close(False)
+                xlApp.Quit()
+                releaseObject(xlWorkSheet)
+                releaseObject(xlWorkBook)
+                releaseObject(xlApp)
+
+            Catch ex As Exception
+                RJMessageBox.Show("Error during export: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        Else
+            RJMessageBox.Show("Your Access cannot execute this action")
         End If
     End Sub
 
@@ -787,43 +894,44 @@ Public Class StockProduction
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If globVar.view > 0 Then
-            If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
+            ' Tampilkan loading
+            Me.Cursor = Cursors.WaitCursor
+            Button2.Enabled = False
+            Button2.Text = "Loading..."
 
+            Try
+                If TabControl1.SelectedTab.Text = "Stock Card Sub Assy" Then
+                    btn_ExportTrace1.Enabled = True
+                    DGV_SA()
+                ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
+                    btn_ExportTrace1.Enabled = False
+                    DGV_WIP()
+                ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
+                    btn_ExportTrace1.Enabled = False
+                    DGV_OH()
+                ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
+                    btn_ExportTrace1.Enabled = False
+                    DGV_Defect()
+                ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
+                    btn_ExportTrace1.Enabled = True
+                    DGV_Reject()
+                ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
+                    btn_ExportTrace1.Enabled = True
+                    DGV_Others()
+                Else
+                    btn_ExportTrace1.Enabled = True
+                    DGV_StockMiniststore()
+                End If
                 btn_ExportTrace1.Enabled = True
-                DGV_SA()
 
-            ElseIf TabControl1.SelectedTab.Text = "Stock Card WIP" Then
-
-                btn_ExportTrace1.Enabled = False
-                DGV_WIP()
-
-            ElseIf TabControl1.SelectedTab.Text = "Stock Card On Hold" Then
-
-                btn_ExportTrace1.Enabled = False
-                DGV_OH()
-
-            ElseIf TabControl1.SelectedTab.Text = "Stock Card Defect" Then
-
-                btn_ExportTrace1.Enabled = False
-                DGV_Defect()
-
-            ElseIf TabControl1.SelectedTab.Text = "Stock Card Reject" Then
-
-                btn_ExportTrace1.Enabled = True
-                DGV_Reject()
-
-            ElseIf TabControl1.SelectedTab.Text = "Stock Card Others" Then
-
-                btn_ExportTrace1.Enabled = True
-                DGV_Others()
-
-            Else
-
-                btn_ExportTrace1.Enabled = True
-                DGV_StockMiniststore()
-
-            End If
-            btn_ExportTrace1.Enabled = True
+            Catch ex As Exception
+                RJMessageBox.Show("Error: " & ex.Message)
+            Finally
+                ' Sembunyikan loading
+                Me.Cursor = Cursors.Default
+                Button2.Enabled = True
+                Button2.Text = "Refresh" ' atau text aslinya
+            End Try
         End If
     End Sub
 

@@ -28,6 +28,11 @@ Partial Class ReceiveReturnMaterial
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -37,6 +42,11 @@ Partial Class ReceiveReturnMaterial
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.Label4)
+        Me.GroupBox1.Controls.Add(Me.Button2)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.DateTimePicker2)
+        Me.GroupBox1.Controls.Add(Me.DateTimePicker1)
         Me.GroupBox1.Controls.Add(Me.DataGridView1)
         Me.GroupBox1.Controls.Add(Me.TextBox2)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -101,6 +111,59 @@ Partial Class ReceiveReturnMaterial
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Code Return"
         '
+        'Label4
+        '
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(790, 40)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(63, 29)
+        Me.Label4.TabIndex = 19
+        Me.Label4.Text = "Date"
+        '
+        'Button2
+        '
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.BackColor = System.Drawing.Color.Green
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(1312, 35)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(115, 38)
+        Me.Button2.TabIndex = 18
+        Me.Button2.Text = "Filter"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'Label3
+        '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(1079, 40)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(21, 29)
+        Me.Label3.TabIndex = 17
+        Me.Label3.Text = "-"
+        '
+        'DateTimePicker2
+        '
+        Me.DateTimePicker2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker2.Location = New System.Drawing.Point(1106, 37)
+        Me.DateTimePicker2.MinDate = New Date(2020, 1, 1, 0, 0, 0, 0)
+        Me.DateTimePicker2.Name = "DateTimePicker2"
+        Me.DateTimePicker2.Size = New System.Drawing.Size(200, 35)
+        Me.DateTimePicker2.TabIndex = 16
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker1.Location = New System.Drawing.Point(873, 37)
+        Me.DateTimePicker1.MinDate = New Date(2020, 1, 1, 0, 0, 0, 0)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(200, 35)
+        Me.DateTimePicker1.TabIndex = 15
+        '
         'ReceiveReturnMaterial
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -123,4 +186,9 @@ Partial Class ReceiveReturnMaterial
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents DataGridView1 As Zuby.ADGV.AdvancedDataGridView
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Button2 As Button
+    Friend WithEvents Label3 As Label
+    Friend WithEvents DateTimePicker2 As DateTimePicker
+    Friend WithEvents DateTimePicker1 As DateTimePicker
 End Class

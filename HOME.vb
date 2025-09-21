@@ -60,10 +60,19 @@ Public Class HOME
     ' -----------------------Start Menu Master Data-------------------------'
     Private Sub BtnUsers(sender As Object, e As EventArgs) Handles UsersBtn.Click
         If globVar.CanAccess(Users.menu) Then
-            Users.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(Users)
-            TabControl1.TabPages(Users).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                Application.DoEvents()
+                Users.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(Users)
+                TabControl1.TabPages(Users).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
+
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -71,10 +80,17 @@ Public Class HOME
 
     Private Sub btnMasterMaterial(sender As Object, e As EventArgs) Handles MasterMaterialBtn.Click
         If globVar.CanAccess(MasterMaterial.menu) Then
-            MasterMaterial.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterMaterial)
-            TabControl1.TabPages(MasterMaterial).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterMaterial.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterMaterial)
+                TabControl1.TabPages(MasterMaterial).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -82,10 +98,17 @@ Public Class HOME
 
     Private Sub btnMasterProcess(sender As Object, e As EventArgs) Handles MasterProcessBtn.Click
         If globVar.CanAccess(MasterProcess.menu) Then
-            MasterProcess.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterProcess)
-            TabControl1.TabPages(MasterProcess).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterProcess.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterProcess)
+                TabControl1.TabPages(MasterProcess).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -93,10 +116,17 @@ Public Class HOME
 
     Private Sub btnMasterProcessFlow(sender As Object, e As EventArgs) Handles MasterProcessFlowBtn.Click
         If globVar.CanAccess(MasterProcessFlow.menu) Then
-            MasterProcessFlow.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterProcessFlow)
-            TabControl1.TabPages(MasterProcessFlow).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterProcessFlow.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterProcessFlow)
+                TabControl1.TabPages(MasterProcessFlow).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -104,10 +134,17 @@ Public Class HOME
 
     Private Sub btnMasterFinishGoods(sender As Object, e As EventArgs) Handles MasterFinishGoodsBtn.Click
         If globVar.CanAccess(MasterFinishGoods.menu) Then
-            MasterFinishGoods.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterFinishGoods)
-            TabControl1.TabPages(MasterFinishGoods).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterFinishGoods.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterFinishGoods)
+                TabControl1.TabPages(MasterFinishGoods).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -116,10 +153,17 @@ Public Class HOME
 
     Private Sub btnMaterialUsageFinishGoods(sender As Object, e As EventArgs) Handles MaterialUsageFinishGoodsBtn.Click
         If globVar.CanAccess(MaterialUsageFinishGoods.menu) Then
-            MaterialUsageFinishGoods.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MaterialUsageFinishGoods)
-            TabControl1.TabPages(MaterialUsageFinishGoods).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MaterialUsageFinishGoods.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MaterialUsageFinishGoods)
+                TabControl1.TabPages(MaterialUsageFinishGoods).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -128,10 +172,17 @@ Public Class HOME
 
     Private Sub btnProcessFlowMaterialUsage(sender As Object, e As EventArgs) Handles ProcessFlowMaterialUsageBtn.Click
         If globVar.CanAccess(ProcessFlowMaterialUsage.menu) Then
-            ProcessFlowMaterialUsage.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(ProcessFlowMaterialUsage)
-            TabControl1.TabPages(ProcessFlowMaterialUsage).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                ProcessFlowMaterialUsage.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(ProcessFlowMaterialUsage)
+                TabControl1.TabPages(ProcessFlowMaterialUsage).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -140,10 +191,17 @@ Public Class HOME
 
     Private Sub BtnMasterLine(sender As Object, e As EventArgs) Handles MasterLineBtn.Click
         If globVar.CanAccess(MasterLine.menu) Then
-            MasterLine.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterLine)
-            TabControl1.TabPages(MasterLine).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterLine.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterLine)
+                TabControl1.TabPages(MasterLine).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -151,10 +209,17 @@ Public Class HOME
 
     Private Sub BtnAC(sender As Object, e As EventArgs) Handles ACBtn.Click
         If globVar.CanAccess(AccessControll.menu) Then
-            AccessControll.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(AccessControll)
-            TabControl1.TabPages(AccessControll).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                AccessControll.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(AccessControll)
+                TabControl1.TabPages(AccessControll).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -162,10 +227,17 @@ Public Class HOME
 
     Private Sub BtnDept(sender As Object, e As EventArgs) Handles DeptBtn.Click
         If globVar.CanAccess(MasterDepartment.menu) Then
-            MasterDepartment.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterDepartment)
-            TabControl1.TabPages(MasterDepartment).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterDepartment.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterDepartment)
+                TabControl1.TabPages(MasterDepartment).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -173,10 +245,17 @@ Public Class HOME
 
     Private Sub BtnFam(sender As Object, e As EventArgs) Handles FamBtn.Click
         If globVar.CanAccess(MasterFamily.menu) Then
-            MasterFamily.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MasterFamily)
-            TabControl1.TabPages(MasterFamily).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MasterFamily.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MasterFamily)
+                TabControl1.TabPages(MasterFamily).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -187,10 +266,17 @@ Public Class HOME
     ' -----------------------Start Menu Mini Store-------------------------'
     Private Sub btnInputStock(sender As Object, e As EventArgs) Handles InputStockBtn.Click
         If globVar.CanAccess(FormInputStock.menu) Then
-            FormInputStock.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(FormInputStock)
-            TabControl1.TabPages(FormInputStock).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                FormInputStock.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(FormInputStock)
+                TabControl1.TabPages(FormInputStock).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -199,10 +285,17 @@ Public Class HOME
 
     Private Sub btnReturnStock(sender As Object, e As EventArgs) Handles ReturnStockBtn.Click
         If globVar.CanAccess(FormReturnStock.menu) Then
-            FormReturnStock.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(FormReturnStock)
-            TabControl1.TabPages(FormReturnStock).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                FormReturnStock.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(FormReturnStock)
+                TabControl1.TabPages(FormReturnStock).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -210,10 +303,17 @@ Public Class HOME
 
     Private Sub btnProductionRequest(sender As Object, e As EventArgs) Handles ProductionRequestBtn.Click
         If globVar.CanAccess(ProductionRequest.menu) Then
-            ProductionRequest.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(ProductionRequest)
-            TabControl1.TabPages(ProductionRequest).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                ProductionRequest.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(ProductionRequest)
+                TabControl1.TabPages(ProductionRequest).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -222,10 +322,17 @@ Public Class HOME
 
     Private Sub BtnStockMinistore(sender As Object, e As EventArgs) Handles StockMinistoreBtn.Click
         If globVar.CanAccess(StockMinistore.menu) Then
-            StockMinistore.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(StockMinistore)
-            TabControl1.TabPages(StockMinistore).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                StockMinistore.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(StockMinistore)
+                TabControl1.TabPages(StockMinistore).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -233,10 +340,17 @@ Public Class HOME
 
     Private Sub btnReceiveReturnMaterial(sender As Object, e As EventArgs) Handles ReceiveReturnMaterialBtn.Click
         If globVar.CanAccess(ReceiveReturnMaterial.menu) Then
-            ReceiveReturnMaterial.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(ReceiveReturnMaterial)
-            TabControl1.TabPages(ReceiveReturnMaterial).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                ReceiveReturnMaterial.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(ReceiveReturnMaterial)
+                TabControl1.TabPages(ReceiveReturnMaterial).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -244,10 +358,17 @@ Public Class HOME
 
     Private Sub btnSplitQty(sender As Object, e As EventArgs) Handles SplitQtyBtn.Click
         If globVar.CanAccess(SplitMaterial.menu) Then
-            SplitMaterial.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(SplitMaterial)
-            TabControl1.TabPages(SplitMaterial).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                SplitMaterial.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(SplitMaterial)
+                TabControl1.TabPages(SplitMaterial).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -258,10 +379,17 @@ Public Class HOME
     ' -----------------------Start Menu Production-------------------------'
     Private Sub BtnStockProd(sender As Object, e As EventArgs) Handles StockProdBtn.Click
         If globVar.CanAccess(StockProduction.menu) Then
-            StockProduction.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(StockProduction)
-            TabControl1.TabPages(StockProduction).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                StockProduction.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(StockProduction)
+                TabControl1.TabPages(StockProduction).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -269,10 +397,17 @@ Public Class HOME
 
     Private Sub btnMainPoSubPO(sender As Object, e As EventArgs) Handles MainPOSubPOBtn.Click
         If globVar.CanAccess(MainPOSubPO.menu) Then
-            MainPOSubPO.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(MainPOSubPO)
-            TabControl1.TabPages(MainPOSubPO).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                MainPOSubPO.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(MainPOSubPO)
+                TabControl1.TabPages(MainPOSubPO).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -280,10 +415,17 @@ Public Class HOME
 
     Private Sub BtnAddChangeOperator(sender As Object, e As EventArgs) Handles AddChangeOperatorBtn.Click
         If globVar.CanAccess(AddChangeOperator.menu) Then
-            AddChangeOperator.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(AddChangeOperator)
-            TabControl1.TabPages(AddChangeOperator).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                AddChangeOperator.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(AddChangeOperator)
+                TabControl1.TabPages(AddChangeOperator).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -291,10 +433,17 @@ Public Class HOME
 
     Private Sub BtnPrintFlowTicket(sender As Object, e As EventArgs) Handles PrintFlowTicketBtn.Click
         If globVar.CanAccess(PrintFlowTicket.menu) Then
-            PrintFlowTicket.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(PrintFlowTicket)
-            TabControl1.TabPages(PrintFlowTicket).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                PrintFlowTicket.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(PrintFlowTicket)
+                TabControl1.TabPages(PrintFlowTicket).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -307,10 +456,17 @@ Public Class HOME
 
     Private Sub BtnProduction(sender As Object, e As EventArgs) Handles ProductionBtn.Click
         If globVar.CanAccess(ProductionV2.menu) Then
-            ProductionV2.Close()
-            'TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(ProductionV2)
-            TabControl1.TabPages(ProductionV2).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                ProductionV2.Close()
+                'TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(ProductionV2)
+                TabControl1.TabPages(ProductionV2).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -318,10 +474,17 @@ Public Class HOME
 
     Private Sub BtnResultProduction(sender As Object, e As EventArgs) Handles ResultProductionBtn.Click
         If globVar.CanAccess(FormDefectiveV2.menu) Then
-            FormDefectiveV2.Close()
-            'TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(FormDefectiveV2)
-            TabControl1.TabPages(FormDefectiveV2).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                FormDefectiveV2.Close()
+                'TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(FormDefectiveV2)
+                TabControl1.TabPages(FormDefectiveV2).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -329,10 +492,17 @@ Public Class HOME
 
     Private Sub BtnSummaryProduction(sender As Object, e As EventArgs) Handles SummaryProductionBtn.Click
         If globVar.CanAccess(SummaryV2.menu) Then
-            SummaryV2.Close()
-            'TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(SummaryV2)
-            TabControl1.TabPages(SummaryV2).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                SummaryV2.Close()
+                'TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(SummaryV2)
+                TabControl1.TabPages(SummaryV2).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -340,9 +510,16 @@ Public Class HOME
 
     Private Sub BtnTraceability(sender As Object, e As EventArgs) Handles TraceabilityBtn.Click
         If globVar.CanAccess(TraceabilityV3.menu) Then
-            TraceabilityV3.Close()
-            TabControl1.TabPages.Add(TraceabilityV3)
-            TabControl1.TabPages(TraceabilityV3).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                TraceabilityV3.Close()
+                TabControl1.TabPages.Add(TraceabilityV3)
+                TabControl1.TabPages(TraceabilityV3).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -350,10 +527,17 @@ Public Class HOME
 
     Private Sub BtnOthers(sender As Object, e As EventArgs) Handles OthersBtn.Click
         If globVar.CanAccess(OthersPart.menu) Then
-            OthersPart.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(OthersPart)
-            TabControl1.TabPages(OthersPart).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                OthersPart.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(OthersPart)
+                TabControl1.TabPages(OthersPart).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -399,10 +583,17 @@ Public Class HOME
     ' -----------------------Start Menu FGA-------------------------'
     Private Sub BtnFGA(sender As Object, e As EventArgs) Handles FGABtn.Click
         If globVar.CanAccess(FGA.menu) Then
-            FGA.Close()
-            TabControl1.TabPages.Clear()
-            TabControl1.TabPages.Add(FGA)
-            TabControl1.TabPages(FGA).Select()
+            Me.Cursor = Cursors.WaitCursor
+            Try
+                FGA.Close()
+                TabControl1.TabPages.Clear()
+                TabControl1.TabPages.Add(FGA)
+                TabControl1.TabPages(FGA).Select()
+            Catch ex As Exception
+
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
         Else
             RJMessageBox.Show("Cannot Access This Menu.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If

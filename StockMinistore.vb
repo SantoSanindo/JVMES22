@@ -14,6 +14,8 @@ Public Class StockMinistore
         DateTimePicker2.CustomFormat = "yyyy-MM-dd"
 
         TabControl1.TabIndex = 0
+
+        TabControl1.TabPages.Remove(TabPage2)
     End Sub
 
     Private Sub DGV_StockMiniststore()
@@ -225,17 +227,32 @@ Public Class StockMinistore
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If globVar.view > 0 Then
-            If TabControl1.SelectedIndex = 0 Then
+            ' Change cursor to loading/wait cursor
+            Me.Cursor = Cursors.WaitCursor
 
-                DGV_StockMiniststore()
-                btn_ExportTrace1.Enabled = True
+            Try
+                ' Disable the button to prevent multiple clicks
+                Button2.Enabled = False
 
-            ElseIf TabControl1.SelectedIndex = 1 Then
+                ' Force UI update to show cursor change immediately
+                Application.DoEvents()
 
-                LoadDGAtas()
-                btn_ExportTrace1.Enabled = True
+                If TabControl1.SelectedIndex = 0 Then
+                    DGV_StockMiniststore()
+                    btn_ExportTrace1.Enabled = True
+                ElseIf TabControl1.SelectedIndex = 1 Then
+                    LoadDGAtas()
+                    btn_ExportTrace1.Enabled = True
+                End If
 
-            End If
+            Catch ex As Exception
+                ' Handle any errors that might occur
+                RJMessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Finally
+                ' Always restore cursor and button state
+                Me.Cursor = Cursors.Default
+                Button2.Enabled = True
+            End Try
         End If
     End Sub
 
@@ -500,5 +517,13 @@ Public Class StockMinistore
         If ReportDGAtas.Columns(e.ColumnIndex).Name = "check" Then
             LoadDGBawah(ReportDGAtas.Rows(e.RowIndex).Cells("Material").Value)
         End If
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+    End Sub
+
+    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
+
     End Sub
 End Class

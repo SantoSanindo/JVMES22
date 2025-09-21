@@ -5,9 +5,7 @@ Public Class ReceiveReturnMaterial
     Public Shared menu As String = "Receive Material Production"
 
     Private Sub ReceiveReturnMaterial_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If globVar.view > 0 Then
-            DGV_ReceiveFromProduction()
-        End If
+
     End Sub
 
     Private Sub TextBox1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox1.PreviewKeyDown
@@ -35,6 +33,7 @@ Public Class ReceiveReturnMaterial
                                     Dim cmdUpdate = New SqlCommand(SqlUpdate, Database.koneksi)
                                     If cmdUpdate.ExecuteNonQuery() Then
                                         DGV_ReceiveFromProduction()
+                                        Play_Sound.correct()
                                         TextBox1.Clear()
                                     End If
                                 End If
@@ -65,11 +64,34 @@ Public Class ReceiveReturnMaterial
         DataGridView1.DataSource = Nothing
         DataGridView1.Rows.Clear()
         DataGridView1.Columns.Clear()
-        Dim queryDGV As String = "select [id_level] [Label], MATERIAL [Material],lot_no [Lot],INV_CTRL_DATE [ICD],TRACEABILITY [Trace],batch_no [Batch],qty [Qty],actual_qty [Actual Qty], return_material_datetime [Date Time], return_material_who [Return By] from stock_card where status='Receive From Production' and department='" & globVar.department & "' order by datetime_insert desc"
-        Dim dtDGV As DataTable = Database.GetData(queryDGV)
 
+        ' Format DateTimePicker values to SQL Server datetime format
+        Dim startDate As String = DateTimePicker1.Value.ToString("yyyy-MM-dd 00:00:00")
+        Dim endDate As String = DateTimePicker2.Value.ToString("yyyy-MM-dd 23:59:59")
+
+        Dim queryDGV As String = "
+        SELECT 
+            [id_level] AS [Label], 
+            MATERIAL AS [Material],
+            lot_no AS [Lot],
+            INV_CTRL_DATE AS [ICD],
+            TRACEABILITY AS [Trace],
+            batch_no AS [Batch],
+            qty AS [Qty],
+            actual_qty AS [Actual Qty], 
+            return_material_datetime AS [Date Time], 
+            return_material_who AS [Return By] 
+        FROM stock_card 
+        WHERE status='Receive From Production' 
+          AND department='" & globVar.department & "' 
+          AND return_material_datetime BETWEEN '" & startDate & "' AND '" & endDate & "'
+        ORDER BY datetime_insert DESC
+    "
+
+        Dim dtDGV As DataTable = Database.GetData(queryDGV)
         DataGridView1.DataSource = dtDGV
 
+        ' Alternate row coloring
         For i As Integer = 0 To DataGridView1.RowCount - 1
             If DataGridView1.Rows(i).Index Mod 2 = 0 Then
                 DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
@@ -78,6 +100,7 @@ Public Class ReceiveReturnMaterial
             End If
         Next i
     End Sub
+
 
     Private Sub TextBox2_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles TextBox2.PreviewKeyDown
         If e.KeyData = Keys.Enter And TextBox2.Text <> "" Then
@@ -142,5 +165,11 @@ Public Class ReceiveReturnMaterial
                 DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LemonChiffon
             End If
         Next i
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If globVar.view > 0 Then
+            DGV_ReceiveFromProduction()
+        End If
     End Sub
 End Class

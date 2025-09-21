@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports MdiTabControl
+Imports Microsoft.Vbe.Interop
 
 Public Class ProductionV2
     Public Shared menu As String = "Production1"
@@ -570,39 +571,30 @@ Public Class ProductionV2
                             Exit Sub
                         End If
 
-                        'If dtCheckKecukupanQty.Rows(0).Item("total_kebutuhan") > dtCheckKecukupanQty.Rows(0).Item("total_input") Then
-
                         Dim sqlCheckInStockNewRecord As String = "select * from stock_card where sub_sub_po='" & TextBox11.Text & "' and status='Production Process' and department='" & globVar.department & "' and qrcode = '" & TextBox1.Text & "'"
                             Dim dtCheckInStockNewRecord As DataTable = Database.GetData(sqlCheckInStockNewRecord)
 
-                            If dtCheckInStockNewRecord.Rows.Count > 0 Then
+                        If dtCheckInStockNewRecord.Rows.Count > 0 Then
 
-                                RJMessageBox.Show("Double Scan")
-                                TextBox1.Text = ""
-                                DGV_DOC()
-                                DGV_DOS()
+                            RJMessageBox.Show("Double Scan")
+                            TextBox1.Text = ""
+                            DGV_DOC()
+                            DGV_DOS()
 
-                            Else
+                        Else
 
-                                Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who,qrcode_new)
+                            Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who,qrcode_new)
                                             VALUES ('" & dtCheckStockOTHERS.Rows(0).Item("part_number") & "'," & dtCheckStockOTHERS.Rows(0).Item("qty").ToString.Replace(",", ".") & ",'" & dtCheckStockOTHERS.Rows(0).Item("INV_CTRL_DATE") & "','" & dtCheckStockOTHERS.Rows(0).Item("TRACEABILITY") & "','" & dtCheckStockOTHERS.Rows(0).Item("lot_no") & "','" & dtCheckStockOTHERS.Rows(0).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockOTHERS.Rows(0).Item("qty").ToString.Replace(",", ".") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','NO'," & dtCheckStockOTHERS.Rows(0).Item("qty").ToString.Replace(",", ".") & ",'Fresh','" & dtCheckStockOTHERS.Rows(0).Item("CODE_STOCK_PROD_OTHERS") & "','" & dtCheckStockOTHERS.Rows(0).Item("CODE_STOCK_PROD_OTHERS") & "','" & globVar.username & "','" & dtCheckStockOTHERS.Rows(0).Item("CODE_STOCK_PROD_OTHERS") & "')"
-                                Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                cmdInsertInputStockDetail.ExecuteNonQuery()
+                            Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
+                            cmdInsertInputStockDetail.ExecuteNonQuery()
 
-                                notification(TextBox1.Text, dtCheckStockOTHERS.Rows(0).Item("qty"))
+                            notification(TextBox1.Text, dtCheckStockOTHERS.Rows(0).Item("qty"))
 
-                                Dim queryUpdateLineOT As String = "update STOCK_PROD_OTHERS set qty=0 where CODE_STOCK_PROD_OTHERS = '" & TextBox1.Text & "'"
-                                Dim dtUpdateLineOT = New SqlCommand(queryUpdateLineOT, Database.koneksi)
-                                dtUpdateLineOT.ExecuteNonQuery()
+                            Dim queryUpdateLineOT As String = "update STOCK_PROD_OTHERS set qty=0 where CODE_STOCK_PROD_OTHERS = '" & TextBox1.Text & "'"
+                            Dim dtUpdateLineOT = New SqlCommand(queryUpdateLineOT, Database.koneksi)
+                            dtUpdateLineOT.ExecuteNonQuery()
 
-                            End If
-
-                        'Else
-
-                        '    RJMessageBox.Show("Material " & dtCheckStockOTHERS.Rows(0).Item("part_number") & " is full")
-                        '    TextBox1.Text = ""
-
-                        'End If
+                        End If
 
                         TextBox1.Clear()
                         DGV_DOC()
@@ -616,161 +608,274 @@ Public Class ProductionV2
 
                     Try
 
-                        Dim onholdmaterial As Integer
-                        Dim successonholdmaterial As Integer
+                        ' Use parameterized query to prevent SQL injection
+                        Dim sqlCheckStockONHOLD As String = "SELECT * FROM STOCK_PROD_ONHOLD WHERE CODE_STOCK_PROD_ONHOLD = @code AND department = @dept AND qty > 0"
+                        Dim dtCheckStockONHOLD As DataTable
 
-                        Dim sqlCheckStockONHOLD As String = "select * from STOCK_PROD_ONHOLD where CODE_STOCK_PROD_ONHOLD='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
-                        Dim dtCheckStockONHOLD As DataTable = Database.GetData(sqlCheckStockONHOLD)
+                        Using cmd As New SqlCommand(sqlCheckStockONHOLD, Database.koneksi)
+                            cmd.Parameters.AddWithValue("@code", TextBox1.Text.Trim())
+                            cmd.Parameters.AddWithValue("@dept", globVar.department)
 
-                        onholdmaterial = 0
-                        successonholdmaterial = 0
+                            Using adapter As New SqlDataAdapter(cmd)
+                                dtCheckStockONHOLD = New DataTable()
+                                adapter.Fill(dtCheckStockONHOLD)
+                            End Using
+                        End Using
 
+                        ' Check if any records found
                         If dtCheckStockONHOLD.Rows.Count = 0 Then
-
-                            RJMessageBox.Show("This Qty On Hold is 0", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            RJMessageBox.Show("No On Hold material found with quantity > 0 for this QR Code", "", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
-
                         End If
 
-                        For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
-                            For j = 0 To DataGridView3.Rows.Count - 1
-                                If DataGridView3.Rows(j).Cells("Component").Value = dtCheckStockONHOLD.Rows(i).Item("part_number") Then
-                                    onholdmaterial = onholdmaterial + 1
-                                    Exit For
-                                End If
-                            Next
+                        ' Create a HashSet for faster component lookup from DataGridView3
+                        Dim componentSet As New HashSet(Of String)
+                        For j = 0 To DataGridView3.Rows.Count - 1
+                            If DataGridView3.Rows(j).Cells("Component").Value IsNot Nothing Then
+                                componentSet.Add(DataGridView3.Rows(j).Cells("Component").Value.ToString())
+                            End If
                         Next
 
-                        If onholdmaterial > 0 Then
+                        ' Check if all materials are valid components
+                        Dim validMaterials As New List(Of DataRow)
+                        For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
+                            Dim partNumber As String = dtCheckStockONHOLD.Rows(i).Item("part_number").ToString()
+                            If componentSet.Contains(partNumber) Then
+                                validMaterials.Add(dtCheckStockONHOLD.Rows(i))
+                            End If
+                        Next
 
-                            Dim qrcodeNew As String
+                        ' Validate that all materials are valid components
+                        If validMaterials.Count <> dtCheckStockONHOLD.Rows.Count Then
+                            RJMessageBox.Show("Some materials in this QR Code are not valid components for this line", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit Sub
+                        End If
 
-                            For i = 0 To dtCheckStockONHOLD.Rows.Count - 1
-                                qrcodeNew = ""
+                        ' Process all valid materials using transaction for data integrity
+                        Dim successCount As Integer = 0
 
-                                If IsDBNull(dtCheckStockONHOLD.Rows(i).Item("qrcode")) Then
-                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who)
-                                            VALUES ('" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "'," & dtCheckStockONHOLD.Rows(i).Item("pengali") & ",'" & dtCheckStockONHOLD.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockONHOLD.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockONHOLD.Rows(i).Item("lot_no") & "','" & dtCheckStockONHOLD.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockONHOLD.Rows(i).Item("qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','NO'," & dtCheckStockONHOLD.Rows(i).Item("qty") & ",'OH','" & dtCheckStockONHOLD.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & dtCheckStockONHOLD.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & globVar.username & "')"
-                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+                        Using transaction As SqlTransaction = Database.koneksi.BeginTransaction()
+                            Try
+                                For Each row As DataRow In validMaterials
+                                    ' Insert into stock_card with parameterized query
+                                    Dim sqlInsert As String
+                                    Dim cmdInsert As SqlCommand
+
+                                    If IsDBNull(row.Item("qrcode")) Then
+                                        sqlInsert = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY, LINE, SUB_PO, STATUS, DEPARTMENT, STANDARD_PACK, SUM_QTY, LEVEL, ID_LEVEL, QRCODE, insert_who, datetime_insert) VALUES (@material, @qty, @icd, @trace, @lot, @batch, @po, @subsub, @fg, @actual, @line, @subpo, @status, @dept, @pack, @sum, @level, @idlevel, @qrcode, @user, GETDATE())"
+
+                                        cmdInsert = New SqlCommand(sqlInsert, Database.koneksi, transaction)
+                                        cmdInsert.Parameters.AddWithValue("@qrcode", row.Item("CODE_STOCK_PROD_ONHOLD"))
+                                    Else
+                                        sqlInsert = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY, LINE, SUB_PO, STATUS, DEPARTMENT, STANDARD_PACK, SUM_QTY, LEVEL, ID_LEVEL, QRCODE, insert_who, qrcode_new, datetime_insert) VALUES (@material, @qty, @icd, @trace, @lot, @batch, @po, @subsub, @fg, @actual, @line, @subpo, @status, @dept, @pack, @sum, @level, @idlevel, @qrcode, @user, @qrcode_new, GETDATE())"
+
+                                        cmdInsert = New SqlCommand(sqlInsert, Database.koneksi, transaction)
+                                        cmdInsert.Parameters.AddWithValue("@qrcode", row.Item("CODE_STOCK_PROD_ONHOLD"))
+                                        cmdInsert.Parameters.AddWithValue("@qrcode_new", row.Item("QRCODE"))
+                                    End If
+
+                                    ' Add common parameters
+                                    cmdInsert.Parameters.AddWithValue("@material", row.Item("part_number"))
+                                    cmdInsert.Parameters.AddWithValue("@qty", row.Item("pengali"))
+                                    cmdInsert.Parameters.AddWithValue("@icd", row.Item("INV_CTRL_DATE"))
+                                    cmdInsert.Parameters.AddWithValue("@trace", row.Item("TRACEABILITY"))
+                                    cmdInsert.Parameters.AddWithValue("@lot", row.Item("lot_no"))
+                                    cmdInsert.Parameters.AddWithValue("@batch", row.Item("batch_no"))
+                                    cmdInsert.Parameters.AddWithValue("@po", TextBox5.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@subsub", TextBox11.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@fg", TextBox2.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@actual", row.Item("qty"))
+                                    cmdInsert.Parameters.AddWithValue("@line", ComboBox1.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@subpo", TextBox10.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@status", "Production Process")
+                                    cmdInsert.Parameters.AddWithValue("@dept", globVar.department)
+                                    cmdInsert.Parameters.AddWithValue("@pack", "NO")
+                                    cmdInsert.Parameters.AddWithValue("@sum", row.Item("qty"))
+                                    cmdInsert.Parameters.AddWithValue("@level", "OH")
+                                    cmdInsert.Parameters.AddWithValue("@idlevel", row.Item("CODE_STOCK_PROD_ONHOLD"))
+                                    cmdInsert.Parameters.AddWithValue("@user", globVar.username)
+
+                                    cmdInsert.ExecuteNonQuery()
+
+                                    ' Update on hold quantity to 0 with parameterized query
+                                    Dim sqlUpdate As String = "UPDATE STOCK_PROD_ONHOLD SET qty = 0 WHERE id = @id"
+                                    Using cmdUpdate As New SqlCommand(sqlUpdate, Database.koneksi, transaction)
+                                        cmdUpdate.Parameters.AddWithValue("@id", row.Item("id"))
+
+                                        If cmdUpdate.ExecuteNonQuery() > 0 Then
+                                            successCount += 1
+                                        End If
+                                    End Using
+                                Next
+
+                                ' Commit transaction if all operations successful
+                                If successCount = validMaterials.Count Then
+                                    transaction.Commit()
+
+                                    notification(TextBox1.Text, dtCheckStockONHOLD.Rows(0).Item("pengali"))
+                                    Play_Sound.correct()
+                                    TextBox1.Clear()
+                                    DGV_DOC()
+                                    DGV_DOS()
                                 Else
-                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who,qrcode_new)
-                                            VALUES ('" & dtCheckStockONHOLD.Rows(i).Item("part_number") & "'," & dtCheckStockONHOLD.Rows(i).Item("pengali") & ",'" & dtCheckStockONHOLD.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockONHOLD.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockONHOLD.Rows(i).Item("lot_no") & "','" & dtCheckStockONHOLD.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockONHOLD.Rows(i).Item("qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','NO'," & dtCheckStockONHOLD.Rows(i).Item("qty") & ",'OH','" & dtCheckStockONHOLD.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & dtCheckStockONHOLD.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & globVar.username & "','" & dtCheckStockONHOLD.Rows(i).Item("QRCODE") & "')"
-                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+                                    transaction.Rollback()
+                                    RJMessageBox.Show("Failed to process some materials.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 End If
 
-                                Dim queryUpdateOH As String = "update STOCK_PROD_ONHOLD set qty=0 where id = " & dtCheckStockONHOLD.Rows(i).Item("id")
-                                Dim dtUpdateOH = New SqlCommand(queryUpdateOH, Database.koneksi)
-                                If dtUpdateOH.ExecuteNonQuery() Then
-
-                                    successonholdmaterial = successonholdmaterial + 1
-
-                                End If
-
-                            Next
-
-                        Else
-
-                            RJMessageBox.Show("This QRCode not for this line", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-                        End If
-
-                        If successonholdmaterial = DataGridView3.Rows.Count Then
-
-                            notification(TextBox1.Text, dtCheckStockONHOLD.Rows(0).Item("pengali"))
-                            Play_Sound.correct()
-                            TextBox1.Clear()
-                            DGV_DOC()
-                            DGV_DOS()
-
-                        End If
+                            Catch transEx As Exception
+                                transaction.Rollback()
+                                Throw transEx
+                            End Try
+                        End Using
 
                     Catch ex As Exception
 
-                        RJMessageBox.Show("Error Production - 17 =>" & ex.Message)
+                        RJMessageBox.Show("Error Processing On Hold Material: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
+                    Finally
+                        ' Ensure UI is refreshed even if there's an error
+                        Try
+                            DGV_DOC()
+                            DGV_DOS()
+                        Catch
+                            ' Ignore refresh errors
+                        End Try
                     End Try
 
                 ElseIf TextBox1.Text.StartsWith("WIP") AndAlso TextBox1.Text.Length > 3 AndAlso IsNumeric(TextBox1.Text.Substring(3)) Then 'WIP Material
 
                     Try
 
-                        Dim wipmaterial As Integer
-                        Dim successwipmaterial As Integer
+                        ' Use parameterized query to prevent SQL injection
+                        Dim sqlCheckStockWIP As String = "SELECT * FROM STOCK_PROD_WIP WHERE CODE_STOCK_PROD_WIP = @code AND department = @dept AND qty > 0"
+                        Dim dtCheckStockWIP As DataTable
 
-                        Dim sqlCheckStockWIP As String = "select * from STOCK_PROD_WIP where CODE_STOCK_PROD_WIP='" & TextBox1.Text & "' and department='" & globVar.department & "' and qty>0"
-                        Dim dtCheckStockWIP As DataTable = Database.GetData(sqlCheckStockWIP)
+                        Using cmd As New SqlCommand(sqlCheckStockWIP, Database.koneksi)
+                            cmd.Parameters.AddWithValue("@code", TextBox1.Text.Trim())
+                            cmd.Parameters.AddWithValue("@dept", globVar.department)
 
-                        wipmaterial = 0
-                        successwipmaterial = 0
+                            Using adapter As New SqlDataAdapter(cmd)
+                                dtCheckStockWIP = New DataTable()
+                                adapter.Fill(dtCheckStockWIP)
+                            End Using
+                        End Using
 
+                        ' Check if any records found
                         If dtCheckStockWIP.Rows.Count = 0 Then
-
-                            RJMessageBox.Show("This Qty WIP is 0", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            RJMessageBox.Show("No WIP material found with quantity > 0 for this QR Code", "", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
-
                         End If
 
-                        For i = 0 To dtCheckStockWIP.Rows.Count - 1
-                            For j = 0 To DataGridView3.Rows.Count - 1
-                                If DataGridView3.Rows(j).Cells("Component").Value = dtCheckStockWIP.Rows(i).Item("part_number") Then
-                                    wipmaterial = wipmaterial + 1
-                                    Exit For
-                                End If
-                            Next
+                        ' Create a HashSet for faster component lookup from DataGridView3
+                        Dim componentSet As New HashSet(Of String)
+                        For j = 0 To DataGridView3.Rows.Count - 1
+                            If DataGridView3.Rows(j).Cells("Component").Value IsNot Nothing Then
+                                componentSet.Add(DataGridView3.Rows(j).Cells("Component").Value.ToString())
+                            End If
                         Next
 
-                        If wipmaterial > 0 Then
+                        ' Check if all materials are valid components (SAME AS ONHOLD - NO INVALID LIST TRACKING)
+                        Dim validMaterials As New List(Of DataRow)
+                        For i = 0 To dtCheckStockWIP.Rows.Count - 1
+                            Dim partNumber As String = dtCheckStockWIP.Rows(i).Item("part_number").ToString()
+                            If componentSet.Contains(partNumber) Then
+                                validMaterials.Add(dtCheckStockWIP.Rows(i))
+                            End If
+                        Next
 
-                            For i = 0 To dtCheckStockWIP.Rows.Count - 1
+                        ' Validate that all materials are valid components (SAME SIMPLE MESSAGE AS ONHOLD)
+                        If validMaterials.Count <> dtCheckStockWIP.Rows.Count Then
+                            RJMessageBox.Show("Some materials in this QR Code are not valid components for this line", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit Sub
+                        End If
 
-                                If IsDBNull(dtCheckStockWIP.Rows(i).Item("qrcode")) Then
+                        ' Process all valid materials using transaction for data integrity
+                        Dim successCount As Integer = 0
 
-                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who)
-                                            VALUES ('" & dtCheckStockWIP.Rows(i).Item("part_number") & "'," & dtCheckStockWIP.Rows(i).Item("pengali") & ",'" & dtCheckStockWIP.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockWIP.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockWIP.Rows(i).Item("lot_no") & "','" & dtCheckStockWIP.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockWIP.Rows(i).Item("qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','NO'," & dtCheckStockWIP.Rows(i).Item("qty") & ",'WIP','" & dtCheckStockWIP.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & dtCheckStockWIP.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & globVar.username & "')"
-                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                    cmdInsertInputStockDetail.ExecuteNonQuery()
+                        Using transaction As SqlTransaction = Database.koneksi.BeginTransaction()
+                            Try
+                                For Each row As DataRow In validMaterials
+                                    ' Insert into stock_card with parameterized query
+                                    Dim sqlInsert As String
+                                    Dim cmdInsert As SqlCommand
 
+                                    If IsDBNull(row.Item("qrcode")) Then
+                                        sqlInsert = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY, LINE, SUB_PO, STATUS, DEPARTMENT, STANDARD_PACK, SUM_QTY, LEVEL, ID_LEVEL, QRCODE, insert_who, datetime_insert) VALUES (@material, @qty, @icd, @trace, @lot, @batch, @po, @subsub, @fg, @actual, @line, @subpo, @status, @dept, @pack, @sum, @level, @idlevel, @qrcode, @user, GETDATE())"
+
+                                        cmdInsert = New SqlCommand(sqlInsert, Database.koneksi, transaction)
+                                        cmdInsert.Parameters.AddWithValue("@qrcode", row.Item("CODE_STOCK_PROD_WIP"))
+                                    Else
+                                        sqlInsert = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY, LINE, SUB_PO, STATUS, DEPARTMENT, STANDARD_PACK, SUM_QTY, LEVEL, ID_LEVEL, QRCODE, insert_who, qrcode_new, datetime_insert) VALUES (@material, @qty, @icd, @trace, @lot, @batch, @po, @subsub, @fg, @actual, @line, @subpo, @status, @dept, @pack, @sum, @level, @idlevel, @qrcode, @user, @qrcode_new, GETDATE())"
+
+                                        cmdInsert = New SqlCommand(sqlInsert, Database.koneksi, transaction)
+                                        cmdInsert.Parameters.AddWithValue("@qrcode", row.Item("CODE_STOCK_PROD_WIP"))
+                                        cmdInsert.Parameters.AddWithValue("@qrcode_new", row.Item("QRCODE"))
+                                    End If
+
+                                    ' Add common parameters
+                                    cmdInsert.Parameters.AddWithValue("@material", row.Item("part_number"))
+                                    cmdInsert.Parameters.AddWithValue("@qty", row.Item("pengali"))
+                                    cmdInsert.Parameters.AddWithValue("@icd", row.Item("INV_CTRL_DATE"))
+                                    cmdInsert.Parameters.AddWithValue("@trace", row.Item("TRACEABILITY"))
+                                    cmdInsert.Parameters.AddWithValue("@lot", row.Item("lot_no"))
+                                    cmdInsert.Parameters.AddWithValue("@batch", row.Item("batch_no"))
+                                    cmdInsert.Parameters.AddWithValue("@po", TextBox5.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@subsub", TextBox11.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@fg", TextBox2.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@actual", row.Item("qty"))
+                                    cmdInsert.Parameters.AddWithValue("@line", ComboBox1.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@subpo", TextBox10.Text.Trim())
+                                    cmdInsert.Parameters.AddWithValue("@status", "Production Process")
+                                    cmdInsert.Parameters.AddWithValue("@dept", globVar.department)
+                                    cmdInsert.Parameters.AddWithValue("@pack", "NO")
+                                    cmdInsert.Parameters.AddWithValue("@sum", row.Item("qty"))
+                                    cmdInsert.Parameters.AddWithValue("@level", "WIP")
+                                    cmdInsert.Parameters.AddWithValue("@idlevel", row.Item("CODE_STOCK_PROD_WIP"))
+                                    cmdInsert.Parameters.AddWithValue("@user", globVar.username)
+
+                                    cmdInsert.ExecuteNonQuery()
+
+                                    ' Update WIP quantity to 0 with parameterized query
+                                    Dim sqlUpdate As String = "UPDATE STOCK_PROD_WIP SET qty = 0 WHERE id = @id"
+                                    Using cmdUpdate As New SqlCommand(sqlUpdate, Database.koneksi, transaction)
+                                        cmdUpdate.Parameters.AddWithValue("@id", row.Item("id"))
+
+                                        If cmdUpdate.ExecuteNonQuery() > 0 Then
+                                            successCount += 1
+                                        End If
+                                    End Using
+                                Next
+
+                                ' Commit transaction if all operations successful
+                                If successCount = validMaterials.Count Then
+                                    transaction.Commit()
+
+                                    notification(TextBox1.Text, dtCheckStockWIP.Rows(0).Item("pengali"))
+                                    Play_Sound.correct()
+                                    TextBox1.Clear()
+                                    DGV_DOC()
+                                    DGV_DOS()
                                 Else
-
-                                    Dim sqlInsertInputStockDetail As String = "INSERT INTO stock_card (MATERIAL, QTY, INV_CTRL_DATE, TRACEABILITY, LOT_NO, BATCH_NO, PO, SUB_SUB_PO, Finish_Goods_PN, ACTUAL_QTY,LINE,SUB_PO,STATUS,DEPARTMENT,STANDARD_PACK,SUM_QTY,LEVEL,ID_LEVEL,QRCODE,insert_who,qrcode_new)
-                                            VALUES ('" & dtCheckStockWIP.Rows(i).Item("part_number") & "'," & dtCheckStockWIP.Rows(i).Item("pengali") & ",'" & dtCheckStockWIP.Rows(i).Item("INV_CTRL_DATE") & "','" & dtCheckStockWIP.Rows(i).Item("TRACEABILITY") & "','" & dtCheckStockWIP.Rows(i).Item("lot_no") & "','" & dtCheckStockWIP.Rows(i).Item("batch_no") & "','" & TextBox5.Text & "','" & TextBox11.Text & "','" & TextBox2.Text & "'," & dtCheckStockWIP.Rows(i).Item("qty") & ",'" & ComboBox1.Text & "','" & TextBox10.Text & "','Production Process','" & globVar.department & "','NO'," & dtCheckStockWIP.Rows(i).Item("qty") & ",'WIP','" & dtCheckStockWIP.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & dtCheckStockWIP.Rows(i).Item("CODE_STOCK_PROD_ONHOLD") & "','" & globVar.username & "','" & dtCheckStockWIP.Rows(i).Item("QRCODE") & "')"
-                                    Dim cmdInsertInputStockDetail = New SqlCommand(sqlInsertInputStockDetail, Database.koneksi)
-                                    cmdInsertInputStockDetail.ExecuteNonQuery()
-
+                                    transaction.Rollback()
+                                    RJMessageBox.Show("Failed to process some materials.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 End If
 
-                                Dim queryUpdateOH As String = "update STOCK_PROD_WIP set qty=0 where id = " & dtCheckStockWIP.Rows(i).Item("id")
-                                Dim dtUpdateOH = New SqlCommand(queryUpdateOH, Database.koneksi)
-                                If dtUpdateOH.ExecuteNonQuery() Then
-
-                                    successwipmaterial = successwipmaterial + 1
-
-                                End If
-
-                            Next
-
-                        Else
-
-                            RJMessageBox.Show("This QRCode not for this line", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-                        End If
-
-                        If successwipmaterial = DataGridView3.Rows.Count Then
-
-                            notification(TextBox1.Text, dtCheckStockWIP.Rows(0).Item("pengali"))
-                            Play_Sound.correct()
-                            TextBox1.Clear()
-                            DGV_DOC()
-                            DGV_DOS()
-
-                        End If
+                            Catch transEx As Exception
+                                transaction.Rollback()
+                                Throw transEx
+                            End Try
+                        End Using
 
                     Catch ex As Exception
-
-                        RJMessageBox.Show("Error Production - 18 =>" & ex.Message)
-
+                        RJMessageBox.Show("Error Processing WIP Material: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Finally
+                        ' Ensure UI is refreshed even if there's an error
+                        Try
+                            DGV_DOC()
+                            DGV_DOS()
+                        Catch
+                            ' Ignore refresh errors
+                        End Try
                     End Try
 
                 Else 'error

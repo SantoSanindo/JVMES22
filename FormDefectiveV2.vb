@@ -679,12 +679,14 @@ Public Class FormDefectiveV2
                     '.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
                     .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
 
-                    Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
-                    deleteProductionRequest.Name = "delete"
-                    deleteProductionRequest.HeaderText = "Delete"
-                    deleteProductionRequest.Text = "Delete"
-                    deleteProductionRequest.UseColumnTextForButtonValue = True
-                    .Columns.Insert(12, deleteProductionRequest)
+                    If globVar.username.ToLower() = "admin" Then
+                        Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
+                        deleteProductionRequest.Name = "delete"
+                        deleteProductionRequest.HeaderText = "Delete"
+                        deleteProductionRequest.Text = "Delete"
+                        deleteProductionRequest.UseColumnTextForButtonValue = True
+                        .Columns.Insert(12, deleteProductionRequest)
+                    End If
                 Else
                     .DataSource = Nothing
                 End If
@@ -1298,12 +1300,14 @@ Public Class FormDefectiveV2
                     '.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
                     .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
 
-                    Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
-                    deleteProductionRequest.Name = "delete"
-                    deleteProductionRequest.HeaderText = "Delete"
-                    deleteProductionRequest.Text = "Delete"
-                    deleteProductionRequest.UseColumnTextForButtonValue = True
-                    .Columns.Insert(12, deleteProductionRequest)
+                    If globVar.username.ToLower() = "admin" Then
+                        Dim deleteProductionRequest As DataGridViewButtonColumn = New DataGridViewButtonColumn
+                        deleteProductionRequest.Name = "delete"
+                        deleteProductionRequest.HeaderText = "Delete"
+                        deleteProductionRequest.Text = "Delete"
+                        deleteProductionRequest.UseColumnTextForButtonValue = True
+                        .Columns.Insert(12, deleteProductionRequest)
+                    End If
                 Else
                     .DataSource = Nothing
                 End If
@@ -2477,99 +2481,6 @@ Public Class FormDefectiveV2
             End Try
         End If
     End Sub
-
-    'Sub LoaddgvFG(proses As String)
-    '    Dim i As Integer = 0
-
-    '    Try
-    '        'Call Database.koneksi_database()
-    '        'Dim dtMaterialUsage As DataTable = Database.GetData("select distinct MATERIAL_USAGE from _OLD_MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "' AND MASTER_FINISH_GOODS_PN='" & cbFGPN.Text & "'")
-    '        ''Dim dtMaterialInfo As DataTable = Database.GetData("select distinct MATERIAL_USAGE from MASTER_PROCESS_FLOW where MASTER_PROCESS='" & strKey & "'")
-
-    '        'Dim matUsage As String = dtMaterialUsage.Rows(i)(0).ToString()
-    '        'Dim matList() As String = matUsage.Split(";")
-
-    '        With dgWIP
-    '            .Rows.Clear()
-
-    '            .DefaultCellStyle.Font = New Font("Tahoma", 14)
-
-    '            .ColumnCount = 10
-    '            .Columns(0).Name = "No"
-    '            .Columns(1).Name = "ID"
-    '            .Columns(2).Name = "Process Name"
-    '            .Columns(3).Name = "Ticket No."
-    '            .Columns(4).Name = "Material PN"
-    '            .Columns(5).Name = "Inv No."
-    '            .Columns(6).Name = "MFG Date"
-    '            .Columns(7).Name = "Lot No."
-    '            .Columns(8).Name = "Qty x Usage"
-    '            .Columns(9).Name = "Qty"
-
-    '            .Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(8).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-    '            .Columns(9).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-
-    '            .Columns(0).Width = Int(.Width * 0.05)
-    '            .Columns(1).Width = Int(.Width * 0.08)
-    '            .Columns(2).Width = Int(.Width * 0.2)
-    '            .Columns(3).Width = Int(.Width * 0.08)
-    '            .Columns(4).Width = Int(.Width * 0.1)
-    '            .Columns(5).Width = Int(.Width * 0.1)
-    '            .Columns(6).Width = Int(.Width * 0.15)
-    '            .Columns(7).Width = Int(.Width * 0.08)
-    '            .Columns(8).Width = Int(.Width * 0.08)
-    '            .Columns(9).Width = Int(.Width * 0.06)
-
-
-    '            .EnableHeadersVisualStyles = False
-    '            With .ColumnHeadersDefaultCellStyle
-    '                .BackColor = Color.Navy
-    '                .ForeColor = Color.White
-    '                .Font = New Font("Tahoma", 13, FontStyle.Bold)
-    '                .Alignment = HorizontalAlignment.Center
-    '                .Alignment = ContentAlignment.MiddleCenter
-    '            End With
-
-
-
-    '            ''''''''''''''''''''''''''''''''''''''''''''
-    '            Dim sqlStr As String = ""
-
-    '            If proses = "" Then
-    '                sqlStr = "select * from STOCK_PROD_WIP ORDER BY CODE_STOCK_PROD_WIP"
-    '            Else
-    '                sqlStr = "select * from STOCK_PROD_WIP where PROCESS='" & proses & "' ORDER BY CODE_STOCK_PROD_WIP"
-    '            End If
-
-    '            Dim dttable As DataTable = Database.GetData(sqlStr)
-
-
-    '            If dttable.Rows.Count > 0 Then
-    '                For i = 0 To dttable.Rows.Count - 1
-    '                    .Rows.Add(1)
-    '                    .Item(0, i).Value = (i + 1).ToString()
-    '                    .Item(1, i).Value = dttable.Rows(i)("CODE_STOCK_PROD_WIP")
-    '                    .Item(2, i).Value = dttable.Rows(i)("PROCESS")
-    '                    .Item(3, i).Value = dttable.Rows(i)("FLOW_TICKET_NO")
-    '                    .Item(4, i).Value = dttable.Rows(i)("PART_NUMBER")
-    '                    .Item(5, i).Value = dttable.Rows(i)("INV_CTRL_DATE")
-    '                    .Item(6, i).Value = dttable.Rows(i)("TRACEABILITY")
-    '                    .Item(7, i).Value = dttable.Rows(i)("LOT_NO")
-    '                    .Item(8, i).Value = dttable.Rows(i)("QTY")
-    '                    .Item(9, i).Value = dttable.Rows(i)("PENGALI")
-    '                Next
-    '            End If
-
-    '            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders
-    '        End With
-    '    Catch ex As Exception
-    '        RJMessageBox.Show("Error Load DGV FG", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '    End Try
-    'End Sub
 
     Private Sub TextBox4_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txtFGFlowTicket.PreviewKeyDown
         If (e.KeyData = Keys.Tab Or e.KeyData = Keys.Enter) And txtFGFlowTicket.Text IsNot "" Then
@@ -4734,14 +4645,14 @@ Public Class FormDefectiveV2
         If globVar.view > 0 Then
 
             Try
-                Dim queryDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
-                Dim dtDoneFG As DataTable = Database.GetData(queryDoneFG)
+                'Dim queryDoneFG As String = "select * from done_fg where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
+                'Dim dtDoneFG As DataTable = Database.GetData(queryDoneFG)
 
-                Dim queryFT As String = "select * from flow_ticket where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
-                Dim dtDoneFT As DataTable = Database.GetData(queryFT)
+                'Dim queryFT As String = "select * from flow_ticket where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "'"
+                'Dim dtDoneFT As DataTable = Database.GetData(queryFT)
 
-                If dtDoneFT.Rows.Count = dtDoneFG.Rows.Count Then
-                    If txtSubSubPODefective.Text <> "" Then
+                'If dtDoneFT.Rows.Count = dtDoneFG.Rows.Count Then
+                If txtSubSubPODefective.Text <> "" Then
                         If txtWIPTicketNo.Text <> "" Then
                             Dim split() As String = txtWIPTicketNo.Text.Split(";")
                             Dim query As String = "select code_stock_prod_wip,flow_ticket_no,process,pengali from stock_prod_wip where sub_sub_po='" & txtSubSubPODefective.Text & "' and fg_pn='" & cbFGPN.Text & "' and line='" & cbLineNumber.Text & "' and flow_ticket_no='" & split(5) & "' group by code_stock_prod_wip,flow_ticket_no,process,pengali"
@@ -4803,9 +4714,9 @@ Public Class FormDefectiveV2
                     Else
                         RJMessageBox.Show("Sorry please input Sub Sub PO First.")
                     End If
-                Else
-                    RJMessageBox.Show("cannot print now because the PO is not yet completed.")
-                End If
+                'Else
+                '    RJMessageBox.Show("cannot print now because the PO is not yet completed.")
+                'End If
             Catch ex As Exception
                 RJMessageBox.Show(ex.Message)
             End Try

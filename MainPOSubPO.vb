@@ -38,7 +38,7 @@ Public Class MainPOSubPO
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select [name] from master_line where department='" & globVar.department & "' and [name] not in (select line from sub_sub_po where status='Open') order by [name]")
+        Dim dtMasterLine As DataTable = Database.GetData("select [name] from master_line where department='" & globVar.department & "' and [name] not in (select ssp.line from main_po mp, sub_sub_po ssp where ssp.status='Open' and ssp.main_po = mp.id and lower(mp.department)='" & globVar.department.ToLower & "') order by [name]")
 
         ComboBox3.DataSource = dtMasterLine
         ComboBox3.DisplayMember = "NAME"

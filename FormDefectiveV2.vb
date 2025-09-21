@@ -2425,9 +2425,18 @@ Public Class FormDefectiveV2
                 DataGridView1.Columns.Clear()
                 Call Database.koneksi_database()
 
-                Dim dtProcess As DataTable = Database.GetData("select mpf.id,mpf.master_process,isnull(opr.pengali,0) pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and department='" & dept & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' and mpf.master_process is not null GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID")
-                Dim dtFG As DataTable = Database.GetData("select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "'")
-                Dim dtMat As DataTable = Database.GetData("select * from master_material where PART_NUMBER='" & cbFGPN.Text & "'")
+                Dim queryProcess As String = "select mpf.id,mpf.master_process,isnull(opr.pengali,0) pengali from MASTER_PROCESS_FLOW mpf left join out_prod_defect opr on opr.process_reject=mpf.master_process and opr.sub_sub_po='" & txtSubSubPODefective.Text & "' and lower(department)='" & dept.ToLower & "' AND opr.flow_ticket_no='" & splitFlowTicket(5) & "' where mpf.MASTER_FINISH_GOODS_PN='" & str & "' and mpf.master_process is not null GROUP BY mpf.id,mpf.master_process,opr.pengali ORDER BY mpf.ID"
+                Dim queryFG As String = "select * from MASTER_FINISH_GOODS where FG_PART_NUMBER='" & str & "' and lower(department)='" & globVar.department.ToLower & "'"
+                Dim queryMat As String = "select * from master_material where PART_NUMBER='" & cbFGPN.Text & "' and lower(department)='" & globVar.department.ToLower & "'"
+
+                Dim dtProcess As DataTable = Database.GetData(queryProcess)
+                Dim dtFG As DataTable = Database.GetData(queryFG)
+                Dim dtMat As DataTable = Database.GetData(queryMat)
+
+                If dtMat.Rows.Count = 0 Then
+                    RJMessageBox.Show("The material for this sub-sub PO is not yet available in the master material.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
 
                 TextBox6.Text = dtFG.Rows(0).Item("LASER_CODE").ToString
                 txtLossQty.Text = dtMat.Rows(0).Item("standard_qty").ToString

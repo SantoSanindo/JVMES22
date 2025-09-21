@@ -17,7 +17,7 @@ Public Class SummaryV2
 
     Sub tampilDataComboBoxLine()
         Call Database.koneksi_database()
-        Dim dtMasterLine As DataTable = Database.GetData("select line from SUB_SUB_PO where status='Open' order by line")
+        Dim dtMasterLine As DataTable = Database.GetData("select line from SUB_SUB_PO ssp JOIN main_po mp on mp.id=ssp.main_po and mp.department ='" & globVar.department & "' where ssp.status='Open' order by ssp.line")
 
         ComboBox1.DataSource = dtMasterLine
         ComboBox1.DisplayMember = "line"

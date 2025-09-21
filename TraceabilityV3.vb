@@ -274,6 +274,7 @@ Public Class TraceabilityV3
                                     Left Join DONE_FG DFG ON DFG.SUB_SUB_PO=st.SUB_SUB_PO
                                 WHERE
                                     st.fg = '" & txtFGTraceability.Text & "' 
+                                    and lower(st.department) = '" & globVar.department.ToLower & "'
 	                            ) 
                             SELECT DATE
 	                            [Date Closed],
@@ -349,12 +350,18 @@ Public Class TraceabilityV3
                 process28 [Process 28],
                 process29 [Process 29],
                 process30 [Process 30]
-            from summary_traceability s
+            from 
+                summary_traceability s
             left join 
                 fga f 
-            on f.sub_sub_po=s.sub_sub_po and s.lot_no=LEFT(f.NO_FLOWTICKET, CHARINDEX(' of ', f.NO_FLOWTICKET + ' of ') - 1)
-            where fg='" & fg & "' and s.sub_sub_po='" & sub_sub_po & "'
-            order by s.id desc, lot_no"
+            on 
+                f.sub_sub_po=s.sub_sub_po and s.lot_no=LEFT(f.NO_FLOWTICKET, CHARINDEX(' of ', f.NO_FLOWTICKET + ' of ') - 1)
+            where 
+                fg='" & fg & "' 
+                and s.sub_sub_po='" & sub_sub_po & "'
+                and lower(s.department) = '" & globVar.department & "'
+            order by 
+                s.id desc, lot_no"
         Dim dtTraceability As DataTable = Database.GetData(sql)
         DataGridView1.DataSource = dtTraceability
 
@@ -574,12 +581,12 @@ Public Class TraceabilityV3
     Sub DGV_Bawah(material As String)
         If material = "" Then
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty], qrcode [QR Code], remark [Remark],datetime [Date Save] from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
+            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty], qrcode [QR Code], remark [Remark],datetime [Date Save] from summary_traceability_comp where sub_sub_po='" & VSplit(0) & "' and lower(department) = '" & globVar.department & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         Else
             Dim VSplit() As String = TextBox1.Text.Split(" | ")
-            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty], qrcode [QR Code], remark [Remark],datetime [Date Save] from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
+            Dim queryBAWAH As String = "select lot_fg [Lot FG], component [Material], [desc] [Desc], inv [INV], batch_no [Batch No], lot_comp [Lot Material], qty [Qty], qrcode [QR Code], remark [Remark],datetime [Date Save] from summary_traceability_comp where component='" & material & "' and sub_sub_po='" & VSplit(0) & "' and lower(department) = '" & globVar.department & "' ORDER BY CAST(SUBSTRING(lot_fg, 1, CHARINDEX(' ', lot_fg) - 1) AS INT)"
             Dim dtBAWAH As DataTable = Database.GetData(queryBAWAH)
             DataGridView2.DataSource = dtBAWAH
         End If

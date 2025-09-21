@@ -138,6 +138,7 @@ Public Class MasterFinishGoods
         If globVar.add > 0 Then
 
             OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
             If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
                 Dim xlApp As New Microsoft.Office.Interop.Excel.Application
                 Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
@@ -154,6 +155,7 @@ Public Class MasterFinishGoods
                 Call Database.koneksi_database()
 
                 Dim duplicateRows As New List(Of String)
+                Dim validationErrors As New List(Of String)
                 Dim dataTable As New DataTable()
 
                 dataTable.Columns.Add("FG_PART_NUMBER", GetType(String))
@@ -162,74 +164,167 @@ Public Class MasterFinishGoods
                 dataTable.Columns.Add("SPQ", GetType(Int32))
                 dataTable.Columns.Add("FAMILY", GetType(String))
                 dataTable.Columns.Add("LASER_CODE", GetType(String))
+                dataTable.Columns.Add("DEPARTMENT", GetType(String))
 
                 Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
                     bulkCopy.DestinationTableName = "dbo.MASTER_FINISH_GOODS"
                     Try
                         rd = cmd.ExecuteReader()
+                        Dim rowNumber As Integer = 1
 
                         While rd.Read()
+                            rowNumber += 1
                             Dim fgPartNumber As String = rd("Finish Goods Part Number *").ToString().Trim()
-                            Dim fgFam As String = rd("Family *").ToString().Trim()
+                            Dim level As String = rd("Level (Sub Assy or FG) *").ToString().Trim()
+                            Dim description As String = rd("Description *").ToString().Trim()
+                            Dim standardPack As String = rd("Standard Pack *").ToString().Trim()
+                            Dim family As String = rd("Family *").ToString().Trim()
+                            Dim laserCode As String = If(rd.IsDBNull(rd.GetOrdinal("Laser Code")), "", rd("Laser Code").ToString().Trim())
 
+                            ' Validate required fields
+                            If String.IsNullOrEmpty(fgPartNumber) Then
+                                validationErrors.Add($"Row {rowNumber}: Finish Goods Part Number is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(level) Then
+                                validationErrors.Add($"Row {rowNumber}: Level is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(description) Then
+                                validationErrors.Add($"Row {rowNumber}: Description is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(standardPack) OrElse Not IsNumeric(standardPack) Then
+                                validationErrors.Add($"Row {rowNumber}: Standard Pack must be a valid number")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(family) Then
+                                validationErrors.Add($"Row {rowNumber}: Family is required")
+                                Continue While
+                            End If
+
+                            ' Normalize and validate level
+                            Dim normalizedLevel As String = ""
+                            Select Case level.ToLower().Replace(" ", "")
+                                Case "fg", "finishedgoods", "finishgoods"
+                                    normalizedLevel = "FG"
+                                Case "subassy", "subassembly", "sub-assy", "sub-assembly"
+                                    normalizedLevel = "Sub Assy"
+                                Case Else
+                                    validationErrors.Add($"Row {rowNumber}: Level '{level}' is invalid. Must be 'FG' or 'Sub Assy'")
+                                    Continue While
+                            End Select
+
+                            ' Check if FG Part Number already exists in MASTER_FINISH_GOODS
                             Dim cekQuery As String = "SELECT COUNT(*) FROM dbo.MASTER_FINISH_GOODS WHERE FG_PART_NUMBER = @FG_PART_NUMBER"
                             Using cekCmd As New SqlCommand(cekQuery, Database.koneksi)
                                 cekCmd.Parameters.AddWithValue("@FG_PART_NUMBER", fgPartNumber)
+                                Dim exists As Integer = Convert.ToInt32(cekCmd.ExecuteScalar())
 
-                                Dim cekFamily As String = "SELECT COUNT(*) FROM dbo.family WHERE family = @family and department='" & globVar.department & "'"
-                                Using cekCmdFam As New SqlCommand(cekFamily, Database.koneksi)
-                                    cekCmdFam.Parameters.AddWithValue("@family", fgFam)
-
-                                    Dim exists As Integer = Convert.ToInt32(cekCmd.ExecuteScalar())
-                                    Dim famExists As Integer = Convert.ToInt32(cekCmdFam.ExecuteScalar())
-                                    If exists > 0 Then
-                                        duplicateRows.Add(fgPartNumber)
-                                    ElseIf famExists = 0 Then
-
-                                    Else
-                                        Dim row As DataRow = dataTable.NewRow()
-                                        row("FG_PART_NUMBER") = fgPartNumber
-                                        row("LEVEL") = rd("Level (Sub Assy, FG etc) *").ToString().Trim()
-                                        row("DESCRIPTION") = rd("Description *").ToString().Trim()
-                                        row("SPQ") = Convert.ToInt32(rd("Standard Pack *"))
-                                        row("FAMILY") = rd("Family *").ToString().Trim()
-                                        row("LASER_CODE") = If(rd.IsDBNull(rd.GetOrdinal("Laser Code")), DBNull.Value, rd("Laser Code").ToString().Trim())
-                                        dataTable.Rows.Add(row)
-                                    End If
-                                End Using
-
-
+                                If exists > 0 Then
+                                    duplicateRows.Add($"{fgPartNumber} (Row {rowNumber})")
+                                    Continue While
+                                End If
                             End Using
 
+                            ' Check if family exists in FAMILY table for current department
+                            Dim cekFamily As String = "SELECT COUNT(*) FROM dbo.FAMILY WHERE FAMILY = @family AND DEPARTMENT = @department"
+                            Using cekCmdFam As New SqlCommand(cekFamily, Database.koneksi)
+                                cekCmdFam.Parameters.AddWithValue("@family", family)
+                                cekCmdFam.Parameters.AddWithValue("@department", globVar.department)
+
+                                Dim famExists As Integer = Convert.ToInt32(cekCmdFam.ExecuteScalar())
+                                If famExists = 0 Then
+                                    validationErrors.Add($"Row {rowNumber}: Family '{family}' does not exist for department '{globVar.department}'")
+                                    Continue While
+                                End If
+                            End Using
+
+                            ' If level is Sub Assy, check if part number exists in MASTER_MATERIAL
+                            If normalizedLevel = "Sub Assy" Then
+                                Dim cekMaterial As String = "SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE PART_NUMBER = @part_number AND DEPARTMENT = @department"
+                                Using cekCmdMat As New SqlCommand(cekMaterial, Database.koneksi)
+                                    cekCmdMat.Parameters.AddWithValue("@part_number", fgPartNumber)
+                                    cekCmdMat.Parameters.AddWithValue("@department", globVar.department)
+
+                                    Dim matExists As Integer = Convert.ToInt32(cekCmdMat.ExecuteScalar())
+                                    If matExists = 0 Then
+                                        validationErrors.Add($"Row {rowNumber}: Sub Assy '{fgPartNumber}' must exist in Master Material table first")
+                                        Continue While
+                                    End If
+                                End Using
+                            End If
+
+                            ' If all validations pass, add to DataTable
+                            Dim row As DataRow = dataTable.NewRow()
+                            row("FG_PART_NUMBER") = fgPartNumber
+                            row("LEVEL") = normalizedLevel
+                            row("DESCRIPTION") = description
+                            row("SPQ") = Convert.ToInt32(standardPack)
+                            row("FAMILY") = family
+                            row("LASER_CODE") = If(String.IsNullOrEmpty(laserCode), DBNull.Value, laserCode)
+                            row("DEPARTMENT") = globVar.department
+                            dataTable.Rows.Add(row)
                         End While
 
+                        rd.Close()
+
+                        ' Show validation errors if any
+                        If validationErrors.Count > 0 Then
+                            Dim errorMessage As String = "Import failed due to validation errors:" & Environment.NewLine & Environment.NewLine
+                            errorMessage += String.Join(Environment.NewLine, validationErrors.Take(10)) ' Show first 10 errors
+
+                            If validationErrors.Count > 10 Then
+                                errorMessage += Environment.NewLine & $"... and {validationErrors.Count - 10} more errors"
+                            End If
+
+                            RJMessageBox.Show(errorMessage, "Validation Errors", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit Sub
+                        End If
+
+                        ' Bulk insert if there are valid rows
                         If dataTable.Rows.Count > 0 Then
                             bulkCopy.ColumnMappings.Add("FG_PART_NUMBER", "FG_PART_NUMBER")
-                            bulkCopy.ColumnMappings.Add("DEPARTMENT", globVar.department)
+                            bulkCopy.ColumnMappings.Add("DEPARTMENT", "DEPARTMENT")
                             bulkCopy.ColumnMappings.Add("LEVEL", "LEVEL")
                             bulkCopy.ColumnMappings.Add("DESCRIPTION", "DESCRIPTION")
                             bulkCopy.ColumnMappings.Add("SPQ", "SPQ")
                             bulkCopy.ColumnMappings.Add("FAMILY", "FAMILY")
                             bulkCopy.ColumnMappings.Add("LASER_CODE", "LASER_CODE")
+
                             bulkCopy.WriteToServer(dataTable)
-                        End If
 
-                        If duplicateRows.Count > 0 Then
-                            RJMessageBox.Show("Import Success. But, some data is duplicate: " & String.Join(", ", duplicateRows))
+                            Dim successMessage As String = $"Import successful! {dataTable.Rows.Count} records imported."
+
+                            If duplicateRows.Count > 0 Then
+                                successMessage += Environment.NewLine & Environment.NewLine & "Duplicates skipped: " & String.Join(", ", duplicateRows)
+                            End If
+
+                            RJMessageBox.Show(successMessage, "Import Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
-                            RJMessageBox.Show("Import Finish Goods Success.")
+                            RJMessageBox.Show("No valid records found to import.", "Import Result", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                         End If
 
-                        rd.Close()
                         dgv_finish_goods.DataSource = Nothing
                         DGV_MasterFinishGoods()
 
                     Catch ex As Exception
-                        RJMessageBox.Show("Error Master Finish Goods - 2 => " & ex.Message)
+
+                        RJMessageBox.Show("Error Master Finish Goods - Import => " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                    Finally
+                        If rd IsNot Nothing AndAlso Not rd.IsClosed Then rd.Close()
+                        If oleCon.State = ConnectionState.Open Then oleCon.Close()
+                        xlWorkBook.Close()
+                        xlApp.Quit()
+                        Marshal.ReleaseComObject(xlApp)
                     End Try
                 End Using
             End If
-
 
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
@@ -508,33 +603,48 @@ Public Class MasterFinishGoods
 
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
         If globVar.view > 0 Then
-
             Dim excelApp As Excel.Application = New Excel.Application()
-
             'create new workbook
             Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
-
             'create new worksheet
             Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
+            ' Format entire worksheet as text before adding data
+            worksheet.Cells.NumberFormat = "@"
+
             'write data to worksheet
             worksheet.Range("A1").Value = "Finish Goods Part Number *"
-            worksheet.Range("B1").Value = "Level (Sub Assy, FG etc) *"
+            worksheet.Range("B1").Value = "Level (Sub Assy or FG) *"
             worksheet.Range("C1").Value = "Description *"
             worksheet.Range("D1").Value = "Standard Pack *"
             worksheet.Range("E1").Value = "Family *"
             worksheet.Range("F1").Value = "Laser Code"
 
+            ' Set column widths for better usability
+            worksheet.Columns("A").ColumnWidth = 30
+            worksheet.Columns("B").ColumnWidth = 25
+            worksheet.Columns("C").ColumnWidth = 40
+            worksheet.Columns("D").ColumnWidth = 15
+            worksheet.Columns("E").ColumnWidth = 20
+            worksheet.Columns("F").ColumnWidth = 20
+
+            ' Format header row
+            With worksheet.Range("A1:F1")
+                .Font.Bold = True
+                .Interior.Color = RGB(200, 200, 200)
+            End With
+
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-
             If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
                 Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
                 workbook.SaveAs(directoryPath & "\Master Finish Goods Template.xlsx")
             End If
-
             'cleanup
+            workbook.Close()
             excelApp.Quit()
+            Marshal.ReleaseComObject(workbook)
+            Marshal.ReleaseComObject(worksheet)
             Marshal.ReleaseComObject(excelApp)
             RJMessageBox.Show("Export Template Success !")
         End If

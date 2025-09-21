@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports Microsoft.Office.Interop
 Imports System.Runtime.InteropServices
+Imports System.IO
 
 Public Class MaterialUsageFinishGoods
     Public Shared menu As String = "Material Usage & Finish Goods"
@@ -189,7 +190,7 @@ Public Class MaterialUsageFinishGoods
         dgv_masterfinishgoods_atas.Rows.Clear()
         dgv_masterfinishgoods_atas.Columns.Clear()
         Call Database.koneksi_database()
-        Dim queryMasterFinishGoods As String = "select ID [#],FG_PART_NUMBER [FG Part Number],DESCRIPTION [Desc],FAMILY [Family],COMPONENT [Comp],USAGE [Usage], datetime_insert [Date Time], by_who [Created By] from MATERIAL_USAGE_FINISH_GOODS where fg_part_number='" & id & "' order by COMPONENT"
+        Dim queryMasterFinishGoods As String = "select ID [#],FG_PART_NUMBER [FG Part Number],FAMILY [Family],COMPONENT [Comp],DESCRIPTION [Desc],USAGE [Usage], datetime_insert [Date Time], by_who [Created By] from MATERIAL_USAGE_FINISH_GOODS where fg_part_number='" & id & "' order by COMPONENT"
         Dim dtMasterMaterial As DataTable = Database.GetData(queryMasterFinishGoods)
 
         dgv_masterfinishgoods_atas.DataSource = dtMasterMaterial
@@ -369,7 +370,9 @@ Public Class MaterialUsageFinishGoods
         If globVar.add > 0 Then
 
             OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
             If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+
                 Dim xlApp As New Microsoft.Office.Interop.Excel.Application
                 Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
                 Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
@@ -378,18 +381,74 @@ Public Class MaterialUsageFinishGoods
                 oleCon = New OleDbConnection(koneksiExcel)
                 oleCon.Open()
 
-                Dim queryExcel As String = "select * from [" & SheetName & "$]"
+                Dim queryExcel As String = "SELECT * FROM [" & SheetName & "$]"
                 Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
                 Dim rd As OleDbDataReader
-                Dim duplicateComponents As New List(Of String) ' Untuk menyimpan komponen duplikat
 
                 Call Database.koneksi_database()
+
+                ' Pre-load validation data for performance
+                Dim validFinishGoods As New HashSet(Of String)
+                Dim validComponents As New HashSet(Of String)
+                Dim validFamilies As New HashSet(Of String)
+                Dim fgWithOpenPO As New HashSet(Of String)
+
+                ' Load valid Finish Goods
+                Dim fgQuery As String = "SELECT FG_PART_NUMBER FROM dbo.MASTER_FINISH_GOODS WHERE DEPARTMENT = @dept"
+                Using fgCmd As New SqlCommand(fgQuery, Database.koneksi)
+                    fgCmd.Parameters.AddWithValue("@dept", globVar.department)
+                    Using fgReader As SqlDataReader = fgCmd.ExecuteReader()
+                        While fgReader.Read()
+                            validFinishGoods.Add(fgReader("FG_PART_NUMBER").ToString().Trim())
+                        End While
+                    End Using
+                End Using
+
+                ' Load valid Components (from Master Material)
+                Dim compQuery As String = "SELECT PART_NUMBER FROM dbo.MASTER_MATERIAL WHERE DEPARTMENT = @dept"
+                Using compCmd As New SqlCommand(compQuery, Database.koneksi)
+                    compCmd.Parameters.AddWithValue("@dept", globVar.department)
+                    Using compReader As SqlDataReader = compCmd.ExecuteReader()
+                        While compReader.Read()
+                            validComponents.Add(compReader("PART_NUMBER").ToString().Trim())
+                        End While
+                    End Using
+                End Using
+
+                ' Load valid Families
+                Dim famQuery As String = "SELECT FAMILY FROM dbo.FAMILY WHERE DEPARTMENT = @dept"
+                Using famCmd As New SqlCommand(famQuery, Database.koneksi)
+                    famCmd.Parameters.AddWithValue("@dept", globVar.department)
+                    Using famReader As SqlDataReader = famCmd.ExecuteReader()
+                        While famReader.Read()
+                            validFamilies.Add(famReader("FAMILY").ToString().Trim())
+                        End While
+                    End Using
+                End Using
+
+                ' Load Finish Goods with Open PO (CRITICAL ADDITION)
+                Dim openPOQuery As String = "SELECT DISTINCT mp.fg_pn FROM dbo.MAIN_PO mp INNER JOIN dbo.SUB_SUB_PO ssp ON mp.id = ssp.main_po WHERE ssp.status = 'Open'"
+                Using openPOCmd As New SqlCommand(openPOQuery, Database.koneksi)
+                    Using openPOReader As SqlDataReader = openPOCmd.ExecuteReader()
+                        While openPOReader.Read()
+                            If openPOReader("fg_pn") IsNot DBNull.Value Then
+                                fgWithOpenPO.Add(openPOReader("fg_pn").ToString().Trim())
+                            End If
+                        End While
+                    End Using
+                End Using
+
+                Dim duplicateComponents As New List(Of String)
+                Dim validationErrors As New List(Of String)
+                Dim blockedByPO As New List(Of String)
+                Dim totalProcessed As Integer = 0
+                Dim totalInserted As Integer = 0
+                Dim totalSkipped As Integer = 0
+
                 Using bulkCopy As SqlBulkCopy = New SqlBulkCopy(Database.koneksi)
                     bulkCopy.DestinationTableName = "dbo.MATERIAL_USAGE_FINISH_GOODS"
 
                     Dim dataTable As New DataTable()
-
-                    ' Definisikan kolom sesuai dengan tabel tujuan
                     dataTable.Columns.Add("FG_PART_NUMBER", GetType(String))
                     dataTable.Columns.Add("FAMILY", GetType(String))
                     dataTable.Columns.Add("COMPONENT", GetType(String))
@@ -397,15 +456,80 @@ Public Class MaterialUsageFinishGoods
                     dataTable.Columns.Add("USAGE", GetType(Integer))
 
                     Try
-                        rd = cmd.ExecuteReader
+                        rd = cmd.ExecuteReader()
+                        Dim rowNumber As Integer = 1
 
                         While rd.Read()
-                            Dim fgPartNumber = rd("Finish Goods Part Number *").ToString().Trim()
-                            Dim family = rd("Family (zSFP, zQSFP etc) *").ToString().Trim()
-                            Dim component = rd("Component *").ToString().Trim()
-                            Dim description = rd("Description *").ToString().Trim()
-                            Dim usageValue = Convert.ToInt32(rd("Usage *"))
+                            rowNumber += 1
+                            totalProcessed += 1
 
+                            ' Read data from Excel
+                            Dim fgPartNumber As String = rd("Finish Goods Part Number *").ToString().Trim()
+                            Dim family As String = rd("Family *").ToString().Trim()
+                            Dim component As String = rd("Component *").ToString().Trim()
+                            Dim description As String = rd("Description *").ToString().Trim()
+                            Dim usageStr As String = rd("Usage *").ToString().Trim()
+
+                            ' Validate required fields
+                            If String.IsNullOrEmpty(fgPartNumber) Then
+                                validationErrors.Add($"Row {rowNumber}: Finish Goods Part Number is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(family) Then
+                                validationErrors.Add($"Row {rowNumber}: Family is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(component) Then
+                                validationErrors.Add($"Row {rowNumber}: Component is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(description) Then
+                                validationErrors.Add($"Row {rowNumber}: Description is required")
+                                Continue While
+                            End If
+
+                            If String.IsNullOrEmpty(usageStr) OrElse Not IsNumeric(usageStr) Then
+                                validationErrors.Add($"Row {rowNumber}: Usage must be a valid number")
+                                Continue While
+                            End If
+
+                            Dim usageValue As Integer = Convert.ToInt32(usageStr)
+
+                            ' Validate Usage minimum is 1
+                            If usageValue < 1 Then
+                                validationErrors.Add($"Row {rowNumber}: Usage must be at least 1")
+                                Continue While
+                            End If
+
+                            ' Validate Finish Goods Part Number exists in Master Finish Goods
+                            If Not validFinishGoods.Contains(fgPartNumber) Then
+                                validationErrors.Add($"Row {rowNumber}: Finish Goods Part Number '{fgPartNumber}' does not exist in Master Finish Goods table")
+                                Continue While
+                            End If
+
+                            ' CHECK FOR OPEN PO - CRITICAL VALIDATION
+                            If fgWithOpenPO.Contains(fgPartNumber) Then
+                                blockedByPO.Add($"{fgPartNumber} (Row {rowNumber})")
+                                validationErrors.Add($"Row {rowNumber}: Cannot import component for FG '{fgPartNumber}' because it has Open PO")
+                                Continue While
+                            End If
+
+                            ' Validate Component exists in Master Material
+                            If Not validComponents.Contains(component) Then
+                                validationErrors.Add($"Row {rowNumber}: Component '{component}' does not exist in Master Material table")
+                                Continue While
+                            End If
+
+                            ' Validate Family exists in Family table
+                            If Not validFamilies.Contains(family) Then
+                                validationErrors.Add($"Row {rowNumber}: Family '{family}' does not exist for department '{globVar.department}'")
+                                Continue While
+                            End If
+
+                            ' Check for duplicates in Material Usage table
                             Dim checkQuery As String = "SELECT COUNT(*) FROM dbo.MATERIAL_USAGE_FINISH_GOODS WHERE FG_PART_NUMBER = @FG_PART_NUMBER AND COMPONENT = @COMPONENT"
                             Dim exists As Integer
                             Using checkCmd As New SqlCommand(checkQuery, Database.koneksi)
@@ -414,25 +538,53 @@ Public Class MaterialUsageFinishGoods
                                 exists = Convert.ToInt32(checkCmd.ExecuteScalar())
                             End Using
 
-                            If exists = 0 Then
-                                Dim row As DataRow = DataTable.NewRow()
+                            If exists > 0 Then
+                                duplicateComponents.Add($"{component} (FG: {fgPartNumber}, Row {rowNumber})")
+                                totalSkipped += 1
+                            Else
+                                ' Add to DataTable for bulk insert
+                                Dim row As DataRow = dataTable.NewRow()
                                 row("FG_PART_NUMBER") = fgPartNumber
                                 row("FAMILY") = family
                                 row("COMPONENT") = component
                                 row("DESCRIPTION") = description
                                 row("USAGE") = usageValue
-                                DataTable.Rows.Add(row)
-                            Else
-                                duplicateComponents.Add($"{component} (FG: {fgPartNumber})") ' Catat data duplikat
+                                dataTable.Rows.Add(row)
+                                totalInserted += 1
                             End If
                         End While
 
-                        ' Tutup DataReader
                         rd.Close()
 
-                        ' Jika ada data baru, kirim ke database menggunakan SqlBulkCopy
-                        If dataTable.Rows.Count > 0 Then
+                        ' Show validation errors if any
+                        If validationErrors.Count > 0 Then
+                            Dim errorMessage As String = $"Import completed with errors:{Environment.NewLine}{Environment.NewLine}"
+                            errorMessage += String.Join(Environment.NewLine, validationErrors.Take(15))
 
+                            If validationErrors.Count > 15 Then
+                                errorMessage += Environment.NewLine & $"... and {validationErrors.Count - 15} more errors"
+                            End If
+
+                            If blockedByPO.Count > 0 Then
+                                errorMessage += Environment.NewLine & Environment.NewLine & "Blocked by Open PO: " & String.Join(", ", blockedByPO.Take(5))
+                                If blockedByPO.Count > 5 Then
+                                    errorMessage += $" ... and {blockedByPO.Count - 5} more"
+                                End If
+                            End If
+
+                            errorMessage += Environment.NewLine & Environment.NewLine
+                            errorMessage += $"Summary:{Environment.NewLine}"
+                            errorMessage += $"Total Processed: {totalProcessed}{Environment.NewLine}"
+                            errorMessage += $"Successfully Inserted: {totalInserted}{Environment.NewLine}"
+                            errorMessage += $"Skipped (Duplicates): {totalSkipped}{Environment.NewLine}"
+                            errorMessage += $"Blocked by Open PO: {blockedByPO.Count}{Environment.NewLine}"
+                            errorMessage += $"Errors: {validationErrors.Count}"
+
+                            RJMessageBox.Show(errorMessage, "Import Results", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        End If
+
+                        ' Bulk insert if there are valid rows
+                        If dataTable.Rows.Count > 0 Then
                             bulkCopy.ColumnMappings.Add("FG_PART_NUMBER", "FG_PART_NUMBER")
                             bulkCopy.ColumnMappings.Add("FAMILY", "FAMILY")
                             bulkCopy.ColumnMappings.Add("COMPONENT", "COMPONENT")
@@ -440,22 +592,36 @@ Public Class MaterialUsageFinishGoods
                             bulkCopy.ColumnMappings.Add("USAGE", "USAGE")
 
                             bulkCopy.WriteToServer(dataTable)
-
                         End If
 
-                        ' Refresh DataGridView dan TreeView
+                        ' Refresh UI
                         DGV_Masterfinishgoods_atass(cb_masterfinishgoods_pn.Text)
                         treeView_show()
 
-                        ' Tampilkan pesan sukses
-                        Dim message As String = "Import Material Usage Finish Goods Success."
-                        If duplicateComponents.Count > 0 Then
-                            message &= vbCrLf & "But, some data is duplicate: " & String.Join(", ", duplicateComponents)
+                        ' Show success message
+                        If validationErrors.Count = 0 Then
+                            Dim successMessage As String = $"Import Material Usage Success!{Environment.NewLine}{Environment.NewLine}"
+                            successMessage += $"Total Processed: {totalProcessed}{Environment.NewLine}"
+                            successMessage += $"Successfully Inserted: {totalInserted}"
+
+                            If duplicateComponents.Count > 0 Then
+                                successMessage += Environment.NewLine & Environment.NewLine & "Duplicates skipped: " & String.Join(", ", duplicateComponents.Take(5))
+                                If duplicateComponents.Count > 5 Then
+                                    successMessage += $" ... and {duplicateComponents.Count - 5} more"
+                                End If
+                            End If
+
+                            RJMessageBox.Show(successMessage, "Import Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
-                        RJMessageBox.Show(message)
 
                     Catch ex As Exception
-                        RJMessageBox.Show("Error Master Material Usage Finish Goods - 4 => " & ex.Message)
+                        RJMessageBox.Show("Error Master Material Usage Finish Goods - Import => " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Finally
+                        If rd IsNot Nothing AndAlso Not rd.IsClosed Then rd.Close()
+                        If oleCon.State = ConnectionState.Open Then oleCon.Close()
+                        xlWorkBook.Close()
+                        xlApp.Quit()
+                        Marshal.ReleaseComObject(xlApp)
                     End Try
                 End Using
             End If
@@ -466,32 +632,46 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
         If globVar.view > 0 Then
-
             Dim excelApp As Excel.Application = New Excel.Application()
-
             'create new workbook
             Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
-
             'create new worksheet
             Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
+            ' Format entire worksheet as text before adding data
+            worksheet.Cells.NumberFormat = "@"
+
             'write data to worksheet
             worksheet.Range("A1").Value = "Finish Goods Part Number *"
-            worksheet.Range("B1").Value = "Family (zSFP, zQSFP etc) *"
+            worksheet.Range("B1").Value = "Family *"
             worksheet.Range("C1").Value = "Component *"
             worksheet.Range("D1").Value = "Description *"
             worksheet.Range("E1").Value = "Usage *"
 
+            ' Set column widths for better usability
+            worksheet.Columns("A").ColumnWidth = 30
+            worksheet.Columns("B").ColumnWidth = 25
+            worksheet.Columns("C").ColumnWidth = 25
+            worksheet.Columns("D").ColumnWidth = 40
+            worksheet.Columns("E").ColumnWidth = 15
+
+            ' Format header row
+            With worksheet.Range("A1:E1")
+                .Font.Bold = True
+                .Interior.Color = RGB(200, 200, 200)
+            End With
+
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-
             If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
                 Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
                 workbook.SaveAs(directoryPath & "\Master Material Usage Finish Goods Template.xlsx")
             End If
-
             'cleanup
+            workbook.Close()
             excelApp.Quit()
+            Marshal.ReleaseComObject(workbook)
+            Marshal.ReleaseComObject(worksheet)
             Marshal.ReleaseComObject(excelApp)
             RJMessageBox.Show("Export Template Success !")
         End If
@@ -499,74 +679,142 @@ Public Class MaterialUsageFinishGoods
 
     Private Sub btn_export_Master_Usage_Finish_Goods_Click(sender As Object, e As EventArgs) Handles btn_export_Master_Usage_Finish_Goods.Click
         If globVar.view > 0 Then
-
             ExportToExcel()
         End If
     End Sub
 
     Private Sub ExportToExcel()
-        ' Cek apakah DataGridView memiliki data
+        ' Check if DataGridView has data
         If dgv_masterfinishgoods_atas.RowCount <= 0 Then
-            RJMessageBox.Show("Cannot export with empty table")
+            RJMessageBox.Show("Cannot export with empty table", "Export Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        Dim xlApp As New Excel.Application
-        Dim xlWorkBook As Excel.Workbook
-        Dim xlWorkSheet As Excel.Worksheet
-        Dim misValue As Object = System.Reflection.Missing.Value
+        Dim xlApp As Excel.Application = Nothing
+        Dim xlWorkBook As Excel.Workbook = Nothing
+        Dim xlWorkSheet As Excel.Worksheet = Nothing
         Dim FG As String = ""
 
-        ' Kolom yang dikecualikan
-        Dim excludedColumns As New List(Of String) From {"Check For Delete", "#", "Date Time", "Created By", "Delete"}
+        Try
+            ' Excluded columns
+            Dim excludedColumns As New List(Of String) From {"Check For Delete", "#", "Date Time", "Created By", "Delete"}
 
-        xlWorkBook = xlApp.Workbooks.Add(misValue)
-        xlWorkSheet = xlWorkBook.Sheets("sheet1")
+            ' Create Excel application
+            xlApp = New Excel.Application()
+            xlWorkBook = xlApp.Workbooks.Add()
+            xlWorkSheet = xlWorkBook.Worksheets(1)
 
-        Dim colIndex As Integer = 1
+            ' Format entire worksheet as text to prevent data conversion
+            xlWorkSheet.Cells.NumberFormat = "@"
 
-        ' Header: Tambahkan hanya kolom yang tidak dikecualikan
-        For Each column As DataGridViewColumn In dgv_masterfinishgoods_atas.Columns
-            If Not excludedColumns.Contains(column.HeaderText) Then
-                xlWorkSheet.Cells(1, colIndex) = column.HeaderText
-                colIndex += 1
+            ' Get FG Part Number for filename
+            If dgv_masterfinishgoods_atas.RowCount > 0 Then
+                For Each column As DataGridViewColumn In dgv_masterfinishgoods_atas.Columns
+                    If column.HeaderText.Contains("FG Part Number") OrElse column.HeaderText.Contains("Part Number") Then
+                        Dim cellValue = dgv_masterfinishgoods_atas.Rows(0).Cells(column.Index).Value
+                        If cellValue IsNot Nothing Then
+                            FG = cellValue.ToString().Trim()
+                            Exit For
+                        End If
+                    End If
+                Next
             End If
-        Next
 
-        ' Data: Tambahkan hanya kolom yang tidak dikecualikan
-        For i As Integer = 0 To dgv_masterfinishgoods_atas.RowCount - 1
-            colIndex = 1
-            For Each column As DataGridViewColumn In dgv_masterfinishgoods_atas.Columns
-                If Not excludedColumns.Contains(column.HeaderText) Then
-                    Dim cellValue = dgv_masterfinishgoods_atas.Rows(i).Cells(column.Index).Value
-                    xlWorkSheet.Cells(i + 2, colIndex) = If(cellValue IsNot Nothing, cellValue.ToString(), "")
-                    colIndex += 1
+            ' If FG is still empty, use generic name
+            If String.IsNullOrEmpty(FG) Then
+                FG = "Material_Usage"
+            End If
+
+            ' Define custom headers with asterisks
+            Dim customHeaders As New List(Of String) From {
+                "Finish Goods Part Number *",
+                "Family *",
+                "Component *",
+                "Description *",
+                "Usage *"
+            }
+
+            Dim colIndex As Integer = 1
+
+            ' Add custom headers
+            For Each header As String In customHeaders
+                xlWorkSheet.Cells(1, colIndex).Value = header
+                colIndex += 1
+            Next
+
+            ' Format header row
+            Dim headerRange = xlWorkSheet.Range("A1").Resize(1, colIndex - 1)
+            With headerRange
+                .Font.Bold = True
+                .Interior.Color = RGB(200, 200, 200)
+                .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+            End With
+
+            ' Add data - only non-excluded columns
+            For i As Integer = 0 To dgv_masterfinishgoods_atas.RowCount - 1
+                colIndex = 1
+                For Each column As DataGridViewColumn In dgv_masterfinishgoods_atas.Columns
+                    If Not excludedColumns.Contains(column.HeaderText) Then
+                        Dim cellValue = dgv_masterfinishgoods_atas.Rows(i).Cells(column.Index).Value
+                        xlWorkSheet.Cells(i + 2, colIndex).Value = If(cellValue IsNot Nothing, cellValue.ToString(), "")
+                        colIndex += 1
+                    End If
+                Next
+            Next
+
+            ' Auto-fit columns for better visibility
+            xlWorkSheet.Columns.AutoFit()
+
+            ' Set optimal column widths
+            For col As Integer = 1 To colIndex - 1
+                Dim currentWidth As Double = xlWorkSheet.Columns(col).ColumnWidth
+                If currentWidth > 50 Then
+                    xlWorkSheet.Columns(col).ColumnWidth = 50 ' Max width
+                ElseIf currentWidth < 10 Then
+                    xlWorkSheet.Columns(col).ColumnWidth = 15 ' Min width
                 End If
             Next
-        Next
 
-        ' Ambil nilai FG Part Number untuk nama file
-        If dgv_masterfinishgoods_atas.RowCount > 0 AndAlso dgv_masterfinishgoods_atas.Columns.Contains("FG Part Number") Then
-            FG = dgv_masterfinishgoods_atas.Rows(0).Cells("FG Part Number").Value.ToString()
-        End If
+            ' Dialog for selecting save location
+            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
-        ' Dialog untuk memilih lokasi penyimpanan
-        FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-            Dim fileName As String = $"Export {FG} Material Usage.xlsx"
-            xlWorkSheet.SaveAs(System.IO.Path.Combine(directoryPath, fileName))
-        End If
+            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                ' Sanitize filename - remove invalid characters
+                Dim sanitizedFG As String = String.Join("_", FG.Split(System.IO.Path.GetInvalidFileNameChars()))
+                Dim fileName As String = $"Export {sanitizedFG} Material Usage.xlsx"
+                Dim filePath As String = System.IO.Path.Combine(directoryPath, fileName)
 
-        ' Membersihkan resource
-        xlWorkBook.Close()
-        xlApp.Quit()
+                ' Delete existing file if it exists
+                If System.IO.File.Exists(filePath) Then
+                    System.IO.File.Delete(filePath)
+                End If
 
-        releaseObject(xlWorkSheet)
-        releaseObject(xlWorkBook)
-        releaseObject(xlApp)
+                ' Save the workbook
+                xlWorkBook.SaveAs(filePath)
+                RJMessageBox.Show($"Export to Excel Success!{Environment.NewLine}File saved to: {filePath}", "Export Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
 
-        RJMessageBox.Show("Export to Excel Success!")
+        Catch ex As Exception
+            RJMessageBox.Show($"Error exporting to Excel: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Cleanup Excel objects properly
+            Try
+                If xlWorkBook IsNot Nothing Then
+                    xlWorkBook.Close(SaveChanges:=False)
+                    Marshal.ReleaseComObject(xlWorkBook)
+                End If
+                If xlApp IsNot Nothing Then
+                    xlApp.Quit()
+                    Marshal.ReleaseComObject(xlApp)
+                End If
+                If xlWorkSheet IsNot Nothing Then
+                    Marshal.ReleaseComObject(xlWorkSheet)
+                End If
+            Catch
+                ' Ignore cleanup errors
+            End Try
+        End Try
     End Sub
 
 
@@ -617,62 +865,124 @@ Public Class MaterialUsageFinishGoods
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim queryMasterFinishGoods As String = "select FG_PART_NUMBER,FAMILY,COMPONENT,DESCRIPTION,[USAGE] from MATERIAL_USAGE_FINISH_GOODS order by FG_PART_NUMBER asc, COMPONENT desc"
+        Me.Cursor = Cursors.WaitCursor
+        Dim queryMasterFinishGoods As String = "SELECT FG_PART_NUMBER, FAMILY, COMPONENT, DESCRIPTION, [USAGE] FROM MATERIAL_USAGE_FINISH_GOODS ORDER BY FG_PART_NUMBER ASC, COMPONENT DESC"
         Dim dtMasterMaterial As DataTable = Database.GetData(queryMasterFinishGoods)
-
         DataGridView1.DataSource = dtMasterMaterial
 
         If globVar.view > 0 Then
+            Button4.Enabled = False
+            Application.DoEvents()
+
             ExportToExcelAllFG()
         End If
     End Sub
 
     Private Sub ExportToExcelAllFG()
         If globVar.view > 0 Then
-            Dim xlApp As New Excel.Application
-            Dim xlWorkBook As Excel.Workbook
-            Dim xlWorkSheet As Excel.Worksheet
-            Dim misValue As Object = System.Reflection.Missing.Value
-
-            xlWorkBook = xlApp.Workbooks.Add(misValue)
-            xlWorkSheet = xlWorkBook.Sheets("sheet1")
-
-            ' Mengatur header
-            For k As Integer = 1 To DataGridView1.Columns.Count
-                xlWorkSheet.Cells(1, k) = DataGridView1.Columns(k - 1).HeaderText
-            Next
-
-            ' Menyalin data ke array dua dimensi
-            Dim dataArray(DataGridView1.RowCount - 1, DataGridView1.ColumnCount - 1) As Object
-            For i As Integer = 0 To DataGridView1.RowCount - 1
-                For j As Integer = 0 To DataGridView1.ColumnCount - 1
-                    dataArray(i, j) = DataGridView1(j, i).Value
-                Next
-            Next
-
-            ' Menyalin array ke lembar kerja Excel
-            xlWorkSheet.Range("A2").Resize(DataGridView1.RowCount, DataGridView1.ColumnCount).Value = dataArray
-
-            ' Mengatur direktori awal untuk dialog
-            FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-
-            ' Memilih folder penyimpanan
-            If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-                Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
-                Dim namafile As String = "Export All Material Usage.xlsx"
-                Dim filePath As String = System.IO.Path.Combine(directoryPath, namafile)
-
-                xlWorkSheet.SaveAs(filePath)
-                RJMessageBox.Show("Export to Excel Success!")
+            If DataGridView1.Rows.Count = 0 Then
+                RJMessageBox.Show("No data to export", "Export Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
             End If
 
-            ' Membersihkan objek Excel
-            xlWorkBook.Close(False)
-            xlApp.Quit()
+            Dim xlApp As Excel.Application = Nothing
+            Dim xlWorkBook As Excel.Workbook = Nothing
+            Dim xlWorkSheet As Excel.Worksheet = Nothing
 
-            releaseObject(xlWorkSheet)
-            releaseObject(xlWorkBook)
-            releaseObject(xlApp)
+            Try
+                ' Create Excel application
+                xlApp = New Excel.Application()
+                xlWorkBook = xlApp.Workbooks.Add()
+                xlWorkSheet = xlWorkBook.Worksheets(1)
+
+                ' Format entire worksheet as text to prevent data conversion
+                xlWorkSheet.Cells.NumberFormat = "@"
+
+                ' Define custom headers with your specific format
+                Dim customHeaders As New List(Of String) From {
+                "Finish Goods Part Number *",
+                "Family *",
+                "Component *",
+                "Description *",
+                "Usage *"
+            }
+
+                ' Set custom headers
+                For k As Integer = 1 To customHeaders.Count
+                    xlWorkSheet.Cells(1, k).Value = customHeaders(k - 1)
+                Next
+
+                ' Format header row
+                With xlWorkSheet.Range("A1").Resize(1, customHeaders.Count)
+                    .Font.Bold = True
+                    .Interior.Color = RGB(200, 200, 200)
+                    .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                End With
+
+                ' Export data row by row to maintain data types
+                For i As Integer = 0 To DataGridView1.Rows.Count - 1
+                    For j As Integer = 0 To DataGridView1.Columns.Count - 1
+                        Dim cellValue As Object = DataGridView1(j, i).Value
+                        If cellValue IsNot Nothing Then
+                            xlWorkSheet.Cells(i + 2, j + 1).Value = cellValue.ToString()
+                        Else
+                            xlWorkSheet.Cells(i + 2, j + 1).Value = ""
+                        End If
+                    Next
+                Next
+
+                ' Auto-fit columns
+                xlWorkSheet.Columns.AutoFit()
+
+                ' Set column widths for better visibility
+                xlWorkSheet.Columns("A").ColumnWidth = 30 ' Finish Goods Part Number
+                xlWorkSheet.Columns("B").ColumnWidth = 15 ' Family
+                xlWorkSheet.Columns("C").ColumnWidth = 25 ' Component
+                xlWorkSheet.Columns("D").ColumnWidth = 40 ' Description
+                xlWorkSheet.Columns("E").ColumnWidth = 12 ' Usage
+
+                ' Select folder for saving
+                FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+                If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+                    Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
+                    Dim fileName As String = "Export All Material Usage.xlsx"
+                    Dim filePath As String = System.IO.Path.Combine(directoryPath, fileName)
+
+                    ' Delete existing file if it exists
+                    If System.IO.File.Exists(filePath) Then
+                        System.IO.File.Delete(filePath)
+                    End If
+
+                    ' Save the workbook
+                    xlWorkBook.SaveAs(filePath)
+                    RJMessageBox.Show($"Export to Excel Success!{Environment.NewLine}File saved to: {filePath}", "Export Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+
+            Catch ex As Exception
+                RJMessageBox.Show($"Error exporting to Excel: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Finally
+
+                Me.Cursor = Cursors.Default
+                Button4.Enabled = True
+
+                ' Cleanup Excel objects
+                Try
+                    If xlWorkBook IsNot Nothing Then
+                        xlWorkBook.Close(SaveChanges:=False)
+                        Marshal.ReleaseComObject(xlWorkBook)
+                    End If
+                    If xlApp IsNot Nothing Then
+                        xlApp.Quit()
+                        Marshal.ReleaseComObject(xlApp)
+                    End If
+                    If xlWorkSheet IsNot Nothing Then
+                        Marshal.ReleaseComObject(xlWorkSheet)
+                    End If
+                Catch
+                    ' Ignore cleanup errors
+                End Try
+            End Try
         End If
     End Sub
 End Class

@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
+Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Microsoft.Office.Interop
@@ -208,69 +209,150 @@ Public Class MasterMaterial
             OpenFileDialog1.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
             OpenFileDialog1.Filter = "Excel Files|*.xlsx;*.xls;*.csv"
             If OpenFileDialog1.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-                Dim filePath As String = OpenFileDialog1.FileName
-                importOneByOne(filePath)
+
+                Dim xlApp As New Microsoft.Office.Interop.Excel.Application
+                Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(OpenFileDialog1.FileName)
+                Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
+                Dim excelpath As String = OpenFileDialog1.FileName
+
+                ' Use only Jet provider (same as working Finish Goods code)
+                Dim koneksiExcel As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & excelpath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
+                oleCon = New OleDbConnection(koneksiExcel)
+                oleCon.Open()
+
+                Dim queryExcel As String = "SELECT * FROM [" & SheetName & "$]"
+                Dim cmd As OleDbCommand = New OleDbCommand(queryExcel, oleCon)
+                Dim rd As OleDbDataReader
+
+                Call Database.koneksi_database()
+
+                Dim duplicateRows As New List(Of String)
+                Dim validationErrors As New List(Of String)
+                Dim totalInserted As Integer = 0
+
+                Try
+                    rd = cmd.ExecuteReader()
+                    Dim rowNumber As Integer = 1
+
+                    While rd.Read()
+                        rowNumber += 1
+
+                        ' Use column names (same approach as working Finish Goods code)
+                        Dim partNumber As String = rd("Part Number *").ToString().Trim()
+                        Dim materialName As String = rd("Name *").ToString().Trim()
+                        Dim standardQtyStr As String = rd("Standard Qty *").ToString().Trim()
+                        Dim family As String = rd("Family *").ToString().Trim()
+
+                        ' Validate required fields
+                        If String.IsNullOrEmpty(partNumber) Then
+                            validationErrors.Add($"Row {rowNumber}: Part Number is required")
+                            Continue While
+                        End If
+
+                        If String.IsNullOrEmpty(materialName) Then
+                            validationErrors.Add($"Row {rowNumber}: Material Name is required")
+                            Continue While
+                        End If
+
+                        If String.IsNullOrEmpty(family) Then
+                            validationErrors.Add($"Row {rowNumber}: Family is required")
+                            Continue While
+                        End If
+
+                        If String.IsNullOrEmpty(standardQtyStr) OrElse Not IsNumeric(standardQtyStr) Then
+                            validationErrors.Add($"Row {rowNumber}: Standard Qty must be a valid number")
+                            Continue While
+                        End If
+
+                        Dim standardQty As Integer = Convert.ToInt32(standardQtyStr)
+                        If standardQty <= 0 Then
+                            validationErrors.Add($"Row {rowNumber}: Standard Qty must be greater than 0")
+                            Continue While
+                        End If
+
+                        ' Check if family exists in FAMILY table for current department
+                        Dim cekFamily As String = "SELECT COUNT(*) FROM dbo.FAMILY WHERE FAMILY = @family AND DEPARTMENT = @department"
+                        Using cekCmdFam As New SqlCommand(cekFamily, Database.koneksi)
+                            cekCmdFam.Parameters.AddWithValue("@family", family)
+                            cekCmdFam.Parameters.AddWithValue("@department", globVar.department)
+
+                            Dim famExists As Integer = Convert.ToInt32(cekCmdFam.ExecuteScalar())
+                            If famExists = 0 Then
+                                validationErrors.Add($"Row {rowNumber}: Family '{family}' does not exist for department '{globVar.department}'")
+                                Continue While
+                            End If
+                        End Using
+
+                        ' Check if part number already exists
+                        Dim checkExistQuery As String = "SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE PART_NUMBER = @partNumber AND DEPARTMENT = @dept AND FAMILY = @family"
+                        Using checkCmd As New SqlCommand(checkExistQuery, Database.koneksi)
+                            checkCmd.Parameters.AddWithValue("@partNumber", partNumber)
+                            checkCmd.Parameters.AddWithValue("@dept", globVar.department)
+                            checkCmd.Parameters.AddWithValue("@family", family)
+
+                            Dim existCount As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
+
+                            If existCount > 0 Then
+                                duplicateRows.Add($"{partNumber} (Row {rowNumber})")
+                                Continue While
+                            End If
+                        End Using
+
+                        ' Insert new material
+                        Dim insertQuery As String = "INSERT INTO dbo.MASTER_MATERIAL (PART_NUMBER, NAME, STANDARD_QTY, FAMILY, DEPARTMENT, INSERT_DATE, BY_WHO) VALUES (@partNumber, @name, @qty, @family, @dept, GETDATE(), @user)"
+                        Using insertCmd As New SqlCommand(insertQuery, Database.koneksi)
+                            insertCmd.Parameters.AddWithValue("@partNumber", partNumber)
+                            insertCmd.Parameters.AddWithValue("@name", materialName)
+                            insertCmd.Parameters.AddWithValue("@qty", standardQty)
+                            insertCmd.Parameters.AddWithValue("@family", family)
+                            insertCmd.Parameters.AddWithValue("@dept", globVar.department)
+                            insertCmd.Parameters.AddWithValue("@user", globVar.username)
+
+                            insertCmd.ExecuteNonQuery()
+                            totalInserted += 1
+                        End Using
+
+                    End While
+
+                    rd.Close()
+
+                    ' Show results (same format as Finish Goods)
+                    If validationErrors.Count > 0 Then
+                        Dim errorMessage As String = "Import completed with errors:" & Environment.NewLine & Environment.NewLine
+                        errorMessage += String.Join(Environment.NewLine, validationErrors.Take(10))
+
+                        If validationErrors.Count > 10 Then
+                            errorMessage += Environment.NewLine & $"... and {validationErrors.Count - 10} more errors"
+                        End If
+
+                        RJMessageBox.Show(errorMessage, "Import Results", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Else
+                        Dim successMessage As String = $"Import Material Success! {totalInserted} records imported."
+
+                        If duplicateRows.Count > 0 Then
+                            successMessage += Environment.NewLine & Environment.NewLine & "Duplicates skipped: " & String.Join(", ", duplicateRows)
+                        End If
+
+                        RJMessageBox.Show(successMessage, "Import Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+
+                    ' Refresh the grid
+                    DGV_MasterMaterial()
+
+                Catch ex As Exception
+                    RJMessageBox.Show("Error Master Material - Import => " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
+                    If rd IsNot Nothing AndAlso Not rd.IsClosed Then rd.Close()
+                    If oleCon.State = ConnectionState.Open Then oleCon.Close()
+                    xlWorkBook.Close()
+                    xlApp.Quit()
+                    Marshal.ReleaseComObject(xlApp)
+                End Try
+
             End If
         Else
             RJMessageBox.Show("Your Access cannot execute this action")
         End If
-    End Sub
-
-    Sub importOneByOne(filePath As String)
-        Dim xlApp As New Microsoft.Office.Interop.Excel.Application
-        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook = xlApp.Workbooks.Open(filePath)
-        Dim SheetName As String = xlWorkBook.Worksheets(1).Name.ToString
-        Dim connectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties='Excel 8.0;HDR=YES;IMEX=1;'"
-        oleCon = New OleDbConnection(connectionString)
-        Dim totalInsert As Integer = 0
-
-        Call Database.koneksi_database()
-        Try
-            oleCon.Open()
-            Dim cmd As New OleDbCommand("SELECT * FROM [" & SheetName & "$]", oleCon)
-            Dim reader As OleDbDataReader = cmd.ExecuteReader()
-            While reader.Read()
-                Dim PN As String
-                Dim FamMaterial As String = reader.GetString(3)
-                Dim NameMaterial As String = reader.GetString(1)
-                Dim SPQMaterial As Double = reader.GetDouble(2)
-
-                Dim PNMaterial As Object = reader.GetValue(0)
-                If IsNumeric(SPQMaterial) Then
-                    Dim PNMaterialNumeric As Double = CDbl(PNMaterial)
-                    PN = PNMaterialNumeric
-                Else
-                    Dim PNMaterialString As String = CStr(PNMaterial)
-                    PN = PNMaterialString
-                End If
-
-                Dim queryCheckFamily As String = "SELECT * FROM family where [family]='" & FamMaterial & "' and department='" & globVar.department & "'"
-                Dim dtCheckFamilty As DataTable = Database.GetData(queryCheckFamily)
-                If dtCheckFamilty.Rows.Count > 0 Then
-
-                    Dim existsCmd As New SqlCommand("SELECT COUNT(*) FROM dbo.MASTER_MATERIAL WHERE [part_number] = '" & PN & "' and department='" & globVar.department & "' and family='" & FamMaterial & "'", Database.koneksi)
-                    Dim count As Integer = existsCmd.ExecuteScalar()
-
-                    If count = 0 Then
-                        Dim sql As String = "INSERT INTO dbo.MASTER_MATERIAL (part_number,name,standard_qty,family,department,by_who) VALUES ('" & PN & "', '" & NameMaterial & "', " & SPQMaterial & ",'" & dtCheckFamilty.Rows(0).Item("family") & "','" & globVar.department & "','" & globVar.username & "')"
-
-                        Dim insertCmd As New SqlCommand(sql, Database.koneksi)
-                        insertCmd.ExecuteNonQuery()
-                        totalInsert = totalInsert + 1
-
-                    End If
-
-                End If
-
-            End While
-            DGV_MasterMaterial()
-            RJMessageBox.Show("Import Material Success. Total " & totalInsert & " new Material ")
-        Catch ex As Exception
-            RJMessageBox.Show("Error Master Material - 3 =>" & ex.Message)
-            oleCon.Close()
-        Finally
-            oleCon.Close()
-        End Try
     End Sub
 
     Private Sub txt_mastermaterial_search_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles txt_mastermaterial_search.PreviewKeyDown
@@ -448,29 +530,43 @@ Public Class MasterMaterial
     Private Sub btn_ex_template_Click(sender As Object, e As EventArgs) Handles btn_ex_template.Click
         If globVar.view > 0 Then
             Dim excelApp As Excel.Application = New Excel.Application()
-
             'create new workbook
             Dim workbook As Excel.Workbook = excelApp.Workbooks.Add()
-
             'create new worksheet
             Dim worksheet As Excel.Worksheet = workbook.Worksheets.Add()
 
+            ' Format entire worksheet as text before adding data
+            worksheet.Cells.NumberFormat = "@"
+
             'write data to worksheet
-            worksheet.Range("A1").Value = "Part Number"
-            worksheet.Range("B1").Value = "Name"
-            worksheet.Range("C1").Value = "Standard Qty"
-            worksheet.Range("D1").Value = "Family"
+            worksheet.Range("A1").Value = "Part Number *"
+            worksheet.Range("B1").Value = "Name *"
+            worksheet.Range("C1").Value = "Standard Qty *"
+            worksheet.Range("D1").Value = "Family *"
+
+            ' Set column widths for better usability
+            worksheet.Columns("A").ColumnWidth = 25
+            worksheet.Columns("B").ColumnWidth = 40
+            worksheet.Columns("C").ColumnWidth = 15
+            worksheet.Columns("D").ColumnWidth = 20
+
+            ' Format header row
+            With worksheet.Range("A1:D1")
+                .Font.Bold = True
+                .Interior.Color = RGB(200, 200, 200)
+            End With
 
             'save the workbook
             FolderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-
             If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
                 Dim directoryPath As String = FolderBrowserDialog1.SelectedPath
                 workbook.SaveAs(directoryPath & "\Master Material Template.xlsx")
             End If
-
             'cleanup
+            workbook.Close()
             excelApp.Quit()
+            Marshal.ReleaseComObject(workbook)
+            Marshal.ReleaseComObject(worksheet)
             Marshal.ReleaseComObject(excelApp)
             RJMessageBox.Show("Export Template Success !")
         End If
